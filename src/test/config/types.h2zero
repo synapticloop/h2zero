@@ -1,0 +1,27 @@
+{
+"options": {
+	"logging": "log4j",
+	"statistics": true
+},
+database: {
+	schema: "h2zerotest",
+	package: "synapticloop.h2zerotest",
+	tables: [
+		{
+			name: "one",
+			cacheable: true,
+			cacheFindAll: true,
+			fields: [
+				{ name: "id_one", type: "bigint", nullable: false, primary: true },
+				{ name: "nm_one", type: "varchar", length: "50", nullable: false},
+			],
+			finders: [
+				{
+					name: "findByName",
+					orderBy: "nm_one desc"
+				}
+			]
+		}
+	]
+}
+}

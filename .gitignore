@@ -1,0 +1,6 @@
+.settings/*
+build-eclipse/
+build/
+CVS
+generate/*
+cobertura.ser

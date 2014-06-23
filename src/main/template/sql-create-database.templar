@@ -1,0 +1,72 @@
+# the following will stop mysql from outputting 'notes' as warnings{\n}
+set sql_notes=0;{\n}
+drop database if exists {database.schema};{\n}
+create database {database.schema};{\n}
+{\n}
+use {database.schema};{\n}
+{--
+	Loop through all of the tables to write out the creation definition
+}
+{loop database.tables as table}
+	drop table if exists {table.name};{\n}
+	show warnings;{\n}
+	create table {table.name} ({\n}
+	{--
+		Now loop through each of the field definitions
+	}
+
+	{set fn:length[table.fields] as fieldsLength}
+	{loop table.fields as field}
+		{\t}{field.name} {field.type}{field.lengthFormat}
+		{if !field.nullable} not{endif} null
+		{if fn:notNull[field.default]} default {field.default}{endif}
+		{if field.primary} auto_increment{endif}
+		{if fn:not=[fieldStatus.index, fieldsLength]},{\n}{endif}
+	{endloop}
+
+	{--
+		Primary key definitions
+	}
+	{loop table.fields as field}
+		{if field.primary}
+			,{\n}{\t}primary key({field.name})
+		{endif}
+	{endloop}
+
+	{--
+		Unique key definitions
+	}
+	{loop table.fields as field}
+		{if field.unique}
+			,{\n}{\t}unique index ({field.name})
+		{endif}
+	{endloop}
+
+	{--
+		index definitions
+	}
+	{loop table.fields as field}
+		{if field.index}
+			,{\n}{\t}index ({field.name})
+		{endif}
+	{endloop}
+
+	{--
+		foreign key definitions
+	}
+	{loop table.fields as field}
+		{if fn:notNull[field.foreignKeyTable]}{if fn:notNull[field.foreignKeyField]}
+			,{\n}{\t}foreign key ({field.name}) references {field.foreignKeyTable} ({field.foreignKeyField})
+		{endif}{endif}
+	{endloop}
+
+{\n}
+	) engine={table.engine} default charset={table.charset};{\n}
+# show any warnings that are applicable{\n}
+show warnings;{\n}{\n}
+{endloop}
+
+{loop database.views as view}
+create view {view.name} as {view.asClause};{\n}{\n}
+show warnings;{\n}{\n}
+{endloop}

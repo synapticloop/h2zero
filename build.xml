@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     h2zero    
+     ====================================================================== -->
+<project name="h2zero" default="help">
+	<property name="lib.dir" value="lib/runtime" />
+	<property name="util.lib.dir" value="lib/compile" />
+	<property name="test.lib.dir" value="lib/test" />
+
+	<import file="../common-build/java-build.xml" />
+
+	<target name="download-dependencies" description="download the code dependencies">
+		<get dest="${lib.dir}" src="http://jenkins.synapticloop.local/job/templar/lastSuccessfulBuild/artifact/templar/dist/templar.jar" />
+	</target>
+
+	<target name="dist" description="Build the h2zero distributable">
+<!--
+		<antcall target="java-build.dist" />
+-->
+
+		<antcall target="java-build.clean" />
+		<antcall target="java-build.compile" />
+
+		<copy todir="${build.classes.dir}">
+			<fileset dir="${src.java.dir}">
+				<include name="*.properties"/>
+			</fileset>
+		</copy>
+
+		<jar destfile="${dist.dir}/h2zero.jar">
+			<fileset dir="${build.classes.dir}">
+				<include name="**/*.*" />
+			</fileset>
+			<fileset dir="${src.dir}/template">
+				<include name="**/*.templar" />
+			</fileset>
+		</jar>
+
+		<zip destfile="${dist.dir}/${ant.project.name}.zip">
+			<zipfileset dir="${dist.dir}" includes="**/*.*" />
+			<zipfileset dir="." includes="build-h2zero.xml" />
+			<zipfileset dir="${lib.dir}" includes="*.jar" />
+		</zip>
+	</target>
+
+	<target name="test-h2zero" description="test the h2zero generation">
+		<taskdef resource="h2zero.properties" classpath="${dist.dir}/h2zero.jar;${lib.dir}/templar.jar;${lib.dir}/log4j-1.2.17.jar;${lib.dir}/mail.jar" />
+		<h2zero in="src/test/java/panl-test.h2zero" outDir="generate" />
+	</target>
+
+	<target name="test-h2zero-revenge" description="test the h2zero reverse engineering">
+		<taskdef resource="h2zero.properties" classpath="${dist.dir}/h2zero.jar;${lib.dir}/templar.jar;${lib.dir}/mysql-connector-java-5.1.10-bin.jar;${lib.dir}/log4j-1.2.17.jar;${lib.dir}/mail.jar" />
+		<h2zero.revenge outFile="panl-test.h2zero" host="localhost" database="panl" user="root" password="password" />
+	</target>
+
+</project>

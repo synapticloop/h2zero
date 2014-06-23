@@ -1,0 +1,25 @@
+{
+database: {
+	schema: "test",
+	package: "test.name",
+	tables: [
+		{
+			name: "one",
+			fields: [
+				{ name: "id_one", type: "bigint", nullable: false, primary: true },
+				{ name: "nm_one", type: "varchar", length: "200", nullable: true, index: true },
+				{ name: "num_one", type: "int", nullable: false, unique: true },
+				{ name: "fl_one", type: "tinyint", length: 1, nullable: false, default: "'0'" },
+				{ name: "dtm_one", type: "datetime", nullable: false },
+				{ name: "flt_one", type: "float", length: 6, decimal_length: 2, nullable: true }
+			]
+		},
+		{
+			name: "two",
+			fields: [
+				{ name: "id_two", type: "bigint", nullable: false, primary: true }
+			]
+		}
+	]
+}
+}
