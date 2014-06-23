@@ -78,12 +78,18 @@ public class H2ZeroTask extends Task {
 			Options options = h2zeroParser.getOptions();
 			templarContext.add("options", options);
 
-			// first up the database creation script
-			Parser templarParser = getParser("/sql-create-database.templar");
-			templarParser.renderToFile(templarContext, new File(outFile + "/src/main/sql/create-database.sql"));
+			Parser templarParser = null;
 
-			templarParser = getParser("/java-create-constants.templar");
-			templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Constants.java"));
+			if(options.hasGenerator("sql")) {
+				// first up the database creation script
+				templarParser = getParser("/sql-create-database.templar");
+				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/sql/create-database.sql"));
+			}
+
+			if(options.hasGenerator("java")) {
+				templarParser = getParser("/java-create-constants.templar");
+				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Constants.java"));
+			}
 
 			// now for the tables
 			ArrayList<Table> tables = database.getTables();
@@ -92,13 +98,15 @@ public class H2ZeroTask extends Task {
 				Table table = (Table) tableIterator.next();
 				templarContext.add("table", table);
 
-				// the model
-				templarParser = getParser("/java-create-model.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java"));
+				if(options.hasGenerator("java")) {
+					// the model
+					templarParser = getParser("/java-create-model.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java"));
 
-				// the finder
-				templarParser = getParser("/java-create-finder.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java"));
+					// the finder
+					templarParser = getParser("/java-create-finder.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java"));
+				}
 
 				// the finder tag libraries
 				ArrayList<Finder> finders = table.getFinders();
@@ -108,43 +116,54 @@ public class H2ZeroTask extends Task {
 					Finder finder = (Finder) finderIterator.next();
 					templarContext.add("finder", finder);
 
-					templarParser = getParser("/java-create-taglib.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + finder.getFinderTagName() + "Tag.java"));
+					if(options.hasGenerator("taglib")) {
+						templarParser = getParser("/java-create-taglib.templar");
+						templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + finder.getFinderTagName() + "Tag.java"));
+					}
 
-					// now for the jsp finder pages
-					templarParser = getParser("/jsp-create-finder.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + "-" + finder.getName() + ".html"));
+					if(options.hasGenerator("java")) {
+						// don't forget the beans for the selectClause finders
+						if(null != finder.getSelectClause()) {
+							templarParser = getParser("/java-create-select-clause-bean.templar");
+							templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getFinderTagName() + "Bean.java"));
+						}
+					}
 
-					// don't forget the beans for the selectClause finders
-					if(null != finder.getSelectClause()) {
-						templarParser = getParser("/java-create-select-clause-bean.templar");
-						templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getFinderTagName() + "Bean.java"));
+
+					if(options.hasGenerator("jsp")) {
+						// now for the jsp finder pages
+						templarParser = getParser("/jsp-create-finder.templar");
+						templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + "-" + finder.getName() + ".html"));
 					}
 				}
 
-				// the extra 'missing' finders
-				templarParser = getParser("/java-create-taglib-find-by-primary-key.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + "FindByPrimaryKeyTag.java"));
+				if(options.hasGenerator("taglib")) {
+					// the extra 'missing' finders
+					templarParser = getParser("/java-create-taglib-find-by-primary-key.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + "FindByPrimaryKeyTag.java"));
 
-				templarParser = getParser("/java-create-taglib-find-all.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + "FindAllTag.java"));
+					templarParser = getParser("/java-create-taglib-find-all.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + "FindAllTag.java"));
+				}
+				if(options.hasGenerator("java")) {
+					// the updater
+					templarParser = getParser("/java-create-updater.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java"));
 
-				// the updater
-				templarParser = getParser("/java-create-updater.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java"));
+					// the deleter
+					templarParser = getParser("/java-create-deleter.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java"));
+				}
 
-				// the deleter
-				templarParser = getParser("/java-create-deleter.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java"));
+				if(options.hasGenerator("jsp")) {
+					// each jsp index page for each table
+					templarParser = getParser("/jsp-create-index-table.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + ".html"));
 
-				// each jsp index page for each table
-				templarParser = getParser("/jsp-create-index-table.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + ".html"));
-
-				// The jsp findAll page
-				templarParser = getParser("/jsp-create-find-all.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + "-findAll.html"));
-
+					// The jsp findAll page
+					templarParser = getParser("/jsp-create-find-all.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + "-findAll.html"));
+				}
 			}
 
 			// now for the views
@@ -154,18 +173,21 @@ public class H2ZeroTask extends Task {
 				View view = (View) viewsIterator.next();
 				templarContext.add("view", view);
 
-				templarParser = getParser("/java-create-view-model.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java"));
+				if(options.hasGenerator("java")) {
+					templarParser = getParser("/java-create-view-model.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java"));
 
-				templarParser = getParser("/java-create-view-finder.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java"));
+					templarParser = getParser("/java-create-view-finder.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java"));
+				}
 			}
 
 
-			// the finder tld
-			templarParser = getParser("/tld-create-library.templar");
-			templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/WEB-INF/tld/" + database.getSchema() + ".tld"));
-
+			if(options.hasGenerator("taglib")) {
+				// the finder tld
+				templarParser = getParser("/tld-create-library.templar");
+				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/WEB-INF/tld/" + database.getSchema() + ".tld"));
+			}
 			// now for the forms
 			ArrayList<Form> forms = database.getForms();
 			Iterator<Form> formsIterator = forms.iterator();
@@ -174,22 +196,28 @@ public class H2ZeroTask extends Task {
 				Form form = (Form) formsIterator.next();
 				templarContext.add("form", form);
 
-				templarParser = getParser("/java-create-form-bean.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/form/" + form.getName() + "Bean.java"));
+				if(options.hasGenerator("java")) {
+					templarParser = getParser("/java-create-form-bean.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/form/" + form.getName() + "Bean.java"));
+				}
 			}
 
-			// now for the jsp index page
-			templarParser = getParser("/jsp-create-index.templar");
-			templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/index.html"));
+			if(options.hasGenerator("jsp")) {
+				// now for the jsp index page
+				templarParser = getParser("/jsp-create-index.templar");
+				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/index.html"));
 
-			// now for the CSS
-			templarParser = getParser("/css-create-all.templar");
-			templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/static/css/style.css"));
+				// now for the CSS
+				templarParser = getParser("/css-create-all.templar");
+				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/static/css/style.css"));
+			}
 
-			// now for the statistics
-			if(options.getStatistics()) {
-				templarParser = getParser("/java-create-statistics.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Statistics.java"));
+			if(options.hasGenerator("java")) {
+				// now for the statistics
+				if(options.getStatistics()) {
+					templarParser = getParser("/java-create-statistics.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Statistics.java"));
+				}
 			}
 		} catch (H2ZeroParseException shepex) {
 			getProject().log("Parsing error", shepex, Project.MSG_ERR);
