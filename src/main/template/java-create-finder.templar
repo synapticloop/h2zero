@@ -454,7 +454,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{else}
 
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}List<{finder.finderTagName}> results = list{finder.finderTagName}Bean(resultSet);{\n}
+				{\t}{\t}{\t}List<{finder.finderTagName}Bean> results = list{finder.finderTagName}Bean(resultSet);{\n}
 
 				{if finder.cache}
 					{\t}{\t}{\t}refreshCache("findByOrderedPlanAmount", results);{\n}
@@ -556,7 +556,7 @@ public class {table.javaClassName}Finder {{{\n}
 
 			{\t}{\t}{\t}}{\n}
 
-			{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}>());{\n}
+			{\t}{\t}{\t}return(new ArrayList<{finder.finderTagName}Bean>());{\n}
 			{\t}{\t}} catch(SQLException sqlex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
@@ -576,7 +576,7 @@ public class {table.javaClassName}Finder {{{\n}
 
 			{\t}{\t}{\t}}{\n}
 
-			{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}>());{\n}
+			{\t}{\t}{\t}return(new ArrayList<{finder.finderTagName}Bean>());{\n}
 			{\t}{\t}}{\n}
 		{endif}
 		{\t}}{\n}
