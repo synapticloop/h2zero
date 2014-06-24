@@ -2,9 +2,9 @@ package synapticloop.h2zero.model;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +25,7 @@ public class Table {
 
 	private ArrayList<BaseField> fields = new ArrayList<BaseField>();
 	private HashMap<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
+	private HashMap<String, BaseField> inFieldLookup = new HashMap<String, BaseField>();
 	private HashMap<String, BaseField> setFieldLookup = new HashMap<String, BaseField>();
 	private HashMap<String, BaseField> whereFieldLookup = new HashMap<String, BaseField>();
 
@@ -77,8 +78,13 @@ public class Table {
 				String firstUpper = NamingHelper.getFirstUpper(type);
 				try {
 					Class forName = Class.forName("synapticloop.h2zero.model.field." + firstUpper + "Field");
-					Constructor constructor = forName.getConstructor(JSONObject.class);
+					Constructor constructor = forName.getConstructor(JSONObject.class, boolean.class);
+
+					BaseField inBaseField = (BaseField)constructor.newInstance(fieldObject, true);
+
+					constructor = forName.getConstructor(JSONObject.class);
 					BaseField baseField = (BaseField)constructor.newInstance(fieldObject);
+
 
 					if(!baseField.getNullable()) {
 						nonNullFields.add(baseField);
@@ -86,6 +92,7 @@ public class Table {
 
 					fields.add(baseField);
 					fieldLookup.put(name, baseField);
+					inFieldLookup.put(name, inBaseField);
 
 					BaseField setBaseField = (BaseField)constructor.newInstance(fieldObject);
 					setBaseField.suffixJavaName("Set");
@@ -186,6 +193,7 @@ public class Table {
 	public boolean getCacheable() { return(cacheable); }
 	public boolean getCacheFindAll() { return(cacheFindAll); }
 	public BaseField getField(String name) { return(fieldLookup.get(name)); }
+	public BaseField getInField(String name) { return(inFieldLookup.get(name)); }
 	public BaseField getSetField(String name) { return(setFieldLookup.get(name)); }
 	public BaseField getWhereField(String name) { return(whereFieldLookup.get(name)); }
 	public String getJavaClassName() { return(NamingHelper.getFirstUpper(name)); }

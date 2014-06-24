@@ -11,6 +11,10 @@ public class VarcharField extends BaseField {
 		super(jsonObject);
 	}
 
+	public VarcharField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
 	public String getJavaType() {
 		return "String";
 	}

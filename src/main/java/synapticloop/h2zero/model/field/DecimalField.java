@@ -27,6 +27,10 @@ public class DecimalField extends BaseField {
 		super(jsonObject);
 	}
 
+	public DecimalField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
 	public String getJavaType() {
 		return("Float");
 	}

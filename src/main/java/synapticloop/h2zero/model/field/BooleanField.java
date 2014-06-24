@@ -26,6 +26,10 @@ public class BooleanField extends BaseField {
 	public BooleanField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
+	
+	public BooleanField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
 
 	@Override
 	public String getJavaType() {

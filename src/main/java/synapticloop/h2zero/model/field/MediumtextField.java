@@ -11,6 +11,10 @@ public class MediumtextField extends BaseField {
 		super(jsonObject);
 	}
 
+	public MediumtextField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
 	public String getJavaType() {
 		return "String";
 	}

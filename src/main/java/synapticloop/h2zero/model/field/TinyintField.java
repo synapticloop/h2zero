@@ -27,6 +27,10 @@ public class TinyintField extends BaseField {
 		super(jsonObject);
 	}
 
+	public TinyintField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
 	@Override
 	public String getJavaType() {
 		return("Boolean");

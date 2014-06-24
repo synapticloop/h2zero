@@ -27,6 +27,10 @@ public class DatetimeField extends BaseField {
 		super(jsonObject);
 	}
 
+	public DatetimeField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
 	public String getJavaType() {
 		return("Timestamp");
 	}

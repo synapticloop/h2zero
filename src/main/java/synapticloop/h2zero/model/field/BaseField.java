@@ -23,6 +23,7 @@ public abstract class BaseField {
 	protected boolean unique = false;
 	protected boolean populate = true;
 	protected boolean secure = false;
+	protected boolean isInField = false;
 
 	protected String foreignKeyTable = null;
 	protected String foreignKeyField = null;
@@ -66,6 +67,11 @@ public abstract class BaseField {
 		AssertionHelper.assertNotNull("type", name);
 	}
 
+	public BaseField(JSONObject jsonObject, boolean isInfield) throws H2ZeroParseException {
+		this(jsonObject);
+		this.isInField = isInfield;
+	}
+
 	public String getName() { return(name); }
 	public String getUpperName() { return(name.toUpperCase()); }
 	public String getType() { return(type); }
@@ -78,6 +84,7 @@ public abstract class BaseField {
 	public boolean getPopulate() { return populate; }
 	public void setPopulate(boolean populate) { this.populate = populate; }
 	public boolean getSecure() { return secure; }
+	public boolean getIsInField() { return isInField; }
 
 	public String getJavaName() { return(javaName); }
 	public String getSecondaryJavaName() { return secondaryJavaName; }

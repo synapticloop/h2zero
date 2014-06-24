@@ -2,9 +2,9 @@ package synapticloop.h2zero.model;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +44,7 @@ public class Finder {
 
 	private boolean unique = false;
 	private boolean cache = false;
+	private boolean hasInFields = false;
 
 	public Finder(JSONObject jsonObject, Table table) throws H2ZeroParseException {
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
@@ -66,7 +67,16 @@ public class Finder {
 			JSONArray whereFieldArray = jsonObject.getJSONArray("whereFields");
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
-				BaseField baseField = table.getField(whereFieldName);
+
+				BaseField baseField = null;
+				if(whereFieldName.startsWith("in:")) {
+					whereFieldName = whereFieldName.substring(3);
+					baseField = table.getInField(whereFieldName);
+					this.hasInFields = true;
+				} else {
+					baseField = table.getField(whereFieldName);
+				}
+
 				if(null == baseField) {
 					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "'.");
 				}
@@ -177,6 +187,7 @@ public class Finder {
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
 	public ArrayList<BaseField> getSelectFields() { return(selectFields); }
 	public boolean getCache() { return(cache); }
+	public boolean getHasInFields() { return(hasInFields); }
 	public String getSelectClause() { return selectClause; }
 	public void setSelectClause(String selectClause) { this.selectClause = selectClause; }
 

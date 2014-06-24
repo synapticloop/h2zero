@@ -27,6 +27,10 @@ public class IntField extends BaseField {
 		super(jsonObject);
 	}
 
+	public IntField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
 	public String getJavaType() {
 		return "Integer";
 	}

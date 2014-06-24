@@ -27,6 +27,10 @@ public class BigintField extends BaseField {
 		super(jsonObject);
 	}
 
+	public BigintField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
 	public String getJavaType() {
 		return "Long";
 	}

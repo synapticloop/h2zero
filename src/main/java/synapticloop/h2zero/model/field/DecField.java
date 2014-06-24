@@ -27,6 +27,10 @@ public class DecField extends BaseField {
 		super(jsonObject);
 	}
 
+	public DecField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
 	public String getJavaType() {
 		return("Float");
 	}
