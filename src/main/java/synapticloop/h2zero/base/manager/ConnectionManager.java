@@ -243,6 +243,14 @@ public class ConnectionManager {
 		}
 	}
 
+	public static void setBoolean(PreparedStatement preparedStatement, int parameterIndex, Boolean value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.TINYINT);
+		} else {
+			preparedStatement.setBoolean(parameterIndex, value);
+		}
+	}
+
 	public static ComboPooledDataSource getComboPooledDataSource() {
 		return comboPooledDataSource;
 	}

@@ -1,0 +1,318 @@
+{
+"options": {
+	"logging": "log4j",
+	"statistics": false,
+	"generators": [ "java", "sql" ]
+},
+"database": {
+	"schema": "blogslicr",
+	"package": "blogslicr",
+	"tables": [
+		{
+			"name": "blog",
+			"cacheable": false,
+			"cacheFindAll": false,
+			"fields": [
+				{ "name": "id_blog", "type": "bigint", "nullable": false, "primary": true } ,
+				{ "name": "nm_blog", "type": "varchar", "length": "255", "nullable": false},
+				{ "name": "url_blog", "type": "varchar", "length": "1024", "nullable": false},
+				{ "name": "fl_is_active", "type": "boolean", "nullable": false, "default": "0" },
+				{ "name": "dtm_added", "type": "datetime", "nullable": false }
+			],
+			"finders": [
+				{
+					"name": "findAllActive",
+					"whereClause": "where fl_is_active = 1"
+				},
+			],
+			"updaters": [
+				{
+					"name": "updateActive",
+					"setClause": "set fl_is_active = ?",
+					"setFields": [
+						"fl_is_active"
+					],
+					"whereClause": "where id_blog = ?",
+					"whereFields": [
+						"id_blog"
+					]
+				}
+			]
+		},
+		{
+			"name": "phrase_category_mapper",
+			"cacheable": false,
+			"cacheFindAll": false;
+			"fields": [
+				{ "name": "id_category_title_mapper", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "txt_default_category", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_phrase", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_categories", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "fl_is_update", "type": "boolean", "nullable": false, "default": "01" },
+			],
+			"finders": [
+				{
+					"name": "findByTxtDefaultCategory",
+					"whereClause": "where txt_default_category = ?",
+					"whereFields": [
+						"txt_default_category"
+					]
+				},
+				{
+					"name": "findByTxtDefaultCategoryPhraseTxtCategories",
+					"whereClause": "where txt_default_category = ? and txt_phrase = ? and txt_categories = ?",
+					"whereFields": [
+						"txt_default_category",
+						"txt_phrase",
+						"txt_categories"
+					],
+					"unique": true
+				},
+			],
+			"updaters": [
+				{
+					"name": "updateStatusToUpdate",
+					"setClause": "set fl_is_update = 1 where fl_is_update = 0",
+				},
+				{
+					"name": "updateStatusToNormal",
+					"setClause": "set fl_is_update = 0 where fl_is_update = 1",
+				},
+			],
+			"deleters": [
+				{
+					"name": "deleteByStatusUpdate",
+					"whereClause": "where fl_is_update = 1"
+				}
+			]
+		},
+		{
+			"name": "feed_mapper",
+			"cacheable": false,
+			"cacheFindAll": false,
+			"fields": [
+				{ "name": "id_feed_mapper", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "nm_feed_mapper", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_feed_title", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_feed_updated", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_feed_link", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_guid", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_author", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_link", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_title", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_published", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_updated", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_content", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_categories", "type": "varchar", "length":128, "nullable": true, "default": "0" },
+				{ "name": "txt_feed_date_format", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "txt_entry_date_format", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+			]
+		},
+		{
+			"name": "feed",
+			"cacheable": false,
+			"cacheFindAll": false,
+			"fields": [
+				{ "name": "id_feed", "type": "bigint", "nullable": false, "primary": true },
+				{ 
+					"name": "id_blog", 
+					"type": "bigint", 
+					"nullable": false,
+					"index": true,
+					"foreign": {
+						"table": "blog",
+						"field": "id_blog"
+					}
+				},
+				{ 
+					"name": "id_feed_mapper", 
+					"type": "bigint", 
+					"nullable": false,
+					"index": true,
+					"foreign": {
+						"table": "feed_mapper",
+						"field": "id_feed_mapper"
+					}
+				},
+				{ "name": "txt_default_category", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+				{ "name": "fl_is_active", "type": "boolean", "nullable": false, "default": "0" },
+				{ "name": "url_feed", "type": "varchar", "length": "1024", "nullable": false},
+				{ "name": "dtm_added", "type": "datetime", "nullable": false },
+				{ "name": "dtm_last_updated", "type": "datetime", "nullable": true },
+			],
+			"finders": [
+				{
+					"name": "findAllActive",
+					"whereClause": "where fl_is_active = 1",
+				},
+			],
+			"updaters": [
+				{
+					"name": "updateActive",
+					"setClause": "set fl_is_active = ?",
+					"setFields": [
+						"fl_is_active"
+					],
+					"whereClause": "where id_feed = ?",
+					"whereFields": [
+						"id_feed"
+					]
+				},
+
+			]
+		},
+		{
+			"name": "default_feed_category_mapper",
+			"cacheable": false,
+			"cacheFindAll": false;
+			"fields": [
+				{ "name": "id_default_feed_category_mapper", "type": "bigint", "nullable": false, "primary": true },
+				{ 
+					"name": "id_feed", 
+					"type": "bigint", 
+					"nullable": false,
+					"index": true,
+					"foreign": {
+						"table": "feed",
+						"field": "id_feed"
+					}
+				},
+				{ "name": "txt_default_categories", "type": "varchar", "length":128, "nullable": false, "default": "0" },
+			],
+		},
+		{
+			"name": "entry",
+			"cacheable": false,
+			"cacheFindAll": false;
+			"fields": [
+				{ "name": "id_entry", "type": "bigint", "nullable": false, "primary": true },
+				{ 
+					"name": "id_feed", 
+					"type": "bigint", 
+					"nullable": false,
+					"index": true,
+					"foreign": {
+						"table": "feed",
+						"field": "id_feed"
+					}
+				},
+				{ "name": "txt_title", "type": "varchar", "length":1024, "nullable": false, "default": "0", "index": true },
+				{ "name": "txt_guid", "type": "varchar", "length":1024, "nullable": false, "default": "0", "index": true },
+				{ "name": "txt_last_updated", "type": "varchar", "length":1024, "nullable": false, "default": "0", "index": true },
+				{ "name": "dtm_last_touched", "type": "datetime", "nullable": false },
+				{ "name": "txt_authors", "type": "varchar", "length": 1024, "nullable": false },
+				{ "name": "txt_categories", "type": "varchar", "length": 1024, "nullable": false },
+			],
+			"finders": [
+				{
+					"name": "findByTxtGuid",
+					"whereClause": "where txt_guid = ?",
+					"whereFields": [
+						"txt_guid"
+					],
+					"unique": true
+				},
+			],
+		},
+		{
+			"name": "category",
+			"cacheable": false,
+			"cacheFindAll": false;
+			"fields": [
+				{ "name": "id_category", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "txt_category", "type": "varchar", "length":256, "nullable": false, "default": "0", "index": true },
+			],
+			"finders": [
+				{
+					"name": "findByTxtCategory",
+					"whereClause": "where txt_category = ?",
+					"whereFields": [
+						"txt_category"
+					],
+					"unique": true
+				},
+				{
+					"name": "hasCategory",
+					"selectClause": "select count(*) from category",
+					"selectFields": [
+						{ "name": "count", "type": "int" },
+					],
+					"whereClause": " where txt_category = ?",
+					"whereFields": [
+						"txt_category"
+					],
+					"unique": true
+				},
+
+			],
+		},
+		{
+			"name": "entry_category",
+			"cacheable": false,
+			"cacheFindAll": false,
+			"oneToMany": {
+				"from": "entry",
+				"to": "category"
+			},
+			"fields": [
+				{ "name": "id_entry_category", "type": "bigint", "nullable": false, "primary": true },
+				{ 
+					"name": "id_entry", 
+					"type": "bigint", 
+					"nullable": false,
+					"index": true,
+					"foreign": {
+						"table": "entry",
+						"field": "id_entry"
+					}
+				},
+				{ 
+					"name": "id_category", 
+					"type": "bigint", 
+					"nullable": false,
+					"index": true,
+					"foreign": {
+						"table": "category",
+						"field": "id_category"
+					}
+				},
+			],
+			"finders": [
+				{
+					"name": "findCategoriesByIdEntry",
+					"selectClause": "select txt_category from category c, entry e",
+					"selectFields": [
+						{ "name": "txt_category", "type": "varchar" },
+					],
+					"whereClause": " where e.id_entry = ? and c.id_category = e.id_category",
+					"whereFields": [
+						"id_entry"
+					],
+					"orderBy": " c.txt_category",
+					"unique": false
+				},
+			],
+		},
+		{
+			"name": "category_replacement",
+			"cacheable": false,
+			"cacheFindAll": false,
+			"fields": [
+				{ "name": "id_category_replacement", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "txt_category_replacement", "type": "varchar", "length": "256", "nullable": false },
+			],
+		},
+		{
+			"name": "registration",
+			"cacheable": true,
+			"cacheFindAll": true,
+			"fields": [
+				{ "name": "id_registration", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "url_blog", "type": "varchar", "length": "20", "nullable": false },
+				{ "name": "txt_ip_address", "type": "varchar", "length": "20", "nullable": false },
+			],
+		},
+	]
+}
+}

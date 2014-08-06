@@ -1,32 +1,586 @@
-// reset css
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
-article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{{display:block}
-body{{line-height:1}
-ol,ul{{list-style:none}
-blockquote,q{{quotes:none}
-blockquote:before,blockquote:after,q:before,q:after{{content:'';content:none}
-table{{border-collapse:collapse;border-spacing:0}
-
-body{{margin:0;padding:0;padding-top:10px;text-align:center;font-family:monospace;color:#1d1d1d}
-#main{{width:800px;text-align:left;border:0;padding:0;margin:0 auto}
-#header{{text-align:center;border-bottom:1px solid #adadad}
-#nav ul {{
-list-style-type: none;
-width: 780px;
-margin: 12px auto;
-padding-bottom: 5px;
-}
-#nav ul li {{
-float: left;
-padding-right: 7px;
-}
-h1{{font-size:20pt;padding:7px 0;margin:20px 0;}
-h2{{font-size:14pt;padding:5px 0;margin:14px 0;border-bottom:1px solid #adadad}
-p{{margin-bottom:7px}
-em{{font-style:italic}
-strong{{font-weight:bold}
-ol{{list-style-type:decimal}
-ol li{{padding-bottom:7px;margin-left:40px}
-.code{{color:#999900;border-bottom:1px solid #999900}
-#footer{{border-top:1px solid #000;margin:12px 0;padding:12px;text-align:center}
-.hidden{{display:none}
+/* -------------------------------------------------------------{\n}
+======{\t}RESET{\n}
+------------------------------------------------------------- */{\n}
+article, aside, details, figcaption, figure, {\n}
+footer, header, hgroup, menu, nav, section {{display: block}{\n}
+audio, canvas, video {{ display: inline-block; *display: inline; *zoom: 1; }{\n}
+audio:not([controls]) {{ display: none; }{\n}
+html {{ font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }{\n}
+:hover, :focus, :active {{ outline: none; }{\n}
+{\n}
+{\n}
+html, button, input, select, textarea {{{\n}
+{\t}font-family: "Open sans", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;{\n}
+{\t}font-weight: 400; /* normal */{\n}
+{\t}color: #555; {\n}
+{\t}font-smooth:always;{\n}
+{\t}-webkit-font-smoothing: antialiased;{\n}
+{\t}font-smoothing: antialiased;{\n}
+{\t}text-shadow: 1px 1px 1px rgba(0,0,0,0.004);}{\n}
+{\n}
+body {{ margin: 0; font-size: 13px; line-height: 1.6; }{\n}
+{\n}
+a {{ color: #0078CF; font-weight: normal;{\n}
+{\t}cursor: pointer;  text-decoration: none;{\n}
+{\t}transition:color 0.2s ease; -moz-transition:color 0.2s ease; -webkit-transition:color 0.2s ease; -o-transition:color 0.2s ease;}{\n}
+{\n}
+a:hover {{ color: #000; text-decoration: underline;} {\n}
+{\n}
+::-moz-selection {{ background: #0078CF; color: #fff; text-shadow: none; }{\n}
+::selection {{ background: #0078CF; color: #fff; text-shadow: none; }{\t}{\n}
+{\n}
+p{{margin: 0 0 1em;}{\n}
+p:last-child {{margin-bottom: 0;}{\n}
+{\n}
+a:visited{{opacity:0.9;}{\n}
+a:active, a:focus{{position:relative;top:1px;}{\n}
+abbr[title]{{border-bottom:1px dotted}{\n}
+dfn{{font-style:italic}{\n}
+hr{{display:block; height:1px; border:0; border-top:1px solid #ddd; margin:1em 0; padding:0}{\n}
+pre, code, kbd, samp{{font-family:monospace,monospace; _font-family:'courier new',monospace; font-size:1em}{\n}
+q{{quotes:none}{\n}
+q:before, q:after{{content:""; content:none}{\n}
+blockquote {{ margin: 1em 1em 1em 0; padding: 1em; border-left: 1px solid #DDD; font-style: italic; color: #999;}{\n}
+blockquote p {{font-size: 1.1em;line-height: 2em;margin-bottom: 0;}{\n}
+blockquote small {{display: block;font-size: 1em;line-height: 1.6em;color: #bfbfbf; text-align: right;}{\n}
+blockquote small:before {{content: '\2014 \00A0';}{\n}
+b, strong{{font-weight:700}{\n}
+small{{font-size:85%; color: #999;}{\n}
+sub, sup{{font-size:75%; line-height:0; position:relative; vertical-align:baseline}{\n}
+sup{{top:-0.5em}{\n}
+sub{{bottom:-0.25em}{\n}
+dd{{margin:0 0 0 40px} dt{{font-weight: 700;}{\n}
+ul, ol{{list-style:none; list-style-image:none; margin:0; padding:0;}{\n}
+img{{border:0; -ms-interpolation-mode:bicubic; vertical-align:middle}{\n}
+svg:not(:root){{overflow:hidden}{\n}
+figure{{margin:0}{\n}
+form{{margin:0}{\n}
+fieldset{{border:0; margin:0; padding:0}{\n}
+label{{cursor:pointer}{\n}
+legend{{border:0; *margin-left:-7px; padding:0;white-space: normal;}{\n}
+button, input, select, textarea{{font-size:100%; margin:0; vertical-align:baseline; *vertical-align:middle}{\n}
+button, input{{line-height:normal; *overflow:visible}{\n}
+table button, table input{{*overflow:auto}{\n}
+button, input[type="button"], input[type="reset"], input[type="submit"]{{cursor:pointer; -webkit-appearance:button}{\n}
+input[type="checkbox"], input[type="radio"]{{box-sizing:border-box}{\n}
+input[type="search"]{{-webkit-appearance:textfield; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box}{\n}
+input[type="search"]::-webkit-search-decoration{{-webkit-appearance:none}{\n}
+button::-moz-focus-inner, input::-moz-focus-inner{{border:0; padding:0}{\n}
+textarea{{overflow:auto; vertical-align:top; resize:vertical}{\n}
+table{{border-collapse:collapse; border-spacing:0}{\n}
+td{{vertical-align:top}{\n}
+.chromeframe {{ margin: 1em 0; background: red; color: black; padding: 1em; }{\n}
+{\n}
+{\n}
+{\n}
+/* -------------------------------------------------------------{\n}
+======{\t}STYLES{\n}
+------------------------------------------------------------- */{\n}
+{\n}
+/* -- FORMS {\n}
+------------------------------------------------------------- */{\n}
+form{{margin-top: 2em;}{\n}
+form li{{margin-bottom: 1.5em;}{\n}
+label{{display: block; margin-bottom:1em; font-weight: 700;}{\n}
+input, select, textarea {{{\n}
+{\t}border: 1px solid #DDD;{\n}
+{\t}color: #777;{\n}
+{\t}font-size: 1em;{\n}
+{\t}padding: 1em;{\n}
+{\t}width:60%;{\n}
+{\t}-webkit-box-sizing: border-box;{\n}
+{\t}-moz-box-sizing: border-box;{\n}
+{\t}-ms-box-sizing: border-box;{\n}
+{\t}box-sizing: border-box;{\n}
+{\t}*behavior: url(/js/boxsizing.htc); }{\n}
+textarea{{padding: 1em; min-height:15em; height: auto; width: 100%; }{\n}
+input, textarea {{{\n}
+ -moz-transition: border .25s;{\n}
+ -webkit-transition: border .25s;{\n}
+ -o-transition: border .25s;{\n}
+ transition: border .25s;}{\n}
+input:hover, textarea:hover, input:focus, textarea:focus,input:active, textarea:active {{ border: 1px solid #999;}{\n}
+input[type="text"],textarea{{cursor: text;}{\n}
+input[type="radio"], input[type="checkbox"] {{ display: inline; width:auto; height: auto; margin-right: 1em; }{\n}
+input[type="checkbox"] + label, input[type="radio"] + label {{ display: inline;}{\n}
+input[type="file"]{{ border: none;}{\n}
+input[type="date"]{{ width: auto;}{\n}
+select {{height: auto;}{\n}
+/* Placeholders */{\n}
+::-webkit-input-placeholder {{ color: #BBB;}{\n}
+:-moz-placeholder {{color: #BBB;}{\n}
+:-ms-input-placeholder {{color: #BBB;}{\n}
+/* validate.js */{\n}
+label.error {{ color: #0078CF; margin: 0.5em 0 0 0.5em; font-weight: normal; font-style: italic; }{\n}
+{\n}
+{\n}
+{\n}
+/* -- BUTTONS {\n}
+------------------------------------------------------------- */{\n}
+.button, input[type="submit"], button, .toggle-title {{{\n}
+{\t}color: #666;{\n}
+{\t}font-size: 1.1em;{\n}
+{\t}font-weight: normal;{\n}
+{\t}padding: 0.6em 1.2em;{\n}
+{\t}text-shadow: 0 1px 0 #fff;{\n}
+{\t}border: solid 1px #ddd;{\n}
+{\t}text-decoration: none;{\n}
+{\t}cursor: pointer;{\n}
+{\t}{\n}
+{\t}background: #efefef; /* Old browsers */{\n}
+{\t}background: -moz-linear-gradient(top,  #f6f6f6 0%, #efefef 100%); /* FF3.6+ */{\n}
+{\t}background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f6f6), color-stop(100%,#efefef)); /* Chrome,Safari4+ */{\n}
+{\t}background: -webkit-linear-gradient(top,  #f6f6f6 0%,#efefef 100%); /* Chrome10+,Safari5.1+ */{\n}
+{\t}background: -o-linear-gradient(top,  #f6f6f6 0%,#efefef 100%); /* Opera 11.10+ */{\n}
+{\t}background: -ms-linear-gradient(top,  #f6f6f6 0%,#efefef 100%); /* IE10+ */{\n}
+{\t}background: linear-gradient(to bottom,  #f6f6f6 0%,#efefef 100%); /* W3C */{\n}
+{\t}filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */{\n}
+{\t}{\t}{\n}
+{\t}-webkit-border-radius: 2px;{\n}
+{\t}-moz-border-radius: 2px;{\n}
+{\t}-o-border-radius: 2px;{\n}
+{\t}-ms-border-radius: 2px;{\n}
+{\t}-khtml-border-radius: 2px;{\n}
+{\t}border-radius: 2px;{\n}
+{\t}{\n}
+{\t}-webkit-transition: 0.1s linear all;{\n}
+{\t}-moz-transition: 0.1s linear all;{\n}
+{\t}-ms-transition: 0.1s linear all;{\n}
+{\t}-o-transition: 0.1s linear all;{\n}
+{\t}transition: 0.1s linear all; }{\n}
+.button:hover, input[type="submit"]:hover, button:hover, .toggle-title:hover {{{\n}
+{\t}color: #333;{\n}
+{\t}text-decoration: none;{\n}
+{\t}border-color: #BBB;{\n}
+{\t}-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);{\n}
+{\t}-webkit-box-shadow:0 1px 2px rgba(0, 0, 0, 0.1);{\n}
+{\t}box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);{\n}
+{\t}background: 0 100%;}{\n}
+.button:focus, input[type="submit"]:focus, button:focus, .toggle-title:focus {{{\n}
+{\t}color: #333;{\n}
+{\t}border-color: #BBB;}{\n}
+.button:active, input[type="submit"]:active, button:active, .toggle-title:active {{{\n}
+{\t}color: #000;{\n}
+{\t}background: #F5F5F5;{\n}
+{\t}border-color: #444;{\n}
+{\t}position: relative; top:1px;}{\n}
+{\n}
+{\n}
+{\n}
+/* -- TYPO{\n}
+------------------------------------------------------------- */{\n}
+h1,h2,h3,h4,h5,h6{{margin:0 0 1em; font-weight: normal;}{\n}
+{\n}
+h1 {{font-size: 4.1em; {\n}
+{\t}letter-spacing: -0.075em; {\n}
+{\t}text-transform: uppercase; {\n}
+{\t}line-height: 0.9; {\n}
+{\t}color: #555;{\n}
+{\t}margin: 0 0 0.5em; {\n}
+{\t}font-weight: normal; }{\n}
+h2 {{ font-size: 2.5em; margin: 0 0 20px; letter-spacing: -0.05em; color: #555; line-height: 1; }{\n}
+h3 {{ font-size: 1.75em; }{\n}
+h4 {{ font-size: 1.5em; }{\n}
+h5 {{ font-size: 1.17em; text-transform: uppercase; margin: 0; color: #555; }{\n}
+h6 {{ font-size: 1em; margin-bottom: 2px; font-weight: 700; }{\n}
+{\n}
+h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{{color:#333; text-decoration: none;}{\n}
+h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover{{color:#0078CF;text-decoration: underline;}{\n}
+{\n}
+{\n}
+{\n}
+/* -- GRID  https://github.com/mattberridge/Proportional-Grids/{\n}
+------------------------------------------------------------- */{\n}
+body{{width:100%; }{\n}
+.container {{width: 90%; margin: 5em auto; max-width: 1100px; min-width: 300px;}{\n}
+ {\n}
+.grid-wrap {{{\n}
+  margin-left: -3em; /* the same as your gutter */{\n}
+  overflow: hidden;{\n}
+  *zoom:1;}{\n}
+  .grid-wrap:before, .grid-wrap:after{{content:""; display:table}{\n}
+  .grid-wrap:after{{clear:both}{\n}
+  {\n}
+.grid {{{\n}
+  float: left;{\n}
+  padding-left: 3em; /* this is your gutter between columns */{\n}
+  width: 100%;{\n}
+  -webkit-box-sizing: border-box;{\n}
+  -moz-box-sizing: border-box;{\n}
+  box-sizing: border-box;{\n}
+  *behavior: url(/js/boxsizing.htc); }{\n}
+  {\n}
+.half-gutter {{margin-left: -1.5em; }{\n}
+  .half-gutter .grid-col {{padding-left: 1.5em; }{\n}
+  {\n}
+.col-full {{width: 100%; }{\n}
+.col-one-half {{width: 50%; }{\n}
+.col-one-third {{width: 33.333%; }{\n}
+.col-two-thirds {{width: 66.666%; }{\n}
+.col-one-quarter {{width: 25%; }{\n}
+.col-three-quarters {{width: 75%; }{\n}
+{\n}
+.divide-top{{border-top: 1px solid #ccc;padding-top: 2em;margin-top: 1.5em; }{\n}
+{\n}
+.mright{{ margin-right: 3em;}{\n}
+.mleft{{ margin-left: 3em;}{\n}
+.mtop{{ margin-top: 3em;}{\n}
+.mbottom{{ margin-bottom: 3em;}{\n}
+.halfmright{{ margin-right: 1.5em;}{\n}
+.halfmleft{{ margin-left: 1.5em;}{\n}
+.halfmtop{{ margin-top: 1.5em;}{\n}
+.halfmbottom{{ margin-bottom: 1.5em;}{\n}
+{\n}
+.fright, .fleft{{display:block; overflow:hidden}{\n}
+.fright{{float:right}{\n}
+.fleft{{float:left}{\n}
+{\n}
+.alignleft{{float: left;clear: left;margin: 0.38em 1.62em 0.38em 0;}{\n}
+.alignright {{float: right;clear: right;margin: 0.38em 0 0.38em 1.62em;}{\n}
+.aligncenter {{margin: 0 auto 1.62em;display: block;}{\n}
+{\n}
+{\n}
+{\n}
+/* -- MISC{\n}
+------------------------------------------------------------- */{\n}
+figure {{ max-height: 100%; overflow: hidden;}{\n}
+figure figcaption {{ }{\n}
+img {{ max-width: 100%; height: auto; width: auto; }{\n}
+a img {{{\n}
+    -webkit-transition: opacity 1s ease;{\n}
+    -moz-transition: opacity 1s ease;{\n}
+    -o-transition: opacity 1s ease;{\n}
+    -ms-transition: opacity 1s ease;{\n}
+    transition: opacity 1s ease; }{\n}
+a img:hover {{{\n}
+{\t}*zoom: 1;{\n}
+{\t}opacity: 0.7;{\n}
+{\t}-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 70);{\n}
+{\t}filter: alpha(opacity = 70);}{\n}
+    {\n}
+    {\n}
+    {\n}
+/* -------------------------------------------------------------{\n}
+======{\t}PAGES{\n}
+------------------------------------------------------------- */{\n}
+    {\n}
+/* -- HEADER{\n}
+------------------------------------------------------------- */{\n}
+header#navtop {{ margin-bottom: 2em; clear: both; overflow: hidden; }{\n}
+    header nav ul {{ float: left; overflow: hidden; padding: 0 3em 0 2em; border-left: 1px solid #ddd; line-height: 2em; }{\n}
+nav a, menu a {{ text-decoration: none; color: #555; }{\n}
+.navactive {{ color: #0078CF }{\n}
+.logo {{margin-bottom: 3em;}{\n}
+.logo:hover {{background: none;}{\n}
+{\t}{\t}{\n}
+{\t}{\t}{\n}
+/* -- GENERAL {\n}
+------------------------------------------------------------- */{\n}
+.main > section {{ margin-bottom: 7em; }{\n}
+.main header{{ color: #555; margin-bottom: 3em; }{\n}
+.main header hr{{border-top-color:#999;}{\n}
+.arrow:after {{content:" \27F6"; /* html unicode: &#10230; */ } {\n}
+header .arrow {{color: #999; font-style: italic;}{\n}
+.arrow:hover {{color: #0078CF; }{\n}
+{\n}
+{\n}
+/* -- FOOTER{\n}
+------------------------------------------------------------- */{\n}
+footer  {{ color: #555; margin-bottom: 7em; text-align: center;}{\n}
+footer nav ul {{ float: right; overflow: hidden; }{\n}
+footer a {{color: #999;}{\n}
+footer li {{ float: left; margin-right: 1em; padding-right: 1em; border-right: 1px solid #DDD; font-size: 0.8em; }{\n}
+footer li:last-child {{ margin-right: 0; padding-right: 0; border-right: none; }{\n}
+.up a {{ display: block; text-align: center; margin: 0 auto; }{\n}
+{\n}
+{\n}
+/* -- HOME-PAGE{\n}
+------------------------------------------------------------- */{\n}
+/* Services */{\n}
+.services aside {{ color: #999; padding-top: 1em; border-top: 1px solid #DDD;}{\n}
+.services aside:after, .services h5:after {{ content: ""; display: block; height: 1px; width: 1em; background: #DDD; margin: 1em 0; }{\n}
+{\n}
+/* Slider */{\n}
+{\t}/* Browser Resets */{\n}
+.flex-container a:active,.flexslider a:active,.flex-container a:focus,.flexslider a:focus  {{outline: none;}{\n}
+.slides,.flex-control-nav,.flex-direction-nav {{margin: 0; padding: 0; list-style: none;} {\n}
+{\t}/* FlexSlider Necessary Styles */ {\n}
+.flexslider {{margin: 0; padding: 0; position: relative;}{\n}
+.flexslider .slides > .slide {{display: none; -webkit-backface-visibility: hidden;}{\n}
+.flexslider .slides img {{width: 100%; display: block;}{\n}
+.flex-pauseplay span {{text-transform: capitalize;}{\n}
+.slides:after {{content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} {\n}
+html[xmlns] .slides {{display: block;} {\n}
+* html .slides {{height: 1%;}{\n}
+{\n}
+.slide figcaption {{{\n}
+{\t}position: absolute;{\n}
+{\t}background: white; {\n}
+{\t}height: auto; min-height: 3em; width: 60%; padding: 1em; {\n}
+{\t}top: 3em; right: 0; }{\n}
+.slide figcaption div {{ text-align: right; display: block; border-right: 1px solid #DDD; padding: 0 2em 0 0; margin: auto 5em auto 0; }{\n}
+.slide figcaption div p {{ margin: 0 }{\n}
+.flex-direction-nav{{ position: absolute; top: 4em; right: 1.5em; z-index: 10;}{\n}
+.flex-direction-nav li {{display: inline;}{\n}
+.flex-prev, .flex-next{{ text-decoration: none; color: #999;{\t}margin-left: 1em;}{\n}
+.flex-prev:hover, .flex-next:hover{{ color: #0078CF}{\n}
+{\n}
+{\n}
+/* -- WORKS / Home-page and Works-page{\n}
+------------------------------------------------------------- */{\n}
+.works figure > a{{ {\n}
+{\t}display: block; {\n}
+{\t}height: 100%; width: 100%; {\n}
+{\t}overflow: hidden; {\n}
+{\t}position: relative;{\n}
+{\t}border-top: 1px solid #DDD; padding-top: 1em; }{\n}
+ {\t}{\n}
+.works figure .zoom{{ {\n}
+{\t}display: block; {\n}
+{\t}position: absolute; top: 10px; left: 0; {\n}
+{\t}background: url(../img/zoom.png) no-repeat center; {\n}
+{\t}width: 100%; height: 100%; {\n}
+{\t}*zoom: 1;{\n}
+{\t}opacity: 0;{\n}
+{\t}-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 0);{\n}
+{\t}filter: alpha(opacity = 0); }{\n}
+{\n}
+.works figure figcaption{{ margin-top: 1em; padding: 0 0.5em; white-space: nowrap; }{\n}
+.works figure figcaption a{{line-height:2em; color: #555; font-weight: 700; }{\n}
+.works figure figcaption p{{ margin: 0; }{\n}
+{\n}
+.works-page .works figure {{ margin-bottom: 3em;}{\n}
+{\n}
+.main aside{{margin-bottom: 3em}{\n}
+.main aside menu{{padding: 0 0 0 1em; line-height: 2em;}{\n}
+.main aside menu a{{color: #999;}{\n}
+.main aside menu .buttonactive {{color: #0078CF }{\n}
+{\n}
+{\n}
+/* -- SUBPAGES {\n}
+------------------------------------------------------------- */{\n}
+/*Separations*/{\n}
+.main:not(.home-page) > section article h2 {{ margin-top: 1em; padding-top: 1em; border-top: 1px solid #DDD; }{\n}
+.main:not(.home-page) > section article:first-child h2 {{ margin-top: 0;}{\n}
+{\n}
+/* Work-page (single) */{\n}
+.work-page figure {{margin-bottom: 3em;}{\n}
+.work-page figcaption {{text-align: center; margin-top: 1em;}{\n}
+{\n}
+/* Services-page */{\n}
+.warning {{ {\n}
+{\t}display: block; {\n}
+{\t}background: #F5F5F5; {\n}
+{\t}border: 1px solid #DDD; border-left: none; border-right: none; {\n}
+{\t}text-align: center; {\n}
+{\t}padding: 20px; margin: 20px 0px; }{\n}
+{\n}
+{\t}/* - Toggles */  {\n}
+.toggle-view > li {{{\n}
+    margin-top: 1em;{\n}
+    position: relative; }{\n}
+.toggle-title {{padding: 0.8em 2em;}{\n}
+.toggle-title-detail {{{\n}
+    font-size: 0.8em;{\n}
+    color: #999;{\n}
+    font-weight: normal;{\n}
+    text-transform: lowercase; }{\n}
+.toggle-title:after {{{\n}
+    content: "\25C0";{\n}
+    float: right;{\n}
+    color: #999; }{\n}
+.toggle-title:hover:after {{ color: #555 }{\n}
+.tactive {{ background: #FFF }{\n}
+.tactive:after {{{\n}
+    content: "\25BC";{\n}
+    color: #555;}{\n}
+.toggle {{{\n}
+    padding: 1em 2em;{\n}
+    display: none;{\n}
+    overflow: hidden; }{\n}
+.toggle > ul li {{ line-height: 2.5 }{\n}
+.toggle > ul li:before {{{\n}
+    content: "\2714 ";{\n}
+    color: #ddd;{\n}
+    margin-right: 1em; }{\n}
+            {\n}
+{\t}/* - Tabs */{\n}
+.tabs {{{\n}
+    display: block;{\n}
+    margin: 0;{\n}
+    padding: 0;{\n}
+    border-bottom: solid 1px #ddd; }{\n}
+.tabs li {{{\n}
+    display: inline-block; margin-bottom: -1px; }{\n}
+.tabs li a {{{\n}
+    display: block; {\n}
+    text-decoration: none;{\n}
+    line-height: 3em;{\n}
+    color: #555; {\n}
+    padding: 0 2em; {\n}
+    margin: 0;{\n}
+    background: #f5f5f5;{\n}
+    font-size: 1.1em;}{\n}
+.tabs li a:hover{{color: #000;}{\n}
+.tabs li.active a{{{\n}
+{\t}background: #fff;{\n}
+{\t}position: relative;{\n}
+{\t}border: 1px solid #DDD;{\n}
+{\t}border-bottom-color: #FFF;{\n}
+{\t}color: #111;{\n}
+{\t}-moz-border-radius-topleft: 2px;{\n}
+{\t}-webkit-border-top-left-radius: 2px;{\n}
+{\t}border-top-left-radius: 2px;{\n}
+{\t}-moz-border-radius-topright: 2px;{\n}
+{\t}-webkit-border-top-right-radius: 2px;{\n}
+{\t}border-top-right-radius: 2px; }{\n}
+{\n}
+.tab_container {{ margin-bottom: 1em; display: block; border-left: 1px solid #ddd; padding: 15px 15px 0;}{\n}
+.tab_container > article {{ display:none; }{\n}
+.tab_container > article:first-child {{ display: block; }{\n}
+{\n}
+{\n}
+{\n}
+/* -------------------------------------------------------------{\n}
+======{\t}BLOG{\n}
+------------------------------------------------------------- */{\n}
+{\n}
+/* Article */{\n}
+.post {{margin-bottom:5em}{\n}
+.post .entry{{margin:1.5em 0;}{\n}
+.post .entry p{{overflow:auto}{\n}
+.post .more-link {{font-weight:700; color: #0078CF;}{\n}
+.post .more-link:hover {{color:#333;}{\n}
+.meta {{font-weight: normal;{\t}color:#999; font-size:0.9em}{\n}
+.meta a {{color:#555; text-decoration:none;}{\n}
+.meta a:hover {{color:#0078CF; text-decoration:underline;}{\n}
+{\n}
+/* Sidebar */{\n}
+.blog-sidebar {{color: #999;}{\n}
+.blog-sidebar h2{{margin-bottom:1em; font-size:2em; color:#666;}{\n}
+.blog-sidebar .widget{{padding-bottom:2em;border-bottom: 1px solid #DDD;margin-bottom: 2em;}{\n}
+.blog-sidebar .widget:last-child{{border-bottom: none;}{\n}
+.blog-sidebar a {{font-weight: normal; color:inherit;text-decoration: none; }{\n}
+.blog-sidebar a:hover{{color:#333;}{\n}
+.blog-sidebar li{{padding-left: 1em; margin-bottom: 0.5em;  white-space: nowrap ; text-overflow: ellipsis; width: 95%; overflow: hidden; display: block;} {\n}
+.blog-sidebar li a:before {{content: ">"; padding-right: 1em;} {\n}
+.blog-sidebar input {{width: 90%; padding-right: 0;}{\n}
+{\n}
+/* Pagination */{\n}
+ul.page-numbers{{float: right;overflow:hidden; display:block;}{\n}
+.page-numbers li {{float:left;}{\n}
+.page-numbers li a{{ display:block;padding:1em;text-decoration:none; color:#777;}{\n}
+.page-numbers li a:hover{{ color:#444;}{\n}
+.page-numbers li .current{{color: #0078CF;}{\n}
+{\n}
+/* Comments*/{\n}
+.section-comment header{{overflow: hidden; clear: both;}{\n}
+.comments, .leavecomment {{margin-top: 3em;}{\n}
+.comment{{margin-bottom: 2em;}{\n}
+.comment p{{font-size: 0.9em; color: #777;}{\n}
+.comment h6{{margin-bottom: 0.5em;}{\n}
+.comment form ul li {{ margin-bottom: 2em }{\n}
+{\n}
+{\n}
+{\n}
+/* -------------------------------------------------------------{\n}
+======{\t}MISC{\n}
+------------------------------------------------------------- */{\n}
+{\n}
+.ir{{display:block; border:0; text-indent:-999em; overflow:hidden; background-color:transparent; background-repeat:no-repeat; text-align:left; direction:ltr; *line-{\n}height: 0;}{\n}
+.ir br{{display:none}{\n}
+.hidden{{display:none !important; visibility:hidden}{\n}
+{\n}
+{\n}
+{\n}
+/* -------------------------------------------------------------{\n}
+======{\t}IE Fix{\n}
+------------------------------------------------------------- */{\n}
+.lt-ie9 .works figure a, .lt-ie9 .works figure a img {{ filter:inherit} {\n}
+/* jquery filter opacity issue IE8 */{\n}
+{\n}
+.lt-ie9 .container {{min-width: 780px;}{\n}
+.lt-ie8 .container {{width: 960px;}{\n}
+.lt-ie8 .grid-wrap {{margin-left: 0; }{\n}
+.lt-ie8 .grid {{padding: 0;margin-left: 5%; }{\n}
+  .lt-ie8 .grid:first-child {{margin-left: 0; }{\n}
+{\n}
+.lt-ie8 .col-full {{width: 99.95%; }{\n}
+.lt-ie8 .col-full + .grid {{margin-left: 0; }{\n}
+.lt-ie8 .col-one-half {{width: 47.45%; }{\n}
+.lt-ie8 .col-one-third {{width: 29.55%; }{\n}
+.lt-ie8 .col-two-thirds {{width: 64.95%; }{\n}
+.lt-ie8 .col-one-quarter {{width: 19.95%; }{\n}
+.lt-ie8 .col-three-quarters {{width: 74.95%; }{\n}
+{\n}
+{\n}
+{\n}
+/* -------------------------------------------------------------{\n}
+======{\t}MEDIA QUERIES{\n}
+------------------------------------------------------------- */{\n}
+{\n}
+/* -- Media query 1 (mq1){\n}
+------------------------------------------------------------- */{\n}
+@media only screen and (max-width: 60em) {{ /* 13 / 780 */{\n}
+{\t}.mq1-col-full {{width: 100%; }{\n}
+{\t}.mq1-col-one-half {{width: 50%; }{\n}
+{\t}.mq1-col-one-third {{width: 33.333%; }{\n}
+{\t}.mq1-col-two-thirds {{width: 66.666%; }{\n}
+{\t}.mq1-col-one-quarter {{width: 25%; }{\n}
+{\t}.mq1-col-three-quarters {{width: 75%; }{\n}
+{\t}/**/{\n}
+{\t}h1{{font-size: 3.1em;}{\n}
+{\t}.slide figcaption{{ width: 80%;}{\n}
+{\t}footer li {{ float: left; margin-right: 0.5em; padding-right: 0.5em; border-right: 1px solid #DDD;} {\n}
+}{\n}
+    {\n}
+/* -- Media query 2 (mq2){\n}
+------------------------------------------------------------- */{\n}
+@media only screen and (max-width: 48em) {{ /* 13 / 624 */{\n}
+{\t}.mq2-col-full {{width: 100%;}{\n}
+{\t}.mq2-col-one-half {{width: 50%; }{\n}
+{\t}.mq2-col-one-third {{ width: 33.333%; }{\n}
+{\t}.mq2-col-two-thirds {{width: 66.666%; }{\n}
+{\t}.mq2-col-one-quarter {{width: 25%; }{\n}
+{\t}.mq2-col-three-quarters {{width: 75%; }{\n}
+{\t}/**/{\n}
+{\t}header nav {{ width: 100%; }{\n}
+{\t}header nav ul {{  padding: 0 ; border-left:none; line-height: 2em; }{\n}
+{\t}header nav ul li {{ float: left;  padding: 0 1em ; border-left:1px solid #ddd; }{\n}
+{\t}.slider {{ margin-top: 3em; }{\n}
+}{\n}
+    {\n}
+/* -- Media query 3 (mq3){\n}
+------------------------------------------------------------- */{\n}
+@media only screen and (max-width: 30em) {{ /* 13 / 390 */{\n}
+{\t}.mq3-col-full {{ width: 100%; }{\n}
+{\t}.mq3-col-one-half {{ width: 50%; }{\n}
+{\t}.mq3-col-one-third {{ width: 33.333%; }{\n}
+{\t}.mq3-col-two-thirds {{ width: 66.666%; }{\n}
+{\t}.mq3-col-one-quarter {{ width: 25%; }{\n}
+{\t}.mq3-col-three-quarters {{ width: 75%; } {\n}
+{\t}.mq3-none {{display: none;}{\n}
+{\t}/**/{\n}
+{\t}header nav ul li {{ padding: 0 0.5em ; }{\n}
+{\t}footer li {{ float: none; margin-right: 0em; padding-right: 0em; border-right: none; line-height: 2em;}{\n}
+{\t}.services article {{{\t}margin-top: 3em;} .services article:first-of-type {{{\t}margin-top: 0;}{\t}{\n}
+}{\n}
+{\n}
+/* -- PRINT STYLES {\n}
+------------------------------------------------------------- */{\n}
+@media print{{ {\n}
+{\t}*{{background:transparent !important; color:black !important; text-shadow:none !important; filter:none !important; -ms-filter:none !important}{\n}
+{\t}abbr[title]:after{{content:"("attr(title) ")"}{\n}
+{\t}pre, blockquote{{page-break-inside:avoid}{\n}
+{\t}thead{{display:table-header-group}{\n}
+{\t}tr, img{{page-break-inside:avoid}{\n}
+{\t}img{{max-width:100% !important}{\n}
+{\t}p, h2, h3{{orphans:3; widows:3}{\n}
+{\t}h2, h3{{page-break-after:avoid} {\n}
+}{\n}
+ {\n}
+ {\n}
+ {\n}
+/* -------------------------------------------------------------{\n}
+======{\t}END{\n}
+------------------------------------------------------------- */{\n}

@@ -71,6 +71,7 @@ public class {table.javaClassName}Finder {{{\n}
 {endloop}
 
 {\t}private static final String SQL_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where {primaryFieldName} = ?";{\n}
+{\t}private static final String SQL_PRIMARY_KEY_EXISTS = "select count(*) from {table.name} where {primaryFieldName} = ?";{\n}
 {\n}
 
 

@@ -31,7 +31,7 @@ public class H2ZeroParser {
 
 		// now do the actual parsing
 		this.database = new Database(jsonObject);
-		
+
 	}
 
 	private String getFileContents(File file) throws H2ZeroParseException {
@@ -55,6 +55,13 @@ public class H2ZeroParser {
 			}
 		} catch (IOException jiioex) {
 			throw new H2ZeroParseException("There was a problem reading the file '" + file.getAbsolutePath() + "'.");
+		} finally {
+			if(null != bufferedReader) {
+				try {
+					bufferedReader.close();
+				} catch (IOException ignored) {
+				}
+			}
 		}
 		return (stringBuilder.toString());
 	}

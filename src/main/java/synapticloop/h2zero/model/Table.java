@@ -30,6 +30,7 @@ public class Table {
 	private HashMap<String, BaseField> whereFieldLookup = new HashMap<String, BaseField>();
 
 	private ArrayList<BaseField> nonNullFields = new ArrayList<BaseField>();
+	private ArrayList<BaseField> nonPrimaryFields = new ArrayList<BaseField>();
 
 	private ArrayList<Finder> finders = new ArrayList<Finder>();
 	private ArrayList<Updater> updaters = new ArrayList<Updater>();
@@ -88,6 +89,10 @@ public class Table {
 
 					if(!baseField.getNullable()) {
 						nonNullFields.add(baseField);
+					}
+					
+					if(!baseField.getPrimary()) {
+						nonPrimaryFields.add(baseField);
 					}
 
 					fields.add(baseField);
@@ -190,6 +195,7 @@ public class Table {
 	public ArrayList<Updater> getUpdaters() { return(updaters); }
 	public ArrayList<Deleter> getDeleters() { return(deleters); }
 	public ArrayList<BaseField> getNonNullFields() { return(nonNullFields); }
+	public ArrayList<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
 	public boolean getCacheable() { return(cacheable); }
 	public boolean getCacheFindAll() { return(cacheFindAll); }
 	public BaseField getField(String name) { return(fieldLookup.get(name)); }

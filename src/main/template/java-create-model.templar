@@ -18,7 +18,9 @@ import java.sql.SQLException;{\n}
 {\n}
 
 import {database.package}.model.util.Constants;{\n}
-import {database.package}.model.util.Statistics;{\n}
+{if options.statistics}
+	import {database.package}.model.util.Statistics;{\n}
+{endif}
 {\n}
 
 import {database.package}.finder.{table.javaClassName}Finder;{\n}
@@ -72,12 +74,24 @@ public class {table.javaClassName} extends ModelBase {{{\n}
 {endloop}  where " + PRIMARY_KEY_FIELD + " = ?";{\n}
 
 {\t}private static final String SQL_DELETE = "delete from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
-{\n}
 
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				INSERT IF NOT EXISTS SQL - ENSURE
+}
+{\t}private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from {table.name} where 
+{loop table.fields as field}
+		{if !field.primary}
+			{field.name} = ?
+			{if !fieldStatus.last} and {endif}
+		{endif}
+	{endloop}";{\n}
+
+{\n}
 {\t}// whether the fields are auto-populated{\n}
 {\t}private boolean[] populated = {{ 
 {loop table.fields as field}{field.populate}{if fieldStatus.last}{else}, {endif}{endloop}
  };{\n}{\n}
+
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				LIST ALL OF THE JAVA FIELDS
@@ -225,6 +239,101 @@ public class {table.javaClassName} extends ModelBase {{{\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 {\t}{\t}{\t}insert(connection);{\n}
+{\t}{\t}{\t}connection.close();{\n}
+{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
+{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
+{\t}{\t}} catch(SQLException sqlex) {{{\n}
+{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}if(connection != null) {{{\n}
+{\t}{\t}{\t}{\t}try {{{\n}
+{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
+{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
+{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
+{\t}{\t}{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{--
+    ENSURE 
+}
+{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
+{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);{\n}
+
+{loop table.nonPrimaryFields as field}
+	{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
+{endloop}
+
+{if table.cacheable}
+	{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
+{endif}
+
+{\t}{\t}ResultSet resultSet = preparedStatement.executeQuery();{\n}
+
+{\t}{\t}if(resultSet.next()) {{{\n}
+
+{loop table.fields as field}
+	{if field.primary}
+		{\t}{\t}{\t}this.{field.javaName} = resultSet.getLong(1);{\n}
+	{endif}
+{endloop}
+
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}// could not find the value - need to insert it - null is the primary key{\n}
+	{loop table.nonPrimaryFields as field}
+		{\t}{\t}{\t}this.{field.javaName} = {field.javaName};{\n}
+	{endloop}
+
+{\t}{\t}{\t}insert(connection);{\n}
+{\t}{\t}}{\n}
+
+
+{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
+
+{\t}}{\n}
+{\n}
+
+{\t}public void ensureSilent(Connection connection) {{{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}ensure(connection);{\n}
+{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
+{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
+{\t}{\t}} catch(SQLException sqlex) {{{\n}
+{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public void ensure() throws SQLException, H2ZeroPrimaryKeyException {{{\n}
+{\t}{\t}Connection connection = null;{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}ensure(connection);{\n}
+{\t}{\t}{\t}connection.close();{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}if(connection != null) {{{\n}
+{\t}{\t}{\t}{\t}try {{{\n}
+{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
+{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
+{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
+{\t}{\t}{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+
+{\t}public void ensureSilent() {{{\n}
+{\t}{\t}Connection connection = null;{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}ensure(connection);{\n}
 {\t}{\t}{\t}connection.close();{\n}
 {\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
 {\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
@@ -449,17 +558,18 @@ public class {table.javaClassName} extends ModelBase {{{\n}
 {endloop}
 
 {\t}/*{\n}
-{\t} * Boring ol' getters and setters - with statistics generation{\n}
+{\t} * Boring ol' getters and setters {if options.statistics}- with statistics generation{endif}{\n}
 {\t} */{\n}
 {\n}
 
 {loop table.fields as field}
 	{\t}public {field.javaType} get{field.javaAccessorName}() {{ 
+	{if options.statistics}
 		if(populated[{fieldStatus.offset}]) {{ 
-			Statistics.cacheHit(Statistics.{table.upperName}, {fieldStatus.offset}); 
+			Statistics.cacheHit(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName}); 
 		} else {{ 
-			Statistics.cacheMiss(Statistics.{table.upperName}, {fieldStatus.offset}); 
-		} 
+			Statistics.cacheMiss(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName}); 
+		} {endif}
 		return(this.{field.javaName}); 
 	}{\n}
 
@@ -492,4 +602,22 @@ public class {table.javaClassName} extends ModelBase {{{\n}
 
 	{\t}{\t}return(stringBuilder.toString());{\n}
 	{\t}}{\n}
+
+
+{-- Now we need the toJsonString Method--}
+{\n}
+	{\t}public String toJsonString() {{{\n}
+	{\t}{\t}// !!! work in progress !!!{\n}
+	{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
+
+	{\t}{\t}stringBuilder.append("{{ \"model\": {{ \"name\" : \"{table.javaClassName}\"\n");{\n}
+	{\t}{\t}stringBuilder.append("{{   \"fields\": [\n");{\n}
+	{loop table.fields as field}
+		{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": \"" + this.{field.javaName} + "\" },\n");{\n}
+	{endloop}
+		{\t}{\t}stringBuilder.append("    ]\n   }\n");{\n}
+
+	{\t}{\t}return(stringBuilder.toString());{\n}
+	{\t}}{\n}
+
 }

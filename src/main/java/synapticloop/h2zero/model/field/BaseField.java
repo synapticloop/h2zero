@@ -34,7 +34,8 @@ public abstract class BaseField {
 	private String secondaryJavaFieldName = null;
 
 	// these are for the forms
-	protected String validator;
+	protected String validator = null;
+	protected String formField = null;
 	protected int minLength;
 
 	public BaseField(JSONObject jsonObject) throws H2ZeroParseException {
@@ -102,7 +103,22 @@ public abstract class BaseField {
 	public abstract String getSqlNullType();
 	public abstract String getSqlJavaType();
 
-	public String getValidator() { return(validator); }
+	public String getFormField() {
+		if(null == formField) {
+			return(getSqlJavaType() + "FormField");
+		} else {
+			return(formField);
+		}
+	}
+
+	public String getValidator() {
+		if(null == validator) {
+			return(getSqlJavaType() + "Validator");
+		} else {
+			return(validator);
+		}
+	}
+
 	public int getMinLength() { return(minLength); }
 	public int getMaxLength() { return(length); }
 

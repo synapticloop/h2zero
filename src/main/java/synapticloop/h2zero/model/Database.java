@@ -111,7 +111,6 @@ public class Database {
 			Table table = (Table) iterator.next();
 			BaseField baseField = table.getField(fieldName);
 			if(null != baseField) {
-				System.out.println("returning >>> " + baseField.getName());
 				return(baseField);
 			}
 		}

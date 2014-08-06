@@ -33,6 +33,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.View;
 import synapticloop.h2zero.model.form.Form;
+import synapticloop.h2zero.util.FileUtils;
 import synapticloop.templar.Parser;
 import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
@@ -95,7 +96,7 @@ public class H2ZeroTask extends Task {
 			ArrayList<Table> tables = database.getTables();
 			Iterator<Table> tableIterator = tables.iterator();
 			while (tableIterator.hasNext()) {
-				Table table = (Table) tableIterator.next();
+				Table table = tableIterator.next();
 				templarContext.add("table", table);
 
 				if(options.hasGenerator("java")) {
@@ -106,6 +107,11 @@ public class H2ZeroTask extends Task {
 					// the finder
 					templarParser = getParser("/java-create-finder.templar");
 					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java"));
+
+					// the default form beans
+					templarParser = getParser("/java-create-default-form-bean-create.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/form/auto/" + table.getJavaClassName() + "CreateFormBean.java"));
+
 				}
 
 				// the finder tag libraries
@@ -113,7 +119,7 @@ public class H2ZeroTask extends Task {
 				Iterator<Finder> finderIterator = finders.iterator();;
 
 				while (finderIterator.hasNext()) {
-					Finder finder = (Finder) finderIterator.next();
+					Finder finder = finderIterator.next();
 					templarContext.add("finder", finder);
 
 					if(options.hasGenerator("taglib")) {
@@ -156,6 +162,11 @@ public class H2ZeroTask extends Task {
 				}
 
 				if(options.hasGenerator("jsp")) {
+					// need to copy over the favicons
+					// make sure that the directories are created...
+					new File(outFile + "/src/main/webapps/admin/static/img/").mkdirs();
+					FileUtils.copyResourceToFile("/favicon.png", outFile + "/src/main/webapps/admin/static/img/favicon.png");
+					FileUtils.copyResourceToFile("/favicon.ico", outFile + "/src/main/webapps/admin/static/img/favicon.ico");
 					// each jsp index page for each table
 					templarParser = getParser("/jsp-create-index-table.templar");
 					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + ".html"));
@@ -170,7 +181,7 @@ public class H2ZeroTask extends Task {
 			ArrayList<View> views = database.getViews();
 			Iterator<View> viewsIterator = views.iterator();
 			while (viewsIterator.hasNext()) {
-				View view = (View) viewsIterator.next();
+				View view = viewsIterator.next();
 				templarContext.add("view", view);
 
 				if(options.hasGenerator("java")) {
@@ -193,7 +204,7 @@ public class H2ZeroTask extends Task {
 			Iterator<Form> formsIterator = forms.iterator();
 
 			while (formsIterator.hasNext()) {
-				Form form = (Form) formsIterator.next();
+				Form form = formsIterator.next();
 				templarContext.add("form", form);
 
 				if(options.hasGenerator("java")) {

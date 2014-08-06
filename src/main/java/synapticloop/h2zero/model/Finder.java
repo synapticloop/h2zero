@@ -68,14 +68,7 @@ public class Finder {
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
 
-				BaseField baseField = null;
-				if(whereFieldName.startsWith("in:")) {
-					whereFieldName = whereFieldName.substring(3);
-					baseField = table.getInField(whereFieldName);
-					this.hasInFields = true;
-				} else {
-					baseField = table.getField(whereFieldName);
-				}
+				BaseField baseField = getBaseField(table, whereFieldName);
 
 				if(null == baseField) {
 					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "'.");
@@ -177,6 +170,44 @@ public class Finder {
 				}
 			}
 		}
+	}
+
+	private BaseField getBaseField(Table table, String fieldName) {
+		BaseField baseField = null;
+		if(fieldName.startsWith("in:")) {
+			fieldName = fieldName.substring(3);
+
+			if(fieldName.contains(".")) {
+				// we are doing a table lookup
+				String[] splits = fieldName.split("\\.", 2);
+				String tableName = splits[0];
+				String tableFieldName = splits[1];
+				Table tableLookup = Database.getTableLookup(tableName);
+				if(null == tableLookup) {
+					return(null);
+				} else {
+					return(tableLookup.getInField(tableFieldName));
+				}
+			}
+
+			baseField = table.getInField(fieldName);
+			this.hasInFields = true;
+		} else {
+			if(fieldName.contains(".")) {
+				// we are doing a table lookup
+				String[] splits = fieldName.split("\\.", 2);
+				String tableName = splits[0];
+				String tableFieldName = splits[1];
+				Table tableLookup = Database.getTableLookup(tableName);
+				if(null == tableLookup) {
+					return(null);
+				} else {
+					return(tableLookup.getField(tableFieldName));
+				}
+			}
+			baseField = table.getField(fieldName);
+		}
+		return(baseField);
 	}
 
 	public String getName() { return(name); }
