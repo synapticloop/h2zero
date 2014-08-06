@@ -4,3 +4,4 @@ build/
 CVS
 generate/*
 cobertura.ser
+.DS_Store
