@@ -71,9 +71,9 @@ public class {table.javaClassName}CreateFormBean extends FormBean {{{\n}
 {loop table.fields as field}
 	{if fn:notNull[field.foreignKeyTable]}
 
-		{\t}{\t}if(!{field.foreignKeyTableLookup.javaClassName}Finder.primaryKeyExistsSilent((Long)getField("{field.name}").getParsedValue())) {{{\n}
-		{\t}{\t}{\t}setFieldInError("{field.name}");{\n}
-		{\t}{\t}}{\n}
+//		{\t}{\t}if(!{field.foreignKeyTableLookup.javaClassName}Finder.primaryKeyExistsSilent((Long)getField("{field.name}").getParsedValue())) {{{\n}
+//		{\t}{\t}{\t}setFieldInError("{field.name}");{\n}
+//		{\t}{\t}}{\n}
 
 	{endif}
 {endloop}
@@ -81,9 +81,9 @@ public class {table.javaClassName}CreateFormBean extends FormBean {{{\n}
 {loop table.fields as field}
 	{if field.index}
 
-		{\t}{\t}if({table.javaClassName}Finder.indexedColumnValueExistsFor{field.javaAccessorName}Silent(({field.javaType})getField("{field.name}").getParsedValue())) {{{\n}
-		{\t}{\t}{\t}setFieldInError("{field.name}");{\n}
-		{\t}{\t}}{\n}
+//		{\t}{\t}if({table.javaClassName}Finder.indexedColumnValueExistsFor{field.javaAccessorName}Silent(({field.javaType})getField("{field.name}").getParsedValue())) {{{\n}
+//		{\t}{\t}{\t}setFieldInError("{field.name}");{\n}
+//		{\t}{\t}}{\n}
 
 	{endif}
 {endloop}
