@@ -11,6 +11,8 @@ import java.sql.Connection;{\n}
 import java.sql.PreparedStatement;{\n}
 import java.sql.ResultSet;{\n}
 import java.sql.SQLException;{\n}
+import java.sql.Date;{\n}
+import java.sql.Timestamp;{\n}
 import java.sql.Types;{\n}
 import java.util.List;{\n}
 import java.util.Enumeration;{\n}
@@ -641,12 +643,19 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}private static {table.javaClassName} uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
 {\t}{\t}if(resultSet.first()) {{{\n}
 {\t}{\t}{\t}// we have a result{\n}
-{\t}{\t}{\t}{table.javaClassName} {table.javaFieldName} = new {table.javaClassName}({\n}
 {loop table.fields as field}
-	{\t}{\t}{\t}{\t}{\t}resultSet.get{field.sqlJavaType}({fieldStatus.index})
-	{if !fieldStatus.last},{\n}{endif}
+	{\t}{\t}{\t}{field.javaType} {field.javaName} = resultSet.get{field.sqlJavaType}({fieldStatus.index});{\n}
+		{if field.nullable}
+			{\t}{\t}{\t}if(resultSet.wasNull()) {{{\n}
+			{\t}{\t}{\t}{\t}{field.javaName} = null;{\n}
+			{\t}{\t}{\t}}{\n}
+		{endif}
 {endloop}
-);{\n}
+{\n}
+{\t}{\t}{\t}{table.javaClassName} {table.javaFieldName} = new {table.javaClassName}({loop table.fields as field}
+{field.javaName}{if !fieldStatus.last}, {endif}
+{endloop});{\n}
+{\n}
 {\t}{\t}{\t}if(resultSet.next()) {{{\n}
 {\t}{\t}{\t}{\t}throw new H2ZeroFinderException("More than one result from resultSet '" + resultSet + "'.");{\n}
 {\t}{\t}{\t}} else {{{\n}

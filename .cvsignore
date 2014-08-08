@@ -2,3 +2,5 @@ dist
 build
 cobertura.ser
 generate
+.git
+
