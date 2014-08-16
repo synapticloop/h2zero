@@ -14,6 +14,7 @@ import java.sql.SQLException;{\n}
 import java.sql.Date;{\n}
 import java.sql.Timestamp;{\n}
 import java.sql.Types;{\n}
+import java.util.HashMap;{\n}
 import java.util.List;{\n}
 import java.util.Enumeration;{\n}
 import java.util.ArrayList;{\n}
@@ -94,6 +95,16 @@ public class {table.javaClassName}Finder {{{\n}
 	{endif}
 {endloop}
 {\n}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				THE FINDERS FOR THE SELECT CLAUSES CACHES
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{loop table.finders as finder}
+	{if fn:notNull[finder.selectClause]}
+	{\t}private static HashMap<String, String> {finder.name}_statement_cache = new HashMap<String, String>();{\n}
+	{endif}
+{endloop}
 
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -267,6 +278,7 @@ public class {table.javaClassName}Finder {{{\n}
 
 		{\t}{\t}try {{{\n}
 		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+
 		{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{finder.staticName});{\n}
 
 			{loop finder.whereFields as whereField}
@@ -445,22 +457,36 @@ public class {table.javaClassName}Finder {{{\n}
 
 
 		{if finder.hasInFields}
-			{\t}{\t}{\t}String preparedStatementTemp = SQL_{finder.staticName};{\n}
-			{\t}{\t}{\t}StringBuilder stringBuilder = null;{\n}
+			{\t}{\t}{\t}if({finder.name}_statement_cache.containsKey({loop finder.inWhereFields as whereField}
+				{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
+			{endloop})) {{{\n}
+
+			{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement({finder.name}_statement_cache.get(
+			{loop finder.inWhereFields as whereField}
+				{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
+			{endloop}));{\n}
+			{\t}{\t}{\t}} else {{{\n}
+
+			{\t}{\t}{\t}{\t}String preparedStatementTemp = SQL_{finder.staticName};{\n}
+			{\t}{\t}{\t}{\t}StringBuilder stringBuilder = null;{\n}
 			{loop finder.whereFields as whereField}
 				{if whereField.isInField}
-					{\t}{\t}{\t}stringBuilder = new StringBuilder();{\n}
-					{\t}{\t}{\t}for(int i = 0; i< {whereField.javaName}List.size(); i++) {{{\n}
-					{\t}{\t}{\t}{\t}if(i > 0) {{{\n}
-					{\t}{\t}{\t}{\t}{\t}stringBuilder.append(", ");{\n}
+					{\t}{\t}{\t}{\t}stringBuilder = new StringBuilder();{\n}
+					{\t}{\t}{\t}{\t}for(int i = 0; i < {whereField.javaName}List.size(); i++) {{{\n}
+					{\t}{\t}{\t}{\t}{\t}if(i > 0) {{{\n}
+					{\t}{\t}{\t}{\t}{\t}{\t}stringBuilder.append(", ");{\n}
+					{\t}{\t}{\t}{\t}{\t}}{\n}
+					{\t}{\t}{\t}{\t}{\t}stringBuilder.append("?");{\n}
 					{\t}{\t}{\t}{\t}}{\n}
-					{\t}{\t}{\t}{\t}stringBuilder.append("?");{\n}
-					{\t}{\t}{\t}}{\n}
 
-					{\t}{\t}{\t}preparedStatementTemp = SQL_{finder.staticName}.replaceFirst("\\.\\.\\.", stringBuilder.toString());{\n}
+					{\t}{\t}{\t}{\t}preparedStatementTemp = SQL_{finder.staticName}.replaceFirst("\\.\\.\\.", stringBuilder.toString());{\n}
 				{endif}
 			{endloop}
-				{\t}{\t}{\t}preparedStatement = connection.prepareStatement(preparedStatementTemp);{\n}
+				{\t}{\t}{\t}{\t}{finder.name}_statement_cache.put({loop finder.inWhereFields as whereField}
+				{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
+			{endloop}, preparedStatementTemp);{\n}
+				{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement(preparedStatementTemp);{\n}
+			{\t}{\t}{\t}}{\n}
 		{else}
 			{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{finder.staticName});{\n}
 		{endif}
