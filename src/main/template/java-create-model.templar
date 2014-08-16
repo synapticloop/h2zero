@@ -284,10 +284,6 @@ public class {table.javaClassName} extends ModelBase {{{\n}
 
 {\t}{\t}} else {{{\n}
 {\t}{\t}{\t}// could not find the value - need to insert it - null is the primary key{\n}
-	{loop table.nonPrimaryFields as field}
-		{\t}{\t}{\t}this.{field.javaName} = {field.javaName};{\n}
-	{endloop}
-
 {\t}{\t}{\t}insert(connection);{\n}
 {\t}{\t}}{\n}
 
