@@ -43,7 +43,7 @@ public class Deleter {
 				String whereFieldName = whereFieldArray.getString(i);
 				BaseField baseField = table.getField(whereFieldName);
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for deleter '" + name + "'.");
 				}
 				whereFields.add(baseField);
 			}

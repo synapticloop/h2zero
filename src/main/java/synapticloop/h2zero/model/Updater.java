@@ -17,9 +17,9 @@ package synapticloop.h2zero.model;
  * under the Licence.
  */
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +74,7 @@ public class Updater {
 				String whereFieldName = whereFieldArray.getString(i);
 				BaseField baseField = table.getField(whereFieldName);
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for updater '" + name + "'.");
 				}
 
 				BaseField updateBaseField = table.getWhereField(whereFieldName);

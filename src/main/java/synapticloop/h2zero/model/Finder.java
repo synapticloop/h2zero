@@ -45,6 +45,7 @@ public class Finder {
 	private boolean unique = false;
 	private boolean cache = false;
 	private boolean hasInFields = false;
+	private ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
 
 	public Finder(JSONObject jsonObject, Table table) throws H2ZeroParseException {
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
@@ -71,10 +72,13 @@ public class Finder {
 				BaseField baseField = getBaseField(table, whereFieldName);
 
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for finder '" + name + "'.");
 				}
 
 				whereFields.add(baseField);
+				if(baseField.getIsInField()) {
+					inWhereFields.add(baseField);
+				}
 
 				if(!uniqueWhereFields.containsKey(whereFieldName)) {
 					uniqueWhereFields.put(whereFieldName, baseField);
@@ -103,7 +107,7 @@ public class Finder {
 				String whereFieldName = whereFieldArray.getString(i);
 				BaseField baseField = view.getField(whereFieldName);
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for finder '" + name + "'.");
 				}
 				whereFields.add(baseField);
 			}
@@ -217,6 +221,7 @@ public class Finder {
 	public boolean getUnique() { return(unique); }
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
 	public ArrayList<BaseField> getSelectFields() { return(selectFields); }
+	public ArrayList<BaseField> getInWhereFields() { return(inWhereFields); }
 	public boolean getCache() { return(cache); }
 	public boolean getHasInFields() { return(hasInFields); }
 	public String getSelectClause() { return selectClause; }
