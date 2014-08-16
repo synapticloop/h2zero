@@ -683,12 +683,13 @@ public class {table.javaClassName}Finder {{{\n}
 {endloop});{\n}
 {\n}
 {\t}{\t}{\t}if(resultSet.next()) {{{\n}
-{\t}{\t}{\t}{\t}throw new H2ZeroFinderException("More than one result from resultSet '" + resultSet + "'.");{\n}
+{\t}{\t}{\t}{\t}throw new H2ZeroFinderException("More than one result in resultset for unique finder.");{\n}
 {\t}{\t}{\t}} else {{{\n}
 {\t}{\t}{\t}{\t}return({table.javaFieldName});{\n}
 {\t}{\t}{\t}}{\n}
 {\t}{\t}} else {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException("Could not get unique result with resultset of '" + resultSet + "'.");{\n}
+{\t}{\t}{\t}// could not get a result;{\n}
+{\t}{\t}{\t}return(null);{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
 {\n}
@@ -752,7 +753,8 @@ public class {table.javaClassName}Finder {{{\n}
 			));{\n}
 
 			{\t}{\t}} else {{{\n}
-			{\t}{\t}{\t}throw new H2ZeroFinderException("Could not get unique result");{\n}
+			{\t}{\t}{\t}// could not get any results{\n}
+			{\t}{\t}{\t}return(null);{\n}
 			{\t}{\t}}{\n}
 			{\t}}{\n}
 			{\n}
