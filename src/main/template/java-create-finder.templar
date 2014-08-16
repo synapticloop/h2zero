@@ -102,7 +102,9 @@ public class {table.javaClassName}Finder {{{\n}
 
 {loop table.finders as finder}
 	{if fn:notNull[finder.selectClause]}
-	{\t}private static HashMap<String, String> {finder.name}_statement_cache = new HashMap<String, String>();{\n}
+		{if finder.hasInFields}
+			{\t}private static HashMap<String, String> {finder.name}_statement_cache = new HashMap<String, String>();{\n}
+		{endif}
 	{endif}
 {endloop}
 
