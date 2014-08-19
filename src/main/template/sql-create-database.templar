@@ -47,7 +47,11 @@ use {database.schema};{\n}
 	}
 	{loop table.fields as field}
 		{if field.index}
-			,{\n}{\t}index ({field.name})
+			{if fn:>[field.maxLength, 255]}
+				,{\n}{\t}index ({field.name}(255))
+			{else}
+				,{\n}{\t}index ({field.name})
+			{endif}
 		{endif}
 	{endloop}
 
