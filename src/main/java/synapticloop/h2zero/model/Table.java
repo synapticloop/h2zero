@@ -90,7 +90,7 @@ public class Table {
 					if(!baseField.getNullable()) {
 						nonNullFields.add(baseField);
 					}
-					
+
 					if(!baseField.getPrimary()) {
 						nonPrimaryFields.add(baseField);
 					}
