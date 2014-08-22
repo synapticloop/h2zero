@@ -68,7 +68,15 @@ use {database.schema};{\n}
 	) engine={table.engine} default charset={table.charset};{\n}
 # show any warnings that are applicable{\n}
 show warnings;{\n}{\n}
+{if table.isConstant}
+	{loop table.constants as constant}
+		insert into {table.name} values({loop constant.values as value}{value}{if !valueStatus.last}, {endif}{endloop});{\n}
+	{endloop}
+{endif}
+
 {endloop}
+
+
 
 {loop database.views as view}
 create view {view.name} as {view.asClause};{\n}{\n}

@@ -35,6 +35,7 @@ public class Table {
 	private ArrayList<Finder> finders = new ArrayList<Finder>();
 	private ArrayList<Updater> updaters = new ArrayList<Updater>();
 	private ArrayList<Deleter> deleters = new ArrayList<Deleter>();
+	private ArrayList<Constant> constants = new ArrayList<Constant>();
 
 	public Table(JSONObject jsonObject) throws H2ZeroParseException {
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
@@ -52,6 +53,7 @@ public class Table {
 		populateFinders(jsonObject);
 		populateUpdaters(jsonObject);
 		populateDeleters(jsonObject);
+		populateConstants(jsonObject);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -186,14 +188,35 @@ public class Table {
 		}
 	}
 
+	private void populateConstants(JSONObject jsonObject) throws H2ZeroParseException {
+		JSONArray constantJson = new JSONArray();
+		try {
+			constantJson = jsonObject.getJSONArray("constants");
+		} catch (JSONException ojjsonex) {
+			// do nothing - no finders is ok
+		}
+
+		for (int i = 0; i < constantJson.length(); i++) {
+			try {
+				JSONArray constantsArray = constantJson.getJSONArray(i);
+				constants.add(new Constant(constantsArray, this));
+			} catch (JSONException ojjsonex) {
+				throw new H2ZeroParseException("Could not parse constants.");
+			}
+		}
+	}
+
 	public String getName() { return(this.name); }
 	public String getUpperName() { return(this.name.toUpperCase()); }
 	public String getEngine() { return(this.engine); }
 	public String getCharset() { return(this.charset); }
 	public ArrayList<BaseField> getFields() { return(fields); }
+
 	public ArrayList<Finder> getFinders() { return(finders); }
 	public ArrayList<Updater> getUpdaters() { return(updaters); }
 	public ArrayList<Deleter> getDeleters() { return(deleters); }
+	public ArrayList<Constant> getConstants() { return(constants); }
+
 	public ArrayList<BaseField> getNonNullFields() { return(nonNullFields); }
 	public ArrayList<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
 	public boolean getCacheable() { return(cacheable); }
@@ -205,6 +228,8 @@ public class Table {
 	public String getJavaClassName() { return(NamingHelper.getFirstUpper(name)); }
 	public String getJavaFieldName() { return(NamingHelper.getSecondUpper(name)); }
 	public boolean getHasNonNullConstructor() { return(nonNullFields.size() != fields.size()); }
+
+	public boolean getIsConstant() { return(constants.size() > 0); }
 
 	public String getDropTableDefinition() {
 		StringBuilder stringBuilder = new StringBuilder();
