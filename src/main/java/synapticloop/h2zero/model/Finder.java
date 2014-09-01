@@ -198,10 +198,12 @@ public class Finder {
 			this.hasInFields = true;
 		} else {
 			if(fieldName.contains(".")) {
+				System.out.println("have a table lookup");
 				// we are doing a table lookup
 				String[] splits = fieldName.split("\\.", 2);
 				String tableName = splits[0];
 				String tableFieldName = splits[1];
+				System.out.println(tableName + ":" + tableFieldName);
 				Table tableLookup = Database.getTableLookup(tableName);
 				if(null == tableLookup) {
 					return(null);

@@ -64,6 +64,20 @@ public class Database {
 			}
 		}
 
+		// we need to now go through and populate the finders/updaters/deleters just
+		// in case we have a forward lookup
+
+		for (int i = 0; i < tableJson.length(); i++) {
+			try {
+				JSONObject tableObject = tableJson.getJSONObject(i);
+				String tableName = tableObject.getString("name");
+				Table table = tableLookup.get(tableName);
+				table.populateOthers();
+			} catch (JSONException ojjsonex) {
+				throw new H2ZeroParseException("Could not parse the 'tables' array.");
+			}
+		}
+
 		// now that we have the database set up, now it is time for the views
 		JSONArray viewJson = new JSONArray();
 		try {
@@ -108,7 +122,7 @@ public class Database {
 	public BaseField getField(String fieldName) {
 		Iterator<Table> iterator = tables.iterator();
 		while (iterator.hasNext()) {
-			Table table = (Table) iterator.next();
+			Table table = iterator.next();
 			BaseField baseField = table.getField(fieldName);
 			if(null != baseField) {
 				return(baseField);

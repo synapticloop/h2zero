@@ -17,6 +17,8 @@ import synapticloop.h2zero.util.NamingHelper;
 
 
 public class Table {
+	private JSONObject jsonObject = null;
+
 	private String name = null;
 	private String engine = "innodb";
 	private String charset = "UTF8";
@@ -38,6 +40,8 @@ public class Table {
 	private ArrayList<Constant> constants = new ArrayList<Constant>();
 
 	public Table(JSONObject jsonObject) throws H2ZeroParseException {
+		this.jsonObject = jsonObject;
+
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
 		this.engine = JsonHelper.getStringValue(jsonObject, "engine", engine);
 		this.charset = JsonHelper.getStringValue(jsonObject, "charset", charset);
@@ -50,12 +54,14 @@ public class Table {
 
 		// now for the fields
 		populateFields(jsonObject);
+	}
+
+	public void populateOthers() throws H2ZeroParseException{
 		populateFinders(jsonObject);
 		populateUpdaters(jsonObject);
 		populateDeleters(jsonObject);
 		populateConstants(jsonObject);
 	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void populateFields(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray fieldJson = new JSONArray();

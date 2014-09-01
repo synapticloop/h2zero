@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="generate/src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.6.0 (MacOS X Default)"/>
 	<classpathentry kind="lib" path="lib/compile/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/compile/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/mail.jar"/>
@@ -18,5 +17,6 @@
 	<classpathentry kind="lib" path="lib/test/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="lib/test/log4j-1.2.9.jar"/>
 	<classpathentry kind="lib" path="lib/test/mockito-all-1.8.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>
