@@ -126,7 +126,7 @@ public class Finder {
 		try {
 			fieldJson = jsonObject.getJSONArray("selectFields");
 		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Cannot create a selectClause finder without 'fields'.");
+			throw new H2ZeroParseException("Cannot create the selectClause finder of '" + name + "' finder without 'fields'.");
 		}
 
 		for (int i = 0; i < fieldJson.length(); i++) {
