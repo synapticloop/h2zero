@@ -85,11 +85,31 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
 	{\t}{\t}{\t}return(numRowsUpdated);{\n}
 	{\t}{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}
 {\n}
 
+	{\t}public static int {updater.name}(
+	{loop updater.uniqueUpdateFields as updateField}
+		{updateField.javaType} {updateField.javaName}
+		{if updateFieldStatus.last}{else}, {endif}
+	{endloop}
+	) throws SQLException {{{\n}
+	{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
+	{\t}{\t}int numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, 0]}, {endif}
+
+		{loop updater.uniqueUpdateFields as updateField}
+			{updateField.javaName}
+			{if updateFieldStatus.last}{else}, {endif}
+		{endloop}
+
+	);{\n}
+	{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+	{\t}{\t}return(numRowsUpdated);{\n}
+	{\t}}{\n}
+{\n}
 {endloop}
 
 }
