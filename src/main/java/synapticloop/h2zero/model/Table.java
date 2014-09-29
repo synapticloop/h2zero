@@ -38,6 +38,7 @@ public class Table {
 	private ArrayList<Updater> updaters = new ArrayList<Updater>();
 	private ArrayList<Deleter> deleters = new ArrayList<Deleter>();
 	private ArrayList<Constant> constants = new ArrayList<Constant>();
+	private ArrayList<Counter> counters = new ArrayList<Counter>();
 
 	public Table(JSONObject jsonObject) throws H2ZeroParseException {
 		this.jsonObject = jsonObject;
@@ -61,7 +62,9 @@ public class Table {
 		populateUpdaters(jsonObject);
 		populateDeleters(jsonObject);
 		populateConstants(jsonObject);
+		populateCounters(jsonObject);
 	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void populateFields(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray fieldJson = new JSONArray();
@@ -206,6 +209,24 @@ public class Table {
 			try {
 				JSONArray constantsArray = constantJson.getJSONArray(i);
 				constants.add(new Constant(constantsArray, this));
+			} catch (JSONException ojjsonex) {
+				throw new H2ZeroParseException("Could not parse constants.");
+			}
+		}
+	}
+
+	private void populateCounters(JSONObject jsonObject) throws H2ZeroParseException {
+		JSONArray counterJson = new JSONArray();
+		try {
+			counterJson = jsonObject.getJSONArray("constants");
+		} catch (JSONException ojjsonex) {
+			// do nothing - no finders is ok
+		}
+
+		for (int i = 0; i < counterJson.length(); i++) {
+			try {
+				JSONArray counterArray = counterJson.getJSONArray(i);
+				counters.add(new Counter(counterArray, this));
 			} catch (JSONException ojjsonex) {
 				throw new H2ZeroParseException("Could not parse constants.");
 			}
