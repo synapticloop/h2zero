@@ -2,7 +2,7 @@
 "options": {
 	"logging": "log4j",
 	"statistics": false,
-	"generators": [ "java", "sql" ]
+	"generators": [ "java", "sql", "taglib" ]
 },
 "database": {
 	"schema": "blogslicr",

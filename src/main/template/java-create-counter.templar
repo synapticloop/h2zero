@@ -71,7 +71,7 @@ public class {table.javaClassName}Counter {{{\n}
 {\t} * @throws SQLException if there was an error in the SQL statement{\n}
 {\t} */{\n}
 
-{\t}public static int findCountAll() throws SQLException {{{\n}
+{\t}public static int countAll() throws SQLException {{{\n}
 
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\t}{\t}ResultSet resultSet = null;{\n}
@@ -104,9 +104,9 @@ public class {table.javaClassName}Counter {{{\n}
 {\t}}{\n}
 {\n}
 
-{\t}public static int findCountAllSilent() {{{\n}
+{\t}public static int countAllSilent() {{{\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findCountAll());{\n}
+{\t}{\t}{\t}return(countAll());{\n}
 {\t}{\t}} catch(SQLException sqlex){{{\n}
 
 {\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}

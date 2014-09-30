@@ -85,6 +85,34 @@
 
 	{\t}</tag>{\n}{\n}
 
+	{\t}<tag>{\n}
+	{\t}{\t}<description>{\n}
+	{\t}{\t}{\t}generated tag for the count all{\n}
+	{\t}{\t}</description>{\n}
+	{\t}{\t}<name>{table.javaClassName}CountAll</name>{\n}
+	{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.CountAllTag</tag-class>{\n}
+	{\t}{\t}<body-content>JSP</body-content>{\n}
+
+	{\t}{\t}<attribute>{\n}
+	{\t}{\t}{\t}<description>{\n}
+	{\t}{\t}{\t}{\t}The variable to bind the results to{\n}
+	{\t}{\t}{\t}</description>{\n}
+	{\t}{\t}{\t}<name>var</name>{\n}
+	{\t}{\t}{\t}<required>true</required>{\n}
+	{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
+	{\t}{\t}</attribute>{\n}
+
+	{\t}{\t}<attribute>{\n}
+	{\t}{\t}{\t}<description>{\n}
+	{\t}{\t}{\t}{\t}Whether to remove the var at the end of the tag{\n}
+	{\t}{\t}{\t}</description>{\n}
+	{\t}{\t}{\t}<name>removeVar</name>{\n}
+	{\t}{\t}{\t}<required>false</required>{\n}
+	{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
+	{\t}{\t}</attribute>{\n}
+
+	{\t}</tag>{\n}{\n}
+
 	{loop table.finders as finder}
 		{\t}<tag>{\n}
 		{\t}{\t}<description>{\n}
@@ -105,6 +133,49 @@
 
 
 		{loop finder.whereFields as whereField}
+			{\t}{\t}<attribute>{\n}
+			{\t}{\t}{\t}<description>{\n}
+			{\t}{\t}{\t}{\t}Bind the {whereField.javaName} variable{\n}
+			{\t}{\t}{\t}</description>{\n}
+			{\t}{\t}{\t}<name>{whereField.javaName}</name>{\n}
+			{\t}{\t}{\t}<required>true</required>{\n}
+			{\t}{\t}{\t}<rtexprvalue>true</rtexprvalue>{\n}
+			{\t}{\t}</attribute>{\n}
+		{endloop}
+
+		{\t}{\t}<attribute>{\n}
+		{\t}{\t}{\t}<description>{\n}
+		{\t}{\t}{\t}{\t}Whether to remove the var at the end of the tag{\n}
+		{\t}{\t}{\t}</description>{\n}
+		{\t}{\t}{\t}<name>removeVar</name>{\n}
+		{\t}{\t}{\t}<required>false</required>{\n}
+		{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
+		{\t}{\t}</attribute>{\n}
+
+		{\t}</tag>{\n}
+		{\n}
+	{endloop}
+
+	{loop table.counters as counter}
+		{\t}<tag>{\n}
+		{\t}{\t}<description>{\n}
+		{\t}{\t}{\t}generated tag for the {counter.name}{\n}
+		{\t}{\t}</description>{\n}
+		{\t}{\t}<name>{table.javaClassName}{counter.counterTagName}</name>{\n}
+		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{counter.counterTagName}Tag</tag-class>{\n}
+		{\t}{\t}<body-content>JSP</body-content>{\n}
+
+		{\t}{\t}<attribute>{\n}
+		{\t}{\t}{\t}<description>{\n}
+		{\t}{\t}{\t}{\t}The variable to bind the results to{\n}
+		{\t}{\t}{\t}</description>{\n}
+		{\t}{\t}{\t}<name>var</name>{\n}
+		{\t}{\t}{\t}<required>true</required>{\n}
+		{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
+		{\t}{\t}</attribute>{\n}
+
+
+		{loop counter.whereFields as whereField}
 			{\t}{\t}<attribute>{\n}
 			{\t}{\t}{\t}<description>{\n}
 			{\t}{\t}{\t}{\t}Bind the {whereField.javaName} variable{\n}
