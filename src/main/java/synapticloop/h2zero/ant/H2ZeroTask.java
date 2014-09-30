@@ -128,7 +128,7 @@ public class H2ZeroTask extends Task {
 
 					if(options.hasGenerator("taglib")) {
 						templarParser = getParser("/java-create-taglib-finder.templar");
-						templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + finder.getFinderTagName() + "Tag.java"));
+						templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + finder.getFinderTagName() + "Tag.java"));
 					}
 
 					if(options.hasGenerator("java")) {
@@ -162,10 +162,10 @@ public class H2ZeroTask extends Task {
 				if(options.hasGenerator("taglib")) {
 					// the extra 'missing' finders
 					templarParser = getParser("/java-create-taglib-finder-find-by-primary-key.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + "FindByPrimaryKeyTag.java"));
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindByPrimaryKeyTag.java"));
 
 					templarParser = getParser("/java-create-taglib-finder-find-all.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaClassName() + "FindAllTag.java"));
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindAllTag.java"));
 
 					templarParser = getParser("/java-create-taglib-counter-count-all.templar");
 					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/CountAllTag.java"));
