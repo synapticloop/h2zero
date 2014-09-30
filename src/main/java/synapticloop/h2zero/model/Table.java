@@ -218,17 +218,17 @@ public class Table {
 	private void populateCounters(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray counterJson = new JSONArray();
 		try {
-			counterJson = jsonObject.getJSONArray("constants");
+			counterJson = jsonObject.getJSONArray("finders");
 		} catch (JSONException ojjsonex) {
 			// do nothing - no finders is ok
 		}
 
 		for (int i = 0; i < counterJson.length(); i++) {
 			try {
-				JSONArray counterArray = counterJson.getJSONArray(i);
-				counters.add(new Counter(counterArray, this));
+				JSONObject counterObject = counterJson.getJSONObject(i);
+				counters.add(new Counter(counterObject, this));
 			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse constants.");
+				throw new H2ZeroParseException("Could not parse counter.");
 			}
 		}
 	}
