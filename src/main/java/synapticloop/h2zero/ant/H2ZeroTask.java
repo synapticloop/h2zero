@@ -112,6 +112,9 @@ public class H2ZeroTask extends Task {
 					templarParser = getParser("/java-create-default-form-bean-create.templar");
 					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/form/auto/" + table.getJavaClassName() + "CreateFormBean.java"));
 
+					// the counters
+					templarParser = getParser("/java-create-counter.templar");
+					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java"));
 				}
 
 				// the finder tag libraries

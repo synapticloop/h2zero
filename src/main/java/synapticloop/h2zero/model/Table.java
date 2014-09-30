@@ -218,7 +218,7 @@ public class Table {
 	private void populateCounters(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray counterJson = new JSONArray();
 		try {
-			counterJson = jsonObject.getJSONArray("finders");
+			counterJson = jsonObject.getJSONArray("counters");
 		} catch (JSONException ojjsonex) {
 			// do nothing - no finders is ok
 		}
@@ -243,6 +243,7 @@ public class Table {
 	public ArrayList<Updater> getUpdaters() { return(updaters); }
 	public ArrayList<Deleter> getDeleters() { return(deleters); }
 	public ArrayList<Constant> getConstants() { return(constants); }
+	public ArrayList<Counter> getCounters() { return(counters); }
 
 	public ArrayList<BaseField> getNonNullFields() { return(nonNullFields); }
 	public ArrayList<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }

@@ -73,8 +73,8 @@ public class {table.javaClassName}Finder {{{\n}
 	{endif}
 {endloop}
 
-{\t}private static final String SQL_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where {primaryFieldName} = ?";{\n}
-{\t}private static final String SQL_PRIMARY_KEY_EXISTS = "select count(*) from {table.name} where {primaryFieldName} = ?";{\n}
+{\t}private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where {primaryFieldName} = ?";{\n}
+{\t}private static final String SQL_BUILTIN_PRIMARY_KEY_EXISTS = "select count(*) from {table.name} where {primaryFieldName} = ?";{\n}
 {\n}
 
 
@@ -133,7 +133,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_FIND_BY_PRIMARY_KEY);{\n}
+{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_FIND_BY_PRIMARY_KEY);{\n}
 {\t}{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
 {\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 {\t}{\t}{\t}{table.javaFieldName} = uniqueResult(resultSet);{\n}

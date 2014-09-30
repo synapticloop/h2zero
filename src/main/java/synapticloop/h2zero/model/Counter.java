@@ -1,6 +1,5 @@
 package synapticloop.h2zero.model;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -24,8 +23,6 @@ public class Counter {
 	private LinkedHashMap<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
 	private ArrayList<BaseField> selectFields = new ArrayList<BaseField>();
 
-	private boolean unique = false;
-	private boolean cache = false;
 	private boolean hasInFields = false;
 	private ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
 
@@ -36,12 +33,9 @@ public class Counter {
 		// if we have a select clause then we are returning a bean...
 
 		// now for the select fields
-		if(null != selectClause) {
-			populateSelectFields(counterObject);
+		if(null == selectClause) {
+			throw new H2ZeroParseException("Counters must always have a 'selectClause' and return one count(*) int object.");
 		}
-
-		this.unique = JsonHelper.getBooleanValue(counterObject, "unique", unique);
-		this.cache = JsonHelper.getBooleanValue(counterObject, "cache", cache);
 
 		// now for the where clauses
 		this.whereClause = JsonHelper.getStringValue(counterObject, "whereClause", null);
@@ -75,42 +69,6 @@ public class Counter {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void populateSelectFields(JSONObject jsonObject) throws H2ZeroParseException {
-		JSONArray fieldJson = new JSONArray();
-		try {
-			fieldJson = jsonObject.getJSONArray("selectFields");
-		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Cannot create the selectClause counter of '" + name + "' counter without 'fields'.");
-		}
-
-		for (int i = 0; i < fieldJson.length(); i++) {
-			String type = null;
-			String name = null;
-			JSONObject fieldObject = null;
-			try {
-				fieldObject = fieldJson.getJSONObject(i);
-				type = fieldObject.getString("type");
-				name = fieldObject.getString("name");
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse the 'fields' array.");
-			}
-
-			if(null != type) {
-				String firstUpper = NamingHelper.getFirstUpper(type);
-				try {
-					Class forName = Class.forName("synapticloop.h2zero.model.field." + firstUpper + "Field");
-					Constructor constructor = forName.getConstructor(JSONObject.class);
-					BaseField baseField = (BaseField)constructor.newInstance(fieldObject);
-
-					selectFields.add(baseField);
-
-				} catch (Exception ex) {
-					throw new H2ZeroParseException(ex.getMessage());
-				}
-			}
-		}
-	}
 
 	private BaseField getBaseField(Table table, String fieldName) {
 		BaseField baseField = null;
@@ -155,11 +113,9 @@ public class Counter {
 	public String getCounterTagName() { return(NamingHelper.getFirstUpper(name)); }
 	public String getWhereClause() { return(whereClause); }
 	public String getOrderBy() { return(orderBy); }
-	public boolean getUnique() { return(unique); }
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
 	public ArrayList<BaseField> getSelectFields() { return(selectFields); }
 	public ArrayList<BaseField> getInWhereFields() { return(inWhereFields); }
-	public boolean getCache() { return(cache); }
 	public boolean getHasInFields() { return(hasInFields); }
 	public String getSelectClause() { return selectClause; }
 	public void setSelectClause(String selectClause) { this.selectClause = selectClause; }

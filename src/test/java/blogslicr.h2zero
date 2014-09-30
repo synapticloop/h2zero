@@ -25,6 +25,16 @@
 					"whereClause": "where fl_is_active = 1"
 				},
 			],
+			"counters": [
+				{
+					"name": "countAllFlIsActive",
+					"selectClause": "select count(*) from blog",
+					"whereClause": "where fl_is_active = ?",
+					"whereFields": [
+						"fl_is_active"
+					]
+				}
+			],
 			"updaters": [
 				{
 					"name": "updateActive",
