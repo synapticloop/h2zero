@@ -65,6 +65,11 @@ public class Finder {
 		// we may not have any whereFields
 		try {
 			JSONArray whereFieldArray = jsonObject.getJSONArray("whereFields");
+
+			if(null == whereClause && whereFieldArray.length() > 0) {
+				throw new H2ZeroParseException("Finder '" + name + "' cannot have 'whereFields' when there is no 'whereClause'.");
+			}
+
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
 
@@ -130,12 +135,14 @@ public class Finder {
 
 		for (int i = 0; i < fieldJson.length(); i++) {
 			String type = null;
-			String name = null;
 			JSONObject fieldObject = null;
+
 			try {
 				fieldObject = fieldJson.getJSONObject(i);
 				type = fieldObject.getString("type");
-				name = fieldObject.getString("name");
+
+				// check to ensure that the field has a name
+				fieldObject.getString("name");
 			} catch (JSONException ojjsonex) {
 				throw new H2ZeroParseException("Could not parse the 'fields' array.");
 			}

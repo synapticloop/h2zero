@@ -34,7 +34,7 @@ public class Counter {
 
 		// now for the select fields
 		if(null == selectClause) {
-			throw new H2ZeroParseException("Counters must always have a 'selectClause' and return one count(*) int object.");
+			throw new H2ZeroParseException("Counters must always have a 'selectClause' and return one and only count(*) int object.");
 		}
 
 		// now for the where clauses
@@ -42,6 +42,11 @@ public class Counter {
 		// we may not have any whereFields
 		try {
 			JSONArray whereFieldArray = counterObject.getJSONArray("whereFields");
+
+			if(null == whereClause && whereFieldArray.length() > 0) {
+				throw new H2ZeroParseException("Counter '" + name + "' cannot have 'whereFields' when there is no 'whereClause'.");
+			}
+
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
 
