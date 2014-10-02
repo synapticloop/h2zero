@@ -340,7 +340,6 @@ public class {table.javaClassName}Finder {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-
 			{loop finder.uniqueWhereFields as whereField}
 				{if whereFieldStatus.first}" + {endif}
 				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
@@ -379,11 +378,10 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}}{\n}
 		{else}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}({loop finder.whereFields as whereField}
+			{\t}{\t}{\t}return({finder.name}({loop finder.uniqueWhereFields as whereField}
 			{if !whereFieldStatus.first}, {endif}{whereField.javaName}
 		{endloop}));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
-
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
 
