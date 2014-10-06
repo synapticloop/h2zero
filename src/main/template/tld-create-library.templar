@@ -62,7 +62,7 @@
 	{\t}{\t}{\t}generated tag for the find all{\n}
 	{\t}{\t}</description>{\n}
 	{\t}{\t}<name>{table.javaClassName}FindAll</name>{\n}
-	{\t}{\t}<tag-class>{database.package}.taglib.{{table.javaFieldName}.FindAllTag</tag-class>{\n}
+	{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.FindAllTag</tag-class>{\n}
 	{\t}{\t}<body-content>JSP</body-content>{\n}
 
 	{\t}{\t}<attribute>{\n}
