@@ -1,7 +1,7 @@
 {
 "options": {
 	"logging": "log4j",
-	"statistics": true
+	"statistics": false
 },
 "database": {
 	"schema": "panl",
@@ -312,7 +312,21 @@
 					"whereFields": [ "txt_payment_info" ]
 				}
 			]
-		}
+		},
+		{
+			"name": "media_type",
+			"cacheable": false,
+			"cacheFindAll": false,
+			"fields": [
+				{ "name": "id_media_type", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "nm_media_type", "type": "varchar", "length": "32", "nullable": false}
+			],
+			"constants": [
+				{ "name": "BOOK", "values": [ 1, "book" ] },
+				{ "name": "TV", "values": [ 2, "tv" ] },
+				{ "name": "MOVIE", "values": [  3, "movie" ] }
+			]
+		},
 	],
 	"views": [
 		{

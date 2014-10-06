@@ -48,7 +48,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 }
 {if table.isConstant}
 	{loop table.constants as constant}
-		{\t}public static final Long {constant.name} = new Long({constant.value});{\n}
+		{\t}public static final {table.javaClassName} {constant.name} = new {table.javaClassName}(
+			{loop constant.values as value}
+				{value}{if !valueStatus.last}, {endif}
+			{endloop}
+		);{\n}
 	{endloop}
 {endif}
 
@@ -555,6 +559,9 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}{\t}}{\n}
 	{\t}}{\n}
 	{\n}
+
+{endif} {-- end of !isconstant table }
+
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 					SETTERS AND GETTERS
 	}
@@ -585,22 +592,24 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			} {endif}
 			return(this.{field.javaName}); 
 		}{\n}
+		
+		{if !table.isConstant}
+			{\t}public void set{field.javaAccessorName}({field.javaType} {field.javaName}) {{ 
+				if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 
+				this.{field.javaName} = {field.javaName}; 
+				this.isDirty = true; 
 
-		{\t}public void set{field.javaAccessorName}({field.javaType} {field.javaName}) {{ 
-			if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 
-			this.{field.javaName} = {field.javaName}; 
-			this.isDirty = true; 
+			{if fn:notNull[field.foreignKeyTable]}
+				this.{field.secondaryJavaName} = null; 
+			{endif}
 
-		{if fn:notNull[field.foreignKeyTable]}
-			this.{field.secondaryJavaName} = null; 
+			{if table.cacheable}
+				{table.javaClassName}Finder.markRefreshAllCaches(); 
+			{endif}
+
+				} 
+			}{\n}
 		{endif}
-
-		{if table.cacheable}
-			{table.javaClassName}Finder.markRefreshAllCaches(); 
-		{endif}
-
-			} 
-		}{\n}
 
 	{endloop}
 	{-- Now we need the toString Method--}
@@ -632,5 +641,4 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 		{\t}{\t}return(stringBuilder.toString());{\n}
 		{\t}}{\n}
-{endif}
 }

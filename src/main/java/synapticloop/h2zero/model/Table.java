@@ -202,13 +202,13 @@ public class Table {
 		try {
 			constantJson = jsonObject.getJSONArray("constants");
 		} catch (JSONException ojjsonex) {
-			// do nothing - no finders is ok
+			// do nothing - no constants is ok
 		}
 
 		for (int i = 0; i < constantJson.length(); i++) {
 			try {
-				JSONArray constantsArray = constantJson.getJSONArray(i);
-				constants.add(new Constant(constantsArray, this));
+				JSONObject constantsObject = constantJson.getJSONObject(i);
+				constants.add(new Constant(constantsObject, this));
 			} catch (JSONException ojjsonex) {
 				throw new H2ZeroParseException("Could not parse constants.");
 			}

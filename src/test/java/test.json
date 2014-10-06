@@ -19,7 +19,7 @@ database: {
 			fields: [
 				{ name: "id_two", type: "bigint", nullable: false, primary: true }
 			]
-		}
+		},
 	]
 }
 }
