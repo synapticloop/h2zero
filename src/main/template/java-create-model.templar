@@ -584,7 +584,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{loop table.fields as field}
 		{\t}public {field.javaType} get{field.javaAccessorName}() {{ 
-		{if options.statistics}
+		{if options.statistics and !table.isConstant}
 			if(populated[{fieldStatus.offset}]) {{ 
 				Statistics.cacheHit(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName}); 
 			} else {{ 
