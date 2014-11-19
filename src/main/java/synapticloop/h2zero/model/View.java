@@ -2,8 +2,8 @@ package synapticloop.h2zero.model;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +46,7 @@ public class View {
 		populateFinders(jsonObject);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void populateFields(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray fieldJson = new JSONArray();
 		try {
