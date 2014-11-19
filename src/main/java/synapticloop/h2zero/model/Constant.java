@@ -46,6 +46,6 @@ public class Constant {
 	}
 
 	public ArrayList<Object> getValues() { return values; }
-	public ArrayList<Object> getSqlValues() { return values; }
+	public ArrayList<Object> getSqlValues() { return sqlValues; }
 	public String getName() { return name; }
 }

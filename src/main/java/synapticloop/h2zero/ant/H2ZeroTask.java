@@ -79,6 +79,11 @@ public class H2ZeroTask extends Task {
 
 			Options options = h2zeroParser.getOptions();
 			templarContext.add("options", options);
+			
+			if(!options.hasGenerators()) {
+				getProject().log("FATAL: You have not defined an 'options' section, and therefore no generators will be executed. Exitting...");
+				return;
+			}
 
 			Parser templarParser = null;
 

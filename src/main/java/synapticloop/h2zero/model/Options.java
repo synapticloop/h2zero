@@ -42,6 +42,8 @@ public class Options {
 		JSONArray generatorArray = optionsJson.optJSONArray("generators");
 		if(null == generatorArray) {
 			// add them all
+			System.out.println("WARN: You have not defined any generators - so we are going to generate all.");
+
 			generators.addAll(ALLOWABLE_GENERATORS);
 		} else {
 			for (int i = 0; i < generatorArray.length(); i++) {
@@ -61,6 +63,7 @@ public class Options {
 	}
 
 	public boolean hasGenerator(String generator) { return(generators.contains(generator)); }
+	public boolean hasGenerators() { return(generators.size() != 0); }
 	public boolean getStatistics() { return statistics; }
 	public void setStatistics(boolean statistics) { this.statistics = statistics; }
 	public String getLogging() { return logging; }
