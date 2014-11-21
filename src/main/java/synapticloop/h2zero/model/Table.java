@@ -22,6 +22,8 @@ public class Table {
 	private String name = null;
 	private String engine = "innodb";
 	private String charset = "UTF8";
+	private ArrayList<String> comments = new ArrayList<String>();
+	
 	private boolean cacheable = false;
 	private boolean cacheFindAll = false;
 
@@ -48,6 +50,14 @@ public class Table {
 		this.charset = JsonHelper.getStringValue(jsonObject, "charset", charset);
 		this.cacheable = JsonHelper.getBooleanValue(jsonObject, "cacheable", cacheable);
 		this.cacheFindAll = JsonHelper.getBooleanValue(jsonObject, "cacheFindAll", cacheFindAll);
+		String tempComments = JsonHelper.getStringValue(jsonObject, "comment", null);
+		if(null != tempComments) {
+			String[] split = tempComments.split("\\n");
+			for (int i = 0; i < split.length; i++) {
+				comments.add(split[i]);
+				
+			}
+		}
 
 		if(null == name) {
 			throw new H2ZeroParseException("The table 'name' attribute cannot be null.");
@@ -237,6 +247,8 @@ public class Table {
 	public String getUpperName() { return(this.name.toUpperCase()); }
 	public String getEngine() { return(this.engine); }
 	public String getCharset() { return(this.charset); }
+	public ArrayList<String> getComments() { return comments; }
+
 	public ArrayList<BaseField> getFields() { return(fields); }
 
 	public ArrayList<Finder> getFinders() { return(finders); }
