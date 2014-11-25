@@ -3,13 +3,13 @@ package synapticloop.h2zero.util.validator;
 import java.util.ArrayList;
 
 import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
 
-public class ForeignKeyTableValidator implements DatabaseValidator {
-	private ArrayList<String> messages = new ArrayList<String>();
+public class ForeignKeyTableValidator extends Validator {
 
-	public boolean isValid(Database database) {
+	public boolean isValid(Database database, Options options) {
 		boolean isValid = true;
 
 		ArrayList<Table> tables = database.getTables();
@@ -30,9 +30,4 @@ public class ForeignKeyTableValidator implements DatabaseValidator {
 
 		return isValid;
 	}
-
-	public ArrayList<String> getMessages() {
-		return(messages);
-	}
-
 }

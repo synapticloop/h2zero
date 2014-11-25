@@ -14,16 +14,18 @@ import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
-import synapticloop.h2zero.util.validator.DatabaseValidator;
+import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
+import synapticloop.h2zero.util.validator.Validator;
 
 
 public class H2ZeroParser {
 	private Database database = null;
 	private Options options = null;
 
-	private static ArrayList<DatabaseValidator> validators = new ArrayList<DatabaseValidator>();
+	private static ArrayList<Validator> validators = new ArrayList<Validator>();
 	static {
 		validators.add(new ForeignKeyTableValidator());
+		validators.add(new OptionsGeneratorsValidator());
 	}
 
 	public H2ZeroParser(File file) throws H2ZeroParseException {
@@ -42,8 +44,9 @@ public class H2ZeroParser {
 
 		// now go through and run the validators
 		boolean isValid = true;
-		for (DatabaseValidator validator : validators) {
-			if(!validator.isValid(database)) {
+
+		for (Validator validator : validators) {
+			if(!validator.isValid(database, options)) {
 				isValid = false;
 			}
 
@@ -53,6 +56,7 @@ public class H2ZeroParser {
 			}
 		}
 		
+
 		if(!isValid) {
 			throw new H2ZeroParseException("Validators found some problems.");
 		}
