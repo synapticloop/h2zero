@@ -17,7 +17,6 @@ import synapticloop.h2zero.util.NamingHelper;
 
 public class Database {
 	public static HashMap<String, Table> tableLookup = new HashMap<String, Table>();
-
 	private String schema = null;
 	private String packageName = null;
 
@@ -111,7 +110,7 @@ public class Database {
 				throw new H2ZeroParseException("Could not parse the 'forms' array.");
 			}
 		}
-}
+	}
 
 	public String getSchema() { return(this.schema); }
 	public String getPackage() { return(this.packageName); }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,11 +13,18 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
+import synapticloop.h2zero.util.validator.DatabaseValidator;
 
 
 public class H2ZeroParser {
 	private Database database = null;
 	private Options options = null;
+
+	private static ArrayList<DatabaseValidator> validators = new ArrayList<DatabaseValidator>();
+	static {
+		validators.add(new ForeignKeyTableValidator());
+	}
 
 	public H2ZeroParser(File file) throws H2ZeroParseException {
 		JSONObject jsonObject = null;
@@ -32,6 +40,22 @@ public class H2ZeroParser {
 		// now do the actual parsing
 		this.database = new Database(jsonObject);
 
+		// now go through and run the validators
+		boolean isValid = true;
+		for (DatabaseValidator validator : validators) {
+			if(!validator.isValid(database)) {
+				isValid = false;
+			}
+
+			ArrayList<String> messages = validator.getMessages();
+			for (String message: messages) {
+				System.out.println(validator.getClass().getSimpleName() + " said: " + message);
+			}
+		}
+		
+		if(!isValid) {
+			throw new H2ZeroParseException("Validators found some problems.");
+		}
 	}
 
 	private String getFileContents(File file) throws H2ZeroParseException {
