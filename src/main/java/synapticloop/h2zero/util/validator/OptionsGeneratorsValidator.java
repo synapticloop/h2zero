@@ -9,9 +9,9 @@ public class OptionsGeneratorsValidator extends Validator {
 		boolean isValid = options.hasGenerators();
 
 		if(isValid) {
-			messages.add("INFO: Valid");
+			addInfoMessage("Valid.");
 		} else {
-			messages.add("FATAL: You __MUST__ have at least one item in the generators array.");
+			addFatalMessage("You __MUST__ have at least one item in the generators array.");
 		}
 		return(isValid);
 	}

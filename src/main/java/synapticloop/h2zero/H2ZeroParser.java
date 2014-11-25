@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.util.validator.Validator;
@@ -26,6 +27,7 @@ public class H2ZeroParser {
 	static {
 		validators.add(new ForeignKeyTableValidator());
 		validators.add(new OptionsGeneratorsValidator());
+		validators.add(new FinderInQueryValidator());
 	}
 
 	public H2ZeroParser(File file) throws H2ZeroParseException {

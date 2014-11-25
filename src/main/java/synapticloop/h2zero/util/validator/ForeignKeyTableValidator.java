@@ -19,13 +19,13 @@ public class ForeignKeyTableValidator extends Validator {
 			for (BaseField baseField : baseFields) {
 				if(null != baseField.getForeignKeyTable() && null == baseField.getForeignKeyTableLookup()) {
 					isValid = false;
-					messages.add("FATAL: Table '" + table.getName() + "' with field '" + baseField.getName() + "' foreign key references table '" + baseField.getForeignKeyTable() + "', which does not exist.");
+					addFatalMessage("Table '" + table.getName() + "' with field '" + baseField.getName() + "' foreign key references table '" + baseField.getForeignKeyTable() + "', which does not exist.");
 				}
 			}
 		}
 
 		if(isValid) {
-			messages.add("INFO: Valid");
+			addInfoMessage("Valid.");
 		}
 
 		return isValid;
