@@ -251,6 +251,15 @@ public class ConnectionManager {
 		}
 	}
 
+	public static void setDouble(PreparedStatement preparedStatement, int parameterIndex, Double value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.DOUBLE);
+		} else {
+			preparedStatement.setDouble(parameterIndex, value);
+		}
+	}
+
+
 	public static ComboPooledDataSource getComboPooledDataSource() {
 		return comboPooledDataSource;
 	}
