@@ -10,7 +10,6 @@ import synapticloop.h2zero.model.Table;
 public class FinderInQueryValidator extends Validator {
 
 	public boolean isValid(Database database, Options options) {
-		boolean isValid = true;
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<Finder> finders = table.getFinders();
@@ -26,9 +25,8 @@ public class FinderInQueryValidator extends Validator {
 			}
 		}
 
-		if(isValid) {
-			addInfoMessage("Valid.");
-		}
+		addValidityMessage();
+
 		return(isValid);
 	}
 

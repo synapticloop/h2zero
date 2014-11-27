@@ -257,7 +257,6 @@ public class H2ZeroTask extends Task {
 				}
 			}
 		} catch (H2ZeroParseException shepex) {
-			getProject().log("Parsing error", shepex, Project.MSG_ERR);
 			shepex.printStackTrace();
 			return;
 		} catch (synapticloop.templar.exception.ParseException stepex) {

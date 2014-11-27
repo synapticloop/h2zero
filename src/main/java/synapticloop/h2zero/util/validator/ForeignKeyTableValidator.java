@@ -10,8 +10,6 @@ import synapticloop.h2zero.model.field.BaseField;
 public class ForeignKeyTableValidator extends Validator {
 
 	public boolean isValid(Database database, Options options) {
-		boolean isValid = true;
-
 		ArrayList<Table> tables = database.getTables();
 
 		for (Table table : tables) {
@@ -19,14 +17,12 @@ public class ForeignKeyTableValidator extends Validator {
 			for (BaseField baseField : baseFields) {
 				if(null != baseField.getForeignKeyTable() && null == baseField.getForeignKeyTableLookup()) {
 					isValid = false;
-					addFatalMessage("Table '" + table.getName() + "' with field '" + baseField.getName() + "' foreign key references table '" + baseField.getForeignKeyTable() + "', which does not exist.");
+					addFatalMessage("'" + table.getName() + "." + baseField.getName() + "' foreign key references table '" + baseField.getForeignKeyTable() + "', which does not exist.");
 				}
 			}
 		}
 
-		if(isValid) {
-			addInfoMessage("Valid.");
-		}
+		addValidityMessage();
 
 		return isValid;
 	}

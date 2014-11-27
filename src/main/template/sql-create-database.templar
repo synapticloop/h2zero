@@ -87,6 +87,7 @@ show warnings;{\n}{\n}
 	-- The {table.name} table is defined as being constant{\n}
 	-- insert the values{\n}{\n}
 	{loop table.constants as constant}
+		SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";{\n}
 		insert into {table.name} values({loop constant.sqlValues as value}{value}{if !valueStatus.last}, {endif}{endloop});{\n}
 	{endloop}
 {\n}

@@ -16,6 +16,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
+import synapticloop.h2zero.util.validator.PrimaryKeyValidator;
 import synapticloop.h2zero.util.validator.Validator;
 
 
@@ -28,8 +29,19 @@ public class H2ZeroParser {
 		validators.add(new ForeignKeyTableValidator());
 		validators.add(new OptionsGeneratorsValidator());
 		validators.add(new FinderInQueryValidator());
+		validators.add(new PrimaryKeyValidator());
 	}
 
+	private static int maxValidatorClassNameLength = 0;
+	static {
+		for (Validator validator : validators) {
+			int validatorSimpleNameLength = validator.getClass().getSimpleName().length();
+			if(validatorSimpleNameLength > maxValidatorClassNameLength) {
+				maxValidatorClassNameLength = validatorSimpleNameLength;
+			}
+		}
+	}
+	
 	public H2ZeroParser(File file) throws H2ZeroParseException {
 		JSONObject jsonObject = null;
 		try {
@@ -54,7 +66,7 @@ public class H2ZeroParser {
 
 			ArrayList<String> messages = validator.getMessages();
 			for (String message: messages) {
-				System.out.println(validator.getClass().getSimpleName() + " said: " + message);
+				System.out.println(String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message));
 			}
 		}
 		
