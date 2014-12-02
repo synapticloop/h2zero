@@ -152,6 +152,9 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
 {\t}{\t}}{\n}
 {\n}
+{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
+{\t}{\t}}{\n}
 {\t}{\t}return({table.javaFieldName});{\n}
 {\t}}{\n}
 {\n}
@@ -289,6 +292,11 @@ public class {table.javaClassName}Finder {{{\n}
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 		{\t}{\t}ResultSet resultSet = null;{\n}
 
+		{if finder.unique}
+			{\t}{\t}{table.javaClassName} result = null;{\n}
+		{else}
+			{\t}{\t}List<{table.javaClassName}> results = null;{\n}
+		{endif}
 		{\t}{\t}try {{{\n}
 		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 
@@ -301,19 +309,17 @@ public class {table.javaClassName}Finder {{{\n}
 			{\n}
 			{if finder.unique}
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}{table.javaClassName} result = uniqueResult(resultSet);{\n}
+				{\t}{\t}{\t}result = uniqueResult(resultSet);{\n}
 				{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
-				{\t}{\t}{\t}return(result);{\n}
 			{else}
 
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}List<{table.javaClassName}> results = list(resultSet);{\n}
+				{\t}{\t}{\t}results = list(resultSet);{\n}
 
 				{if finder.cache}
 					{\t}{\t}{\t}refreshCache("findByOrderedPlanAmount", results);{\n}
 				{endif}
 	
-				{\t}{\t}{\t}return(results);{\n}
 			{endif}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
 		{\t}{\t}{\t}throw sqlex;{\n}
@@ -330,6 +336,11 @@ public class {table.javaClassName}Finder {{{\n}
 		{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
 		{\t}{\t}}{\n}
 		{\n}
+		{\n}
+		{\t}{\t}if(null == result{if !finder.unique}s{endif}) {{{\n}
+		{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result.");{\n}
+		{\t}{\t}}{\n}
+		{\t}{\t}return(result{if !finder.unique}s{endif});{\n}
 		{\t}}{\n}
 	{\n}
 
