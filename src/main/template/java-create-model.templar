@@ -58,6 +58,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{endloop}
 		);{\n}
 	{endloop}
+	{\n}
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		Now add in the static array 
+	}
+
+	{\t}public static {table.javaClassName}[] ALL =  {{{\n}
+		{\t}{\t}{loop table.constants as constant}
+				{table.javaClassName}.{constant.name}{if !constantStatus.last}, {endif}
+			{endloop}{\n}
+	{\t}};{\n}
+	{\n}
 {endif}
 
 	{loop table.fields as field}

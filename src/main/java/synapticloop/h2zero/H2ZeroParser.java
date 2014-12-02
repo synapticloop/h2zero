@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.util.validator.DefaultValueValidator;
 import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
@@ -30,6 +31,7 @@ public class H2ZeroParser {
 		validators.add(new OptionsGeneratorsValidator());
 		validators.add(new FinderInQueryValidator());
 		validators.add(new PrimaryKeyValidator());
+		validators.add(new DefaultValueValidator());
 	}
 
 	private static int maxValidatorClassNameLength = 0;

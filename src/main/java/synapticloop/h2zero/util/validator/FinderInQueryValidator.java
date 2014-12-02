@@ -16,7 +16,6 @@ public class FinderInQueryValidator extends Validator {
 			for (Finder finder : finders) {
 				if(finder.getHasInFields() && !finder.getWhereClause().contains("...")) {
 					isValid = false;
-					// TODO - refactor this
 					addFatalMessage("Finder '" + finder.getName() + "' has in fields, but no '...' in the where clause '" + finder.getWhereClause() + "'.");
 				} else if(!finder.getHasInFields() && finder.getWhereClause().contains("...")) {
 					isValid = false;
