@@ -1,4 +1,4 @@
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		PACKAGE DECLARATION, IMPORT STATEMENTS AND CLASS DEFINITION
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
@@ -14,7 +14,9 @@ import javax.servlet.jsp.tagext.BodyTagSupport;{\n}
 import org.apache.log4j.Logger;{\n}
 {\n}
 import {database.package}.model.{table.javaClassName};{\n}
-import {database.package}.finder.{table.javaClassName}Finder;{\n}
+{if !table.isConstant}
+	import {database.package}.finder.{table.javaClassName}Finder;{\n}
+{endif}
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
@@ -25,7 +27,11 @@ public class FindAllTag extends BodyTagSupport {{{\n}
 	{\t}private boolean removeVar = false;{\n}{\n}
 
 	{\t}public int doStartTag() throws JspException {{{\n}
-		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Finder.findAllSilent());{\n}
+		{if !table.isConstant}
+			{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Finder.findAllSilent());{\n}
+		{else}
+			{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}.ALL);{\n}
+		{endif}
 		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
 	}{\n}
 

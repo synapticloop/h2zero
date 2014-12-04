@@ -17,7 +17,7 @@ import synapticloop.h2zero.util.validator.DefaultValueValidator;
 import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
-import synapticloop.h2zero.util.validator.PrimaryKeyValidator;
+import synapticloop.h2zero.util.validator.PrimaryKeyExistsValidator;
 import synapticloop.h2zero.util.validator.Validator;
 
 
@@ -30,7 +30,7 @@ public class H2ZeroParser {
 		validators.add(new ForeignKeyTableValidator());
 		validators.add(new OptionsGeneratorsValidator());
 		validators.add(new FinderInQueryValidator());
-		validators.add(new PrimaryKeyValidator());
+		validators.add(new PrimaryKeyExistsValidator());
 		validators.add(new DefaultValueValidator());
 	}
 

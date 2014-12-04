@@ -12,6 +12,7 @@ public class Constant {
 	private ArrayList<Object> values = new ArrayList<Object>();
 	private ArrayList<Object> sqlValues = new ArrayList<Object>();
 	private String name = null;
+	private Object primaryKeyValue = null;
 
 	// this should look like:
 	// { "name": "BOOK", "values": [ 1, "book" ] },
@@ -29,12 +30,23 @@ public class Constant {
 			JSONArray valuesArray = constantsObject.getJSONArray("values");
 			for(int i = 0; i < valuesArray.length(); i++) {
 				Object object = valuesArray.get(i);
+
+
 				if(object instanceof String) {
 					sqlValues.add("'" + ((String)object).replaceAll("'", "''") + "'");
-					values.add("\"" + object + "\"");
+					String stringified = "\"" + object + "\"";
+					values.add(stringified);
+					// the first value must be the primary key
+					if(i == 0) {
+						this.primaryKeyValue = stringified;
+					}
 				} else {
 					sqlValues.add(object);
-					values.add("new " + table.getFields().get(i).getJavaType() + "(" + object + ")");
+					String stringified = "new " + table.getFields().get(i).getJavaType() + "(" + object + ")";
+					values.add(stringified);
+					if(i == 0) {
+						this.primaryKeyValue = stringified;
+					}
 				}
 
 
@@ -48,4 +60,6 @@ public class Constant {
 	public ArrayList<Object> getValues() { return values; }
 	public ArrayList<Object> getSqlValues() { return sqlValues; }
 	public String getName() { return name; }
+	public Object getPrimaryKeyValue() { return primaryKeyValue; }
+	public void setPrimaryKeyValue(Object primaryKeyValue) { this.primaryKeyValue = primaryKeyValue; }
 }

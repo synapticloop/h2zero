@@ -16,6 +16,8 @@ package {database.package}.model;{\n}{\n}
 	import java.sql.PreparedStatement;{\n}
 	import java.sql.SQLException;{\n}
 	{\n}
+{else}
+	import java.util.HashMap;{\n}{\n}
 {endif}
 
 import {database.package}.model.util.Constants;{\n}
@@ -47,7 +49,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 {\t}@SuppressWarnings("unused"){\n}
 {\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
 
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				CONSTANTS GENERATOR
 }
 {if table.isConstant}
@@ -59,8 +61,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		);{\n}
 	{endloop}
 	{\n}
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-		Now add in the static array 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		Now add in the static array
 	}
 
 	{\t}public static {table.javaClassName}[] ALL =  {{{\n}
@@ -69,6 +71,19 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{endloop}{\n}
 	{\t}};{\n}
 	{\n}
+
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		And the static HashMap lookup
+	}
+
+	{\t}public static HashMap<Long, {table.javaClassName}> ALL_LOOKUP = new HashMap<Long, {table.javaClassName}>();{\n}
+	{\t}static{{{\n}
+		{loop table.constants as constant}
+			{\t}{\t}ALL_LOOKUP.put({constant.primaryKeyValue}, {table.javaClassName}.{constant.name});{\n}
+		{endloop}{\n}
+	{\t}};{\n}
+	{\n}
+
 {endif}
 
 	{loop table.fields as field}
@@ -78,7 +93,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{endloop}
 
 {if !table.isConstant}
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					SQL insert
 	}
 
@@ -91,11 +106,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{endloop})";{\n}
 
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					SQL update
 	}
 
-	{\t}private static final String SQL_UPDATE = "update {table.name} set 
+	{\t}private static final String SQL_UPDATE = "update {table.name} set
 
 	{-- now loop through all of the fields }
 	{loop table.fields as field}
@@ -108,10 +123,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\t}private static final String SQL_DELETE = "delete from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
 
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					INSERT IF NOT EXISTS SQL - ENSURE
 	}
-	{\t}private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from {table.name} where 
+	{\t}private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from {table.name} where
 	{loop table.fields as field}
 			{if !field.primary}
 				{field.name} = ?
@@ -121,25 +136,28 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\n}
 	{\t}// whether the fields are auto-populated{\n}
-	{\t}private boolean[] populated = {{ 
+	{\t}private boolean[] populated = {{
 	{loop table.fields as field}{field.populate}{if fieldStatus.last}{else}, {endif}{endloop}
 	 };{\n}{\n}
-{endif}
+{endif} {-- end of !if.isConstant}
 
 
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					LIST ALL OF THE JAVA FIELDS
 	}
 
 	{loop table.fields as field}
 		{if fn:notNull[field.foreignKeyTable]}
-			{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null;{\n}
+			{if !field.foreignKeyTableLookup.isConstant}
+				{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null;{\n}
+			{else}
+				{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName});{\n}
+			{endif}
 		{endif}
 		{if fieldStatus.last}
 			{\n}
 		{endif}
 	{endloop}
-
 
 	{loop table.fields as field}
 		{\t}private {field.javaType} {field.javaName} = null;{\n}
@@ -147,7 +165,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					CONSTRUCTORS
 				what about null-able fields?
 	}
@@ -179,12 +197,12 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 					{\t}{\t}this.{field.javaName} = {field.javaName};{\n}
 				{endif}
 			{endloop}
-		
+
 		{\t}}{\n}
 	{endif}
 
 {if !table.isConstant}
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					PRIMARY KEY TEST AND SETTER/GETTER
 	}
 
@@ -198,7 +216,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{endif}
 	{endloop}{\n}
 
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				C(R)UD METHODS - WITHOUT THE READ
 	}
 
@@ -295,7 +313,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 	{--
-	    ENSURE 
+	    ENSURE
 	}
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);{\n}
@@ -577,16 +595,22 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 {endif} {-- end of !isconstant table }
 
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					SETTERS AND GETTERS
 	}
 
 	{loop table.fields as field}
 		{if fn:notNull[field.foreignKeyTable]}
 			{\t}public {field.foreignKeyTableLookup.javaClassName} get{field.secondaryJavaFieldName}() {{{\n}
-			{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
-			{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
-			{\t}{\t}}{\n}
+			{if !field.foreignKeyTableLookup.isConstant}
+				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
+				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
+				{\t}{\t}}{\n}
+			{endif}
+			{--
+				At this point the foreign table is constant so it was already looked up
+				at construction time
+			}
 			{\t}{\t}return(this.{field.secondaryJavaName});{\n}
 			{\t}}{\n}{\n}
 		{endif}
@@ -598,31 +622,31 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 	{loop table.fields as field}
-		{\t}public {field.javaType} get{field.javaAccessorName}() {{ 
+		{\t}public {field.javaType} get{field.javaAccessorName}() {{
 		{if options.statistics}{if !table.isConstant}
-			if(populated[{fieldStatus.offset}]) {{ 
-				Statistics.cacheHit(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName}); 
-			} else {{ 
-				Statistics.cacheMiss(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName}); 
+			if(populated[{fieldStatus.offset}]) {{
+				Statistics.cacheHit(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName});
+			} else {{
+				Statistics.cacheMiss(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName});
 			} {endif}{endif}
-			return(this.{field.javaName}); 
+			return(this.{field.javaName});
 		}{\n}
-		
+
 		{if !table.isConstant}
-			{\t}public void set{field.javaAccessorName}({field.javaType} {field.javaName}) {{ 
-				if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 
-				this.{field.javaName} = {field.javaName}; 
-				this.isDirty = true; 
+			{\t}public void set{field.javaAccessorName}({field.javaType} {field.javaName}) {{
+				if(isDifferent(this.{field.javaName}, {field.javaName})) {{
+				this.{field.javaName} = {field.javaName};
+				this.isDirty = true;
 
 			{if fn:notNull[field.foreignKeyTable]}
-				this.{field.secondaryJavaName} = null; 
+				this.{field.secondaryJavaName} = null;
 			{endif}
 
 			{if table.cacheable}
-				{table.javaClassName}Finder.markRefreshAllCaches(); 
+				{table.javaClassName}Finder.markRefreshAllCaches();
 			{endif}
 
-				} 
+				}
 			}{\n}
 		{endif}
 
