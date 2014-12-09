@@ -728,10 +728,10 @@ public class {table.javaClassName}Finder {{{\n}
 {\t} */{\n}
 
 {\t}private static List<{table.javaClassName}> list(ResultSet resultSet) throws SQLException {{{\n}
-{\t}{\t}List<{table.javaClassName}> ArrayList = new ArrayList<{table.javaClassName}>();{\n}
+{\t}{\t}List<{table.javaClassName}> arrayList = new ArrayList<{table.javaClassName}>();{\n}
 {\t}{\t}while(resultSet.next()) {{{\n}
 
-{\t}{\t}{\t}ArrayList.add(new {table.javaClassName}({\n}
+{\t}{\t}{\t}arrayList.add(new {table.javaClassName}({\n}
 
 {loop table.fields as field}
 	{\t}{\t}{\t}{\t}{\t}resultSet.get{field.sqlJavaType}({fieldStatus.index})
@@ -740,7 +740,7 @@ public class {table.javaClassName}Finder {{{\n}
 ));{\n}
 
 {\t}{\t}}{\n}
-{\t}{\t}return(ArrayList);{\n}
+{\t}{\t}return(arrayList);{\n}
 {\t}}{\n}
 {\n}
 
@@ -795,10 +795,10 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t} */{\n}
 
 			{\t}private static List<{finder.finderTagName}Bean> list{finder.finderTagName}Bean(ResultSet resultSet) throws SQLException {{{\n}
-			{\t}{\t}List<{finder.finderTagName}Bean> ArrayList = new ArrayList<{finder.finderTagName}Bean>();{\n}
+			{\t}{\t}List<{finder.finderTagName}Bean> arrayList = new ArrayList<{finder.finderTagName}Bean>();{\n}
 			{\t}{\t}while(resultSet.next()) {{{\n}
 
-			{\t}{\t}{\t}ArrayList.add(new {finder.finderTagName}Bean({\n}
+			{\t}{\t}{\t}arrayList.add(new {finder.finderTagName}Bean({\n}
 
 			{loop finder.selectFields as selectField}
 				{\t}{\t}{\t}{\t}{\t}resultSet.get{selectField.sqlJavaType}({selectFieldStatus.index})
@@ -807,7 +807,7 @@ public class {table.javaClassName}Finder {{{\n}
 			));{\n}
 
 			{\t}{\t}}{\n}
-			{\t}{\t}return(ArrayList);{\n}
+			{\t}{\t}return(arrayList);{\n}
 			{\t}}{\n}
 			{\n}
 		{endif}

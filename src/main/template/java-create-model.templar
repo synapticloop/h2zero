@@ -110,7 +110,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 					SQL update
 	}
 
-	{\t}private static final String SQL_UPDATE = "update {table.name} set
+	{\t}private static final String SQL_UPDATE = "update {table.name} set 
 
 	{-- now loop through all of the fields }
 	{loop table.fields as field}
@@ -119,14 +119,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{if fieldStatus.last}{else}, {endif}
 		{endif}
 
-	{endloop}  where " + PRIMARY_KEY_FIELD + " = ?";{\n}
+	{endloop} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
 
 	{\t}private static final String SQL_DELETE = "delete from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					INSERT IF NOT EXISTS SQL - ENSURE
 	}
-	{\t}private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from {table.name} where
+	{\t}private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from {table.name} where 
 	{loop table.fields as field}
 			{if !field.primary}
 				{field.name} = ?
@@ -148,11 +148,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{loop table.fields as field}
 		{if fn:notNull[field.foreignKeyTable]}
-			{if !field.foreignKeyTableLookup.isConstant}
-				{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null;{\n}
-			{else}
-				{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName});{\n}
-			{endif}
+			{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null;{\n}
 		{endif}
 		{if fieldStatus.last}
 			{\n}
@@ -606,12 +602,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
 				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
 				{\t}{\t}}{\n}
+				{\t}{\t}return(this.{field.secondaryJavaName});{\n}
+			{else}
+				{\t}{\t}return({field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName}));{\n}
 			{endif}
 			{--
 				At this point the foreign table is constant so it was already looked up
 				at construction time
 			}
-			{\t}{\t}return(this.{field.secondaryJavaName});{\n}
 			{\t}}{\n}{\n}
 		{endif}
 	{endloop}
