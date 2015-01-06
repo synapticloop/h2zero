@@ -144,7 +144,14 @@ public class Finder {
 				// check to ensure that the field has a name
 				fieldObject.getString("name");
 			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse the 'fields' array.");
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.append("Could not parse the 'selectFields' array.\n");
+				stringBuilder.append("Was expecting the format to be:\n");
+				stringBuilder.append("\"selectFields\": [\n");
+				stringBuilder.append("  { \"name\": \"<fieldName1>\", \"type\": \"<type>\" },\n");
+				stringBuilder.append("  { \"name\": \"<fieldName2>\", \"type\": \"<type>\" },\n");
+				stringBuilder.append("]\n");
+				throw new H2ZeroParseException(stringBuilder.toString());
 			}
 
 			if(null != type) {
