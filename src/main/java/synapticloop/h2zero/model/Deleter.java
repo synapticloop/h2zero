@@ -58,6 +58,7 @@ public class Deleter {
 
 	public String getName() { return(name); }
 	public String getWhereClause() { return(whereClause); }
+	public void setWhereClause(String whereClause) { this.whereClause = whereClause; }
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
 
 	public String getStaticName() { return(NamingHelper.getStaticName(name)); }

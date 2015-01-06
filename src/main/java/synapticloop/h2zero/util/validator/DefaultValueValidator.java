@@ -19,7 +19,7 @@ public class DefaultValueValidator extends Validator {
 				if(null != defaultValue) {
 					if(!defaultValue.startsWith("'") && !defaultValue.endsWith("'")) {
 						isValid = false;
-						addFatalMessage("Field '" + table.getName() + "." + baseField.getName() + "' has an invalid default attribute. It __MUST__ start and end with the single quote (') character.");
+						addFatalMessage("Field '" + table.getName() + "." + baseField.getName() + "' has an invalid attribute: \"default\" . It __MUST__ start and end with the single quote (') character.");
 					}
 				}
 			}

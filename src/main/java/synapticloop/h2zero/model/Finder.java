@@ -212,6 +212,7 @@ public class Finder {
 	public String getName() { return(name); }
 	public String getFinderTagName() { return(NamingHelper.getFirstUpper(name)); }
 	public String getWhereClause() { return(whereClause); }
+	public void setWhereClause(String whereClause) { this.whereClause = whereClause; }
 	public String getOrderBy() { return(orderBy); }
 	public boolean getUnique() { return(unique); }
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }

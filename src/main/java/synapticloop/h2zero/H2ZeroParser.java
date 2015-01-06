@@ -18,7 +18,11 @@ import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.util.validator.PrimaryKeyExistsValidator;
+import synapticloop.h2zero.util.validator.SelectClauseFinderValidator;
 import synapticloop.h2zero.util.validator.Validator;
+import synapticloop.h2zero.util.validator.WhereClauseDeleterValidator;
+import synapticloop.h2zero.util.validator.WhereClauseFinderValidator;
+import synapticloop.h2zero.util.validator.WhereClauseUpdaterValidator;
 
 
 public class H2ZeroParser {
@@ -32,6 +36,10 @@ public class H2ZeroParser {
 		validators.add(new FinderInQueryValidator());
 		validators.add(new PrimaryKeyExistsValidator());
 		validators.add(new DefaultValueValidator());
+		validators.add(new WhereClauseFinderValidator());
+		validators.add(new WhereClauseUpdaterValidator());
+		validators.add(new WhereClauseDeleterValidator());
+		validators.add(new SelectClauseFinderValidator());
 	}
 
 	private static int maxValidatorClassNameLength = 0;
@@ -74,7 +82,7 @@ public class H2ZeroParser {
 		
 
 		if(!isValid) {
-			throw new H2ZeroParseException("Validators found some problems.");
+			throw new H2ZeroParseException("Validators found FATAL warnings, exiting...");
 		}
 	}
 

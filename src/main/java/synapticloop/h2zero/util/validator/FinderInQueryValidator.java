@@ -14,6 +14,11 @@ public class FinderInQueryValidator extends Validator {
 		for (Table table : tables) {
 			ArrayList<Finder> finders = table.getFinders();
 			for (Finder finder : finders) {
+				// in some instances - there is no where clause - especially if it is all in the selectClause
+				if(null == finder.getWhereClause()) {
+					continue;
+				}
+
 				if(finder.getHasInFields() && !finder.getWhereClause().contains("...")) {
 					isValid = false;
 					addFatalMessage("Finder '" + finder.getName() + "' has in fields, but no '...' in the where clause '" + finder.getWhereClause() + "'.");

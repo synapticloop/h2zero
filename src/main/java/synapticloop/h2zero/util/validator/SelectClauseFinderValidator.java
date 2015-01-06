@@ -1,0 +1,34 @@
+package synapticloop.h2zero.util.validator;
+
+import java.util.ArrayList;
+
+import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Finder;
+import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.model.Table;
+
+public class SelectClauseFinderValidator extends Validator {
+
+	@Override
+	public boolean isValid(Database database, Options options) {
+		
+		ArrayList<Table> tables = database.getTables();
+		for (Table table : tables) {
+			ArrayList<Finder> finders = table.getFinders();
+			for (Finder finder : finders) {
+				String selectClause = finder.getSelectClause();
+				if(null != selectClause) {
+					if(!selectClause.toLowerCase().contains("select")) {
+						addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a selectClause that does not start with 'select', so I am going to add one.");
+						finder.setWhereClause(" select " + selectClause);
+					}
+				}
+			}
+		}
+
+		addValidityMessage();
+
+		return(isValid);
+	}
+
+}
