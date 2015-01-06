@@ -1,12 +1,15 @@
 package synapticloop.h2zero.model;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 
 public class Options {
@@ -20,6 +23,8 @@ public class Options {
 		ALLOWABLE_GENERATORS.add("java");
 		ALLOWABLE_GENERATORS.add("jsp");
 		ALLOWABLE_GENERATORS.add("taglib");
+		ALLOWABLE_GENERATORS.add("adminpages");
+		ALLOWABLE_GENERATORS.add("formbeans");
 	}
 
 	private static HashSet<String> ALLOWABLE_LOGGERS = new HashSet<String>();
@@ -42,7 +47,7 @@ public class Options {
 		JSONArray generatorArray = optionsJson.optJSONArray("generators");
 		if(null == generatorArray) {
 			// add them all
-			System.out.println("WARN: You have not defined any generators - so we are going to generate all.");
+			SimpleLogger.logWarn(LoggerType.GENERATORS, "You have not defined any generators - so we are going to generate all");
 
 			generators.addAll(ALLOWABLE_GENERATORS);
 		} else {
@@ -51,10 +56,37 @@ public class Options {
 				if(null != generator && ALLOWABLE_GENERATORS.contains(generator.trim().toLowerCase())) {
 					generators.add(generator.trim().toLowerCase());
 				} else {
-					// TODO - auto generate
-					throw new H2ZeroParseException("Unknown generator type of '" + generator + "'.  Allowable types are 'sql', 'java', 'taglib', 'jsp'");
+					StringBuilder stringBuilder = new StringBuilder();
+					int j = 0;
+					for (String allowableGenerator : ALLOWABLE_GENERATORS) {
+						if(j != 0) {
+							stringBuilder.append(", ");
+						}
+						j = 1;
+						stringBuilder.append("'");
+						stringBuilder.append(allowableGenerator);
+						stringBuilder.append("'");
+					}
+					SimpleLogger.logFatal(LoggerType.GENERATORS, "Unknown generator type of '" + generator + "'.  Allowable types are " + stringBuilder.toString() + ".");
+					throw new H2ZeroParseException("Unknown generator type of '" + generator + "'.");
 				}
 			}
+		}
+
+		HashSet<String> disabledGenerators = new HashSet<String>();
+		disabledGenerators.addAll(ALLOWABLE_GENERATORS);
+
+		Iterator<String> generatorsIterator = generators.iterator();
+		while (generatorsIterator.hasNext()) {
+			String next = (String) generatorsIterator.next();
+			SimpleLogger.logInfo(LoggerType.GENERATORS, "ENABLED  Generator '" + next + "'");
+			disabledGenerators.remove(next);
+		}
+
+		Iterator<String> disabledIterator = disabledGenerators.iterator();
+		while (disabledIterator.hasNext()) {
+			String next = (String) disabledIterator.next();
+			SimpleLogger.logInfo(LoggerType.GENERATORS, "DISABLED Generator '" + next + "'");
 		}
 
 		if(!ALLOWABLE_LOGGERS.contains(this.getLogging())) {

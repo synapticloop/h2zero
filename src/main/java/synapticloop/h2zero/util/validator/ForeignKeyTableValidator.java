@@ -22,8 +22,6 @@ public class ForeignKeyTableValidator extends Validator {
 			}
 		}
 
-		addValidityMessage();
-
-		return isValid;
+		return(isValid);
 	}
 }

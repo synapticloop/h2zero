@@ -35,6 +35,8 @@ import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.View;
 import synapticloop.h2zero.model.form.Form;
 import synapticloop.h2zero.util.FileUtils;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.Parser;
 import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
@@ -64,10 +66,19 @@ public class H2ZeroTask extends Task {
 			return;
 		}
 
+		SimpleLogger.logInfo(LoggerType.H2ZERO_OPTIONS, "h2zero input file: " + in);
+		SimpleLogger.logInfo(LoggerType.H2ZERO_OPTIONS, "h2zero output directory: " + outDir);
 
 		// otherwise we are good to go
 		try {
 			H2ZeroParser h2zeroParser = new H2ZeroParser(h2zeroFile);
+
+			SimpleLogger.logInfo(LoggerType.H2ZERO, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
+			ArrayList<Table> tableDebug = h2zeroParser.getDatabase().getTables();
+			for (Table table : tableDebug) {
+				SimpleLogger.logInfo(LoggerType.H2ZERO, "Found table '" + table.getName() + "'.");
+			}
+
 			TemplarConfiguration templarConfiguration = new TemplarConfiguration();
 			templarConfiguration.setExplicitNewLines(true);
 			templarConfiguration.setExplicitTabs(true);
@@ -90,12 +101,16 @@ public class H2ZeroTask extends Task {
 			if(options.hasGenerator("sql")) {
 				// first up the database creation script
 				templarParser = getParser("/sql-create-database.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/sql/create-database.sql"));
+				String pathname = outFile + "/src/main/sql/create-database.sql";
+				SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+				templarParser.renderToFile(templarContext, new File(pathname));
 			}
 
 			if(options.hasGenerator("java")) {
 				templarParser = getParser("/java-create-constants.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Constants.java"));
+				String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Constants.java";
+				SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+				templarParser.renderToFile(templarContext, new File(pathname));
 			}
 
 			// now for the tables
@@ -104,23 +119,32 @@ public class H2ZeroTask extends Task {
 			while (tableIterator.hasNext()) {
 				Table table = tableIterator.next();
 				templarContext.add("table", table);
+				SimpleLogger.logInfo(LoggerType.H2ZERO, "Generating for table '" + table.getName() + "'.");
 
 				if(options.hasGenerator("java")) {
 					// the model
 					templarParser = getParser("/java-create-model.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java"));
+					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 					// the finder
 					templarParser = getParser("/java-create-finder.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java"));
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 					// the default form beans
 					templarParser = getParser("/java-create-default-form-bean-create.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/form/auto/" + table.getJavaClassName() + "CreateFormBean.java"));
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/form/auto/" + table.getJavaClassName() + "CreateFormBean.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 					// the counters
 					templarParser = getParser("/java-create-counter.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java"));
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 				}
 
 				// the finder tag libraries
@@ -133,22 +157,28 @@ public class H2ZeroTask extends Task {
 
 					if(options.hasGenerator("taglib")) {
 						templarParser = getParser("/java-create-taglib-finder.templar");
-						templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + finder.getFinderTagName() + "Tag.java"));
+						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + finder.getFinderTagName() + "Tag.java";
+						SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+						templarParser.renderToFile(templarContext, new File(pathname));
 					}
 
 					if(options.hasGenerator("java")) {
 						// don't forget the beans for the selectClause finders
 						if(null != finder.getSelectClause()) {
 							templarParser = getParser("/java-create-select-clause-bean.templar");
-							templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getFinderTagName() + "Bean.java"));
+							String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getFinderTagName() + "Bean.java";
+							SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+							templarParser.renderToFile(templarContext, new File(pathname));
 						}
 					}
 
 
-					if(options.hasGenerator("jsp")) {
+					if(options.hasGenerator("adminpages")) {
 						// now for the jsp finder pages
 						templarParser = getParser("/jsp-create-finder.templar");
-						templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + "-" + finder.getName() + ".html"));
+						String pathname = outFile + "/src/main/webapps/admin/" + table.getName() + "-" + finder.getName() + ".html";
+						SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+						templarParser.renderToFile(templarContext, new File(pathname));
 					}
 				}
 
@@ -160,34 +190,46 @@ public class H2ZeroTask extends Task {
 					templarContext.add("counter", counter);
 					if(options.hasGenerator("taglib")) {
 						templarParser = getParser("/java-create-taglib-counter.templar");
-						templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + counter.getCounterTagName() + "Tag.java"));
+						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + counter.getCounterTagName() + "Tag.java";
+						SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+						templarParser.renderToFile(templarContext, new File(pathname));
 					}
 				}
 
 				if(options.hasGenerator("taglib")) {
 					// the extra 'missing' finders
 					templarParser = getParser("/java-create-taglib-finder-find-by-primary-key.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindByPrimaryKeyTag.java"));
+					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindByPrimaryKeyTag.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 					templarParser = getParser("/java-create-taglib-finder-find-all.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindAllTag.java"));
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindAllTag.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 					templarParser = getParser("/java-create-taglib-counter-count-all.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/CountAllTag.java"));
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/CountAllTag.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 				}
 
 				if(options.hasGenerator("java")) {
 					// the updater
 					templarParser = getParser("/java-create-updater.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java"));
+					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 					// the deleter
 					templarParser = getParser("/java-create-deleter.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java"));
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 				}
 
-				if(options.hasGenerator("jsp")) {
+				if(options.hasGenerator("adminpages")) {
 					// need to copy over the favicons
 					// make sure that the directories are created...
 					new File(outFile + "/src/main/webapps/admin/static/img/").mkdirs();
@@ -195,11 +237,15 @@ public class H2ZeroTask extends Task {
 					FileUtils.copyResourceToFile("/favicon.ico", outFile + "/src/main/webapps/admin/static/img/favicon.ico");
 					// each jsp index page for each table
 					templarParser = getParser("/jsp-create-index-table.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + ".html"));
+					String pathname = outFile + "/src/main/webapps/admin/" + table.getName() + ".html";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 					// The jsp findAll page
 					templarParser = getParser("/jsp-create-find-all.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/" + table.getName() + "-findAll.html"));
+					pathname = outFile + "/src/main/webapps/admin/" + table.getName() + "-findAll.html";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 				}
 			}
 
@@ -212,10 +258,14 @@ public class H2ZeroTask extends Task {
 
 				if(options.hasGenerator("java")) {
 					templarParser = getParser("/java-create-view-model.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java"));
+					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 
 					templarParser = getParser("/java-create-view-finder.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java"));
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 				}
 			}
 
@@ -223,8 +273,11 @@ public class H2ZeroTask extends Task {
 			if(options.hasGenerator("taglib")) {
 				// the finder tld
 				templarParser = getParser("/tld-create-library.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/WEB-INF/tld/" + database.getSchema() + ".tld"));
+				String pathname = outFile + "/src/main/webapps/WEB-INF/tld/" + database.getSchema() + ".tld";
+				SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+				templarParser.renderToFile(templarContext, new File(pathname));
 			}
+
 			// now for the forms
 			ArrayList<Form> forms = database.getForms();
 			Iterator<Form> formsIterator = forms.iterator();
@@ -233,27 +286,35 @@ public class H2ZeroTask extends Task {
 				Form form = formsIterator.next();
 				templarContext.add("form", form);
 
-				if(options.hasGenerator("java")) {
+				if(options.hasGenerator("forms")) {
 					templarParser = getParser("/java-create-form-bean.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/form/" + form.getName() + "Bean.java"));
+					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/form/" + form.getName() + "Bean.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 				}
 			}
 
-			if(options.hasGenerator("jsp")) {
+			if(options.hasGenerator("adminpages")) {
 				// now for the jsp index page
 				templarParser = getParser("/jsp-create-index.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/index.html"));
+				String pathname = outFile + "/src/main/webapps/admin/index.html";
+				SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+				templarParser.renderToFile(templarContext, new File(pathname));
 
 				// now for the CSS
 				templarParser = getParser("/css-create-all.templar");
-				templarParser.renderToFile(templarContext, new File(outFile + "/src/main/webapps/admin/static/css/style.css"));
+				pathname = outFile + "/src/main/webapps/admin/static/css/style.css";
+				SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+				templarParser.renderToFile(templarContext, new File(pathname));
 			}
 
 			if(options.hasGenerator("java")) {
 				// now for the statistics
 				if(options.getStatistics()) {
 					templarParser = getParser("/java-create-statistics.templar");
-					templarParser.renderToFile(templarContext, new File(outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Statistics.java"));
+					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Statistics.java";
+					SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering '" + pathname + "'");
+					templarParser.renderToFile(templarContext, new File(pathname));
 				}
 			}
 		} catch (H2ZeroParseException shepex) {
@@ -268,7 +329,7 @@ public class H2ZeroTask extends Task {
 	}
 
 	private Parser getParser(String templarTemplateFile) throws ParseException {
-		System.out.println("Loading templar template '" + templarTemplateFile + "'.");
+		SimpleLogger.logInfo(LoggerType.TEMPLAR_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
 		return(new Parser(this.getClass().getResourceAsStream(templarTemplateFile)));
 	}
 

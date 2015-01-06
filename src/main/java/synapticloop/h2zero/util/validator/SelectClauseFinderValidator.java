@@ -26,8 +26,6 @@ public class SelectClauseFinderValidator extends Validator {
 			}
 		}
 
-		addValidityMessage();
-
 		return(isValid);
 	}
 

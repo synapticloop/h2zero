@@ -24,7 +24,6 @@ public class DefaultValueValidator extends Validator {
 				}
 			}
 		}
-		addValidityMessage();
 		return(isValid);
 	}
 

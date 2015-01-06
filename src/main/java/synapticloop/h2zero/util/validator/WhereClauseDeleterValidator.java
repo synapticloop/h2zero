@@ -27,8 +27,6 @@ public class WhereClauseDeleterValidator extends Validator {
 			}
 		}
 
-		addValidityMessage();
-
 		return(isValid);
 
 	}

@@ -12,8 +12,6 @@ public class OptionsGeneratorsValidator extends Validator {
 			addFatalMessage("You __MUST__ have at least one item in the generators array.");
 		}
 
-		addValidityMessage();
-
 		return(isValid);
 	}
 }

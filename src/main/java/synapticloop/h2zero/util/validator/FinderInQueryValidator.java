@@ -29,8 +29,6 @@ public class FinderInQueryValidator extends Validator {
 			}
 		}
 
-		addValidityMessage();
-
 		return(isValid);
 	}
 

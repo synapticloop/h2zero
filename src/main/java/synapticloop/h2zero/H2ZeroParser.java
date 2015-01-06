@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.util.validator.DefaultValueValidator;
 import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
@@ -23,6 +25,7 @@ import synapticloop.h2zero.util.validator.Validator;
 import synapticloop.h2zero.util.validator.WhereClauseDeleterValidator;
 import synapticloop.h2zero.util.validator.WhereClauseFinderValidator;
 import synapticloop.h2zero.util.validator.WhereClauseUpdaterValidator;
+import synapticloop.h2zero.util.validator.bean.Message;
 
 
 public class H2ZeroParser {
@@ -74,9 +77,15 @@ public class H2ZeroParser {
 				isValid = false;
 			}
 
-			ArrayList<String> messages = validator.getMessages();
-			for (String message: messages) {
-				System.out.println(String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message));
+			ArrayList<Message> messages = validator.getMessages();
+			for (Message message: messages) {
+				if(message.getType().equals(SimpleLogger.INFO)) {
+					SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
+				} else if(message.getType().equals(SimpleLogger.WARN)){
+					SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
+				} else if(message.getType().equals(SimpleLogger.FATAL)){
+					SimpleLogger.logFatal(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
+				}
 			}
 		}
 		

@@ -27,8 +27,6 @@ public class WhereClauseFinderValidator extends Validator {
 			}
 		}
 
-		addValidityMessage();
-
 		return(isValid);
 
 	}

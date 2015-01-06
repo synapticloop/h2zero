@@ -37,9 +37,7 @@ public class PrimaryKeyExistsValidator extends Validator {
 			}
 		}
 
-		addValidityMessage();
-
-		return isValid;
+		return(isValid);
 	}
 
 }

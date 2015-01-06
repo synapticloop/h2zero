@@ -1,7 +1,7 @@
 {
 "options": {
 	"logging": "log4j",
-	"statistics": false
+	"statistics": false,
 },
 "database": {
 	"schema": "panl",
@@ -93,9 +93,9 @@
 				{ "name": "dtm_forgotten_timeout", "type": "datetime", "nullable": true },
 				{ "name": "cd_client_uuid", "type": "varchar", "length": 36, "nullable": false, "index": true },
 				{ "name": "txt_braintree_subscription_id", "type": "varchar", "length": 36, "nullable": true },
-				{ "name": "fl_is_active", "type": "tinyint", "length": 1, "nullable": false, "default": '1'},
-				{ "name": "fl_plugin_installed", "type": "tinyint", "length": 1, "nullable": false, "default": '0' },
-				{ "name": "fl_is_admin", "type": "tinyint", "length": 1, "nullable": false, "default": '0'},
+				{ "name": "fl_is_active", "type": "tinyint", "length": 1, "nullable": false, "default": "'1'"},
+				{ "name": "fl_plugin_installed", "type": "tinyint", "length": 1, "nullable": false, "default": "'0'" },
+				{ "name": "fl_is_admin", "type": "tinyint", "length": 1, "nullable": false, "default": "'0'"},
 				{ "name": "nm_blog", "type": "varchar", "length": 255, "nullable": true },
 				{ "name": "url_blog", "type": "varchar", "length": 1024, "nullable": true },
 				{ "name": "num_server", "type": "int", "nullable": false },
