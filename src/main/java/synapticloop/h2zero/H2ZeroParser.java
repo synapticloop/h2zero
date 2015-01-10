@@ -32,6 +32,9 @@ public class H2ZeroParser {
 	private Database database = null;
 	private Options options = null;
 
+	private int numWarn = 0;
+	private int numFatal = 0;
+
 	private static ArrayList<Validator> validators = new ArrayList<Validator>();
 	static {
 		validators.add(new ForeignKeyTableValidator());
@@ -82,8 +85,10 @@ public class H2ZeroParser {
 				if(message.getType().equals(SimpleLogger.INFO)) {
 					SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				} else if(message.getType().equals(SimpleLogger.WARN)){
+					numWarn++;
 					SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				} else if(message.getType().equals(SimpleLogger.FATAL)){
+					numFatal++;
 					SimpleLogger.logFatal(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				}
 			}
@@ -129,4 +134,6 @@ public class H2ZeroParser {
 
 	public Database getDatabase() { return(this.database); }
 	public Options getOptions() { return(this.options); }
+	public int getNumWarn() { return(numWarn); };
+	public int getNumFatal() { return(numFatal); };
 }

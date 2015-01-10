@@ -7,7 +7,9 @@ public class SimpleLogger {
 		H2ZERO,
 		TEMPLAR_LOAD,
 		TEMPLAR_RENDER,
-		VALIDATOR
+		VALIDATOR,
+		H2ZERO_PARSE,
+		SUMMARY
 	}
 
 	private static int maxLength = 0;

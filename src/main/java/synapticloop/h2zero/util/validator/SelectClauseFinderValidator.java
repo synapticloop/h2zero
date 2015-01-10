@@ -20,7 +20,7 @@ public class SelectClauseFinderValidator extends Validator {
 				if(null != selectClause) {
 					if(!selectClause.toLowerCase().contains("select")) {
 						addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a selectClause that does not start with 'select', so I am going to add one.");
-						finder.setWhereClause(" select " + selectClause);
+						finder.setSelectClause(" select " + selectClause);
 					}
 				}
 			}
