@@ -27,4 +27,8 @@ public class VarcharField extends BaseField {
 		return("VARCHAR");
 	}
 
+	public boolean getShouldEscape() {
+		return true;
+	}
+
 }

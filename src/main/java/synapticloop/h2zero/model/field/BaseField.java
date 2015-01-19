@@ -102,6 +102,7 @@ public abstract class BaseField {
 	public abstract String getJavaType();
 	public abstract String getSqlNullType();
 	public abstract String getSqlJavaType();
+	public abstract boolean getShouldEscape();
 
 	public String getFormField() {
 		if(null == formField) {

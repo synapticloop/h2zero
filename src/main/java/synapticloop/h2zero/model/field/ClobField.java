@@ -26,5 +26,8 @@ public class ClobField extends BaseField {
 	public String getSqlNullType() {
 		return("CLOB");
 	}
+	public boolean getShouldEscape() {
+		return true;
+	}
 
 }

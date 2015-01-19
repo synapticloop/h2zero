@@ -1,7 +1,8 @@
 package synapticloop.h2zero.model.form;
 
 /*
- * Copyright (c) 2012-2013 synapticloop.
+ * Copyright (c) 2013-2015 synapticloop.
+ * 
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and

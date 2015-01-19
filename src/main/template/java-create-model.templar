@@ -669,13 +669,25 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}// !!! work in progress !!!{\n}
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
-		{\t}{\t}stringBuilder.append("{{ \"model\": {{ \"name\" : \"{table.javaClassName}\"\n");{\n}
-		{\t}{\t}stringBuilder.append("{{   \"fields\": [\n");{\n}
+		{\t}{\t}stringBuilder.append("{{\n");{\n}
+		{\t}{\t}stringBuilder.append("  \"model\": {{\n");{\n}
+		{\t}{\t}stringBuilder.append("    \"name\": \"{table.javaClassName}\",\n");{\n}
+		{\t}{\t}stringBuilder.append("    \"fields\": [\n");{\n}
+
 		{loop table.fields as field}
-			{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": \"" + this.{field.javaName} + "\" },\n");{\n}
+			{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} }{if !fieldStatus.last}, {endif}\n");{\n}
 		{endloop}
-			{\t}{\t}stringBuilder.append("    ]\n   }\n");{\n}
+
+		{\t}{\t}stringBuilder.append("    ]\n");{\n}
+		{\t}{\t}stringBuilder.append("  }\n");{\n}
+		{\t}{\t}stringBuilder.append("}\n");{\n}
 
 		{\t}{\t}return(stringBuilder.toString());{\n}
 		{\t}}{\n}
+		{\n}
+
+	{-- and the getJSONString - for chaining --}
+	{\t}public String getJsonString() {{{\n}
+	{\t}{\t}return(toJsonString());{\n}
+	{\t}}{\n}
 }

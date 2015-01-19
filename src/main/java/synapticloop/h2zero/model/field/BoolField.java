@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
 /*
- * Copyright (c) 2013 synapticloop.
+ * Copyright (c) 2013-2015 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -44,4 +44,7 @@ public class BoolField extends BaseField {
 		return("BOOL");
 	}
 
+	public boolean getShouldEscape() {
+		return false;
+	}
 }

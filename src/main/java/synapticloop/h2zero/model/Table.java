@@ -27,7 +27,13 @@ public class Table {
 	private boolean cacheable = false;
 	private boolean cacheFindAll = false;
 
+	// a list of all of the fields that this table has
 	private ArrayList<BaseField> fields = new ArrayList<BaseField>();
+	// all fields that are not marked as secure
+	private ArrayList<BaseField> nonSecureFields = new ArrayList<BaseField>();
+	// all fields that are marked as secure
+	private ArrayList<BaseField> secureFields = new ArrayList<BaseField>();
+
 	private HashMap<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
 	private HashMap<String, BaseField> inFieldLookup = new HashMap<String, BaseField>();
 	private HashMap<String, BaseField> setFieldLookup = new HashMap<String, BaseField>();
