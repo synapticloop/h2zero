@@ -10,6 +10,7 @@ package {database.package}.model;{\n}{\n}
 	import java.lang.StringBuilder;{\n}
 	import java.sql.Connection;{\n}
 	import java.sql.Date;{\n}
+	import java.sql.Clob;{\n}
 	import java.sql.ResultSet;{\n}
 	import java.sql.Timestamp;{\n}
 	import java.sql.Statement;{\n}

@@ -4,30 +4,30 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
+public class LongtextField extends BaseField {
 
-public class ClobField extends BaseField {
-
-	public ClobField(JSONObject jsonObject) throws H2ZeroParseException {
+	public LongtextField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public ClobField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public LongtextField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
 	public String getJavaType() {
-		return "Clob";
+		return "String";
 	}
 
 	public String getSqlJavaType() {
-		return("Clob");
+		return("String");
 	}
 
 	public String getSqlNullType() {
-		return("CLOB");
+		return("VARCHAR");
 	}
 
 	public boolean getShouldEscape() {
 		return true;
 	}
+
 }

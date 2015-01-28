@@ -24,6 +24,7 @@ public abstract class Validator {
 	protected void addFatalMessage(String message) {
 		numFatal++;
 		messages.add(new Message(SimpleLogger.FATAL, message));
+		isValid = false;
 	}
 
 	protected void addWarnMessage(String message) {

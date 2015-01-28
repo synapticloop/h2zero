@@ -18,6 +18,7 @@ package synapticloop.h2zero.base.manager;
  */
 
 import java.io.StringReader;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -208,6 +209,20 @@ public class ConnectionManager {
 	}
 
 	/**
+	 * Set a LONGTEXT datatype to a prepared statement with the value of the 
+	 * passed in longtext, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setLongtext(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
+		setVarchar(preparedStatement, parameterIndex, value);
+	}
+
+	/**
 	 * Set a FLOAT datatype to a prepared statement with the value of the passed
 	 * in float, or the correct SQL null type if null
 	 * 
@@ -243,6 +258,17 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * Set a BOOLEAN (or in sthis case conversion to a TINYINT) datatype to a 
+	 * prepared statement with the value of the passed in boolean, or the correct 
+	 * SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
 	public static void setBoolean(PreparedStatement preparedStatement, int parameterIndex, Boolean value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.TINYINT);
@@ -251,11 +277,39 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * Set a DOUBLE datatype to a prepared statement with the value of the passed 
+	 * in double, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
 	public static void setDouble(PreparedStatement preparedStatement, int parameterIndex, Double value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.DOUBLE);
 		} else {
 			preparedStatement.setDouble(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a CLOB datatype to a prepared statement with the value of the passed
+	 * in clob, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setClob(PreparedStatement preparedStatement, int parameterIndex, Clob value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.CLOB);
+		} else {
+			preparedStatement.setClob(parameterIndex, value);
 		}
 	}
 

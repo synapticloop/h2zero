@@ -52,7 +52,11 @@ use {database.schema};{\n}{\n}
 	}
 	{loop table.fields as field}
 		{if field.unique}
-			,{\n}{\t}unique index ({field.name})
+			{if fn:>[field.maxLength, 255]}
+				,{\n}{\t}unique index ({field.name}(255))
+			{else}
+				,{\n}{\t}unique index ({field.name}(255))
+			{endif}
 		{endif}
 	{endloop}
 

@@ -133,27 +133,20 @@ public class Table {
 
 					setFieldLookup.put(name, setBaseField);
 					whereFieldLookup.put(name, whereBaseField);
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (ClassNotFoundException cnfex) {
+					throw new H2ZeroParseException(cnfex.getMessage());
+				} catch (SecurityException sex) {
+					throw new H2ZeroParseException(sex.getMessage());
+				} catch (NoSuchMethodException nsmex) {
+					throw new H2ZeroParseException(nsmex.getMessage());
+				} catch (IllegalArgumentException iaex) {
+					throw new H2ZeroParseException(iaex.getMessage());
+				} catch (InstantiationException iex) {
+					throw new H2ZeroParseException(iex.getMessage());
+				} catch (IllegalAccessException iaex) {
+					throw new H2ZeroParseException(iaex.getMessage());
+				} catch (InvocationTargetException itex) {
+					throw new H2ZeroParseException(itex.getMessage());
 				}
 			}
 		}

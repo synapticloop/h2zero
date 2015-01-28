@@ -16,6 +16,8 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.util.validator.DefaultValueValidator;
+import synapticloop.h2zero.util.validator.DuplicateFieldNameValidator;
+import synapticloop.h2zero.util.validator.DuplicateTableNameValidator;
 import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
@@ -46,6 +48,8 @@ public class H2ZeroParser {
 		validators.add(new WhereClauseUpdaterValidator());
 		validators.add(new WhereClauseDeleterValidator());
 		validators.add(new SelectClauseFinderValidator());
+		validators.add(new DuplicateTableNameValidator());
+		validators.add(new DuplicateFieldNameValidator());
 	}
 
 	private static int maxValidatorClassNameLength = 0;
