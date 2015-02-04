@@ -38,17 +38,23 @@ public class {table.javaClassName}Inserter {{{\n}
 {\t}// static inserter SQL generated from the user input{\n}
 {loop table.inserters as inserter}
 {-- now for the insert clause --}
-	{if inserter.isInsertClause}
-		{\t}private static final String SQL_{inserter.staticName} = "{inserter.insertClause} 
-		{-- at this point we may have a values clause or a select clause --}
-		{if inserter.isValuesClause}
-			{inserter.valuesCaluse}
-		{else}
-			{if inserter.isSelectClause}
-				{inserter.selectClause}
-			{endif}
-		{endif}";{\n}
+	{\t}private static final String SQL_{inserter.staticName} = 
+	{if inserter.hasInsertClause}
+		"{inserter.insertClause} " 
+	{else}
+		SQL_BUILTIN_INSERT_ALL 
 	{endif}
+
+	{if inserter.hasValuesClause}
+		+ "{inserter.valuesCaluse} "
+	{else}
+		{if inserter.hasSelectClause}
+			+ "{inserter.selectClause} "
+		{endif}
+		{if inserter.hasWhereClause}
+			+ "{inserter.whereClause} "
+		{endif}
+	{endif};{\n}
 {endloop}
 {\n}
 
@@ -102,19 +108,19 @@ public class {table.javaClassName}Inserter {{{\n}
 
 {loop table.inserters as inserter}
 	{\t}public static int {inserter.name}(Connection connection
-			{loop inserter.selectFields as selectField}
-				, {selectField.javaType} {selectField.javaName}
+			{loop inserter.allUniqueFields as field}
+				, {field.javaType} {field.javaName}
 			{endloop}
 			) throws SQLException {{{\n}
 		{\t}{\t}int numResults = 0;{\n}
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-			{if inserter.isInsertClause}
+			{if inserter.hasInsertClause}
 				{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{inserter.staticName});{\n}
 			{else}
 				{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_ALL);{\n}
 			{endif}
-			{loop inserter.selectFields as selectField}
-				{\t}{\t}ConnectionManager.set{selectField.upperType}(preparedStatement, {selectFieldStatus.index}, {selectField.javaName});{\n}
+			{loop inserter.allFields as field}
+				{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 			{endloop}
 			{\t}{\t}numResults = preparedStatement.executeUpdate();{\n}
 			{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
@@ -124,33 +130,26 @@ public class {table.javaClassName}Inserter {{{\n}
 	{\t}}{\n}{\n}
 
 	{\t}public static int {inserter.name}Silent(
-			{loop inserter.selectFields as selectField}
-				{selectField.javaType} {selectField.javaName}
-				{if !selectFieldStatus.last}, {endif}
+			{loop inserter.allUniqueFields as field}
+				{field.javaType} {field.javaName}
+				{if !fieldStatus.last}, {endif}
 			{endloop}
 			) {{{\n}
 		{\t}{\t}int numResults = 0;{\n}
-
 		{\t}{\t}Connection connection = null;{\n}
-		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-
 		{\t}{\t}try {{{\n}
 		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-			{if inserter.isInsertClause}
-				{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{inserter.staticName});{\n}
-			{else}
-				{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_ALL);{\n}
-			{endif}
-			{loop inserter.selectFields as selectField}
-				{\t}{\t}{\t}ConnectionManager.set{selectField.upperType}(preparedStatement, {selectFieldStatus.index}, {selectField.javaName});{\n}
+		{\t}{\t}{\t}numResults = {inserter.name}(connection
+			{loop inserter.allUniqueFields as field}
+				, {field.javaName}
 			{endloop}
-			{\t}{\t}numResults = preparedStatement.executeUpdate();{\n}
-			{\t}{\t}} catch (SQLException sqlex) {{{\n}
-			{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-			{\t}{\t}{\t}return(-1);{\n}
-			{\t}{\t}} finally {{{\n}
-			{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement, connection);{\n}
-			{\t}{\t}}{\n}
+		);{\n}
+		{\t}{\t}} catch (SQLException sqlex) {{{\n}
+		{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+		{\t}{\t}{\t}return(-1);{\n}
+		{\t}{\t}} finally {{{\n}
+		{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+		{\t}{\t}}{\n}
 
 		{\t}{\t}{\n}
 		{\t}{\t}return(numResults);{\n}
