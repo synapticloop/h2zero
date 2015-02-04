@@ -2,6 +2,7 @@ package synapticloop.h2zero.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.json.JSONArray;
@@ -23,6 +24,8 @@ public class Database {
 	private ArrayList<Table> tables = new ArrayList<Table>();
 	private ArrayList<View> views = new ArrayList<View>();
 	private ArrayList<Form> forms = new ArrayList<Form>();
+
+	private HashSet<String> tableNames = new HashSet<String>();
 
 	public Database(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONObject databaseJson = null;
@@ -70,6 +73,13 @@ public class Database {
 			try {
 				JSONObject tableObject = tableJson.getJSONObject(i);
 				String tableName = tableObject.getString("name");
+
+				if(tableNames.contains(tableName)) {
+					throw new H2ZeroParseException("Duplicate table name of '" + tableName + "' found, exitting...");
+				}
+
+				tableNames.add(tableName);
+
 				Table table = tableLookup.get(tableName);
 				table.populateActions();
 			} catch (JSONException ojjsonex) {

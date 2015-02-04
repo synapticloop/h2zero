@@ -1672,32 +1672,6 @@
 				{ "name": "MOVIE", "values": [  3, "movie" ] }
 			]
 		},
-		{
-   "name": "project",
-   "comment": "the project",
-   "fields": [
-    { "name": "id_project", "type": "bigint", "nullable": false, "primary": true },
-    { "name": "nm_project", "type": "varchar", "length": 125, "nullable": false, "unique": true, "index": true },
-    { "name": "txt_coords_xyz", "type": "varchar", "length": 125, "nullable": false },
-    { "name": "dbl_importance", "type": "double", "nullable": false, "length": 25, "decimalLength": 20 },
-    { "name": "num_size", "type": "int", "length": 125, "nullable": false},
-    { "name": "fl_is_fixed", "type": "tinyint", "length": 1, "nullable": false},
-    { "name": "cd_colour_css", "type": "varchar", "length": 7, "nullable": false }
-   ],
-   "finders": [
-    {
-     "name": "findByProjectSize",
-     "selectClause": "select Project, sum(Size) from( select up.id_project as Project, (select u.num_size/(select count(id_user_project)from user_projectwhere id_user= u.id_user)from user where id_user = u.id_user) as Size from project p, user_project up, user u where p.id_project = up.id_project and u.id_user = up.id_user group by u.id_user, up.id_project)a group by Project", 
-     "selectFields": [ 
-          {"name": "Project_id", type:"bigint"},
-          { "name": "Size", type: "int"}
-         ],
-     
-     "unique": false
-    } 
-   
-   ]
-  },
 	],
 	"views": [
 		{
