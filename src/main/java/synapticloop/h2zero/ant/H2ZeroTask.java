@@ -108,6 +108,7 @@ public class H2ZeroTask extends Task {
 
 			Parser javaCreateModelParser = getParser("/java-create-model.templar");
 			Parser javaCreateFinderParser = getParser("/java-create-finder.templar");
+			Parser javaCreateInserterParser = getParser("/java-create-inserter.templar");
 			Parser javaCreateDefaultFormBeanParser = getParser("/java-create-default-form-bean-create.templar");
 			Parser javaCreateCounterParser = getParser("/java-create-counter.templar");
 			Parser javaCreateTaglibFinderParser = getParser("/java-create-taglib-finder.templar");
@@ -159,6 +160,10 @@ public class H2ZeroTask extends Task {
 					// the finder
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
 					renderToFile(templarContext, javaCreateFinderParser, pathname);
+					
+					// the inserter
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
+					renderToFile(templarContext, javaCreateInserterParser, pathname);
 
 					// the default form beans
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/form/auto/" + table.getJavaClassName() + "CreateFormBean.java";

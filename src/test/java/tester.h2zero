@@ -64,7 +64,7 @@
 				{ "name": "USER_ZONE_RELATIONSHIP", "values": [ 9, "uz", 1, 5, "user to zone" ] },
 				{ "name": "DEPARTMENT_ZONE_RELATIONSHIP", "values": [ 10, "dz", 4, 5, "department to zone" ] },
 				{ "name": "PROJECT_ZONE_RELATIONSHIP", "values": [ 11, "pz", 3, 5, "project to zone" ] },
-				{ "name": "PROJECT_TYPE_RELATIONSHIP", "values": [ 12, "py", 3, 6, "project to type" ] }				
+				{ "name": "PROJECT_TYPE_RELATIONSHIP", "values": [ 12, "py", 3, 6, "project to type" ] }
 			],
 			"finders": [
 			]
@@ -83,6 +83,38 @@
 				{ "name": "INDIVIDUAL", "values": [  3, "individual" ] }
 			],
 			"finders": [
+			]
+		},
+		{
+			"name": "person",
+			"fields": [
+				{ "name": "id_person", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "id_access_level", "type": "bigint", "nullable": false, 
+					"foreign": { 
+						"table": "access_level", 
+						"field": "id_access_level" 
+					}
+				},
+				{ "name": "id_department", "type": "bigint", "nullable": false, 
+					"foreign": { 
+						"table": "department", 
+						"field": "id_department"
+					}
+				},
+				{ "name": "nm_person", "type": "varchar", "length": 100, "nullable": false },
+				{ "name": "txt_address_email", "type": "varchar", "length": 255, "nullable": false, "index": true, "unique": true, "validator": "EmailFormField", "minLength": 3 },
+				{ "name": "txt_digested_password", "type": "varchar", "length": 32, "nullable": false },
+				{ "name": "txt_salt", "type": "varchar", "length": 32, "nullable": false},
+				{ "name": "txt_forgotten_password", "type": "varchar", "length": 36, "nullable": true },
+				{ "name": "dtm_forgotten_timeout", "type": "datetime", "nullable": true },
+				{ "name": "txt_coords_xyz", "type": "varchar", "length": 125, "nullable": false, "default": "'(0;0;0)'" },
+				{ "name": "flt_importance", "type": "float", "nullable": false, "length":3, "decimalLength": 2, "default": "'0.5'" },
+				{ "name": "flt_size", "type": "float", "nullable": false, "length":4, "decimalLength": 3, "default": "'0.001'"},
+				{ "name": "fl_is_fixed", "type": "tinyint", "length": 1, "nullable": false, "default": "'0'" },
+				{ "name": "fl_is_entity", "type": "tinyint", "length": 1, "nullable": false, "default": "'0'"  },
+				{ "name": "num_colour_r", "type": "int", "nullable": false, "default": "'192'" },
+				{ "name": "num_colour_g", "type": "int", "nullable": false, "default": "'192'" },
+				{ "name": "num_colour_b", "type": "int", "nullable": false, "default": "'192'" }		
 			]
 		},
 		{
@@ -109,6 +141,84 @@
 					"unique": true
 				}	
 			
+			]
+		},
+		{
+			"name": "scenario",
+			"comment": "scenarios",
+			"fields": [
+				{ "name": "id_scenario", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "id_creator", "type": "bigint", "nullable": true,
+					"foreign": { 
+						"table": "person", 
+						"field": "id_person"
+					}
+				 },
+				{ "name": "nm_scenario", "type": "varchar", "length": 125, "nullable": false},
+				{ "name": "dtm_created", "type": "datetime", "nullable": false, "unique": false, "index": false }
+			],
+			"finders": [	
+				{
+					"name": "findByScenario",
+					"whereClause": "where id_scenario = ?",
+					"whereFields": [ "id_scenario" ],
+					"unique": false
+				},
+				{
+					"name": "findByIdCreator",
+					"whereClause": "where id_creator = ?",
+					"whereFields": [ "id_creator" ],
+					"unique": false
+				}
+			]
+		},
+		{
+			"name": "s_project",
+			"comment": "the project",
+			"fields": [
+				{ "name": "id_project", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "id_scenario", "type": "bigint", "nullable": true, 
+					"foreign": { 
+						"table": "scenario", 
+						"field": "id_scenario" 
+					}
+				},
+				{ "name": "nm_project", "type": "varchar", "length": 125, "nullable": false, "unique": true, "index": true },
+				{ "name": "txt_coords_xyz", "type": "varchar", "length": 125, "nullable": false, "default": "'(0;0;0)'" },
+				{ "name": "flt_importance", "type": "float", "nullable": false, "length":3, "decimalLength": 2, "default": "'0.5'" },
+				{ "name": "flt_size", "type": "float", "nullable": false, "length":4, "decimalLength": 3, "default": "'0.001'"},
+				{ "name": "fl_is_fixed", "type": "tinyint", "length": 1, "nullable": false, "default": "'0'"},
+				{ "name": "num_colour_r", "type": "int", "nullable": false, "default": "'192'" },
+				{ "name": "num_colour_g", "type": "int", "nullable": false, "default": "'192'" },
+				{ "name": "num_colour_b", "type": "int", "nullable": false, "default": "'192'" }
+			],
+			"finders": [
+				{
+					"name": "findByProjectSize",
+					"selectClause": "select Project_Size from ( select Project, sum(Size) as Project_Size from( select up.id_project as Project, (select u.num_size/(select count(id_person_project) from s_person_project where id_person= u.id_person) from s_person where id_person = u.id_person) as Size from s_project p, s_person_project up, s_person u where p.id_project = up.id_project and u.id_person = up.id_person group by u.id_person, up.id_project)a group by Project)b", 
+					"selectFields": [ 
+										{ "name": "Project_Size", type: "float"}
+									],
+					"whereClause": "where Project = ?",
+					"whereFields": [ "id_project" ],	
+					"unique": true
+				},
+				{
+					"name": "findByScenario",
+					"whereClause": "where id_scenario = ?",
+					"whereFields": [ "id_scenario" ],
+					"unique": false
+				}
+			],
+			"inserters": [
+				{
+					"name": "insertFromProject",
+					"insertClause": "insert into s_project(id_scenario, nm_project, txt_coords_xyz, flt_importance, flt_size, fl_is_fixed, num_colour_r, num_colour_g, num_colour_b)",
+					"selectClause": "select ?, nm_project, txt_coords_xyz, flt_importance, flt_size, fl_is_fixed, num_colour_r, num_colour_g, num_colour_b from project",
+					"selectFields": [
+						{ "name": "id_secenario", type: "bigint" }
+					]
+				}
 			]
 		},
 		{
@@ -237,7 +347,7 @@
 					"whereClause": "where m.id_department=d.id_department and u.id_department=m.id_department and m.id_manager = ?",
 					"whereFields": [ "manager_department.id_manager" ],
 					"unique": false
-				}						
+				}
 			],
 			"deleters": [
 			],

@@ -44,6 +44,7 @@ public class Table {
 
 	private ArrayList<Finder> finders = new ArrayList<Finder>();
 	private ArrayList<Updater> updaters = new ArrayList<Updater>();
+	private ArrayList<Inserter> inserters = new ArrayList<Inserter>();
 	private ArrayList<Deleter> deleters = new ArrayList<Deleter>();
 	private ArrayList<Constant> constants = new ArrayList<Constant>();
 	private ArrayList<Counter> counters = new ArrayList<Counter>();
@@ -73,10 +74,11 @@ public class Table {
 		populateFields(jsonObject);
 	}
 
-	public void populateOthers() throws H2ZeroParseException{
+	public void populateActions() throws H2ZeroParseException{
 		populateFinders(jsonObject);
 		populateUpdaters(jsonObject);
 		populateDeleters(jsonObject);
+		populateInserters(jsonObject);
 		populateConstants(jsonObject);
 		populateCounters(jsonObject);
 	}
@@ -206,6 +208,24 @@ public class Table {
 		}
 	}
 
+	private void populateInserters(JSONObject jsonObject) throws H2ZeroParseException {
+		JSONArray inserterJson = new JSONArray();
+		try {
+			inserterJson = jsonObject.getJSONArray("inserters");
+		} catch (JSONException ojjsonex) {
+			// do nothing - no finders is ok
+		}
+
+		for (int i = 0; i < inserterJson.length(); i++) {
+			try {
+				JSONObject inserterObject = inserterJson.getJSONObject(i);
+				inserters.add(new Inserter(inserterObject, this));
+			} catch (JSONException ojjsonex) {
+				throw new H2ZeroParseException("Could not parse inserters.");
+			}
+		}
+	}
+
 	private void populateConstants(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray constantJson = new JSONArray();
 		try {
@@ -252,6 +272,7 @@ public class Table {
 
 	public ArrayList<Finder> getFinders() { return(finders); }
 	public ArrayList<Updater> getUpdaters() { return(updaters); }
+	public ArrayList<Inserter> getInserters() { return(inserters); }
 	public ArrayList<Deleter> getDeleters() { return(deleters); }
 	public ArrayList<Constant> getConstants() { return(constants); }
 	public ArrayList<Counter> getCounters() { return(counters); }

@@ -16,13 +16,17 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.util.validator.DefaultValueValidator;
+import synapticloop.h2zero.util.validator.DeleterNameValidator;
 import synapticloop.h2zero.util.validator.DuplicateFieldNameValidator;
 import synapticloop.h2zero.util.validator.DuplicateTableNameValidator;
 import synapticloop.h2zero.util.validator.FinderInQueryValidator;
+import synapticloop.h2zero.util.validator.FinderNameValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
+import synapticloop.h2zero.util.validator.InserterNameValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.util.validator.PrimaryKeyExistsValidator;
 import synapticloop.h2zero.util.validator.SelectClauseFinderValidator;
+import synapticloop.h2zero.util.validator.UpdaterNameValidator;
 import synapticloop.h2zero.util.validator.Validator;
 import synapticloop.h2zero.util.validator.WhereClauseDeleterValidator;
 import synapticloop.h2zero.util.validator.WhereClauseFinderValidator;
@@ -41,13 +45,24 @@ public class H2ZeroParser {
 	static {
 		validators.add(new ForeignKeyTableValidator());
 		validators.add(new OptionsGeneratorsValidator());
+
 		validators.add(new FinderInQueryValidator());
+		validators.add(new FinderNameValidator());
+
+		validators.add(new InserterNameValidator());
+		validators.add(new DeleterNameValidator());
+		validators.add(new UpdaterNameValidator());
+
 		validators.add(new PrimaryKeyExistsValidator());
+
 		validators.add(new DefaultValueValidator());
+
 		validators.add(new WhereClauseFinderValidator());
 		validators.add(new WhereClauseUpdaterValidator());
 		validators.add(new WhereClauseDeleterValidator());
+		
 		validators.add(new SelectClauseFinderValidator());
+		
 		validators.add(new DuplicateTableNameValidator());
 		validators.add(new DuplicateFieldNameValidator());
 	}

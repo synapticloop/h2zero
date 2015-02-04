@@ -71,7 +71,7 @@ public class Database {
 				JSONObject tableObject = tableJson.getJSONObject(i);
 				String tableName = tableObject.getString("name");
 				Table table = tableLookup.get(tableName);
-				table.populateOthers();
+				table.populateActions();
 			} catch (JSONException ojjsonex) {
 				throw new H2ZeroParseException("Could not parse the 'tables' array.");
 			}
