@@ -10,6 +10,7 @@ package {database.package}.inserter;{\n}{\n}
 import java.sql.Connection;{\n}
 import java.sql.PreparedStatement;{\n}
 import java.sql.SQLException;{\n}
+import java.sql.Timestamp;{\n}
 import java.sql.Types;{\n}
 {\n}
 import synapticloop.h2zero.base.manager.ConnectionManager;{\n}

@@ -48,6 +48,9 @@ public class H2ZeroTask extends Task {
 	private String in = null;
 	private String outDir = null;
 	private int numFiles = 0;
+
+	private boolean verbose = true;
+
 	private HashMap<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
 
 
@@ -78,14 +81,16 @@ public class H2ZeroTask extends Task {
 		try {
 			h2zeroParser = new H2ZeroParser(h2zeroFile);
 
-			SimpleLogger.logInfo(LoggerType.H2ZERO_PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
-			ArrayList<Table> tableDebug = h2zeroParser.getDatabase().getTables();
-			for (Table table : tableDebug) {
-				SimpleLogger.logInfo(LoggerType.H2ZERO_PARSE, "Found table '" + table.getName() + 
-						"' ( " + table.getFields().size() + " fields, " + 
-						table.getFinders().size() + " finders, " + 
-						table.getDeleters().size() + " deleters, " + 
-						table.getUpdaters().size() + " updaters )");
+			if(verbose) {
+				SimpleLogger.logInfo(LoggerType.H2ZERO_PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
+				ArrayList<Table> tableDebug = h2zeroParser.getDatabase().getTables();
+				for (Table table : tableDebug) {
+					SimpleLogger.logInfo(LoggerType.H2ZERO_PARSE, "Found table '" + table.getName() + 
+							"' ( " + table.getFields().size() + " fields, " + 
+							table.getFinders().size() + " finders, " + 
+							table.getDeleters().size() + " deleters, " + 
+							table.getUpdaters().size() + " updaters )");
+				}
 			}
 
 			TemplarConfiguration templarConfiguration = new TemplarConfiguration();
@@ -344,7 +349,9 @@ public class H2ZeroTask extends Task {
 	 * @throws RenderException
 	 */
 	private void renderToFile(TemplarContext templarContext, Parser templarParser, String pathname) throws RenderException {
-		SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering to '" + pathname + "'");
+		if(verbose) {
+			SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering to '" + pathname + "'");
+		}
 
 		numFiles++;
 		int lastIndexOf = pathname.lastIndexOf(".");
@@ -362,24 +369,16 @@ public class H2ZeroTask extends Task {
 	}
 
 	private Parser getParser(String templarTemplateFile) throws ParseException {
-		SimpleLogger.logInfo(LoggerType.TEMPLAR_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
+		if(verbose) {
+			SimpleLogger.logInfo(LoggerType.TEMPLAR_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
+		}
 		return(new Parser(this.getClass().getResourceAsStream(templarTemplateFile)));
 	}
 
-	public void setIn(String in) {
-		this.in = in;
-	}
-
-	public String getIn() {
-		return in;
-	}
-
-	public void setOutDir(String outDir) {
-		this.outDir = outDir;
-	}
-
-	public String getOutDir() {
-		return outDir;
-	}
-
+	public void setIn(String in) { this.in = in; }
+	public String getIn() { return in; }
+	public void setOutDir(String outDir) { this.outDir = outDir; }
+	public String getOutDir() { return outDir; }
+	public boolean getVerbose() { return verbose; }
+	public void setVerbose(boolean verbose) { this.verbose = verbose; }
 }
