@@ -139,6 +139,10 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\t}{\t}ResultSet resultSet = null;{\n}
 {\n}
+{\t}{\t}if(null == {primaryFieldJavaName}) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result as the primary key field [{primaryFieldJavaName}] was null.");{\n}
+{\t}{\t}}{\n}
+{\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 {\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_FIND_BY_PRIMARY_KEY);{\n}
