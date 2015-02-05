@@ -48,6 +48,7 @@ public class H2ZeroTask extends Task {
 	private String in = null;
 	private String outDir = null;
 	private int numFiles = 0;
+	private int numTables = 0;
 
 	private boolean verbose = true;
 
@@ -100,6 +101,8 @@ public class H2ZeroTask extends Task {
 			TemplarContext templarContext = new TemplarContext(templarConfiguration);
 
 			Database database = h2zeroParser.getDatabase();
+			numTables = database.getTables().size();
+
 			templarContext.add("database", database);
 
 			Options options = h2zeroParser.getOptions();
@@ -137,13 +140,13 @@ public class H2ZeroTask extends Task {
 			Parser sqlCreateDatabaseParser = getParser("/sql-create-database.templar");
 			Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
 
-			if(options.hasGenerator("sql")) {
+			if(options.hasGenerator(Options.OPTION_SQL)) {
 				// first up the database creation script
 				String pathname = outFile + "/src/main/sql/create-database.sql";
 				renderToFile(templarContext, sqlCreateDatabaseParser, pathname);
 			}
 
-			if(options.hasGenerator("java")) {
+			if(options.hasGenerator(Options.OPTION_JAVA)) {
 				String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Constants.java";
 				renderToFile(templarContext, javaCreateConstantsParser, pathname);
 			}
@@ -157,7 +160,7 @@ public class H2ZeroTask extends Task {
 				templarContext.add("table", table);
 				SimpleLogger.logInfo(LoggerType.H2ZERO, "Generating for table '" + table.getName() + "'.");
 
-				if(options.hasGenerator("java")) {
+				if(options.hasGenerator(Options.OPTION_JAVA)) {
 					// the model
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
 					renderToFile(templarContext, javaCreateModelParser, pathname);
@@ -170,16 +173,17 @@ public class H2ZeroTask extends Task {
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
 					renderToFile(templarContext, javaCreateInserterParser, pathname);
 
-					// the default form beans
-					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/form/auto/" + table.getJavaClassName() + "CreateFormBean.java";
-					renderToFile(templarContext, javaCreateDefaultFormBeanParser, pathname);
-
 					// the counters
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
 					renderToFile(templarContext, javaCreateCounterParser, pathname);
 				}
 
-				// the finder tag libraries
+				if(options.hasGenerator(Options.OPTION_FORMBEANS)) {
+					// the default form beans
+					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/form/auto/" + table.getJavaClassName() + "CreateFormBean.java";
+					renderToFile(templarContext, javaCreateDefaultFormBeanParser, pathname);
+				}
+
 				ArrayList<Finder> finders = table.getFinders();
 				Iterator<Finder> finderIterator = finders.iterator();;
 
@@ -187,12 +191,12 @@ public class H2ZeroTask extends Task {
 					Finder finder = finderIterator.next();
 					templarContext.add("finder", finder);
 
-					if(options.hasGenerator("taglib")) {
+					if(options.hasGenerator(Options.OPTION_TAGLIB)) {
 						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + finder.getFinderTagName() + "Tag.java";
 						renderToFile(templarContext, javaCreateTaglibFinderParser, pathname);
 					}
 
-					if(options.hasGenerator("java")) {
+					if(options.hasGenerator(Options.OPTION_JAVA)) {
 						// don't forget the beans for the selectClause finders
 						if(null != finder.getSelectClause()) {
 							String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getFinderTagName() + "Bean.java";
@@ -200,8 +204,7 @@ public class H2ZeroTask extends Task {
 						}
 					}
 
-
-					if(options.hasGenerator("adminpages")) {
+					if(options.hasGenerator(Options.OPTION_ADMINPAGES)) {
 						// now for the jsp finder pages
 						String pathname = outFile + "/src/main/webapps/admin/" + table.getName() + "-" + finder.getName() + ".html";
 						renderToFile(templarContext, jspCreateFinderParser, pathname);
@@ -214,13 +217,13 @@ public class H2ZeroTask extends Task {
 				while(counterIterator.hasNext()) {
 					Counter counter = counterIterator.next();
 					templarContext.add("counter", counter);
-					if(options.hasGenerator("taglib")) {
+					if(options.hasGenerator(Options.OPTION_TAGLIB)) {
 						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + counter.getCounterTagName() + "Tag.java";
 						renderToFile(templarContext, javaCreateTaglibCounterParser, pathname);
 					}
 				}
 
-				if(options.hasGenerator("taglib")) {
+				if(options.hasGenerator(Options.OPTION_TAGLIB)) {
 					// the extra 'missing' finders
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindByPrimaryKeyTag.java";
 					renderToFile(templarContext, javaCreateTaglibFinderFindByPrimaryKeyParser, pathname);
@@ -233,7 +236,7 @@ public class H2ZeroTask extends Task {
 
 				}
 
-				if(options.hasGenerator("java")) {
+				if(options.hasGenerator(Options.OPTION_JAVA)) {
 					// the updater
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
 					renderToFile(templarContext, javaCreateUpdaterParser, pathname);
@@ -243,7 +246,7 @@ public class H2ZeroTask extends Task {
 					renderToFile(templarContext, javaCreateDeleterParser, pathname);
 				}
 
-				if(options.hasGenerator("adminpages")) {
+				if(options.hasGenerator(Options.OPTION_ADMINPAGES)) {
 					// need to copy over the favicons
 					// make sure that the directories are created...
 					new File(outFile + "/src/main/webapps/admin/static/img/").mkdirs();
@@ -266,7 +269,7 @@ public class H2ZeroTask extends Task {
 				View view = viewsIterator.next();
 				templarContext.add("view", view);
 
-				if(options.hasGenerator("java")) {
+				if(options.hasGenerator(Options.OPTION_JAVA)) {
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java";
 					renderToFile(templarContext, javaCreateViewModelParser, pathname);
 
@@ -276,7 +279,7 @@ public class H2ZeroTask extends Task {
 			}
 
 
-			if(options.hasGenerator("taglib")) {
+			if(options.hasGenerator(Options.OPTION_TAGLIB)) {
 				// the finder tld
 				String pathname = outFile + "/src/main/webapps/WEB-INF/tld/" + database.getSchema() + ".tld";
 				renderToFile(templarContext, tldCreateLibraryParser, pathname);
@@ -290,13 +293,13 @@ public class H2ZeroTask extends Task {
 				Form form = formsIterator.next();
 				templarContext.add("form", form);
 
-				if(options.hasGenerator("forms")) {
+				if(options.hasGenerator(Options.OPTION_FORMBEANS)) {
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/form/" + form.getName() + "Bean.java";
 					renderToFile(templarContext, javaCreateFormBeanParser, pathname);
 				}
 			}
 
-			if(options.hasGenerator("adminpages")) {
+			if(options.hasGenerator(Options.OPTION_ADMINPAGES)) {
 				// now for the jsp index page
 				String pathname = outFile + "/src/main/webapps/admin/index.html";
 				renderToFile(templarContext, jspCreateIndexParser, pathname);
@@ -306,7 +309,7 @@ public class H2ZeroTask extends Task {
 				renderToFile(templarContext, cssCreateAllParser, pathname);
 			}
 
-			if(options.hasGenerator("java")) {
+			if(options.hasGenerator(Options.OPTION_JAVA)) {
 				// now for the statistics
 				if(options.getStatistics()) {
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Statistics.java";
@@ -325,6 +328,7 @@ public class H2ZeroTask extends Task {
 
 		// now that we are done - print out the overview
 		if(null != h2zeroParser) {
+			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just generated code for %d tables!", numTables));
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just saved you typing %d files!  Messages [ warn: %d, fatal: %d ]", numFiles, h2zeroParser.getNumWarn(), h2zeroParser.getNumFatal()));
 			Iterator<String> iterator = numFilesHashMap.keySet().iterator();
 			while (iterator.hasNext()) {

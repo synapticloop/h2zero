@@ -17,14 +17,21 @@ public class Options {
 	private String logging = "";
 	private HashSet<String> generators = new HashSet<String>();
 
+	public static final String OPTION_FORMBEANS = "formbeans";
+	public static final String OPTION_ADMINPAGES = "adminpages";
+	public static final String OPTION_TAGLIB = "taglib";
+	public static final String OPTION_JSP = "jsp";
+	public static final String OPTION_JAVA = "java";
+	public static final String OPTION_SQL = "sql";
+
 	private static HashSet<String> ALLOWABLE_GENERATORS = new HashSet<String>();
 	static {
-		ALLOWABLE_GENERATORS.add("sql");
-		ALLOWABLE_GENERATORS.add("java");
-		ALLOWABLE_GENERATORS.add("jsp");
-		ALLOWABLE_GENERATORS.add("taglib");
-		ALLOWABLE_GENERATORS.add("adminpages");
-		ALLOWABLE_GENERATORS.add("formbeans");
+		ALLOWABLE_GENERATORS.add(OPTION_SQL);
+		ALLOWABLE_GENERATORS.add(OPTION_JAVA);
+		ALLOWABLE_GENERATORS.add(OPTION_JSP);
+		ALLOWABLE_GENERATORS.add(OPTION_TAGLIB);
+		ALLOWABLE_GENERATORS.add(OPTION_ADMINPAGES);
+		ALLOWABLE_GENERATORS.add(OPTION_FORMBEANS);
 	}
 
 	private static HashSet<String> ALLOWABLE_LOGGERS = new HashSet<String>();

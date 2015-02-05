@@ -111,7 +111,9 @@ public class Inserter {
 				fieldObject.getString("name");
 			} catch (JSONException ojjsonex) {
 				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append("Could not parse the 'selectFields' array.\n");
+				stringBuilder.append("Could not parse the '");
+				stringBuilder.append(jsonKey);
+				stringBuilder.append("' array.\n");
 				stringBuilder.append("Was expecting the format to be:\n");
 				stringBuilder.append("\"");
 				stringBuilder.append(jsonKey);
