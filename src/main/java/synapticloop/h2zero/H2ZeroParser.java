@@ -26,6 +26,7 @@ import synapticloop.h2zero.util.validator.InserterNameValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.util.validator.PrimaryKeyExistsValidator;
 import synapticloop.h2zero.util.validator.SelectClauseFinderValidator;
+import synapticloop.h2zero.util.validator.UniqeAndIndexValidator;
 import synapticloop.h2zero.util.validator.UpdaterNameValidator;
 import synapticloop.h2zero.util.validator.Validator;
 import synapticloop.h2zero.util.validator.WhereClauseDeleterValidator;
@@ -60,11 +61,13 @@ public class H2ZeroParser {
 		validators.add(new WhereClauseFinderValidator());
 		validators.add(new WhereClauseUpdaterValidator());
 		validators.add(new WhereClauseDeleterValidator());
-		
+
 		validators.add(new SelectClauseFinderValidator());
-		
+
 		validators.add(new DuplicateTableNameValidator());
 		validators.add(new DuplicateFieldNameValidator());
+		
+		validators.add(new UniqeAndIndexValidator());
 	}
 
 	private static int maxValidatorClassNameLength = 0;
@@ -76,7 +79,7 @@ public class H2ZeroParser {
 			}
 		}
 	}
-	
+
 	public H2ZeroParser(File file) throws H2ZeroParseException {
 		JSONObject jsonObject = null;
 		try {
@@ -112,7 +115,7 @@ public class H2ZeroParser {
 				}
 			}
 		}
-		
+
 
 		if(!isValid) {
 			throw new H2ZeroParseException("Validators found FATAL warnings, exiting...");

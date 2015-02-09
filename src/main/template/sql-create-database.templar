@@ -55,7 +55,7 @@ use {database.schema};{\n}{\n}
 			{if fn:>[field.maxLength, 255]}
 				,{\n}{\t}unique index ({field.name}(255))
 			{else}
-				,{\n}{\t}unique index ({field.name}(255))
+				,{\n}{\t}unique index ({field.name}({field.maxLength}))
 			{endif}
 		{endif}
 	{endloop}
@@ -68,7 +68,7 @@ use {database.schema};{\n}{\n}
 			{if fn:>[field.maxLength, 255]}
 				,{\n}{\t}index ({field.name}(255))
 			{else}
-				,{\n}{\t}index ({field.name})
+				,{\n}{\t}index ({field.name}({field.maxLength}))
 			{endif}
 		{endif}
 	{endloop}
