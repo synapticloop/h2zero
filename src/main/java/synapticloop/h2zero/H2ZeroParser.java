@@ -25,6 +25,7 @@ import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.InserterNameValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.util.validator.PrimaryKeyExistsValidator;
+import synapticloop.h2zero.util.validator.PrimaryKeyNameValidator;
 import synapticloop.h2zero.util.validator.SelectClauseFinderValidator;
 import synapticloop.h2zero.util.validator.UniqeAndIndexValidator;
 import synapticloop.h2zero.util.validator.UpdaterNameValidator;
@@ -55,6 +56,7 @@ public class H2ZeroParser {
 		validators.add(new UpdaterNameValidator());
 
 		validators.add(new PrimaryKeyExistsValidator());
+		validators.add(new PrimaryKeyNameValidator());
 
 		validators.add(new DefaultValueValidator());
 

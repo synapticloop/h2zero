@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
+import synapticloop.h2zero.model.util.FieldLookupHelper;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
@@ -74,7 +75,8 @@ public class Finder {
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
 
-				BaseField baseField = getBaseField(table, whereFieldName);
+				BaseField baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+				this.hasInFields = FieldLookupHelper.hasInFields(whereFieldName);
 
 				if(null == baseField) {
 					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for finder '" + name + "'.");
@@ -169,45 +171,6 @@ public class Finder {
 				}
 			}
 		}
-	}
-
-	private BaseField getBaseField(Table table, String fieldName) {
-		BaseField baseField = null;
-		if(fieldName.startsWith("in:")) {
-			fieldName = fieldName.substring(3);
-
-			if(fieldName.contains(".")) {
-				// we are doing a table lookup
-				String[] splits = fieldName.split("\\.", 2);
-				String tableName = splits[0];
-				String tableFieldName = splits[1];
-				Table tableLookup = Database.getTableLookup(tableName);
-				if(null == tableLookup) {
-					return(null);
-				} else {
-					return(tableLookup.getInField(tableFieldName));
-				}
-			}
-
-			baseField = table.getInField(fieldName);
-			this.hasInFields = true;
-		} else {
-			if(fieldName.contains(".")) {
-				// we are doing a table lookup
-				String[] splits = fieldName.split("\\.", 2);
-				String tableName = splits[0];
-				String tableFieldName = splits[1];
-
-				Table tableLookup = Database.getTableLookup(tableName);
-				if(null == tableLookup) {
-					return(null);
-				} else {
-					return(tableLookup.getField(tableFieldName));
-				}
-			}
-			baseField = table.getField(fieldName);
-		}
-		return(baseField);
 	}
 
 	public String getName() { return(name); }

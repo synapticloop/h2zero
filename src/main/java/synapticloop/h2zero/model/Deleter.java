@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
+import synapticloop.h2zero.model.util.FieldLookupHelper;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
@@ -42,7 +43,9 @@ public class Deleter {
 			JSONArray whereFieldArray = jsonObject.getJSONArray("whereFields");
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
-				BaseField baseField = table.getField(whereFieldName);
+				BaseField baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+//				this.hasInFields = FieldLookupHelper.hasInFields(whereFieldName);
+
 				if(null == baseField) {
 					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for deleter '" + name + "'.");
 				}

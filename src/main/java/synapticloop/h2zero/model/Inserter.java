@@ -2,6 +2,7 @@ package synapticloop.h2zero.model;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 
@@ -17,8 +18,12 @@ import synapticloop.h2zero.util.NamingHelper;
 public class Inserter {
 	private ArrayList<BaseField> valueFields = new ArrayList<BaseField>();
 	private LinkedHashMap<String, BaseField> uniqueValueFields = new LinkedHashMap<String, BaseField>();
+
 	private ArrayList<BaseField> selectFields = new ArrayList<BaseField>();
+	private LinkedHashMap<String, BaseField> uniqueSelectFields = new LinkedHashMap<String, BaseField>();
+
 	private ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
+	private LinkedHashMap<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
 
 	private ArrayList<BaseField> allFields = new ArrayList<BaseField>();
 
@@ -40,11 +45,11 @@ public class Inserter {
 		this.whereClause = JsonHelper.getStringValue(jsonObject, "whereClause", null);
 
 		if(null != selectClause) {
-			populateFields(jsonObject, "selectFields", selectFields);
+			populateFields(jsonObject, "selectFields", selectFields, uniqueSelectFields);
 		}
 
 		if(null != whereClause) {
-			populateFields(jsonObject, "whereFields", whereFields);
+			populateFields(jsonObject, "whereFields", whereFields, uniqueWhereFields);
 		}
 
 		// now for the value fields
@@ -90,7 +95,8 @@ public class Inserter {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void populateFields(JSONObject jsonObject, String jsonKey, ArrayList<BaseField> fields) throws H2ZeroParseException {
+	private void populateFields(JSONObject jsonObject, String jsonKey, ArrayList<BaseField> fields, LinkedHashMap<String, BaseField> uniqueFields) throws H2ZeroParseException {
+
 		JSONArray fieldJson = new JSONArray();
 		try {
 			fieldJson = jsonObject.getJSONArray(jsonKey);
@@ -135,6 +141,11 @@ public class Inserter {
 					fields.add(baseField);
 					addToAllFields(baseField);
 
+					String baseFieldName = baseField.getName();
+					if(!uniqueFields.containsKey(baseFieldName)) {
+						uniqueFields.put(baseFieldName, baseField);
+					}
+
 				} catch (Exception ex) {
 					throw new H2ZeroParseException(ex.getMessage());
 				}
@@ -168,8 +179,13 @@ public class Inserter {
 
 	public ArrayList<BaseField> getValueFields() { return valueFields; }
 	public LinkedHashMap<String, BaseField> getUniqueValueFields() { return uniqueValueFields; }
+
 	public ArrayList<BaseField> getSelectFields() { return selectFields; }
+	public Collection<BaseField> getUniqueSelectFields() { return(uniqueSelectFields.values()); }
+	
 	public ArrayList<BaseField> getWhereFields() { return whereFields; }
+	public Collection<BaseField> getUniqueWhereFields() { return(uniqueWhereFields.values()); }
+	
 	public ArrayList<BaseField> getAllFields() { return allFields; }
 	public ArrayList<BaseField> getAllUniqueFields() { return allUniqueFields; }
 }
