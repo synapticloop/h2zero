@@ -29,6 +29,7 @@ import synapticloop.h2zero.util.validator.PrimaryKeyNameValidator;
 import synapticloop.h2zero.util.validator.SelectClauseFinderValidator;
 import synapticloop.h2zero.util.validator.UniqeAndIndexValidator;
 import synapticloop.h2zero.util.validator.UpdaterNameValidator;
+import synapticloop.h2zero.util.validator.UpdaterSetClauseValidator;
 import synapticloop.h2zero.util.validator.Validator;
 import synapticloop.h2zero.util.validator.WhereClauseDeleterValidator;
 import synapticloop.h2zero.util.validator.WhereClauseFinderValidator;
@@ -63,6 +64,8 @@ public class H2ZeroParser {
 		validators.add(new WhereClauseFinderValidator());
 		validators.add(new WhereClauseUpdaterValidator());
 		validators.add(new WhereClauseDeleterValidator());
+
+		validators.add(new UpdaterSetClauseValidator());
 
 		validators.add(new SelectClauseFinderValidator());
 
