@@ -11,8 +11,6 @@ public class WhereClauseUpdaterValidator extends Validator {
 
 	@Override
 	public boolean isValid(Database database, Options options) {
-		isValid = true;
-
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<Updater> updaters = table.getUpdaters();
