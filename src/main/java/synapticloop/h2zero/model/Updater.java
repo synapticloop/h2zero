@@ -96,6 +96,7 @@ public class Updater {
 
 	public String getName() { return(name); }
 	public String getSetClause() { return(setClause); }
+	public void setSetClause(String setClause) { this.setClause = setClause; }
 	public String getWhereClause() { return(whereClause); }
 	public void setWhereClause(String whereClause) { this.whereClause = whereClause; }
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
