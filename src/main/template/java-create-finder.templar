@@ -466,7 +466,7 @@ public class {table.javaClassName}Finder {{{\n}
 		{endif}
 
 		{\t}{\t}} finally {{{\n}
-		{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
+		{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 		{\t}{\t}}{\n}
 		{\n}
 		{\n}
