@@ -13,6 +13,8 @@ import java.sql.SQLException;{\n}
 import java.sql.Timestamp;{\n}
 import java.sql.Types;{\n}
 import java.sql.Date;{\n}
+import java.sql.Blob;{\n}
+import java.sql.Clob;{\n}
 {\n}
 import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
 import {database.package}.model.util.Constants;{\n}

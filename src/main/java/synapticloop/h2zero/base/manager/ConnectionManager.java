@@ -17,6 +17,7 @@ package synapticloop.h2zero.base.manager;
  * under the Licence.
  */
 
+import java.io.Reader;
 import java.io.StringReader;
 import java.sql.Clob;
 import java.sql.Connection;
@@ -313,7 +314,25 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * Set a CLOB datatype to a prepared statement with the value of the passed
+	 * in reader, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param reader the reader to use to stream the data
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setClob(PreparedStatement preparedStatement, int parameterIndex, Reader reader) throws SQLException {
+		if(null == reader) {
+			preparedStatement.setNull(parameterIndex, Types.CLOB);
+		} else {
+			preparedStatement.setClob(parameterIndex, reader);
+		}
+	}
 
+	
 	/**
 	 * Get an Long result from the resultSet as a value or null.  In the case where the resulting value is null, this will 
 	 * be set to 0 (zero) by the jdbc driver.  Consequently the resultSet is checked to see whether it was null.  If so, 
@@ -376,9 +395,6 @@ public class ConnectionManager {
 
 	public static String getNullableResultString(ResultSet resultSet, int index) throws SQLException { return(resultSet.getString(index)); }
 	public static Timestamp getNullableResultTimestamp(ResultSet resultSet, int index) throws SQLException { return(resultSet.getTimestamp(index)); }
-
-	public static ComboPooledDataSource getComboPooledDataSource() {
-		return comboPooledDataSource;
-	}
+	public static ComboPooledDataSource getComboPooledDataSource() { return comboPooledDataSource; }
 
 }

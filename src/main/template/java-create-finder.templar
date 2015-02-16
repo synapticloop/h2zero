@@ -127,7 +127,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\t} * @param connection the connection item{\n}
 {\t} * @param {primaryFieldJavaName} the primary key{\n}
 {\t} * {\n}
-{\t} * @return the unique result{\n}
+{\t} * @return the unique result or throw an exception if one couldn't be found{\n}
 {\t} * {\n}
 {\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
 {\t} * @throws SQLException if there was an error in the SQL statement{\n}
@@ -167,7 +167,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\t} * {\n}
 {\t} * @param {primaryFieldJavaName} the primary key{\n}
 {\t} * {\n}
-{\t} * @return the unique result{\n}
+{\t} * @return the unique result or throw an exception if one coudn't be found.{\n}
 {\t} * {\n}
 {\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
 {\t} * @throws SQLException if there was an error in the SQL statement{\n}
@@ -206,10 +206,8 @@ public class {table.javaClassName}Finder {{{\n}
 {\t} * @param connection the connection item{\n}
 {\t} * @param {primaryFieldJavaName} the primary key{\n}
 {\t} * {\n}
-{\t} * @return the unique result{\n}
+{\t} * @return the unique result or null if it couldn't be found{\n}
 {\t} * {\n}
-{\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
-{\t} * @throws SQLException if there was an error in the SQL statement{\n}
 {\t} */{\n}
 
 {\t}public static {table.javaClassName} findByPrimaryKeySilent(Connection connection, Long {primaryFieldJavaName}) {{{\n}
@@ -242,6 +240,16 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
 {\n}
+
+{\t}/**{\n}
+{\t} * Find a {table.javaClassName} by its primary key and sliently fail.{\n}
+{\t} * I.e. Do not throw an exception on error.{\n}
+{\t} * {\n}
+{\t} * @param {primaryFieldJavaName} the primary key{\n}
+{\t} * {\n}
+{\t} * @return the unique result or null if it couldn't be found{\n}
+{\t} * {\n}
+{\t} */{\n}
 
 {\t}public static {table.javaClassName} findByPrimaryKeySilent(Long {primaryFieldJavaName}) {{{\n}
 {\t}{\t}try {{{\n}

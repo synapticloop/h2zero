@@ -87,7 +87,7 @@ public class {table.javaClassName}Counter {{{\n}
 {\t}{\t}{\t}}{\n}
 {\t}{\t}} catch(SQLException sqlex) {{{\n}
 {\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findCountAll(): " + sqlex.getMessage());{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());{\n}
 
 {\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
 {\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
@@ -110,7 +110,7 @@ public class {table.javaClassName}Counter {{{\n}
 {\t}{\t}} catch(SQLException sqlex){{{\n}
 
 {\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findCountAllSilent(): " + sqlex.getMessage());{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException countAllSilent(): " + sqlex.getMessage());{\n}
 
 {\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
 {\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}

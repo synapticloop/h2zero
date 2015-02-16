@@ -26,6 +26,7 @@ public class Table {
 	
 	private boolean cacheable = false;
 	private boolean cacheFindAll = false;
+	private boolean hasLongObject = false;
 
 	// a list of all of the fields that this table has
 	private ArrayList<BaseField> fields = new ArrayList<BaseField>();
@@ -288,6 +289,7 @@ public class Table {
 	public String getJavaClassName() { return(NamingHelper.getFirstUpper(name)); }
 	public String getJavaFieldName() { return(NamingHelper.getSecondUpper(name)); }
 	public boolean getHasNonNullConstructor() { return(nonNullFields.size() != fields.size()); }
+	public boolean getHasLongObject() { return hasLongObject; }
 
 	public boolean getIsConstant() { return(constants.size() > 0); }
 
