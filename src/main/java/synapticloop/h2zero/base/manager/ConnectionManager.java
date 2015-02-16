@@ -314,7 +314,71 @@ public class ConnectionManager {
 	}
 
 
+	/**
+	 * Get an Long result from the resultSet as a value or null.  In the case where the resulting value is null, this will 
+	 * be set to 0 (zero) by the jdbc driver.  Consequently the resultSet is checked to see whether it was null.  If so, 
+	 * null is returned, else the actual value
+	 * 
+	 * @param resultSet The resultSet to get the value from
+	 * @param index The index of the result
+	 * @return the value, or null
+	 * 
+	 * @throws SQLException if something went wrong
+	 */
+	public static Long getNullableResultLong(ResultSet resultSet, int index) throws SQLException {
+		Long temp = resultSet.getLong(index);
+		if(resultSet.wasNull()) {
+			return(null);
+		} else {
+			return(temp);
+		}
+	}
+
+	/**
+	 * Get an Int result from the resultSet as a value or null.  In the case where the resulting value is null, this will 
+	 * be set to 0 (zero) by the jdbc driver.  Consequently the resultSet is checked to see whether it was null.  If so, 
+	 * null is returned, else the actual value
+	 * 
+	 * @param resultSet The resultSet to get the value from
+	 * @param index The index of the result
+	 * @return the value, or null
+	 * 
+	 * @throws SQLException if something went wrong
+	 */
+	public static Integer getNullableResultInt(ResultSet resultSet, int index) throws SQLException {
+		Integer temp = resultSet.getInt(index);
+		if(resultSet.wasNull()) {
+			return(null);
+		} else {
+			return(temp);
+		}
+	}
+
+	/**
+	 * Get a Boolean result from the resultSet as a value or null.  In the case where the resulting value is null, this will 
+	 * be set to 0 (zero) by the jdbc driver.  Consequently the resultSet is checked to see whether it was null.  If so, 
+	 * null is returned, else the actual value
+	 * 
+	 * @param resultSet The resultSet to get the value from
+	 * @param index The index of the result
+	 * @return the value, or null
+	 * 
+	 * @throws SQLException if something went wrong
+	 */
+	public static Boolean getNullableResultBoolean(ResultSet resultSet, int index) throws SQLException {
+		Boolean temp = resultSet.getBoolean(index);
+		if(resultSet.wasNull()) {
+			return(null);
+		} else {
+			return(temp);
+		}
+	}
+
+	public static String getNullableResultString(ResultSet resultSet, int index) throws SQLException { return(resultSet.getString(index)); }
+	public static Timestamp getNullableResultTimestamp(ResultSet resultSet, int index) throws SQLException { return(resultSet.getTimestamp(index)); }
+
 	public static ComboPooledDataSource getComboPooledDataSource() {
 		return comboPooledDataSource;
 	}
+
 }

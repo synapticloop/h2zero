@@ -162,11 +162,20 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Find a {table.javaClassName} by its primary key{\n}
+{\t} * {\n}
+{\t} * @param {primaryFieldJavaName} the primary key{\n}
+{\t} * {\n}
+{\t} * @return the unique result{\n}
+{\t} * {\n}
+{\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
+{\t} * @throws SQLException if there was an error in the SQL statement{\n}
+{\t} */{\n}
+
 {\t}public static {table.javaClassName} findByPrimaryKey(Long {primaryFieldJavaName}) throws H2ZeroFinderException, SQLException {{{\n}
 {\t}{\t}{table.javaClassName} {table.javaFieldName} = null;{\n}
 {\t}{\t}Connection connection = null;{\n}
-{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-{\t}{\t}ResultSet resultSet = null;{\n}
 {\n}
 {\t}{\t}if(null == {primaryFieldJavaName}) {{{\n}
 {\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result as the primary key field [{primaryFieldJavaName}] was null.");{\n}
@@ -174,16 +183,13 @@ public class {table.javaClassName}Finder {{{\n}
 {\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_FIND_BY_PRIMARY_KEY);{\n}
-{\t}{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
-{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-{\t}{\t}{\t}{table.javaFieldName} = uniqueResult(resultSet);{\n}
+{\t}{\t}{\t}{table.javaFieldName} = findByPrimaryKey(connection, {primaryFieldJavaName});{\n}
 {\t}{\t}} catch (SQLException sqlex) {{{\n}
 {\t}{\t}{\t}throw sqlex;{\n}
 {\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
 {\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
 {\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
+{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
 {\t}{\t}}{\n}
 {\n}
 {\t}{\t}if(null == {table.javaFieldName}) {{{\n}
@@ -192,6 +198,19 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}return({table.javaFieldName});{\n}
 {\t}}{\n}
 {\n}
+
+{\t}/**{\n}
+{\t} * Find a {table.javaClassName} by its primary key and sliently fail.{\n}
+{\t} * I.e. Do not throw an exception on error.{\n}
+{\t} * {\n}
+{\t} * @param connection the connection item{\n}
+{\t} * @param {primaryFieldJavaName} the primary key{\n}
+{\t} * {\n}
+{\t} * @return the unique result{\n}
+{\t} * {\n}
+{\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
+{\t} * @throws SQLException if there was an error in the SQL statement{\n}
+{\t} */{\n}
 
 {\t}public static {table.javaClassName} findByPrimaryKeySilent(Connection connection, Long {primaryFieldJavaName}) {{{\n}
 {\t}{\t}try {{{\n}
@@ -1188,7 +1207,11 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}arrayList.add(new {table.javaClassName}({\n}
 
 {loop table.fields as field}
-	{\t}{\t}{\t}{\t}{\t}resultSet.get{field.sqlJavaType}({fieldStatus.index})
+		{if field.nullable}
+			{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
+		{else}
+			{\t}{\t}{\t}{\t}{\t}resultSet.get{field.sqlJavaType}({fieldStatus.index})
+		{endif}
 	{if !fieldStatus.last},{\n}{endif}
 {endloop}
 ));{\n}
