@@ -16,11 +16,11 @@ public class UpdaterNameValidator extends Validator {
 			for (Updater updater : updaters) {
 				String name = updater.getName();
 				if(name.contains(" ")) {
-					addFatalMessage("Updater '" + name + "' for table '" + table.getName() + "' contains a ' ' (whitespace) character.");
+					addFatalMessage("Updater '" + table.getName() + "." + name + "' contains a ' ' (whitespace) character.");
 				}
 
 				if(!name.startsWith("update")) {
-					addWarnMessage("Updater '" + name + "' for table '" + table.getName() + "' should really start with 'update'.");
+					addWarnMessage("Updater '" + table.getName() + "." + name + "' should really start with 'update'.");
 				}
 			}
 		}

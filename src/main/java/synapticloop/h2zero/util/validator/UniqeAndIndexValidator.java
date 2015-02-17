@@ -16,7 +16,7 @@ public class UniqeAndIndexValidator extends Validator {
 			for (BaseField baseField : fields) {
 				if(baseField.getIndex() && baseField.getUnique()) {
 					String name = baseField.getName();
-					addWarnMessage("Field '" + name + "' for table '" + table.getName() + "' is both 'unique' and has an 'index', which is redundant.");
+					addWarnMessage("Field '" + table.getName() + "." + name + "' is both 'unique' and has an 'index', which is redundant.");
 				}
 			}
 		}

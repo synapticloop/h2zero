@@ -134,7 +134,7 @@
 					"name": "findByProjectSize",
 					"selectClause": "select Project_Size from ( select Project, sum(Size) as Project_Size from( select up.id_project as Project, (select u.num_size/(select count(id_user_project) from user_project where id_user= u.id_user) from user where id_user = u.id_user) as Size from project p, user_project up, user u where p.id_project = up.id_project and u.id_user = up.id_user group by u.id_user, up.id_project)a group by Project)b", 
 					"selectFields": [ 
-										{ "name": "Project_Size", type: "int"}
+										{ "name": "Project_Size", type: "float"}
 									],
 					"whereClause": "where Project = ?",
 					"whereFields": [ "id_project" ],	
@@ -578,6 +578,47 @@
 					"whereFields": [ "id_project_source", "id_architecture_destination" ],	
 					"unique": true
 				}	
+			]
+		},
+		{			
+			"name": "building_plan",
+			"comment": "The grouping for building plans",
+			"fields": [
+				{ "name": "id_building_plan", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "nm_building_plan", "type": "varchar", "length": "128", "nullable": false },
+				{ "name": "fl_is_valid", "type": "tinyint", "length": 1, "nullable": false, "default": "'0'"},
+				{ "name": "dtm_building_plan", "type": "datetime", "nullable": false }
+			],
+			"finders": [
+				{
+					"name": "findByIdBuildingPlan",
+					"whereClause": "where id_building_plan = ?",
+					"whereFields": [ "id_building_plan" ],
+					"unique": true
+				}
+			]
+		},
+		{
+			"name": "obj",
+			"comment": "The obj file format for loading",
+			"fields": [
+				{ "name": "id_obj", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "id_building_plan", "type": "bigint", "nullable": false, 
+					"foreign": { 
+						"table": "building_plan", 
+						"field": "id_building_plan"
+					}
+				},
+				{ "name": "nm_file_name", "type": "varchar", "length": 255, "nullable": false, "index": true },
+				{ "name": "txt_obj", "type": "longtext", "nullable": false }
+			],
+			"finders": [
+				{
+					"name": "findByIdBuildingPlan",
+					"whereClause": "where id_building_plan = ?",
+					"whereFields": [ "id_building_plan" ],
+					"unique": true
+				}
 			]
 		},
 		{

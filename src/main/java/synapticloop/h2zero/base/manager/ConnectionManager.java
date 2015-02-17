@@ -17,8 +17,13 @@ package synapticloop.h2zero.base.manager;
  * under the Licence.
  */
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.Writer;
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -391,6 +396,47 @@ public class ConnectionManager {
 		} else {
 			return(temp);
 		}
+	}
+
+	public static Clob getNullableResultClob(ResultSet resultSet, int index) throws SQLException {
+		return(resultSet.getClob(index));
+	}
+
+	public static String clobReader(String fileName, Writer writerArg) {
+		String clobData = null;
+
+		BufferedReader br = null;
+
+		try {
+			br = new BufferedReader(new FileReader(fileName));
+			String nextLine = "";
+			StringBuffer sb = new StringBuffer();
+			while ((nextLine = br.readLine()) != null) {
+				writerArg.write(nextLine);
+				sb.append(nextLine);
+			}
+
+			// Convert the content into to a string
+			clobData = sb.toString();
+		} catch (FileNotFoundException fnfex) {
+			// do nothing - return null
+		} catch (IOException ioex) {
+			// do nothing return null
+		} finally {
+			if(br != null) {
+				try {
+					br.close();
+				} catch (IOException ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				} finally {
+					br = null;
+				}
+			}
+		}
+
+		// Return the data.
+		return clobData;
 	}
 
 	public static String getNullableResultString(ResultSet resultSet, int index) throws SQLException { return(resultSet.getString(index)); }
