@@ -454,6 +454,7 @@ public class ConnectionManager {
 	}
 
 	public static String getNullableResultString(ResultSet resultSet, int index) throws SQLException { return(resultSet.getString(index)); }
+	public static Blob getNullableResultBlob(ResultSet resultSet, int index) throws SQLException { return(resultSet.getBlob(index)); }
 	public static Timestamp getNullableResultTimestamp(ResultSet resultSet, int index) throws SQLException { return(resultSet.getTimestamp(index)); }
 	public static ComboPooledDataSource getComboPooledDataSource() { return comboPooledDataSource; }
 
