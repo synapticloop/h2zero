@@ -15,6 +15,7 @@ import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 public class Options {
 	private boolean statistics = false;
 	private String logging = "";
+
 	private HashSet<String> generators = new HashSet<String>();
 
 	public static final String OPTION_FORMBEANS = "formbeans";
@@ -51,6 +52,7 @@ public class Options {
 
 		this.statistics = optionsJson.optBoolean("statistics", false);
 		this.logging = optionsJson.optString("logging", "");
+
 		JSONArray generatorArray = optionsJson.optJSONArray("generators");
 		if(null == generatorArray) {
 			// add them all

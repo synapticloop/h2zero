@@ -21,9 +21,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -68,7 +70,7 @@ public class ConnectionManager {
 				resultSet = null;
 			}
 		}
-		
+
 		if(null != statement) {
 			try {
 				statement.close();
@@ -116,7 +118,7 @@ public class ConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
- 	public static void setVarchar(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
+	public static void setVarchar(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.VARCHAR);
 		} else {
@@ -134,7 +136,7 @@ public class ConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
- 	public static void setClob(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
+	public static void setClob(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.CLOB);
 		} else {
@@ -319,6 +321,18 @@ public class ConnectionManager {
 		}
 	}
 
+	public static void setBlob(PreparedStatement preparedStatement, int parameterIndex, Blob value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setBlob(parameterIndex, value);
+		}
+	}
+
+	public static void setBlob(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		preparedStatement.setBlob(parameterIndex, inputStream);
+	}
+
 	/**
 	 * Set a CLOB datatype to a prepared statement with the value of the passed
 	 * in reader, or the correct SQL null type if null
@@ -337,7 +351,7 @@ public class ConnectionManager {
 		}
 	}
 
-	
+
 	/**
 	 * Get an Long result from the resultSet as a value or null.  In the case where the resulting value is null, this will 
 	 * be set to 0 (zero) by the jdbc driver.  Consequently the resultSet is checked to see whether it was null.  If so, 
