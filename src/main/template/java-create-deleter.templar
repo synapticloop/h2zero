@@ -37,8 +37,10 @@ public class {table.javaClassName}Deleter {{{\n}
 
 {\t}private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where {primaryFieldName} = ?";{\n}{\n}
 
-{\t}// static fields generated from the user input{\n}
 {loop table.deleters as deleter}
+	{if deleterStatus.first}
+		{\t}// static fields generated from the user input{\n}
+	{endif}
 	{\t}private static final String SQL_{deleter.staticName} = SQL_DELETE_START
 	{if fn:notNull[deleter.whereClause]} + " {deleter.whereClause}"{endif};{\n}
 {endloop}
