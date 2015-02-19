@@ -50,6 +50,16 @@ public class {table.javaClassName}Deleter {{{\n}
 				DELETE BY PRIMARY KEY
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
+{\t}/**{\n}
+{\t} * Delete a row in the {table.upperName} table by its primary key{\n}
+{\t} * {\n}
+{\t} * @param connection The connection{\n}
+{\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
+{\t} * @return the number of rows deleted{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the delete{\n}
+{\t} */{\n}
+
 {\t}public static int deleteByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws SQLException {{{\n}
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY);{\n}
 	{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
@@ -61,6 +71,15 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}{\n}
 
+{\t}/**{\n}
+{\t} * Delete a row in the {table.upperName} table by its primary key{\n}
+{\t} * {\n}
+{\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
+{\t} * @return the number of rows deleted{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the delete{\n}
+{\t} */{\n}
+
 {\t}public static int deleteByPrimaryKey(Long {primaryFieldJavaName}) throws SQLException {{{\n}
 	{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
 	{\t}{\t}int numResults = deleteByPrimaryKey(connection, {primaryFieldJavaName});{\n}
@@ -69,12 +88,46 @@ public class {table.javaClassName}Deleter {{{\n}
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Delete a row in the {table.upperName} table by its primary key silently{\n}
+{\t} * (i.e. don't throw an exception if it coudn't be deleted).{\n}
+{\t} * {\n}
+{\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
+{\t} * @return the number of rows deleted{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the delete{\n}
+{\t} */{\n}
+
+
+{\t}public static int deleteByPrimaryKeySilent(Connection connection, Long {primaryFieldJavaName}) {{{\n}
+	{\t}{\t}int numResults = 0;{\n}
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}numResults = deleteByPrimaryKey(connection, {primaryFieldJavaName});{\n}
+	{\t}{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+	{\t}{\t}{\t}return(-1);{\n}
+	{\t}{\t}}{\n}
+	{\t}{\t}return(numResults);{\n}
+{\t}}{\n}
+{\n}
+
+{\t}/**{\n}
+{\t} * Delete a row in the {table.upperName} table by its primary key silently{\n}
+{\t} * (i.e. don't throw an exception if it coudn't be deleted).{\n}
+{\t} * {\n}
+{\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
+{\t} * @return the number of rows deleted{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the delete{\n}
+{\t} */{\n}
+
+
 {\t}public static int deleteByPrimaryKeySilent(Long {primaryFieldJavaName}) {{{\n}
 	{\t}{\t}int numResults = 0;{\n}
 	{\t}{\t}Connection connection = null;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}numResults = deleteByPrimaryKey(connection, {primaryFieldJavaName});{\n}
+	{\t}{\t}{\t}numResults = deleteByPrimaryKeySilent(connection, {primaryFieldJavaName});{\n}
 	{\t}{\t}} catch (SQLException sqlex) {{{\n}
 	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 	{\t}{\t}{\t}return(-1);{\n}
