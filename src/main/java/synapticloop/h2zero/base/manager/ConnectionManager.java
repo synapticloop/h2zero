@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
@@ -321,21 +322,27 @@ public class ConnectionManager {
 		}
 	}
 
-	public static void setBlob(PreparedStatement preparedStatement, int parameterIndex, Blob value) throws SQLException {
-		if(null == value) {
-			preparedStatement.setNull(parameterIndex, Types.BLOB);
+	/**
+	 * Set a CLOB datatype to a prepared statement with the value of the passed in inputStream, or the correct SQL null 
+	 * type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param inputStream the inputStream to read from
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setClob(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.CLOB);
 		} else {
-			preparedStatement.setBlob(parameterIndex, value);
+			preparedStatement.setClob(parameterIndex, new InputStreamReader(inputStream));
 		}
 	}
 
-	public static void setBlob(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
-		preparedStatement.setBlob(parameterIndex, inputStream);
-	}
-
 	/**
-	 * Set a CLOB datatype to a prepared statement with the value of the passed
-	 * in reader, or the correct SQL null type if null
+	 * Set a CLOB datatype to a prepared statement with the value of the passed in reader, or the correct SQL null type 
+	 * if null
 	 * 
 	 * @param preparedStatement The prepared statement
 	 * @param parameterIndex the index of the parameter
@@ -349,6 +356,90 @@ public class ConnectionManager {
 		} else {
 			preparedStatement.setClob(parameterIndex, reader);
 		}
+	}
+
+	/**
+	 * Set a BLOB datatype to a prepared statement with the value of the passed in Blob, or the correct SQL null type 
+	 * if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the Blob value to insert
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setBlob(PreparedStatement preparedStatement, int parameterIndex, Blob value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setBlob(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a BLOB datatype to a prepared statement with the value of the passed in Blob, or the correct SQL null type 
+	 * if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param inputStream the input stream to read from
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setBlob(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setBlob(parameterIndex, inputStream);
+		}
+	}
+
+	/**
+	 * Set a BLOB datatype to a prepared statement with the value of the passed in Blob, or the correct SQL null type 
+	 * if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the Blob value to insert
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setMediumblob(PreparedStatement preparedStatement, int parameterIndex, Blob value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setBlob(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a Mediumblob datatype to a prepared statement with the value of the passed in Blob, or the correct SQL null type 
+	 * if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param inputStream the input stream to read from
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setMediumblob(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.NULL);
+		} else {
+			preparedStatement.setBlob(parameterIndex, inputStream);
+		}
+	}
+
+	public static void setLongtext(PreparedStatement preparedStatement, int parameterIndex, Reader reader) throws SQLException {
+		if(null == reader) {
+			preparedStatement.setNull(parameterIndex, Types.LONGVARCHAR);
+		} else {
+			preparedStatement.setClob(parameterIndex, reader);
+		}
+	}
+
+	public static void setLongtext(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		setLongtext(preparedStatement, parameterIndex, new InputStreamReader(inputStream));
 	}
 
 
@@ -412,9 +503,6 @@ public class ConnectionManager {
 		}
 	}
 
-	public static Clob getNullableResultClob(ResultSet resultSet, int index) throws SQLException {
-		return(resultSet.getClob(index));
-	}
 
 	public static String clobReader(String fileName, Writer writerArg) {
 		String clobData = null;
@@ -453,6 +541,7 @@ public class ConnectionManager {
 		return clobData;
 	}
 
+	public static Clob getNullableResultClob(ResultSet resultSet, int index) throws SQLException { return(resultSet.getClob(index)); }
 	public static String getNullableResultString(ResultSet resultSet, int index) throws SQLException { return(resultSet.getString(index)); }
 	public static Blob getNullableResultBlob(ResultSet resultSet, int index) throws SQLException { return(resultSet.getBlob(index)); }
 	public static Timestamp getNullableResultTimestamp(ResultSet resultSet, int index) throws SQLException { return(resultSet.getTimestamp(index)); }

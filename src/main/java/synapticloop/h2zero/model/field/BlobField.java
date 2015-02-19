@@ -30,4 +30,8 @@ public class BlobField extends BaseField {
 		return true;
 	}
 
+	public boolean getIsLargeObject() {
+		return(true);
+	}
+
 }

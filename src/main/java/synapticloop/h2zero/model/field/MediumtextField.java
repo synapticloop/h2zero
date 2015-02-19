@@ -31,4 +31,8 @@ public class MediumtextField extends BaseField {
 		return true;
 	}
 
+	public boolean getIsLargeObject() {
+		return(true);
+	}
+
 }

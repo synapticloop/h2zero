@@ -24,6 +24,7 @@ public abstract class BaseField {
 	protected boolean populate = true;
 	protected boolean secure = false;
 	protected boolean isInField = false;
+	protected boolean isLargeObject = false;
 
 	protected String foreignKeyTable = null;
 	protected String foreignKeyField = null;
@@ -178,5 +179,7 @@ public abstract class BaseField {
 		stringBuilder.append("\n");
 		return (stringBuilder.toString());
 	}
+
+	public boolean getIsLargeObject() { return isLargeObject; }
 
 }

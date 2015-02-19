@@ -23,10 +23,10 @@ public class Table {
 	private String engine = "innodb";
 	private String charset = "UTF8";
 	private ArrayList<String> comments = new ArrayList<String>();
-	
+
 	private boolean cacheable = false;
 	private boolean cacheFindAll = false;
-	private boolean hasLongObject = false;
+	private boolean hasLargeObject = false;
 
 	// a list of all of the fields that this table has
 	private ArrayList<BaseField> fields = new ArrayList<BaseField>();
@@ -63,7 +63,7 @@ public class Table {
 			String[] split = tempComments.split("\\n");
 			for (int i = 0; i < split.length; i++) {
 				comments.add(split[i]);
-				
+
 			}
 		}
 
@@ -116,13 +116,16 @@ public class Table {
 					constructor = forName.getConstructor(JSONObject.class);
 					BaseField baseField = (BaseField)constructor.newInstance(fieldObject);
 
-
 					if(!baseField.getNullable()) {
 						nonNullFields.add(baseField);
 					}
 
 					if(!baseField.getPrimary()) {
 						nonPrimaryFields.add(baseField);
+					}
+
+					if(baseField.getIsLargeObject()) {
+						hasLargeObject = true;
 					}
 
 					fields.add(baseField);
@@ -289,7 +292,7 @@ public class Table {
 	public String getJavaClassName() { return(NamingHelper.getFirstUpper(name)); }
 	public String getJavaFieldName() { return(NamingHelper.getSecondUpper(name)); }
 	public boolean getHasNonNullConstructor() { return(nonNullFields.size() != fields.size()); }
-	public boolean getHasLongObject() { return hasLongObject; }
+	public boolean getHasLargeObject() { return hasLargeObject; }
 
 	public boolean getIsConstant() { return(constants.size() > 0); }
 
