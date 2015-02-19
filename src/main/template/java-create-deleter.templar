@@ -90,7 +90,8 @@ public class {table.javaClassName}Deleter {{{\n}
 {\t}/**{\n}
 {\t} * Delete all of the rows in the table {\n}
 {\t} *   '{table.name}'{\n}
-{\t} * By executing a SQL truncate command{\n}
+{\t} * By executing a SQL delete from statement.  WHilst truncate is faster, if there{\n}
+{\t} * Is a foreign key relationship to this table, then the truncate will fail{\n}
 {\t} * {\n}
 {\t} * @return The number of rows affected by this statement{\n}
 {\t} */{\n}
