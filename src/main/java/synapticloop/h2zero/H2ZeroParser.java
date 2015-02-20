@@ -24,6 +24,7 @@ import synapticloop.h2zero.util.validator.FinderNameValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.InserterNameValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
+import synapticloop.h2zero.util.validator.OrderByClauseFinderValidator;
 import synapticloop.h2zero.util.validator.PrimaryKeyExistsValidator;
 import synapticloop.h2zero.util.validator.PrimaryKeyNameValidator;
 import synapticloop.h2zero.util.validator.SelectClauseBeanNameValidator;
@@ -65,6 +66,8 @@ public class H2ZeroParser {
 		validators.add(new WhereClauseFinderValidator());
 		validators.add(new WhereClauseUpdaterValidator());
 		validators.add(new WhereClauseDeleterValidator());
+
+		validators.add(new OrderByClauseFinderValidator());
 
 		validators.add(new UpdaterSetClauseValidator());
 

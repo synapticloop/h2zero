@@ -178,6 +178,7 @@ public class Finder {
 	public String getWhereClause() { return(whereClause); }
 	public void setWhereClause(String whereClause) { this.whereClause = whereClause; }
 	public String getOrderBy() { return(orderBy); }
+	public void setOrderBy(String orderBy) { this.orderBy = orderBy; }
 	public boolean getUnique() { return(unique); }
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
 	public ArrayList<BaseField> getSelectFields() { return(selectFields); }
