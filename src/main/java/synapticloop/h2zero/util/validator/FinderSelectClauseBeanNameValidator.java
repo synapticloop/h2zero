@@ -9,7 +9,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
 
-public class SelectClauseBeanNameValidator extends Validator {
+public class FinderSelectClauseBeanNameValidator extends Validator {
 
 	@Override
 	public boolean isValid(Database database, Options options) {

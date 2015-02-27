@@ -15,27 +15,28 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import synapticloop.h2zero.util.validator.CounterSelectClauseValidator;
 import synapticloop.h2zero.util.validator.DefaultValueValidator;
 import synapticloop.h2zero.util.validator.DeleterNameValidator;
+import synapticloop.h2zero.util.validator.DeleterWhereClauseValidator;
 import synapticloop.h2zero.util.validator.DuplicateFieldNameValidator;
 import synapticloop.h2zero.util.validator.DuplicateTableNameValidator;
 import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.FinderNameValidator;
+import synapticloop.h2zero.util.validator.FinderOrderByClauseValidator;
+import synapticloop.h2zero.util.validator.FinderSelectClauseBeanNameValidator;
+import synapticloop.h2zero.util.validator.FinderSelectClauseValidator;
+import synapticloop.h2zero.util.validator.FinderWhereClauseValidator;
 import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.util.validator.InserterNameValidator;
 import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
-import synapticloop.h2zero.util.validator.OrderByClauseFinderValidator;
 import synapticloop.h2zero.util.validator.PrimaryKeyExistsValidator;
 import synapticloop.h2zero.util.validator.PrimaryKeyNameValidator;
-import synapticloop.h2zero.util.validator.SelectClauseBeanNameValidator;
-import synapticloop.h2zero.util.validator.SelectClauseFinderValidator;
 import synapticloop.h2zero.util.validator.UniqeAndIndexValidator;
 import synapticloop.h2zero.util.validator.UpdaterNameValidator;
 import synapticloop.h2zero.util.validator.UpdaterSetClauseValidator;
+import synapticloop.h2zero.util.validator.UpdaterWhereClauseValidator;
 import synapticloop.h2zero.util.validator.Validator;
-import synapticloop.h2zero.util.validator.WhereClauseDeleterValidator;
-import synapticloop.h2zero.util.validator.WhereClauseFinderValidator;
-import synapticloop.h2zero.util.validator.WhereClauseUpdaterValidator;
 import synapticloop.h2zero.util.validator.bean.Message;
 
 
@@ -48,36 +49,43 @@ public class H2ZeroParser {
 
 	private static ArrayList<Validator> validators = new ArrayList<Validator>();
 	static {
-		validators.add(new ForeignKeyTableValidator());
+		// options
 		validators.add(new OptionsGeneratorsValidator());
 
-		validators.add(new FinderInQueryValidator());
-		validators.add(new FinderNameValidator());
-
-		validators.add(new InserterNameValidator());
-		validators.add(new DeleterNameValidator());
-		validators.add(new UpdaterNameValidator());
-
+		// overall validators
 		validators.add(new PrimaryKeyExistsValidator());
+		validators.add(new ForeignKeyTableValidator());
+		validators.add(new UniqeAndIndexValidator());
+
 		validators.add(new PrimaryKeyNameValidator());
 
 		validators.add(new DefaultValueValidator());
 
-		validators.add(new WhereClauseFinderValidator());
-		validators.add(new WhereClauseUpdaterValidator());
-		validators.add(new WhereClauseDeleterValidator());
-
-		validators.add(new OrderByClauseFinderValidator());
-
-		validators.add(new UpdaterSetClauseValidator());
-
-		validators.add(new SelectClauseFinderValidator());
-		validators.add(new SelectClauseBeanNameValidator());
-
 		validators.add(new DuplicateTableNameValidator());
 		validators.add(new DuplicateFieldNameValidator());
 
-		validators.add(new UniqeAndIndexValidator());
+		// Finder validators
+		validators.add(new FinderInQueryValidator());
+		validators.add(new FinderNameValidator());
+		validators.add(new FinderWhereClauseValidator());
+		validators.add(new FinderOrderByClauseValidator());
+		validators.add(new FinderSelectClauseValidator());
+		validators.add(new FinderSelectClauseBeanNameValidator());
+
+		// inserter validators
+		validators.add(new InserterNameValidator());
+
+		// deleter validators
+		validators.add(new DeleterNameValidator());
+		validators.add(new DeleterWhereClauseValidator());
+
+		// updater validators
+		validators.add(new UpdaterNameValidator());
+		validators.add(new UpdaterWhereClauseValidator());
+		validators.add(new UpdaterSetClauseValidator());
+
+		// counter validators
+		validators.add(new CounterSelectClauseValidator());
 	}
 
 	private static int maxValidatorClassNameLength = 0;

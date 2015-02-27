@@ -8,6 +8,7 @@ package {database.package}.taglib.{table.javaFieldName};{\n}{\n}
 //           (java-create-taglib-finder.templar){\n}{\n}
 
 import java.sql.Timestamp;{\n}
+import java.sql.Date;{\n}
 {\n}
 
 import javax.servlet.jsp.JspException;{\n}

@@ -7,7 +7,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.Updater;
 
-public class WhereClauseUpdaterValidator extends Validator {
+public class UpdaterWhereClauseValidator extends Validator {
 
 	@Override
 	public boolean isValid(Database database, Options options) {
