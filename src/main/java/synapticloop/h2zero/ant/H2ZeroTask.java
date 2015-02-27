@@ -74,8 +74,8 @@ public class H2ZeroTask extends Task {
 			return;
 		}
 
-		SimpleLogger.logInfo(LoggerType.H2ZERO_OPTIONS, "In file: " + in);
-		SimpleLogger.logInfo(LoggerType.H2ZERO_OPTIONS, "Out dir: " + outDir);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "In file: " + in);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "Out dir: " + outDir);
 
 		// otherwise we are good to go
 		H2ZeroParser h2zeroParser = null;
@@ -83,10 +83,10 @@ public class H2ZeroTask extends Task {
 			h2zeroParser = new H2ZeroParser(h2zeroFile);
 
 			if(verbose) {
-				SimpleLogger.logInfo(LoggerType.H2ZERO_PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
+				SimpleLogger.logInfo(LoggerType.PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
 				ArrayList<Table> tableDebug = h2zeroParser.getDatabase().getTables();
 				for (Table table : tableDebug) {
-					SimpleLogger.logInfo(LoggerType.H2ZERO_PARSE, "Found table '" + table.getName() + 
+					SimpleLogger.logInfo(LoggerType.PARSE, "Found table '" + table.getName() + 
 							"' ( " + table.getFields().size() + " fields, " + 
 							table.getFinders().size() + " finders, " + 
 							table.getDeleters().size() + " deleters, " + 
@@ -158,7 +158,7 @@ public class H2ZeroTask extends Task {
 			while (tableIterator.hasNext()) {
 				Table table = tableIterator.next();
 				templarContext.add("table", table);
-				SimpleLogger.logInfo(LoggerType.H2ZERO, "Generating for table '" + table.getName() + "'.");
+				SimpleLogger.logInfo(LoggerType.GENERATE, "Generating for table '" + table.getName() + "'.");
 
 				if(options.hasGenerator(Options.OPTION_JAVA)) {
 					// the model

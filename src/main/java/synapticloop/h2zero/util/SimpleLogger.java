@@ -2,13 +2,13 @@ package synapticloop.h2zero.util;
 
 public class SimpleLogger {
 	public enum LoggerType {
-		H2ZERO_OPTIONS,
+		OPTIONS,
 		GENERATORS,
-		H2ZERO,
+		GENERATE,
 		TEMPLAR_LOAD,
 		TEMPLAR_RENDER,
 		VALIDATOR,
-		H2ZERO_PARSE,
+		PARSE,
 		SUMMARY
 	}
 
