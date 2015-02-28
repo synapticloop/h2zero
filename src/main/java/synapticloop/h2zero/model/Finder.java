@@ -34,7 +34,7 @@ import synapticloop.h2zero.util.NamingHelper;
  */
 
 public class Finder {
-	public static final String WHERE_FIELDS = "whereFields";
+	public static final String JSON_KEY_WHERE_FIELDS = "whereFields";
 	public static final String JSON_KEY_UNIQUE = "unique";
 	public static final String JSON_KEY_WHERE_CLAUSE = "whereClause";
 	public static final String JSON_KEY_SELECT_CLAUSE = "selectClause";
@@ -74,7 +74,7 @@ public class Finder {
 		this.whereClause = JsonHelper.getStringValue(jsonObject, JSON_KEY_WHERE_CLAUSE, null);
 		// we may not have any whereFields
 		try {
-			JSONArray whereFieldArray = jsonObject.getJSONArray(WHERE_FIELDS);
+			JSONArray whereFieldArray = jsonObject.getJSONArray(JSON_KEY_WHERE_FIELDS);
 
 			if(null == whereClause && whereFieldArray.length() > 0) {
 				throw new H2ZeroParseException("Finder '" + name + "' cannot have 'whereFields' when there is no 'whereClause'.");
@@ -117,7 +117,7 @@ public class Finder {
 
 		// now for the where clauses
 		try {
-			JSONArray whereFieldArray = jsonObject.getJSONArray(WHERE_FIELDS);
+			JSONArray whereFieldArray = jsonObject.getJSONArray(JSON_KEY_WHERE_FIELDS);
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
 				BaseField baseField = view.getField(whereFieldName);
