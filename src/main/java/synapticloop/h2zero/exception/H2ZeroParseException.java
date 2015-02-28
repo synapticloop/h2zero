@@ -6,4 +6,8 @@ public class H2ZeroParseException extends Exception {
 	public H2ZeroParseException(String message) {
 		super(message);
 	}
+
+	public H2ZeroParseException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

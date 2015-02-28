@@ -21,6 +21,7 @@ import synapticloop.h2zero.util.validator.DeleterNameValidator;
 import synapticloop.h2zero.util.validator.DeleterWhereClauseValidator;
 import synapticloop.h2zero.util.validator.DuplicateFieldNameValidator;
 import synapticloop.h2zero.util.validator.DuplicateTableNameValidator;
+import synapticloop.h2zero.util.validator.FinderAutoIndexValidator;
 import synapticloop.h2zero.util.validator.FinderInQueryValidator;
 import synapticloop.h2zero.util.validator.FinderNameValidator;
 import synapticloop.h2zero.util.validator.FinderOrderByClauseValidator;
@@ -71,6 +72,7 @@ public class H2ZeroParser {
 		validators.add(new FinderOrderByClauseValidator());
 		validators.add(new FinderSelectClauseValidator());
 		validators.add(new FinderSelectClauseBeanNameValidator());
+		validators.add(new FinderAutoIndexValidator());
 
 		// inserter validators
 		validators.add(new InserterNameValidator());
@@ -123,13 +125,13 @@ public class H2ZeroParser {
 			ArrayList<Message> messages = validator.getMessages();
 			for (Message message: messages) {
 				if(message.getType().equals(SimpleLogger.INFO)) {
-					SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
+					SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				} else if(message.getType().equals(SimpleLogger.WARN)){
 					numWarn++;
-					SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
+					SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				} else if(message.getType().equals(SimpleLogger.FATAL)){
 					numFatal++;
-					SimpleLogger.logFatal(LoggerType.VALIDATOR, String.format("[ %" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
+					SimpleLogger.logFatal(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				}
 			}
 		}
