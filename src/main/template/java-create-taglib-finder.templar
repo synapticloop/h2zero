@@ -28,16 +28,29 @@ public class {finder.finderTagName}Tag extends BodyTagSupport {{{\n}
 	{\t}private String var = null;{\n}
 	{\t}private boolean removeVar = false;{\n}{\n}
 
-	{loop finder.uniqueWhereFields as whereField}
-		{\t}private {whereField.javaType} {whereField.javaName} = null;{\n}
-	{endloop}
-
+	{if finder.hasWhereFieldAliases}
+		{loop finder.whereFields as whereField}
+			{\t}private {whereField.javaType} {whereField.javaName} = null;{\n}
+		{endloop}
+	{else}
+		{loop finder.uniqueWhereFields as whereField}
+			{\t}private {whereField.javaType} {whereField.javaName} = null;{\n}
+		{endloop}
+	{endif}
 	{\n}
 
 	{\t}public int doStartTag() throws JspException {{{\n}
-		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Finder.{finder.name}Silent({loop finder.uniqueWhereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{whereField.javaName}
-	{endloop}));{\n}
+		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Finder.{finder.name}Silent(
+		{if finder.hasWhereFieldAliases}
+			{loop finder.whereFields as whereField}
+				{if !whereFieldStatus.first}, {endif}{whereField.javaName}
+			{endloop}
+		{else}
+			{loop finder.uniqueWhereFields as whereField}
+				{if !whereFieldStatus.first}, {endif}{whereField.javaName}
+			{endloop}
+		{endif}
+		));{\n}
 		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
 	{\t}}{\n}
 
@@ -70,13 +83,19 @@ public class {finder.finderTagName}Tag extends BodyTagSupport {{{\n}
 	{\t}}{\n}
 {\n}
 
-{loop finder.uniqueWhereFields as whereField}
-	{\t}public void set{whereField.javaAccessorName}({whereField.javaType} {whereField.javaName}) {{{\n}
-	{\t}{\t}this.{whereField.javaName} = {whereField.javaName};{\n}
-	{\t}}{\n}
-	{\t}{\n}{\n}
-{endloop}
-
-{\n}
-
+{if finder.hasWhereFieldAliases}
+	{loop finder.whereFields as whereField}
+		{\t}public void set{whereField.javaAccessorName}({whereField.javaType} {whereField.javaName}) {{{\n}
+		{\t}{\t}this.{whereField.javaName} = {whereField.javaName};{\n}
+		{\t}}{\n}
+		{\n}
+	{endloop}
+{else}
+	{loop finder.uniqueWhereFields as whereField}
+		{\t}public void set{whereField.javaAccessorName}({whereField.javaType} {whereField.javaName}) {{{\n}
+		{\t}{\t}this.{whereField.javaName} = {whereField.javaName};{\n}
+		{\t}}{\n}
+		{\n}
+	{endloop}
+{endif}
 }

@@ -112,11 +112,18 @@ public abstract class BaseField {
 			return(javaName);
 		}
 	}
+
 	public String getSecondaryJavaName() { return secondaryJavaName; }
 	public String getSecondaryJavaFieldName() { return secondaryJavaFieldName; }
 	public void suffixJavaName(String suffix) { this.javaName = javaName + suffix; }
 
-	public String getJavaAccessorName() { return(NamingHelper.getFirstUpper(name)); }
+	public String getJavaAccessorName() {
+		if(null != alias) {
+			return(NamingHelper.getFirstUpper(alias));
+		} else {
+			return(NamingHelper.getFirstUpper(name));
+		}
+	}
 
 	public String getForeignKeyTable() { return(foreignKeyTable); }
 	public Table getForeignKeyTableLookup() { return(Database.getTableLookup(foreignKeyTable)); }
