@@ -86,7 +86,7 @@ public class Finder {
 				String whereFieldName = null;
 				String whereFieldAlias = null;
 
-				if(null == whereFieldArray.optJSONObject(i)) {
+				if(null != whereFieldArray.optJSONObject(i)) {
 					JSONObject whereFieldObject = whereFieldArray.getJSONObject(i);
 					whereFieldName = whereFieldObject.getString("name");
 					whereFieldAlias = whereFieldObject.getString("alias");
