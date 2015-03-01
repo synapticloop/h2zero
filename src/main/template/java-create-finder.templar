@@ -362,7 +362,9 @@ public class {table.javaClassName}Finder {{{\n}
 {\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				AND THE ACTUAL FINDERS
+
+				AND THE ACTUAL USER DEFINED FINDERS (OR AUTO GENERATED FINDERS)
+
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {loop table.finders as finder}
@@ -370,10 +372,7 @@ public class {table.javaClassName}Finder {{{\n}
 		{\t}public static 
 		{if finder.unique}{table.javaClassName} {else}List<{table.javaClassName}> {endif}
 		{finder.name}(
-
-		{loop finder.uniqueWhereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{whereField.javaType} {whereField.javaName}
-		{endloop}
+			{import classpath:/snippet/finder/method-parameters.templar}
 		) throws H2ZeroFinderException, SQLException {{{\n}
 		{if finder.cache}
 			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
@@ -420,9 +419,8 @@ public class {table.javaClassName}Finder {{{\n}
 		{if finder.unique}
 			{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
 			{\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were " 
-			{loop finder.uniqueWhereFields as whereField}
-				 + "[{whereField.javaName}:" + {whereField.javaName} + "]{if !whereFieldStatus.last}, {else}.{endif}"
-			{endloop});{\n}
+				{import classpath:/snippet/finder/h2zero-exception-output.templar}
+			);{\n}
 		{endif}
 
 		{\t}{\t}} finally {{{\n}
@@ -440,10 +438,7 @@ public class {table.javaClassName}Finder {{{\n}
 		{\t}public static 
 		{if finder.unique}{table.javaClassName} {else}List<{table.javaClassName}> {endif}
 		{finder.name}(Connection connection
-
-		{loop finder.uniqueWhereFields as whereField}
-			, {whereField.javaType} {whereField.javaName}
-		{endloop}
+			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 		) throws H2ZeroFinderException, SQLException {{{\n}
 		{if finder.cache}
 			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
@@ -488,9 +483,8 @@ public class {table.javaClassName}Finder {{{\n}
 		{if finder.unique}
 			{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
 			{\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were " 
-			{loop finder.uniqueWhereFields as whereField}
-				 + "[{whereField.javaName}:" + {whereField.javaName} + "]{if !whereFieldStatus.last}, {else}.{endif}"
-			{endloop});{\n}
+				{import classpath:/snippet/finder/h2zero-exception-output.templar}
+			);{\n}
 		{endif}
 
 		{\t}{\t}} finally {{{\n}
@@ -508,27 +502,19 @@ public class {table.javaClassName}Finder {{{\n}
 		{\t}public static 
 		{if finder.unique}{table.javaClassName} {else}List<{table.javaClassName}> {endif}
 		{finder.name}Silent(
-
-		{loop finder.uniqueWhereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{whereField.javaType} {whereField.javaName}
-		{endloop}
+			{import classpath:/snippet/finder/method-parameters.templar}
 		) {{{\n}
 
 		{if finder.unique}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}({loop finder.uniqueWhereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{whereField.javaName}
-		{endloop}));{\n}
+			{\t}{\t}{\t}return({finder.name}(
+				{import classpath:/snippet/finder/method-parameters-call.templar}
+			));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-			{loop finder.uniqueWhereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
-
+				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
 			): " + h2zfex.getMessage());{\n}
 
 			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
@@ -543,11 +529,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
 
-			{loop finder.uniqueWhereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
 
 			): " + sqlex.getMessage());{\n}
 
@@ -561,18 +543,14 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}}{\n}
 		{else}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}({loop finder.uniqueWhereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{whereField.javaName}
-		{endloop}));{\n}
+			{\t}{\t}{\t}return({finder.name}(
+				{import classpath:/snippet/finder/method-parameters-call.templar}
+			));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
 
-			{loop finder.uniqueWhereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
 
 			): " + h2zfex.getMessage());{\n}
 
@@ -588,11 +566,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
 
-			{loop finder.uniqueWhereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
 
 			): " + sqlex.getMessage());{\n}
 
@@ -612,26 +586,20 @@ public class {table.javaClassName}Finder {{{\n}
 		{\t}public static 
 		{if finder.unique}{table.javaClassName} {else}List<{table.javaClassName}> {endif}
 		{finder.name}Silent(Connection connection
-
-		{loop finder.uniqueWhereFields as whereField}
-			, {whereField.javaType} {whereField.javaName}
-		{endloop}
+			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 		) {{{\n}
 
 		{if finder.unique}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}(connection{loop finder.uniqueWhereFields as whereField}
-			, {whereField.javaName}
-		{endloop}));{\n}
+			{\t}{\t}{\t}return({finder.name}(connection
+				{import classpath:/snippet/finder/method-parameters-call-with-connection.templar}
+			));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-			{loop finder.uniqueWhereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+
+				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
 
 			): " + h2zfex.getMessage());{\n}
 
@@ -647,11 +615,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
 
-			{loop finder.uniqueWhereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
 
 			): " + sqlex.getMessage());{\n}
 
@@ -665,18 +629,14 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}}{\n}
 		{else}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}({loop finder.uniqueWhereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{whereField.javaName}
-		{endloop}));{\n}
+			{\t}{\t}{\t}return({finder.name}(
+				{import classpath:/snippet/finder/method-parameters-call.templar}
+			));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
 
-			{loop finder.uniqueWhereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
 
 			): " + h2zfex.getMessage());{\n}
 
@@ -692,11 +652,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
 
-			{loop finder.uniqueWhereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
 
 			): " + sqlex.getMessage());{\n}
 

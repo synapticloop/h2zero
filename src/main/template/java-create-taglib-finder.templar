@@ -39,7 +39,7 @@ public class {finder.finderTagName}Tag extends BodyTagSupport {{{\n}
 		{if !whereFieldStatus.first}, {endif}{whereField.javaName}
 	{endloop}));{\n}
 		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
-	}{\n}
+	{\t}}{\n}
 
 {\n}
 	{\t}public int doEndTag() throws JspException {{{\n}

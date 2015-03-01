@@ -95,7 +95,14 @@ public class Finder {
 					whereFieldName = whereFieldArray.getString(i);
 				}
 
-				BaseField baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+				BaseField baseField = null;
+				if(hasWhereFieldAliases) {
+					// we need to create a new BaseField identical to the current one - as it is currently cached
+					baseField = FieldLookupHelper.getBaseField(table, whereFieldName).copy();
+				} else {
+					baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+				}
+
 				this.hasInFields = FieldLookupHelper.hasInFields(whereFieldName);
 
 				if(hasWhereFieldAliases) {

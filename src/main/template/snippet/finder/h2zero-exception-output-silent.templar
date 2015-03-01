@@ -1,0 +1,13 @@
+{if finder.hasWhereFieldAliases}
+	{loop finder.whereFields as whereField}
+		{if whereFieldStatus.first}" + {endif}
+		{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
+		{if whereFieldStatus.last} + "{endif}
+	{endloop}
+{else}
+	{loop finder.uniqueWhereFields as whereField}
+		{if whereFieldStatus.first}" + {endif}
+		{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}
+		{if whereFieldStatus.last} + "{endif}
+	{endloop}
+{endif}
