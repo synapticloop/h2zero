@@ -1,4 +1,4 @@
-package synapticloop.h2zero.util.validator;
+package synapticloop.h2zero.validator;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,6 @@ public class ForeignKeyTableValidator extends Validator {
 			ArrayList<BaseField> baseFields = table.getFields();
 			for (BaseField baseField : baseFields) {
 				if(null != baseField.getForeignKeyTable() && null == baseField.getForeignKeyTableLookup()) {
-					isValid = false;
 					addFatalMessage("'" + table.getName() + "." + baseField.getName() + "' foreign key references table '" + baseField.getForeignKeyTable() + "', which does not exist.");
 				}
 			}

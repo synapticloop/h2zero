@@ -1,4 +1,4 @@
-package synapticloop.h2zero.util.validator;
+package synapticloop.h2zero.validator;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import synapticloop.h2zero.model.Finder;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 
-public class FinderOrderByClauseValidator extends Validator {
+public class FinderSelectClauseValidator extends Validator {
 
 	@Override
 	public boolean isValid(Database database, Options options) {
@@ -16,10 +16,11 @@ public class FinderOrderByClauseValidator extends Validator {
 		for (Table table : tables) {
 			ArrayList<Finder> finders = table.getFinders();
 			for (Finder finder : finders) {
-				String orderBy = finder.getOrderBy();
-				if(null != orderBy) {
-					if(orderBy.toLowerCase().contains("order by")) {
-						addFatalMessage("Finder '" + table.getName() + "." + finder.getName() + "' has an orderBy that contains the phrase 'order by'.");
+				String selectClause = finder.getSelectClause();
+				if(null != selectClause) {
+					if(!selectClause.toLowerCase().contains("select")) {
+						addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a selectClause that does not start with 'select', so I am going to add one.");
+						finder.setSelectClause(" select " + selectClause);
 					}
 				}
 			}

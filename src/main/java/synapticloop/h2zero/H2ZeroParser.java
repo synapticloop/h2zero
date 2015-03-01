@@ -15,30 +15,31 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
-import synapticloop.h2zero.util.validator.CounterSelectClauseValidator;
-import synapticloop.h2zero.util.validator.DefaultValueValidator;
-import synapticloop.h2zero.util.validator.DeleterNameValidator;
-import synapticloop.h2zero.util.validator.DeleterWhereClauseValidator;
-import synapticloop.h2zero.util.validator.DuplicateFieldNameValidator;
-import synapticloop.h2zero.util.validator.DuplicateTableNameValidator;
-import synapticloop.h2zero.util.validator.FinderAutoIndexValidator;
-import synapticloop.h2zero.util.validator.FinderInQueryValidator;
-import synapticloop.h2zero.util.validator.FinderNameValidator;
-import synapticloop.h2zero.util.validator.FinderOrderByClauseValidator;
-import synapticloop.h2zero.util.validator.FinderSelectClauseBeanNameValidator;
-import synapticloop.h2zero.util.validator.FinderSelectClauseValidator;
-import synapticloop.h2zero.util.validator.FinderWhereClauseValidator;
-import synapticloop.h2zero.util.validator.ForeignKeyTableValidator;
-import synapticloop.h2zero.util.validator.InserterNameValidator;
-import synapticloop.h2zero.util.validator.OptionsGeneratorsValidator;
-import synapticloop.h2zero.util.validator.PrimaryKeyExistsValidator;
-import synapticloop.h2zero.util.validator.PrimaryKeyNameValidator;
-import synapticloop.h2zero.util.validator.UniqeAndIndexValidator;
-import synapticloop.h2zero.util.validator.UpdaterNameValidator;
-import synapticloop.h2zero.util.validator.UpdaterSetClauseValidator;
-import synapticloop.h2zero.util.validator.UpdaterWhereClauseValidator;
-import synapticloop.h2zero.util.validator.Validator;
-import synapticloop.h2zero.util.validator.bean.Message;
+import synapticloop.h2zero.validator.CounterSelectClauseValidator;
+import synapticloop.h2zero.validator.DefaultValueValidator;
+import synapticloop.h2zero.validator.DeleterNameValidator;
+import synapticloop.h2zero.validator.DeleterWhereClauseValidator;
+import synapticloop.h2zero.validator.DuplicateFieldNameValidator;
+import synapticloop.h2zero.validator.DuplicateTableNameValidator;
+import synapticloop.h2zero.validator.FinderAutoIndexValidator;
+import synapticloop.h2zero.validator.FinderInQueryValidator;
+import synapticloop.h2zero.validator.FinderNameValidator;
+import synapticloop.h2zero.validator.FinderOrderByClauseValidator;
+import synapticloop.h2zero.validator.FinderSelectClauseBeanNameValidator;
+import synapticloop.h2zero.validator.FinderSelectClauseValidator;
+import synapticloop.h2zero.validator.FinderWhereClauseValidator;
+import synapticloop.h2zero.validator.FinderWhereFieldAliasValidator;
+import synapticloop.h2zero.validator.ForeignKeyTableValidator;
+import synapticloop.h2zero.validator.InserterNameValidator;
+import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
+import synapticloop.h2zero.validator.PrimaryKeyExistsValidator;
+import synapticloop.h2zero.validator.PrimaryKeyNameValidator;
+import synapticloop.h2zero.validator.UniqeAndIndexValidator;
+import synapticloop.h2zero.validator.UpdaterNameValidator;
+import synapticloop.h2zero.validator.UpdaterSetClauseValidator;
+import synapticloop.h2zero.validator.UpdaterWhereClauseValidator;
+import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.bean.Message;
 
 
 public class H2ZeroParser {
@@ -73,6 +74,7 @@ public class H2ZeroParser {
 		validators.add(new FinderSelectClauseValidator());
 		validators.add(new FinderSelectClauseBeanNameValidator());
 		validators.add(new FinderAutoIndexValidator());
+		validators.add(new FinderWhereFieldAliasValidator());
 
 		// inserter validators
 		validators.add(new InserterNameValidator());

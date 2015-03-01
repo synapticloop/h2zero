@@ -1,4 +1,4 @@
-package synapticloop.h2zero.util.validator.bean;
+package synapticloop.h2zero.validator.bean;
 
 public class Message {
 	private String type;

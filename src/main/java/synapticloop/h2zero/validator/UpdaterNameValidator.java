@@ -1,4 +1,4 @@
-package synapticloop.h2zero.util.validator;
+package synapticloop.h2zero.validator;
 
 import java.util.ArrayList;
 
@@ -7,25 +7,24 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.Updater;
 
-public class UpdaterSetClauseValidator extends Validator {
+public class UpdaterNameValidator extends Validator {
 
-	@Override
 	public boolean isValid(Database database, Options options) {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<Updater> updaters = table.getUpdaters();
 			for (Updater updater : updaters) {
-				String setClause = updater.getSetClause();
-				if(null != setClause) {
-					if(!setClause.toLowerCase().contains("set ")) {
-						addWarnMessage("Updater '" + table.getName() + "." + updater.getName() + "' has a setClause that does not start with 'set', so I am going to add one.");
-						updater.setSetClause(" set " + setClause);
-					}
+				String name = updater.getName();
+				if(name.contains(" ")) {
+					addFatalMessage("Updater '" + table.getName() + "." + name + "' contains a ' ' (whitespace) character.");
+				}
+
+				if(!name.startsWith("update")) {
+					addWarnMessage("Updater '" + table.getName() + "." + name + "' should really start with 'update'.");
 				}
 			}
 		}
 
 		return(isValid);
 	}
-
 }

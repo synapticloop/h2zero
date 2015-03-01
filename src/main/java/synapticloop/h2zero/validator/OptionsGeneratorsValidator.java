@@ -1,4 +1,4 @@
-package synapticloop.h2zero.util.validator;
+package synapticloop.h2zero.validator;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;

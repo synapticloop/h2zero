@@ -54,6 +54,7 @@ public class Finder {
 	private boolean cache = false;
 	private boolean hasInFields = false;
 	private ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
+	private boolean hasWhereFieldAliases = false;
 
 
 	public Finder(JSONObject jsonObject, Table table) throws H2ZeroParseException {
@@ -81,10 +82,25 @@ public class Finder {
 			}
 
 			for (int i = 0; i < whereFieldArray.length(); i++) {
-				String whereFieldName = whereFieldArray.getString(i);
+				// at this point we need to check to see whether we are getting an array of objects, or just plain Strings
+				String whereFieldName = null;
+				String whereFieldAlias = null;
+
+				if(null == whereFieldArray.optJSONObject(i)) {
+					JSONObject whereFieldObject = whereFieldArray.getJSONObject(i);
+					whereFieldName = whereFieldObject.getString("name");
+					whereFieldAlias = whereFieldObject.getString("alias");
+					hasWhereFieldAliases = true;
+				} else {
+					whereFieldName = whereFieldArray.getString(i);
+				}
 
 				BaseField baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
 				this.hasInFields = FieldLookupHelper.hasInFields(whereFieldName);
+
+				if(hasWhereFieldAliases) {
+					baseField.setAlias(whereFieldAlias);
+				}
 
 				if(null == baseField) {
 					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for finder '" + name + "'.");
@@ -198,4 +214,11 @@ public class Finder {
 
 	public String getStaticName() { return(NamingHelper.getStaticName(name)); }
 	public Collection<BaseField> getUniqueWhereFields() { return(this.uniqueWhereFields.values()); }
+
+	/**
+	 * Whether this finder has aliases for the where fields, or it is just straight where field string array
+	 * 
+	 * @return whether this finder has where field aliases
+	 */
+	public boolean getHasWhereFieldAliases() { return hasWhereFieldAliases;}
 }

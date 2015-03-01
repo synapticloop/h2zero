@@ -1,11 +1,11 @@
-package synapticloop.h2zero.util.validator;
+package synapticloop.h2zero.validator;
 
 import java.util.ArrayList;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
-import synapticloop.h2zero.util.validator.bean.Message;
+import synapticloop.h2zero.validator.bean.Message;
 
 public abstract class Validator {
 	protected boolean isValid = true;

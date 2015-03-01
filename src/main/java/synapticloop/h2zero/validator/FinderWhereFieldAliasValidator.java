@@ -1,0 +1,33 @@
+package synapticloop.h2zero.validator;
+
+import java.util.ArrayList;
+
+import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Finder;
+import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.model.Table;
+import synapticloop.h2zero.model.field.BaseField;
+
+public class FinderWhereFieldAliasValidator extends Validator {
+
+	@Override
+	public boolean isValid(Database database, Options options) {
+		ArrayList<Table> tables = database.getTables();
+		for (Table table : tables) {
+			ArrayList<Finder> finders = table.getFinders();
+			for (Finder finder : finders) {
+				if(finder.getHasWhereFieldAliases()) {
+					// go through and ensure that all of the finder where fields has an alias
+					ArrayList<BaseField> whereFields = finder.getWhereFields();
+					for (BaseField baseField : whereFields) {
+						if(!baseField.getHasAlias()) {
+							addFatalMessage("'" + table.getName() + "." + finder.getName() + " has aliased whereFields, however '" + baseField.getName() + "' does not have an alias.");
+						}
+					}
+				}
+			}
+		}
+		return(isValid);
+	}
+
+}

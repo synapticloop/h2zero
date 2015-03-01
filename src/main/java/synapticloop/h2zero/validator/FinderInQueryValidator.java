@@ -1,4 +1,4 @@
-package synapticloop.h2zero.util.validator;
+package synapticloop.h2zero.validator;
 
 import java.util.ArrayList;
 
