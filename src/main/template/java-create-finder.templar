@@ -87,14 +87,12 @@ public class {table.javaClassName}Finder {{{\n}
 {loop table.finders as finder}
 	{if fn:null[finder.selectClause]}
 		{\t}private static final String SQL_{finder.staticName} = SQL_SELECT_START
-		{if fn:notNull[finder.whereClause]} + " {finder.whereClause}"{endif}
-		{if fn:notNull[finder.orderBy]} + " order by {finder.orderBy}"{endif};{\n}
-	{endif}
-	{if fn:notNull[finder.selectClause]}
+	{else}
 		{\t}private static final String SQL_{finder.staticName} = "{finder.selectClause}"
-		{if fn:notNull[finder.whereClause]} + " {finder.whereClause}"{endif}
-		{if fn:notNull[finder.orderBy]} + " order by {finder.orderBy}"{endif};{\n}
 	{endif}
+
+	{if fn:notNull[finder.whereClause]} + " {finder.whereClause}"{endif}
+	{if fn:notNull[finder.orderBy]} + " order by {finder.orderBy}"{endif};{\n}
 {endloop}
 {\n}
 
@@ -409,7 +407,7 @@ public class {table.javaClassName}Finder {{{\n}
 				{\t}{\t}{\t}results = list(resultSet);{\n}
 
 				{if finder.cache}
-					{\t}{\t}{\t}refreshCache("findByOrderedPlanAmount", results);{\n}
+					{\t}{\t}{\t}refreshCache("{finder.name}", results);{\n}
 				{endif}
 	
 			{endif}
