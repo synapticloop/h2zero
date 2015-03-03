@@ -538,7 +538,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}}{\n}
 
 			{\t}{\t}{\t}return(null);{\n}
-			{\t}}{\n}
+			{\t}{\t}}{\n}
 		{else}
 			{\t}{\t}try {{{\n}
 			{\t}{\t}{\t}return({finder.name}(
