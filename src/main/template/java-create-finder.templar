@@ -359,6 +359,8 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}}{\n}
 {\n}
 
+
+
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 				AND THE ACTUAL USER DEFINED FINDERS (OR AUTO GENERATED FINDERS)
@@ -906,18 +908,15 @@ public class {table.javaClassName}Finder {{{\n}
 
 		{if finder.unique}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}({loop finder.whereFields as whereField}
-			{if !whereFieldStatus.first}, {endif} {whereField.javaName}{if whereField.isInField}List{endif}{endloop}));{\n}
+			{\t}{\t}{\t}return({finder.name}(
+				{import classpath:/snippet/finder/method-parameters-bean.templar}
+			));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
 
-			{loop finder.whereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-bean.templar}
 
 			): " + h2zfex.getMessage());{\n}
 
@@ -933,11 +932,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
 
-			{loop finder.whereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif} {whereField.javaName}{if whereField.isInField}List{endif}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-bean.templar}
 
 			): " + sqlex.getMessage());{\n}
 
@@ -951,19 +946,15 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}}{\n}
 		{else}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}({loop finder.whereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-		{endloop}));{\n}
+			{\t}{\t}{\t}return({finder.name}(
+				{import classpath:/snippet/finder/method-parameters-bean.templar}
+			));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
 
-			{loop finder.whereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-bean.templar}
 
 			): " + h2zfex.getMessage());{\n}
 
@@ -979,11 +970,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
 
-			{loop finder.whereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-bean.templar}
 
 			): " + sqlex.getMessage());{\n}
 
@@ -1018,11 +1005,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
 
-			{loop finder.whereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-bean.templar}
 
 			): " + h2zfex.getMessage());{\n}
 
@@ -1038,11 +1021,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
 
-			{loop finder.whereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif} {whereField.javaName}{if whereField.isInField}List{endif}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-bean.templar}
 
 			): " + sqlex.getMessage());{\n}
 
@@ -1064,11 +1043,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
 
-			{loop finder.whereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-bean.templar}
 
 			): " + h2zfex.getMessage());{\n}
 
@@ -1084,11 +1059,7 @@ public class {table.javaClassName}Finder {{{\n}
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
 
-			{loop finder.whereFields as whereField}
-				{if whereFieldStatus.first}" + {endif}
-				{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-				{if whereFieldStatus.last} + "{endif}
-			{endloop}
+				{import classpath:/snippet/finder/h2zero-exception-output-bean.templar}
 
 			): " + sqlex.getMessage());{\n}
 
@@ -1253,88 +1224,12 @@ public class {table.javaClassName}Finder {{{\n}
 		{endif}
 	{endif}
 {endloop}
+
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 			Is this cacheable?
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {if table.cacheable}
-{\t}/**{\n}
-{\t} * Return whether this finder name should be refreshed{\n}
-{\t} *{\n}
-{\t} * @param finderName The name of the finder{\n}
-{\t} *{\n}
-{\t} * @return whether this cache needs a refresh{\n}
-{\t} */{\n}
-{\t}public static boolean shouldRefresh(String finderName) {{{\n}
-{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}LOGGER.debug("Should refresh individual cache for finder '" + finderName + "': '" + SHOULD_REFRESH_CACHE.containsKey(finderName) + "'.");{\n}
-{\t}{\t}}{\n}
-{\t}{\t}return(SHOULD_REFRESH_CACHE.containsKey(finderName));{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Get the cached results for a specific finder{\n}
-{\t} *{\n}
-{\t} * @param finderName the name of the finder to get the results for{\n}
-{\t} *{\n}
-{\t} * @return the cached results, or null if not available{\n}
-{\t} */{\n}
-{\t}public static List<{table.javaClassName}> getCachedResults(String finderName) {{{\n}
-{\t}{\t}return(CACHE.get(finderName));{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Refresh the cache with a list of variables{\n}
-{\t} *{\n}
-{\t} * @param finderName the name of the finder{\n}
-{\t} *{\n}
-{\t} * @param results the results to set in the cache{\n}
-{\t} */{\n}
-{\t}public synchronized static void refreshCache(String finderName, List<{table.javaClassName}> results) {{{\n}
-{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}LOGGER.debug("Attempting to refresh cache for finder '" + finderName + "', with results: " + results);{\n}
-{\t}{\t}}{\n}
-{\t}{\t}SHOULD_REFRESH_CACHE.remove(finderName);{\n}
-{\t}{\t}CACHE.put(finderName, results);{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Mark all caches as ready for refresh.{\n}
-{\t} */{\n}
-{\t}public static void markRefreshAllCaches() {{{\n}
-{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}LOGGER.debug("Marking all caches as ready for refresh.");{\n}
-{\t}{\t}}{\n}
-{\n}
-{\t}{\t}Enumeration<String> finderNames = CACHE.keys();{\n}
-{\t}{\t}while (finderNames.hasMoreElements()) {{{\n}
-{\t}{\t}{\t}String finderName = finderNames.nextElement();{\n}
-{\t}{\t}{\t}markCacheShouldBeRefreshed(finderName);{\n}
-{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Mark an individual finder cache as ready for refresh{\n}
-{\t} *{\n}
-{\t} * @param finderName the name of the finder method to refresh{\n}
-{\t} */{\n}
-{\t}private static void markCacheShouldBeRefreshed(String finderName) {{{\n}
-{\t}{\t}if(!SHOULD_REFRESH_CACHE.containsKey(finderName)) {{{\n}
-{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.debug("Marking cache for finder '" + finderName + "' ready for refresh.");{\n}
-{\t}{\t}{\t}}{\n}
-{\n}
-{\t}{\t}{\t}SHOULD_REFRESH_CACHE.put(finderName, true);{\n}
-{\t}{\t}} else {{{\n}
-{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.debug("Cache for finder '" + finderName + "' already marked for refresh.");{\n}
-{\t}{\t}{\t}}{\n}
-{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
+	{import classpath:/snippet/finder/table-cache-methods.templar}
 {endif}
 }

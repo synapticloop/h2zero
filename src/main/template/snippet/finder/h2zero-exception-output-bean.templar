@@ -1,0 +1,4 @@
+{loop finder.whereFields as whereField}
+	{if whereFieldStatus.first}" +{else} + ", " +{endif} {whereField.javaName}{if whereField.isInField}List{endif}
+	{if whereFieldStatus.last} + "{endif}
+{endloop}
