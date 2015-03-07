@@ -16,20 +16,26 @@ public abstract class Validator {
 
 	public abstract boolean isValid(Database database, Options options);
 	
-	protected void addInfoMessage(String message) {
+	protected void addInfoMessage(String ... infoMessages) {
 		numInfo++;
-		messages.add(new Message(SimpleLogger.INFO, message));
+		for (int i = 0; i < infoMessages.length; i++) {
+			messages.add(new Message(SimpleLogger.INFO, infoMessages[i]));
+		}
 	}
 
-	protected void addFatalMessage(String message) {
+	protected void addFatalMessage(String ... fatalMessages) {
 		numFatal++;
-		messages.add(new Message(SimpleLogger.FATAL, message));
+		for (int i = 0; i < fatalMessages.length; i++) {
+			messages.add(new Message(SimpleLogger.FATAL, fatalMessages[i]));
+		}
 		isValid = false;
 	}
 
-	protected void addWarnMessage(String message) {
+	protected void addWarnMessage(String ... warnMessages) {
 		numWarn++;
-		messages.add(new Message(SimpleLogger.WARN, message));
+		for (int i = 0; i < warnMessages.length; i++) {
+			messages.add(new Message(SimpleLogger.WARN, warnMessages[i]));
+		}
 	}
 
 	private void addSummaryMessage(String message) {
