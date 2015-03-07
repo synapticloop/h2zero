@@ -8,7 +8,7 @@ import synapticloop.h2zero.model.Question;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 
-public class QuestionSelectClauseValidator extends Validator {
+public class QuestionSelectFieldsValidator extends Validator {
 
 	@Override
 	public boolean isValid(Database database, Options options) {
@@ -17,12 +17,8 @@ public class QuestionSelectClauseValidator extends Validator {
 		for (Table table : tables) {
 			ArrayList<Question> questions = table.getQuestions();
 			for (Question question : questions) {
-				String selectClause = question.getSelectClause();
-				if(null != selectClause) {
-					if(!selectClause.toLowerCase().contains("select")) {
-						addWarnMessage("Question '" + table.getName() + "." + question.getName() + "' has a '" + JSONKeyConstants.SELECT_CLAUSE + "' that does not start with 'select', so I am going to add one.");
-						question.setSelectClause(" select " + selectClause);
-					}
+				if(question.getSelectFields().size() > 0) {
+					addWarnMessage("Question '" + table.getName() + "." + question.getName() + "' has '" + JSONKeyConstants.SELECT_FIELDS + "' which are ignored, and therefore un-neccessary.");
 				}
 			}
 		}

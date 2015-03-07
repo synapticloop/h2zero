@@ -27,6 +27,7 @@ public abstract class BaseQueryObject {
 	protected String insertClause;
 	protected String valuesClause;
 	protected String orderBy;
+	protected Boolean unique;
 
 	// where fields and their associated properties
 	protected ArrayList<BaseField> whereFields = new ArrayList<BaseField>();

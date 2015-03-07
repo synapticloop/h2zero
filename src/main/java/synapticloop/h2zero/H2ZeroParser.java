@@ -16,6 +16,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.validator.CounterSelectClauseValidator;
+import synapticloop.h2zero.validator.CounterSelectFieldsValidator;
 import synapticloop.h2zero.validator.DefaultValueValidator;
 import synapticloop.h2zero.validator.DeleterNameValidator;
 import synapticloop.h2zero.validator.DeleterWhereClauseValidator;
@@ -34,6 +35,7 @@ import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.validator.PrimaryKeyExistsValidator;
 import synapticloop.h2zero.validator.PrimaryKeyNameValidator;
 import synapticloop.h2zero.validator.QuestionSelectClauseValidator;
+import synapticloop.h2zero.validator.QuestionSelectFieldsValidator;
 import synapticloop.h2zero.validator.TableFinderKeyValidator;
 import synapticloop.h2zero.validator.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.UniqeAndIndexValidator;
@@ -94,9 +96,11 @@ public class H2ZeroParser {
 
 		// counter validators
 		validators.add(new CounterSelectClauseValidator());
+		validators.add(new CounterSelectFieldsValidator());
 
 		// question validators
 		validators.add(new QuestionSelectClauseValidator());
+		validators.add(new QuestionSelectFieldsValidator());
 	}
 
 	private static int maxValidatorClassNameLength = 0;

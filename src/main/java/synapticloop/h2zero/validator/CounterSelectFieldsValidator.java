@@ -6,8 +6,9 @@ import synapticloop.h2zero.model.Counter;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 
-public class CounterSelectClauseValidator extends Validator {
+public class CounterSelectFieldsValidator extends Validator {
 
 	@Override
 	public boolean isValid(Database database, Options options) {
@@ -16,12 +17,8 @@ public class CounterSelectClauseValidator extends Validator {
 		for (Table table : tables) {
 			ArrayList<Counter> counters = table.getCounters();
 			for (Counter counter : counters) {
-				String selectClause = counter.getSelectClause();
-				if(null != selectClause) {
-					if(!selectClause.toLowerCase().contains("select")) {
-						addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has a selectClause that does not start with 'select', so I am going to add one.");
-						counter.setSelectClause(" select " + selectClause);
-					}
+				if(counter.getSelectFields().size() > 0) {
+					addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has '" + JSONKeyConstants.SELECT_FIELDS + "' which are ignored, and therefore un-neccessary.");
 				}
 			}
 		}
