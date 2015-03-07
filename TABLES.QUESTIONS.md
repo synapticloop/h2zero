@@ -25,10 +25,10 @@ The key `questions` is a JSON Array on the `table` JSON object, for example:
 |----------|----------------|------|-------|
 | **name** | String | mandatory | This is the name for the question |
 | **selectClause** | String | mandatory | This is the SQL query that is run which **MUST** return one and only one boolean result |
-| **selectFields** | String | invalid | Select fields are ignored as there is only one select field which is of type boolean.  This will generate a validation (WARN) message |
+| **selectFields** | String | invalid | Select fields are ignored as there is only one select field which is of type boolean.  This will generate a validation (WARN) message. |
 | **whereClause** | String | optional | Used if the SQL query is parameterised |
 | **whereFields** | String | optional | The name and type for each of the whereClause parameters |
-| **unique** | String | ignored | This always returns one, and only one result in the result set. |
+| **unique** | String | ignored | This always returns one, and only one result in the result set.  This will generate a validation (WARN) message. |
 
 ## Example 1: Simple Question
 ```

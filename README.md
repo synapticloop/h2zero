@@ -33,7 +33,52 @@ Your database, just the way that you designed it.
 
 # Creating a h2zero configuration file
 
+By default the h2zero file would look like the following:
 
+```
+{
+	"options": {
+		...
+	},
+	"database": {
+		"schema": "...",
+		"package": "...",
+		"tables": [
+			"fields": [
+				{...}
+			],
+			"fieldFinders": [
+				{...}
+			],
+			"finders": [
+				{...}
+			],
+			"deleters": [
+				{...}
+			],
+			"inserters": [
+				{...}
+			],
+			"updaters": [
+				{...}
+			],
+			"questions": [
+				{...}
+			],
+			"counters": [
+				{...}
+			],
+			"constants": [
+				{...}
+			],
+		], 
+		"views": [
+			{...}
+		]
+	}
+	
+}
+```
 # The CRUD operations (and some more)
 
 ## Create 

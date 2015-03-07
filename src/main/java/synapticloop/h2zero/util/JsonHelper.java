@@ -22,6 +22,15 @@ public class JsonHelper {
 		return(defaultValue);
 	}
 
+	public static boolean getBooleanValue(JSONObject jsonObject, String key, Boolean defaultValue) {
+		try {
+			return(jsonObject.getBoolean(key));
+		} catch (JSONException ojjsonex) {
+			// do nothing
+		}
+		return(defaultValue);
+	}
+
 	public static int getIntValue(JSONObject jsonObject, String key, int defaultValue) {
 		try {
 			return(jsonObject.getInt(key));

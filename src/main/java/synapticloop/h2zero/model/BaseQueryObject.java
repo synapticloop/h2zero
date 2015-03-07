@@ -27,7 +27,7 @@ public abstract class BaseQueryObject {
 	protected String insertClause;
 	protected String valuesClause;
 	protected String orderBy;
-	protected Boolean unique;
+	protected Boolean jsonUniqueKey; // whether there is a 'unique' jsonKey for this object
 
 	// where fields and their associated properties
 	protected ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
@@ -63,6 +63,8 @@ public abstract class BaseQueryObject {
 		this.insertClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.INSERT_CLAUSE, null);
 		this.valuesClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.VALUES_CLAUSE, null);
 		this.setClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SET_CLAUSE, null);
+
+		this.jsonUniqueKey = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, null);
 	}
 
 	protected void populateWhereFields(JSONObject jsonObject) throws H2ZeroParseException {
@@ -202,4 +204,6 @@ public abstract class BaseQueryObject {
 	public ArrayList<BaseField> getSetFields() { return(setFields); }
 	public ArrayList<BaseField> getUpdateFields() { return(updateFields); }
 	public Collection<BaseField> getUniqueUpdateFields() { return(uniqueUpdateFields.values()); }
+
+	public boolean getHasJsonUniqueKey() { return(null != jsonUniqueKey); }
 }
