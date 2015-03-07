@@ -57,3 +57,28 @@ This will automatically generate two finders:
 The first finder is `findByTxtAddressEmail` which will return a unique `User` object that has one parameter passed into the method, namely `txtAddressEmail`.
 
 The second finder is `findByNumAge` which will return an `ArrayList<User>` that has all of the users with a specific age.
+
+The alternate way to define the above finders is as follows (which would generate identical code):
+
+```
+"finders": [
+	{
+		"name": "findByTxtAddressEmail",
+		"whereClause": "where txt_address_email = ?",
+		"whereFields": [
+			"txt_address_email"
+		],
+		"unique": true
+	},
+	{
+		"name": "findByNumAge",
+		"whereClause": "where num_age = ?",
+		"whereFields": [
+			"num_age"
+		],
+		"unique": false
+	}
+]
+```
+
+Which as you can see is a lot more work, more prone to error and un-necessary work for something that can be automatically generated.
