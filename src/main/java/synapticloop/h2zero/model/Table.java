@@ -240,7 +240,7 @@ public class Table {
 	private void populateFinders(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray finderJson = new JSONArray();
 		try {
-			finderJson = jsonObject.getJSONArray("finders");
+			finderJson = jsonObject.getJSONArray(JSONKeyConstants.FINDERS);
 		} catch (JSONException ojjsonex) {
 			// do nothing - no finders is ok
 		}
@@ -287,7 +287,7 @@ public class Table {
 	private void populateUpdaters(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray updaterJson = new JSONArray();
 		try {
-			updaterJson = jsonObject.getJSONArray("updaters");
+			updaterJson = jsonObject.getJSONArray(JSONKeyConstants.UPDATERS);
 		} catch (JSONException ojjsonex) {
 			// do nothing - no finders is ok
 		}
@@ -295,7 +295,7 @@ public class Table {
 		for (int i = 0; i < updaterJson.length(); i++) {
 			try {
 				JSONObject updaterObject = updaterJson.getJSONObject(i);
-				updaters.add(new Updater(updaterObject, this));
+				updaters.add(new Updater(this, updaterObject));
 			} catch (JSONException ojjsonex) {
 				throw new H2ZeroParseException("Could not parse updaters.");
 			}
@@ -323,7 +323,7 @@ public class Table {
 	private void populateInserters(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray inserterJson = new JSONArray();
 		try {
-			inserterJson = jsonObject.getJSONArray("inserters");
+			inserterJson = jsonObject.getJSONArray(JSONKeyConstants.INSERTERS);
 		} catch (JSONException ojjsonex) {
 			// do nothing - no finders is ok
 		}
@@ -331,7 +331,7 @@ public class Table {
 		for (int i = 0; i < inserterJson.length(); i++) {
 			try {
 				JSONObject inserterObject = inserterJson.getJSONObject(i);
-				inserters.add(new Inserter(inserterObject, this));
+				inserters.add(new Inserter(this, inserterObject));
 			} catch (JSONException ojjsonex) {
 				throw new H2ZeroParseException("Could not parse inserters.");
 			}
@@ -341,7 +341,7 @@ public class Table {
 	private void populateConstants(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray constantJson = new JSONArray();
 		try {
-			constantJson = jsonObject.getJSONArray("constants");
+			constantJson = jsonObject.getJSONArray(JSONKeyConstants.CONSTANTS);
 		} catch (JSONException ojjsonex) {
 			// do nothing - no constants is ok
 		}

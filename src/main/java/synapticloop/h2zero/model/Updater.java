@@ -18,36 +18,22 @@ package synapticloop.h2zero.model;
  * under the Licence.
  */
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
-import synapticloop.h2zero.util.JsonHelper;
-import synapticloop.h2zero.util.NamingHelper;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 
-public class Updater {
-	private String name;
-	private String setClause;
-	private String whereClause;
-	private ArrayList<BaseField> setFields = new ArrayList<BaseField>();
-	private ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
-	private LinkedHashMap<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
-	private ArrayList<BaseField> updateFields = new ArrayList<BaseField>();
+public class Updater extends BaseQueryObject {
 
-	public Updater(JSONObject jsonObject, Table table) throws H2ZeroParseException {
-		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
-		this.setClause = JsonHelper.getStringValue(jsonObject, "setClause", null);
-		this.whereClause = JsonHelper.getStringValue(jsonObject, "whereClause", null);
+	public Updater(Table table, JSONObject jsonObject) throws H2ZeroParseException {
+		super(table, jsonObject);
 
 		// now for the set fields
 		try {
-			JSONArray setFieldArray = jsonObject.getJSONArray("setFields");
+			JSONArray setFieldArray = jsonObject.getJSONArray(JSONKeyConstants.SET_FIELDS);
 			for (int i = 0; i < setFieldArray.length(); i++) {
 				String setFieldName = setFieldArray.getString(i);
 				BaseField baseField = table.getField(setFieldName);
@@ -68,9 +54,11 @@ public class Updater {
 			// do nothing
 		}
 
+		// TODO - this needs both a set and where field...
+		//populateWhereFields(jsonObject);
 		// and the where fields
 		try {
-			JSONArray whereFieldArray = jsonObject.getJSONArray("whereFields");
+			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
 				BaseField baseField = table.getField(whereFieldName);
@@ -93,16 +81,4 @@ public class Updater {
 			throw new H2ZeroParseException("The updater 'name' attribute cannot be null.");
 		}
 	}
-
-	public String getName() { return(name); }
-	public String getSetClause() { return(setClause); }
-	public void setSetClause(String setClause) { this.setClause = setClause; }
-	public String getWhereClause() { return(whereClause); }
-	public void setWhereClause(String whereClause) { this.whereClause = whereClause; }
-	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
-	public ArrayList<BaseField> getSetFields() { return(setFields); }
-	public ArrayList<BaseField> getUpdateFields() { return(updateFields); }
-	public Collection<BaseField> getUniqueUpdateFields() { return(uniqueUpdateFields.values()); }
-
-	public String getStaticName() { return(NamingHelper.getStaticName(name)); }
 }
