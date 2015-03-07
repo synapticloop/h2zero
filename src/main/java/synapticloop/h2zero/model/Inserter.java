@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
@@ -41,7 +42,7 @@ public class Inserter {
 
 		this.insertClause = JsonHelper.getStringValue(jsonObject, "insertClause", null);
 		this.valuesClause = JsonHelper.getStringValue(jsonObject, "valuesClause", null);
-		this.selectClause = JsonHelper.getStringValue(jsonObject, "selectClause", null);
+		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_SELECT_CLAUSE, null);
 		this.whereClause = JsonHelper.getStringValue(jsonObject, "whereClause", null);
 
 		if(null != selectClause) {

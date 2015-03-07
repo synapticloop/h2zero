@@ -1,0 +1,4 @@
+{loop updater.uniqueUpdateFields as updateField}
+	{updateField.javaName}
+	{if updateFieldStatus.last}{else}, {endif}
+{endloop}

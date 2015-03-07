@@ -14,7 +14,7 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
-public class Counter {
+public class Question {
 	private String name;
 	private String selectClause;
 	private String whereClause;
@@ -27,25 +27,25 @@ public class Counter {
 	private boolean hasInFields = false;
 	private ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
 
-	public Counter(JSONObject counterObject, Table table) throws H2ZeroParseException {
-		this.name = JsonHelper.getStringValue(counterObject, "name", null);
-		this.orderBy = JsonHelper.getStringValue(counterObject, "orderBy", null);
+	public Question(JSONObject counterObject, Table table) throws H2ZeroParseException {
+		this.name = JsonHelper.getStringValue(counterObject, JSONKeyConstants.JSON_KEY_NAME, null);
+		this.orderBy = JsonHelper.getStringValue(counterObject, JSONKeyConstants.JSON_KEY_ORDER_BY, null);
 		this.selectClause = JsonHelper.getStringValue(counterObject, JSONKeyConstants.JSON_KEY_SELECT_CLAUSE, null);
 		// if we have a select clause then we are returning a bean...
 
 		// now for the select fields
 		if(null == selectClause) {
-			throw new H2ZeroParseException("Counters must always have a 'selectClause' and return one and only count(*) int object.");
+			throw new H2ZeroParseException("Questions must always have a '" + JSONKeyConstants.JSON_KEY_SELECT_CLAUSE + "' and return one and only boolean object.");
 		}
 
 		// now for the where clauses
-		this.whereClause = JsonHelper.getStringValue(counterObject, "whereClause", null);
+		this.whereClause = JsonHelper.getStringValue(counterObject, JSONKeyConstants.JSON_KEY_WHERE_CLAUSE, null);
 		// we may not have any whereFields
 		try {
-			JSONArray whereFieldArray = counterObject.getJSONArray("whereFields");
+			JSONArray whereFieldArray = counterObject.getJSONArray(JSONKeyConstants.JSON_KEY_WHERE_FIELDS);
 
 			if(null == whereClause && whereFieldArray.length() > 0) {
-				throw new H2ZeroParseException("Counter '" + name + "' cannot have 'whereFields' when there is no 'whereClause'.");
+				throw new H2ZeroParseException("Question '" + name + "' cannot have '" + JSONKeyConstants.JSON_KEY_WHERE_FIELDS + "' when there is no '" + JSONKeyConstants.JSON_KEY_WHERE_CLAUSE + "'.");
 			}
 
 			for (int i = 0; i < whereFieldArray.length(); i++) {
@@ -54,7 +54,7 @@ public class Counter {
 				BaseField baseField = getBaseField(table, whereFieldName);
 
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for counter '" + name + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for question '" + name + "'.");
 				}
 
 				whereFields.add(baseField);
@@ -71,7 +71,7 @@ public class Counter {
 		}
 
 		if(null == name) {
-			throw new H2ZeroParseException("The counter 'name' attribute cannot be null.");
+			throw new H2ZeroParseException("The question '"  + JSONKeyConstants.JSON_KEY_NAME + "' attribute cannot be null.");
 		}
 	}
 
@@ -116,7 +116,7 @@ public class Counter {
 	}
 
 	public String getName() { return(name); }
-	public String getCounterTagName() { return(NamingHelper.getFirstUpper(name)); }
+	public String getQuestionTagName() { return(NamingHelper.getFirstUpper(name)); }
 	public String getWhereClause() { return(whereClause); }
 	public String getOrderBy() { return(orderBy); }
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
