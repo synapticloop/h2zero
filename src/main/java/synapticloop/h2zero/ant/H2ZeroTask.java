@@ -32,6 +32,7 @@ import synapticloop.h2zero.model.Counter;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
 import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.model.Question;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.View;
 import synapticloop.h2zero.model.form.Form;
@@ -114,31 +115,48 @@ public class H2ZeroTask extends Task {
 			}
 
 
+			// The model
 			Parser javaCreateModelParser = getParser("/java-create-model.templar");
+
+			// The table actions
 			Parser javaCreateFinderParser = getParser("/java-create-finder.templar");
 			Parser javaCreateInserterParser = getParser("/java-create-inserter.templar");
-			Parser javaCreateDefaultFormBeanParser = getParser("/java-create-default-form-bean-create.templar");
 			Parser javaCreateCounterParser = getParser("/java-create-counter.templar");
+			Parser javaCreateQuestionParser = getParser("/java-create-question.templar");
+			Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
+			Parser javaCreateDeleterParser = getParser("/java-create-deleter.templar");
+
+			Parser javaCreateDefaultFormBeanParser = getParser("/java-create-default-form-bean-create.templar");
+
+			// the taglibs
 			Parser javaCreateTaglibFinderParser = getParser("/java-create-taglib-finder.templar");
 			Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
-			Parser jspCreateFinderParser = getParser("/jsp-create-finder.templar");
 			Parser javaCreateTaglibCounterParser = getParser("/java-create-taglib-counter.templar");
+			Parser javaCreateTaglibQuestionParser = getParser("/java-create-taglib-question.templar");
 			Parser javaCreateTaglibFinderFindByPrimaryKeyParser = getParser("/java-create-taglib-finder-find-by-primary-key.templar");
 			Parser javaCreatetaglibFinderFindAllParser = getParser("/java-create-taglib-finder-find-all.templar");
 			Parser javaCreateTaglibCounterCountAllParser = getParser("/java-create-taglib-counter-count-all.templar");
-			Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
-			Parser javaCreateDeleterParser = getParser("/java-create-deleter.templar");
-			Parser jspCreateIndexTableParser = getParser("/jsp-create-index-table.templar");
-			Parser jspCreateFindAllParser = getParser("/jsp-create-find-all.templar");
 			Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
 			Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
-			Parser tldCreateLibraryParser = getParser("/tld-create-library.templar");
 			Parser javaCreateFormBeanParser = getParser("/java-create-form-bean.templar");
+
+			// the TLD
+			Parser tldCreateLibraryParser = getParser("/tld-create-library.templar");
+
+			// the JSPs
+			Parser jspCreateFinderParser = getParser("/jsp-create-finder.templar");
 			Parser jspCreateIndexParser = getParser("/jsp-create-index.templar");
+			Parser jspCreateIndexTableParser = getParser("/jsp-create-index-table.templar");
+			Parser jspCreateFindAllParser = getParser("/jsp-create-find-all.templar");
+
+			// the CSS
 			Parser cssCreateAllParser = getParser("/css-create-all.templar");
+
 			Parser javaCreateStatisticsParser = getParser("/java-create-statistics.templar");
-			Parser sqlCreateDatabaseParser = getParser("/sql-create-database.templar");
 			Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
+
+			// the sql generator
+			Parser sqlCreateDatabaseParser = getParser("/sql-create-database.templar");
 
 			if(options.hasGenerator(Options.OPTION_SQL)) {
 				// first up the database creation script
@@ -168,7 +186,7 @@ public class H2ZeroTask extends Task {
 					// the finder
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
 					renderToFile(templarContext, javaCreateFinderParser, pathname);
-					
+
 					// the inserter
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
 					renderToFile(templarContext, javaCreateInserterParser, pathname);
@@ -176,6 +194,12 @@ public class H2ZeroTask extends Task {
 					// the counters
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
 					renderToFile(templarContext, javaCreateCounterParser, pathname);
+
+					// the questions - but only if we have some
+					if(table.getHasQuestions()) {
+						pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/question/" + table.getJavaClassName() + "Question.java";
+						renderToFile(templarContext, javaCreateQuestionParser, pathname);
+					}
 				}
 
 				if(options.hasGenerator(Options.OPTION_FORMBEANS)) {
@@ -211,15 +235,25 @@ public class H2ZeroTask extends Task {
 					}
 				}
 
-				ArrayList<Counter> counters = table.getCounters();
-				Iterator<Counter> counterIterator = counters.iterator();
+				if(options.hasGenerator(Options.OPTION_TAGLIB)) {
+					ArrayList<Counter> counters = table.getCounters();
+					Iterator<Counter> counterIterator = counters.iterator();
 
-				while(counterIterator.hasNext()) {
-					Counter counter = counterIterator.next();
-					templarContext.add("counter", counter);
-					if(options.hasGenerator(Options.OPTION_TAGLIB)) {
+					while(counterIterator.hasNext()) {
+						Counter counter = counterIterator.next();
+						templarContext.add("counter", counter);
 						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + counter.getCounterTagName() + "Tag.java";
 						renderToFile(templarContext, javaCreateTaglibCounterParser, pathname);
+					}
+
+					ArrayList<Question> questions = table.getQuestions();
+					Iterator<Question> questionIterator = questions.iterator();
+
+					while(questionIterator.hasNext()) {
+						Question question = questionIterator.next();
+						templarContext.add("question", question);
+						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + question.getQuestionTagName() + "Tag.java";
+						renderToFile(templarContext, javaCreateTaglibQuestionParser, pathname);
 					}
 				}
 

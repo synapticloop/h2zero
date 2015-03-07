@@ -73,6 +73,7 @@ public class Table {
 		this.cacheable = JsonHelper.getBooleanValue(jsonObject, "cacheable", cacheable);
 		this.cacheFindAll = JsonHelper.getBooleanValue(jsonObject, "cacheFindAll", cacheFindAll);
 		String tempComments = JsonHelper.getStringValue(jsonObject, "comment", null);
+
 		if(null != tempComments) {
 			String[] split = tempComments.split("\\n");
 			for (int i = 0; i < split.length; i++) {
@@ -423,6 +424,7 @@ public class Table {
 	public ArrayList<Deleter> getDeleters() { return(deleters); }
 	public ArrayList<Constant> getConstants() { return(constants); }
 	public ArrayList<Counter> getCounters() { return(counters); }
+	public ArrayList<Question> getQuestions() { return(questions); }
 
 	public ArrayList<BaseField> getNonNullFields() { return(nonNullFields); }
 	public ArrayList<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
@@ -436,6 +438,7 @@ public class Table {
 	public String getJavaFieldName() { return(NamingHelper.getSecondUpper(name)); }
 	public boolean getHasNonNullConstructor() { return(nonNullFields.size() != fields.size()); }
 	public boolean getHasLargeObject() { return hasLargeObject; }
+	public boolean getHasQuestions() { return(questions.size() > 0); }
 
 	public boolean getIsConstant() { return(constants.size() > 0); }
 

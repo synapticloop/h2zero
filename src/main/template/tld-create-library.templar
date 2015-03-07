@@ -198,6 +198,50 @@
 		{\t}</tag>{\n}
 		{\n}
 	{endloop}
+
+
+	{loop table.questions as question}
+		{\t}<tag>{\n}
+		{\t}{\t}<description>{\n}
+		{\t}{\t}{\t}generated tag for the {question.name}{\n}
+		{\t}{\t}</description>{\n}
+		{\t}{\t}<name>{table.javaClassName}{question.questionTagName}</name>{\n}
+		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{question.questionTagName}Tag</tag-class>{\n}
+		{\t}{\t}<body-content>JSP</body-content>{\n}
+
+		{\t}{\t}<attribute>{\n}
+		{\t}{\t}{\t}<description>{\n}
+		{\t}{\t}{\t}{\t}The variable to bind the results to{\n}
+		{\t}{\t}{\t}</description>{\n}
+		{\t}{\t}{\t}<name>var</name>{\n}
+		{\t}{\t}{\t}<required>true</required>{\n}
+		{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
+		{\t}{\t}</attribute>{\n}
+
+
+		{loop question.whereFields as whereField}
+			{\t}{\t}<attribute>{\n}
+			{\t}{\t}{\t}<description>{\n}
+			{\t}{\t}{\t}{\t}Bind the {whereField.javaName} variable{\n}
+			{\t}{\t}{\t}</description>{\n}
+			{\t}{\t}{\t}<name>{whereField.javaName}</name>{\n}
+			{\t}{\t}{\t}<required>true</required>{\n}
+			{\t}{\t}{\t}<rtexprvalue>true</rtexprvalue>{\n}
+			{\t}{\t}</attribute>{\n}
+		{endloop}
+
+		{\t}{\t}<attribute>{\n}
+		{\t}{\t}{\t}<description>{\n}
+		{\t}{\t}{\t}{\t}Whether to remove the var at the end of the tag{\n}
+		{\t}{\t}{\t}</description>{\n}
+		{\t}{\t}{\t}<name>removeVar</name>{\n}
+		{\t}{\t}{\t}<required>false</required>{\n}
+		{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
+		{\t}{\t}</attribute>{\n}
+
+		{\t}</tag>{\n}
+		{\n}
+	{endloop}
 	{\n}{\n}
 {endloop}
 
