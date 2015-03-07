@@ -4,14 +4,13 @@ This is a object relationship mapper for MySQL and Java.
 
 Whilst still a work in progress, database persistence is fully supported and running in production environments.
 
+*See the other markdown (.md) files for more information*
+
 # Background
 
-There are so many object relational mappers (ORMs) out there that do what h2zero does.  It isn't special, it just 
-provides a link between your database and generates your Java code to be able to use it.
+There are so many object relational mappers (ORMs) out there that do what h2zero does.  It isn't special, it just provides a link between your database and generates your Java code to be able to use it.
 
-Unlike other ORMs, you have full control of the SQL that is generated,
-
-So, if you
+Unlike other ORMs, you have full control of the SQL that is generated.  So, if you
 
  - use MySQL
  - use Java
@@ -19,11 +18,9 @@ So, if you
  
 Then this is the ORM for you.
  
-Unlike other ORMs, most (not all, but most) of the SQL must be hand-crafted by you, no horrible *best-effort* code 
-generation, no horrific un-parseable SQL statements in the logs.
+Unlike other ORMs, most (not all, but most) of the SQL must be hand-crafted by you, no horrible *best-effort* code  generation, no horrific un-parseable SQL statements in the logs.
 
-You have complete control over the SQL statements that are executed meaning that you can optimise your statements the
-way you want them, not the way that the generator thinks you should.
+You have complete control over the SQL statements that are executed meaning that you can optimise your statements the way you want them, not the way that the generator thinks you should.
 
 Your database, just the way that you designed it.
 
