@@ -242,7 +242,7 @@ public class H2ZeroTask extends Task {
 					while(counterIterator.hasNext()) {
 						Counter counter = counterIterator.next();
 						templarContext.add("counter", counter);
-						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + counter.getCounterTagName() + "Tag.java";
+						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + counter.getTagName() + "Tag.java";
 						renderToFile(templarContext, javaCreateTaglibCounterParser, pathname);
 					}
 
@@ -252,7 +252,7 @@ public class H2ZeroTask extends Task {
 					while(questionIterator.hasNext()) {
 						Question question = questionIterator.next();
 						templarContext.add("question", question);
-						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + question.getQuestionTagName() + "Tag.java";
+						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + question.getTagName() + "Tag.java";
 						renderToFile(templarContext, javaCreateTaglibQuestionParser, pathname);
 					}
 				}

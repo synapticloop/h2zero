@@ -161,8 +161,8 @@
 		{\t}{\t}<description>{\n}
 		{\t}{\t}{\t}generated tag for the {counter.name}{\n}
 		{\t}{\t}</description>{\n}
-		{\t}{\t}<name>{table.javaClassName}{counter.counterTagName}</name>{\n}
-		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{counter.counterTagName}Tag</tag-class>{\n}
+		{\t}{\t}<name>{table.javaClassName}{counter.tagName}</name>{\n}
+		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{counter.tagName}Tag</tag-class>{\n}
 		{\t}{\t}<body-content>JSP</body-content>{\n}
 
 		{\t}{\t}<attribute>{\n}
@@ -205,8 +205,8 @@
 		{\t}{\t}<description>{\n}
 		{\t}{\t}{\t}generated tag for the {question.name}{\n}
 		{\t}{\t}</description>{\n}
-		{\t}{\t}<name>{table.javaClassName}{question.questionTagName}</name>{\n}
-		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{question.questionTagName}Tag</tag-class>{\n}
+		{\t}{\t}<name>{table.javaClassName}{question.tagName}</name>{\n}
+		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{question.tagName}Tag</tag-class>{\n}
 		{\t}{\t}<body-content>JSP</body-content>{\n}
 
 		{\t}{\t}<attribute>{\n}

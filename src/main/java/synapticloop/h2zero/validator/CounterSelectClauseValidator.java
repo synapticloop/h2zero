@@ -20,7 +20,7 @@ public class CounterSelectClauseValidator extends Validator {
 				String selectClause = question.getSelectClause();
 				if(null != selectClause) {
 					if(!selectClause.toLowerCase().contains("select")) {
-						addWarnMessage("Question '" + table.getName() + "." + question.getName() + "' has a '" + JSONKeyConstants.JSON_KEY_SELECT_CLAUSE + "' that does not start with 'select', so I am going to add one.");
+						addWarnMessage("Question '" + table.getName() + "." + question.getName() + "' has a '" + JSONKeyConstants.SELECT_CLAUSE + "' that does not start with 'select', so I am going to add one.");
 						question.setSelectClause(" select " + selectClause);
 					}
 				}

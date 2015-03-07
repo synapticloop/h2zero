@@ -20,9 +20,9 @@ import {database.package}.question.{table.javaClassName}Question;{\n}
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
-public class {question.questionTagName}Tag extends BodyTagSupport {{{\n}
+public class {question.tagName}Tag extends BodyTagSupport {{{\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
-	{\t}private static final Logger LOGGER = Logger.getLogger({question.questionTagName}Tag.class);{\n}{\n}
+	{\t}private static final Logger LOGGER = Logger.getLogger({question.tagName}Tag.class);{\n}{\n}
 	{\t}private String var = null;{\n}
 	{\t}private boolean removeVar = false;{\n}{\n}
 

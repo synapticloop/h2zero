@@ -42,7 +42,7 @@ public class Inserter {
 
 		this.insertClause = JsonHelper.getStringValue(jsonObject, "insertClause", null);
 		this.valuesClause = JsonHelper.getStringValue(jsonObject, "valuesClause", null);
-		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_SELECT_CLAUSE, null);
+		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
 		this.whereClause = JsonHelper.getStringValue(jsonObject, "whereClause", null);
 
 		if(null != selectClause) {

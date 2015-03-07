@@ -20,9 +20,9 @@ import {database.package}.counter.{table.javaClassName}Counter;{\n}
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
-public class {counter.counterTagName}Tag extends BodyTagSupport {{{\n}
+public class {counter.tagName}Tag extends BodyTagSupport {{{\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
-	{\t}private static final Logger LOGGER = Logger.getLogger({counter.counterTagName}Tag.class);{\n}{\n}
+	{\t}private static final Logger LOGGER = Logger.getLogger({counter.tagName}Tag.class);{\n}{\n}
 	{\t}private String var = null;{\n}
 	{\t}private boolean removeVar = false;{\n}{\n}
 

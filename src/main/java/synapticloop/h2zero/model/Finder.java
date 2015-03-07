@@ -1,21 +1,5 @@
 package synapticloop.h2zero.model;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import synapticloop.h2zero.exception.H2ZeroParseException;
-import synapticloop.h2zero.model.field.BaseField;
-import synapticloop.h2zero.model.util.FieldLookupHelper;
-import synapticloop.h2zero.model.util.JSONKeyConstants;
-import synapticloop.h2zero.util.JsonHelper;
-import synapticloop.h2zero.util.NamingHelper;
-
 /*
  * Copyright (c) 2013-2015 synapticloop.
  * 
@@ -33,6 +17,22 @@ import synapticloop.h2zero.util.NamingHelper;
  * Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
+
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.model.field.BaseField;
+import synapticloop.h2zero.model.util.FieldLookupHelper;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
+import synapticloop.h2zero.util.JsonHelper;
+import synapticloop.h2zero.util.NamingHelper;
 
 public class Finder {
 	private String name;
@@ -52,9 +52,9 @@ public class Finder {
 
 
 	public Finder(JSONObject jsonObject, Table table) throws H2ZeroParseException {
-		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_NAME, null);
-		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_ORDER_BY, null);
-		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_SELECT_CLAUSE, null);
+		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
+		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
+		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
 		// if we have a select clause then we are returning a bean...
 
 		// now for the select fields
@@ -62,14 +62,14 @@ public class Finder {
 			populateSelectFields(jsonObject);
 		}
 
-		this.unique = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.JSON_KEY_UNIQUE, unique);
+		this.unique = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, unique);
 		this.cache = JsonHelper.getBooleanValue(jsonObject, "cache", cache);
 
 		// now for the where clauses
-		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_WHERE_CLAUSE, null);
+		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
 		// we may not have any whereFields
 		try {
-			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.JSON_KEY_WHERE_FIELDS);
+			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 
 			if(null == whereClause && whereFieldArray.length() > 0) {
 				throw new H2ZeroParseException("Finder '" + name + "' cannot have 'whereFields' when there is no 'whereClause'.");
@@ -126,15 +126,15 @@ public class Finder {
 	}
 
 	public Finder(JSONObject jsonObject, View view) throws H2ZeroParseException {
-		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_NAME, null);
-		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_ORDER_BY, null);
-		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.JSON_KEY_WHERE_CLAUSE, null);
-		this.unique = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.JSON_KEY_UNIQUE, unique);
+		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
+		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
+		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
+		this.unique = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, unique);
 		this.cache = JsonHelper.getBooleanValue(jsonObject, "cache", cache);
 
 		// now for the where clauses
 		try {
-			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.JSON_KEY_WHERE_FIELDS);
+			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				String whereFieldName = whereFieldArray.getString(i);
 				BaseField baseField = view.getField(whereFieldName);
@@ -170,7 +170,7 @@ public class Finder {
 				type = fieldObject.getString("type");
 
 				// check to ensure that the field has a name
-				fieldObject.getString(JSONKeyConstants.JSON_KEY_NAME);
+				fieldObject.getString(JSONKeyConstants.NAME);
 			} catch (JSONException ojjsonex) {
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.append("Could not parse the 'selectFields' array.\n");

@@ -1,17 +1,5 @@
 package synapticloop.h2zero.model;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import synapticloop.h2zero.exception.H2ZeroParseException;
-import synapticloop.h2zero.model.field.BaseField;
-import synapticloop.h2zero.model.util.FieldLookupHelper;
-import synapticloop.h2zero.util.JsonHelper;
-import synapticloop.h2zero.util.NamingHelper;
-
 /*
  * Copyright (c) 2013-2015 synapticloop.
  * 
@@ -30,41 +18,19 @@ import synapticloop.h2zero.util.NamingHelper;
  * under the Licence.
  */
 
-public class Deleter {
-	private String name;
-	private String whereClause;
-	private ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
+import org.json.JSONObject;
 
-	public Deleter(JSONObject jsonObject, Table table) throws H2ZeroParseException {
-		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
-		this.whereClause = JsonHelper.getStringValue(jsonObject, "whereClause", null);
-		// now for the where fields
-		try {
-			JSONArray whereFieldArray = jsonObject.getJSONArray("whereFields");
-			for (int i = 0; i < whereFieldArray.length(); i++) {
-				String whereFieldName = whereFieldArray.getString(i);
-				BaseField baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
-//				this.hasInFields = FieldLookupHelper.hasInFields(whereFieldName);
+import synapticloop.h2zero.exception.H2ZeroParseException;
 
-				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for deleter '" + name + "'.");
-				}
-				whereFields.add(baseField);
-			}
-		} catch (JSONException ojjsonex) {
-			// do nothing
-		}
+public class Deleter extends BaseQueryObject {
+
+	public Deleter(Table table, JSONObject jsonObject) throws H2ZeroParseException {
+		super(table, jsonObject);
+
+		populateWhereFields(jsonObject);
 
 		if(null == name) {
 			throw new H2ZeroParseException("The deleter 'name' attribute cannot be null.");
 		}
 	}
-
-	public String getName() { return(name); }
-	public String getWhereClause() { return(whereClause); }
-	public void setWhereClause(String whereClause) { this.whereClause = whereClause; }
-	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
-
-	public String getStaticName() { return(NamingHelper.getStaticName(name)); }
-
 }

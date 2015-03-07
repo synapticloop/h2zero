@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 
 public class TableFinderKeyValidator extends Validator {
 
@@ -15,7 +16,7 @@ public class TableFinderKeyValidator extends Validator {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			if(table.getHasDeprecatedFinder()) {
-				addWarnMessage("Table contains fields with a deprecated key of 'finder', please remove and use the 'fieldFinders' JSON array as below:");
+				addWarnMessage("Table contains fields with a deprecated key of 'finder', please remove and use the '" + JSONKeyConstants.FIELD_FINDERS + "' JSON array as below:");
 				addWarnMessage("\"fieldFinders\": [");
 				LinkedHashMap<String,String> deprecatedFinders = table.getDeprecatedFinders();
 				Iterator<String> iterator = deprecatedFinders.keySet().iterator();
