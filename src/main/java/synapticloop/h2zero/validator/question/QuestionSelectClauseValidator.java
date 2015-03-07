@@ -1,4 +1,4 @@
-package synapticloop.h2zero.validator;
+package synapticloop.h2zero.validator.question;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Question;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
+import synapticloop.h2zero.validator.Validator;
 
 public class QuestionSelectClauseValidator extends Validator {
 
