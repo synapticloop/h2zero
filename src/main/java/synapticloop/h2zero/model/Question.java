@@ -35,7 +35,7 @@ public class Question {
 
 		// now for the select fields
 		if(null == selectClause) {
-			throw new H2ZeroParseException("Questions must always have a '" + JSONKeyConstants.JSON_KEY_SELECT_CLAUSE + "' and return one and only boolean object.");
+			throw new H2ZeroParseException("Questions must always have a '" + JSONKeyConstants.JSON_KEY_SELECT_CLAUSE + "' and return one and only one boolean object.");
 		}
 
 		// now for the where clauses

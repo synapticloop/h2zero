@@ -33,6 +33,7 @@ import synapticloop.h2zero.validator.InserterNameValidator;
 import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.validator.PrimaryKeyExistsValidator;
 import synapticloop.h2zero.validator.PrimaryKeyNameValidator;
+import synapticloop.h2zero.validator.QuestionSelectClauseValidator;
 import synapticloop.h2zero.validator.TableFinderKeyValidator;
 import synapticloop.h2zero.validator.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.UniqeAndIndexValidator;
@@ -93,6 +94,9 @@ public class H2ZeroParser {
 
 		// counter validators
 		validators.add(new CounterSelectClauseValidator());
+
+		// question validators
+		validators.add(new QuestionSelectClauseValidator());
 	}
 
 	private static int maxValidatorClassNameLength = 0;

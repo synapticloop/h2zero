@@ -8,4 +8,6 @@ public class JSONKeyConstants {
 	public static final String JSON_KEY_ORDER_BY = "orderBy";
 	public static final String JSON_KEY_NAME = "name";
 	public static final String JSON_KEY_QUESTIONS = "questions";
+	public static final String JSON_KEY_FIELD_FINDERS = "fieldFinders";
+	public static final String JSON_KEY_FIELDS = "fields";
 }
