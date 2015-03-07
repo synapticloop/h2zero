@@ -50,4 +50,8 @@ public abstract class Validator {
 		}
 		return(messages);
 	}
+
+	public int getNumInfo() { return(numInfo); }
+	public int getNumWarn() {return(numWarn); }
+	public int getNumFatal() { return(numFatal); }
 }

@@ -131,15 +131,16 @@ public class H2ZeroParser {
 				isValid = false;
 			}
 
+			numWarn += validator.getNumWarn();
+			numFatal += validator.getNumFatal();
+
 			ArrayList<Message> messages = validator.getMessages();
 			for (Message message: messages) {
 				if(message.getType().equals(SimpleLogger.INFO)) {
 					SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				} else if(message.getType().equals(SimpleLogger.WARN)){
-					numWarn++;
 					SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				} else if(message.getType().equals(SimpleLogger.FATAL)){
-					numFatal++;
 					SimpleLogger.logFatal(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));
 				}
 			}

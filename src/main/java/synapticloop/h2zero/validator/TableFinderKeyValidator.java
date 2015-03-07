@@ -16,8 +16,10 @@ public class TableFinderKeyValidator extends Validator {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			if(table.getHasDeprecatedFinder()) {
-				addWarnMessage("Table contains fields with a deprecated key of 'finder', please remove and use the '" + JSONKeyConstants.FIELD_FINDERS + "' JSON array as below:");
-				addWarnMessage("\"fieldFinders\": [");
+				ArrayList<String> warnMessages = new ArrayList<String>();
+
+				warnMessages.add("Table contains fields with a deprecated key of 'finder', please remove and use the '" + JSONKeyConstants.FIELD_FINDERS + "' JSON array as below:");
+				warnMessages.add("\"fieldFinders\": [");
 				LinkedHashMap<String,String> deprecatedFinders = table.getDeprecatedFinders();
 				Iterator<String> iterator = deprecatedFinders.keySet().iterator();
 				while (iterator.hasNext()) {
@@ -31,9 +33,18 @@ public class TableFinderKeyValidator extends Validator {
 					if(iterator.hasNext()) {
 						stringBuffer.append(",");
 					}
-					addWarnMessage(stringBuffer.toString());
+					warnMessages.add(stringBuffer.toString());
 				}
-				addWarnMessage("]");
+				warnMessages.add("]");
+
+				String[] messages = new String[warnMessages.size()];
+				int i = 0;
+				for (String warnMessage: warnMessages) {
+					messages[i] = warnMessage;
+					i++;
+				}
+
+				addWarnMessage(messages);
 			}
 		}
 		return(isValid);
