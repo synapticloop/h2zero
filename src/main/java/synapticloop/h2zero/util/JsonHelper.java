@@ -22,7 +22,7 @@ public class JsonHelper {
 		return(defaultValue);
 	}
 
-	public static boolean getBooleanValue(JSONObject jsonObject, String key, Boolean defaultValue) {
+	public static Boolean getBooleanValue(JSONObject jsonObject, String key, Boolean defaultValue) {
 		try {
 			return(jsonObject.getBoolean(key));
 		} catch (JSONException ojjsonex) {

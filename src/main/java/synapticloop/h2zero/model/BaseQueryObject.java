@@ -54,6 +54,7 @@ public abstract class BaseQueryObject {
 
 	protected BaseQueryObject(Table table, JSONObject jsonObject) {
 		this.jsonObject = jsonObject;
+
 		this.table = table;
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
