@@ -1,6 +1,0 @@
-<tr>
-	<td><strong>selectClause</strong></td>
-	<td>String</td>
-	<td>{if fn:notNull[keyselectClause]}{keyselectClause}{endif}</td>
-	<td>This is the SQL query that is run</td>
-</tr>
