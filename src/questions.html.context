@@ -1,8 +1,8 @@
 object=Question
 name=question
-keyname=mandatory
-keyselectClause=mandatory
-keyselectFields=invalid
-keywhereClause=optional
-keywhereFields=optional
-keyunique=invalid
+keyName=mandatory
+keySelectClause=mandatory
+keySelectFields=invalid
+keyWhereClause=optional
+keyWhereFields=optional
+keyUnique=invalid

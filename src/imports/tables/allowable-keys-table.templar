@@ -1,0 +1,51 @@
+<h4>Allowable keys for a {object} JSON Object</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>key name</th>
+			<th>key value type</th>
+			<th>usage</th>
+			<th>notes</th>
+			</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>name</strong></td>
+			<td>String</td>
+			<td>{if fn:notNull[keyName]}{keyName}{endif}</td>
+			<td>This is the name for the {name}</td>
+		</tr>
+		<tr>
+			<td><strong>selectClause</strong></td>
+			<td>String</td>
+			<td>{if fn:notNull[keySelectClause]}{keySelectClause}{endif}</td>
+			<td>This is the SQL query that is run</td>
+		</tr>
+		<tr>
+			<td><strong>selectFields</strong></td>
+			<td>String</td>
+			<td>invalid</td>
+			<td>Select fields are ignored as there is only one select field which is of type boolean.  This will generate a validation (WARN) message.</td>
+		</tr>
+		<tr>
+			<td><strong>whereClause</strong></td>
+			<td>String</td>
+			<td>optional</td>
+			<td>Used if the SQL query is parameterised</td>
+		</tr>
+		<tr>
+			<td><strong>whereFields</strong></td>
+			<td>String</td>
+			<td>optional</td>
+			<td>The name and type for each of the whereClause parameters</td>
+		</tr>
+		<tr>
+			<td><strong>unique</strong></td>
+			<td>String</td>
+			<td>ignored</td>
+			<td>This always returns one, and only one result in the result set.  This will generate a validation (WARN) message.</td>
+		</tr>
+	</tbody>
+</table>

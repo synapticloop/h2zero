@@ -27,39 +27,7 @@
 ]{\n}
 			</pre></code>
 
-			<h4>Allowable keys for a Question JSON Object</h4>
-
-			<table>
-				{import src/imports/tables/thead.templar}
-				<tbody>
-					{import src/imports/tables/name.templar}
-					{import src/imports/tables/selectClause.templar}
-					<tr>
-						<td><strong>selectFields</strong></td>
-						<td>String</td>
-						<td>invalid</td>
-						<td>Select fields are ignored as there is only one select field which is of type boolean.  This will generate a validation (WARN) message.</td>
-					</tr>
-					<tr>
-						<td><strong>whereClause</strong></td>
-						<td>String</td>
-						<td>optional</td>
-						<td>Used if the SQL query is parameterised</td>
-					</tr>
-					<tr>
-						<td><strong>whereFields</strong></td>
-						<td>String</td>
-						<td>optional</td>
-						<td>The name and type for each of the whereClause parameters</td>
-					</tr>
-					<tr>
-						<td><strong>unique</strong></td>
-						<td>String</td>
-						<td>ignored</td>
-						<td>This always returns one, and only one result in the result set.  This will generate a validation (WARN) message.</td>
-					</tr>
-				</tbody>
-			</table>
+			{import src/imports/tables/allowable-keys-table.templar}
 
 			<h4>Example 1: Simple Question</h4>
 
