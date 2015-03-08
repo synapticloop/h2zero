@@ -1,2 +1,8 @@
 object=Question
 name=question
+key.name=mandatory
+key.selectClause=mandatory
+key.selectFields=invalid
+key.whereClause=optional
+key.whereFields=optional
+key.unique=invalid
