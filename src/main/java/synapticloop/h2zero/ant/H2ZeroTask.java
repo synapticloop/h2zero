@@ -114,6 +114,7 @@ public class H2ZeroTask extends Task {
 				return;
 			}
 
+//			new JavaGenerator(options, database).generate();
 
 			// The model
 			Parser javaCreateModelParser = getParser("/java-create-model.templar");
@@ -155,6 +156,7 @@ public class H2ZeroTask extends Task {
 			Parser javaCreateStatisticsParser = getParser("/java-create-statistics.templar");
 			Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
 
+//			new SqlGenerator(templarContext).generate();
 			// the sql generator
 			Parser sqlCreateDatabaseParser = getParser("/sql-create-database.templar");
 
@@ -178,6 +180,7 @@ public class H2ZeroTask extends Task {
 				templarContext.add("table", table);
 				SimpleLogger.logInfo(LoggerType.GENERATE, "Generating for table '" + table.getName() + "'.");
 
+				
 				if(options.hasGenerator(Options.OPTION_JAVA)) {
 					// the model
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
