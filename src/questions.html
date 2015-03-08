@@ -14,7 +14,7 @@
 			<p>This is a light-weight way to get a boolean answer to a question without using select beans or counters</p>
 			<p>The key <code>questions</code> is a JSON Array on the <code>table</code> JSON object, for example:</p>
 
-<pre><code>
+			<pre><code>
 "tables": [{\n}
 {\t}{{{\n}
 {\t}{\t}"fields": [{\n}
@@ -25,52 +25,50 @@
 {\t}{\t}]{\n}
 {\t}}{\n}
 ]{\n}
-</pre></code>
+			</pre></code>
 
-## Key Value Pairs
+			<h4>Key Value Pairs</h4>
 
-| key name | key value type | usage| notes |
-|----------|----------------|------|-------|
-| **name** | String | mandatory | This is the name for the question |
-| **selectClause** | String | mandatory | This is the SQL query that is run which **MUST** return one and only one boolean result |
-| **selectFields** | String | invalid | Select fields are ignored as there is only one select field which is of type boolean.  This will generate a validation (WARN) message. |
-| **whereClause** | String | optional | Used if the SQL query is parameterised |
-| **whereFields** | String | optional | The name and type for each of the whereClause parameters |
-| **unique** | String | ignored | This always returns one, and only one result in the result set.  This will generate a validation (WARN) message. |
+			| key name | key value type | usage| notes |
+			|----------|----------------|------|-------|
+			| **name** | String | mandatory | This is the name for the question |
+			| **selectClause** | String | mandatory | This is the SQL query that is run which **MUST** return one and only one boolean result |
+			| **selectFields** | String | invalid | Select fields are ignored as there is only one select field which is of type boolean.  This will generate a validation (WARN) message. |
+			| **whereClause** | String | optional | Used if the SQL query is parameterised |
+			| **whereFields** | String | optional | The name and type for each of the whereClause parameters |
+			| **unique** | String | ignored | This always returns one, and only one result in the result set.  This will generate a validation (WARN) message. |
 
-## Example 1: Simple Question
-```
-"questions": [
-	{{
-		"name": "doWeHaveMoreThanTwentyUsers",
-		"selectClause": "select count(*) > 20 from user"
-	}
-]
-```
+			<h4>Example 1: Simple Question</h4>
 
-Whilst rather contrived, this will return a true/false answer as to whether we have more than 20 users.
+			<pre><code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}"name": "doWeHaveMoreThanTwentyUsers",{\n}
+{\t}"selectClause": "select count(*) > 20 from user"{\n}
+{\t}}{\n}
+]{\n}
+			</pre></code>
 
-You may also use a `whereClause` and `whereFields` if you wish to pass in additional parameters.
+			<p>Whilst rather contrived, this will return a true/false answer as to whether we have more than 20 users.</p>
 
-## Example 2: Parameterised Question
+			<p>You may also use a <code>whereClause</code> and <code>whereFields</code> if you wish to pass in additional parameters.</p>
 
-```
-"questions": [
-	{{
-		"name": "doesUserNameExist",
-		"selectClause": "select count(*) > 0 from user",
-		"whereClause": "where nm_user = ?",
-		"whereFields": [
-			"nm_user"
-		]
-	}
-]
-```
-In the above example, the question being asked is whether a particular username exists in the user table.  If it does, the return value is `true` else `false`.
-			<pre>
-				<code>
-				</code>
-			</pre>
+			<h4>Example 2: Parameterised Question</h4>
+
+			<pre><code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "doesUserNameExist",{\n}
+{\t}{\t}"selectClause": "select count(*) > 0 from user",{\n}
+{\t}{\t}"whereClause": "where nm_user = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"nm_user"{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+			<pre></code>
+
+			<p>In the above example, the question being asked is whether a particular username exists in the user table.  If it does, the return value is <code>true</code> else <code>false</code>.</p>
 
 		</section>
 		{import src/imports/footer.templar}
