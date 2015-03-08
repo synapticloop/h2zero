@@ -9,15 +9,18 @@
 		- <a href="/h2zero/index.html">Home</a><br />
 		- <a href="/h2zero/file-format.html">File Format</a><br />
 		- <a href="/h2zero/options.html">Options</a><br />
-		- <a href="/h2zero/fields.html">Fields</a><br />
-		- <a href="/h2zero/finders.html">Finders</a><br />
-		- <a href="/h2zero/field-finders.html">Field Finders</a><br />
-		- <a href="/h2zero/deleters.html">Deleters</a><br />
-		- <a href="/h2zero/inserters.html">Inserters</a><br />
-		- <a href="/h2zero/updaters.html">Updaters</a><br />
-		- <a href="/h2zero/questions.html">Questions</a><br />
-		- <a href="/h2zero/counters.html">Counters</a><br />
-		- <a href="/h2zero/constants.html">Constants</a><br />
+		- <a href="/h2zero/database.html">Database</a><br />
+		- <a href="/h2zero/tables.html">Tables</a><br />
+		--- <a href="/h2zero/fields.html">Fields</a><br />
+		--- <a href="/h2zero/finders.html">Finders</a><br />
+		--- <a href="/h2zero/field-finders.html">Field Finders</a><br />
+		--- <a href="/h2zero/deleters.html">Deleters</a><br />
+		--- <a href="/h2zero/inserters.html">Inserters</a><br />
+		--- <a href="/h2zero/updaters.html">Updaters</a><br />
+		--- <a href="/h2zero/questions.html">Questions</a><br />
+		--- <a href="/h2zero/counters.html">Counters</a><br />
+		--- <a href="/h2zero/constants.html">Constants</a><br />
+		- <a href="/h2zero/views.html">Views</a><br />
 	</p>
 
 	<hr />
