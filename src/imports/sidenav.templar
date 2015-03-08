@@ -5,6 +5,13 @@
 	<hr />
 
 	<h2>Navigation</h2>
+
+	<p>
+		- <a href="quick-start.html">Quick Start</a><br />
+	</p>
+
+	<hr />
+
 	<p>
 		- <a href="index.html">Home</a><br />
 		- <a href="file-format.html">File Format</a><br />
@@ -32,12 +39,6 @@
 		--- <a href="where-fields.html">Where Fields</a><br />
 		--- <a href="set-clauses.html">Set Clauses</a><br />
 		--- <a href="set-fields.html">Set Fields</a><br />
-	</p>
-
-	<hr />
-
-	<p>
-		- <a href="quick-start.html">Quick Start</a><br />
 	</p>
 
 	<hr />
