@@ -188,8 +188,10 @@ public class H2ZeroTask extends Task {
 					renderToFile(templarContext, javaCreateFinderParser, pathname);
 
 					// the inserter
-					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
-					renderToFile(templarContext, javaCreateInserterParser, pathname);
+					if(!table.getIsConstant()) {
+						pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
+						renderToFile(templarContext, javaCreateInserterParser, pathname);
+					}
 
 					// the counters
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
@@ -272,12 +274,16 @@ public class H2ZeroTask extends Task {
 
 				if(options.hasGenerator(Options.OPTION_JAVA)) {
 					// the updater
-					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
-					renderToFile(templarContext, javaCreateUpdaterParser, pathname);
+					if(!table.getIsConstant()) {
+						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
+						renderToFile(templarContext, javaCreateUpdaterParser, pathname);
+					}
 
 					// the deleter
-					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java";
-					renderToFile(templarContext, javaCreateDeleterParser, pathname);
+					if(!table.getIsConstant()) {
+						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java";
+						renderToFile(templarContext, javaCreateDeleterParser, pathname);
+					}
 				}
 
 				if(options.hasGenerator(Options.OPTION_ADMINPAGES)) {

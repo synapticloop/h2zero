@@ -98,7 +98,6 @@ rather than running a SQL query to lookup the value.
 ## Notes
 
   1. There are no setters on the fields for a constant table, only getters.
-  1. Whilst there is a Java `MediaTypeInserter` object, there are no methods to insert new values into the table.
   1. You may still have `finders`, `fieldFinders`, `questions`, and `counters` on the generation
   1. However, you may not have anything that alters the underlying state of the database i.e. `deleters`, `updaters` and `inserters` as this must always be generated through the h2zero file.
 
