@@ -1,0 +1,6 @@
+<tr>
+	<td><strong>name</strong></td>
+	<td>String</td>
+	<td>mandatory</td>
+	<td>This is the name for the {name}</td>
+</tr>
