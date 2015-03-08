@@ -25,6 +25,14 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 
 public class Question extends BaseQueryObject {
 
+	/**
+	 * Create a new question SQL query object from the passed in JSON object
+	 * 
+	 * @param table the table to which this question belongs
+	 * @param questionObject the jsonObject that contains the question items
+	 * 
+	 * @throws H2ZeroParseException - if something went wrong with the parsing 
+	 */
 	public Question(Table table, JSONObject questionObject) throws H2ZeroParseException {
 		super(table, questionObject);
 

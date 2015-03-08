@@ -1,4 +1,4 @@
-package synapticloop.h2zero.validator;
+package synapticloop.h2zero.validator.constant;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,6 +7,7 @@ import synapticloop.h2zero.model.Constant;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
+import synapticloop.h2zero.validator.Validator;
 
 public class ConstantTableValidator extends Validator {
 	HashSet<String> primaryKeyValues = new HashSet<String>();

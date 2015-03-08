@@ -26,6 +26,10 @@ import synapticloop.h2zero.validator.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.UniqeAndIndexValidator;
 import synapticloop.h2zero.validator.Validator;
 import synapticloop.h2zero.validator.bean.Message;
+import synapticloop.h2zero.validator.constant.ConstantDeleterValidator;
+import synapticloop.h2zero.validator.constant.ConstantInserterValidator;
+import synapticloop.h2zero.validator.constant.ConstantTableValidator;
+import synapticloop.h2zero.validator.constant.ConstantUpdaterValidator;
 import synapticloop.h2zero.validator.counter.CounterJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectClauseValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectFieldsValidator;
@@ -105,6 +109,12 @@ public class H2ZeroParser {
 		validators.add(new QuestionSelectClauseValidator());
 		validators.add(new QuestionSelectFieldsValidator());
 		validators.add(new QuestionJsonUniqueKeyExistsValidator());
+
+		// constant validators
+		validators.add(new ConstantTableValidator());
+		validators.add(new ConstantDeleterValidator());
+		validators.add(new ConstantInserterValidator());
+		validators.add(new ConstantUpdaterValidator());
 	}
 
 	private static int maxValidatorClassNameLength = 0;

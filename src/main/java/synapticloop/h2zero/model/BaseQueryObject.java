@@ -21,12 +21,13 @@ public abstract class BaseQueryObject {
 	protected JSONObject jsonObject = null;
 	protected Table table = null;
 
-	protected String name;
-	protected String selectClause;
-	protected String whereClause;
-	protected String insertClause;
-	protected String valuesClause;
-	protected String orderBy;
+	protected String name; // the name of the query object
+	protected String selectClause; // the select clause
+	protected String whereClause; // the where clause
+	protected String insertClause; // the insert clause
+	protected String valuesClause; // the values clause
+	protected String orderBy; // the order by clause
+
 	protected Boolean jsonUniqueKey; // whether there is a 'unique' jsonKey for this object
 
 	// where fields and their associated properties
@@ -41,21 +42,21 @@ public abstract class BaseQueryObject {
 	protected ArrayList<BaseField> valueFields = new ArrayList<BaseField>();
 	protected LinkedHashMap<String, BaseField> uniqueValueFields = new LinkedHashMap<String, BaseField>();
 
-	protected ArrayList<BaseField> allFields = new ArrayList<BaseField>();
-
-	protected HashSet<String> allUniqueFieldNames = new HashSet<String>();
-
-	protected ArrayList<BaseField> allUniqueFields = new ArrayList<BaseField>();
-
 	protected String setClause;
 	protected ArrayList<BaseField> setFields = new ArrayList<BaseField>();
-	protected LinkedHashMap<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
-	protected ArrayList<BaseField> updateFields = new ArrayList<BaseField>();
 
+	protected ArrayList<BaseField> updateFields = new ArrayList<BaseField>();
+	protected LinkedHashMap<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
+
+	protected ArrayList<BaseField> allFields = new ArrayList<BaseField>();
+	protected HashSet<String> allUniqueFieldNames = new HashSet<String>();
+	protected ArrayList<BaseField> allUniqueFields = new ArrayList<BaseField>();
+	
+	
 	protected BaseQueryObject(Table table, JSONObject jsonObject) {
+		this.table = table;
 		this.jsonObject = jsonObject;
 
-		this.table = table;
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
 		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
@@ -68,6 +69,12 @@ public abstract class BaseQueryObject {
 		this.jsonUniqueKey = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, null);
 	}
 
+	/**
+	 * Populate the where fields from the passed in json object
+	 * 
+	 * @param jsonObject the JSON object which is expected to have an array keyed on JSONKeyConstants.WHERE_FIELDS
+	 * @throws H2ZeroParseException if there was an error parsing the where fields
+	 */
 	protected void populateWhereFields(JSONObject jsonObject) throws H2ZeroParseException {
 		// we may not have any whereFields
 		try {
