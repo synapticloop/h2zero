@@ -1,6 +1,6 @@
 <tr>
 	<td><strong>name</strong></td>
 	<td>String</td>
-	<td>{if fn:notNull[key.name]}{key.name}{endif}</td>
+	<td>{if fn:notNull[keyname]}{keyname}{endif}</td>
 	<td>This is the name for the {name}</td>
 </tr>
