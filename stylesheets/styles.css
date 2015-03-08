@@ -83,6 +83,13 @@ th, td {
   border-bottom:1px solid #e5e5e5;
 }
 
+th {
+  background-color: #ddd;
+}
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
 dt {
   color:#444;
   font-weight:700;
