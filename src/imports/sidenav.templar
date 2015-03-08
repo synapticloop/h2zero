@@ -21,6 +21,17 @@
 		--- <a href="counters.html">Counters</a><br />
 		--- <a href="constants.html">Constants</a><br />
 		- <a href="views.html">Views</a><br />
+		--- <a href="view-finders.html">Finders</a><br />
+		--- <a href="view-field-finders.html">Field Finders</a><br />
+		--- <a href="view-questions.html">Questions</a><br />
+		--- <a href="view-counters.html">Counters</a><br />
+		- Clauses and Fields<br />
+		--- <a href="select-clause.html">selectClause</a><br />
+		--- <a href="select-fields.html">selectFields</a><br />
+		--- <a href="where-clause.html">whereClause</a><br />
+		--- <a href="where-fields.html">whereFields</a><br />
+		--- <a href="set-clause.html">setClause</a><br />
+		--- <a href="set-fields.html">setFields</a><br />
 	</p>
 
 	<hr />
