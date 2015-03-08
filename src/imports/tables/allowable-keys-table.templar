@@ -39,7 +39,7 @@
 		</tr>
 		<tr>
 			<td><strong>selectFields</strong></td>
-			<td>String</td>
+			<td>JSON Array</td>
 			<td>{if fn:null[keySelectFields]}undocumented{else}{keySelectFields}{endif}</td>
 			<td>
 				Select fields are {keySelectFields} for the {object} JSON object. {if !fn:null[keySelectFieldsInfo]}{keySelectFieldsInfo}{endif}
@@ -64,7 +64,7 @@
 		</tr>
 		<tr>
 			<td><strong>whereFields</strong></td>
-			<td>String</td>
+			<td>JSON Array</td>
 			<td>{if fn:null[keyWhereFields]}undocumented{else}{keyWhereFields}{endif}</td>
 			<td>
 				The name and type for each of the <code>whereClause</code> parameters.  
@@ -75,7 +75,7 @@
 		</tr>
 		<tr>
 			<td><strong>unique</strong></td>
-			<td>String</td>
+			<td>boolean</td>
 			<td>{if fn:null[keyUnique]}undocumented{else}{keyUnique}{endif}</td>
 			<td>
 				Whether the SQL query will return a single object or an <code>ArrayList</code> of objects.{if !fn:null[keyUniqueInfo]}{keyUniqueInfo}{endif}

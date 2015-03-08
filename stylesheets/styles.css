@@ -47,7 +47,7 @@ a small {
 }
 
 .wrapper {
-  width:860px;
+  width:960px;
   margin:0 auto;
 }
 
@@ -81,11 +81,14 @@ th, td {
   text-align:left;
   padding:5px 10px;
   border-bottom:1px solid #e5e5e5;
+  vertical-align: top;
 }
 
 th {
   background-color: #ddd;
+  text-transform: uppercase;
 }
+
 table tr:nth-child(2n) {
   background-color: #f8f8f8;
 }
@@ -167,7 +170,7 @@ header ul a strong {
 }
 
 section {
-  width:500px;
+  width:600px;
   float:right;
   padding-bottom:50px;
 }
