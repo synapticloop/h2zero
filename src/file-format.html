@@ -6,10 +6,7 @@
 		{import src/imports/sidenav.templar}
 		<section>
 
-			<h3>
-				<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>
-				File Format
-			</h3>
+			{import src/imports/page-heading.templar}
 
 			<p>
 				The h2zero file format is a JSON formatted document with a specific layout as per below:
@@ -18,13 +15,13 @@
 			<pre>
 				<code>
 {{{\n}
-{\t}"options": {{{\n}
+{\t}"<a href="/h2zero/options.html">options</a>": {{{\n}
 {\t}{\t}...{\n}
 {\t}},{\n}
-{\t}"database": {{{\n}
+{\t}"<a href="/h2zero/database.html">database</a>": {{{\n}
 {\t}{\t}"schema": "...",{\n}
 {\t}{\t}"package": "...",{\n}
-{\t}{\t}"tables": [{\n}
+{\t}{\t}"<a href="/h2zero/tables.html">tables</a>": [{\n}
 {\t}{\t}{\t}"<a href="/h2zero/fields.html">fields</a>": [{\n}
 {\t}{\t}{\t}{\t}{{...}{\n}
 {\t}{\t}{\t}],{\n}
@@ -53,7 +50,7 @@
 {\t}{\t}{\t}{\t}{{...}{\n}
 {\t}{\t}{\t}],{\n}
 {\t}{\t}], {\n}
-{\t}{\t}"views": [{\n}
+{\t}{\t}"<a href="/h2zero/fields.html">views</a>": [{\n}
 {\t}{\t}{\t}{{...}{\n}
 {\t}{\t}]{\n}
 {\t}}{\n}

@@ -1,6 +1,6 @@
 <header>
 	<h1>h2zero</h1>
-	<p>AN ORM generator for Java/MySQL (and optionally a J2EE container)</p>
+	<p>An Object Relationship Mapper (ORM) generator for Java, MySQL and optionally a J2EE container</p>
 
 	<hr />
 
