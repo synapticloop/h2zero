@@ -1,12 +1,12 @@
-<head>{\n}
-{\t}<meta charset="utf-8">{\n}
-{\t}<meta http-equiv="X-UA-Compatible" content="chrome=1">{\n}
-{\t}<title>h2zero by synapticloop</title>{\n}
-{\n}
-{\t}<link rel="stylesheet" href="stylesheets/styles.css">{\n}
-{\t}<link rel="stylesheet" href="stylesheets/pygment_trac.css">{\n}
-{\t}<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">{\n}
-{\t}<!--[if lt IE 9]>{\n}
-{\t}<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>{\n}
-{\t}<![endif]-->{\n}
-</head>{\n}
+<hrefead>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<title>h2zero by synapticloop</title>
+
+	<link rel="stylesheet" href="stylesheets/styles.css">
+	<link rel="stylesheet" href="stylesheets/pygment_trac.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>

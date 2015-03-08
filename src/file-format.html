@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+{import src/imports/head.templar}
+<body>
+	<div class="wrapper">
+		{import src/imports/sidenav.templar}
+		<section>
+
+			<h3>
+				<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+				File Format
+			</h3>
+
+			<p>
+				The h2zero file format is a JSON formatted document with a specific layout as per below:
+			</p>
+
+			<pre>
+				<code>
+{{{\n}
+{\t}"options": {{{\n}
+{\t}{\t}...{\n}
+{\t}},{\n}
+{\t}"database": {{{\n}
+{\t}{\t}"schema": "...",{\n}
+{\t}{\t}"package": "...",{\n}
+{\t}{\t}"tables": [{\n}
+{\t}{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"finders": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"fieldFinders": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"deleters": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"inserters": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"updaters": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"questions": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"counters": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"constants": [{\n}
+{\t}{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}], {\n}
+{\t}{\t}"views": [{\n}
+{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+}{\n}
+				</code>
+			</pre>
+
+			<p>
+				The navigation follows the file format.
+			</p>
+		</section>
+		{import src/imports/footer.templar}
+	</div>
+	<script src="javascripts/scale.fix.js"></script>
+
+</body>
+</html>
