@@ -8,10 +8,60 @@
 
 			{import src/imports/page-heading.templar}
 
+			<p>Counters are simple SQL statements that return one, and only one integer value.</p>
+
+			<p>This is a light-weight way to get a count of something without going through a selectClause bean finder.</p>
+
+			<p>The key <code>counters</code> is a JSON Array on the <code>table</code> JSON object, for example:</p>
+
 			<pre>
 				<code>
-				</code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"counters": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+</code>
 			</pre>
+
+			{import src/imports/tables/allowable-keys-table.templar}
+
+			<h4>Example 1: Simple Count</h4>
+
+			<pre><code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "countNumberOfUsers",{\n}
+{\t}{\t}"selectClause": "select count(*) from user"{\n}
+{\t}}{\n}
+]{\n}
+			</code></pre>
+
+			<p>As it would appear, this would return the number of users in the table.</p>
+
+			<p>You may also use a <code>whereClause</code> and <code>whereFields</code> if you wish to pass in additional parameters.</p>
+
+			<h4>Example 2: Parameterised Count</h4>
+
+			<pre><code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "countNumberOfUsersOverAge",{\n}
+{\t}{\t}"selectClause": "select count(*) from user"{\n}
+{\t}{\t}"whereClause": "where num_user_age > ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"num_user_age"{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+			</code></pre>
+
+			<p>In the above example, the count being given is the number of users that are older than a parameterised value that is passed in.</p>
 
 		</section>
 		{import src/imports/footer.templar}

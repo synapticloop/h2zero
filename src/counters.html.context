@@ -1,0 +1,15 @@
+object=Counter
+name=counter
+
+keySelectClause=mandatory
+keySelectClauseInfo=<br /><br />The select clause statement <strong>MUST</strong> return one and only one integer result.
+
+keySelectFields=invalid
+keySelectFieldsInfo=<br /><br />The select clause is automatically generated with a single select field (which is of type integer). 
+
+keyWhereClause=optional
+
+keyWhereFields=optional
+
+keyUnique=ignored
+keyUniqueInfo=<br /><br />This always returns one, and only one result in the result set of type integer and is therefore un-necessary.
