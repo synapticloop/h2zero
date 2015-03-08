@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+{import src/imports/head.templar}
+<body>
+	<div class="wrapper">
+		{import src/imports/sidenav.templar}
+		<section>
+
+			<h3>
+				<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Start Guide.
+			</h3>
+
+			<h4>Step 1</h4>
+
+			<p>Download the <a href="https://github.com/synapticloop/h2zero/tree/master/dist/h2zero.jar">h2zero jar file</a></p>
+			<p>Download the <a href="https://github.com/synapticloop/h2zero/tree/master/lib/runtime/">required dependencies</a></p>
+
+			<h4>Step 2</h4>
+
+			<p>Create your <code>.h2zero</code> file</p>
+
+			<p>To get started quickly, you can use the following h2zero file as a refenece point</p>
+
+			<pre>
+				<code>
+				</code>
+			</pre>
+
+			<h4>Step 3</h4>
+
+			<p>
+				Set up your ant build.xml file
+			</p>
+
+			<pre>
+				<code>
+&lt;path id="classpath-h2zero"&gt;{\n}
+{\t}&lt;fileset dir="lib/runtime"&gt;{\n}
+{\t}{\t}&lt;include name="*.jar"/&gt;{\n}
+{\t}&lt;/fileset&gt;{\n}
+&lt;/path&gt;{\n}
+
+&lt;target name="h2zero" description="h2zero generate"&gt;{\n}
+{\t}&lt;taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" /&gt;{\n}
+{\t}&lt;h2zero in="src/main/java/your-h2zero-file-name-here.h2zero" outDir="." verbose="false" /&gt;{\n}
+&lt;/target&gt;{\n}
+				</code>
+			</pre>
+
+			<h4>Step 4</h4>
+
+			<p>
+				Generate the code!
+			</p>
+
+			<pre>
+				<code>
+ant h2zero
+				</code>
+			</pre>
+
+			<p>This will generate all of the required code for you h2zero file and database creation scripts</p>
+
+		</section>
+		{import src/imports/footer.templar}
+	</div>
+	<script src="javascripts/scale.fix.js"></script>
+
+</body>
+</html>
