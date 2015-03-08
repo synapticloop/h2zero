@@ -5,3 +5,4 @@ generate/
 CVS/
 cobertura.ser
 .settings
+.DS_Store
