@@ -26,12 +26,12 @@
 		--- <a href="view-questions.html">Questions</a><br />
 		--- <a href="view-counters.html">Counters</a><br />
 		- Clauses and Fields<br />
-		--- <a href="select-clause.html">selectClause</a><br />
-		--- <a href="select-fields.html">selectFields</a><br />
-		--- <a href="where-clause.html">whereClause</a><br />
-		--- <a href="where-fields.html">whereFields</a><br />
-		--- <a href="set-clause.html">setClause</a><br />
-		--- <a href="set-fields.html">setFields</a><br />
+		--- <a href="select-clause.html">Select Clause</a><br />
+		--- <a href="select-fields.html">Select Fields</a><br />
+		--- <a href="where-clause.html">Where Clause</a><br />
+		--- <a href="where-fields.html">Where Fields</a><br />
+		--- <a href="set-clause.html">Set Clause</a><br />
+		--- <a href="set-fields.html">Set Fields</a><br />
 	</p>
 
 	<hr />
