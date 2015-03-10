@@ -43,6 +43,10 @@ a {
   text-decoration:none;
 }
 
+a code {
+  text-decoration: underline;
+}
+
 a small {
   font-size:11px;
   color:#777;

@@ -6,9 +6,108 @@
 		{import src/imports/sidenav.templar}
 		<section>
 
-			<h3>
-				<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to h2zero.
-			</h3>
+			{import src/imports/page-heading.templar}
+
+			<p>
+				{import src/imports/links/whereFields.templar} allow binding of parameters to 
+				the fields mentioned in the {import src/imports/links/whereClause.templar} key.
+			</p>
+
+			<p>
+				{import src/imports/links/whereFields.templar} are used within multiple 
+				SQL interactors and are in one of two formats.
+			</p>
+
+			<p>
+				The first format is a JSON array of String field names which can also cross
+				table refenerce other fields.
+			</p>
+
+			<p>
+				The second format is a JSON Array of JSON Objects which contain a 
+				{import src/imports/links/name.templar} and an {import src/imports/links/alias.templar}
+				key.  This is used where the field being parameterised is used in two different 
+				ways.  See the examples at the bottom of the page for usage information.
+			</p>
+
+			<p>
+				The where field can also be used with the {import src/imports/links/in.templar} 
+				designator to provide a list of multiple values.
+			</p>
+
+			<h4>Allowable usage within SQL interactors for a whereField JSON Object/Array</h4>
+
+			<table>
+				<thead>
+					<tr>
+						<th>action name</th>
+						<th>usage</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><strong>inserters</strong></td>
+						<td>optional (only valid in conjunction with {import src/imports/links/whereClause.templar})</td>
+					</tr>
+					<tr>
+						<td><strong>updaters</strong></td>
+						<td>optional (only valid in conjunction with {import src/imports/links/whereClause.templar})</td>
+					</tr>
+					<tr>
+						<td><strong>deleters</strong></td>
+						<td>optional (only valid in conjunction with {import src/imports/links/whereClause.templar})</td>
+					</tr>
+					<tr>
+						<td><strong>finders</strong></td>
+						<td>optional (only valid in conjunction with {import src/imports/links/whereClause.templar})</td>
+					</tr>
+					<tr>
+						<td><strong>questions</strong></td>
+						<td>optional (only valid in conjunction with {import src/imports/links/whereClause.templar})</td>
+					</tr>
+					<tr>
+						<td><strong>counters</strong></td>
+						<td>optional (only valid in conjunction with {import src/imports/links/whereClause.templar})</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<p>
+				The {import src/imports/links/whereFields.templar} are a list of the name and type for each of the 
+				{import src/imports/links/whereClause.templar} parameters.
+			</p>
+
+			<p>
+				If there is a {import src/imports/links/whereFields.templar} key on the JSON object without any 
+				{import src/imports/links/whereClause.templar} then this will generate a <strong>FATAL</strong> 
+				validation message.
+			</p>
+
+			<h4>Example 1: Simple {import src/imports/links/whereFields.templar} example</h4>
+
+			<pre>
+				<code>
+{{{\n}
+{\t}...{\n}
+{\n}
+{\t}"whereClause": "where something = ? and something_else = ?",{\n}
+{\t}"whereFields": [{\n}
+{\t}{\t}"something",{\n}
+{\t}{\t}"something_else"{\n}
+{\t}]{\n}
+}{\n}
+				</code>
+			</pre>
+
+			<h4>Example 2: Aliased {import src/imports/links/whereFields.templar} example</h4>
+
+			<pre>
+				<code>
+				</code>
+			</pre>
+
+			<h4>Example 3: Using the {import src/imports/links/in.templar} designator</h4>
 
 			<pre>
 				<code>

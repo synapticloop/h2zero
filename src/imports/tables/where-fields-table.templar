@@ -1,0 +1,48 @@
+<h4>Allowable keys for a {object} JSON Object</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>action name</th>
+			<th>usage</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>inserters</strong></td>
+			<td>optional</td>
+		</tr>
+		<tr>
+			<td><strong>updaters</strong></td>
+			<td>optional</td>
+		</tr>
+		<tr>
+			<td><strong>deleters</strong></td>
+			<td>optional</td>
+		</tr>
+		<tr>
+			<td><strong>finders</strong></td>
+			<td>optional</td>
+		</tr>
+		<tr>
+			<td><strong>questions</strong></td>
+			<td>optional</td>
+		</tr>
+		<tr>
+			<td><strong>counters</strong></td>
+			<td>optional</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	The {import src/links/whereFields.templar} are a list of the name and type for each of the 
+	{import src/links/whereClause.templar} parameters.
+</p>
+
+<p>
+	If there is a {import src/links/whereFields.templar} key on the JSON object without any 
+	{import src/links/whereClause.templar} then this will generate a <strong>FATAL</strong> 
+	validation message.
+</p>
