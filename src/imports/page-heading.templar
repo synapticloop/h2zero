@@ -1,4 +1,4 @@
 <h3>
 	<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true">
-	</a>Documentation for the "<code>{if !fn:null[name]}{name}{endif}s</code>" JSON key.
+	</a>Documentation for the "<code>{if !fn:null[name]}{name}{endif}</code>" JSON key.
 </h3>

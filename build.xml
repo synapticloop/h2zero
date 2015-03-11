@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="h2zero-sample">
+	<path id="classpath-h2zero">
+		<fileset dir="lib/runtime">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<target name="h2zero" description="h2zero generate">
+		<taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" />
+		<h2zero in="src/main/java/sample.h2zero" outDir="." verbose="false" />
+	</target>
+</project>

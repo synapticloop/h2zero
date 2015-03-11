@@ -1,0 +1,45 @@
+<h4>{import src/imports/links/selectClause.templar} usage overview</h4>
+
+<table>
+	<thead>
+		<tr>
+			<th>JSON key</th>
+			<th>usage</th>
+			<th>notes</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>inserters</strong></td>
+			<td>invalid</td>
+			<td>Inserters cannot have a selectClause</td>
+		</tr>
+		<tr>
+			<td><strong>updaters</strong></td>
+			<td>invalid</td>
+			<td>Updaters cannot have a selectClause</td>
+		</tr>
+		<tr>
+			<td><strong>deleters</strong></td>
+			<td>invalid</td>
+			<td>Deleters cannot have a selectClause</td>
+		</tr>
+		<tr>
+			<td><strong>finders</strong></td>
+			<td>optional</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><strong>questions</strong></td>
+			<td>invalid</td>
+			<td>Questions only ever return a single <code>boolean</code> object and as such cannot return a selectClause bean</td>
+		</tr>
+		<tr>
+			<td><strong>counters</strong></td>
+			<td>invalid</td>
+			<td>Counters only ever return a single <code>int</code> object and as such cannot return a selectClause bean</td>
+		</tr>
+	</tbody>
+</table>
+

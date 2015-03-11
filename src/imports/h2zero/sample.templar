@@ -1,0 +1,123 @@
+{{{\n}
+"options": {{{\n}
+{\t}"logging": "log4j",{\n}
+{\t}"statistics": false,{\n}
+{\t}"generators": [ "java", "sql", "taglib" ]{\n}
+},{\n}
+"database": {{{\n}
+{\t}"schema": "sample",{\n}
+{\t}"package": "synapticloop.sample.h2zero",{\n}
+{\t}"tables": [{\n}
+{\t}{\t}{{{\n}
+{\t}{\t}{\t}"name": "user_type",{\n}
+{\t}{\t}{\t}"cacheable": false,{\n}
+{\t}{\t}{\t}"cacheFindAll": false,{\n}
+{\t}{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false},{\n}
+{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}"constants": [{\n}
+{\t}{\t}{\t}{\t}{{ "name": "NORMAL", "values": [ 1, "normal" ] },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "SPECIAL", "values": [ 2, "special" ] },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "ADMIN", "values": [ 3, "admin" ] },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }{\n}
+{\t}{\t}{\t}]{\n}
+{\t}{\t}},{\n}
+{\t}{\t}{{{\n}
+{\t}{\t}{\t}"name": "user",{\n}
+{\t}{\t}{\t}"cacheable": false,{\n}
+{\t}{\t}{\t}"cacheFindAll": false,{\n}
+{\t}{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, {\n}
+{\t}{\t}{\t}{\t}{\t}"foreign": {{{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"table": "user_type",{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"field": "id_user_type"{\n}
+{\t}{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{ "name": "fl_is_alive", "type": "boolean", "nullable": true, "default": "'0'", "index": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "num_age", "type": "int", "nullable": false },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false, "unique": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "txt_address_email", "type": "varchar", "length": "256", "nullable": false, "unique": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "txt_password", "type": "varchar", "length": "32", "nullable": false, "unique": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "dtm_signup", "type": "datetime", "nullable": true }{\n}
+{\t}{\t}{\t}],{\n}
+
+{\t}{\t}{\t}"finders": [{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "findByTxtAddressEmailTxtPassword",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereClause": "where txt_address_email = ? and txt_password = ?",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"txt_address_email",{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"txt_password"{\n}
+{\t}{\t}{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}{\t}{\t}"unique": true{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "findNmUserDtmSignup",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select nm_user, dtm_signup from user",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "nm_user", "type": "varchar" },{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "dtm_signup", "type": "datetime" }{\n}
+{\t}{\t}{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}{\t}{\t}"unique": false{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "findGroupNumAge",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) as num_count, num_age from user group by num_count",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_count", "type": "int" },{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "type": "int" }{\n}
+{\t}{\t}{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}{\t}{\t}"unique": false{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}],{\n}
+
+{\t}{\t}{\t}"questions": [{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "doWeHaveMoreThanTwentyUsers",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) > 20 from user"{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "doesUserNameExist",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) &gt; 0 from user"{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "doWeHaveUsersBetweenAgeExclusive",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) &gt; 0 from user",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereClause": "where num_age &gt; ? and num_age &lt; ?",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeFrom" },{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeTo" }{\n}
+{\t}{\t}{\t}{\t}{\t}]{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}],{\n}
+
+{\t}{\t}{\t}"counters": [{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "countNumberOfUsers",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) from user"{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "countNumberOfUsersOverAge",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) from user",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereClause": "where num_age &gt; ?",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"num_age"{\n}
+{\t}{\t}{\t}{\t}{\t}]{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "countNumberOfUsersBetweenAge",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) from user",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereClause": "where num_age &gt; ? and num_age &lt; ?",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeFrom" },{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeTo" }{\n}
+{\t}{\t}{\t}{\t}{\t}]{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}]{\n}
+
+{\t}{\t}}{\n}
+{\t}]{\n}
+}{\n}
+}{\n}

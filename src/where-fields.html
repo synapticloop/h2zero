@@ -86,6 +86,12 @@
 
 			<h4>Example 1: Simple {import src/imports/links/whereFields.templar} example</h4>
 
+			<p>
+				The where fields reference the table to which they are attached.  The lookup 
+				of the field definitions are automatically synchronised, such that the type 
+				is inferred from the table.
+			</p>
+
 			<pre>
 				<code>
 {{{\n}
@@ -100,17 +106,73 @@
 				</code>
 			</pre>
 
-			<h4>Example 2: Aliased {import src/imports/links/whereFields.templar} example</h4>
+			<h4>Example 2: Simple {import src/imports/links/whereFields.templar} example, with cross-referenced tables</h4>
+
+			<p>
+				The where fields can also look up the details from other tables within the 
+				h2zero file.  This can be accomplished by referencing the fully qualified 
+				table name and field name, as shown below.
+			</p>
+
+			<p>
+				The <code>some_other_table.something_else</code> designator will look up the 
+				<code>something_else</code> field definition on the <code>some_other_table</code> 
+				table definition.
+			</p>
 
 			<pre>
 				<code>
+{{{\n}
+{\t}...{\n}
+{\n}
+{\t}"whereClause": "where id_something = (select id_something from some_other_table where something_else = ?)",{\n}
+{\t}"whereFields": [{\n}
+{\t}{\t}"id_something",{\n}
+{\t}{\t}"some_other_table.something_else"{\n}
+{\t}]{\n}
+}{\n}
 				</code>
 			</pre>
 
-			<h4>Example 3: Using the {import src/imports/links/in.templar} designator</h4>
+			<h4>Example 3: Aliased {import src/imports/links/whereFields.templar} example</h4>
+
+			<p>
+				The where fields reference the table to which they are attached, however, 
+				the referenced field is used in two different contexts.  Consequently two 
+				parameters are required to be passed, separately named.
+			</p>
 
 			<pre>
 				<code>
+{{{\n}
+{\t}...{\n}
+{\n}
+{\t}"whereClause": "where something &gt; ? and something &lt; ?",{\n}
+{\t}"whereFields": [{\n}
+{\t}{\t}{{ "name": "something", "alias": "from" },{\n}
+{\t}{\t}{{ "name": "something", "alias": "to" }{\n}
+{\t}]{\n}
+}{\n}
+				</code>
+			</pre>
+
+			<h4>Example 4: Using the {import src/imports/links/in.templar} designator</h4>
+
+			<p>
+				The <code>in:</code> designator tells h2zero that an <code>ArrayList</code> of 
+				values will be passed in to the method.  The field reference will be looked up 
+				on the table to which this is attached.
+			</p>
+			<pre>
+				<code>
+{{{\n}
+{\t}...{\n}
+{\n}
+{\t}"whereClause": " where id_something in (...)",{\n}
+{\t}"whereFields": [{\n}
+{\t}{\t}"in:id_something"{\n}
+{\t}]{\n}
+}{\n}
 				</code>
 			</pre>
 

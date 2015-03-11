@@ -1,0 +1,119 @@
+{
+"options": {
+	"logging": "log4j",
+	"statistics": false,
+	"generators": [ "java", "sql", "taglib" ]
+},
+"database": {
+	"schema": "sample",
+	"package": "synapticloop.sample.h2zero",
+	"tables": [
+		{
+			"name": "user_type",
+			"cacheable": false,
+			"cacheFindAll": false,
+			"fields": [
+				{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false},
+			],
+			"constants": [
+				{ "name": "NORMAL", "values": [ 1, "normal" ] },
+				{ "name": "SPECIAL", "values": [ 2, "special" ] },
+				{ "name": "ADMIN", "values": [ 3, "admin" ] },
+				{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }
+			]
+		},
+		{
+			"name": "user",
+			"cacheable": false,
+			"cacheFindAll": false,
+			"fields": [
+				{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },
+				{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, 
+					"foreign": {
+						"table": "user_type",
+						"field": "id_user_type"
+					}
+				},
+				{ "name": "fl_is_alive", "type": "boolean", "nullable": true, "default": "'0'", "index": true },
+				{ "name": "num_age", "type": "int", "nullable": false },
+				{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false, "unique": true },
+				{ "name": "txt_address_email", "type": "varchar", "length": "256", "nullable": false, "unique": true },
+				{ "name": "txt_password", "type": "varchar", "length": "32", "nullable": false, "unique": true },
+				{ "name": "dtm_signup", "type": "datetime", "nullable": true }
+			],
+			"finders": [
+				{
+					"name": "findByTxtAddressEmailTxtPassword",
+					"whereClause": "where txt_address_email = ? and txt_password = ?",
+					"whereFields": [
+						"txt_address_email",
+						"txt_password"
+					],
+					"unique": true
+				},
+				{
+					"name": "findNmUserDtmSignup",
+					"selectClause": "select nm_user, dtm_signup from user",
+					"selectFields": [
+						{ "name": "nm_user", "type": "varchar" },
+						{ "name": "dtm_signup", "type": "datetime" }
+					],
+					"unique": false
+				},
+				{
+					"name": "findGroupNumAge",
+					"selectClause": "select count(*) as num_count, num_age from user group by num_count",
+					"selectFields": [
+						{ "name": "num_count", "type": "int" },
+						{ "name": "num_age", "type": "int" }
+					],
+					"unique": false
+				}
+			],
+			"questions": [
+				{
+					"name": "doWeHaveMoreThanTwentyUsers",
+					"selectClause": "select count(*) > 20 from user"
+				},
+				{
+					"name": "doesUserNameExist",
+					"selectClause": "select count(*) > 0 from user"
+				},
+				{
+					"name": "doWeHaveUsersBetweenAgeExclusive",
+					"selectClause": "select count(*) > 0 from user",
+					"whereClause": "where num_age > ? and num_age < ?",
+					"whereFields": [
+						{ "name": "num_age", "alias": "numAgeFrom" },
+						{ "name": "num_age", "alias": "numAgeTo" }
+					]
+				}
+			],
+			"counters": [
+				{
+					"name": "countNumberOfUsers",
+					"selectClause": "select count(*) from user"
+				},
+				{
+					"name": "countNumberOfUsersOverAge",
+					"selectClause": "select count(*) from user",
+					"whereClause": "where num_age > ?",
+					"whereFields": [
+						"num_age"
+					]
+				},
+				{
+					"name": "countNumberOfUsersBetweenAge",
+					"selectClause": "select count(*) from user",
+					"whereClause": "where num_age > ? and num_age < ?",
+					"whereFields": [
+						{ "name": "num_age", "alias": "numAgeFrom" },
+						{ "name": "num_age", "alias": "numAgeTo" }
+					]
+				}
+			]
+		}
+	]
+}
+}

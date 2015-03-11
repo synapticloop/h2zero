@@ -6,17 +6,209 @@
 		{import src/imports/sidenav.templar}
 		<section>
 
-			<h3>
-				<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to h2zero.
-			</h3>
+			{import src/imports/page-heading.templar}
+
+			{import src/imports/tables/select-clause-table.templar}
+
+			<p>
+				By default finders return either a {import src/imports/links/model.templar} or an 
+				<code>ArrayList&lt;Model&gt;</code> of models, which is directly bound to the 
+				database table on which the finders are generated.  For example, a finder 
+				for the <code>user</code> table will return individual or a list of <code>User</code> 
+				model objects.
+			</p>
+
+			<p>
+				In some instances it may be necessary to choose which fields that are needed 
+				to be returned rather than the complete list.  This is also necessary when you 
+				are selecting fields that come from corss tables, or you wish to use somw of the 
+				in built database functions that are present.
+			</p>
+
+			<p>
+				This is especially true when you have a blob or clob object that you do not 
+				wish to have returned in a list of models which will take up a lot of memory.
+			</p>
+
+			<p>
+				The generated bean has the following name <code>&lt;finder.name&gt;Bean</code> 
+				and is placed into the <code>/bean</code> directory.
+			</p>
+
+			<h4>Example 1: Subset of data from the user table.</h4>
+
+			<p>
+				This generates fields on the bean that are within the table definition.
+			</p>
 
 			<pre>
 				<code>
+{{{\n}
+{\t}"name": "findNmUserDtmSignup",{\n}
+{\t}"selectClause": "select nm_user, dtm_signup from user",{\n}
+{\t}"selectFields": [{\n}
+{\t}{\t}{{ "name": "nm_user", "type": "varchar" },{\n}
+{\t}{\t}{{ "name": "dtm_signup", "type": "datetime" }{\n}
+{\t}],{\n}
+{\t}"unique": false{\n}
+}{\n}
 				</code>
 			</pre>
 
+			<p>
+				This will generate the following bean code:
+			</p>
+
+			<ul>
+				<li><a href="src/main/java/synapticloop/sample/h2zero/bean/FindNmUserDtmSignupBean.java"><code>src/main/java/synapticloop/sample/h2zero/bean/FindNmUserDtmSignupBean.java</code></a></li>
+			</ul>
+
+			<p>
+				The method signatures that are generated in the <code>UserFinder.java</code> finder
+			</p>
+
+			<ul>
+				<li><a href="src/main/java/synapticloop/sample/h2zero/finder/UserFinder.java"><code>src/main/java/synapticloop/sample/h2zero/finder/UserFinder.java</code></a></li>
+			</ul>
+
+			<pre>
+				<code>
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup() throws H2ZeroFinderException, SQLException{\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException{\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(){\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Connection connection){\n}
+				</code>
+			</pre>
+
+			<p>
+				If chosen, this will also generate tag libraries and the tld.
+			</p>
+
+			<ul>
+				<li><a href="src/main/webapps/WEB-INF/tld/sample.tld"><code>src/main/webapps/WEB-INF/tld/sample.tld</code></a></li>
+			</ul>
+
+			<p>
+				The tld snippet that is generated:
+			</p>
+			<pre>
+				<code>
+&lt;tag&gt;{\n}
+{\t}&lt;description&gt;{\n}
+{\t}{\t}generated tag for the findNmUserDtmSignup{\n}
+{\t}&lt;/description&gt;{\n}
+{\t}&lt;name&gt;UserFindNmUserDtmSignup&lt;/name&gt;{\n}
+{\t}&lt;tag-class&gt;synapticloop.sample.h2zero.taglib.user.FindNmUserDtmSignupTag&lt;/tag-class&gt;{\n}
+{\t}&lt;body-content&gt;JSP&lt;/body-content&gt;{\n}
+{\t}&lt;attribute&gt;{\n}
+{\t}{\t}&lt;description&gt;{\n}
+{\t}{\t}{\t}The variable to bind the results to{\n}
+{\t}{\t}&lt;/description&gt;{\n}
+{\t}{\t}&lt;name&gt;var&lt;/name&gt;{\n}
+{\t}{\t}&lt;required&gt;true&lt;/required&gt;{\n}
+{\t}{\t}&lt;rtexprvalue&gt;false&lt;/rtexprvalue&gt;{\n}
+{\t}&lt;/attribute&gt;{\n}
+{\t}&lt;attribute&gt;{\n}
+{\t}{\t}&lt;description&gt;{\n}
+{\t}{\t}{\t}Whether to remove the var at the end of the tag{\n}
+{\t}{\t}&lt;/description&gt;{\n}
+{\t}{\t}&lt;name&gt;removeVar&lt;/name&gt;{\n}
+{\t}{\t}&lt;required&gt;false&lt;/required&gt;{\n}
+{\t}{\t}&lt;rtexprvalue&gt;false&lt;/rtexprvalue&gt;{\n}
+{\t}&lt;/attribute&gt;{\n}
+&lt;/tag&gt;{\n}
+				</code>
+			</pre>
+
+			<h4>Example 2: Subset of data from with counts</h4>
+
+			<p>
+				This generates fields on the bean that are both within the table definition 
+				and utilise some in-built MySQL functions.
+			</p>
+
+			<pre>
+				<code>
+{{{\n}
+{\t}"name": "findGroupNumAge",{\n}
+{\t}"selectClause": "select count(*) as num_count, num_age from user group by num_count",{\n}
+{\t}"selectFields": [{\n}
+{\t}{\t}{{ "name": "num_count", "type": "int" },{\n}
+{\t}{\t}{{ "name": "num_age", "type": "int" }{\n}
+{\t}],{\n}
+{\t}"unique": false{\n}
+}{\n}
+				</code>
+			</pre>
+
+			<p>
+				This will generate the following bean code:
+			</p>
+
+			<ul>
+				<li><a href="src/main/java/synapticloop/sample/h2zero/bean/FindNmUserDtmSignupBean.java"><code>src/main/java/synapticloop/sample/h2zero/bean/FindNmUserDtmSignupBean.java</code></a></li>
+			</ul>
+
+			<p>
+				The method signatures that are generated in the <code>UserFinder.java</code> finder
+			</p>
+
+			<ul>
+				<li><a href="src/main/java/synapticloop/sample/h2zero/finder/UserFinder.java"><code>src/main/java/synapticloop/sample/h2zero/finder/UserFinder.java</code></a></li>
+			</ul>
+
+			<pre>
+				<code>
+public static List&lt;FindGroupNumAgeBean&gt; findGroupNumAge() throws H2ZeroFinderException, SQLException{\n}
+public static List&lt;FindGroupNumAgeBean&gt; findGroupNumAge(Connection connection) throws H2ZeroFinderException, SQLException{\n}
+public static List&lt;FindGroupNumAgeBean&gt; findGroupNumAgeSilent(){\n}
+public static List&lt;FindGroupNumAgeBean&gt; findGroupNumAgeSilent(Connection connection){\n}
+				</code>
+			</pre>
+
+			<p>
+				If chosen, this will also generate tag libraries and the tld.
+			</p>
+
+			<ul>
+				<li><a href="src/main/webapps/WEB-INF/tld/sample.tld"><code>src/main/webapps/WEB-INF/tld/sample.tld</code></a></li>
+			</ul>
+
+			<p>
+				The tld snippet that is generated:
+			</p>
+			<pre>
+				<code>
+&lt;tag&gt;{\n}
+{\t}&lt;description&gt;{\n}
+{\t}{\t}generated tag for the findGroupNumAge{\n}
+{\t}&lt;/description&gt;{\n}
+{\t}&lt;name&gt;UserFindGroupNumAge&lt;/name&gt;{\n}
+{\t}&lt;tag-class&gt;synapticloop.sample.h2zero.taglib.user.FindGroupNumAgeTag&lt;/tag-class&gt;{\n}
+{\t}&lt;body-content&gt;JSP&lt;/body-content&gt;{\n}
+{\t}&lt;attribute&gt;{\n}
+{\t}{\t}&lt;description&gt;{\n}
+{\t}{\t}{\t}The variable to bind the results to{\n}
+{\t}{\t}&lt;/description&gt;{\n}
+{\t}{\t}&lt;name&gt;var&lt;/name&gt;{\n}
+{\t}{\t}&lt;required&gt;true&lt;/required&gt;{\n}
+{\t}{\t}&lt;rtexprvalue&gt;false&lt;/rtexprvalue&gt;{\n}
+{\t}&lt;/attribute&gt;{\n}
+{\t}&lt;attribute&gt;{\n}
+{\t}{\t}&lt;description&gt;{\n}
+{\t}{\t}{\t}Whether to remove the var at the end of the tag{\n}
+{\t}{\t}&lt;/description&gt;{\n}
+{\t}{\t}&lt;name&gt;removeVar&lt;/name&gt;{\n}
+{\t}{\t}&lt;required&gt;false&lt;/required&gt;{\n}
+{\t}{\t}&lt;rtexprvalue&gt;false&lt;/rtexprvalue&gt;{\n}
+{\t}&lt;/attribute&gt;{\n}
+&lt;/tag&gt;{\n}
+				</code>
+			</pre>
 		</section>
+
 		{import src/imports/footer.templar}
+
 	</div>
 	<script src="javascripts/scale.fix.js"></script>
 

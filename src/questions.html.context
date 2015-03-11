@@ -1,5 +1,6 @@
 object=Question
 name=question
+
 keyName=mandatory
 
 keySelectClause=mandatory
@@ -14,3 +15,5 @@ keyWhereFields=optional
 
 keyUnique=ignored
 keyUniqueInfo=<br /><br />This always returns one, and only one result in the result set of type boolean and is therefore un-necessary.
+
+linkUserQuestion=src/main/java/synapticloop/sample/h2zero/question/UserQuestion.java

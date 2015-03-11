@@ -18,7 +18,7 @@
 			<td>This is the name for the {name}.  If not present on the JSON object an <code>H2ZeroParseException</code> will be thrown.</td>
 		</tr>
 		<tr>
-			<td><strong>selectClause</strong></td>
+			<td><strong>{import src/imports/links/selectClause.templar}</strong></td>
 			<td>String</td>
 			<td>{if fn:null[keySelectClause]}undocumented{else}{keySelectClause}{endif}</td>
 			<td>
@@ -38,7 +38,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td><strong>selectFields</strong></td>
+			<td><strong>{import src/imports/links/selectFields.templar}</strong></td>
 			<td>JSON Array</td>
 			<td>{if fn:null[keySelectFields]}undocumented{else}{keySelectFields}{endif}</td>
 			<td>
@@ -57,20 +57,20 @@
 			</td>
 		</tr>
 		<tr>
-			<td><strong>whereClause</strong></td>
+			<td><strong>{import src/imports/links/whereClause.templar}</strong></td>
 			<td>String</td>
 			<td>{if fn:null[keyWhereClause]}undocumented{else}{keyWhereClause}{endif}</td>
 			<td>Used if the SQL query is parameterised. {if !fn:null[keyWhereClauseInfo]}{keyWhereClauseInfo}{endif}</td>
 		</tr>
 		<tr>
-			<td><strong>whereFields</strong></td>
+			<td><strong>{import src/imports/links/whereFields.templar}</strong></td>
 			<td>JSON Array</td>
 			<td>{if fn:null[keyWhereFields]}undocumented{else}{keyWhereFields}{endif}</td>
 			<td>
-				The name and type for each of the <code>whereClause</code> parameters.
+				The name for each of the {import src/imports/links/whereClause.templar} parameters.
 				<br/><br />
-				If there is a <code>whereFields</code> key on the JSON object without any 
-				<code>whereClause</code> then this will generate a <strong>FATAL</strong> 
+				If there is a {import src/imports/links/whereFields.templar} key on the JSON object without any 
+				{import src/imports/links/whereClause.templar} then this will generate a <strong>FATAL</strong> 
 				validation message.
 			</td>
 		</tr>
