@@ -1,0 +1,9 @@
+{if baseQueryObject.hasWhereFieldAliases}
+	{loop baseQueryObject.whereFields as whereField}
+		{if !whereFieldStatus.first}, {endif}{whereField.javaName}
+	{endloop}
+{else}
+	{loop baseQueryObject.uniqueWhereFields as whereField}
+		{if !whereFieldStatus.first}, {endif}{whereField.javaName}
+	{endloop}
+{endif}

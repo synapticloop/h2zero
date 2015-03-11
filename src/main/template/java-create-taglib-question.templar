@@ -26,54 +26,23 @@ public class {question.tagName}Tag extends BodyTagSupport {{{\n}
 	{\t}private String var = null;{\n}
 	{\t}private boolean removeVar = false;{\n}{\n}
 
-	{loop question.uniqueWhereFields as whereField}
-		{\t}private {whereField.javaType} {whereField.javaName} = null;{\n}
-	{endloop}
+	{set question as baseQueryObject}
+	{import classpath:/snippet/global/java-class-field-declaration.templar}
 
 	{\n}
 
 	{\t}public int doStartTag() throws JspException {{{\n}
-		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Question.{question.name}Silent({loop question.uniqueWhereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{whereField.javaName}
-	{endloop}));{\n}
+		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Question.{question.name}Silent(
+			{import classpath:/snippet/global/java-taglib-method-call.templar}
+		));{\n}
 		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
 	}{\n}
 
-{\n}
-	{\t}public int doEndTag() throws JspException {{{\n}
-	{\t}{\t}if(removeVar) {{{\n}
-	{\t}{\t}{\t}pageContext.removeAttribute(var, PageContext.PAGE_SCOPE);{\n}
-	{\t}{\t}}{\n}
-	{\t}{\t}return(EVAL_PAGE);{\n}
-	{\t}}{\n}
+	{import classpath:/snippet/global/java-taglib-do-end-tag.templar}
 
-{\n}
-	{\t}public String getVar() {{{\n}
-	{\t}{\t}return var;{\n}
-	{\t}}{\n}
+	{import classpath:/snippet/global/java-taglib-base-getter-setters.templar}
 
-{\n}
-	{\t}public void setRemoveVar(boolean removeVar) {{{\n}
-	{\t}{\t}this.removeVar = removeVar;{\n}
-	{\t}}{\n}
-
-{\n}
-	{\t}public boolean getRemoveVar() {{{\n}
-	{\t}{\t}return removeVar;{\n}
-	{\t}}{\n}
-
-{\n}
-	{\t}public void setVar(String var) {{{\n}
-	{\t}{\t}this.var = var;{\n}
-	{\t}}{\n}
-{\n}
-
-{loop question.uniqueWhereFields as whereField}
-	{\t}public void set{whereField.javaAccessorName}({whereField.javaType} {whereField.javaName}) {{{\n}
-	{\t}{\t}this.{whereField.javaName} = {whereField.javaName};{\n}
-	{\t}}{\n}
-	{\t}{\n}{\n}
-{endloop}
+	{import classpath:/snippet/global/java-class-setters.templar}
 
 {\n}
 

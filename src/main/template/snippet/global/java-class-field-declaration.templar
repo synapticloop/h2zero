@@ -1,0 +1,9 @@
+{if baseQueryObject.hasWhereFieldAliases}
+	{loop baseQueryObject.whereFields as whereField}
+		{\t}private {whereField.javaType} {whereField.javaName} = null;{\n}
+	{endloop}
+{else}
+	{loop baseQueryObject.uniqueWhereFields as whereField}
+		{\t}private {whereField.javaType} {whereField.javaName} = null;{\n}
+	{endloop}
+{endif}

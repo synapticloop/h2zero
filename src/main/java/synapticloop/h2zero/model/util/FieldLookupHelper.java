@@ -18,18 +18,25 @@ package synapticloop.h2zero.model.util;
  * under the Licence.
  */
 
+import synapticloop.h2zero.model.BaseSchemaObject;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
 
 public class FieldLookupHelper {
-	public static boolean hasInFields(String fieldName) {
-		return(fieldName.startsWith("in:"));
-	}
+	private static final String IN_DESIGNATOR = "in:";
 
-	public static BaseField getBaseField(Table table, String fieldName) {
+	/**
+	 * Get the base field from the base schema object (table or view) with the specified name
+	 * 
+	 * @param baseSchemaObject the schema object to look up for the field
+	 * @param fieldName the name of the field to lookup
+	 * 
+	 * @return the base field object that was looked up
+	 */
+	public static BaseField getBaseField(BaseSchemaObject baseSchemaObject, String fieldName) {
 		BaseField baseField = null;
-		if(fieldName.startsWith("in:")) {
+		if(fieldName.startsWith(IN_DESIGNATOR)) {
 			fieldName = fieldName.substring(3);
 
 			if(fieldName.contains(".")) {
@@ -45,7 +52,7 @@ public class FieldLookupHelper {
 				}
 			}
 
-			baseField = table.getInField(fieldName);
+			baseField = baseSchemaObject.getInField(fieldName);
 		} else {
 			if(fieldName.contains(".")) {
 				// we are doing a table lookup
@@ -60,9 +67,18 @@ public class FieldLookupHelper {
 					return(tableLookup.getField(tableFieldName));
 				}
 			}
-			baseField = table.getField(fieldName);
+			baseField = baseSchemaObject.getField(fieldName);
 		}
 		return(baseField);
 	}
 
+	/**
+	 * Return whether a field has an in field designator
+	 * 
+	 * @param fieldName the field name to test
+	 * @return whether the field has an in field designator
+	 */
+	public static boolean hasInFieldDesignator(String fieldName) {
+		return(fieldName.startsWith(IN_DESIGNATOR));
+	}
 }

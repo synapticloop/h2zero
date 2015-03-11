@@ -62,10 +62,7 @@ public class {table.javaClassName}Question {{{\n}
 
 {loop table.questions as question}
 	{\t}public static boolean {question.name}(
-
-	{loop question.whereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-	{endloop}
+		{import classpath:/snippet/question/method-parameters.templar}
 	) throws H2ZeroFinderException, SQLException {{{\n}
 
 	{\t}{\t}Connection connection = null;{\n}
@@ -150,9 +147,7 @@ public class {table.javaClassName}Question {{{\n}
 {\n}
 
 	{\t}public static boolean {question.name}Silent(
-
-	{loop question.whereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}{endloop}
+		{import classpath:/snippet/question/method-parameters.templar}
 	) {{{\n}
 
 	{\t}{\t}try {{{\n}

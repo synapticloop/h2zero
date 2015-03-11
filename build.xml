@@ -7,17 +7,13 @@
 	<property name="util.lib.dir" value="lib/compile" />
 	<property name="test.lib.dir" value="lib/test" />
 
-	<import file="../common-build/java-build.xml" />
+	<import file="java-build.xml" />
 
 	<target name="download-dependencies" description="download the code dependencies">
 		<get dest="${lib.dir}" src="http://jenkins.synapticloop.local/job/templar/lastSuccessfulBuild/artifact/templar/dist/templar.jar" />
 	</target>
 
 	<target name="dist" description="Build the h2zero distributable">
-<!--
-		<antcall target="java-build.dist" />
--->
-
 		<antcall target="java-build.clean" />
 		<antcall target="java-build.compile" />
 

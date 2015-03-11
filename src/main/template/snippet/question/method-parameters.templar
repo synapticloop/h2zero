@@ -1,0 +1,14 @@
+{--
+ This is used to iterate the parameters that are passed to the question function.
+ It checks whether the question has an alias, and if so, goes through all of the
+ where fields, not just the unique ones.
+ --}
+{if question.hasWhereFieldAliases}
+	{loop question.whereFields as whereField}
+		{if !whereFieldStatus.first}, {endif}{whereField.javaType} {whereField.javaName}
+	{endloop}
+{else}
+	{loop question.uniqueWhereFields as whereField}
+		{if !whereFieldStatus.first}, {endif}{whereField.javaType} {whereField.javaName}
+	{endloop}
+{endif}

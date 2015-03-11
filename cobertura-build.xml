@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cobertura build file
+  -->
+<project name="cobertura-build" default="help">
+	<description>
+		This is the build file for the cobertura coverage report
+	</description>
+
+	<import file="common-build.xml" />
+	<import file="java-build.xml" />
+
+	<property name="junit.test.pattern" value="**/*Test.java" />
+
+	<!--
+	  Set the basedir for this build file
+	  -->
+	<dirname property="cobertura.basedir" file="${ant.file.cobertura-build}" />
+
+	<!--
+	  The source directories for java
+	  -->
+	<property name="src.dir" value="src/main" />
+	<property name="src.lib.dir" value="${src.dir}/lib" />
+	
+	<!--
+	  The source directories for testing
+	  -->
+	<property name="test.dir" value="src/test" />
+	<property name="test.java.dir" value="${test.dir}/java" />
+	<property name="test.lib.dir" value="${cobertura.basedir}/${test.dir}/lib"/>
+
+	<!-- ensure  that the testing directory exists -->
+	<sequential>
+		<mkdir dir="${test.java.dir}" />
+	</sequential>
+
+	<property name="cobertura.dir" value="${cobertura.basedir}/src/cobertura" />
+	<property name="cobertura.lib.dir" value="${cobertura.dir}/lib" />
+	<!--
+	  The destination directories for building
+	  -->
+	<property name="build.dir" value="build" />
+	<property name="build.test.classes.dir" value="${build.dir}/test/classes" />
+
+	<property name="cobertura.instrumented.dir" value="${build.dir}/test/instrumented-classes" />
+	<property name="cobertura.reports.xml.dir" value="${build.dir}/reports/cobertura/xml" />
+	<property name="cobertura.reports.html.dir" value="${build.dir}/reports/cobertura/html" />
+	
+	<!--
+	  JUnit directories
+	  -->
+	<property name="junit.reports.xml.dir" value="${build.dir}/reports/junit/xml" />
+	<property name="junit.reports.html.dir" value="${build.dir}/reports/junit/html" />
+	
+	<!--
+	  Now for the Cobertura directories
+	  -->
+	<property name="cobertura.instrumentation.dir" value="${build.test.dir}/instrumentation" />
+	<property name="cobertura.report.dir" value="${build.dir}/reports/cobertura"/>
+	
+	<!--
+	  Now for the compile classpaths
+	  -->
+
+	<path id="test.compile.classpath">
+		<path refid="compile.classpath" />
+		<fileset dir="${test.lib.dir}" includes="**/*.jar" />
+		<pathelement path="${build.classes.dir}/" /> 
+	</path>
+
+	<!--
+	  Now for the test classpath
+	  -->
+	<path id="test.classpath">
+		<fileset dir="${build.test.classes.dir}">
+			<include name="cobertura.jar" />
+			<include name="**/*.class" />
+			<include name="**/*.properties" />
+		</fileset>
+	</path>
+
+	<!-- Define any classes -->
+
+
+	<path id="cobertura.classpath">
+		<fileset dir="${test.lib.dir}" includes="**/*.jar" />
+		<fileset dir="${cobertura.lib.dir}" includes="**/*.jar" />
+	</path>
+
+	<taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
+	<target name="init">
+		<!-- create the build directories -->
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${build.test.dir}" />
+		<mkdir dir="${build.test.classes.dir}" />
+		
+		<!-- JUnit reporting directory -->
+		<mkdir dir="${junit.report.dir}" />
+		
+		<!-- create the cobertura output directories -->
+		<mkdir dir="${cobertura.instrumentation.dir}" />
+		<mkdir dir="${cobertura.report.dir}" />
+	</target>
+
+	<!-- 
+	  Compile all of the test cases 
+	  -->
+	<target name="compile-test" depends="compile" description="[cobertura-build] Compile all of the test code sources">
+		<javac srcdir="${test.java.dir}" destdir="${build.test.classes.dir}" debug="on" includeantruntime="false">
+			<classpath refid="compile.classpath" />
+			<classpath path="${build.classes.dir}" />
+		</javac>
+		<copy todir="${build.test.classes.dir}">
+			<fileset dir="${test.java.dir}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+	<!-- 
+	  
+	  -->
+	<target name="test" depends="compile-test" description="[cobertura-build] Run the junit tests, compile the cobertura reports">
+		<delete file="cobertura.ser" />
+
+		<cobertura-instrument todir="${cobertura.instrumented.dir}">
+			<includeClasses regex=".*" />
+			<excludeClasses regex="org.apache.log4j.*" />
+			<excludeClasses regex=".*\.Test.*" />
+
+			<instrumentationClasspath>
+				<pathelement location="${build.classes.dir}" />
+			</instrumentationClasspath>
+		</cobertura-instrument>
+
+		<junit fork="yes" dir="${basedir}" failureProperty="test.failed" printsummary="true" showoutput="true">
+			<!--
+				Specify the name of the coverage data file to use.
+				The value specified below is the default.
+			-->
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${basedir}/cobertura.ser" />
+	
+			<!--
+				Note the classpath order: instrumented classes are before the
+				original (uninstrumented) classes.  This is important.
+			-->
+			<classpath location="${cobertura.instrumented.dir}" />
+			<classpath location="${build.classes.dir}" />
+
+			<classpath refid="compile.webapp.classpath" />
+			<classpath refid="compile.classpath" />
+			<classpath location="${src.lib.dir}" />
+			<classpath location="META-INF" />
+			<classpath location="${build.test.classes.dir}" />
+			<classpath path="${build.test.classes.dir}" />
+	
+			<!--
+				The instrumented classes reference classes used by the
+				Cobertura runtime, so Cobertura and its dependencies
+				must be on your classpath.
+			-->
+			<classpath refid="cobertura.classpath" />
+
+			<formatter type="xml" />
+			<batchtest todir="${junit.reports.xml.dir}" unless="testcase">
+				<fileset dir="${test.java.dir}">
+					<include name="${junit.test.pattern}" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<junitreport todir="${junit.reports.xml.dir}" >
+			<fileset dir="${junit.reports.xml.dir}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${junit.reports.html.dir}"/>
+		</junitreport>
+		<!-- Now generate the report -->
+		<cobertura-report format="html" destdir="${cobertura.reports.html.dir}" srcdir="${src.java.dir}" />
+		<cobertura-report format="xml" destdir="${cobertura.reports.xml.dir}" srcdir="${src.java.dir}" />
+
+		<fail if="${test.failed}" message="JUnit Tests Failed!!" />
+	</target>
+	<!--
+	  Clean the output directories
+	  -->
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+</project>

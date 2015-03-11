@@ -1,0 +1,6 @@
+{loop baseQueryObject.uniqueWhereFields as whereField}
+	{\t}public void set{whereField.javaAccessorName}({whereField.javaType} {whereField.javaName}) {{{\n}
+	{\t}{\t}this.{whereField.javaName} = {whereField.javaName};{\n}
+	{\t}}{\n}
+	{\t}{\n}{\n}
+{endloop}

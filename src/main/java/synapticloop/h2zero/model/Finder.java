@@ -49,9 +49,11 @@ public class Finder {
 	private boolean hasInFields = false;
 	private ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
 	private boolean hasWhereFieldAliases = false;
+	private BaseSchemaObject baseSchemaObject;
 
 
-	public Finder(JSONObject jsonObject, Table table) throws H2ZeroParseException {
+	public Finder(JSONObject jsonObject, BaseSchemaObject baseSchemaObject) throws H2ZeroParseException {
+		this.baseSchemaObject = baseSchemaObject;
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
 		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
@@ -92,12 +94,12 @@ public class Finder {
 				BaseField baseField = null;
 				if(hasWhereFieldAliases) {
 					// we need to create a new BaseField identical to the current one - as it is currently cached
-					baseField = FieldLookupHelper.getBaseField(table, whereFieldName).copy();
+					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName).copy();
 				} else {
-					baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName);
 				}
 
-				this.hasInFields = FieldLookupHelper.hasInFields(whereFieldName);
+				this.hasInFields = FieldLookupHelper.hasInFieldDesignator(whereFieldName);
 
 				if(hasWhereFieldAliases) {
 					baseField.setAlias(whereFieldAlias);
@@ -125,32 +127,6 @@ public class Finder {
 		}
 	}
 
-	public Finder(JSONObject jsonObject, View view) throws H2ZeroParseException {
-		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
-		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
-		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
-		this.unique = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, unique);
-		this.cache = JsonHelper.getBooleanValue(jsonObject, "cache", cache);
-
-		// now for the where clauses
-		try {
-			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
-			for (int i = 0; i < whereFieldArray.length(); i++) {
-				String whereFieldName = whereFieldArray.getString(i);
-				BaseField baseField = view.getField(whereFieldName);
-				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for finder '" + name + "'.");
-				}
-				whereFields.add(baseField);
-			}
-		} catch (JSONException ojjsonex) {
-			// do nothing
-		}
-
-		if(null == name) {
-			throw new H2ZeroParseException("The finder 'name' attribute cannot be null.");
-		}
-	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void populateSelectFields(JSONObject jsonObject) throws H2ZeroParseException {
@@ -158,7 +134,7 @@ public class Finder {
 		try {
 			fieldJson = jsonObject.getJSONArray("selectFields");
 		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Cannot create the selectClause finder of '" + name + "' finder without 'fields'.");
+			throw new H2ZeroParseException("Cannot create the selectClause finder of '" + name + "' finder without 'selectFields'.");
 		}
 
 		for (int i = 0; i < fieldJson.length(); i++) {

@@ -51,8 +51,10 @@ public abstract class BaseQueryObject {
 	protected ArrayList<BaseField> allFields = new ArrayList<BaseField>();
 	protected HashSet<String> allUniqueFieldNames = new HashSet<String>();
 	protected ArrayList<BaseField> allUniqueFields = new ArrayList<BaseField>();
-	
-	
+
+	private boolean hasWhereFieldAliases = false;
+
+
 	protected BaseQueryObject(Table table, JSONObject jsonObject) {
 		this.table = table;
 		this.jsonObject = jsonObject;
@@ -81,16 +83,39 @@ public abstract class BaseQueryObject {
 			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 
 			if(null == whereClause && whereFieldArray.length() > 0) {
-				throw new H2ZeroParseException(this.getClass().getSimpleName() + " '" + name + "' cannot have '" + JSONKeyConstants.WHERE_FIELDS + "' when there is no '" + JSONKeyConstants.WHERE_CLAUSE + "'.");
+				throw new H2ZeroParseException("Finder '" + name + "' cannot have 'whereFields' when there is no 'whereClause'.");
 			}
 
 			for (int i = 0; i < whereFieldArray.length(); i++) {
-				String whereFieldName = whereFieldArray.getString(i);
+				// at this point we need to check to see whether we are getting an array of objects, or just plain Strings
+				String whereFieldName = null;
+				String whereFieldAlias = null;
 
-				BaseField baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+				if(null != whereFieldArray.optJSONObject(i)) {
+					JSONObject whereFieldObject = whereFieldArray.getJSONObject(i);
+					whereFieldName = whereFieldObject.getString("name");
+					whereFieldAlias = whereFieldObject.getString("alias");
+					hasWhereFieldAliases = true;
+				} else {
+					whereFieldName = whereFieldArray.getString(i);
+				}
+
+				BaseField baseField = null;
+				if(hasWhereFieldAliases) {
+					// we need to create a new BaseField identical to the current one - as it is currently cached
+					baseField = FieldLookupHelper.getBaseField(table, whereFieldName).copy();
+				} else {
+					baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+				}
+
+				this.hasInFields = FieldLookupHelper.hasInFieldDesignator(whereFieldName);
+
+				if(hasWhereFieldAliases) {
+					baseField.setAlias(whereFieldAlias);
+				}
 
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getClass().getSimpleName() + "'" + name + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for finder '" + name + "'.");
 				}
 
 				whereFields.add(baseField);
@@ -105,6 +130,35 @@ public abstract class BaseQueryObject {
 		} catch (JSONException ojjsonex) {
 			// do nothing
 		}
+
+		//		try {
+		//			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
+		//
+		//			if(null == whereClause && whereFieldArray.length() > 0) {
+		//				throw new H2ZeroParseException(this.getClass().getSimpleName() + " '" + name + "' cannot have '" + JSONKeyConstants.WHERE_FIELDS + "' when there is no '" + JSONKeyConstants.WHERE_CLAUSE + "'.");
+		//			}
+		//
+		//			for (int i = 0; i < whereFieldArray.length(); i++) {
+		//				String whereFieldName = whereFieldArray.getString(i);
+		//
+		//				BaseField baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+		//
+		//				if(null == baseField) {
+		//					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getClass().getSimpleName() + "'" + name + "'.");
+		//				}
+		//
+		//				whereFields.add(baseField);
+		//				if(baseField.getIsInField()) {
+		//					inWhereFields.add(baseField);
+		//				}
+		//
+		//				if(!uniqueWhereFields.containsKey(whereFieldName)) {
+		//					uniqueWhereFields.put(whereFieldName, baseField);
+		//				}
+		//			}
+		//		} catch (JSONException ojjsonex) {
+		//			// do nothing
+		//		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -214,4 +268,11 @@ public abstract class BaseQueryObject {
 	public Collection<BaseField> getUniqueUpdateFields() { return(uniqueUpdateFields.values()); }
 
 	public boolean getHasJsonUniqueKey() { return(null != jsonUniqueKey); }
+
+	/**
+	 * Whether this finder has aliases for the where fields, or it is just straight where field string array
+	 * 
+	 * @return whether this finder has where field aliases
+	 */
+	public boolean getHasWhereFieldAliases() { return hasWhereFieldAliases;}
 }

@@ -14,8 +14,7 @@ import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
-public class View {
-	private String name;
+public class View extends BaseSchemaObject {
 	private String asClause;
 	private boolean cacheable = false;
 	private boolean cacheFindAll= false;
@@ -28,6 +27,7 @@ public class View {
 	private ArrayList<Finder> finders = new ArrayList<Finder>();
 
 	public View(JSONObject jsonObject) throws H2ZeroParseException {
+		super(jsonObject);
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
 		this.asClause = JsonHelper.getStringValue(jsonObject, "asClause", null);
 		
@@ -110,31 +110,9 @@ public class View {
 		}
 	}
 
-	private void populateFinders(JSONObject jsonObject) throws H2ZeroParseException {
-		JSONArray finderJson = new JSONArray();
-		try {
-			finderJson = jsonObject.getJSONArray("finders");
-		} catch (JSONException ojjsonex) {
-			// do nothing - no finders is ok
-		}
-
-		for (int i = 0; i < finderJson.length(); i++) {
-			try {
-				JSONObject finderObject = finderJson.getJSONObject(i);
-				getFinders().add(new Finder(finderObject, this));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse finder.");
-			}
-		}
-	}
-
 	public BaseField getField(String name) { return(fieldLookup.get(name)); }
-	public String getName() { return name; }
 	public String getAsClause() { return asClause; }
-	public String getJavaClassName() { return(NamingHelper.getFirstUpper(name)); }
-	public String getJavaFieldName() { return(NamingHelper.getSecondUpper(name)); }
 	public ArrayList<BaseField> getFields() { return fields; }
 	public boolean getCacheable() { return cacheable; }
-	public ArrayList<Finder> getFinders() { return finders; }
 	public boolean getCacheFindAll() { return cacheFindAll; }
 }
