@@ -88,6 +88,14 @@
 						{ "name": "num_age", "alias": "numAgeFrom" },
 						{ "name": "num_age", "alias": "numAgeTo" }
 					]
+				},
+				{
+					"name": "doWeHaveUsersInAges",
+					"selectClause": "select count(*) > 0 from user",
+					"whereClause": "where num_age in (...)",
+					"whereFields": [
+						"in:num_age"
+					]
 				}
 			],
 			"counters": [
@@ -110,6 +118,14 @@
 					"whereFields": [
 						{ "name": "num_age", "alias": "numAgeFrom" },
 						{ "name": "num_age", "alias": "numAgeTo" }
+					]
+				},
+				{
+					"name": "countUsersInAges",
+					"selectClause": "select count(*) from user",
+					"whereClause": "where num_age in (...)",
+					"whereFields": [
+						"in:num_age"
 					]
 				}
 			]

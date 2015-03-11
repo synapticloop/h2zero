@@ -13,3 +13,5 @@ keyWhereFields=optional
 
 keyUnique=ignored
 keyUniqueInfo=<br /><br />This always returns one, and only one result in the result set of type integer and is therefore un-necessary.
+
+linkUserCounter=src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java

@@ -35,7 +35,9 @@ public class UserCounter {
 	private static final String SQL_COUNT_NUMBER_OF_USERS = "select count(*) from user";
 	private static final String SQL_COUNT_NUMBER_OF_USERS_OVER_AGE = "select count(*) from user" + " where num_age > ?";
 	private static final String SQL_COUNT_NUMBER_OF_USERS_BETWEEN_AGE = "select count(*) from user" + " where num_age > ? and num_age < ?";
+	private static final String SQL_COUNT_USERS_IN_AGES = "select count(*) from user" + " where num_age in (...)";
 
+	private static HashMap<String, String> countUsersInAges_statement_cache = new HashMap<String, String>();
 	/**
 	 * Find the count of all User objects
 	 * 
@@ -209,6 +211,69 @@ public class UserCounter {
 		} catch(SQLException sqlex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("SQLException countNumberOfUsersBetweenAgeSilent(" + numAgeFrom + ", " + numAgeTo + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(-1);
+		}
+	}
+
+	public static int countUsersInAges(List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		int count = -1;
+		try {
+			connection = ConnectionManager.getConnection();
+			if(countUsersInAges_statement_cache.containsKey(numAgeList.size() + ":" )) {
+				preparedStatement = connection.prepareStatement(countUsersInAges_statement_cache.get(numAgeList.size() + ":" ));
+			} else {
+				String preparedStatementTemp = SQL_COUNT_USERS_IN_AGES;
+				StringBuilder stringBuilder = null;
+				stringBuilder = new StringBuilder();
+				for(int i = 0; i < numAgeList.size(); i++) {
+					if(i > 0) {
+						stringBuilder.append(", ");
+					}
+					stringBuilder.append("?");
+				}
+				preparedStatementTemp = SQL_COUNT_USERS_IN_AGES.replaceFirst("\\.\\.\\.", stringBuilder.toString());
+				countUsersInAges_statement_cache.put(numAgeList.size() + ":" , preparedStatementTemp);
+				preparedStatement = connection.prepareStatement(preparedStatementTemp);
+			}
+			int i = 1;
+			for (Integer numAgeIn : numAgeList) {
+				ConnectionManager.setInt(preparedStatement, i, numAgeIn);
+				i++;
+			}
+
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				count = resultSet.getInt(1);
+			}
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		}
+		return(count);
+	}
+
+	public static int countUsersInAgesSilent(List<Integer> numAgeList) {
+		try {
+			return(countUsersInAges(numAgeList));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException countUsersInAgesSilent(" + numAgeList + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(-1);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countUsersInAgesSilent(" + numAgeList + "): " + sqlex.getMessage());
 				if(LOGGER.isEnabledFor(Level.DEBUG)) {
 					sqlex.printStackTrace();
 				}

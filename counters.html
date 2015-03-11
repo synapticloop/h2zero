@@ -14,7 +14,9 @@
 		"selectClause": "select count(*) from user"
 	}
 ]
-</code></pre><p>As it would appear, this would return the number of users in the table.</p><p>You may also use a <code>whereClause</code> and <code>whereFields</code> if you wish to pass in additional parameters.</p><h4>Example 2: Parameterised Count</h4><pre><code>"counters": [
+</code></pre><p>As it would appear, this would return the number of users in the table.</p><p>The code that is generated for the above counter resides in the following file location.</p><ul><li><a href="src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java"><code>src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java</code></a></li></ul><p>With the following method signatures</p><pre><code>public static int countNumberOfUsers() throws H2ZeroFinderException, SQLException
+public static int countNumberOfUsersSilent()
+</code></pre><p>You may also use a <code>whereClause</code> and <code>whereFields</code> if you wish to pass in additional parameters.</p><h4>Example 2: Parameterised Count</h4><pre><code>"counters": [
 	{
 		"name": "countNumberOfUsersOverAge",
 		"selectClause": "select count(*) from user"
@@ -24,4 +26,31 @@
 		]
 	}
 ]
-</code></pre><p>In the above example, the count being given is the number of users that are older than a parameterised value that is passed in.</p></section></div><script src="javascripts/scale.fix.js"></script></body></html>
+</code></pre><p>In the above example, the count being given is the number of users that are older than a parameterised value that is passed in.</p><p>The code that is generated for the above counter resides in the following file location.</p><ul><li><a href="src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java"><code>src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java</code></a></li></ul><p>With the following method signatures</p><pre><code>public static int countNumberOfUsersOverAge(Integer numAge) throws H2ZeroFinderException, SQLException 
+public static int countNumberOfUsersOverAgeSilent(Integer numAge)
+</code></pre><h4>Example 3: Parameterised Count with dual value parameter</h4><pre><code>"counters": [
+	{
+		"name": "countNumberOfUsersBetweenAge",
+		"selectClause": "select count(*) from user",
+		"whereClause": "where num_age &gt; ? and num_age &lt; ?",
+		"whereFields": [
+			{ "name": "num_age", "alias": "numAgeFrom" },
+			{ "name": "num_age", "alias": "numAgeTo" }
+		]
+	}
+]
+</code></pre><p>The code that is generated for the above counter resides in the following file location.</p><ul><li><a href="src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java"><code>src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java</code></a></li></ul><p>With the following method signatures</p><pre><code>public static int countNumberOfUsersBetweenAge(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException
+public static int countNumberOfUsersBetweenAgeSilent(Integer numAgeFrom, Integer numAgeTo)
+</code></pre><h4>Example 4: Parameterised Counter with in: designator fields</h4><pre><code>"questions": [
+	{
+		"name": "countUsersInAges",
+		"selectClause": "select count(*) &gt; 0 from user",
+		"whereClause": "where num_age in (...)",
+		"whereFields": [
+			"in:num_age"
+		]
+	}
+]
+</pre></code><p>In the above example, the count being given is the number of users that have an age that equals that of the passed in list</p><p>Note both the <a href="where-clauses.html"><code>whereClause</code></a> having the ellipses (<code>...</code>) to designate that this is an <code>in</code> query and the <a href="where-fields.html"><code>whereFields</code></a> using the specialised <code>in:</code> designator.</p><p>The code generation uses these two parts in order to correctly specify the method parameters and the way in which a <code>PreparedStatement</code> is constructed.</p><p>The code that is generated for the above counter resides in the following file location.</p><ul><li><a href="src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java"><code>src/main/java/synapticloop/sample/h2zero/counter/UserCounter.java</code></a></li></ul><p>With the following method signatures</p><pre><code>public static int countUsersInAges(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException
+public static int countUsersInAges(List&lt;Integer&gt; numAgeList)
+</code></pre></section></div><script src="javascripts/scale.fix.js"></script></body></html>

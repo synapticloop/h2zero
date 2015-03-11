@@ -4,8 +4,9 @@ package synapticloop.sample.h2zero.taglib.user;
 //    with the use of synapticloop templar templating language
 //           (java-create-taglib-finder.templar)
 
-import java.sql.Timestamp;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -13,9 +14,9 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.apache.log4j.Logger;
 
+import synapticloop.sample.h2zero.model.util.Constants;
 import synapticloop.sample.h2zero.model.User;
 import synapticloop.sample.h2zero.finder.UserFinder;
-import synapticloop.sample.h2zero.model.util.Constants;
 
 public class FindNmUserDtmSignupTag extends BodyTagSupport {
 	private static final String BINDER = Constants.USER_binder;
@@ -24,6 +25,7 @@ public class FindNmUserDtmSignupTag extends BodyTagSupport {
 
 	private String var = null;
 	private boolean removeVar = false;
+
 
 	public int doStartTag() throws JspException {
 		pageContext.setAttribute(var, UserFinder.findNmUserDtmSignupSilent());
@@ -53,4 +55,5 @@ public class FindNmUserDtmSignupTag extends BodyTagSupport {
 	public boolean getRemoveVar() {
 		return removeVar;
 	}
+
 }

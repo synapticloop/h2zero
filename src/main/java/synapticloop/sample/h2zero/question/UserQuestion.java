@@ -26,14 +26,19 @@ import org.apache.log4j.Logger;
 import synapticloop.sample.h2zero.model.util.Constants;
 
 public class UserQuestion {
+	// the binder is unused in code, but will generate compile problems if this 
+	// class is no longer referenced in the h2zero file. Just a nicety for
+	// removing dead code
+	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_binder;
-
 	private static final Logger LOGGER = Logger.getLogger(UserQuestion.class);
 
 	private static final String SQL_DO_WE_HAVE_MORE_THAN_TWENTY_USERS = "select count(*) > 20 from user";
 	private static final String SQL_DOES_USER_NAME_EXIST = "select count(*) > 0 from user";
 	private static final String SQL_DO_WE_HAVE_USERS_BETWEEN_AGE_EXCLUSIVE = "select count(*) > 0 from user" + " where num_age > ? and num_age < ?";
+	private static final String SQL_DO_WE_HAVE_USERS_IN_AGES = "select count(*) > 0 from user" + " where num_age in (...)";
 
+	private static HashMap<String, String> doWeHaveUsersInAges_statement_cache = new HashMap<String, String>();
 	public static boolean doWeHaveMoreThanTwentyUsers() throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -157,6 +162,69 @@ public class UserQuestion {
 		} catch(SQLException sqlex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("SQLException doWeHaveUsersBetweenAgeExclusiveSilent(" + numAgeFrom + ", " + numAgeTo + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(false);
+		}
+	}
+
+	public static boolean doWeHaveUsersInAges(List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		boolean answer = false;
+		try {
+			connection = ConnectionManager.getConnection();
+			if(doWeHaveUsersInAges_statement_cache.containsKey(numAgeList.size() + ":" )) {
+				preparedStatement = connection.prepareStatement(doWeHaveUsersInAges_statement_cache.get(numAgeList.size() + ":" ));
+			} else {
+				String preparedStatementTemp = SQL_DO_WE_HAVE_USERS_IN_AGES;
+				StringBuilder stringBuilder = null;
+				stringBuilder = new StringBuilder();
+				for(int i = 0; i < numAgeList.size(); i++) {
+					if(i > 0) {
+						stringBuilder.append(", ");
+					}
+					stringBuilder.append("?");
+				}
+				preparedStatementTemp = SQL_DO_WE_HAVE_USERS_IN_AGES.replaceFirst("\\.\\.\\.", stringBuilder.toString());
+				doWeHaveUsersInAges_statement_cache.put(numAgeList.size() + ":" , preparedStatementTemp);
+				preparedStatement = connection.prepareStatement(preparedStatementTemp);
+			}
+			int i = 1;
+			for (Integer numAgeIn : numAgeList) {
+				ConnectionManager.setInt(preparedStatement, i, numAgeIn);
+				i++;
+			}
+
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				answer = resultSet.getBoolean(1);
+			}
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		}
+		return(answer);
+	}
+
+	public static boolean doWeHaveUsersInAgesSilent(List<Integer> numAgeList) {
+		try {
+			return(doWeHaveUsersInAges(numAgeList));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException doWeHaveUsersInAgesSilent(" + numAgeList + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(false);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException doWeHaveUsersInAgesSilent(" + numAgeList + "): " + sqlex.getMessage());
 				if(LOGGER.isEnabledFor(Level.DEBUG)) {
 					sqlex.printStackTrace();
 				}

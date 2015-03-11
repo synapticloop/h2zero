@@ -90,6 +90,14 @@
 {\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeFrom" },{\n}
 {\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeTo" }{\n}
 {\t}{\t}{\t}{\t}{\t}]{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "doWeHaveUsersInAges",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) &gt; 0 from user",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereClause": "where num_age in (...)",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"in:num_age"{\n}
+{\t}{\t}{\t}{\t}{\t}]{\n}
 {\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}],{\n}
 
@@ -113,6 +121,14 @@
 {\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
 {\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeFrom" },{\n}
 {\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeTo" }{\n}
+{\t}{\t}{\t}{\t}{\t}]{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "countUsersInAges",{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) from user",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereClause": "where num_age in (...)",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"in:num_age"{\n}
 {\t}{\t}{\t}{\t}{\t}]{\n}
 {\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}]{\n}
