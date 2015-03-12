@@ -42,11 +42,22 @@ public class UserQuestion {
 	private static HashMap<String, String> doWeHaveUsersInAges_statement_cache = new HashMap<String, String>();
 	public static boolean doWeHaveMoreThanTwentyUsers() throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(doWeHaveMoreThanTwentyUsers(connection));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static boolean doWeHaveMoreThanTwentyUsers(Connection connection) throws H2ZeroFinderException, SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		boolean answer = false;
 		try {
-			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_DO_WE_HAVE_MORE_THAN_TWENTY_USERS);
 
 			resultSet = preparedStatement.executeQuery();
@@ -56,7 +67,7 @@ public class UserQuestion {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 		return(answer);
 	}
@@ -83,13 +94,46 @@ public class UserQuestion {
 		}
 	}
 
+	public static boolean doWeHaveMoreThanTwentyUsersSilent(Connection connection) {
+		try {
+			return(doWeHaveMoreThanTwentyUsers(connection));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException doWeHaveMoreThanTwentyUsersSilent(): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(false);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException doWeHaveMoreThanTwentyUsersSilent(): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(false);
+		}
+	}
+
 	public static boolean doesUserNameExist() throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(doesUserNameExist(connection));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static boolean doesUserNameExist(Connection connection) throws H2ZeroFinderException, SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		boolean answer = false;
 		try {
-			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_DOES_USER_NAME_EXIST);
 
 			resultSet = preparedStatement.executeQuery();
@@ -99,7 +143,7 @@ public class UserQuestion {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 		return(answer);
 	}
@@ -126,13 +170,46 @@ public class UserQuestion {
 		}
 	}
 
+	public static boolean doesUserNameExistSilent(Connection connection) {
+		try {
+			return(doesUserNameExist(connection));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException doesUserNameExistSilent(): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(false);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException doesUserNameExistSilent(): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(false);
+		}
+	}
+
 	public static boolean doWeHaveUsersBetweenAgeExclusive(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(doWeHaveUsersBetweenAgeExclusive(connection, numAgeFrom, numAgeTo));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static boolean doWeHaveUsersBetweenAgeExclusive(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		boolean answer = false;
 		try {
-			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_DO_WE_HAVE_USERS_BETWEEN_AGE_EXCLUSIVE);
 			ConnectionManager.setInt(preparedStatement, 1, numAgeFrom);
 			ConnectionManager.setInt(preparedStatement, 2, numAgeTo);
@@ -144,7 +221,7 @@ public class UserQuestion {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 		return(answer);
 	}
@@ -171,13 +248,46 @@ public class UserQuestion {
 		}
 	}
 
+	public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Connection connection, Integer numAgeFrom, Integer numAgeTo) {
+		try {
+			return(doWeHaveUsersBetweenAgeExclusive(connection, numAgeFrom, numAgeTo));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException doWeHaveUsersBetweenAgeExclusiveSilent(" + numAgeFrom + ", " + numAgeTo + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(false);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException doWeHaveUsersBetweenAgeExclusiveSilent(" + numAgeFrom + ", " + numAgeTo + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(false);
+		}
+	}
+
 	public static boolean doWeHaveUsersInAges(List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(doWeHaveUsersInAges(connection, numAgeList));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static boolean doWeHaveUsersInAges(Connection connection, List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		boolean answer = false;
 		try {
-			connection = ConnectionManager.getConnection();
 			if(doWeHaveUsersInAges_statement_cache.containsKey(numAgeList.size() + ":" )) {
 				preparedStatement = connection.prepareStatement(doWeHaveUsersInAges_statement_cache.get(numAgeList.size() + ":" ));
 			} else {
@@ -207,7 +317,7 @@ public class UserQuestion {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 		return(answer);
 	}
@@ -215,6 +325,28 @@ public class UserQuestion {
 	public static boolean doWeHaveUsersInAgesSilent(List<Integer> numAgeList) {
 		try {
 			return(doWeHaveUsersInAges(numAgeList));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException doWeHaveUsersInAgesSilent(" + numAgeList + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(false);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException doWeHaveUsersInAgesSilent(" + numAgeList + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(false);
+		}
+	}
+
+	public static boolean doWeHaveUsersInAgesSilent(Connection connection, List<Integer> numAgeList) {
+		try {
+			return(doWeHaveUsersInAges(connection, numAgeList));
 		} catch(H2ZeroFinderException h2zfex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("H2ZeroFinderException doWeHaveUsersInAgesSilent(" + numAgeList + "): " + h2zfex.getMessage());

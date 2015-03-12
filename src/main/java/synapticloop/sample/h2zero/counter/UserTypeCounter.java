@@ -45,9 +45,27 @@ public class UserTypeCounter {
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
 	public static int countAll() throws SQLException {
+		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(countAll(connection));
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static int countAll(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Connection connection = null;
 		int count = -1;
 
 		try {
@@ -59,14 +77,14 @@ public class UserTypeCounter {
 			}
 		} catch(SQLException sqlex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
-				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
+				LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());
 				if(LOGGER.isEnabledFor(Level.DEBUG)) {
 					sqlex.printStackTrace();
 				}
 			}
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 
 		return(count);
@@ -78,6 +96,20 @@ public class UserTypeCounter {
 		} catch(SQLException sqlex){
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("SQLException countAllSilent(): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(-1);
+		}
+	}
+
+	public static int countAllSilent(Connection connection) {
+		try {
+			return(countAll(connection));
+		} catch(SQLException sqlex){
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());
 				if(LOGGER.isEnabledFor(Level.DEBUG)) {
 					sqlex.printStackTrace();
 				}

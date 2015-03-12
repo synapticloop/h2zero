@@ -50,9 +50,27 @@ public class UserCounter {
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
 	public static int countAll() throws SQLException {
+		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(countAll(connection));
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static int countAll(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Connection connection = null;
 		int count = -1;
 
 		try {
@@ -64,14 +82,14 @@ public class UserCounter {
 			}
 		} catch(SQLException sqlex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
-				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
+				LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());
 				if(LOGGER.isEnabledFor(Level.DEBUG)) {
 					sqlex.printStackTrace();
 				}
 			}
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 
 		return(count);
@@ -91,13 +109,38 @@ public class UserCounter {
 		}
 	}
 
+	public static int countAllSilent(Connection connection) {
+		try {
+			return(countAll(connection));
+		} catch(SQLException sqlex){
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(-1);
+		}
+	}
+
 	public static int countNumberOfUsers() throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(countNumberOfUsers(connection));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static int countNumberOfUsers(Connection connection) throws H2ZeroFinderException, SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		int count = -1;
 		try {
-			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_COUNT_NUMBER_OF_USERS);
 
 			resultSet = preparedStatement.executeQuery();
@@ -107,7 +150,7 @@ public class UserCounter {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 		return(count);
 	}
@@ -122,7 +165,6 @@ public class UserCounter {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(-1);
 		} catch(SQLException sqlex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("SQLException countNumberOfUsersSilent(): " + sqlex.getMessage());
@@ -130,17 +172,49 @@ public class UserCounter {
 					sqlex.printStackTrace();
 				}
 			}
-			return(-1);
 		}
+		return(-1);
+	}
+
+	public static int countNumberOfUsersSilent(Connection connection) {
+		try {
+			return(countNumberOfUsers(connection));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException countNumberOfUsersSilent(): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countNumberOfUsersSilent(): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+		}
+		return(-1);
 	}
 
 	public static int countNumberOfUsersOverAge(Integer numAge) throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(countNumberOfUsersOverAge(connection, numAge));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static int countNumberOfUsersOverAge(Connection connection, Integer numAge) throws H2ZeroFinderException, SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		int count = -1;
 		try {
-			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_COUNT_NUMBER_OF_USERS_OVER_AGE);
 			ConnectionManager.setInt(preparedStatement, 1, numAge);
 
@@ -151,7 +225,7 @@ public class UserCounter {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 		return(count);
 	}
@@ -166,7 +240,6 @@ public class UserCounter {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(-1);
 		} catch(SQLException sqlex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("SQLException countNumberOfUsersOverAgeSilent(" + numAge + "): " + sqlex.getMessage());
@@ -174,17 +247,49 @@ public class UserCounter {
 					sqlex.printStackTrace();
 				}
 			}
-			return(-1);
 		}
+		return(-1);
+	}
+
+	public static int countNumberOfUsersOverAgeSilent(Connection connection, Integer numAge) {
+		try {
+			return(countNumberOfUsersOverAge(connection, numAge));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException countNumberOfUsersOverAgeSilent(" + numAge + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countNumberOfUsersOverAgeSilent(" + numAge + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+		}
+		return(-1);
 	}
 
 	public static int countNumberOfUsersBetweenAge(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(countNumberOfUsersBetweenAge(connection, numAgeFrom, numAgeTo));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static int countNumberOfUsersBetweenAge(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		int count = -1;
 		try {
-			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_COUNT_NUMBER_OF_USERS_BETWEEN_AGE);
 			ConnectionManager.setInt(preparedStatement, 1, numAgeFrom);
 			ConnectionManager.setInt(preparedStatement, 2, numAgeTo);
@@ -196,7 +301,7 @@ public class UserCounter {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 		return(count);
 	}
@@ -211,7 +316,6 @@ public class UserCounter {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(-1);
 		} catch(SQLException sqlex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("SQLException countNumberOfUsersBetweenAgeSilent(" + numAgeFrom + ", " + numAgeTo + "): " + sqlex.getMessage());
@@ -219,17 +323,49 @@ public class UserCounter {
 					sqlex.printStackTrace();
 				}
 			}
-			return(-1);
 		}
+		return(-1);
+	}
+
+	public static int countNumberOfUsersBetweenAgeSilent(Connection connection, Integer numAgeFrom, Integer numAgeTo) {
+		try {
+			return(countNumberOfUsersBetweenAge(connection, numAgeFrom, numAgeTo));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException countNumberOfUsersBetweenAgeSilent(" + numAgeFrom + ", " + numAgeTo + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countNumberOfUsersBetweenAgeSilent(" + numAgeFrom + ", " + numAgeTo + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+		}
+		return(-1);
 	}
 
 	public static int countUsersInAges(List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
 		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(countUsersInAges(connection, numAgeList));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static int countUsersInAges(Connection connection, List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		int count = -1;
 		try {
-			connection = ConnectionManager.getConnection();
 			if(countUsersInAges_statement_cache.containsKey(numAgeList.size() + ":" )) {
 				preparedStatement = connection.prepareStatement(countUsersInAges_statement_cache.get(numAgeList.size() + ":" ));
 			} else {
@@ -259,7 +395,7 @@ public class UserCounter {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 		return(count);
 	}
@@ -274,7 +410,6 @@ public class UserCounter {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(-1);
 		} catch(SQLException sqlex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("SQLException countUsersInAgesSilent(" + numAgeList + "): " + sqlex.getMessage());
@@ -282,8 +417,29 @@ public class UserCounter {
 					sqlex.printStackTrace();
 				}
 			}
-			return(-1);
 		}
+		return(-1);
+	}
+
+	public static int countUsersInAgesSilent(Connection connection, List<Integer> numAgeList) {
+		try {
+			return(countUsersInAges(connection, numAgeList));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException countUsersInAgesSilent(" + numAgeList + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException countUsersInAgesSilent(" + numAgeList + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+		}
+		return(-1);
 	}
 
 }

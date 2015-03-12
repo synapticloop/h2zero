@@ -31,6 +31,23 @@
 
 			{import src/imports/tables/allowable-keys-table.templar}
 
+
+			<h4>Automatically generated methods</h4>
+
+			<p>
+				Every table automatically has <code>countAll</code> methods generated, with 
+				the following signatures:
+			</p>
+
+			<pre>
+				<code>
+public static int countAll() throws SQLException{\n}
+public static int countAll(Connection connection) throws SQLException{\n}
+public static int countAllSilent(){\n}
+public static int countAllSilent(Connection connection){\n}
+				</code>
+			</pre>
+
 			<h4>Example 1: Simple Count</h4>
 
 			<pre><code>
@@ -42,7 +59,12 @@
 ]{\n}
 			</code></pre>
 
-			<p>As it would appear, this would return the number of users in the table.</p>
+			<p>
+				As it would appear, this would return the number of users in the table. 
+				Without a {import src/imports/links/whereClause.templar}, these methods are identical 
+				to the <code>countAll</code> methods and consequently aren't necessary, however this is 
+				included for illustrative purposes.
+			</p>
 
 			<p>
 				The code that is generated for the above counter resides in the following 
@@ -59,9 +81,13 @@
 			<pre>
 				<code>
 public static int countNumberOfUsers() throws H2ZeroFinderException, SQLException{\n}
+public static int countNumberOfUsers(Connection connection) throws H2ZeroFinderException, SQLException{\n}
 public static int countNumberOfUsersSilent(){\n}
+public static int countNumberOfUsersSilent(Connection connection){\n}
 				</code>
 			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
 
 			<p>You may also use a <code>whereClause</code> and <code>whereFields</code> if you wish to pass in additional parameters.</p>
 
@@ -97,9 +123,13 @@ public static int countNumberOfUsersSilent(){\n}
 			<pre>
 				<code>
 public static int countNumberOfUsersOverAge(Integer numAge) throws H2ZeroFinderException, SQLException {\n}
+public static int countNumberOfUsersOverAge(Connection connection, Integer numAge) throws H2ZeroFinderException, SQLException {\n}
 public static int countNumberOfUsersOverAgeSilent(Integer numAge){\n}
+public static int countNumberOfUsersOverAgeSilent(Connection connection, Integer numAge){\n}
 				</code>
 			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
 
 			<h4>Example 3: Parameterised Count with dual value parameter</h4>
 
@@ -136,9 +166,13 @@ public static int countNumberOfUsersOverAgeSilent(Integer numAge){\n}
 			<pre>
 				<code>
 public static int countNumberOfUsersBetweenAge(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
+public static int countNumberOfUsersBetweenAge(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
 public static int countNumberOfUsersBetweenAgeSilent(Integer numAgeFrom, Integer numAgeTo){\n}
+public static int countNumberOfUsersBetweenAgeSilent(Connection connection, Integer numAgeFrom, Integer numAgeTo){\n}
 				</code>
 			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
 
 			<h4>Example 4: Parameterised Counter with in: designator fields</h4>
 
@@ -187,9 +221,14 @@ public static int countNumberOfUsersBetweenAgeSilent(Integer numAgeFrom, Integer
 			<pre>
 				<code>
 public static int countUsersInAges(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
+public static int countUsersInAges(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
 public static int countUsersInAgesSilent(List&lt;Integer&gt; numAgeList){\n}
+public static int countUsersInAgesSilent(Connection connection, List&lt;Integer&gt; numAgeList){\n}
 				</code>
 			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
 		</section>
 		{import src/imports/footer.templar}
 	</div>

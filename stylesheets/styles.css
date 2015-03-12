@@ -60,9 +60,9 @@ a small {
 }
 
 blockquote {
-  border-left:1px solid #e5e5e5;
-  margin:0;
-  padding:0 0 0 20px;
+  border-left:7px solid #e5e5e5;
+  margin:0 0 20px 0;
+  padding:0 0 0px 20px;
   font-style:italic;
 }
 

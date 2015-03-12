@@ -75,7 +75,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td><strong>unique</strong></td>
+			<td><strong><code>unique</code></strong></td>
 			<td>boolean</td>
 			<td>{if fn:null[keyUnique]}undocumented{else}{keyUnique}{endif}</td>
 			<td>

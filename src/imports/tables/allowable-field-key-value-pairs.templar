@@ -1,0 +1,103 @@
+<table>
+	<thead>
+		<tr>
+			<th>JSON key</th>
+			<th>usage</th>
+			<th>allowable values</th>
+			<th>notes</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>name</strong></td>
+			<td>mandatory</td>
+			<td>any valid MySQL field name value</td>
+			<td>
+				Each field <strong>MUST</strong> have a name.  It is recommended to use 
+				<code>snake_case</code> for field naming.
+			</td>
+		</tr>
+		<tr>
+			<td><strong>type</strong></td>
+			<td>mandatory</td>
+			<td>
+				Any valid MySQL field type, the currently supported types are:
+				<ul>
+					<li><code>bigint</code></li>
+					<li><code>blob</code></li>
+					<li><code>boolean</code></li>
+					<li><code>bool</code></li>
+					<li><code>date</code></li>
+					<li><code>datetime</code></li>
+					<li><code>dec</code></li>
+					<li><code>decimal</code></li>
+					<li><code>double</code></li>
+					<li><code>float</code></li>
+					<li><code>int</code></li>
+					<li><code>longtext</code></li>
+					<li><code>mediumblob</code></li>
+					<li><code>mediumtext</code></li>
+					<li><code>timestamp</code></li>
+					<li><code>tinyint</code></li>
+					<li><code>varchar</code></li>
+				</ul>
+			</td>
+			<td>
+				The field types will automatically be mapped to the appropriate java type 
+				by h2zero.
+			</td>
+		</tr>
+		<tr>
+			<td><strong>length</strong></td>
+			<td>optional</td>
+			<td>Any integer value</td>
+			<td>Lengths are only required certain fields, <code>varchar</code>, <code>tinyint(1)</code> for example.</td>
+		</tr>
+		<tr>
+			<td><strong>decimalLength</strong></td>
+			<td>optional</td>
+			<td>Any integer value</td>
+			<td>Used in conjunction with <code>decimal</code> and <code>float</code> types, the number of decimal places for the field.</td>
+		</tr>
+		<tr>
+			<td><strong>nullable</strong></td>
+			<td>optional</td>
+			<td>Any boolean value</td>
+			<td>By default, fields are always nullable, unless otherwise specified.</td>
+		</tr>
+		<tr>
+			<td><strong>primary</strong></td>
+			<td>optional</td>
+			<td>Any boolean value</td>
+			<td>This may occur only once on any table.</td>
+		</tr>
+		<tr>
+			<td><strong>unique</strong></td>
+			<td>optional</td>
+			<td>Any boolean value</td>
+			<td>Whether this field should be unique throughout the table - this will automatically generate a <code>unique index</code> on the field for the table.</td>
+		</tr>
+		<tr>
+			<td><strong>index</strong></td>
+			<td>optional</td>
+			<td>any boolean value</td>
+			<td>Whether an <code>index</code> is created on the table in the SQL createion script.</td>
+		</tr>
+		<tr>
+			<td><strong>default</strong></td>
+			<td>optional</td>
+			<td>Any String value in single quotation marks (')</td>
+			<td>This sets the default value on the field</td>
+		</tr>
+		<tr>
+			<td><strong>foreignKey</strong></td>
+			<td>optional</td>
+			<td>
+				A JSON Object
+			</td>
+			<td>This allows the current key to reference a foreign key on another table, see the example below.</td>
+		</tr>
+	</tbody>
+</table>
+

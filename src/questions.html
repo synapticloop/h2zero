@@ -54,10 +54,13 @@
 			<pre>
 				<code>
 public static boolean doWeHaveMoreThanTwentyUsers() throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveMoreThanTwentyUsers(Connection connection) throws H2ZeroFinderException, SQLException{\n}
 public static boolean doWeHaveMoreThanTwentyUsersSilent(){\n}
+public static boolean doWeHaveMoreThanTwentyUsersSilent(Connection connection){\n}
 				</code>
 			</pre>
 
+			{import src/imports/method-signatures-explanation.templar}
 
 			<p>You may also use a <code>whereClause</code> and <code>whereFields</code> if you wish to pass in additional parameters.</p>
 
@@ -97,9 +100,13 @@ public static boolean doWeHaveMoreThanTwentyUsersSilent(){\n}
 			<pre>
 				<code>
 public static boolean doesUserNameExist() throws H2ZeroFinderException, SQLException{\n}
+public static boolean doesUserNameExist(Connection connection) throws H2ZeroFinderException, SQLException{\n}
 public static boolean doesUserNameExistSilent(){\n}
+public static boolean doesUserNameExistSilent(Connection connection){\n}
 				</code>
 			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
 
 			<h4>Example 3: Parameterised Question with dual parameter query</h4>
 
@@ -138,9 +145,13 @@ public static boolean doesUserNameExistSilent(){\n}
 			<pre>
 				<code>
 public static boolean doWeHaveUsersBetweenAgeExclusive(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveUsersBetweenAgeExclusive(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
 public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Integer numAgeFrom, Integer numAgeTo){\n}
+public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Connection connection, Integer numAgeFrom, Integer numAgeTo){\n}
 				</code>
 			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
 
 			<h4>Example 4: Parameterised Question with in: designator fields</h4>
 
@@ -190,9 +201,13 @@ public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Integer numAgeFrom,
 			<pre>
 				<code>
 public static boolean doWeHaveUsersInAges(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveUsersInAges(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
 public static boolean doWeHaveUsersInAgesSilent(List&lt;Integer&gt; numAgeList){\n}
+public static boolean doWeHaveUsersInAgesSilent(Connection connection, List&lt;Integer&gt; numAgeList){\n}
 				</code>
 			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
 
 		</section>
 		{import src/imports/footer.templar}

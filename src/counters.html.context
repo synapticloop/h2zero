@@ -1,5 +1,5 @@
 object=Counter
-name=counter
+name=counters
 
 keySelectClause=mandatory
 keySelectClauseInfo=<br /><br />The select clause statement <strong>MUST</strong> return one and only one integer result.
