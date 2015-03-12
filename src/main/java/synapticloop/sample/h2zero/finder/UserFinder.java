@@ -36,6 +36,7 @@ public class UserFinder {
 	// removing dead code
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_binder;
+
 	private static final Logger LOGGER = Logger.getLogger(UserFinder.class);
 	private static final String SQL_SELECT_START = "select id_user, id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, dtm_signup from user";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user = ?";

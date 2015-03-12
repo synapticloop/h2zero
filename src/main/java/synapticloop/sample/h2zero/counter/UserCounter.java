@@ -26,6 +26,10 @@ import org.apache.log4j.Logger;
 import synapticloop.sample.h2zero.model.util.Constants;
 
 public class UserCounter {
+	// the binder is unused in code, but will generate compile problems if this 
+	// class is no longer referenced in the h2zero file. Just a nicety for
+	// removing dead code
+	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_binder;
 
 	private static final Logger LOGGER = Logger.getLogger(UserCounter.class);

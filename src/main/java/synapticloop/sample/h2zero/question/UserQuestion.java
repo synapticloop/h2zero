@@ -31,6 +31,7 @@ public class UserQuestion {
 	// removing dead code
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_binder;
+
 	private static final Logger LOGGER = Logger.getLogger(UserQuestion.class);
 
 	private static final String SQL_DO_WE_HAVE_MORE_THAN_TWENTY_USERS = "select count(*) > 20 from user";
