@@ -1,9 +1,10 @@
 {if baseQueryObject.hasWhereFieldAliases}
 	{loop baseQueryObject.whereFields as whereField}
-		{\t}private {whereField.javaType} {whereField.javaName} = null;{\n}
+		{\t}private {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif} = null;{\n}
 	{endloop}
 {else}
 	{loop baseQueryObject.uniqueWhereFields as whereField}
-		{\t}private {whereField.javaType} {whereField.javaName} = null;{\n}
+		{\t}private {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif} = null;{\n}
 	{endloop}
 {endif}
+{\n}

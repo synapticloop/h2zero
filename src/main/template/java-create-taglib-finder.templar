@@ -7,19 +7,10 @@ package {database.package}.taglib.{table.javaFieldName};{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //           (java-create-taglib-finder.templar){\n}{\n}
 
-import java.sql.Timestamp;{\n}
-import java.sql.Date;{\n}
-{\n}
+{import classpath:/snippet/global/java-taglib-imports.templar}
 
-import javax.servlet.jsp.JspException;{\n}
-import javax.servlet.jsp.PageContext;{\n}
-import javax.servlet.jsp.tagext.BodyTagSupport;{\n}
-{\n}
-import org.apache.log4j.Logger;{\n}
-{\n}
 import {database.package}.model.{table.javaClassName};{\n}
 import {database.package}.finder.{table.javaClassName}Finder;{\n}
-import {database.package}.model.util.Constants;{\n}
 {\n}
 
 public class {finder.finderTagName}Tag extends BodyTagSupport {{{\n}

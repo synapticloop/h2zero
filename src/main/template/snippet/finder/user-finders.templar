@@ -309,7 +309,9 @@
 
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
 				AND THE SELECT CLAUSE FINDERS
+
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {loop tableOrView.finders as finder}
@@ -318,9 +320,8 @@
 		{if finder.unique}{finder.finderTagName}Bean {else}List<{finder.finderTagName}Bean> {endif}
 		{finder.name}(
 
-		{loop finder.whereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-		{endloop}
+			{import classpath:/snippet/finder/method-parameters.templar}
+
 		) throws H2ZeroFinderException, SQLException {{{\n}
 		{if finder.cache}
 			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
@@ -430,9 +431,8 @@
 		{if finder.unique}{finder.finderTagName}Bean {else}List<{finder.finderTagName}Bean> {endif}
 		{finder.name}(Connection connection
 
-		{loop finder.whereFields as whereField}
-			, {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-		{endloop}
+			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
+
 		) throws H2ZeroFinderException, SQLException {{{\n}
 		{if finder.cache}
 			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
@@ -538,15 +538,13 @@
 		{\t}public static 
 		{if finder.unique}{finder.finderTagName}Bean {else}List<{finder.finderTagName}Bean> {endif}
 		{finder.name}Silent(
-
-		{loop finder.whereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}{endloop}
+			{import classpath:/snippet/finder/method-parameters.templar}
 		) {{{\n}
 
 		{if finder.unique}
 			{\t}{\t}try {{{\n}
 			{\t}{\t}{\t}return({finder.name}(
-				{import classpath:/snippet/finder/method-parameters-bean.templar}
+				{import classpath:/snippet/finder/method-parameters-call.templar}
 			));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
@@ -628,15 +626,14 @@
 		{\t}public static 
 		{if finder.unique}{finder.finderTagName}Bean {else}List<{finder.finderTagName}Bean> {endif}
 		{finder.name}Silent(Connection connection
-
-		{loop finder.whereFields as whereField}
-			, {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}{endloop}
+			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 		) {{{\n}
 
 		{if finder.unique}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}(connection {loop finder.whereFields as whereField}
-			, {whereField.javaName}{if whereField.isInField}List{endif}{endloop}));{\n}
+			{\t}{\t}{\t}return({finder.name}(connection
+				{import classpath:/snippet/finder/method-parameters-call-with-connection.templar}
+			));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
@@ -672,9 +669,9 @@
 			{\t}}{\n}
 		{else}
 			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}({loop finder.whereFields as whereField}
-			{if !whereFieldStatus.first}, {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-		{endloop}));{\n}
+			{\t}{\t}{\t}return({finder.name}(
+				{import classpath:/snippet/finder/method-parameters-call.templar}
+				));{\n}
 			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
@@ -717,7 +714,9 @@
 
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				THE BEAN CREATOR
+
+				THE BEAN CREATORS
+
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {\t}/**{\n}

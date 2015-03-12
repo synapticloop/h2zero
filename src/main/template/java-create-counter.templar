@@ -7,33 +7,13 @@ package {database.package}.counter;{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //                (java-create-counter.templar){\n}{\n}
 
-import java.sql.Connection;{\n}
-import java.sql.PreparedStatement;{\n}
-import java.sql.ResultSet;{\n}
-import java.sql.SQLException;{\n}
-import java.sql.Date;{\n}
-import java.sql.Timestamp;{\n}
-import java.sql.Types;{\n}
-import java.util.HashMap;{\n}
-import java.util.List;{\n}
-import java.util.Enumeration;{\n}
-import java.util.ArrayList;{\n}
-import java.util.concurrent.ConcurrentHashMap;{\n}
-{\n}
-import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
-import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
-{\n}
-import org.apache.log4j.Level;{\n}
-import org.apache.log4j.Logger;{\n}
-{\n}
-import {database.package}.model.util.Constants;{\n}
-
-{\n}
+{import classpath:/snippet/global/java-model-imports.templar}
 
 public class {table.javaClassName}Counter {{{\n}
-{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
-{\t}private static final Logger LOGGER = Logger.getLogger({table.javaClassName}Counter.class);{\n}
-{\n}
+	{set table as baseSchemaObject}
+	{import classpath:/snippet/global/java-binder-declaration.templar}
+	{\t}private static final Logger LOGGER = Logger.getLogger({baseSchemaObject.javaClassName}Counter.class);{\n}
+	{\n}
 
 {\t}private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from {table.name}";{\n}
 {\n}
@@ -73,18 +53,11 @@ public class {table.javaClassName}Counter {{{\n}
 
 {\t}public static int countAll() throws SQLException {{{\n}
 
-{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-{\t}{\t}ResultSet resultSet = null;{\n}
 {\t}{\t}Connection connection = null;{\n}
-{\t}{\t}int count = -1;{\n}
 {\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_COUNT_ALL);{\n}
-{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-{\t}{\t}{\t}if(resultSet.next()) {{{\n}
-{\t}{\t}{\t}{\t}count = resultSet.getInt(1);{\n}
-{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}return(countAll(connection));{\n}
 {\t}{\t}} catch(SQLException sqlex) {{{\n}
 {\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 {\t}{\t}{\t}{\t}LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());{\n}
@@ -96,7 +69,36 @@ public class {table.javaClassName}Counter {{{\n}
 {\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}throw sqlex;{\n}
 {\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
+{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static int countAll(Connection connection) throws SQLException {{{\n}
+
+{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+{\t}{\t}ResultSet resultSet = null;{\n}
+{\t}{\t}int count = -1;{\n}
+{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_COUNT_ALL);{\n}
+{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
+{\t}{\t}{\t}if(resultSet.next()) {{{\n}
+{\t}{\t}{\t}{\t}count = resultSet.getInt(1);{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}} catch(SQLException sqlex) {{{\n}
+{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}throw sqlex;{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 {\t}{\t}}{\n}
 {\n}
 
@@ -123,83 +125,63 @@ public class {table.javaClassName}Counter {{{\n}
 {\t}}{\n}
 {\n}
 
+{\t}public static int countAllSilent(Connection connection) {{{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}return(countAll(connection));{\n}
+{\t}{\t}} catch(SQLException sqlex){{{\n}
+
+{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}return(-1);{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				AND THE SELECT CLAUSE COUNTERS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {loop table.counters as counter}
+	{set counter as baseQueryObject}
 	{\t}public static int {counter.name}(
-
-	{loop counter.whereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-	{endloop}
+		{import classpath:/snippet/global/java-method-parameters.templar}
 	) throws H2ZeroFinderException, SQLException {{{\n}
 
 	{\t}{\t}Connection connection = null;{\n}
+	{\n}
+
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+	{\t}{\t}{\t}return({counter.name}(connection
+		{import classpath:/snippet/global/java-method-parameters-call-with-connection.templar}
+		));{\n}
+	{\t}{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}throw sqlex;{\n}
+	{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+	{\t}{\t}}{\n}
+
+	{\t}}{\n}
+{\n}
+
+	{\t}public static int {counter.name}(Connection connection
+		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
+	) throws H2ZeroFinderException, SQLException {{{\n}
+
 	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 	{\t}{\t}ResultSet resultSet = null;{\n}
 	{\t}{\t}int count = -1;{\n}
 
 
 	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-
-
-	{if counter.hasInFields}
-		{\t}{\t}{\t}if({counter.name}_statement_cache.containsKey({loop counter.inWhereFields as whereField}
-			{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
-		{endloop})) {{{\n}
-
-		{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement({counter.name}_statement_cache.get(
-		{loop counter.inWhereFields as whereField}
-			{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
-		{endloop}));{\n}
-		{\t}{\t}{\t}} else {{{\n}
-
-		{\t}{\t}{\t}{\t}String preparedStatementTemp = SQL_{counter.staticName};{\n}
-		{\t}{\t}{\t}{\t}StringBuilder stringBuilder = null;{\n}
-		{loop counter.whereFields as whereField}
-			{if whereField.isInField}
-				{\t}{\t}{\t}{\t}stringBuilder = new StringBuilder();{\n}
-				{\t}{\t}{\t}{\t}for(int i = 0; i < {whereField.javaName}List.size(); i++) {{{\n}
-				{\t}{\t}{\t}{\t}{\t}if(i > 0) {{{\n}
-				{\t}{\t}{\t}{\t}{\t}{\t}stringBuilder.append(", ");{\n}
-				{\t}{\t}{\t}{\t}{\t}}{\n}
-				{\t}{\t}{\t}{\t}{\t}stringBuilder.append("?");{\n}
-				{\t}{\t}{\t}{\t}}{\n}
-
-				{\t}{\t}{\t}{\t}preparedStatementTemp = SQL_{counter.staticName}.replaceFirst("\\.\\.\\.", stringBuilder.toString());{\n}
-			{endif}
-		{endloop}
-			{\t}{\t}{\t}{\t}{counter.name}_statement_cache.put({loop counter.inWhereFields as whereField}
-			{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
-		{endloop}, preparedStatementTemp);{\n}
-			{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement(preparedStatementTemp);{\n}
-		{\t}{\t}{\t}}{\n}
-	{else}
-		{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{counter.staticName});{\n}
-	{endif}
-
-
-	{if counter.hasInFields}
-		{\t}{\t}{\t}int i = 1;{\n}
-		{loop counter.whereFields as whereField}
-			{if whereField.isInField}
-				{\t}{\t}{\t}for ({whereField.javaType} {whereField.javaName}In : {whereField.javaName}List) {{{\n}
-				{\t}{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName}In);{\n}
-				{\t}{\t}{\t}{\t}i++;{\n}
-				{\t}{\t}{\t}}{\n}
-
-			{else}
-				{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName});{\n}
-				{\t}{\t}{\t}i++;{\n}
-			{endif}
-		{endloop}
-	{else}
-		{loop counter.whereFields as whereField}
-			{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
-		{endloop}
-	{endif}
+		{import classpath:/snippet/global/java-sql-parameter-setting.templar}
 
 	{\n}
 	{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
@@ -210,63 +192,53 @@ public class {table.javaClassName}Counter {{{\n}
 	{\t}{\t}{\t}throw sqlex;{\n}
 
 	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
+	{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 	{\t}{\t}}{\n}
 	{\t}{\t}return(count);{\n}
 	{\t}}{\n}
 {\n}
 
 	{\t}public static int {counter.name}Silent(
-
-	{loop counter.whereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}{endloop}
+		{import classpath:/snippet/global/java-method-parameters.templar}
 	) {{{\n}
 
 	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return({counter.name}({loop counter.whereFields as whereField}
-	{if !whereFieldStatus.first}, {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-{endloop}));{\n}
+	{\t}{\t}{\t}return({counter.name}(
+		{import classpath:/snippet/global/java-method-parameters-call.templar}
+	));{\n}
 	{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
-	{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-	{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {counter.name}Silent(
+		{import classpath:/snippet/global/exception-h2zero-log-silent.templar}
 
-	{loop counter.whereFields as whereField}
-		{if whereFieldStatus.first}" + {endif}
-		{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last} + "{endif}
-	{endloop}
-
-	): " + h2zfex.getMessage());{\n}
-
-	{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-
-	{\t}{\t}{\t}}{\n}
-
-	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}} catch(SQLException sqlex) {{{\n}
 
-	{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-	{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {counter.name}Silent(
+		{import classpath:/snippet/global/exception-sql-log-silent.templar}
 
-	{loop counter.whereFields as whereField}
-		{if whereFieldStatus.first}" + {endif}
-		{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last} + "{endif}
-	{endloop}
-
-	): " + sqlex.getMessage());{\n}
-
-	{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-
-	{\t}{\t}{\t}}{\n}
-
-	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
+
+	{\t}{\t}return(-1);{\n}
+	{\t}}{\n}
+{\n}
+
+	{\t}public static int {counter.name}Silent(Connection connection
+		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
+	) {{{\n}
+
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}return({counter.name}(connection
+		{import classpath:/snippet/global/java-method-parameters-call-with-connection.templar}
+	));{\n}
+	{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
+
+		{import classpath:/snippet/global/exception-h2zero-log-silent.templar}
+
+	{\t}{\t}} catch(SQLException sqlex) {{{\n}
+
+		{import classpath:/snippet/global/exception-sql-log-silent.templar}
+
+	{\t}{\t}}{\n}
+
+	{\t}{\t}return(-1);{\n}
 
 	{\t}}{\n}
 {\n}

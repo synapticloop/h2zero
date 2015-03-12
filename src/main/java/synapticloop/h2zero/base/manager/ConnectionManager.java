@@ -545,6 +545,8 @@ public class ConnectionManager {
 	public static String getNullableResultString(ResultSet resultSet, int index) throws SQLException { return(resultSet.getString(index)); }
 	public static Blob getNullableResultBlob(ResultSet resultSet, int index) throws SQLException { return(resultSet.getBlob(index)); }
 	public static Timestamp getNullableResultTimestamp(ResultSet resultSet, int index) throws SQLException { return(resultSet.getTimestamp(index)); }
+	public static Date getNullableResultDate(ResultSet resultSet, int index) throws SQLException { return(resultSet.getDate(index)); }
+	public static Float getNullableResultFloat(ResultSet resultSet, int index) throws SQLException { return(resultSet.getFloat(index)); }
 	public static ComboPooledDataSource getComboPooledDataSource() { return comboPooledDataSource; }
 
 }

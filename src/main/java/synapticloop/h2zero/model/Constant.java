@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 
 public class Constant {
 	private ArrayList<Object> values = new ArrayList<Object>();
@@ -20,14 +21,14 @@ public class Constant {
 	public Constant(JSONObject constantsObject, Table table) throws H2ZeroParseException {
 
 		try {
-			this.name = constantsObject.optString("name");
+			this.name = constantsObject.optString(JSONKeyConstants.NAME);
 			if(null == name) {
-				throw new H2ZeroParseException("name cannot be null for constant object '" + constantsObject + "'.");
+				throw new H2ZeroParseException(JSONKeyConstants.NAME + " cannot be null for constant object '" + constantsObject + "'.");
 			}
 
 			this.name = this.name.toString().toUpperCase().replaceAll("[^A-Z]", "_");
 
-			JSONArray valuesArray = constantsObject.getJSONArray("values");
+			JSONArray valuesArray = constantsObject.getJSONArray(JSONKeyConstants.VALUES);
 			for(int i = 0; i < valuesArray.length(); i++) {
 				Object object = valuesArray.get(i);
 

@@ -71,6 +71,8 @@ public abstract class BaseQueryObject {
 		this.jsonUniqueKey = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, null);
 	}
 
+	public abstract String getBaseQueryObjectType();
+
 	/**
 	 * Populate the where fields from the passed in json object
 	 * 
@@ -83,7 +85,7 @@ public abstract class BaseQueryObject {
 			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 
 			if(null == whereClause && whereFieldArray.length() > 0) {
-				throw new H2ZeroParseException("Finder '" + name + "' cannot have 'whereFields' when there is no 'whereClause'.");
+				throw new H2ZeroParseException(this.getBaseQueryObjectType() + " '" + this.name + "' cannot have '" + JSONKeyConstants.WHERE_FIELDS + "' when there is no '" + JSONKeyConstants.WHERE_CLAUSE + "'.");
 			}
 
 			for (int i = 0; i < whereFieldArray.length(); i++) {
@@ -93,8 +95,8 @@ public abstract class BaseQueryObject {
 
 				if(null != whereFieldArray.optJSONObject(i)) {
 					JSONObject whereFieldObject = whereFieldArray.getJSONObject(i);
-					whereFieldName = whereFieldObject.getString("name");
-					whereFieldAlias = whereFieldObject.getString("alias");
+					whereFieldName = whereFieldObject.getString(JSONKeyConstants.NAME);
+					whereFieldAlias = whereFieldObject.getString(JSONKeyConstants.ALIAS);
 					hasWhereFieldAliases = true;
 				} else {
 					whereFieldName = whereFieldArray.getString(i);
@@ -108,14 +110,16 @@ public abstract class BaseQueryObject {
 					baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
 				}
 
-				this.hasInFields = FieldLookupHelper.hasInFieldDesignator(whereFieldName);
+				if(!this.hasInFields) {
+					this.hasInFields = FieldLookupHelper.hasInFieldDesignator(whereFieldName);
+				}
 
 				if(hasWhereFieldAliases) {
 					baseField.setAlias(whereFieldAlias);
 				}
 
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for finder '" + name + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getBaseQueryObjectType() + " '" + name + "'.");
 				}
 
 				whereFields.add(baseField);
@@ -130,35 +134,6 @@ public abstract class BaseQueryObject {
 		} catch (JSONException ojjsonex) {
 			// do nothing
 		}
-
-		//		try {
-		//			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
-		//
-		//			if(null == whereClause && whereFieldArray.length() > 0) {
-		//				throw new H2ZeroParseException(this.getClass().getSimpleName() + " '" + name + "' cannot have '" + JSONKeyConstants.WHERE_FIELDS + "' when there is no '" + JSONKeyConstants.WHERE_CLAUSE + "'.");
-		//			}
-		//
-		//			for (int i = 0; i < whereFieldArray.length(); i++) {
-		//				String whereFieldName = whereFieldArray.getString(i);
-		//
-		//				BaseField baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
-		//
-		//				if(null == baseField) {
-		//					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getClass().getSimpleName() + "'" + name + "'.");
-		//				}
-		//
-		//				whereFields.add(baseField);
-		//				if(baseField.getIsInField()) {
-		//					inWhereFields.add(baseField);
-		//				}
-		//
-		//				if(!uniqueWhereFields.containsKey(whereFieldName)) {
-		//					uniqueWhereFields.put(whereFieldName, baseField);
-		//				}
-		//			}
-		//		} catch (JSONException ojjsonex) {
-		//			// do nothing
-		//		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -178,10 +153,10 @@ public abstract class BaseQueryObject {
 
 			try {
 				fieldObject = fieldJson.getJSONObject(i);
-				type = fieldObject.getString("type");
+				type = fieldObject.getString(JSONKeyConstants.TYPE);
 
 				// check to ensure that the field has a name
-				fieldObject.getString("name");
+				fieldObject.getString(JSONKeyConstants.NAME);
 			} catch (JSONException ojjsonex) {
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.append("Could not parse the '");

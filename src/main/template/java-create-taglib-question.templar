@@ -7,43 +7,30 @@ package {database.package}.taglib.{table.javaFieldName};{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //           (java-create-taglib-question.templar){\n}{\n}
 
-import java.sql.Timestamp;{\n}
+{import classpath:/snippet/global/java-taglib-imports.templar}
+
+import {database.package}.question.{table.javaClassName}Question;{\n}
 {\n}
 
-import javax.servlet.jsp.JspException;{\n}
-import javax.servlet.jsp.PageContext;{\n}
-import javax.servlet.jsp.tagext.BodyTagSupport;{\n}
-{\n}
-import org.apache.log4j.Logger;{\n}
-{\n}
-import {database.package}.question.{table.javaClassName}Question;{\n}
-import {database.package}.model.util.Constants;{\n}
-{\n}
+{set question as baseQueryObject}
 
 public class {question.tagName}Tag extends BodyTagSupport {{{\n}
-	{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
-	{\t}private static final Logger LOGGER = Logger.getLogger({question.tagName}Tag.class);{\n}{\n}
-	{\t}private String var = null;{\n}
-	{\t}private boolean removeVar = false;{\n}{\n}
 
-	{set question as baseQueryObject}
+	{import classpath:/snippet/global/java-taglib-members.templar}
+
 	{import classpath:/snippet/global/java-class-field-declaration.templar}
 
-	{\n}
-
-	{\t}public int doStartTag() throws JspException {{{\n}
-		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Question.{question.name}Silent(
-			{import classpath:/snippet/global/java-taglib-method-call.templar}
-		));{\n}
-		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
-	}{\n}
+{\t}public int doStartTag() throws JspException {{{\n}
+	{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Question.{baseQueryObject.name}Silent(
+		{import classpath:/snippet/global/java-taglib-method-call.templar}
+	));{\n}
+	{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
+{\t}}{\n}
 
 	{import classpath:/snippet/global/java-taglib-do-end-tag.templar}
 
 	{import classpath:/snippet/global/java-taglib-base-getter-setters.templar}
 
 	{import classpath:/snippet/global/java-class-setters.templar}
-
-{\n}
 
 }

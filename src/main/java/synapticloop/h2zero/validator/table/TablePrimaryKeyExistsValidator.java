@@ -1,4 +1,4 @@
-package synapticloop.h2zero.validator;
+package synapticloop.h2zero.validator.table;
 
 import java.util.ArrayList;
 
@@ -6,8 +6,9 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
+import synapticloop.h2zero.validator.Validator;
 
-public class PrimaryKeyExistsValidator extends Validator {
+public class TablePrimaryKeyExistsValidator extends Validator {
 
 	@Override
 	public boolean isValid(Database database, Options options) {

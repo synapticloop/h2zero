@@ -81,4 +81,8 @@ public class Updater extends BaseQueryObject {
 			throw new H2ZeroParseException("The updater 'name' attribute cannot be null.");
 		}
 	}
+
+	public String getBaseQueryObjectType() {
+		return("Updater");
+	}
 }

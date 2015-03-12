@@ -1,14 +1,16 @@
 {--
- This is used to iterate the parameters that are passed to the question function.
- It checks whether the question has an alias, and if so, goes through all of the
+ This is used to iterate the parameters that are passed to the baseQueryObject 
+ function.
+ 
+ It checks whether the baseQueryObject has an alias, and if so, goes through all of the
  where fields, not just the unique ones.
  --}
-{if question.hasWhereFieldAliases}
-	{loop question.whereFields as whereField}
+{if baseQueryObject.hasWhereFieldAliases}
+	{loop baseQueryObject.whereFields as whereField}
 		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {else}
-	{loop question.uniqueWhereFields as whereField}
+	{loop baseQueryObject.uniqueWhereFields as whereField}
 		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {endif}

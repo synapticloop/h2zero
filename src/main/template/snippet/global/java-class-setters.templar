@@ -1,6 +1,15 @@
-{loop baseQueryObject.uniqueWhereFields as whereField}
-	{\t}public void set{whereField.javaAccessorName}({whereField.javaType} {whereField.javaName}) {{{\n}
-	{\t}{\t}this.{whereField.javaName} = {whereField.javaName};{\n}
-	{\t}}{\n}
-	{\t}{\n}{\n}
-{endloop}
+{if baseQueryObject.hasWhereFieldAliases}
+	{loop baseQueryObject.whereFields as whereField}
+		{\t}public void set{whereField.javaAccessorName}({if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}) {{{\n}
+		{\t}{\t}this.{whereField.javaName}{if whereField.isInField}List{endif} = {whereField.javaName}{if whereField.isInField}List{endif};{\n}
+		{\t}}{\n}
+		{\n}
+	{endloop}
+{else}
+	{loop baseQueryObject.uniqueWhereFields as whereField}
+		{\t}public void set{whereField.javaAccessorName}({if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}) {{{\n}
+		{\t}{\t}this.{whereField.javaName}{if whereField.isInField}List{endif} = {whereField.javaName}{if whereField.isInField}List{endif};{\n}
+		{\t}}{\n}
+		{\n}
+	{endloop}
+{endif}

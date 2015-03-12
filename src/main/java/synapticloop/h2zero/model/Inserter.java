@@ -64,4 +64,9 @@ public class Inserter extends BaseQueryObject {
 			throw new H2ZeroParseException("The inserter '" + name + "' for table '" + table.getName() + "'has selectClause and value fields.");
 		}
 	}
+
+	public String getBaseQueryObjectType() {
+		return("Inserter");
+	}
+
 }

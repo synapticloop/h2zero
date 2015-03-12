@@ -51,7 +51,6 @@ public class Finder {
 	private boolean hasWhereFieldAliases = false;
 	private BaseSchemaObject baseSchemaObject;
 
-
 	public Finder(JSONObject jsonObject, BaseSchemaObject baseSchemaObject) throws H2ZeroParseException {
 		this.baseSchemaObject = baseSchemaObject;
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
@@ -74,7 +73,7 @@ public class Finder {
 			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 
 			if(null == whereClause && whereFieldArray.length() > 0) {
-				throw new H2ZeroParseException("Finder '" + name + "' cannot have 'whereFields' when there is no 'whereClause'.");
+				throw new H2ZeroParseException("Finder '" + name + "' cannot have '" + JSONKeyConstants.WHERE_FIELDS + "' when there is no '" + JSONKeyConstants.WHERE_CLAUSE + "'.");
 			}
 
 			for (int i = 0; i < whereFieldArray.length(); i++) {
@@ -84,8 +83,8 @@ public class Finder {
 
 				if(null != whereFieldArray.optJSONObject(i)) {
 					JSONObject whereFieldObject = whereFieldArray.getJSONObject(i);
-					whereFieldName = whereFieldObject.getString("name");
-					whereFieldAlias = whereFieldObject.getString("alias");
+					whereFieldName = whereFieldObject.getString(JSONKeyConstants.NAME);
+					whereFieldAlias = whereFieldObject.getString(JSONKeyConstants.ALIAS);
 					hasWhereFieldAliases = true;
 				} else {
 					whereFieldName = whereFieldArray.getString(i);
@@ -123,7 +122,7 @@ public class Finder {
 		}
 
 		if(null == name) {
-			throw new H2ZeroParseException("The finder 'name' attribute cannot be null.");
+			throw new H2ZeroParseException("The finder '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
 		}
 	}
 
@@ -132,9 +131,9 @@ public class Finder {
 	private void populateSelectFields(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray fieldJson = new JSONArray();
 		try {
-			fieldJson = jsonObject.getJSONArray("selectFields");
+			fieldJson = jsonObject.getJSONArray(JSONKeyConstants.SELECT_FIELDS);
 		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Cannot create the selectClause finder of '" + name + "' finder without 'selectFields'.");
+			throw new H2ZeroParseException("Cannot create the '" + JSONKeyConstants.SELECT_CLAUSE + "' finder of '" + name + "' finder without '" + JSONKeyConstants.SELECT_FIELDS + "'.");
 		}
 
 		for (int i = 0; i < fieldJson.length(); i++) {
@@ -143,15 +142,15 @@ public class Finder {
 
 			try {
 				fieldObject = fieldJson.getJSONObject(i);
-				type = fieldObject.getString("type");
+				type = fieldObject.getString(JSONKeyConstants.TYPE);
 
 				// check to ensure that the field has a name
 				fieldObject.getString(JSONKeyConstants.NAME);
 			} catch (JSONException ojjsonex) {
 				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.append("Could not parse the 'selectFields' array.\n");
+				stringBuilder.append("Could not parse the '" + JSONKeyConstants.SELECT_FIELDS + "' array.\n");
 				stringBuilder.append("Was expecting the format to be:\n");
-				stringBuilder.append("\"selectFields\": [\n");
+				stringBuilder.append("\"" + JSONKeyConstants.SELECT_FIELDS + "\": [\n");
 				stringBuilder.append("  { \"name\": \"<fieldName1>\", \"type\": \"<type>\" },\n");
 				stringBuilder.append("  { \"name\": \"<fieldName2>\", \"type\": \"<type>\" },\n");
 				stringBuilder.append("]\n");

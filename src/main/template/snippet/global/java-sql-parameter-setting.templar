@@ -1,0 +1,55 @@
+{if baseQueryObject.hasInFields}
+	{\t}{\t}{\t}if({baseQueryObject.name}_statement_cache.containsKey({loop baseQueryObject.inWhereFields as whereField}
+		{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
+	{endloop})) {{{\n}
+
+	{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement({baseQueryObject.name}_statement_cache.get(
+	{loop baseQueryObject.inWhereFields as whereField}
+		{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
+	{endloop}));{\n}
+	{\t}{\t}{\t}} else {{{\n}
+
+	{\t}{\t}{\t}{\t}String preparedStatementTemp = SQL_{baseQueryObject.staticName};{\n}
+	{\t}{\t}{\t}{\t}StringBuilder stringBuilder = null;{\n}
+	{loop baseQueryObject.whereFields as whereField}
+		{if whereField.isInField}
+			{\t}{\t}{\t}{\t}stringBuilder = new StringBuilder();{\n}
+			{\t}{\t}{\t}{\t}for(int i = 0; i < {whereField.javaName}List.size(); i++) {{{\n}
+			{\t}{\t}{\t}{\t}{\t}if(i > 0) {{{\n}
+			{\t}{\t}{\t}{\t}{\t}{\t}stringBuilder.append(", ");{\n}
+			{\t}{\t}{\t}{\t}{\t}}{\n}
+			{\t}{\t}{\t}{\t}{\t}stringBuilder.append("?");{\n}
+			{\t}{\t}{\t}{\t}}{\n}
+
+			{\t}{\t}{\t}{\t}preparedStatementTemp = SQL_{baseQueryObject.staticName}.replaceFirst("\\.\\.\\.", stringBuilder.toString());{\n}
+		{endif}
+	{endloop}
+		{\t}{\t}{\t}{\t}{baseQueryObject.name}_statement_cache.put({loop baseQueryObject.inWhereFields as whereField}
+		{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
+	{endloop}, preparedStatementTemp);{\n}
+		{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement(preparedStatementTemp);{\n}
+	{\t}{\t}{\t}}{\n}
+{else}
+	{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{baseQueryObject.staticName});{\n}
+{endif}
+
+
+{if baseQueryObject.hasInFields}
+	{\t}{\t}{\t}int i = 1;{\n}
+	{loop baseQueryObject.whereFields as whereField}
+		{if whereField.isInField}
+			{\t}{\t}{\t}for ({whereField.javaType} {whereField.javaName}In : {whereField.javaName}List) {{{\n}
+			{\t}{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName}In);{\n}
+			{\t}{\t}{\t}{\t}i++;{\n}
+			{\t}{\t}{\t}}{\n}
+
+		{else}
+			{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName});{\n}
+			{\t}{\t}{\t}i++;{\n}
+		{endif}
+	{endloop}
+{else}
+	{loop baseQueryObject.whereFields as whereField}
+		{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
+	{endloop}
+{endif}

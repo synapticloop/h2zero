@@ -1,16 +1,16 @@
 {--
- This is used to iterate the parameters that are passed to the finder function.
- It checks whether the finder has an alias, and if so, goes through all of the
+ This is used to iterate the parameters that are passed to the baseQueryObject function.
+ It checks whether the baseQueryObject has an alias, and if so, goes through all of the
  where fields, not just the unique ones.
 
  This method has the Connection object as the first paramter
  --}
-{if finder.hasWhereFieldAliases}
-	{loop finder.whereFields as whereField}
+{if baseQueryObject.hasWhereFieldAliases}
+	{loop baseQueryObject.whereFields as whereField}
 		, {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {else}
-	{loop finder.uniqueWhereFields as whereField}
+	{loop baseQueryObject.uniqueWhereFields as whereField}
 		, {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {endif}

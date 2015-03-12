@@ -29,5 +29,29 @@ public class JSONKeyConstants {
 
 	public static final String ORDER_BY = "orderBy";
 
+	public static final String INDEX = "index";
 
+	public static final String FOREIGN_KEY = "foreignKey";
+
+	public static final String TYPE = "type";
+
+	public static final String ALIAS = "alias";
+
+	public static final String MULTIPLE = "multiple";
+
+	public static final String VALUES = "values";
+
+	public static final String DATABASE = "database";
+
+	public static final String SCHEMA = "schema";
+
+	public static final String PACKAGE = "package";
+
+	public static final String TABLES = "tables";
+
+	public static final String VIEWS = "views";
+
+	public static final String FORMS = "forms";
+
+	public static final String AS_CLAUSE = "asClause";
 }

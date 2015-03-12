@@ -1,0 +1,16 @@
+{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {baseQueryObject.name}Silent(
+
+{loop baseQueryObject.whereFields as whereField}
+	{if whereFieldStatus.first}" + {endif}
+	{if !whereFieldStatus.first} + ", " + {endif}{whereField.javaName}{if whereField.isInField}List{endif}
+	{if whereFieldStatus.last} + "{endif}
+{endloop}
+
+): " + h2zfex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}

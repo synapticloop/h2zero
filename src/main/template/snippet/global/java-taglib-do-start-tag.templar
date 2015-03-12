@@ -1,0 +1,6 @@
+{\t}public int doStartTag() throws JspException {{{\n}
+	{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Counter.{baseQueryObject.name}Silent(
+		{import classpath:/snippet/global/java-taglib-method-call.templar}
+	));{\n}
+	{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
+{\t}}{\n}

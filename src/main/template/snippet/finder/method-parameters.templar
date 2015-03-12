@@ -5,10 +5,10 @@
  --}
 {if finder.hasWhereFieldAliases}
 	{loop finder.whereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{whereField.javaType} {whereField.javaName}
+		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {else}
 	{loop finder.uniqueWhereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{whereField.javaType} {whereField.javaName}
+		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {endif}

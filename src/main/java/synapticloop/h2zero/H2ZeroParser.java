@@ -19,8 +19,6 @@ import synapticloop.h2zero.validator.DefaultValueValidator;
 import synapticloop.h2zero.validator.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
-import synapticloop.h2zero.validator.PrimaryKeyExistsValidator;
-import synapticloop.h2zero.validator.PrimaryKeyNameValidator;
 import synapticloop.h2zero.validator.TableFinderKeyValidator;
 import synapticloop.h2zero.validator.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.UniqeAndIndexValidator;
@@ -47,6 +45,9 @@ import synapticloop.h2zero.validator.inserter.InserterNameValidator;
 import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectClauseValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectFieldsValidator;
+import synapticloop.h2zero.validator.table.TablePrimaryKeyExistsValidator;
+import synapticloop.h2zero.validator.table.TablePrimaryKeyNameValidator;
+import synapticloop.h2zero.validator.table.TablePrimaryKeyTypeValidator;
 import synapticloop.h2zero.validator.updater.UpdaterNameValidator;
 import synapticloop.h2zero.validator.updater.UpdaterSetClauseValidator;
 import synapticloop.h2zero.validator.updater.UpdaterWhereClauseValidator;
@@ -65,11 +66,10 @@ public class H2ZeroParser {
 		validators.add(new OptionsGeneratorsValidator());
 
 		// overall validators
-		validators.add(new PrimaryKeyExistsValidator());
+
 		validators.add(new ForeignKeyTableValidator());
 		validators.add(new UniqeAndIndexValidator());
 
-		validators.add(new PrimaryKeyNameValidator());
 
 		validators.add(new DefaultValueValidator());
 
@@ -77,6 +77,11 @@ public class H2ZeroParser {
 		validators.add(new TableFinderKeyValidator());
 
 		validators.add(new FieldNameDuplicateValidator());
+
+		// table validators
+		validators.add(new TablePrimaryKeyExistsValidator());
+		validators.add(new TablePrimaryKeyNameValidator());
+		validators.add(new TablePrimaryKeyTypeValidator());
 
 		// Finder validators
 		validators.add(new FinderInQueryValidator());

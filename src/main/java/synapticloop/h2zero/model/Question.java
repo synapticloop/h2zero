@@ -46,4 +46,8 @@ public class Question extends BaseQueryObject {
 			throw new H2ZeroParseException("The question '"  + JSONKeyConstants.NAME + "' attribute cannot be null.");
 		}
 	}
+
+	public String getBaseQueryObjectType() {
+		return("Question");
+	}
 }

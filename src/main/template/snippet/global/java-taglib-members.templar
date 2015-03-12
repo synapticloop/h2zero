@@ -1,0 +1,8 @@
+{\t}// the binder is unused in code, but will generate compile problems if this {\n}
+{\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
+{\t}// removing dead code{\n}
+{\t}@SuppressWarnings("unused"){\n}
+{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}
+{\t}private static final Logger LOGGER = Logger.getLogger({baseQueryObject.tagName}Tag.class);{\n}{\n}
+{\t}private String var = null;{\n}
+{\t}private boolean removeVar = false;{\n}{\n}

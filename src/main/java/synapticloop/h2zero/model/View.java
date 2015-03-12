@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
@@ -21,10 +22,6 @@ public class View extends BaseSchemaObject {
 
 	private ArrayList<BaseField> fields = new ArrayList<BaseField>();
 	private HashMap<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
-//	private HashMap<String, BaseField> setFieldLookup = new HashMap<String, BaseField>();
-//	private HashMap<String, BaseField> whereFieldLookup = new HashMap<String, BaseField>();
-
-	private ArrayList<Finder> finders = new ArrayList<Finder>();
 
 	public View(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
@@ -32,11 +29,11 @@ public class View extends BaseSchemaObject {
 		this.asClause = JsonHelper.getStringValue(jsonObject, "asClause", null);
 		
 		if(null == name) {
-			throw new H2ZeroParseException("The view 'name' attribute cannot be null.");
+			throw new H2ZeroParseException("The view '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
 		}
 
 		if(null == asClause) {
-			throw new H2ZeroParseException("The view 'asClause' attribute cannot be null.");
+			throw new H2ZeroParseException("The view '" + JSONKeyConstants.AS_CLAUSE + "' attribute cannot be null.");
 		}
 
 		this.cacheable = JsonHelper.getBooleanValue(jsonObject, "cacheable", false);
@@ -50,9 +47,9 @@ public class View extends BaseSchemaObject {
 	private void populateFields(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray fieldJson = new JSONArray();
 		try {
-			fieldJson = jsonObject.getJSONArray("fields");
+			fieldJson = jsonObject.getJSONArray(JSONKeyConstants.FIELDS);
 		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Cannot create a view without 'fields'.");
+			throw new H2ZeroParseException("Cannot create a view without '" + JSONKeyConstants.FIELDS + "'.");
 		}
 
 		for (int i = 0; i < fieldJson.length(); i++) {
@@ -61,10 +58,10 @@ public class View extends BaseSchemaObject {
 			JSONObject fieldObject = null;
 			try {
 				fieldObject = fieldJson.getJSONObject(i);
-				type = fieldObject.getString("type");
-				name = fieldObject.getString("name");
+				type = fieldObject.getString(JSONKeyConstants.TYPE);
+				name = fieldObject.getString(JSONKeyConstants.NAME);
 			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse the 'fields' array.");
+				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.FIELDS + "' array.");
 			}
 
 			if(null != type) {

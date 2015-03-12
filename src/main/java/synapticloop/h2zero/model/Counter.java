@@ -29,14 +29,18 @@ public class Counter extends BaseQueryObject {
 		super(table, counterObject);
 
 		if(null == selectClause) {
-			throw new H2ZeroParseException("Counters must always have a '" + JSONKeyConstants.SELECT_CLAUSE + "' and return one and only count(*) int object.");
+			throw new H2ZeroParseException("Counters must always have a '" + JSONKeyConstants.SELECT_CLAUSE + "' and return one and only int object.");
 		}
 
 		populateWhereFields(counterObject);
 
-
 		if(null == name) {
-			throw new H2ZeroParseException("The counter 'name' attribute cannot be null.");
+			throw new H2ZeroParseException("The counter '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
 		}
 	}
+
+	public String getBaseQueryObjectType() {
+		return("Counter");
+	}
+
 }

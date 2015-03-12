@@ -18,3 +18,5 @@
 	{\t}public boolean getRemoveVar() {{{\n}
 	{\t}{\t}return removeVar;{\n}
 	{\t}}{\n}
+
+{\n}
