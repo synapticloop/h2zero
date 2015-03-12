@@ -29,12 +29,7 @@
 {\t}{\t}{\t}"cacheFindAll": false,{\n}
 {\t}{\t}{\t}"fields": [{\n}
 {\t}{\t}{\t}{\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },{\n}
-{\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, {\n}
-{\t}{\t}{\t}{\t}{\t}"foreign": {{{\n}
-{\t}{\t}{\t}{\t}{\t}{\t}"table": "user_type",{\n}
-{\t}{\t}{\t}{\t}{\t}{\t}"field": "id_user_type"{\n}
-{\t}{\t}{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "foreignKey": "user_type.id_user_type", nullable": false, "index": true }{\n}
 {\t}{\t}{\t}{\t}{{ "name": "fl_is_alive", "type": "boolean", "nullable": true, "default": "'0'", "index": true },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "num_age", "type": "int", "nullable": false },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false, "unique": true },{\n}
