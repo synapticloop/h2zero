@@ -58,3 +58,36 @@ create table user (
 -- show any warnings that are applicable
 show warnings;
 
+drop table if exists pet;
+show warnings;
+
+create table pet (
+	id_pet bigint not null auto_increment,
+	nm_pet boolean null default '0',
+	num_age int not null,
+	flt_weight float(6,1) null,
+	dt_birthday date null,
+	primary key(id_pet),
+	index (nm_pet)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists user_pet;
+show warnings;
+
+create table user_pet (
+	id_user_pet bigint not null auto_increment,
+	id_user bigint not null,
+	id_pet bigint not null,
+	primary key(id_user_pet),
+	index (id_user),
+	index (id_pet),
+	foreign key (id_user) references user (id_user),
+	foreign key (id_pet) references pet (id_pet)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+

@@ -8,6 +8,48 @@
 
 			{import src/imports/page-heading.templar}
 
+			<p>
+				Finders will most likely be the most often used elements of h2zero and can 
+				be configured in a variety of ways.
+			</p>
+
+			<p>
+				Rather than configuring {import src/imports/links/selectClause.templar} bean 
+				(more on this below) type queries, the following shortcut finder generators 
+				are also available:
+			</p>
+
+			<dl>
+				<dt>{import src/imports/links/fieldFinders.templar}</dt>
+				<dd>For simple one parameter finders on a single field, which return either a unique object or an ArrayList of objects.</dd>
+				<dt>{import src/imports/links/counters.templar}</dt>
+				<dd>For simple counts on objects that return one and only one Integer value per query.</dd>
+				<dt>{import src/imports/links/questions.templar}</dt>
+				<dd>For simple questions on objects that return one and only one Boolean value per query.</dd>
+			</dl>
+
+			<h3>
+				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
+				Default Finders
+			</h3>
+
+			<p>
+				By default <code>Finders</code> are designed to return either a unique object 
+				or an ArrayList of objects, which contain the complete row record. 
+			</p>
+
+			<h3>
+				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
+				selectClause Finders
+			</h3>
+
+			<p>
+				In some  instances it is desirable to only return specific fields from the 
+				database, or to use in-built MySQL language functions that do not map directly 
+				to  a specific field in the table.  In this case the {import src/imports/links/selectClause.templar} 
+				finder is useful.
+			</p>
+
 			<pre>
 				<code>
 				</code>

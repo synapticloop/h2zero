@@ -10,6 +10,8 @@ public class Constants {
 
 	public static final String USER_TYPE_binder = "USER_TYPE";
 	public static final String USER_binder = "USER";
+	public static final String PET_binder = "PET";
+	public static final String USER_PET_binder = "USER_PET";
 
 	// Field constants for the user_type table
 	public static final String USER_TYPE_ID_USER_TYPE = "idUserType";
@@ -25,6 +27,20 @@ public class Constants {
 	public static final String USER_TXT_ADDRESS_EMAIL = "txtAddressEmail";
 	public static final String USER_TXT_PASSWORD = "txtPassword";
 	public static final String USER_DTM_SIGNUP = "dtmSignup";
+
+
+	// Field constants for the pet table
+	public static final String PET_ID_PET = "idPet";
+	public static final String PET_NM_PET = "nmPet";
+	public static final String PET_NUM_AGE = "numAge";
+	public static final String PET_FLT_WEIGHT = "fltWeight";
+	public static final String PET_DT_BIRTHDAY = "dtBirthday";
+
+
+	// Field constants for the user_pet table
+	public static final String USER_PET_ID_USER_PET = "idUserPet";
+	public static final String USER_PET_ID_USER = "idUser";
+	public static final String USER_PET_ID_PET = "idPet";
 
 
 }

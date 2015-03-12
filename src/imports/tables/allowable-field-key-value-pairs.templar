@@ -97,19 +97,7 @@
 				A JSON Object
 			</td>
 			<td>
-				This allows the current key to reference a foreign key on another table, see the example below.<br /><br />
-				This is now deprecated, use the <code>foreignKey</code> key instead.
-			</td>
-		</tr>
-		<tr>
-			<td><strong>foreignKey</strong></td>
-			<td>optional</td>
-			<td>
-				A String
-			</td>
-			<td>
-				This allows the current key to reference a foreign key on another table, and must be in the format <code>&lt;table_name&gt;.&lt;field_name&gt;</code>
-				This replaces the <code>foreign</code> JSON Object key reference.
+				This allows the current key to reference a foreign key on another table, see the example below.
 			</td>
 		</tr>
 	</tbody>

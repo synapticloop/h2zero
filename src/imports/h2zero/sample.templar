@@ -23,6 +23,8 @@
 {\t}{\t}{\t}{\t}{{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }{\n}
 {\t}{\t}{\t}]{\n}
 {\t}{\t}},{\n}
+
+
 {\t}{\t}{{{\n}
 {\t}{\t}{\t}"name": "user",{\n}
 {\t}{\t}{\t}"cacheable": false,{\n}
@@ -128,6 +130,36 @@
 {\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}]{\n}
 
+{\t}{\t}},{\n}
+{\t}{\t}{{{\n}
+{\t}{\t}{\t}"name": "pet",{\n}
+{\t}{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_pet", "type": "bigint", "nullable": false, "primary": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "nm_pet", "type": "boolean", "nullable": true, "default": "'0'", "index": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "num_age", "type": "int", "nullable": false },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "flt_weight", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "dt_birthday", "type": "date", "nullable": true }{\n}
+{\t}{\t}{\t}]{\n}
+{\t}{\t}},{\n}
+
+
+{\t}{\t}{{{\n}
+{\t}{\t}{\t}"name": "user_pet",{\n}
+{\t}{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_user_pet", "type": "bigint", "nullable": false, "primary": true },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "index": true, {\n}
+{\t}{\t}{\t}{\t}{\t}"foreign": {{{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"table": "user",{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"field": "id_user"{\n}
+{\t}{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_pet", "type": "bigint", "nullable": false, "index": true, {\n}
+{\t}{\t}{\t}{\t}{\t}"foreign": {{{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"table": "pet",{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"field": "id_pet"{\n}
+{\t}{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}]{\n}
 {\t}{\t}}{\n}
 {\t}]{\n}
 }{\n}
