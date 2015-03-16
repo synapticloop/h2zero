@@ -18,16 +18,16 @@ public class TableFinderKeyValidator extends Validator {
 			if(table.getHasDeprecatedFinder()) {
 				ArrayList<String> warnMessages = new ArrayList<String>();
 
-				warnMessages.add("Table contains fields with a deprecated key of 'finder', please remove and use the '" + JSONKeyConstants.FIELD_FINDERS + "' JSON array as below:");
+				warnMessages.add("Table '" + table.getName() + "' contains fields with a deprecated key of 'finder', please remove and use the '" + JSONKeyConstants.FIELD_FINDERS + "' JSON array as below:");
 				warnMessages.add("\"fieldFinders\": [");
 				LinkedHashMap<String,String> deprecatedFinders = table.getDeprecatedFinders();
 				Iterator<String> iterator = deprecatedFinders.keySet().iterator();
 				while (iterator.hasNext()) {
 					String key = (String) iterator.next();
 					StringBuffer stringBuffer = new StringBuffer();
-					stringBuffer.append("  {\"");
+					stringBuffer.append("  { \"");
 					stringBuffer.append(key);
-					stringBuffer.append(" \": \"");
+					stringBuffer.append("\": \"");
 					stringBuffer.append(deprecatedFinders.get(key));
 					stringBuffer.append("\" }");
 					if(iterator.hasNext()) {

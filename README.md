@@ -1,3 +1,5 @@
+# See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
+
 # h2zero
 
 This is a object relationship mapper for MySQL and Java.

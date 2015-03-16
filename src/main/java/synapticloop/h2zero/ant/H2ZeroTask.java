@@ -360,7 +360,9 @@ public class H2ZeroTask extends Task {
 				}
 			}
 		} catch (H2ZeroParseException shepex) {
-			shepex.printStackTrace();
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2zeroFile.getName() + "'.");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + shepex.getMessage());
 			return;
 		} catch (synapticloop.templar.exception.ParseException stepex) {
 			stepex.printStackTrace();
