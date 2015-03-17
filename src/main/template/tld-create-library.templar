@@ -17,12 +17,12 @@
 
 {loop database.tables as table}
 	{\t}<!--{\n}
-	{\t}  The tag library definitions for the {table.name} 
+	{\t}  The tag library definitions for the {table.name} {\n}
 	{\t}  -->{\n}
 
 	{\t}<tag>{\n}
 	{\t}{\t}<description>{\n}
-	{\t}{\t}{\t}generated tag for the find by primary key method{\n}
+	{\t}{\t}{\t}This is an in-built tag for the find by primary key method on the {table.name} table{\n}
 	{\t}{\t}</description>{\n}
 	{\t}{\t}<name>{table.javaClassName}FindByPrimaryKey</name>{\n}
 	{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.FindByPrimaryKeyTag</tag-class>{\n}
@@ -85,38 +85,16 @@
 
 	{\t}</tag>{\n}{\n}
 
-	{\t}<tag>{\n}
-	{\t}{\t}<description>{\n}
-	{\t}{\t}{\t}generated tag for the count all{\n}
-	{\t}{\t}</description>{\n}
-	{\t}{\t}<name>{table.javaClassName}CountAll</name>{\n}
-	{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.CountAllTag</tag-class>{\n}
-	{\t}{\t}<body-content>JSP</body-content>{\n}
-
-	{\t}{\t}<attribute>{\n}
-	{\t}{\t}{\t}<description>{\n}
-	{\t}{\t}{\t}{\t}The variable to bind the results to{\n}
-	{\t}{\t}{\t}</description>{\n}
-	{\t}{\t}{\t}<name>var</name>{\n}
-	{\t}{\t}{\t}<required>true</required>{\n}
-	{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
-	{\t}{\t}</attribute>{\n}
-
-	{\t}{\t}<attribute>{\n}
-	{\t}{\t}{\t}<description>{\n}
-	{\t}{\t}{\t}{\t}Whether to remove the var at the end of the tag{\n}
-	{\t}{\t}{\t}</description>{\n}
-	{\t}{\t}{\t}<name>removeVar</name>{\n}
-	{\t}{\t}{\t}<required>false</required>{\n}
-	{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
-	{\t}{\t}</attribute>{\n}
-
-	{\t}</tag>{\n}{\n}
-
 	{loop table.finders as finder}
+		{if finderStatus.first}
+			{\t}<!--{\n}
+			{\t}Generated finder tags{\n}
+			{\t}-->{\n}
+		{endif}
+
 		{\t}<tag>{\n}
 		{\t}{\t}<description>{\n}
-		{\t}{\t}{\t}generated tag for the {finder.name}{\n}
+		{\t}{\t}{\t}Automaticall generated tag that maps to the {finder.name} on the {table.name} table{\n}
 		{\t}{\t}</description>{\n}
 		{\t}{\t}<name>{table.javaClassName}{finder.finderTagName}</name>{\n}
 		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{finder.finderTagName}Tag</tag-class>{\n}
@@ -156,10 +134,45 @@
 		{\n}
 	{endloop}
 
+
+	{\t}<tag>{\n}
+	{\t}{\t}<description>{\n}
+	{\t}{\t}{\t}This is an in-built tag for the countAll function for the {table.name} table{\n}
+	{\t}{\t}</description>{\n}
+	{\t}{\t}<name>{table.javaClassName}CountAll</name>{\n}
+	{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.CountAllTag</tag-class>{\n}
+	{\t}{\t}<body-content>JSP</body-content>{\n}
+
+	{\t}{\t}<attribute>{\n}
+	{\t}{\t}{\t}<description>{\n}
+	{\t}{\t}{\t}{\t}The variable to bind the results to{\n}
+	{\t}{\t}{\t}</description>{\n}
+	{\t}{\t}{\t}<name>var</name>{\n}
+	{\t}{\t}{\t}<required>true</required>{\n}
+	{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
+	{\t}{\t}</attribute>{\n}
+
+	{\t}{\t}<attribute>{\n}
+	{\t}{\t}{\t}<description>{\n}
+	{\t}{\t}{\t}{\t}Whether to remove the var at the end of the tag{\n}
+	{\t}{\t}{\t}</description>{\n}
+	{\t}{\t}{\t}<name>removeVar</name>{\n}
+	{\t}{\t}{\t}<required>false</required>{\n}
+	{\t}{\t}{\t}<rtexprvalue>false</rtexprvalue>{\n}
+	{\t}{\t}</attribute>{\n}
+
+	{\t}</tag>{\n}{\n}
+
 	{loop table.counters as counter}
+		{if counterStatus.first}
+			{\t}<!--{\n}
+			{\t}Generated counter tags{\n}
+			{\t}-->{\n}
+		{endif}
+
 		{\t}<tag>{\n}
 		{\t}{\t}<description>{\n}
-		{\t}{\t}{\t}generated tag for the {counter.name}{\n}
+		{\t}{\t}{\t}counter tag generated tag for the {counter.name}{\n}
 		{\t}{\t}</description>{\n}
 		{\t}{\t}<name>{table.javaClassName}{counter.tagName}</name>{\n}
 		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{counter.tagName}Tag</tag-class>{\n}
@@ -201,6 +214,12 @@
 
 
 	{loop table.questions as question}
+		{if questionStatus.first}
+			{\t}<!--{\n}
+			{\t}Generated question tags{\n}
+			{\t}-->{\n}
+		{endif}
+
 		{\t}<tag>{\n}
 		{\t}{\t}<description>{\n}
 		{\t}{\t}{\t}generated tag for the {question.name}{\n}
