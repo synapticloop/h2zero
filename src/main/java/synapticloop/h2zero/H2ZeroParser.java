@@ -19,7 +19,6 @@ import synapticloop.h2zero.validator.DefaultValueValidator;
 import synapticloop.h2zero.validator.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
-import synapticloop.h2zero.validator.TableFinderKeyValidator;
 import synapticloop.h2zero.validator.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.UniqeAndIndexValidator;
 import synapticloop.h2zero.validator.Validator;
@@ -45,6 +44,8 @@ import synapticloop.h2zero.validator.inserter.InserterNameValidator;
 import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectClauseValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectFieldsValidator;
+import synapticloop.h2zero.validator.table.TableDeprecatedFinderKeyValidator;
+import synapticloop.h2zero.validator.table.TableDeprecatedForeignKeyValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyExistsValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyNameValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyTypeValidator;
@@ -74,7 +75,6 @@ public class H2ZeroParser {
 		validators.add(new DefaultValueValidator());
 
 		validators.add(new TableNameDuplicateValidator());
-		validators.add(new TableFinderKeyValidator());
 
 		validators.add(new FieldNameDuplicateValidator());
 
@@ -82,6 +82,8 @@ public class H2ZeroParser {
 		validators.add(new TablePrimaryKeyExistsValidator());
 		validators.add(new TablePrimaryKeyNameValidator());
 		validators.add(new TablePrimaryKeyTypeValidator());
+		validators.add(new TableDeprecatedFinderKeyValidator());
+		validators.add(new TableDeprecatedForeignKeyValidator());
 
 		// Finder validators
 		validators.add(new FinderInQueryValidator());

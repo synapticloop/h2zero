@@ -1,4 +1,4 @@
-package synapticloop.h2zero.validator;
+package synapticloop.h2zero.validator.table;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,8 +8,9 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
+import synapticloop.h2zero.validator.Validator;
 
-public class TableFinderKeyValidator extends Validator {
+public class TableDeprecatedFinderKeyValidator extends Validator {
 
 	@Override
 	public boolean isValid(Database database, Options options) {
