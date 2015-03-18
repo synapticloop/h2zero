@@ -5,8 +5,16 @@
 			<include name="*.jar"/>
 		</fileset>
 	</path>
+
 	<target name="h2zero" description="h2zero generate">
 		<taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" />
 		<h2zero in="src/main/java/sample.h2zero" outDir="." verbose="false" />
+	</target>
+
+	<target name="gen" description="templar-gen the pages">
+		<java jar="templar-gen.jar" fork="true" failonerror="true" maxmemory="128m" >
+			<arg value="src" />
+			<arg value="." />
+		</java>
 	</target>
 </project>
