@@ -15,10 +15,11 @@
 	<short-name>sample</short-name>
 
 	<!--
-	  The tag library definitions for the user_type 	  -->
+	  The tag library definitions for the user_type 
+	  -->
 	<tag>
 		<description>
-			generated tag for the find by primary key method
+			This is an in-built tag for the find by primary key method on the user_type table
 		</description>
 		<name>UserTypeFindByPrimaryKey</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.userType.FindByPrimaryKeyTag</tag-class>
@@ -76,7 +77,7 @@
 
 	<tag>
 		<description>
-			generated tag for the count all
+			This is an in-built tag for the countAll function for the user_type table
 		</description>
 		<name>UserTypeCountAll</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.userType.CountAllTag</tag-class>
@@ -102,10 +103,11 @@
 
 
 	<!--
-	  The tag library definitions for the user 	  -->
+	  The tag library definitions for the user 
+	  -->
 	<tag>
 		<description>
-			generated tag for the find by primary key method
+			This is an in-built tag for the find by primary key method on the user table
 		</description>
 		<name>UserFindByPrimaryKey</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByPrimaryKeyTag</tag-class>
@@ -161,34 +163,12 @@
 		</attribute>
 	</tag>
 
+	<!--
+	Generated finder tags
+	-->
 	<tag>
 		<description>
-			generated tag for the count all
-		</description>
-		<name>UserCountAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.CountAllTag</tag-class>
-		<body-content>JSP</body-content>
-		<attribute>
-			<description>
-				The variable to bind the results to
-			</description>
-			<name>var</name>
-			<required>true</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
-		<attribute>
-			<description>
-				Whether to remove the var at the end of the tag
-			</description>
-			<name>removeVar</name>
-			<required>false</required>
-			<rtexprvalue>false</rtexprvalue>
-		</attribute>
-	</tag>
-
-	<tag>
-		<description>
-			generated tag for the findByTxtAddressEmailTxtPassword
+			Automaticall generated tag that maps to the findByTxtAddressEmailTxtPassword on the user table
 		</description>
 		<name>UserFindByTxtAddressEmailTxtPassword</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByTxtAddressEmailTxtPasswordTag</tag-class>
@@ -229,7 +209,7 @@
 
 	<tag>
 		<description>
-			generated tag for the findNmUserDtmSignup
+			Automaticall generated tag that maps to the findNmUserDtmSignup on the user table
 		</description>
 		<name>UserFindNmUserDtmSignup</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.user.FindNmUserDtmSignupTag</tag-class>
@@ -254,7 +234,7 @@
 
 	<tag>
 		<description>
-			generated tag for the findGroupNumAge
+			Automaticall generated tag that maps to the findGroupNumAge on the user table
 		</description>
 		<name>UserFindGroupNumAge</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.user.FindGroupNumAgeTag</tag-class>
@@ -279,7 +259,35 @@
 
 	<tag>
 		<description>
-			generated tag for the countNumberOfUsers
+			This is an in-built tag for the countAll function for the user table
+		</description>
+		<name>UserCountAll</name>
+		<tag-class>synapticloop.sample.h2zero.taglib.user.CountAllTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>
+				The variable to bind the results to
+			</description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Whether to remove the var at the end of the tag
+			</description>
+			<name>removeVar</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<!--
+	Generated counter tags
+	-->
+	<tag>
+		<description>
+			counter tag generated tag for the countNumberOfUsers
 		</description>
 		<name>UserCountNumberOfUsers</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.user.CountNumberOfUsersTag</tag-class>
@@ -304,7 +312,7 @@
 
 	<tag>
 		<description>
-			generated tag for the countNumberOfUsersOverAge
+			counter tag generated tag for the countNumberOfUsersOverAge
 		</description>
 		<name>UserCountNumberOfUsersOverAge</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.user.CountNumberOfUsersOverAgeTag</tag-class>
@@ -337,7 +345,7 @@
 
 	<tag>
 		<description>
-			generated tag for the countNumberOfUsersBetweenAge
+			counter tag generated tag for the countNumberOfUsersBetweenAge
 		</description>
 		<name>UserCountNumberOfUsersBetweenAge</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.user.CountNumberOfUsersBetweenAgeTag</tag-class>
@@ -378,7 +386,7 @@
 
 	<tag>
 		<description>
-			generated tag for the countUsersInAges
+			counter tag generated tag for the countUsersInAges
 		</description>
 		<name>UserCountUsersInAges</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.user.CountUsersInAgesTag</tag-class>
@@ -409,6 +417,9 @@
 		</attribute>
 	</tag>
 
+	<!--
+	Generated question tags
+	-->
 	<tag>
 		<description>
 			generated tag for the doWeHaveMoreThanTwentyUsers
@@ -536,10 +547,11 @@
 
 
 	<!--
-	  The tag library definitions for the pet 	  -->
+	  The tag library definitions for the pet 
+	  -->
 	<tag>
 		<description>
-			generated tag for the find by primary key method
+			This is an in-built tag for the find by primary key method on the pet table
 		</description>
 		<name>PetFindByPrimaryKey</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.pet.FindByPrimaryKeyTag</tag-class>
@@ -597,7 +609,7 @@
 
 	<tag>
 		<description>
-			generated tag for the count all
+			This is an in-built tag for the countAll function for the pet table
 		</description>
 		<name>PetCountAll</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.pet.CountAllTag</tag-class>
@@ -623,10 +635,11 @@
 
 
 	<!--
-	  The tag library definitions for the user_pet 	  -->
+	  The tag library definitions for the user_pet 
+	  -->
 	<tag>
 		<description>
-			generated tag for the find by primary key method
+			This is an in-built tag for the find by primary key method on the user_pet table
 		</description>
 		<name>UserPetFindByPrimaryKey</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.userPet.FindByPrimaryKeyTag</tag-class>
@@ -684,7 +697,7 @@
 
 	<tag>
 		<description>
-			generated tag for the count all
+			This is an in-built tag for the countAll function for the user_pet table
 		</description>
 		<name>UserPetCountAll</name>
 		<tag-class>synapticloop.sample.h2zero.taglib.userPet.CountAllTag</tag-class>

@@ -29,12 +29,7 @@
 			"cacheFindAll": false,
 			"fields": [
 				{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },
-				{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, 
-					"foreign": {
-						"table": "user_type",
-						"field": "id_user_type"
-					}
-				},
+				{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user_type.id_user_type" },
 				{ "name": "fl_is_alive", "type": "boolean", "nullable": true, "default": "'0'", "index": true },
 				{ "name": "num_age", "type": "int", "nullable": false },
 				{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false, "unique": true },

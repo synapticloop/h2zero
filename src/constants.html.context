@@ -1,2 +1,3 @@
 object=Constant
 name=constants
+constantsUserTypeCodeLink=src/main/java/synapticloop/h2zero/model/UserType.java

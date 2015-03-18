@@ -1,0 +1,130 @@
+
+			<h4>Models in General</h4>
+
+			<p>
+				Models come in two flavours, regular and constant.  They both share some base features and functionality as
+				detailed below:
+			</p>
+
+			<p><strong>BINDER</strong></p>
+
+			<pre>
+				<code>
+// the binder is unused in code, but will generate compile problems if this {\n}
+// class is no longer referenced in the h2zero file. Just a nicety for{\n}
+// removing dead code{\n}
+@SuppressWarnings("unused"){\n}
+private static final String BINDER = Constants.USER_TYPE_binder;{\n}
+				</code>
+			</pre>
+
+			<p>
+				As mentioned in the comments above the field, the <code>BINDER</code> is only used as a compile time error so 
+				that dead code can be removed.  Most of the generated code contains this code that references the constant. This 
+				will ensure that when model names are changed, or any of tyhe interaction names are changed (e.g. finders, 
+				questions, counters etc.) 
+			</p>
+
+			<p><strong>PRIMARY_KEY_FIELD</strong></p>
+
+			<pre>
+				<code>
+public static final String PRIMARY_KEY_FIELD = "id_user_type";{\n}
+				</code>
+			</pre>
+
+			<p>
+				This is a reference to the primary key field in the database.  Every table (and therefore every model) must 
+				have a primary key on it.
+			</p>
+
+			<p><strong>Member variable declarations</strong></p>
+
+			<p>
+				Each field that is attached to the table will generate a declaration.
+			</p>
+
+			<pre>
+				<code>
+private Long idUserType = null;{\n}
+private String nmUserType = null;{\n}
+				</code>
+			</pre>
+
+			<p><strong>Constructor</strong></p>
+
+			<p>
+				Every model has a constructor with a signature that contains all of the fields.  Despite the fact that you 
+				cannot create new constants, the constant models still include a constructor for use with finders, counters 
+				and questions.
+			</p>
+
+			<pre>
+				<code>
+public UserType(Long idUserType, String nmUserType) {{{\n}
+{\t}this.idUserType = idUserType;{\n}
+{\t}this.nmUserType = nmUserType;{\n}
+}{\n}
+				</code>
+			</pre>
+
+			<p><strong>Getters</strong></p>
+
+			<pre>
+				<code>
+/*{\n}
+ * Boring ol' getters and setters {\n}
+ */{\n}
+{\n}
+public Long getIdUserType() {{return(this.idUserType);}{\n}
+public String getNmUserType() {{return(this.nmUserType);}{\n}
+				</code>
+			</pre>
+
+			<p>
+				Getters are generated (in condensed format) for each field on the table.  No setters are generated for constant 
+				models as you may not change constants.
+			</p>
+
+			<p><strong>String methods</strong></p>
+
+			<pre>
+				<code>
+public String toString() {{{\n}
+{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
+{\t}stringBuilder.append("Model[UserType]\n");{\n}
+{\t}stringBuilder.append("  Field[idUserType:" + this.idUserType + "]\n");{\n}
+{\t}stringBuilder.append("  Field[nmUserType:" + this.nmUserType + "]\n");{\n}
+{\t}return(stringBuilder.toString());{\n}
+}{\n}
+{\n}
+public String toJsonString() {{{\n}
+{\t}// !!! work in progress !!!{\n}
+{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
+{\t}stringBuilder.append("{{\n");{\n}
+{\t}stringBuilder.append("  \"model\": {{\n");{\n}
+{\t}stringBuilder.append("    \"name\": \"UserType\",\n");{\n}
+{\t}stringBuilder.append("    \"fields\": [\n");{\n}
+{\t}stringBuilder.append("     {{ \"name\": \"idUserType\", \"value\": " + this.idUserType + " }, \n");{\n}
+{\t}stringBuilder.append("     {{ \"name\": \"nmUserType\", \"value\": \"" + this.nmUserType + "\" }\n");{\n}
+{\t}stringBuilder.append("    ]\n");{\n}
+{\t}stringBuilder.append("  }\n");{\n}
+{\t}stringBuilder.append("}\n");{\n}
+{\t}return(stringBuilder.toString());{\n}
+}{\n}
+{\n}
+public String getJsonString() {{{\n}
+{\t}return(toJsonString());{\n}
+}{\n}
+				</code>
+			</pre>
+
+			<p>
+				The string methods are automatically generated for each model.  As the comment notes above, it is a work in 
+				progress.  Care must be taken when utilising this method on sensitive information contained within the model, 
+				e.g. passwords, credit card details etc.
+			</p>
+
+			<p>
+				The <code>getJsonString()</code> method signature above is for JSTL or templar referencing for output.
+			</p>

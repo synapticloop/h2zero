@@ -7,6 +7,112 @@
 		<section>
 			{import src/imports/page-heading.templar}
 
+			<p>
+				As the name would suggest constants are designed to contain un-changing data that can be referenced from other 
+				parts of the codebase to ensure that there is a tight-coupling of the data and consistency throughout the code.
+			</p>
+
+			{set constantsUserTypeCodeLink as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<pre>
+				<code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "user_type",{\n}
+{\t}{\t}"cacheable": false,{\n}
+{\t}{\t}"cacheFindAll": false,{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },{\n}
+{\t}{\t}{\t}{{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false},{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"constants": [{\n}
+{\t}{\t}{\t}{{ "name": "NORMAL", "values": [ 1, "normal" ] },{\n}
+{\t}{\t}{\t}{{ "name": "SPECIAL", "values": [ 2, "special" ] },{\n}
+{\t}{\t}{\t}{{ "name": "ADMIN", "values": [ 3, "admin" ] },{\n}
+{\t}{\t}{\t}{{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				The generated code for the <code>UserType</code> is an example of a generated constant model.  Constant models 
+				can not be modified in any way and as such the following interactions can not be generated:
+			</p>
+
+			<ul>
+				<li>Updaters</li>
+				<li>Deleters</li>
+				<li>Inserters</li>
+			</ul>
+
+			<p>
+				You may however genereate the following interactions:
+			</p>
+
+			<ul>
+				<li>Questions</li>
+				<li>Counters</li>
+				<li>Finders</li>
+			</ul>
+
+			<p>
+				The reasoning behind constant models is to allow fast lookup on data that doesn't change, so the utility of the 
+				interactions is questionable.
+			</p>
+
+			{import src/imports/base-generated-methods.templar}
+
+			<h4>Additional methods and member variables</h4>
+
+			<p>
+				In addition to the general generation mentioned above, for each of the constant models, the following field and 
+				method signatures are generated:
+			</p>
+
+			<p><strong>Static Final Member Variable References</strong></p>
+
+			<pre>
+				<code>
+public static final UserType NORMAL = new UserType(new Long(1), "normal");{\n}
+public static final UserType SPECIAL = new UserType(new Long(2), "special");{\n}
+public static final UserType ADMIN = new UserType(new Long(3), "admin");{\n}
+public static final UserType SUPER_ADMIN = new UserType(new Long(4), "super admin");{\n}
+				</code>
+			</pre>
+
+			<p>
+				For each of the constant definitions a <code>public static final</code> member variable is generated which can 
+				then be referenced from other parts of the code.  Should any of the constants be renamed, deleted or removed, 
+				compiler errors are generated.
+			</p>
+
+			<p><strong>Static lookup member variables</strong></p>
+
+			<pre>
+				<code>
+public static UserType[] ALL = {{{\n}
+{\t}UserType.NORMAL, UserType.SPECIAL, UserType.ADMIN, UserType.SUPER_ADMIN{\n}
+};{\n}
+{\n}
+public static HashMap&gt;Long, UserType&lt; ALL_LOOKUP = new HashMap&gt;Long, UserType&lt;();{\n}
+static{{{\n}
+{\t}ALL_LOOKUP.put(new Long(1), UserType.NORMAL);{\n}
+{\t}ALL_LOOKUP.put(new Long(2), UserType.SPECIAL);{\n}
+{\t}ALL_LOOKUP.put(new Long(3), UserType.ADMIN);{\n}
+{\t}ALL_LOOKUP.put(new Long(4), UserType.SUPER_ADMIN);{\n}
+};{\n}
+				</code>
+			</pre>
+
+			<p>
+				The static lookup member variables allow quick lookups from other parts of the code and ensure with 
+				tight-binding that should they change at any point in time that any referenced code will fail with compile time 
+				errors
+			</p>
+
 			<pre>
 				<code>
 				</code>
