@@ -85,8 +85,182 @@
 			<h4>Regular Models</h4>
 
 			<p>
-				Regular models are the default generation for h2zero and as opposed to {import src/imports/links/constants.templar} 
-				allow access to insert new rows into the database and have access to the full range of interactions.
+				Regular models are the default generation for h2zero and, as opposed to {import src/imports/links/constants.templar}, 
+				allow access to insert new rows into the database and have access to the full range of interactions.  This is the 
+				foundation for the h2zero generation.
+			</p>
+
+			<h4>Additional methods and member variables</h4>
+
+			<p>
+				In addition to the general generation mentioned above, for each of the constant models, the following field and 
+				method signatures are generated:
+			</p>
+
+			<p><strong>Static Final Member Variable References</strong></p>
+
+			<pre>
+				<code>
+private static final String SQL_INSERT = "insert into user values (?, ?, ?, ?, ?, ?, ?, ?)";{\n}
+private static final String SQL_UPDATE = "update user set id_user_type = ?, fl_is_alive = ?, num_age = ?, nm_username = ?, txt_address_email = ?, txt_password = ?, dtm_signup = ? where " + PRIMARY_KEY_FIELD + " = ?";{\n}
+private static final String SQL_DELETE = "delete from user where " + PRIMARY_KEY_FIELD + " = ?";{\n}
+private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user where id_user_type = ? and fl_is_alive = ? and num_age = ? and nm_username = ? and txt_address_email = ? and txt_password = ? and dtm_signup = ?";{\n}
+				</code>
+			</pre>
+
+			<p>
+				The basic CRUD operations for the model.  Each model knows how to create, read, update and delete itself from 
+				the database.  There is also an 'ensure' mode, which will be covered later in this documentation set.
+			</p>
+
+			<p><strong>Constructors</strong></p>
+
+			<pre>
+				<code>
+public User(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup){\n}
+public User(Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {\n}
+				</code>
+			</pre>
+
+			<p>
+				Along with the defaut constructor with parameters for all fields, there is also a constructor for all of the 
+				non-null fields within the table.
+			</p>
+
+			<h4>Interactions</h4>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<p><strong>inserts - CRUD operators (and then some)</strong></p>
+
+			<pre>
+				<code>
+public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {\n}
+public void insertSilent(Connection connection) {\n}
+public void insert() throws SQLException, H2ZeroPrimaryKeyException {\n}
+public void insertSilent() {\n}
+				</code>
+			</pre>
+
+			<p>
+				When a new java model is instantiated, this will insert it into the database and retrieve the primary key from 
+				the insertion and populate the member variable.
+			</p>
+
+			<p><strong>ensure - CRUD operators (and then some)</strong></p>
+
+			<pre>
+				<code>
+public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {\n}
+public void ensureSilent(Connection connection) {\n}
+public void ensure() throws SQLException, H2ZeroPrimaryKeyException {\n}
+public void ensureSilent() {\n}
+				</code>
+			</pre>
+
+			<p>
+				Ensure that there is a row in the database table with exactly the matching member variables.  If it exists, the 
+				primary key variable will be set, otherwise it will be inserted.  I.e. Ensure that there is a row in the database.
+			</p>
+
+			<p><strong>updates - CRUD operators (and then some)</strong></p>
+
+			<pre>
+				<code>
+public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {\n}
+public void updateSilent(Connection connection) {\n}
+public void update() throws SQLException, H2ZeroPrimaryKeyException {\n}
+public void updateSilent() {\n}
+				</code>
+			</pre>
+
+			<p>
+				Persist the model to the database, only if there have been some changes to the model object (i.e. has the flag 
+				<code>isDirty</code> sit), otherwise it will do nothing.
+				nothing.
+			</p>
+
+			<p>
+				Note: the method signatures that throw an <code>H2ZeroPrimaryKeyException</code> do so if the primary key is null.
+			</p>
+
+			<p><strong>insert or updates - CRUD operators (and then some)</strong></p>
+
+			<pre>
+				<code>
+public void insertOrUpdateSilent() {\n}
+				</code>
+			</pre>
+
+			<p>
+				Insert the model if the primary key is null, otherwise update it (subject to the same caveats as an insert above).
+			</p>
+
+			<p><strong>deletes - CRUD operators (and then some)</strong></p>
+
+			<pre>
+				<code>
+public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{\n}
+public void deleteSilent(Connection connection) {\n}
+public void delete() throws SQLException, H2ZeroPrimaryKeyException {\n}
+public void deleteSilent() {\n}
+				</code>
+			</pre>
+
+			<p>
+				Delete this model from its corresponding row in the database.
+			</p>
+
+			<p>
+				Note: the method signatures that throw an <code>H2ZeroPrimaryKeyException</code> do so if the primary key is null.
+			</p>
+
+			<p><strong>refreshes - CRUD operators (and then some)</strong></p>
+
+			<pre>
+				<code>
+public void refresh() throws H2ZeroPrimaryKeyException {\n}
+public void refreshSilent() {\n}
+				</code>
+			</pre>
+
+
+			<p><strong>Foreign key references</strong></p>
+
+			<pre>
+				<code>
+public UserType getUserType() {\n}
+				</code>
+			</pre>
+
+			<p>
+				Where there is a foreign key reference to the table, not only can you retrieve the id for the foreign key, you may 
+				also get a direct reference to the model object, which will automatically find the object in the foreign table.
+			</p>
+
+			<p>
+				In the above code example this will retrieve the <code>UserType</code> object from the database with the 
+				associated primary key.
+			</p>
+
+			<p>
+				<em>
+					Note: In the case of a constant model (as is above) the lookup field on the constant model will be used, rather 
+					than a database query.
+				</em>
+			</p>
+
+			<p><strong>Getters and setters</strong></p>
+
+			<pre>
+				<code>
+public void setIdUser(Long idUser) {{if(isDifferent(this.idUser, idUser)) {{this.idUser = idUser;this.isDirty = true;}}{\n}
+				</code>
+			</pre>
+
+			<p>
+				All getters are generated, the setters are generated (in highly compressed format) with a conditional check to ensure that if the member variable 
+				has not changed, the model will not be marked as dirty and any call to the update method signatures will do nothing.
 			</p>
 
 		</section>
