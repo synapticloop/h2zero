@@ -7,6 +7,7 @@
 "database": {
 	"schema": "sample",
 	"package": "synapticloop.sample.h2zero",
+
 	"tables": [
 		{
 			"name": "user_type",
@@ -23,6 +24,8 @@
 				{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }
 			]
 		},
+
+
 		{
 			"name": "user",
 			"cacheable": false,
@@ -37,6 +40,7 @@
 				{ "name": "txt_password", "type": "varchar", "length": "32", "nullable": false, "unique": true },
 				{ "name": "dtm_signup", "type": "datetime", "nullable": true }
 			],
+
 			"finders": [
 				{
 					"name": "findByTxtAddressEmailTxtPassword",
@@ -66,6 +70,7 @@
 					"unique": false
 				}
 			],
+
 			"questions": [
 				{
 					"name": "doWeHaveMoreThanTwentyUsers",
@@ -93,6 +98,7 @@
 					]
 				}
 			],
+
 			"counters": [
 				{
 					"name": "countNumberOfUsers",
@@ -125,6 +131,8 @@
 				}
 			]
 		},
+
+
 		{
 			"name": "pet",
 			"fields": [
@@ -135,6 +143,8 @@
 				{ "name": "dt_birthday", "type": "date", "nullable": true }
 			]
 		},
+
+
 		{
 			"name": "user_pet",
 			"fields": [

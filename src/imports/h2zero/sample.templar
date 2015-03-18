@@ -7,6 +7,7 @@
 "database": {{{\n}
 {\t}"schema": "sample",{\n}
 {\t}"package": "synapticloop.sample.h2zero",{\n}
+{\n}
 {\t}"tables": [{\n}
 {\t}{\t}{{{\n}
 {\t}{\t}{\t}"name": "user_type",{\n}
@@ -23,15 +24,15 @@
 {\t}{\t}{\t}{\t}{{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }{\n}
 {\t}{\t}{\t}]{\n}
 {\t}{\t}},{\n}
-
-
+{\n}
+{\n}
 {\t}{\t}{{{\n}
 {\t}{\t}{\t}"name": "user",{\n}
 {\t}{\t}{\t}"cacheable": false,{\n}
 {\t}{\t}{\t}"cacheFindAll": false,{\n}
 {\t}{\t}{\t}"fields": [{\n}
 {\t}{\t}{\t}{\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },{\n}
-{\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "foreignKey": "user_type.id_user_type", nullable": false, "index": true }{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user_type.id_user_type" },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "fl_is_alive", "type": "boolean", "nullable": true, "default": "'0'", "index": true },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "num_age", "type": "int", "nullable": false },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false, "unique": true },{\n}
@@ -39,7 +40,7 @@
 {\t}{\t}{\t}{\t}{{ "name": "txt_password", "type": "varchar", "length": "32", "nullable": false, "unique": true },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "dtm_signup", "type": "datetime", "nullable": true }{\n}
 {\t}{\t}{\t}],{\n}
-
+{\n}
 {\t}{\t}{\t}"finders": [{\n}
 {\t}{\t}{\t}{\t}{{{\n}
 {\t}{\t}{\t}{\t}{\t}"name": "findByTxtAddressEmailTxtPassword",{\n}
@@ -69,11 +70,11 @@
 {\t}{\t}{\t}{\t}{\t}"unique": false{\n}
 {\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}],{\n}
-
+{\n}
 {\t}{\t}{\t}"questions": [{\n}
 {\t}{\t}{\t}{\t}{{{\n}
 {\t}{\t}{\t}{\t}{\t}"name": "doWeHaveMoreThanTwentyUsers",{\n}
-{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) > 20 from user"{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) &gt; 20 from user"{\n}
 {\t}{\t}{\t}{\t}},{\n}
 {\t}{\t}{\t}{\t}{{{\n}
 {\t}{\t}{\t}{\t}{\t}"name": "doesUserNameExist",{\n}
@@ -97,7 +98,7 @@
 {\t}{\t}{\t}{\t}{\t}]{\n}
 {\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}],{\n}
-
+{\n}
 {\t}{\t}{\t}"counters": [{\n}
 {\t}{\t}{\t}{\t}{{{\n}
 {\t}{\t}{\t}{\t}{\t}"name": "countNumberOfUsers",{\n}
@@ -129,8 +130,9 @@
 {\t}{\t}{\t}{\t}{\t}]{\n}
 {\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}]{\n}
-
 {\t}{\t}},{\n}
+{\n}
+{\n}
 {\t}{\t}{{{\n}
 {\t}{\t}{\t}"name": "pet",{\n}
 {\t}{\t}{\t}"fields": [{\n}
@@ -141,24 +143,14 @@
 {\t}{\t}{\t}{\t}{{ "name": "dt_birthday", "type": "date", "nullable": true }{\n}
 {\t}{\t}{\t}]{\n}
 {\t}{\t}},{\n}
-
-
+{\n}
+{\n}
 {\t}{\t}{{{\n}
 {\t}{\t}{\t}"name": "user_pet",{\n}
 {\t}{\t}{\t}"fields": [{\n}
 {\t}{\t}{\t}{\t}{{ "name": "id_user_pet", "type": "bigint", "nullable": false, "primary": true },{\n}
-{\t}{\t}{\t}{\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "index": true, {\n}
-{\t}{\t}{\t}{\t}{\t}"foreign": {{{\n}
-{\t}{\t}{\t}{\t}{\t}{\t}"table": "user",{\n}
-{\t}{\t}{\t}{\t}{\t}{\t}"field": "id_user"{\n}
-{\t}{\t}{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}{\t}},{\n}
-{\t}{\t}{\t}{\t}{{ "name": "id_pet", "type": "bigint", "nullable": false, "index": true, {\n}
-{\t}{\t}{\t}{\t}{\t}"foreign": {{{\n}
-{\t}{\t}{\t}{\t}{\t}{\t}"table": "pet",{\n}
-{\t}{\t}{\t}{\t}{\t}{\t}"field": "id_pet"{\n}
-{\t}{\t}{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user.id_user" },{\n}
+{\t}{\t}{\t}{\t}{{ "name": "id_pet", "type": "bigint", "nullable": false, "index": true, "foreignKey": "pet.id_pet" }{\n}
 {\t}{\t}{\t}]{\n}
 {\t}{\t}}{\n}
 {\t}]{\n}
