@@ -7,6 +7,7 @@
 	<h2>Navigation</h2>
 
 	<p>
+		- <a href="index.html">Home</a><br />
 		- <a href="quick-start.html">Quick Start</a><br />
 		- <a href="database-naming-conventions.html">Database Naming Conventions</a><br />
 		- <a href="generated-code.html">Generated Code</a><br />
@@ -16,7 +17,6 @@
 	<hr />
 
 	<p>
-		- <a href="index.html">Home</a><br />
 		- <a href="file-format.html">File Format</a><br />
 		- <a href="options.html">Options</a><br />
 		- <a href="database.html">Database</a><br />
