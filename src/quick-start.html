@@ -45,16 +45,20 @@
 
 			<pre>
 				<code>
-&lt;path id="classpath-h2zero"&gt;{\n}
-{\t}&lt;fileset dir="lib/runtime"&gt;{\n}
-{\t}{\t}&lt;include name="*.jar"/&gt;{\n}
-{\t}&lt;/fileset&gt;{\n}
-&lt;/path&gt;{\n}
-
-&lt;target name="h2zero" description="h2zero generate"&gt;{\n}
-{\t}&lt;taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" /&gt;{\n}
-{\t}&lt;h2zero in="src/main/java/your-h2zero-file-name-here.h2zero" outDir="." verbose="false" /&gt;{\n}
-&lt;/target&gt;{\n}
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;{\n}
+&lt;project name="h2zero-sample"&gt;{\n}
+{\t}&lt;path id="classpath-h2zero"&gt;{\n}
+{\t}{\t}&lt;fileset dir="lib/runtime"&gt;{\n}
+{\t}{\t}{\t}&lt;include name="*.jar"/&gt;{\n}
+{\t}{\t}&lt;/fileset&gt;{\n}
+{\t}&lt;/path&gt;{\n}
+{\n}
+{\t}&lt;target name="h2zero" description="h2zero generate"&gt;{\n}
+{\t}{\t}&lt;taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" /&gt;{\n}
+{\t}{\t}&lt;h2zero in="src/main/java/sample.h2zero" outDir="." verbose="false" /&gt;{\n}
+{\t}&lt;/target&gt;{\n}
+{\n}
+&lt;/project&gt;{\n}
 				</code>
 			</pre>
 

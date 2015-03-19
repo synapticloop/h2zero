@@ -12,9 +12,16 @@
 	</target>
 
 	<target name="gen" description="templar-gen the pages">
-		<java jar="templar-gen.jar" fork="true" failonerror="true" maxmemory="128m" >
+		<java jar="templar-gen.jar" fork="true" failonerror="true" maxmemory="128m">
 			<arg value="src" />
 			<arg value="." />
+		</java>
+	</target>
+
+	<target name="convert-h2zero" description="templar-convert the sample.h2zero file">
+		<java jar="templar-convert.jar" fork="true" failonerror="true" maxmemory="128m" output="src/imports/h2zero/sample.templar">
+			<arg value="src/main/java/sample.h2zero" />
+			<arg value="html" />
 		</java>
 	</target>
 </project>

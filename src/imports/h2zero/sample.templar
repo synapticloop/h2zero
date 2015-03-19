@@ -15,7 +15,7 @@
 {\t}{\t}{\t}"cacheFindAll": false,{\n}
 {\t}{\t}{\t}"fields": [{\n}
 {\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },{\n}
-{\t}{\t}{\t}{\t}{{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false},{\n}
+{\t}{\t}{\t}{\t}{{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false },{\n}
 {\t}{\t}{\t}],{\n}
 {\t}{\t}{\t}"constants": [{\n}
 {\t}{\t}{\t}{\t}{{ "name": "NORMAL", "values": [ 1, "normal" ] },{\n}

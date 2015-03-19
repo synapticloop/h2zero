@@ -156,13 +156,18 @@
 	]
 }
 }
-</code></pre><h4>Step 3</h4><p>Set up your ant build.xml file</p><pre><code>&lt;path id="classpath-h2zero"&gt;
-	&lt;fileset dir="lib/runtime"&gt;
-		&lt;include name="*.jar"/&gt;
-	&lt;/fileset&gt;
-&lt;/path&gt;
-&lt;target name="h2zero" description="h2zero generate"&gt;
-	&lt;taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" /&gt;
-	&lt;h2zero in="src/main/java/your-h2zero-file-name-here.h2zero" outDir="." verbose="false" /&gt;
-&lt;/target&gt;
+</code></pre><h4>Step 3</h4><p>Set up your ant build.xml file</p><pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project name="h2zero-sample"&gt;
+	&lt;path id="classpath-h2zero"&gt;
+		&lt;fileset dir="lib/runtime"&gt;
+			&lt;include name="*.jar"/&gt;
+		&lt;/fileset&gt;
+	&lt;/path&gt;
+
+	&lt;target name="h2zero" description="h2zero generate"&gt;
+		&lt;taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" /&gt;
+		&lt;h2zero in="src/main/java/sample.h2zero" outDir="." verbose="false" /&gt;
+	&lt;/target&gt;
+
+&lt;/project&gt;
 </code></pre><h4>Step 4</h4><p>Generate the code!</p><pre><code>ant h2zero</code></pre><p>This will generate all of the required code for you h2zero file and database creation scripts, see the <a href="generated-code.html"><code>generated code</code></a> page for an overview of the directory structure and the code that is generated.</p></section></div><script src="javascripts/scale.fix.js"></script></body></html>

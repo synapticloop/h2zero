@@ -56,12 +56,7 @@
 				<code>
 "fields": [{\n}
 {\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },{\n}
-{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, {\n}
-{\t}{\t}"foreign": {{{\n}
-{\t}{\t}{\t}"table": "user_type",{\n}
-{\t}{\t}{\t}"field": "id_user_type"{\n}
-{\t}{\t}}{\n}
-{\t}},{\n}
+{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, "foreignKey": {{ "user_type.id_user_type" } },{\n}
 {\t}...{\n}
 ]{\n}
 				</code>
@@ -106,6 +101,39 @@
 {\t}"type": "bigint", {\n}
 {\t}"nullable": false, {\n}
 {\t}"index": true, {\n}
+{\t}"foreignKey": {{ "user_type.id_user_type" }{\n}
+}{\n}
+				</code>
+			</pre>
+
+			<dl>
+				<dt><code>name</code></dt>
+				<dd>The name if the field</dd>
+				<dt><code>type</code></dt>
+				<dd>Since the foreign key references a primary key, the type <strong>MUST</strong> be a <code>bigint</code></dd>
+				<dt><code>nullable</code></dt>
+				<dd>The foreign key may be null</dd>
+				<dt><code>index</code></dt>
+				<dd>Whether to create an index on the field.</dd>
+				<dt><code>foreignKey</code></dt>
+				<dd>This is a JSON Object that references the <code>table</code> and <code>field</code> of the referenced primary key.</dd>
+			</dl>
+
+
+			<p><strong>DEPRECATION WARNING</strong></p>
+
+			<p>
+				Whilst still valid and will generate the appropriate code correctly, it is recommended to use the shortened form 
+				above.
+			</p>
+
+			<pre>
+				<code>
+{{{\n}
+{\t}"name": "id_user_type", {\n}
+{\t}"type": "bigint", {\n}
+{\t}"nullable": false, {\n}
+{\t}"index": true, {\n}
 {\t}"foreign": {{{\n}
 {\t}{\t}"table": "user_type",{\n}
 {\t}{\t}"field": "id_user_type"{\n}
@@ -124,7 +152,7 @@
 				<dt><code>index</code></dt>
 				<dd>Whether to create an index on the field.</dd>
 				<dt><code>foreign</code></dt>
-				<dd>This is a JSON Object that references the <code>table</code> and <code>field</code> of the referenced primary key.</dd>
+				<dd><strong>DEPRECATED</strong> This is a JSON Object that references the <code>table</code> and <code>field</code> of the referenced primary key.</dd>
 			</dl>
 
 		</section>
