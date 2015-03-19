@@ -15,7 +15,7 @@
 			"cacheFindAll": false,
 			"fields": [
 				{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },
-				{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false},
+				{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false },
 			],
 			"constants": [
 				{ "name": "NORMAL", "values": [ 1, "normal" ] },
