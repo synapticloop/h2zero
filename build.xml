@@ -18,7 +18,7 @@
 		</java>
 	</target>
 
-	<target name="convert-h2zero" description="templar-convert the sample.h2zero file">
+	<target name="convert" description="templar-convert the sample.h2zero file">
 		<java jar="templar-convert.jar" fork="true" failonerror="true" maxmemory="128m" output="src/imports/h2zero/sample.templar">
 			<arg value="src/main/java/sample.h2zero" />
 			<arg value="html" />

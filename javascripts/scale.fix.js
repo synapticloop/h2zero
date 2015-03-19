@@ -15,3 +15,7 @@ function gestureStart() {
     }
   }
 }
+
+window.onload = function() {
+	prettyPrint();
+}
