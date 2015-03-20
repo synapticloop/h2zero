@@ -14,7 +14,7 @@
 
 			<p>The key <code>counters</code> is a JSON Array on the <code>table</code> JSON object, for example:</p>
 
-			<pre>
+			<pre class="prettyprint">
 				<code>
 "tables": [{\n}
 {\t}{{{\n}
@@ -39,7 +39,7 @@
 				the following signatures:
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static int countAll() throws SQLException{\n}
 public static int countAll(Connection connection) throws SQLException{\n}
@@ -50,14 +50,16 @@ public static int countAllSilent(Connection connection){\n}
 
 			<h4>Example 1: Simple Count</h4>
 
-			<pre><code>
+			<pre class="prettyprint">
+				<code>
 "counters": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "countNumberOfUsers",{\n}
 {\t}{\t}"selectClause": "select count(*) from user"{\n}
 {\t}}{\n}
 ]{\n}
-			</code></pre>
+			</code>
+		</pre>
 
 			<p>
 				As it would appear, this would return the number of users in the table. 
@@ -78,7 +80,7 @@ public static int countAllSilent(Connection connection){\n}
 				With the following method signatures
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static int countNumberOfUsers() throws H2ZeroFinderException, SQLException{\n}
 public static int countNumberOfUsers(Connection connection) throws H2ZeroFinderException, SQLException{\n}
@@ -93,7 +95,8 @@ public static int countNumberOfUsersSilent(Connection connection){\n}
 
 			<h4>Example 2: Parameterised Count</h4>
 
-			<pre><code>
+			<pre class="prettyprint">
+				<code>
 "counters": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "countNumberOfUsersOverAge",{\n}
@@ -104,7 +107,8 @@ public static int countNumberOfUsersSilent(Connection connection){\n}
 {\t}{\t}]{\n}
 {\t}}{\n}
 ]{\n}
-			</code></pre>
+				</code>
+			</pre>
 
 			<p>In the above example, the count being given is the number of users that are older than a parameterised value that is passed in.</p>
 
@@ -120,7 +124,7 @@ public static int countNumberOfUsersSilent(Connection connection){\n}
 				With the following method signatures
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static int countNumberOfUsersOverAge(Integer numAge) throws H2ZeroFinderException, SQLException {\n}
 public static int countNumberOfUsersOverAge(Connection connection, Integer numAge) throws H2ZeroFinderException, SQLException {\n}
@@ -133,7 +137,7 @@ public static int countNumberOfUsersOverAgeSilent(Connection connection, Integer
 
 			<h4>Example 3: Parameterised Count with dual value parameter</h4>
 
-			<pre>
+			<pre class="prettyprint">
 				<code>
 "counters": [{\n}
 {\t}{{{\n}
@@ -163,7 +167,7 @@ public static int countNumberOfUsersOverAgeSilent(Connection connection, Integer
 				With the following method signatures
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static int countNumberOfUsersBetweenAge(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
 public static int countNumberOfUsersBetweenAge(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
@@ -176,7 +180,8 @@ public static int countNumberOfUsersBetweenAgeSilent(Connection connection, Inte
 
 			<h4>Example 4: Parameterised Counter with in: designator fields</h4>
 
-			<pre><code>
+			<pre class="prettyprint">
+				<code>
 "questions": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "countUsersInAges",{\n}
@@ -187,7 +192,8 @@ public static int countNumberOfUsersBetweenAgeSilent(Connection connection, Inte
 {\t}{\t}]{\n}
 {\t}}{\n}
 ]{\n}
-			</pre></code>
+				</code>
+			</pre>
 
 			<p>
 				In the above example, the count being given is the number of users that 
@@ -218,7 +224,7 @@ public static int countNumberOfUsersBetweenAgeSilent(Connection connection, Inte
 				With the following method signatures
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static int countUsersInAges(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
 public static int countUsersInAges(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}

@@ -8,7 +8,7 @@
 
 			<p><strong>BINDER</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 // the binder is unused in code, but will generate compile problems if this {\n}
 // class is no longer referenced in the h2zero file. Just a nicety for{\n}
@@ -27,7 +27,7 @@ private static final String BINDER = Constants.USER_TYPE_binder;{\n}
 
 			<p><strong>PRIMARY_KEY_FIELD</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static final String PRIMARY_KEY_FIELD = "id_user_type";{\n}
 				</code>
@@ -44,7 +44,7 @@ public static final String PRIMARY_KEY_FIELD = "id_user_type";{\n}
 				Each field that is attached to the table will generate a declaration.
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 private Long idUserType = null;{\n}
 private String nmUserType = null;{\n}
@@ -59,7 +59,7 @@ private String nmUserType = null;{\n}
 				and questions.
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public UserType(Long idUserType, String nmUserType) {{{\n}
 {\t}this.idUserType = idUserType;{\n}
@@ -70,7 +70,7 @@ public UserType(Long idUserType, String nmUserType) {{{\n}
 
 			<p><strong>Getters</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 /*{\n}
  * Boring ol' getters and setters {\n}
@@ -88,7 +88,7 @@ public String getNmUserType() {{return(this.nmUserType);}{\n}
 
 			<p><strong>String methods</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public String toString() {{{\n}
 {\t}StringBuilder stringBuilder = new StringBuilder();{\n}

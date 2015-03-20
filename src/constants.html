@@ -15,7 +15,7 @@
 			{set constantsUserTypeCodeLink as code}
 			{import src/imports/links/link-to-code.templar}
 
-			<pre>
+			<pre class="prettyprint">
 				<code>
 "tables": [{\n}
 {\t}{{{\n}
@@ -74,7 +74,7 @@
 
 			<p><strong>Static Final Member Variable References</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static final UserType NORMAL = new UserType(new Long(1), "normal");{\n}
 public static final UserType SPECIAL = new UserType(new Long(2), "special");{\n}
@@ -91,7 +91,7 @@ public static final UserType SUPER_ADMIN = new UserType(new Long(4), "super admi
 
 			<p><strong>Static lookup member variables</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static UserType[] ALL = {{{\n}
 {\t}UserType.NORMAL, UserType.SPECIAL, UserType.ADMIN, UserType.SUPER_ADMIN{\n}

@@ -19,7 +19,8 @@
 				For each database schema, there must be a JSONArray keyed on {import src/imports/links/tables.templar} 
 				of JSONObjects
 			</p>
-			<pre>
+
+			<pre class="prettyprint">
 				<code>
 "tables": [{\n}
 {\t}{{{\n}
@@ -99,7 +100,7 @@
 
 			<p><strong>Static Final Member Variable References</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 private static final String SQL_INSERT = "insert into user values (?, ?, ?, ?, ?, ?, ?, ?)";{\n}
 private static final String SQL_UPDATE = "update user set id_user_type = ?, fl_is_alive = ?, num_age = ?, nm_username = ?, txt_address_email = ?, txt_password = ?, dtm_signup = ? where " + PRIMARY_KEY_FIELD + " = ?";{\n}
@@ -115,7 +116,7 @@ private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from 
 
 			<p><strong>Constructors</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public User(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup){\n}
 public User(Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {\n}
@@ -133,7 +134,7 @@ public User(Long idUser, Long idUserType, Integer numAge, String nmUsername, Str
 
 			<p><strong>inserts - CRUD operators (and then some)</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {\n}
 public void insertSilent(Connection connection) {\n}
@@ -149,7 +150,7 @@ public void insertSilent() {\n}
 
 			<p><strong>ensure - CRUD operators (and then some)</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {\n}
 public void ensureSilent(Connection connection) {\n}
@@ -165,7 +166,7 @@ public void ensureSilent() {\n}
 
 			<p><strong>updates - CRUD operators (and then some)</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {\n}
 public void updateSilent(Connection connection) {\n}
@@ -186,7 +187,7 @@ public void updateSilent() {\n}
 
 			<p><strong>insert or updates - CRUD operators (and then some)</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public void insertOrUpdateSilent() {\n}
 				</code>
@@ -198,7 +199,7 @@ public void insertOrUpdateSilent() {\n}
 
 			<p><strong>deletes - CRUD operators (and then some)</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{\n}
 public void deleteSilent(Connection connection) {\n}
@@ -217,7 +218,7 @@ public void deleteSilent() {\n}
 
 			<p><strong>refreshes - CRUD operators (and then some)</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public void refresh() throws H2ZeroPrimaryKeyException {\n}
 public void refreshSilent() {\n}
@@ -227,7 +228,7 @@ public void refreshSilent() {\n}
 
 			<p><strong>Foreign key references</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public UserType getUserType() {\n}
 				</code>
@@ -252,7 +253,7 @@ public UserType getUserType() {\n}
 
 			<p><strong>Getters and setters</strong></p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public void setIdUser(Long idUser) {{if(isDifferent(this.idUser, idUser)) {{this.idUser = idUser;this.isDirty = true;}}{\n}
 				</code>

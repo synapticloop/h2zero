@@ -11,7 +11,8 @@
 			<p>This is a light-weight way to get a boolean answer to a question without using select beans or counters</p>
 			<p>The key <code>questions</code> is a JSON Array on the <code>table</code> JSON object, for example:</p>
 
-			<pre><code>
+			<pre class="prettyprint">
+				<code>
 "tables": [{\n}
 {\t}{{{\n}
 {\t}{\t}"fields": [{\n}
@@ -22,20 +23,23 @@
 {\t}{\t}]{\n}
 {\t}}{\n}
 ]{\n}
-			</pre></code>
+				</code>
+			</pre>
 
 			{import src/imports/tables/allowable-keys-table.templar}
 
 			<h4>Example 1: Simple Question</h4>
 
-			<pre><code>
+			<pre class="prettyprint">
+				<code>
 "questions": [{\n}
 {\t}{{{\n}
 {\t}"name": "doWeHaveMoreThanTwentyUsers",{\n}
 {\t}"selectClause": "select count(*) > 20 from user"{\n}
 {\t}}{\n}
 ]{\n}
-			</pre></code>
+				</code>
+			</pre>
 
 			<p>Whilst rather contrived, this will return a true/false answer as to whether we have more than 20 users.</p>
 
@@ -51,7 +55,7 @@
 				With the following method signatures
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static boolean doWeHaveMoreThanTwentyUsers() throws H2ZeroFinderException, SQLException{\n}
 public static boolean doWeHaveMoreThanTwentyUsers(Connection connection) throws H2ZeroFinderException, SQLException{\n}
@@ -66,7 +70,8 @@ public static boolean doWeHaveMoreThanTwentyUsersSilent(Connection connection){\
 
 			<h4>Example 2: Parameterised Question</h4>
 
-			<pre><code>
+			<pre class="prettyprint">
+				<code>
 "questions": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "doesUserNameExist",{\n}
@@ -77,7 +82,8 @@ public static boolean doWeHaveMoreThanTwentyUsersSilent(Connection connection){\
 {\t}{\t}]{\n}
 {\t}}{\n}
 ]{\n}
-			</pre></code>
+				</code>
+			</pre>
 
 			<p>
 				In the above example, the question being asked is whether a particular username 
@@ -97,7 +103,7 @@ public static boolean doWeHaveMoreThanTwentyUsersSilent(Connection connection){\
 				With the following method signatures
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static boolean doesUserNameExist() throws H2ZeroFinderException, SQLException{\n}
 public static boolean doesUserNameExist(Connection connection) throws H2ZeroFinderException, SQLException{\n}
@@ -110,7 +116,8 @@ public static boolean doesUserNameExistSilent(Connection connection){\n}
 
 			<h4>Example 3: Parameterised Question with dual parameter query</h4>
 
-			<pre><code>
+			<pre class="prettyprint">
+				<code>
 "questions": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "doWeHaveUsersBetweenAgeExclusive",{\n}
@@ -122,7 +129,8 @@ public static boolean doesUserNameExistSilent(Connection connection){\n}
 {\t}{\t}]{\n}
 {\t}}{\n}
 ]{\n}
-			</pre></code>
+				</code>
+			</pre>
 
 			<p>
 				In the above example, the question being asked is whether we have users 
@@ -142,7 +150,7 @@ public static boolean doesUserNameExistSilent(Connection connection){\n}
 				With the following method signatures
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static boolean doWeHaveUsersBetweenAgeExclusive(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
 public static boolean doWeHaveUsersBetweenAgeExclusive(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
@@ -155,7 +163,8 @@ public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Connection connecti
 
 			<h4>Example 4: Parameterised Question with in: designator fields</h4>
 
-			<pre><code>
+			<pre class="prettyprint">
+				<code>
 "questions": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "doWeHaveUsersInAges",{\n}
@@ -166,7 +175,8 @@ public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Connection connecti
 {\t}{\t}]{\n}
 {\t}}{\n}
 ]{\n}
-			</pre></code>
+				</code>
+			</pre>
 
 			<p>
 				In the above example, the question being asked is whether we have users 
@@ -198,7 +208,7 @@ public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Connection connecti
 				With the following method signatures
 			</p>
 
-			<pre>
+			<pre class="prettyprint lang-java">
 				<code>
 public static boolean doWeHaveUsersInAges(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
 public static boolean doWeHaveUsersInAges(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
