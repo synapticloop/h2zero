@@ -15,7 +15,29 @@ public abstract class Validator {
 	private int numFatal = 0;
 
 	public abstract boolean isValid(Database database, Options options);
-	
+
+	/**
+	 * Count the number of occurrences of the needle parameter in the haystack parameter
+	 * 
+	 * @param haystack The string to search in
+	 * @param needle The string to search for
+	 * 
+	 * @return the number found.
+	 */
+	public int countOccurrences(String haystack, String needle) {
+		int count = 0;
+		int startPoint = 0;
+
+		int needleLength = needle.length();
+		int indexOf = haystack.indexOf(needle, startPoint);
+		while(indexOf != -1) {
+			count++;
+			startPoint = indexOf;
+			indexOf = haystack.indexOf(needle, startPoint + needleLength);
+		}
+		return(count);
+	}
+
 	protected void addInfoMessage(String ... infoMessages) {
 		numInfo++;
 		for (int i = 0; i < infoMessages.length; i++) {
@@ -53,5 +75,4 @@ public abstract class Validator {
 
 	public int getNumInfo() { return(numInfo); }
 	public int getNumWarn() {return(numWarn); }
-	public int getNumFatal() { return(numFatal); }
-}
+	public int getNumFatal() { return(numFatal); }}

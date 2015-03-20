@@ -36,6 +36,7 @@ import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
 import synapticloop.h2zero.validator.finder.FinderInQueryValidator;
 import synapticloop.h2zero.validator.finder.FinderNameValidator;
 import synapticloop.h2zero.validator.finder.FinderOrderByClauseValidator;
+import synapticloop.h2zero.validator.finder.FinderQueryParameterNumberValidator;
 import synapticloop.h2zero.validator.finder.FinderSelectClauseBeanNameValidator;
 import synapticloop.h2zero.validator.finder.FinderSelectClauseValidator;
 import synapticloop.h2zero.validator.finder.FinderWhereClauseValidator;
@@ -94,6 +95,7 @@ public class H2ZeroParser {
 		validators.add(new FinderSelectClauseBeanNameValidator());
 		validators.add(new FinderAutoIndexValidator());
 		validators.add(new FinderWhereFieldAliasValidator());
+		validators.add(new FinderQueryParameterNumberValidator());
 
 		// inserter validators
 		validators.add(new InserterNameValidator());
@@ -170,7 +172,6 @@ public class H2ZeroParser {
 				}
 			}
 		}
-
 
 		if(!isValid) {
 			throw new H2ZeroParseException("Validators found FATAL warnings, exiting...");

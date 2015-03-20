@@ -22,5 +22,4 @@ public class FinderAutoIndexValidator extends Validator {
 		}
 		return(isValid);
 	}
-
 }

@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="lib/compile/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/mail.jar"/>
 	<classpathentry kind="lib" path="lib/compile/ant.jar"/>
-	<classpathentry kind="lib" path="lib/runtime/c3p0-0.9.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/templar.jar"/>
 	<classpathentry kind="lib" path="lib/test/asm-3.0.jar"/>

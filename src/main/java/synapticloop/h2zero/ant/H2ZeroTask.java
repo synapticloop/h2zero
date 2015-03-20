@@ -51,7 +51,7 @@ public class H2ZeroTask extends Task {
 	private int numFiles = 0;
 	private int numTables = 0;
 
-	private boolean verbose = true;
+	private boolean verbose = true; // whether tyo be verbose with the logging
 
 	private HashMap<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
 
