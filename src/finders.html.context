@@ -1,2 +1,20 @@
 object=Finder
 name=finders
+
+keyName=mandatory
+
+keySelectClause=optional
+keySelectClauseInfo=<br /><br />This will generate a <code>selectClauseBean</code> and is useful when you only wish to return a subset of the columns in a table.
+
+keySelectFields=optional / mandatory
+keySelectFieldsInfo=<br /><br />If a selectClause is included, then there <strong>MUST</strong> exist a value for each of the Fields in the select clause.
+
+keyWhereClause=optional
+
+keyWhereFields=optional
+
+keyUnique=optional
+keyUniqueInfo=<br /><br />If this interaction is expected to return a unique result, or an ArrayList of results.  By default this will return multiple results.
+
+defaultUserFinder=src/main/java/synapticloop/sample/h2zero/finder/UserFinder.java
+defaultUserFinderTaglib=src/main/java/synapticloop/sample/h2zero/taglib/user/FindByTxtAddressEmailTxtPasswordTag.java

@@ -11,8 +11,39 @@
 			</h3>
 
 			<p>
-				h2zero generates a lot of boilerplate code for you and places it in the 
-				following output directories:
+				h2zero takes the drudgery out of hand crafting code by automatically generating a swathe of artifacts that ensure 
+				consistency throughout the code base.
+			</p>
+
+			<p>
+				The following options are available (found in the  <code>synapticloop.h2zero.model.Options.java</code>)
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+
+public static final String OPTION_FORMBEANS = "formbeans";{\n}
+public static final String OPTION_ADMINPAGES = "adminpages";{\n}
+public static final String OPTION_TAGLIB = "taglib";{\n}
+public static final String OPTION_JSP = "jsp";{\n}
+public static final String OPTION_JAVA = "java";{\n}
+public static final String OPTION_SQL = "sql";{\n}
+{\n}
+private static HashSet&lt;String&gt; ALLOWABLE_GENERATORS = new HashSet&lt;String&gt;();{\n}
+static {{{\n}
+{\t}ALLOWABLE_GENERATORS.add(OPTION_SQL);{\n}
+{\t}ALLOWABLE_GENERATORS.add(OPTION_JAVA);{\n}
+{\t}ALLOWABLE_GENERATORS.add(OPTION_JSP);{\n}
+{\t}ALLOWABLE_GENERATORS.add(OPTION_TAGLIB);{\n}
+{\t}ALLOWABLE_GENERATORS.add(OPTION_ADMINPAGES);{\n}
+{\t}ALLOWABLE_GENERATORS.add(OPTION_FORMBEANS);{\n}
+}{\n}
+				</code>
+			</pre>
+
+
+			<p>
+				h2zero generates a lot of boilerplate code for you and places it in the following output directories:
 			</p>
 
 			<pre class="prettyprint lang-bash">
@@ -140,6 +171,55 @@
 				The bean directory contains all of the code that is generated for the 
 				{import src/imports/links/updaters.templar} key.
 			</p>
+
+			<h4>Option code generation</h4>
+
+			<table>
+				<thead>
+					<tr>
+						<th>Option</th>
+						<th>Generated code</th>
+						<th>notes</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><strong>formBeans</strong></td>
+						<td>Genartion of beans for form completion</td>
+						<td>Under development</td>
+					</tr>
+					<tr>
+						<td><strong>adminpages</strong></td>
+						<td>Administrative pages for database CRUD opertaions</td>
+						<td>Under development</td>
+					</tr>
+					<tr>
+						<td><strong>taglib</strong></td>
+						<td>Tag libraries for finders, counters and questions</td>
+						<td>
+							Automatically generated for each of the SQL interactors, this will also automatically generate the correct 
+							tag library desciptor (tld) file.
+						</td>
+					</tr>
+					<tr>
+						<td><strong>jsp</strong></td>
+						<td>unused</td>
+						<td>Under development</td>
+					</tr>
+					<tr>
+						<td><strong>java</strong></td>
+						<td>Generate the model beans</td>
+						<td>Automatically generate the POJOs for the tables</td>
+					</tr>
+					<tr>
+						<td><strong>sql</strong></td>
+						<td>Generate the database cration script</td>
+						<td>Automatically generate the SQL database creation script and any constants table inserters as well.</td>
+					</tr>
+				</tbody>
+			</table>
+
 
 		</section>
 		{import src/imports/footer.templar}

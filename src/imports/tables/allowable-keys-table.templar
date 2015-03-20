@@ -22,7 +22,8 @@
 			<td>String</td>
 			<td>{if fn:null[keySelectClause]}undocumented{else}{keySelectClause}{endif}</td>
 			<td>
-				This is the SQL query that is run. 
+				By default, the select query will be a <code>select * from &lt;table_name&gt,</code> If you wish to over-ride this 
+				default behaviour, then this is the SQL query that will be run.
 				{if !fn:null[keySelectClauseInfo]}{keySelectClauseInfo}{endif}
 				{if fn:=[keySelectClause, invalid]}
 					<br /><br />This will generate a <strong>FATAL</strong> validation message if present on the JSON object.

@@ -271,3 +271,6 @@ footer {
     color:#444;
   }
 }
+a .str {
+  text-decoration: underline;
+}
