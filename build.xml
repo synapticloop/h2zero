@@ -11,6 +11,11 @@
 		<h2zero in="src/main/java/sample.h2zero" outDir="." verbose="false" />
 	</target>
 
+	<target name="h2zero-quick" description="test the h2zero quick generation">
+		<taskdef resource="h2zero.properties" classpath="classpath-h2zero" />
+		<h2zero.quick tables="user_type, user, pet, user_pet" foreign="user.user_type, user_pet.user, user_pet.pet" />
+	</target>
+
 	<target name="gen" description="templar-gen the pages">
 		<java jar="templar-gen.jar" fork="true" failonerror="true" maxmemory="128m">
 			<arg value="src" />
