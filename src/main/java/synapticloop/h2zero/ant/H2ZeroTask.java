@@ -319,6 +319,33 @@ public class H2ZeroTask extends Task {
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java";
 					renderToFile(templarContext, javaCreateViewFinderParser, pathname);
 				}
+				ArrayList<Finder> finders = view.getFinders();
+				Iterator<Finder> finderIterator = finders.iterator();;
+
+				while (finderIterator.hasNext()) {
+					Finder finder = finderIterator.next();
+					templarContext.add("finder", finder);
+
+					if(options.hasGenerator(Options.OPTION_TAGLIB)) {
+						String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/taglib/" + view.getJavaFieldName() + "/" + finder.getFinderTagName() + "Tag.java";
+						renderToFile(templarContext, javaCreateTaglibFinderParser, pathname);
+					}
+
+					if(options.hasGenerator(Options.OPTION_JAVA)) {
+						// don't forget the beans for the selectClause finders
+						if(null != finder.getSelectClause()) {
+							String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getFinderTagName() + "Bean.java";
+							renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
+						}
+					}
+
+					if(options.hasGenerator(Options.OPTION_ADMINPAGES)) {
+						// now for the jsp finder pages
+						String pathname = outFile + "/src/main/webapps/admin/" + view.getName() + "-" + finder.getName() + ".html";
+						renderToFile(templarContext, jspCreateFinderParser, pathname);
+					}
+				}
+
 			}
 
 

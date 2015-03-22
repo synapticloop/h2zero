@@ -370,28 +370,28 @@
 			{\t}{\t}{\t}}{\n}
 		{else}
 			{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{finder.staticName});{\n}
+		{endif}{-- end of finder in fields }
+
+
+		{if finder.hasInFields}
+			{\t}{\t}{\t}int i = 1;{\n}
+			{loop finder.whereFields as whereField}
+				{if whereField.isInField}
+					{\t}{\t}{\t}for ({whereField.javaType} {whereField.javaName}In : {whereField.javaName}List) {{{\n}
+					{\t}{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName}In);{\n}
+					{\t}{\t}{\t}{\t}i++;{\n}
+					{\t}{\t}{\t}}{\n}
+
+				{else}
+					{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName});{\n}
+					{\t}{\t}{\t}i++;{\n}
+				{endif}
+			{endloop}
+		{else}
+			{loop finder.whereFields as whereField}
+				{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
+			{endloop}
 		{endif}
-
-
-			{if finder.hasInFields}
-				{\t}{\t}{\t}int i = 1;{\n}
-				{loop finder.whereFields as whereField}
-					{if whereField.isInField}
-						{\t}{\t}{\t}for ({whereField.javaType} {whereField.javaName}In : {whereField.javaName}List) {{{\n}
-						{\t}{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName}In);{\n}
-						{\t}{\t}{\t}{\t}i++;{\n}
-						{\t}{\t}{\t}}{\n}
-
-					{else}
-						{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName});{\n}
-						{\t}{\t}{\t}i++;{\n}
-					{endif}
-				{endloop}
-			{else}
-				{loop finder.whereFields as whereField}
-					{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
-				{endloop}
-			{endif}
 
 			{\n}
 			{if finder.unique}

@@ -561,15 +561,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
-	{\t}public void refreshSilent(Connection connection) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}refresh(connection);{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
 	{\t}public void refresh() throws H2ZeroPrimaryKeyException {{{\n}
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");{\n}
