@@ -42,11 +42,17 @@ public class UserFinder {
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user = ?";
 	private static final String SQL_BUILTIN_PRIMARY_KEY_EXISTS = "select count(*) from user where id_user = ?";
 
+	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + " where num_age = ?";
+	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START + " where nm_username = ?";
+	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL = SQL_SELECT_START + " where txt_address_email = ?";
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START + " where txt_address_email = ? and txt_password = ?";
 	private static final String SQL_FIND_NM_USER_DTM_SIGNUP = "select nm_user, dtm_signup from user";
 	private static final String SQL_FIND_GROUP_NUM_AGE = "select count(*) as num_count, num_age from user group by num_count";
 
 	private static HashMap<String, String> findAll_limit_statement_cache = new HashMap<String, String>();
+	private static HashMap<String, String> findByNumAge_limit_statement_cache = new HashMap<String, String>();
+	private static HashMap<String, String> findByNmUsername_limit_statement_cache = new HashMap<String, String>();
+	private static HashMap<String, String> findByTxtAddressEmail_limit_statement_cache = new HashMap<String, String>();
 	private static HashMap<String, String> findByTxtAddressEmailTxtPassword_limit_statement_cache = new HashMap<String, String>();
 	/**
 	 * Find a User by its primary key
@@ -233,6 +239,294 @@ public class UserFinder {
 			}
 			return(new ArrayList<User>());
 		}
+	}
+
+	public static List<User> findByNumAge(Integer numAge) throws H2ZeroFinderException, SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<User> results = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_NUM_AGE);
+			ConnectionManager.setInt(preparedStatement, 1, numAge);
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		}
+
+
+		if(null == results) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<User> findByNumAge(Connection connection, Integer numAge) throws H2ZeroFinderException, SQLException {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<User> results = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_NUM_AGE);
+			ConnectionManager.setInt(preparedStatement, 1, numAge);
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+
+
+		if(null == results) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<User> findByNumAgeSilent(Integer numAge) {
+		try {
+			return(findByNumAge(numAge));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByNumAgeSilent(" + numAge + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByNumAgeSilent(" + numAge + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		}
+	}
+
+	public static List<User> findByNumAgeSilent(Connection connection, Integer numAge) {
+		try {
+			return(findByNumAge(numAge));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByNumAgeSilent(" + numAge + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByNumAgeSilent(" + numAge + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		}
+	}
+
+	public static User findByNmUsername(String nmUsername) throws H2ZeroFinderException, SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		User result = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_NM_USERNAME);
+			ConnectionManager.setVarchar(preparedStatement, 1, nmUsername);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[nmUsername:" + nmUsername + "].");
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static User findByNmUsername(Connection connection, String nmUsername) throws H2ZeroFinderException, SQLException {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		User result = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_NM_USERNAME);
+			ConnectionManager.setVarchar(preparedStatement, 1, nmUsername);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[nmUsername:" + nmUsername + "].");
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static User findByNmUsernameSilent(String nmUsername) {
+		try {
+			return(findByNmUsername(nmUsername));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByNmUsernameSilent(" + nmUsername + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByNmUsernameSilent(" + nmUsername + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	public static User findByNmUsernameSilent(Connection connection, String nmUsername) {
+		try {
+			return(findByNmUsername(connection, nmUsername));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByNmUsernameSilent(" + nmUsername + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByNmUsernameSilent(" + nmUsername + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+	}
+	}
+
+	public static User findByTxtAddressEmail(String txtAddressEmail) throws H2ZeroFinderException, SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		User result = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_TXT_ADDRESS_EMAIL);
+			ConnectionManager.setVarchar(preparedStatement, 1, txtAddressEmail);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[txtAddressEmail:" + txtAddressEmail + "].");
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static User findByTxtAddressEmail(Connection connection, String txtAddressEmail) throws H2ZeroFinderException, SQLException {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		User result = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_TXT_ADDRESS_EMAIL);
+			ConnectionManager.setVarchar(preparedStatement, 1, txtAddressEmail);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[txtAddressEmail:" + txtAddressEmail + "].");
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static User findByTxtAddressEmailSilent(String txtAddressEmail) {
+		try {
+			return(findByTxtAddressEmail(txtAddressEmail));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByTxtAddressEmailSilent(" + txtAddressEmail + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByTxtAddressEmailSilent(" + txtAddressEmail + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	public static User findByTxtAddressEmailSilent(Connection connection, String txtAddressEmail) {
+		try {
+			return(findByTxtAddressEmail(connection, txtAddressEmail));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByTxtAddressEmailSilent(" + txtAddressEmail + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByTxtAddressEmailSilent(" + txtAddressEmail + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+	}
 	}
 
 	public static User findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword) throws H2ZeroFinderException, SQLException {

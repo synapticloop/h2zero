@@ -41,6 +41,13 @@
 				{ "name": "dtm_signup", "type": "datetime", "nullable": true }
 			],
 
+			"fieldFinders": [
+				{ "nm_username": "unique" },
+				{ "txt_address_email": "unique" },
+				{ "num_age": "multiple" }
+			],
+
+
 			"finders": [
 				{
 					"name": "findByTxtAddressEmailTxtPassword",
@@ -102,7 +109,7 @@
 			"counters": [
 				{
 					"name": "countNumberOfUsers",
-					"selectClause": "select count(*) from user"
+					"selectClause": "select count(*) from user",
 				},
 				{
 					"name": "countNumberOfUsersOverAge",

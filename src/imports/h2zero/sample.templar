@@ -41,6 +41,13 @@
 {\t}{\t}{\t}{\t}{{ "name": "dtm_signup", "type": "datetime", "nullable": true }{\n}
 {\t}{\t}{\t}],{\n}
 {\n}
+{\t}{\t}{\t}"fieldFinders": [{\n}
+{\t}{\t}{\t}{\t}{{ "nm_username": "unique" },{\n}
+{\t}{\t}{\t}{\t}{{ "txt_address_email": "unique" },{\n}
+{\t}{\t}{\t}{\t}{{ "num_age": "multiple" }{\n}
+{\t}{\t}{\t}],{\n}
+{\n}
+{\n}
 {\t}{\t}{\t}"finders": [{\n}
 {\t}{\t}{\t}{\t}{{{\n}
 {\t}{\t}{\t}{\t}{\t}"name": "findByTxtAddressEmailTxtPassword",{\n}

@@ -22,8 +22,14 @@
 			<td>String</td>
 			<td>{if fn:null[keySelectClause]}undocumented{else}{keySelectClause}{endif}</td>
 			<td>
-				By default, the select query will be a <code>select * from &lt;table_name&gt,</code> If you wish to over-ride this 
-				default behaviour, then this is the SQL query that will be run.
+				<strong>For general SQL interactions:</strong> By default, the select query will be a <code>select * from &lt;table_name&gt,</code> 
+				If you wish to over-ride this  default behaviour, then this is the SQL query that will be run.
+
+				<br /><br />
+
+				<strong>For <code>inserters</code> SQL interactions:</strong> This is the SQL query that is used to insert the 
+				values for the table.  This may also be a cross-table select.
+
 				{if !fn:null[keySelectClauseInfo]}{keySelectClauseInfo}{endif}
 				{if fn:=[keySelectClause, invalid]}
 					<br /><br />This will generate a <strong>FATAL</strong> validation message if present on the JSON object.
@@ -51,6 +57,34 @@
 						<br /><br />This will generate a <strong>WARN</strong> validation message if present on the JSON object.
 					{else}
 						{if fn:=[keySelectFields, mandatory]}
+							<br /><br />This will generate a <strong>FATAL</strong> validation message if not present on the JSON object.
+						{endif}
+					{endif}
+				{endif}
+			</td>
+		</tr>
+		<tr>
+			<td><strong>{import src/imports/links/insertClause.templar}</strong></td>
+			<td>JSON Array</td>
+			<td>{if fn:null[keyInsertClause]}undocumented{else}{keyInsertClause}{endif}</td>
+			<td>
+				The insert clause is only valid for {import src/imports/links/inserters.templar} and cannot be used for any 
+				other SQL interaction.
+
+				<br /><br />
+
+				By default, the insert clause will be a generated with all of the fields from the <code>&lt;table_name&gt</code>, 
+				however this may be over-ridden to include only non-nullable fields.
+
+				<br /><br />If you wish to over-ride this default behaviour, then this is the SQL query that will be run.
+
+				{if fn:=[keyInsertClause, invalid]}
+					<br /><br />This will generate a <strong>FATAL</strong> validation message if present on the JSON object.
+				{else}
+					{if fn:=[keyInsertClause, ignored]}
+						<br /><br />This will generate a <strong>WARN</strong> validation message if present on the JSON object.
+					{else}
+						{if fn:=[keyInsertClause, mandatory]}
 							<br /><br />This will generate a <strong>FATAL</strong> validation message if not present on the JSON object.
 						{endif}
 					{endif}

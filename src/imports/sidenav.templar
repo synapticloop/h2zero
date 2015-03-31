@@ -7,43 +7,38 @@
 	<h2>Navigation</h2>
 
 	<p>
-		- <a href="index.html">Home</a><br />
-		- <a href="quick-start.html">Quick Start</a><br />
-		- <a href="database-naming-conventions.html">Database Naming Conventions</a><br />
-		- <a href="generated-code.html">Generated Code</a><br />
-		- <a href="method-signatures.html">Method Signatures</a><br />
-		- <a href="validators.html">Validators</a><br />
-		- <a href="taglibs.html">Tag libraries</a><br />
+		&raquo; <a href="index.html">Home</a><br />
+		&raquo; <a href="quick-start.html">Quick Start</a><br />
+		&raquo; <a href="allowable-keys.html">Allowable Keys</a><br />
+		&raquo; <a href="database-naming-conventions.html">Database Naming Conventions</a><br />
+		&raquo; <a href="generated-code.html">Generated Code</a><br />
+		&raquo; <a href="method-signatures.html">Method Signatures</a><br />
+		&raquo; <a href="validators.html">Validators</a><br />
+		&raquo; <a href="taglibs.html">Tag libraries</a><br />
+		&raquo; <a href="clauses-and-fields.html">Clauses and Fields</a><br />
 	</p>
 
 	<hr />
 
 	<p>
-		- <a href="file-format.html">File Format</a><br />
-		- <a href="options.html">Options</a><br />
-		- <a href="database.html">Database</a><br />
-		- <a href="tables.html">Tables</a><br />
-		--- <a href="fields.html">Fields</a><br />
-		--- <a href="finders.html">Finders</a><br />
-		--- <a href="field-finders.html">Field Finders</a><br />
-		--- <a href="deleters.html">Deleters</a><br />
-		--- <a href="inserters.html">Inserters</a><br />
-		--- <a href="updaters.html">Updaters</a><br />
-		--- <a href="questions.html">Questions</a><br />
-		--- <a href="counters.html">Counters</a><br />
-		--- <a href="constants.html">Constants</a><br />
-		- <a href="views.html">Views</a><br />
-		--- <a href="view-finders.html">Finders</a><br />
-		--- <a href="view-field-finders.html">Field Finders</a><br />
-		--- <a href="view-questions.html">Questions</a><br />
-		--- <a href="view-counters.html">Counters</a><br />
-		- <a href="clauses-and-fields.html">Clauses and Fields</a><br />
-		--- <a href="select-clauses.html">Select Clauses</a><br />
-		--- <a href="select-fields.html">Select Fields</a><br />
-		--- <a href="where-clauses.html">Where Clauses</a><br />
-		--- <a href="where-fields.html">Where Fields</a><br />
-		--- <a href="set-clauses.html">Set Clauses</a><br />
-		--- <a href="set-fields.html">Set Fields</a><br />
+		&raquo; <a href="file&raquo;format.html">File Format</a><br />
+		&raquo; <a href="options.html">Options</a><br />
+		&raquo; <a href="database.html">Database</a><br />
+		&raquo; <a href="tables.html">Tables</a><br />
+		-&raquo; <a href="fields.html">Fields</a><br />
+		-&raquo; <a href="finders.html">Finders</a><br />
+		-&raquo; <a href="field&raquo;finders.html">Field Finders</a><br />
+		-&raquo; <a href="deleters.html">Deleters</a><br />
+		-&raquo; <a href="inserters.html">Inserters</a><br />
+		-&raquo; <a href="updaters.html">Updaters</a><br />
+		-&raquo; <a href="questions.html">Questions</a><br />
+		-&raquo; <a href="counters.html">Counters</a><br />
+		-&raquo; <a href="constants.html">Constants</a><br />
+		&raquo; <a href="views.html">Views</a><br />
+		-&raquo; <a href="view-finders.html">Finders</a><br />
+		-&raquo; <a href="view-field-finders.html">Field Finders</a><br />
+		-&raquo; <a href="view-questions.html">Questions</a><br />
+		-&raquo; <a href="view-counters.html">Counters</a><br />
 	</p>
 
 	<hr />
@@ -59,7 +54,7 @@
 
 	<p>
 		This project is maintained by <a href="https://github.com/synapticloop">synapticloop</a> 
-		and these pages were generated with <a href="https://github.com/synapticloop/templar-gen/">synapticloop templar-gen</a>
+		and these pages were generated with <a href="https://github.com/synapticloop/templar&raquo;gen/">synapticloop templar&raquo;gen</a>
 	</p>
 
 </header>

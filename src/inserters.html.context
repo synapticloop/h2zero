@@ -1,2 +1,21 @@
 object=Inserter
 name=inserters
+
+keyName=mandatory
+
+keyInsertClause=optional
+keyInsertClauseInfo=<br /><br />In the case of <code>inserters</code> the select clause <strong>MUST</strong> have a field for all non-nullable fields for the inserter
+
+keySelectClause=optional
+keySelectClauseInfo=<br /><br />In the case of <code>inserters</code> the select clause <strong>MUST</strong> have a field for all non-nullable fields for the inserter and may select from other tables.
+
+keySelectFields=invalid
+
+keyWhereClause=invalid
+
+keyWhereFields=invalid
+
+keyUnique=ignored
+keyUniqueInfo=<br /><br />This always returns one, and only one result in the result set of type boolean and is therefore un-necessary.
+
+linkUserInserter=src/main/java/synapticloop/sample/h2zero/question/UserInserter.java

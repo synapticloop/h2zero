@@ -8,8 +8,23 @@
 
 			{import src/imports/page-heading.templar}
 
-			<pre>
+			<p>
+				Field finders are a simple way to generate singular finders that act on only one field.
+			</p>
+			<p>The key <code>fieldFinders</code> is a JSON Array of JSON Objects on the <code>table</code> JSON object, for example:</p>
+
+			<pre class="prettyprint">
 				<code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"fieldFinders": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
 				</code>
 			</pre>
 
