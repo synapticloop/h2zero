@@ -25,12 +25,20 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 
 public class Counter extends BaseQueryObject {
 
+	/**
+	 * Create a new counter SQL query object from the passed in JSON object
+	 * 
+	 * @param table the table to which this counter belongs
+	 * @param counterObject the jsonObject that contains the counter items
+	 * 
+	 * @throws H2ZeroParseException - if something went wrong with the parsing 
+	 */
+
 	public Counter(Table table, JSONObject counterObject) throws H2ZeroParseException {
 		super(table, counterObject);
 
 		// set up the default allowable keys
 		allowableJsonKeys.put(JSONKeyConstants.UNIQUE, UsageType.INVALID);
-		allowableJsonKeys.put(JSONKeyConstants.SELECT_CLAUSE, UsageType.MANDATORY);
 		allowableJsonKeys.put(JSONKeyConstants.SELECT_FIELDS, UsageType.INVALID);
 
 		if(null == selectClause) {
@@ -48,5 +56,4 @@ public class Counter extends BaseQueryObject {
 	public String getBaseQueryObjectType() {
 		return("Counter");
 	}
-
 }

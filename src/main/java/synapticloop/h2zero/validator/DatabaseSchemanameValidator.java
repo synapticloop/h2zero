@@ -6,9 +6,7 @@ import synapticloop.h2zero.model.Options;
 public class DatabaseSchemaNameValidator extends Validator {
 
 	@Override
-	public boolean isValid(Database database, Options options) {
-		// return only valid names 
-		return(isValid);
+	public void validate(Database database, Options options) {
 	}
 
 }

@@ -12,7 +12,7 @@ import synapticloop.h2zero.validator.Validator;
 public class FinderWhereFieldAliasValidator extends Validator {
 
 	@Override
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<Finder> finders = table.getFinders();
@@ -28,7 +28,6 @@ public class FinderWhereFieldAliasValidator extends Validator {
 				}
 			}
 		}
-		return(isValid);
 	}
 
 }

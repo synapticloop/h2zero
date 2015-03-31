@@ -9,7 +9,7 @@ import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.validator.Validator;
 
 public class FinderAutoIndexValidator extends Validator {
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<BaseField> fields = table.getFields();
@@ -18,8 +18,6 @@ public class FinderAutoIndexValidator extends Validator {
 					addWarnMessage("Auto generated finder for field '" + table.getName() + "." + baseField.getName() + "' is neither marked as unique nor indexed which may slow down database lookups.");
 				}
 			}
-			
 		}
-		return(isValid);
 	}
 }

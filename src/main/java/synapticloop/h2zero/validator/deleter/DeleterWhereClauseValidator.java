@@ -11,7 +11,7 @@ import synapticloop.h2zero.validator.Validator;
 public class DeleterWhereClauseValidator extends Validator {
 
 	@Override
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 		isValid = true;
 
 		ArrayList<Table> tables = database.getTables();
@@ -27,9 +27,6 @@ public class DeleterWhereClauseValidator extends Validator {
 				}
 			}
 		}
-
-		return(isValid);
-
 	}
 
 }

@@ -1,9 +1,9 @@
 {if finder.hasWhereFieldAliases}
 	{loop finder.whereFields as whereField}
-		, {whereField.javaName}
+		, {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {else}
-	{loop finder.uniqueWhereFields as whereField}
+	{loop finder.uniqueWhereFields as whereField}{if whereField.isInField}List{endif}
 		, {whereField.javaName}
 	{endloop}
 {endif}

@@ -11,7 +11,7 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.validator.Validator;
 
 public class FinderQueryParameterNumberValidator extends Validator {
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<Finder> finders = table.getFinders();
@@ -49,6 +49,5 @@ public class FinderQueryParameterNumberValidator extends Validator {
 
 			}
 		}
-		return(isValid);
 	}
 }

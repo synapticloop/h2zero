@@ -11,7 +11,7 @@ import synapticloop.h2zero.validator.Validator;
 public class ConstantDeleterValidator extends Validator {
 
 	@Override
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
@@ -22,7 +22,6 @@ public class ConstantDeleterValidator extends Validator {
 				}
 			}
 		}
-		return(isValid);
 	}
 
 }

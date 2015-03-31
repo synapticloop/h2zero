@@ -14,7 +14,20 @@ public abstract class Validator {
 	private int numWarn = 0;
 	private int numFatal = 0;
 
-	public abstract boolean isValid(Database database, Options options);
+	/**
+	 * Return whether the validator is in a valid state
+	 * 
+	 * @return whether the validator is 
+	 */
+	public boolean isValid() {
+		return(isValid);
+	}
+	/**
+	 * 
+	 * @param database the database object from which all other objects may be retrieved
+	 * @param options the options for the generation
+	 */
+	public abstract void validate(Database database, Options options);
 
 	/**
 	 * Count the number of occurrences of the needle parameter in the haystack parameter
@@ -75,4 +88,5 @@ public abstract class Validator {
 
 	public int getNumInfo() { return(numInfo); }
 	public int getNumWarn() {return(numWarn); }
-	public int getNumFatal() { return(numFatal); }}
+	public int getNumFatal() { return(numFatal); }
+}

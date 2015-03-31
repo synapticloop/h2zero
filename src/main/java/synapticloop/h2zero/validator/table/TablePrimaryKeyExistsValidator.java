@@ -11,7 +11,7 @@ import synapticloop.h2zero.validator.Validator;
 public class TablePrimaryKeyExistsValidator extends Validator {
 
 	@Override
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<BaseField> fields = table.getFields();
@@ -37,8 +37,6 @@ public class TablePrimaryKeyExistsValidator extends Validator {
 				break;
 			}
 		}
-
-		return(isValid);
 	}
 
 }

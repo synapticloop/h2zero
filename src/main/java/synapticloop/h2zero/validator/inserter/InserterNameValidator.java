@@ -10,7 +10,7 @@ import synapticloop.h2zero.validator.Validator;
 
 public class InserterNameValidator extends Validator {
 
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<Inserter> inserters = table.getInserters();
@@ -25,7 +25,5 @@ public class InserterNameValidator extends Validator {
 				}
 			}
 		}
-
-		return(isValid);
 	}
 }

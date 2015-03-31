@@ -11,9 +11,7 @@ import synapticloop.h2zero.validator.Validator;
 public class FinderWhereClauseValidator extends Validator {
 
 	@Override
-	public boolean isValid(Database database, Options options) {
-		isValid = true;
-
+	public void validate(Database database, Options options) {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<Finder> finders = table.getFinders();
@@ -27,9 +25,6 @@ public class FinderWhereClauseValidator extends Validator {
 				}
 			}
 		}
-
-		return(isValid);
-
 	}
 
 }

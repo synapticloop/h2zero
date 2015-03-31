@@ -12,7 +12,7 @@ import synapticloop.h2zero.validator.Validator;
 public class FinderNameValidator extends Validator {
 	private HashSet<String> finderNames = new HashSet<String>();
 
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			finderNames.clear();
@@ -20,21 +20,20 @@ public class FinderNameValidator extends Validator {
 			for (Finder finder : finders) {
 				String name = finder.getName();
 				if(name.contains(" ")) {
-					addFatalMessage("Finder '" + name + "' for table '" + table.getName() + "' contains a ' ' (whitespace) character.");
+					addFatalMessage("Finder '" + table.getName() + "." + name + "' contains a ' ' (whitespace) character.");
 				}
 
 				if(!name.startsWith("find")) {
-					addWarnMessage("Finder '" + name + "' for table '" + table.getName() + "' should really start with 'find'.");
+					addWarnMessage("Finder '" + table.getName() + "." + name + "' should really start with 'find'.");
 				}
 
 				if(finderNames.contains(name)) {
-					addFatalMessage("Finder '" + name + "' for table '" + table.getName() + "' is a duplicate.");
+					addFatalMessage("Finder '" + table.getName() + "." + name + "' is a duplicate.");
 				}
 
 				finderNames.add(name);
 			}
 		}
-		return(isValid);
 	}
 
 }

@@ -7,15 +7,8 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.model.BaseQueryObject;
 import synapticloop.h2zero.model.BaseQueryObject.UsageType;
-import synapticloop.h2zero.model.Database;
-import synapticloop.h2zero.model.Options;
 
 public abstract class KeyValidator extends Validator {
-
-	@Override
-	public boolean isValid(Database database, Options options) {
-		return (isValid);
-	}
 
 	public void validate(BaseQueryObject baseQueryObject) {
 		JSONObject jsonObject = baseQueryObject.getJsonObject();

@@ -74,14 +74,13 @@ public class {table.javaClassName}Finder {{{\n}
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {loop table.finders as finder}
-	{if fn:notNull[finder.selectClause]}
-		{if finder.hasInFields}
-			{\t}private static HashMap<String, String> {finder.name}_statement_cache = new HashMap<String, String>();{\n}
-		{endif}
+	{if finder.hasInFields}
+		{\t}private static HashMap<String, String> {finder.name}_statement_cache = new HashMap<String, String>();{\n}
 	{endif}
 {endloop}
 
 		{\t}private static HashMap<String, String> findAll_limit_statement_cache = new HashMap<String, String>();{\n}
+
 {loop table.finders as finder}
 	{if fn:null[finder.selectClause]}
 		{\t}private static HashMap<String, String> {finder.name}_limit_statement_cache = new HashMap<String, String>();{\n}

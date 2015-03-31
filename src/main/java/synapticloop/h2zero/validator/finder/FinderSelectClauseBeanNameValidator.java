@@ -13,7 +13,7 @@ import synapticloop.h2zero.validator.Validator;
 public class FinderSelectClauseBeanNameValidator extends Validator {
 
 	@Override
-	public boolean isValid(Database database, Options options) {
+	public void validate(Database database, Options options) {
 		HashMap<String, String> selectClauseBeanNames = new HashMap<String, String>();
 
 		ArrayList<Table> tables = database.getTables();
@@ -46,8 +46,6 @@ public class FinderSelectClauseBeanNameValidator extends Validator {
 				}
 			}
 		}
-
-		return(isValid);
 	}
 
 }

@@ -38,15 +38,23 @@ public abstract class BaseQueryObject {
 
 	protected Boolean jsonUniqueKey; // whether there is a 'unique' jsonKey for this object
 
-	
+	protected ArrayList<BaseField> allFields = new ArrayList<BaseField>();
+	protected HashSet<String> allUniqueFieldNames = new HashSet<String>();
+	protected ArrayList<BaseField> allUniqueFields = new ArrayList<BaseField>();
+
+	// select fields
+	protected ArrayList<BaseField> selectFields = new ArrayList<BaseField>();
+	protected LinkedHashMap<String, BaseField> uniqueSelectFields = new LinkedHashMap<String, BaseField>();
+
+
 	// where fields and their associated properties
 	protected ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
 	protected LinkedHashMap<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
 	protected ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
-	protected boolean hasInFields = false;
 
-	protected ArrayList<BaseField> selectFields = new ArrayList<BaseField>();
-	protected LinkedHashMap<String, BaseField> uniqueSelectFields = new LinkedHashMap<String, BaseField>();
+	protected boolean hasInFields = false;
+	private boolean hasWhereFieldAliases = false;
+
 
 	protected ArrayList<BaseField> valueFields = new ArrayList<BaseField>();
 	protected LinkedHashMap<String, BaseField> uniqueValueFields = new LinkedHashMap<String, BaseField>();
@@ -57,11 +65,7 @@ public abstract class BaseQueryObject {
 	protected ArrayList<BaseField> updateFields = new ArrayList<BaseField>();
 	protected LinkedHashMap<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
 
-	protected ArrayList<BaseField> allFields = new ArrayList<BaseField>();
-	protected HashSet<String> allUniqueFieldNames = new HashSet<String>();
-	protected ArrayList<BaseField> allUniqueFields = new ArrayList<BaseField>();
 
-	private boolean hasWhereFieldAliases = false;
 
 
 	protected BaseQueryObject(Table table, JSONObject jsonObject) {
@@ -82,14 +86,14 @@ public abstract class BaseQueryObject {
 		this.jsonObject = jsonObject;
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
-		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
-		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
 		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
+		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
 
 		this.insertClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.INSERT_CLAUSE, null);
 		this.valuesClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.VALUES_CLAUSE, null);
 		this.setClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SET_CLAUSE, null);
 
+		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
 		this.jsonUniqueKey = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, null);
 	}
 
@@ -231,6 +235,7 @@ public abstract class BaseQueryObject {
 	public String getTagName() { return(NamingHelper.getFirstUpper(name)); }
 	public String getWhereClause() { return(whereClause); }
 	public String getOrderBy() { return(orderBy); }
+
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
 	public ArrayList<BaseField> getSelectFields() { return(selectFields); }
 	public ArrayList<BaseField> getInWhereFields() { return(inWhereFields); }

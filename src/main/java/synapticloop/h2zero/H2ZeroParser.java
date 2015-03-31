@@ -162,7 +162,9 @@ public class H2ZeroParser {
 		boolean isValid = true;
 
 		for (Validator validator : validators) {
-			if(!validator.isValid(database, options)) {
+			validator.validate(database, options);
+
+			if(!validator.isValid()) {
 				isValid = false;
 			}
 
