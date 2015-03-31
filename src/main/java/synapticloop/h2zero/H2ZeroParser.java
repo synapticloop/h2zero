@@ -28,6 +28,7 @@ import synapticloop.h2zero.validator.constant.ConstantInserterValidator;
 import synapticloop.h2zero.validator.constant.ConstantTableValidator;
 import synapticloop.h2zero.validator.constant.ConstantUpdaterValidator;
 import synapticloop.h2zero.validator.counter.CounterJsonUniqueKeyExistsValidator;
+import synapticloop.h2zero.validator.counter.CounterKeyValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectClauseValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectFieldsValidator;
 import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
@@ -41,8 +42,10 @@ import synapticloop.h2zero.validator.finder.FinderSelectClauseBeanNameValidator;
 import synapticloop.h2zero.validator.finder.FinderSelectClauseValidator;
 import synapticloop.h2zero.validator.finder.FinderWhereClauseValidator;
 import synapticloop.h2zero.validator.finder.FinderWhereFieldAliasValidator;
+import synapticloop.h2zero.validator.inserter.InserterKeyValidator;
 import synapticloop.h2zero.validator.inserter.InserterNameValidator;
 import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidator;
+import synapticloop.h2zero.validator.question.QuestionKeyValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectClauseValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectFieldsValidator;
 import synapticloop.h2zero.validator.table.TableDeprecatedFinderKeyValidator;
@@ -50,6 +53,7 @@ import synapticloop.h2zero.validator.table.TableDeprecatedForeignKeyValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyExistsValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyNameValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyTypeValidator;
+import synapticloop.h2zero.validator.updater.UpdaterKeyValidator;
 import synapticloop.h2zero.validator.updater.UpdaterNameValidator;
 import synapticloop.h2zero.validator.updater.UpdaterSetClauseValidator;
 import synapticloop.h2zero.validator.updater.UpdaterWhereClauseValidator;
@@ -99,6 +103,7 @@ public class H2ZeroParser {
 
 		// inserter validators
 		validators.add(new InserterNameValidator());
+		validators.add(new InserterKeyValidator());
 
 		// deleter validators
 		validators.add(new DeleterNameValidator());
@@ -108,16 +113,19 @@ public class H2ZeroParser {
 		validators.add(new UpdaterNameValidator());
 		validators.add(new UpdaterWhereClauseValidator());
 		validators.add(new UpdaterSetClauseValidator());
+		validators.add(new UpdaterKeyValidator());
 
 		// counter validators
 		validators.add(new CounterSelectClauseValidator());
 		validators.add(new CounterSelectFieldsValidator());
 		validators.add(new CounterJsonUniqueKeyExistsValidator());
+		validators.add(new CounterKeyValidator());
 
 		// question validators
 		validators.add(new QuestionSelectClauseValidator());
 		validators.add(new QuestionSelectFieldsValidator());
 		validators.add(new QuestionJsonUniqueKeyExistsValidator());
+		validators.add(new QuestionKeyValidator());
 
 		// constant validators
 		validators.add(new ConstantTableValidator());

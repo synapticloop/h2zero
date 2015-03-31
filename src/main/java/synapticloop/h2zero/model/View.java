@@ -27,7 +27,7 @@ public class View extends BaseSchemaObject {
 		super(jsonObject);
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
 		this.asClause = JsonHelper.getStringValue(jsonObject, "asClause", null);
-		
+
 		if(null == name) {
 			throw new H2ZeroParseException("The view '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
 		}
@@ -74,13 +74,13 @@ public class View extends BaseSchemaObject {
 					fields.add(baseField);
 					fieldLookup.put(name, baseField);
 
-//					BaseField setBaseField = (BaseField)constructor.newInstance(fieldObject);
-//					setBaseField.suffixJavaName("Set");
-//					BaseField whereBaseField = (BaseField)constructor.newInstance(fieldObject);
-//					whereBaseField.suffixJavaName("Where");
-//
-//					setFieldLookup.put(name, setBaseField);
-//					whereFieldLookup.put(name, whereBaseField);
+					//					BaseField setBaseField = (BaseField)constructor.newInstance(fieldObject);
+					//					setBaseField.suffixJavaName("Set");
+					//					BaseField whereBaseField = (BaseField)constructor.newInstance(fieldObject);
+					//					whereBaseField.suffixJavaName("Where");
+					//
+					//					setFieldLookup.put(name, setBaseField);
+					//					whereFieldLookup.put(name, whereBaseField);
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -112,4 +112,7 @@ public class View extends BaseSchemaObject {
 	public ArrayList<BaseField> getFields() { return fields; }
 	public boolean getCacheable() { return cacheable; }
 	public boolean getCacheFindAll() { return cacheFindAll; }
+
+	public boolean getIsTable() { return(false); }
+	public boolean getIsView() { return(true); }
 }

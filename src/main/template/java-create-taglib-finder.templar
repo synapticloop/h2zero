@@ -9,11 +9,8 @@ package {database.package}.taglib.{table.javaFieldName};{\n}{\n}
 
 {import classpath:/snippet/global/java-taglib-imports.templar}
 
-import {database.package}.model.{table.javaClassName};{\n}
-import {database.package}.finder.{table.javaClassName}Finder;{\n}
-{\n}
-
 public class {finder.finderTagName}Tag extends BodyTagSupport {{{\n}
+	{\t}@SuppressWarnings("unused"){\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
 	{\t}private static final Logger LOGGER = Logger.getLogger({finder.finderTagName}Tag.class);{\n}{\n}
 	{\t}private String var = null;{\n}
@@ -23,7 +20,7 @@ public class {finder.finderTagName}Tag extends BodyTagSupport {{{\n}
 	{import classpath:/snippet/global/java-class-field-declaration.templar}
 
 	{\t}public int doStartTag() throws JspException {{{\n}
-		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Finder.{finder.name}Silent(
+		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}{if table.isView}View{endif}Finder.{finder.name}Silent(
 			{import classpath:/snippet/global/java-taglib-method-call.templar}
 		));{\n}
 		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}

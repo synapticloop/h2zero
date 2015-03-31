@@ -36,6 +36,9 @@ public class Question extends BaseQueryObject {
 	public Question(Table table, JSONObject questionObject) throws H2ZeroParseException {
 		super(table, questionObject);
 
+		// set up the default allowable keys
+		allowableJsonKeys.put(JSONKeyConstants.SELECT_CLAUSE, UsageType.MANDATORY);
+
 		if(null == selectClause) {
 			throw new H2ZeroParseException("Questions must always have a '" + JSONKeyConstants.SELECT_CLAUSE + "' and return one and only one boolean object.");
 		}

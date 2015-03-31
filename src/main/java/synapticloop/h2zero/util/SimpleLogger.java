@@ -7,6 +7,7 @@ public class SimpleLogger {
 		GENERATE,
 		TEMPLAR_LOAD,
 		TEMPLAR_RENDER,
+		TEMPLAR_PARSE,
 		VALIDATOR,
 		ANALYSER,
 		PARSE,

@@ -3,6 +3,7 @@ package synapticloop.h2zero.model;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 
@@ -18,6 +19,13 @@ import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
 public abstract class BaseQueryObject {
+	public static enum UsageType {
+		OPTIONAL,
+		MANDATORY,
+		INVALID
+	}
+	public HashMap<String, UsageType> allowableJsonKeys = new HashMap<String, UsageType>();
+
 	protected JSONObject jsonObject = null;
 	protected Table table = null;
 
@@ -30,6 +38,7 @@ public abstract class BaseQueryObject {
 
 	protected Boolean jsonUniqueKey; // whether there is a 'unique' jsonKey for this object
 
+	
 	// where fields and their associated properties
 	protected ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
 	protected LinkedHashMap<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
@@ -56,6 +65,19 @@ public abstract class BaseQueryObject {
 
 
 	protected BaseQueryObject(Table table, JSONObject jsonObject) {
+		// set up the default allowable keys
+		allowableJsonKeys.put(JSONKeyConstants.NAME, UsageType.MANDATORY);
+		allowableJsonKeys.put(JSONKeyConstants.UNIQUE, UsageType.INVALID);
+		allowableJsonKeys.put(JSONKeyConstants.SELECT_CLAUSE, UsageType.OPTIONAL);
+		allowableJsonKeys.put(JSONKeyConstants.SELECT_FIELDS, UsageType.OPTIONAL);
+		allowableJsonKeys.put(JSONKeyConstants.WHERE_CLAUSE, UsageType.OPTIONAL);
+		allowableJsonKeys.put(JSONKeyConstants.WHERE_FIELDS, UsageType.OPTIONAL);
+		allowableJsonKeys.put(JSONKeyConstants.INSERT_CLAUSE, UsageType.INVALID);
+		allowableJsonKeys.put(JSONKeyConstants.VALUE_FIELDS, UsageType.INVALID);
+		allowableJsonKeys.put(JSONKeyConstants.SET_CLAUSE, UsageType.INVALID);
+		allowableJsonKeys.put(JSONKeyConstants.SET_FIELDS, UsageType.INVALID);
+		allowableJsonKeys.put(JSONKeyConstants.ORDER_BY, UsageType.INVALID);
+
 		this.table = table;
 		this.jsonObject = jsonObject;
 
@@ -242,7 +264,11 @@ public abstract class BaseQueryObject {
 	public ArrayList<BaseField> getUpdateFields() { return(updateFields); }
 	public Collection<BaseField> getUniqueUpdateFields() { return(uniqueUpdateFields.values()); }
 
+	public JSONObject getJsonObject() { return(jsonObject); }
+
 	public boolean getHasJsonUniqueKey() { return(null != jsonUniqueKey); }
+	public HashMap<String, UsageType> getAllowableJsonKeys() { return(allowableJsonKeys); }
+	public Table getTable() { return(table); }
 
 	/**
 	 * Whether this finder has aliases for the where fields, or it is just straight where field string array

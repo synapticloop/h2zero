@@ -13,6 +13,9 @@ public class Inserter extends BaseQueryObject {
 	public Inserter(Table table, JSONObject inserterObject) throws H2ZeroParseException {
 		super(table, inserterObject);
 
+		// set up the default allowable keys
+		allowableJsonKeys.put(JSONKeyConstants.INSERT_CLAUSE, UsageType.OPTIONAL);
+		allowableJsonKeys.put(JSONKeyConstants.VALUE_FIELDS, UsageType.OPTIONAL);
 
 		if(null != selectClause) {
 			populateFields(inserterObject, JSONKeyConstants.SELECT_FIELDS, selectFields, uniqueSelectFields);

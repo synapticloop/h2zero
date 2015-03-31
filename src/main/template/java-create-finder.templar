@@ -9,15 +9,6 @@ package {database.package}.finder;{\n}{\n}
 
 {import classpath:/snippet/global/finder-imports.templar}
 
-import {database.package}.model.{table.javaClassName};{\n}
-
-{loop table.finders as finder}
-	{if fn:notNull[finder.selectClause]}
-		import {database.package}.bean.{finder.finderTagName}Bean;{\n}
-	{endif}
-{endloop}
-{\n}
-
 public class {table.javaClassName}Finder {{{\n}
 {set table as baseSchemaObject}
 {import classpath:/snippet/global/java-binder-declaration.templar}

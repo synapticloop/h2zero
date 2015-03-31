@@ -22,4 +22,17 @@ public class Constants {{{\n}
 	{endloop}{\n}{\n}
 {endloop}
 
+{loop database.views as view}
+	{\t}public static final String {view.upperName}_binder = "{view.upperName}";{\n}
+{endloop}
+{\n}
+
+{loop database.views as view}
+	{\t}// Field constants for the {view.name} table{\n}
+	{loop view.fields as field}
+		{\t}public static final String {view.upperName}_{field.upperName} = "{field.javaName}";{\n}
+	{endloop}{\n}{\n}
+{endloop}
+
+
 }

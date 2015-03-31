@@ -83,17 +83,7 @@ public class H2ZeroTask extends Task {
 		try {
 			h2zeroParser = new H2ZeroParser(h2zeroFile);
 
-			if(verbose) {
-				SimpleLogger.logInfo(LoggerType.PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
-				ArrayList<Table> tableDebug = h2zeroParser.getDatabase().getTables();
-				for (Table table : tableDebug) {
-					SimpleLogger.logInfo(LoggerType.PARSE, "Found table '" + table.getName() + 
-							"' ( " + table.getFields().size() + " fields, " + 
-							table.getFinders().size() + " finders, " + 
-							table.getDeleters().size() + " deleters, " + 
-							table.getUpdaters().size() + " updaters )");
-				}
-			}
+			logDatabaseInfo(h2zeroParser);
 
 			TemplarConfiguration templarConfiguration = new TemplarConfiguration();
 			templarConfiguration.setExplicitNewLines(true);
@@ -114,7 +104,7 @@ public class H2ZeroTask extends Task {
 				return;
 			}
 
-//			new JavaGenerator(options, database).generate();
+			//			new JavaGenerator(options, database).generate();
 
 			// The model
 			Parser javaCreateModelParser = getParser("/java-create-model.templar");
@@ -137,9 +127,10 @@ public class H2ZeroTask extends Task {
 			Parser javaCreateTaglibFinderFindByPrimaryKeyParser = getParser("/java-create-taglib-finder-find-by-primary-key.templar");
 			Parser javaCreatetaglibFinderFindAllParser = getParser("/java-create-taglib-finder-find-all.templar");
 			Parser javaCreateTaglibCounterCountAllParser = getParser("/java-create-taglib-counter-count-all.templar");
+			Parser javaCreateFormBeanParser = getParser("/java-create-form-bean.templar");
+
 			Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
 			Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
-			Parser javaCreateFormBeanParser = getParser("/java-create-form-bean.templar");
 
 			// the TLD
 			Parser tldCreateLibraryParser = getParser("/tld-create-library.templar");
@@ -156,7 +147,7 @@ public class H2ZeroTask extends Task {
 			Parser javaCreateStatisticsParser = getParser("/java-create-statistics.templar");
 			Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
 
-//			new SqlGenerator(templarContext).generate();
+			//			new SqlGenerator(templarContext).generate();
 			// the sql generator
 			Parser sqlCreateDatabaseParser = getParser("/sql-create-database.templar");
 
@@ -180,7 +171,7 @@ public class H2ZeroTask extends Task {
 				templarContext.add("table", table);
 				SimpleLogger.logInfo(LoggerType.GENERATE, "Generating for table '" + table.getName() + "'.");
 
-				
+
 				if(options.hasGenerator(Options.OPTION_JAVA)) {
 					// the model
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
@@ -311,6 +302,8 @@ public class H2ZeroTask extends Task {
 			while (viewsIterator.hasNext()) {
 				View view = viewsIterator.next();
 				templarContext.add("view", view);
+				// hack for finder taglibs for views - should be split out
+				templarContext.add("table", view);
 
 				if(options.hasGenerator(Options.OPTION_JAVA)) {
 					String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java";
@@ -319,6 +312,7 @@ public class H2ZeroTask extends Task {
 					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java";
 					renderToFile(templarContext, javaCreateViewFinderParser, pathname);
 				}
+
 				ArrayList<Finder> finders = view.getFinders();
 				Iterator<Finder> finderIterator = finders.iterator();;
 
@@ -392,10 +386,15 @@ public class H2ZeroTask extends Task {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + shepex.getMessage());
 			return;
 		} catch (synapticloop.templar.exception.ParseException stepex) {
-			stepex.printStackTrace();
-		} catch (RenderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2zeroFile.getName() + "'.");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "The message was:");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "  " + stepex.getMessage());
+			return;
+		} catch (RenderException rex) {
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "RenderException: There was an error rendering the '" + h2zeroFile.getName() + "'.");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "The message was:");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "  " + rex.getMessage());
+			return;
 		}
 
 		// now that we are done - print out the overview
@@ -414,6 +413,68 @@ public class H2ZeroTask extends Task {
 			}
 		}
 
+	}
+
+	/**
+	 * Log the database information
+	 * 
+	 * @param h2zeroParser the h2zero parser
+	 */
+	private void logDatabaseInfo(H2ZeroParser h2zeroParser) {
+		if(verbose) {
+			SimpleLogger.logInfo(LoggerType.PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
+			ArrayList<Table> tables = h2zeroParser.getDatabase().getTables();
+			int maxTableNameLength = 0;
+
+			int maxFields = 0;
+			int maxFinders = 0;
+			int maxDeleters = 0;
+			int maxUpdaters = 0;
+			int maxInserters = 0;
+			int maxQuestions = 0;
+			int maxCounters = 0;
+
+			for (Table table : tables) {
+				int tableLength = table.getName().length();
+				if(tableLength > maxTableNameLength) {
+					maxTableNameLength = tableLength;
+				}
+
+				int fieldsSize = table.getFields().size();
+				if(fieldsSize > maxFields) { maxFields = fieldsSize; }
+
+				int findersSize = table.getFinders().size();
+				if(findersSize > maxFinders) { maxFinders = findersSize; }
+
+				int deletersSize = table.getDeleters().size();
+				if(deletersSize > maxDeleters) { maxDeleters = deletersSize; }
+
+				int updatersSize = table.getUpdaters().size();
+				if(updatersSize > maxUpdaters) { maxUpdaters = updatersSize; }
+
+				int insertersSize = table.getUpdaters().size();
+				if(insertersSize > maxInserters) { maxInserters = insertersSize; }
+
+				int questionsSize = table.getQuestions().size();
+				if(questionsSize > maxQuestions) { maxQuestions = questionsSize; }
+
+				int countersSize = table.getCounters().size();
+				if(countersSize > maxCounters) { maxCounters = countersSize; }
+			}
+
+			for (Table table : tables) {
+				SimpleLogger.logInfo(LoggerType.PARSE, "Found table " + String.format("%-" + maxTableNameLength + "s", table.getName()) + 
+						" [ " + 
+						String.format("%" + (maxFields + "").length() + "s fields, ", table.getFields().size()) + 
+						String.format("%" + (maxFinders + "").length() + "s finders, ", table.getFinders().size()) + 
+						String.format("%" + (maxDeleters + "").length() + "s deleters, ", table.getDeleters().size()) + 
+						String.format("%" + (maxUpdaters + "").length() + "s updaters, ", table.getUpdaters().size()) + 
+						String.format("%" + (maxInserters + "").length() + "s inserters, ", table.getInserters().size()) + 
+						String.format("%" + (maxQuestions + "").length() + "s questions, ", table.getQuestions().size()) + 
+						String.format("%" + (maxCounters + "").length() + "s counters", table.getCounters().size()) + 
+						" ] ");
+			}
+		}
 	}
 
 	/**

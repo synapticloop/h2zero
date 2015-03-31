@@ -9,3 +9,15 @@ import javax.servlet.jsp.tagext.BodyTagSupport;{\n}
 import org.apache.log4j.Logger;{\n}
 {\n}
 import {database.package}.model.util.Constants;{\n}
+
+{if table.isTable}
+	import {database.package}.model.{table.javaClassName};{\n}
+{else}
+	import {database.package}.view.{table.javaClassName};{\n}
+{endif}
+
+import {database.package}.finder.{table.javaClassName}{if table.isView}View{endif}Finder;{\n}
+
+{\n}
+
+

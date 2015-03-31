@@ -28,8 +28,14 @@ public class Counter extends BaseQueryObject {
 	public Counter(Table table, JSONObject counterObject) throws H2ZeroParseException {
 		super(table, counterObject);
 
+		// set up the default allowable keys
+		allowableJsonKeys.put(JSONKeyConstants.UNIQUE, UsageType.INVALID);
+		allowableJsonKeys.put(JSONKeyConstants.SELECT_CLAUSE, UsageType.MANDATORY);
+		allowableJsonKeys.put(JSONKeyConstants.SELECT_FIELDS, UsageType.INVALID);
+
 		if(null == selectClause) {
-			throw new H2ZeroParseException("Counters must always have a '" + JSONKeyConstants.SELECT_CLAUSE + "' and return one and only int object.");
+			// automatically add one 
+			this.selectClause = "select count(*) from " + table.getName() + " ";
 		}
 
 		populateWhereFields(counterObject);

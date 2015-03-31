@@ -31,6 +31,9 @@ public class Updater extends BaseQueryObject {
 	public Updater(Table table, JSONObject jsonObject) throws H2ZeroParseException {
 		super(table, jsonObject);
 
+		allowableJsonKeys.put(JSONKeyConstants.SET_CLAUSE, UsageType.MANDATORY);
+		allowableJsonKeys.put(JSONKeyConstants.SET_FIELDS, UsageType.OPTIONAL);
+
 		// now for the set fields
 		try {
 			JSONArray setFieldArray = jsonObject.getJSONArray(JSONKeyConstants.SET_FIELDS);

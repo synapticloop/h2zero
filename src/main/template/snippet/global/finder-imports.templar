@@ -20,3 +20,16 @@ import org.apache.log4j.Level;{\n}
 import org.apache.log4j.Logger;{\n}
 {\n}
 import {database.package}.model.util.Constants;{\n}
+
+{loop table.finders as finder}
+	{if fn:notNull[finder.selectClause]}
+		import {database.package}.bean.{finder.finderTagName}Bean;{\n}
+	{endif}
+{endloop}
+{\n}
+
+{if table.isTable}
+	import {database.package}.model.{table.javaClassName};{\n}
+{else}
+	import {database.package}.view.{table.javaClassName};{\n}
+{endif}

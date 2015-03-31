@@ -383,4 +383,7 @@ public class Table extends BaseSchemaObject {
 	// TODO - this needs to be removed - when deprecation is complete
 	public boolean getHasDeprecatedFinder() { return hasDeprecatedFinder; }
 	public LinkedHashMap<String, String> getDeprecatedFinders() { return(deprecatedFinders); }
+
+	public boolean getIsTable() { return(true); }
+	public boolean getIsView() { return(false); }
 }
