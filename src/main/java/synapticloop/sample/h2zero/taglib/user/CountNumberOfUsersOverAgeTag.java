@@ -15,6 +15,9 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.apache.log4j.Logger;
 
 import synapticloop.sample.h2zero.model.util.Constants;
+import synapticloop.sample.h2zero.model.User;
+import synapticloop.sample.h2zero.finder.UserFinder;
+
 import synapticloop.sample.h2zero.counter.UserCounter;
 
 public class CountNumberOfUsersOverAgeTag extends BodyTagSupport {

@@ -109,7 +109,7 @@
 {\t}{\t}{\t}"counters": [{\n}
 {\t}{\t}{\t}{\t}{{{\n}
 {\t}{\t}{\t}{\t}{\t}"name": "countNumberOfUsers",{\n}
-{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) from user"{\n}
+{\t}{\t}{\t}{\t}{\t}"selectClause": "select count(*) from user",{\n}
 {\t}{\t}{\t}{\t}},{\n}
 {\t}{\t}{\t}{\t}{{{\n}
 {\t}{\t}{\t}{\t}{\t}"name": "countNumberOfUsersOverAge",{\n}

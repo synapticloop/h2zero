@@ -19,6 +19,7 @@ import synapticloop.sample.h2zero.model.User;
 import synapticloop.sample.h2zero.finder.UserFinder;
 
 public class FindByTxtAddressEmailTxtPasswordTag extends BodyTagSupport {
+	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_binder;
 
 	private static final Logger LOGGER = Logger.getLogger(FindByTxtAddressEmailTxtPasswordTag.class);

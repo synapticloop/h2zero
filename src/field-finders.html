@@ -28,6 +28,80 @@
 				</code>
 			</pre>
 
+			<p>Adding the following <code>fieldFinders</code> JSON array of JSON Objects:</p>
+
+			<pre class="prettyprint">
+				<code>
+"fieldFinders": [{\n}
+{\t}{{ "nm_username": "unique" },{\n}
+{\t}{{ "txt_address_email": "unique" },{\n}
+{\t}{{ "num_age": "multiple" }{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				The name of the finder will be <code>findBy&lt;CamelCaseFieldName(s)&gt;</code>
+			</p>
+			<p>This will automatically generate three finders:</p>
+
+			<ol>
+				<li>
+					The first finder is <code>findByNmUsername</code>. which will return a unique <code>User</code> object that has 
+					one parameter passed into the method, namely <code>nmUsername</code>.
+				</li>
+
+				<li>
+					The second finder is <code>findByTxtAddressEmail</code>. which will return a unique <code>User</code> object that 
+					has one parameter passed into the method, namely <code>txtAddressEmail</code>.
+				</li>
+
+				<li>
+					The third finder is <code>findByNumAge</code> which will return an <code>ArrayList&lt;User&gt;</code> that has all 
+					of the users with a specific age.
+				</li>
+			</ol>
+
+			<p>
+				The alternate way to define the above finders is as follows (which would generate identical code):
+			</p>
+
+			<pre class="prettyprint">
+				<code>
+"finders": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findByNmUsername",{\n}
+{\t}{\t}"whereClause": "where nm_username = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"nm_username"{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": true{\n}
+{\t}},{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findByTxtAddressEmail",{\n}
+{\t}{\t}"whereClause": "where txt_address_email = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"txt_address_email"{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": true{\n}
+{\t}},{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findByNumAge",{\n}
+{\t}{\t}"whereClause": "where num_age = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"num_age"{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": false{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				Which as you can see is a lot more work, more prone to error and un-necessary for something that can be 
+				automatically generated.
+			</p>
+
 		</section>
 		{import src/imports/footer.templar}
 	</div>

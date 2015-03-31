@@ -26,8 +26,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import synapticloop.sample.h2zero.model.util.Constants;
-import synapticloop.sample.h2zero.model.UserPet;
 
+import synapticloop.sample.h2zero.model.UserPet;
 public class UserPetFinder {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
