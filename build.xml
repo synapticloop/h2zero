@@ -40,7 +40,7 @@
 			<fileset dir="src/main/java" includes="**/*.html" />
 		</replaceregexp>
 
-		<replaceregexp match="$" replace="&lt;/div&lt;&lt;/pre&lt;/code&gt;&lt;/html&gt;" flags="s">
+		<replaceregexp match="$" replace="&lt;/pre&lt;/code&gt;&lt;/div&gt;&lt;script src=&quot;/h2zero/javascripts/scale.fix.js&quot;&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" flags="s">
 			<fileset dir="src/main/java" includes="**/*.html" />
 		</replaceregexp>
 	</target>
