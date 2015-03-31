@@ -25,20 +25,20 @@
 		&raquo; <a href="options.html">Options</a><br />
 		&raquo; <a href="database.html">Database</a><br />
 		&raquo; <a href="tables.html">Tables</a><br />
-		-&raquo; <a href="fields.html">Fields</a><br />
-		-&raquo; <a href="finders.html">Finders</a><br />
-		-&raquo; <a href="field&raquo;finders.html">Field Finders</a><br />
-		-&raquo; <a href="deleters.html">Deleters</a><br />
-		-&raquo; <a href="inserters.html">Inserters</a><br />
-		-&raquo; <a href="updaters.html">Updaters</a><br />
-		-&raquo; <a href="questions.html">Questions</a><br />
-		-&raquo; <a href="counters.html">Counters</a><br />
-		-&raquo; <a href="constants.html">Constants</a><br />
+		&mdash;&raquo; <a href="fields.html">Fields</a><br />
+		&mdash;&raquo; <a href="finders.html">Finders</a><br />
+		&mdash;&raquo; <a href="field&raquo;finders.html">Field Finders</a><br />
+		&mdash;&raquo; <a href="deleters.html">Deleters</a><br />
+		&mdash;&raquo; <a href="inserters.html">Inserters</a><br />
+		&mdash;&raquo; <a href="updaters.html">Updaters</a><br />
+		&mdash;&raquo; <a href="questions.html">Questions</a><br />
+		&mdash;&raquo; <a href="counters.html">Counters</a><br />
+		&mdash;&raquo; <a href="constants.html">Constants</a><br />
 		&raquo; <a href="views.html">Views</a><br />
-		-&raquo; <a href="view-finders.html">Finders</a><br />
-		-&raquo; <a href="view-field-finders.html">Field Finders</a><br />
-		-&raquo; <a href="view-questions.html">Questions</a><br />
-		-&raquo; <a href="view-counters.html">Counters</a><br />
+		&mdash;&raquo; <a href="view-finders.html">Finders</a><br />
+		&mdash;&raquo; <a href="view-field-finders.html">Field Finders</a><br />
+		&mdash;&raquo; <a href="view-questions.html">Questions</a><br />
+		&mdash;&raquo; <a href="view-counters.html">Counters</a><br />
 	</p>
 
 	<hr />
