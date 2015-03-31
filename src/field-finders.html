@@ -8,9 +8,11 @@
 
 			{import src/imports/page-heading.templar}
 
-			<p>
-				Field finders are a simple way to generate singular finders that act on only one field.
+			<p> 
+				Field finders are a simple way to generate singular finders that act on one or more fields.  For field finders that 
+				query multiple fields, the fields should be separated by a comma ','.
 			</p>
+
 			<p>The key <code>fieldFinders</code> is a JSON Array of JSON Objects on the <code>table</code> JSON object, for example:</p>
 
 			<pre class="prettyprint">
@@ -35,7 +37,8 @@
 "fieldFinders": [{\n}
 {\t}{{ "nm_username": "unique" },{\n}
 {\t}{{ "txt_address_email": "unique" },{\n}
-{\t}{{ "num_age": "multiple" }{\n}
+{\t}{{ "num_age": "multiple" },{\n}
+{\t}{{ "fl_is_alive,num_age": "multiple" }{\n}
 ]{\n}
 				</code>
 			</pre>
@@ -43,7 +46,8 @@
 			<p>
 				The name of the finder will be <code>findBy&lt;CamelCaseFieldName(s)&gt;</code>
 			</p>
-			<p>This will automatically generate three finders:</p>
+
+			<p>This will automatically generate four finders:</p>
 
 			<ol>
 				<li>
@@ -59,6 +63,11 @@
 				<li>
 					The third finder is <code>findByNumAge</code> which will return an <code>ArrayList&lt;User&gt;</code> that has all 
 					of the users with a specific age.
+				</li>
+
+				<li>
+					The fourth and final finder is <code>findByFlIsAliveNumAge</code> which will return an <code>ArrayList&lt;User&gt;</code> 
+					that has all two parameters passed into it, namely <code>flIsAlive</code> and <code>findByNumAge</code>.
 				</li>
 			</ol>
 
@@ -92,7 +101,17 @@
 {\t}{\t}{\t}"num_age"{\n}
 {\t}{\t}],{\n}
 {\t}{\t}"unique": false{\n}
-{\t}}{\n}
+{\t}},{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findByFlIsAliveNumAge",{\n}
+{\t}{\t}"whereClause": "where fl_is_alive = ? and num_age = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"fl_is_alive",{\n}
+{\t}{\t}{\t}"num_age"{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": false{\n}
+{\t}},{\n}
+
 ]{\n}
 				</code>
 			</pre>

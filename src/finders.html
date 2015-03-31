@@ -9,21 +9,19 @@
 			{import src/imports/page-heading.templar}
 
 			<p>
-				Finders will most likely be the most often used elements of h2zero and can 
-				be configured in a variety of ways.
+				Finders will most likely be the most often used elements of h2zero and can be configured in a variety of ways.
 			</p>
 
 			<p>
-				Rather than configuring {import src/imports/links/selectClause.templar} bean 
-				(more on this below) type queries, the following shortcut finder generators 
-				are also available:
+				Rather than configuring {import src/imports/links/selectClause.templar} bean (more on this below) type queries, 
+				the following shortcut finder generators are also available:
 			</p>
 
 			<dl>
 				<dt>{import src/imports/links/fieldFinders.templar}</dt>
 				<dd>
-					For simple one parameter finders on a single field, which return either a unique object or an ArrayList of 
-					objects.
+					For simple finders on either a single, or multiple fields, which return either a unique object 
+					or an <code>ArrayList</code> of objects.
 				</dd>
 				<dt>{import src/imports/links/counters.templar}</dt>
 				<dd>For simple counts on objects that return one and only one Integer value per query.</dd>
@@ -68,7 +66,7 @@
 {\t}{\t}{\t}"txt_address_email",{\n}
 {\t}{\t}{\t}"txt_password"{\n}
 {\t}{\t}],{\n}
-{\t}"unique": true{\n}
+{\t}{\t}"unique": true{\n}
 {\t}}{\n}
 ]{\n}
 				</code>
@@ -112,16 +110,69 @@ public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection,
 			</h3>
 
 			<p>
-				In some  instances it is desirable to only return specific fields from the 
-				database, or to use in-built MySQL language functions that do not map directly 
-				to  a specific field in the table.  In this case the {import src/imports/links/selectClause.templar} 
-				finder is useful.
+				In some  instances it is desirable to only return specific fields from the database, or to use in-built MySQL 
+				language functions that do not map directly to a specific field in the table.  In this case the 
+				{import src/imports/links/selectClause.templar} finder is useful.
 			</p>
 
-			<pre>
+			<pre class="prettyprint">
 				<code>
+"finders": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findNmUserDtmSignup",{\n}
+{\t}{\t}"selectClause": "select nm_user, dtm_signup from user",{\n}
+{\t}{\t}"selectFields": [{\n}
+{\t}{\t}{\t}{{ "name": "nm_user", "type": "varchar" },{\n}
+{\t}{\t}{\t}{{ "name": "dtm_signup", "type": "datetime" }{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": false{\n}
+{\t}},{\n}
+]{\n}
 				</code>
 			</pre>
+
+			<p>
+				This will return multiple rows (if they exists) on a lookup by nm_user and dtm_signup.  Depending on 
+				the method signature, if the rows cannot be found an exception will be thrown.  if the <code>*Silent</code> 
+				method signature is used, then a <code>null</code> result will be returned.
+			</p>
+
+			<p>
+				Due to the fact that the entire table row is not being selected (only two of the fields are being selected) a 
+				bean is also generated for the returned results, which will contain getters and setters for all of the selected 
+				fields.  The bean name is <code>&lt;finderName&gt;Bean</code>. In the above example the bean name will be 
+				<code>findNmUserDtmSignupBean</code>
+			</p>
+
+			{set selectClauseUserFinder as code}
+			{import src/imports/links/link-to-code.templar}
+
+			{set selectClauseUserFinderBean as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent() {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Connection connection) {\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<p>
+				If the "taglibs" option is enabled, this will also generate a tag library (and its associated entry in the TLD) 
+				file.
+			</p>
+
+			{set selectClauseUserFinderTaglib as code}
+			{import src/imports/links/link-to-code.templar}
+
 
 		</section>
 		{import src/imports/footer.templar}

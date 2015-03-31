@@ -44,7 +44,8 @@
 {\t}{\t}{\t}"fieldFinders": [{\n}
 {\t}{\t}{\t}{\t}{{ "nm_username": "unique" },{\n}
 {\t}{\t}{\t}{\t}{{ "txt_address_email": "unique" },{\n}
-{\t}{\t}{\t}{\t}{{ "num_age": "multiple" }{\n}
+{\t}{\t}{\t}{\t}{{ "num_age": "multiple" },{\n}
+{\t}{\t}{\t}{\t}{{ "fl_is_alive,num_age": "multiple" }{\n}
 {\t}{\t}{\t}],{\n}
 {\n}
 {\n}

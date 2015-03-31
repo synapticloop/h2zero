@@ -18,3 +18,7 @@ keyUniqueInfo=<br /><br />If this interaction is expected to return a unique res
 
 defaultUserFinder=src/main/java/synapticloop/sample/h2zero/finder/UserFinder.java
 defaultUserFinderTaglib=src/main/java/synapticloop/sample/h2zero/taglib/user/FindByTxtAddressEmailTxtPasswordTag.java
+
+selectClauseUserFinder=src/main/java/synapticloop/sample/h2zero/finder/UserFinder.java
+selectClauseUserFinderTaglib=src/main/java/synapticloop/sample/h2zero/taglib/user/FindByFlIsAliveNumAgeTag.java
+selectClauseUserFinderBean=src/main/java/synapticloop/sample/h2zero/bean/FindNmUserDtmSignupBean.java

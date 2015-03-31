@@ -1,3 +1,3 @@
 <ul>
-	<li><a href="{code}"><code>{code}</code></a></li>
+	<li><code>{code}</code> <a href="{code}">[plain java</a> | <a href="{code}.html">pretty-printed]</a></li>
 </ul>
