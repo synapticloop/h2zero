@@ -76,7 +76,26 @@
 						{ "name": "num_age", "type": "int" }
 					],
 					"unique": false
+				},
+				{
+					"name": "findByNumAgeIn",
+					"whereClause": "where num_age in (...)",
+					"whereFields": [
+						"in:num_age"
+					],
+					"unique": false
+				},
+				{
+					"name": "findByNumAgeBetween",
+					"whereClause": "where num_age &gt; ? and num_age &lt; ?",
+					"whereFields": [
+						{ "name": "num_age", "alias": "numAgeMin" },
+						{ "name": "num_age", "alias": "numAgeMax" }
+					],
+					"unique": false
 				}
+
+
 			],
 
 			"questions": [

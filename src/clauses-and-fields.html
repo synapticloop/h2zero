@@ -18,8 +18,91 @@
 
 			<h4 id="whereClause">whereClause</h4>
 
+			<h5>whereClause with in: fields</h5>
+
+			<p>
+				The where can use any of the normal SQL statements that you would find, e.g. cros-selects, joins, parameters etc. 
+				However, there are some specific sytnactical features that need to be inserted for 'in clauses'.
+			</p>
+
+			<p>For example:</p>
+
+			<pre class="prettyprint">
+				<code>
+"finders": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findByNumAgeIn",{\n}
+{\t}{\t}"whereClause": "where num_age in (...)",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"in:num_age"{\n}
+{\t}{\t}]{\n}
+{\t}{\t}"unique": false{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				Note the <code>in (...)</code> which informs h2zero that a variable list of parameters may be queried on, this is 
+				then matched to the where fields <code>in:num_age</code> which determines the field lookup and generation.
+			</p>
+
+			<p>
+				Consequently the following method signatures are available:
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static List<User> findByNumAgeIn(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
+public static List<User> findByNumAgeIn(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
+public static List<User> findByNumAgeInSilent(List&lt;Integer&gt; numAgeList){\n}
+public static List<User> findByNumAgeInSilent(Connection connection, List&lt;Integer&gt; numAgeList){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
 
 			<h4 id="whereFields">whereFields</h4>
+
+			<h5>whereFields with alias fields</h5>
+
+			<p>
+				If a finder has multiple where fields of the same name, h2zero will de-duplicate the fields in the method signature, 
+				in some instances, you may wish to pass in the same field with different values.
+			</p>
+
+			<p>For example:</p>
+
+			<pre class="prettyprint">
+				<code>
+"finders": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findByNumAgeBetween",{\n}
+{\t}{\t}"whereClause": "where num_age &gt; ? and num_age &lt; ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeMin" },{\n}
+{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeMax" }{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": false{\n}
+{\t}}{\n}
+				</code>
+			</pre>
+
+			<p>
+				In the above example, the <code>num_age</code> field is used twice, with differing values.  TO differentiate between 
+				the passed in parameters, an alias is used to generate the following method signatures:
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static List<User> findByNumAgeBetween(Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
+public static List<User> findByNumAgeBetween(Connection connection, Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
+public static List<User> findByNumAgeBetweenSilent(Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
+public static List<User> findByNumAgeBetweenSilent(Connection connection, Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
 
 
 			<h4 id="insertClause">insertClause</h4>

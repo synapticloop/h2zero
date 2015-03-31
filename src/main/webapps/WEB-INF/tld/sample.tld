@@ -399,6 +399,80 @@
 
 	<tag>
 		<description>
+			Automaticall generated tag that maps to the findByNumAgeIn on the user table
+		</description>
+		<name>UserFindByNumAgeIn</name>
+		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByNumAgeInTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>
+				The variable to bind the results to
+			</description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Bind the numAge variable
+			</description>
+			<name>numAge</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Whether to remove the var at the end of the tag
+			</description>
+			<name>removeVar</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
+			Automaticall generated tag that maps to the findByNumAgeBetween on the user table
+		</description>
+		<name>UserFindByNumAgeBetween</name>
+		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByNumAgeBetweenTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>
+				The variable to bind the results to
+			</description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Bind the numAgeMin variable
+			</description>
+			<name>numAgeMin</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Bind the numAgeMax variable
+			</description>
+			<name>numAgeMax</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Whether to remove the var at the end of the tag
+			</description>
+			<name>removeVar</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
 			This is an in-built tag for the countAll function for the user table
 		</description>
 		<name>UserCountAll</name>

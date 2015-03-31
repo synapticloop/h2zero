@@ -106,7 +106,7 @@ public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection,
 
 			<h3>
 				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
-				selectClause Finders
+				selectClause Finders - subset of fields
 			</h3>
 
 			<p>
@@ -126,7 +126,7 @@ public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection,
 {\t}{\t}{\t}{{ "name": "dtm_signup", "type": "datetime" }{\n}
 {\t}{\t}],{\n}
 {\t}{\t}"unique": false{\n}
-{\t}},{\n}
+{\t}}{\n}
 ]{\n}
 				</code>
 			</pre>
@@ -173,6 +173,75 @@ public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Conn
 			{set selectClauseUserFinderTaglib as code}
 			{import src/imports/links/link-to-code.templar}
 
+			<h3>
+				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
+				selectClause Finders - MySQL in-built functions
+			</h3>
+
+			<p>
+				In some  instances it is desirable to only return specific fields from the database, or to use in-built MySQL 
+				language functions that do not map directly to a specific field in the table.  In this case the 
+				{import src/imports/links/selectClause.templar} finder is useful.
+			</p>
+
+			<pre class="prettyprint">
+				<code>
+"finders": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findGroupNumAge",{\n}
+{\t}{\t}"selectClause": "select count(*) as num_count, num_age from user group by num_count",{\n}
+{\t}{\t}"selectFields": [{\n}
+{\t}{\t}{\t}{{ "name": "num_count", "type": "int" },{\n}
+{\t}{\t}{\t}{{ "name": "num_age", "type": "int" }{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": false{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+
+			<p>
+				This will return multiple rows (if they exists) on a lookup by nm_user and dtm_signup.  Depending on 
+				the method signature, if the rows cannot be found an exception will be thrown.  if the <code>*Silent</code> 
+				method signature is used, then a <code>null</code> result will be returned.
+			</p>
+
+			<p>
+				Due to the fact that the entire table row is not being selected (only two of the fields are being selected) a 
+				bean is also generated for the returned results, which will contain getters and setters for all of the selected 
+				fields.  The bean name is <code>&lt;finderName&gt;Bean</code>. In the above example the bean name will be 
+				<code>findNmUserDtmSignupBean</code>
+			</p>
+
+			{set selectClauseUserFinder as code}
+			{import src/imports/links/link-to-code.templar}
+
+			{set selectClauseGroupUserFinderBean as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static List&lt;FindNmGroupNumAgeBean&gt; findGroupNumAge() throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmGroupNumAgeBean&gt; findGroupNumAge(Connection connection) throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmGroupNumAgeBean&gt; findGroupNumAgeSilent() {\n}
+public static List&lt;FindNmGroupNumAgeBean&gt; findGroupNumAgeSilent(Connection connection) {\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<p>
+				If the "taglibs" option is enabled, this will also generate a tag library (and its associated entry in the TLD) 
+				file.
+			</p>
+
+			{set selectClauseGroupUserFinderTaglib as code}
+			{import src/imports/links/link-to-code.templar}
 
 		</section>
 		{import src/imports/footer.templar}

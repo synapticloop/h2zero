@@ -49,13 +49,18 @@ public class UserFinder {
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START + " where txt_address_email = ? and txt_password = ?";
 	private static final String SQL_FIND_NM_USER_DTM_SIGNUP = "select nm_user, dtm_signup from user";
 	private static final String SQL_FIND_GROUP_NUM_AGE = "select count(*) as num_count, num_age from user group by num_count";
+	private static final String SQL_FIND_BY_NUM_AGE_IN = SQL_SELECT_START + " where num_age in (...)";
+	private static final String SQL_FIND_BY_NUM_AGE_BETWEEN = SQL_SELECT_START + " where num_age > ? and num_age < ?";
 
+	private static HashMap<String, String> findByNumAgeIn_statement_cache = new HashMap<String, String>();
 	private static HashMap<String, String> findAll_limit_statement_cache = new HashMap<String, String>();
 	private static HashMap<String, String> findByNumAge_limit_statement_cache = new HashMap<String, String>();
 	private static HashMap<String, String> findByFlIsAliveNumAge_limit_statement_cache = new HashMap<String, String>();
 	private static HashMap<String, String> findByNmUsername_limit_statement_cache = new HashMap<String, String>();
 	private static HashMap<String, String> findByTxtAddressEmail_limit_statement_cache = new HashMap<String, String>();
 	private static HashMap<String, String> findByTxtAddressEmailTxtPassword_limit_statement_cache = new HashMap<String, String>();
+	private static HashMap<String, String> findByNumAgeIn_limit_statement_cache = new HashMap<String, String>();
+	private static HashMap<String, String> findByNumAgeBetween_limit_statement_cache = new HashMap<String, String>();
 	/**
 	 * Find a User by its primary key
 	 * 
@@ -723,6 +728,230 @@ public class UserFinder {
 			}
 			return(null);
 	}
+	}
+
+	public static List<User> findByNumAgeIn(List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<User> results = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			if(findByNumAgeIn_statement_cache.containsKey(numAgeList.size() + ":" )) {
+				preparedStatement = connection.prepareStatement(findByNumAgeIn_statement_cache.get(numAgeList.size() + ":" ));
+			} else {
+				String preparedStatementTemp = SQL_FIND_BY_NUM_AGE_IN;
+				StringBuilder stringBuilder = null;
+				stringBuilder = new StringBuilder();
+				for(int i = 0; i < numAgeList.size(); i++) {
+					if(i > 0) {
+						stringBuilder.append(", ");
+					}
+					stringBuilder.append("?");
+				}
+				preparedStatementTemp = SQL_FIND_BY_NUM_AGE_IN.replaceFirst("\\.\\.\\.", stringBuilder.toString());
+				findByNumAgeIn_statement_cache.put(numAgeList.size() + ":" , preparedStatementTemp);
+				preparedStatement = connection.prepareStatement(preparedStatementTemp);
+			}
+			int i = 1;
+			for (Integer numAgeIn : numAgeList) {
+				ConnectionManager.setInt(preparedStatement, i, numAgeIn);
+				i++;
+			}
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		}
+
+
+		if(null == results) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<User> findByNumAgeIn(Connection connection, List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<User> results = null;
+		try {
+			if(findByNumAgeIn_statement_cache.containsKey(numAgeList.size() + ":" )) {
+				preparedStatement = connection.prepareStatement(findByNumAgeIn_statement_cache.get(numAgeList.size() + ":" ));
+			} else {
+				String preparedStatementTemp = SQL_FIND_BY_NUM_AGE_IN;
+				StringBuilder stringBuilder = null;
+				stringBuilder = new StringBuilder();
+				for(int i = 0; i < numAgeList.size(); i++) {
+					if(i > 0) {
+						stringBuilder.append(", ");
+					}
+					stringBuilder.append("?");
+				}
+				preparedStatementTemp = SQL_FIND_BY_NUM_AGE_IN.replaceFirst("\\.\\.\\.", stringBuilder.toString());
+				findByNumAgeIn_statement_cache.put(numAgeList.size() + ":" , preparedStatementTemp);
+				preparedStatement = connection.prepareStatement(preparedStatementTemp);
+			}
+			int i = 1;
+			for (Integer numAgeIn : numAgeList) {
+				ConnectionManager.setInt(preparedStatement, i, numAgeIn);
+				i++;
+			}
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+
+
+		if(null == results) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<User> findByNumAgeInSilent(List<Integer> numAgeList) {
+		try {
+			return(findByNumAgeIn(numAgeList));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByNumAgeInSilent(" + numAgeList + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByNumAgeInSilent(" + numAgeList + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		}
+	}
+
+	public static List<User> findByNumAgeInSilent(Connection connection, List<Integer> numAgeList) {
+		try {
+			return(findByNumAgeIn(numAgeList));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByNumAgeInSilent(" + numAgeList + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByNumAgeInSilent(" + numAgeList + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		}
+	}
+
+	public static List<User> findByNumAgeBetween(Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<User> results = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_NUM_AGE_BETWEEN);
+			ConnectionManager.setInt(preparedStatement, 1, numAgeMin);
+			ConnectionManager.setInt(preparedStatement, 2, numAgeMax);
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		}
+
+
+		if(null == results) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<User> findByNumAgeBetween(Connection connection, Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<User> results = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_FIND_BY_NUM_AGE_BETWEEN);
+			ConnectionManager.setInt(preparedStatement, 1, numAgeMin);
+			ConnectionManager.setInt(preparedStatement, 2, numAgeMax);
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+
+
+		if(null == results) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<User> findByNumAgeBetweenSilent(Integer numAgeMin, Integer numAgeMax) {
+		try {
+			return(findByNumAgeBetween(numAgeMin, numAgeMax));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByNumAgeBetweenSilent(" + numAgeMin + ", " + numAgeMax + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByNumAgeBetweenSilent(" + numAgeMin + ", " + numAgeMax + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		}
+	}
+
+	public static List<User> findByNumAgeBetweenSilent(Connection connection, Integer numAgeMin, Integer numAgeMax) {
+		try {
+			return(findByNumAgeBetween(numAgeMin, numAgeMax));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("H2ZeroFinderException findByNumAgeBetweenSilent(" + numAgeMin + ", " + numAgeMax + "): " + h2zfex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("SQLException findByNumAgeBetweenSilent(" + numAgeMin + ", " + numAgeMax + "): " + sqlex.getMessage());
+				if(LOGGER.isEnabledFor(Level.DEBUG)) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<User>());
+		}
 	}
 
 	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {

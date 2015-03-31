@@ -76,7 +76,26 @@
 {\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "type": "int" }{\n}
 {\t}{\t}{\t}{\t}{\t}],{\n}
 {\t}{\t}{\t}{\t}{\t}"unique": false{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "findByNumAgeIn",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereClause": "where num_age in (...)",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}"in:num_age"{\n}
+{\t}{\t}{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}{\t}{\t}"unique": false{\n}
+{\t}{\t}{\t}{\t}},{\n}
+{\t}{\t}{\t}{\t}{{{\n}
+{\t}{\t}{\t}{\t}{\t}"name": "findByNumAgeBetween",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereClause": "where num_age &gt; ? and num_age &lt; ?",{\n}
+{\t}{\t}{\t}{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeMin" },{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeMax" }{\n}
+{\t}{\t}{\t}{\t}{\t}],{\n}
+{\t}{\t}{\t}{\t}{\t}"unique": false{\n}
 {\t}{\t}{\t}{\t}}{\n}
+{\n}
+{\n}
 {\t}{\t}{\t}],{\n}
 {\n}
 {\t}{\t}{\t}"questions": [{\n}

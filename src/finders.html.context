@@ -20,5 +20,8 @@ defaultUserFinder=src/main/java/synapticloop/sample/h2zero/finder/UserFinder.jav
 defaultUserFinderTaglib=src/main/java/synapticloop/sample/h2zero/taglib/user/FindByTxtAddressEmailTxtPasswordTag.java
 
 selectClauseUserFinder=src/main/java/synapticloop/sample/h2zero/finder/UserFinder.java
-selectClauseUserFinderTaglib=src/main/java/synapticloop/sample/h2zero/taglib/user/FindByFlIsAliveNumAgeTag.java
+selectClauseUserFinderTaglib=src/main/java/synapticloop/sample/h2zero/taglib/user/FindNmUserDtmSignupTag.java
 selectClauseUserFinderBean=src/main/java/synapticloop/sample/h2zero/bean/FindNmUserDtmSignupBean.java
+
+selectClauseGroupUserFinderBean=src/main/java/synapticloop/sample/h2zero/bean/FindGroupNumAgeBean.java
+selectClauseGroupUserFinderTaglib=src/main/java/synapticloop/sample/h2zero/taglib/user/FindNmUserDtmSignupTag.java
