@@ -12,8 +12,6 @@ public class DeleterWhereClauseValidator extends Validator {
 
 	@Override
 	public void validate(Database database, Options options) {
-		isValid = true;
-
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<Deleter> deleters = table.getDeleters();
@@ -28,5 +26,4 @@ public class DeleterWhereClauseValidator extends Validator {
 			}
 		}
 	}
-
 }
