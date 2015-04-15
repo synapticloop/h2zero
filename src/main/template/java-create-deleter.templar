@@ -236,6 +236,30 @@ public class {table.javaClassName}Deleter {{{\n}
 {endloop}
 
 {loop table.deleters as deleter}
+	{\t}public static int {deleter.name}(
+	{--
+		Now for the where fields
+	}
+	{loop deleter.whereFields as whereField}
+		{whereField.javaType} {whereField.javaName}
+		{if whereFieldStatus.last}{else},{endif}
+	{endloop}
+
+	) {{{\n}
+	{\t}{\t}Connection connection;{\n}
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+	{\t}{\t}{\t}int numRowsDeleted = {deleter.name}(connection{if fn:>[deleterFieldsLength, 0]}, {endif}{loop deleter.whereFields as whereField}
+		{whereField.javaName}
+		{if whereFieldStatus.last}{else},{endif}
+	{endloop});{\n}
+	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+	{\t}{\t}{\t}return(numRowsDeleted);{\n}
+	{\t}{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}return(-1);{\n}
+	{\t}{\t}}{\n}
+	{\t}}{\n}
+
 	{\t}public static int {deleter.name}Silent(
 	{--
 		Now for the where fields
@@ -259,5 +283,29 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}
+
+{\n}
+
+	{\t}public static int {deleter.name}Silent(Connection connection
+	{--
+		Now for the where fields
+	}
+	{loop deleter.whereFields as whereField}
+		, {whereField.javaType} {whereField.javaName}
+	{endloop}
+
+	) {{{\n}
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, 0]}, {endif}{loop deleter.whereFields as whereField}
+		{whereField.javaName}
+		{if whereFieldStatus.last}{else},{endif}
+	{endloop}));{\n}
+	{\t}{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}return(-1);{\n}
+	{\t}{\t}}{\n}
+	{\t}}{\n}
+
 {endloop}
+
+
 }
