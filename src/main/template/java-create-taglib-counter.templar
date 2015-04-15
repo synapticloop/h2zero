@@ -14,6 +14,7 @@ import {database.package}.counter.{table.javaClassName}Counter;{\n}
 
 {set counter as baseQueryObject}
 
+@SuppressWarnings("serial"){\n}
 public class {counter.tagName}Tag extends BodyTagSupport {{{\n}
 
 	{import classpath:/snippet/global/java-taglib-members.templar}

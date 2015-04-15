@@ -9,6 +9,7 @@ package {database.package}.taglib.{table.javaFieldName};{\n}{\n}
 
 {import classpath:/snippet/global/java-taglib-imports.templar}
 
+@SuppressWarnings("serial"){\n}
 public class {finder.finderTagName}Tag extends BodyTagSupport {{{\n}
 	{\t}@SuppressWarnings("unused"){\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}

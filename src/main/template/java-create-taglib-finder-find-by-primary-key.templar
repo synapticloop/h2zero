@@ -20,6 +20,7 @@ import {database.package}.model.{table.javaClassName};{\n}
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
+@SuppressWarnings("serial"){\n}
 public class FindByPrimaryKeyTag extends BodyTagSupport {{{\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
 	{\t}private static final Logger LOGGER = Logger.getLogger(FindByPrimaryKeyTag.class);{\n}{\n}

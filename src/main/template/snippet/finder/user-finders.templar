@@ -8,9 +8,10 @@
 	{if fn:null[finder.selectClause]}
 		{\t}public static 
 		{if finder.unique}{tableOrView.javaClassName} {else}List<{tableOrView.javaClassName}> {endif}
-		{finder.name}(
-			{import classpath:/snippet/finder/method-parameters.templar}
-		) throws H2ZeroFinderException, SQLException {{{\n}
+			{finder.name}(
+				{import classpath:/snippet/finder/method-parameters.templar}
+			) throws H2ZeroFinderException, SQLException {{{\n}
+
 		{if finder.cache}
 			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
 			{\t}{\t}{\t}return(getCachedResults("{finder.name}"));{\n}
@@ -26,6 +27,7 @@
 		{else}
 			{\t}{\t}List<{tableOrView.javaClassName}> results = null;{\n}
 		{endif}
+
 		{\t}{\t}try {{{\n}
 		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 
@@ -35,13 +37,15 @@
 			{endloop})) {{{\n}
 
 			{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement({finder.name}_statement_cache.get(
-			{loop finder.inWhereFields as whereField}
-				{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
-			{endloop}));{\n}
+				{loop finder.inWhereFields as whereField}
+					{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
+				{endloop}));{\n}
+
 			{\t}{\t}{\t}} else {{{\n}
 
 			{\t}{\t}{\t}{\t}String preparedStatementTemp = SQL_{finder.staticName};{\n}
 			{\t}{\t}{\t}{\t}StringBuilder stringBuilder = null;{\n}
+
 			{loop finder.whereFields as whereField}
 				{if whereField.isInField}
 					{\t}{\t}{\t}{\t}stringBuilder = new StringBuilder();{\n}
@@ -241,166 +245,113 @@
 			{import classpath:/snippet/finder/method-parameters.templar}
 		) {{{\n}
 
+		{\t}{\t}try {{{\n}
+		{\t}{\t}{\t}return({finder.name}(
+			{import classpath:/snippet/finder/method-parameters-call.templar}
+		));{\n}
+		{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
+
+		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+		{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
+			{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
+		): " + h2zfex.getMessage());{\n}
+
+		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+		{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
+		{\t}{\t}{\t}{\t}}{\n}
+
+		{\t}{\t}{\t}}{\n}
+
 		{if finder.unique}
-			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}(
-				{import classpath:/snippet/finder/method-parameters-call.templar}
-			));{\n}
-			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
-
-			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-			): " + h2zfex.getMessage());{\n}
-
-			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-			{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-			{\t}{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}}{\n}
-
 			{\t}{\t}{\t}return(null);{\n}
-			{\t}{\t}} catch(SQLException sqlex) {{{\n}
-
-			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
-
-				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-			): " + sqlex.getMessage());{\n}
-
-			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-			{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-			{\t}{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}return(null);{\n}
-			{\t}{\t}}{\n}
 		{else}
-			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}(
-				{import classpath:/snippet/finder/method-parameters-call.templar}
-			));{\n}
-			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
-			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-
-				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-			): " + h2zfex.getMessage());{\n}
-
-			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-			{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-			{\t}{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}}{\n}
-
 			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-			{\t}{\t}} catch(SQLException sqlex) {{{\n}
-
-			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
-
-				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-			): " + sqlex.getMessage());{\n}
-
-			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-			{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-			{\t}{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-			{\t}{\t}}{\n}
 		{endif}
+
+		{\t}{\t}} catch(SQLException sqlex) {{{\n}
+
+		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+		{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
+
+			{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
+
+		): " + sqlex.getMessage());{\n}
+
+		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+		{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+		{\t}{\t}{\t}{\t}}{\n}
+
+		{\t}{\t}{\t}}{\n}
+
+		{if finder.unique}
+			{\t}{\t}{\t}return(null);{\n}
+		{else}
+			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
+		{endif}
+
+		{\t}{\t}}{\n}
+
 		{\t}}{\n}
 	{\n}
 
 
+		{--
+			Generate the silent finder for the above finder with a connection being 
+			passed in for any transactional lookups
+		}
 		{\t}public static 
 		{if finder.unique}{tableOrView.javaClassName} {else}List<{tableOrView.javaClassName}> {endif}
 		{finder.name}Silent(Connection connection
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 		) {{{\n}
 
+		{\t}{\t}try {{{\n}
+		{\t}{\t}{\t}return({finder.name}(connection
+			{import classpath:/snippet/finder/method-parameters-call-with-connection.templar}
+		));{\n}
+		{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
+
+		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+		{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
+
+			{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
+
+		): " + h2zfex.getMessage());{\n}
+
+		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+		{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
+		{\t}{\t}{\t}{\t}}{\n}
+
+		{\t}{\t}{\t}}{\n}
+
 		{if finder.unique}
-			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}(connection
-				{import classpath:/snippet/finder/method-parameters-call-with-connection.templar}
-			));{\n}
-			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
-
-			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-
-				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-			): " + h2zfex.getMessage());{\n}
-
-			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-			{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-			{\t}{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}}{\n}
-
 			{\t}{\t}{\t}return(null);{\n}
-			{\t}{\t}} catch(SQLException sqlex) {{{\n}
-
-			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
-
-				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-			): " + sqlex.getMessage());{\n}
-
-			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-			{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-			{\t}{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}return(null);{\n}
-			{\t}}{\n}
 		{else}
-			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}return({finder.name}(
-				{import classpath:/snippet/finder/method-parameters-call.templar}
-			));{\n}
-			{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
-			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-			{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-
-				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-			): " + h2zfex.getMessage());{\n}
-
-			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-			{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-			{\t}{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}}{\n}
-
 			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-			{\t}{\t}} catch(SQLException sqlex) {{{\n}
-
-			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-			{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
-
-				{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-			): " + sqlex.getMessage());{\n}
-
-			{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-			{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-			{\t}{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}}{\n}
-
-			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-			{\t}{\t}}{\n}
 		{endif}
+
+		{\t}{\t}} catch(SQLException sqlex) {{{\n}
+
+		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+		{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
+
+			{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
+
+		): " + sqlex.getMessage());{\n}
+
+		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+		{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+		{\t}{\t}{\t}{\t}}{\n}
+
+		{\t}{\t}{\t}}{\n}
+
+		{if finder.unique}
+			{\t}{\t}{\t}return(null);{\n}
+		{else}
+			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
+		{endif}
+
+		{\t}{\t}}{\n}
 		{\t}}{\n}
 	{\n}
 	{endif}
@@ -719,7 +670,6 @@
 		{endif}
 		{\t}}{\n}
 	{\n}
-
 
 
 		{\t}public static 

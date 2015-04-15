@@ -44,7 +44,7 @@
 
 	<target name="test-h2zero" description="test the h2zero generation">
 		<taskdef resource="h2zero.properties" classpath="${dist.dir}/h2zero.jar;${lib.dir}/templar.jar;${lib.dir}/log4j-1.2.17.jar;${lib.dir}/mail.jar" />
-		<h2zero in="src/test/java/tester.h2zero" outDir="generate" verbose="false" />
+		<h2zero in="src/test/java/insityou.h2zero" outDir="generate" verbose="true" />
 	</target>
 
 	<target name="test-h2zero-quick" description="test the h2zero quick generation">

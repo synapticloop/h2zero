@@ -9,7 +9,6 @@
 	{\t}}{\n}
 {\n}
 
-{\n}
 	{\t}public void setRemoveVar(boolean removeVar) {{{\n}
 	{\t}{\t}this.removeVar = removeVar;{\n}
 	{\t}}{\n}

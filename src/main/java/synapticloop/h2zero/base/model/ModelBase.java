@@ -68,7 +68,7 @@ public abstract class ModelBase {
 	protected abstract void delete() throws SQLException, H2ZeroPrimaryKeyException;
 	protected abstract void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 	protected abstract void deleteSilent();
-	protected abstract void deleteSilen(Connection connection);
+	protected abstract void deleteSilent(Connection connection);
 
 	/**
 	 * Determine whether the two objects differ

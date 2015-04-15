@@ -2,6 +2,8 @@ package synapticloop.h2zero.model.field;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,27 @@ import synapticloop.h2zero.util.NamingHelper;
 
 
 public abstract class BaseField {
+	private static String ALLOWABLE_UPDATE_DELETE_VALUES = null;
+	private static HashSet<String> ALLOWABLE_UPDATE_DELETE_ACTIONS = new HashSet<String>();
+	static {
+		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("RESTRICT");
+		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("CASCADE");
+		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("SET NULL");
+		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("NO ACTION");
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		Iterator<String> iterator = ALLOWABLE_UPDATE_DELETE_ACTIONS.iterator();
+		while (iterator.hasNext()) {
+			String value = (String) iterator.next();
+			stringBuilder.append("'" + value + "'");
+			if(iterator.hasNext()) {
+				stringBuilder.append(", ");
+			}
+		}
+		
+		ALLOWABLE_UPDATE_DELETE_VALUES = stringBuilder.toString();
+	}
+
 	private JSONObject jsonObjectConstructor = null;
 	protected String name = null;
 	private String alias = null;
@@ -31,6 +54,8 @@ public abstract class BaseField {
 	protected boolean secure = false;
 	protected boolean isInField = false;
 	protected boolean isLargeObject = false;
+	protected String onUpdate = null;
+	protected String onDelete = null;
 
 	protected String foreignKeyTable = null;
 	protected String foreignKeyField = null;
@@ -107,6 +132,35 @@ public abstract class BaseField {
 
 		AssertionHelper.assertNotNull("name", name);
 		AssertionHelper.assertNotNull("type", name);
+
+		// now we need the on cascades - but only if there are foreign keys
+
+		onDelete = jsonObject.optString(JSONKeyConstants.ON_DELETE, null);
+		if(null != onDelete) {
+			if(null == foreignKeyTable || null == foreignKeyTable) {
+				throw new H2ZeroParseException("Field '" + name + "' cannot have a '" + JSONKeyConstants.ON_DELETE + "' unless there is a '" + JSONKeyConstants.FOREIGN + "' on the same field.");
+			}
+
+			onDelete = onDelete.toUpperCase();
+			// make sure it is a valid value
+			if(!ALLOWABLE_UPDATE_DELETE_ACTIONS.contains(onDelete)) {
+				throw new H2ZeroParseException("Field '" + name + "' cannot have a '" + JSONKeyConstants.ON_DELETE + "' has an invalid value of '" + onDelete + "', allowable values are: " + ALLOWABLE_UPDATE_DELETE_VALUES);
+			}
+		}
+
+		
+		onUpdate = jsonObject.optString(JSONKeyConstants.ON_UPDATE, null);
+		if(null != onUpdate) {
+			if(null == foreignKeyTable || null == foreignKeyTable) {
+				throw new H2ZeroParseException("Field '" + name + "' cannot have a '" + JSONKeyConstants.ON_UPDATE + "' unless there is a '" + JSONKeyConstants.FOREIGN + "' on the same field.");
+			}
+
+			onUpdate = onUpdate.toUpperCase();
+			// make sure it is a valid value
+			if(!ALLOWABLE_UPDATE_DELETE_ACTIONS.contains(onUpdate)) {
+				throw new H2ZeroParseException("Field '" + name + "' cannot have a '" + JSONKeyConstants.ON_UPDATE + "' has an invalid value of '" + onUpdate + "', allowable values are: " + ALLOWABLE_UPDATE_DELETE_VALUES);
+			}
+		}
 
 		if(jsonObject.optString("finder", null) != null) {
 			// no validation done here - this should have already been done
@@ -251,6 +305,8 @@ public abstract class BaseField {
 	public boolean getHasAlias() { return(null != this.alias); }
 	public boolean getHasDeprecatedForeignKey() { return hasDeprecatedForeignKey; }
 	public void setHasDeprecatedForeignKey(boolean hasDeprecatedForeignKey) { this.hasDeprecatedForeignKey = hasDeprecatedForeignKey; }
+	public String getOnUpdate() { return(onUpdate); }
+	public String getOnDelete() { return(onDelete); }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public BaseField copy() throws H2ZeroParseException {

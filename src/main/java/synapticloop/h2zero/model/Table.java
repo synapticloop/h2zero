@@ -182,25 +182,25 @@ public class Table extends BaseSchemaObject {
 					setFieldLookup.put(name, setBaseField);
 					whereFieldLookup.put(name, whereBaseField);
 				} catch (ClassNotFoundException cnfex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "ClassNotFoundException: on table '" + this.name + "', throwing upwards...");
+					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "ClassNotFoundException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
 					throw new H2ZeroParseException(cnfex.getMessage());
 				} catch (SecurityException sex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "SecurityException: on table '" + this.name + "', throwing upwards...");
+					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "SecurityException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
 					throw new H2ZeroParseException(sex.getMessage());
 				} catch (NoSuchMethodException nsmex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "NoSuchMethodException: on table '" + this.name + "', throwing upwards...");
+					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "NoSuchMethodException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
 					throw new H2ZeroParseException(nsmex.getMessage());
 				} catch (IllegalArgumentException iaex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "IllegalArgumentException: on table '" + this.name + "', throwing upwards...");
+					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "IllegalArgumentException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
 					throw new H2ZeroParseException(iaex.getMessage());
 				} catch (InstantiationException iex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "InstantiationException: on table '" + this.name + "', throwing upwards...");
+					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "InstantiationException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
 					throw new H2ZeroParseException(iex.getMessage());
 				} catch (IllegalAccessException iaex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "IllegalAccessException: on table '" + this.name + "', throwing upwards...");
+					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "IllegalAccessException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
 					throw new H2ZeroParseException(iaex.getMessage());
 				} catch (InvocationTargetException itex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "InvocationTargetException: on table '" + this.name + "', throwing upwards...");
+					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "InvocationTargetException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
 					throw new H2ZeroParseException(itex.getCause().getMessage());
 				}
 			}

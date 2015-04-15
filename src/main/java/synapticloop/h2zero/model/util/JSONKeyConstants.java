@@ -56,4 +56,7 @@ public class JSONKeyConstants {
 	public static final String AS_CLAUSE = "asClause";
 
 	public static final String FOREIGN = "foreign";
+
+	public static final String ON_UPDATE = "onUpdate";
+	public static final String ON_DELETE = "onDelete";
 }

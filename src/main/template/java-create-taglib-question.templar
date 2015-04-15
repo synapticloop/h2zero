@@ -14,6 +14,7 @@ import {database.package}.question.{table.javaClassName}Question;{\n}
 
 {set question as baseQueryObject}
 
+@SuppressWarnings("serial"){\n}
 public class {question.tagName}Tag extends BodyTagSupport {{{\n}
 
 	{import classpath:/snippet/global/java-taglib-members.templar}
