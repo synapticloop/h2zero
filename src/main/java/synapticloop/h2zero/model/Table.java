@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.json.JSONArray;
@@ -355,30 +354,6 @@ public class Table extends BaseSchemaObject {
 	public boolean getHasQuestions() { return(questions.size() > 0); }
 
 	public boolean getIsConstant() { return(constants.size() > 0); }
-
-	public String getDropTableDefinition() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("drop table if exists " + name + ";\n");
-		return (stringBuilder.toString());
-	}
-
-	public String getCreateTableDefinition() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("create table if not exists " + name + " (\n");
-		// now for the fields
-		Iterator<BaseField> iterator = fields.iterator();
-
-		while (iterator.hasNext()) {
-			BaseField baseField = iterator.next();
-			stringBuilder.append(baseField.getCreateField());
-			if(iterator.hasNext()) {
-				stringBuilder.append(",");
-			}
-		}
-
-		stringBuilder.append(") engine=" + engine + " default charset=" + charset + ";\n");
-		return (stringBuilder.toString());
-	}
 
 	// TODO - this needs to be removed - when deprecation is complete
 	public boolean getHasDeprecatedFinder() { return hasDeprecatedFinder; }

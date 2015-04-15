@@ -80,7 +80,7 @@ use {database.schema};{\n}{\n}
 		{if fn:notNull[field.foreignKeyTable]}
 			{if fn:notNull[field.foreignKeyField]}
 				,{\n}{\t}foreign key ({field.name}) references {field.foreignKeyTable} ({field.foreignKeyField})
-				{if fn:notNull[field.onDelete]} ON DELETE {field.onUpdate}{endif}
+				{if fn:notNull[field.onDelete]} ON DELETE {field.onDelete}{endif}
 				{if fn:notNull[field.onUpdate]} ON UPDATE {field.onUpdate}{endif}
 			{endif}
 		{endif}

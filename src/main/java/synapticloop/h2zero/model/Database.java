@@ -154,24 +154,4 @@ public class Database {
 		}
 		return(maxNumField);
 	}
-
-	public String getDropDatabaseDefinition() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("drop database if exists " + schema + ";\n");
-		return (stringBuilder.toString());
-	}
-
-	public String getCreateDatabaseDefinition() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("create database if not exists " + schema + ";\n");
-
-		// now for the tables
-		Iterator<Table> iterator = tables.iterator();
-		while (iterator.hasNext()) {
-			Table table = iterator.next();
-			stringBuilder.append(table.getDropTableDefinition());
-			stringBuilder.append(table.getCreateTableDefinition());
-		}
-		return (stringBuilder.toString());
-	}
 }
