@@ -100,6 +100,18 @@
 				This allows the current key to reference a foreign key on another table, see the example below.
 			</td>
 		</tr>
+		<tr>
+			<td><strong>onUpdate</strong></td>
+			<td>optional</td>
+			<td>One of <code>RESTRICT</code>, <code>CASCADE</code>, <code>SET NULL</code>, <code>NO ACTION</code></td>
+			<td>The action to take for the mysql <code>ON UPDATE</code>, only valid if this field has a foreign key reference.</td>
+		</tr>
+		<tr>
+			<td><strong>onDelete</strong></td>
+			<td>optional</td>
+			<td>One of <code>RESTRICT</code>, <code>CASCADE</code>, <code>SET NULL</code>, <code>NO ACTION</code></td>
+			<td>The action to take for the mysql <code>ON DELETE</code>, only valid if this field has a foreign key reference.</td>
+		</tr>
 	</tbody>
 </table>
 

@@ -1,2 +1,4 @@
 object=View
 name=view
+tableUserTypeCodeLink=src/main/java/synapticloop/sample/h2zero/model/UserType.java
+tableUserCodeLink=src/main/java/synapticloop/sample/h2zero/model/User.java
