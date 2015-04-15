@@ -58,4 +58,46 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 {loop view.fields as field}
 	{\t}public {field.javaType} get{field.javaAccessorName}() {{ return(this.{field.javaName}); }{\n}{\n}
 {endloop}
+
+	{-- Now we need the toString Method--}
+	{\n}
+		{\t}public String toString() {{{\n}
+		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
+
+		{\t}{\t}stringBuilder.append("Model[{view.javaClassName}]\n");{\n}
+		{loop view.fields as field}
+			{\t}{\t}stringBuilder.append("  Field[{field.javaName}:" + this.{field.javaName} + "]\n");{\n}
+		{endloop}
+
+		{\t}{\t}return(stringBuilder.toString());{\n}
+		{\t}}{\n}
+
+
+	{-- Now we need the toJsonString Method--}
+	{\n}
+		{\t}public String toJsonString() {{{\n}
+		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
+
+		{\t}{\t}stringBuilder.append("{{\n");{\n}
+		{\t}{\t}stringBuilder.append("  \"model\": {{\n");{\n}
+		{\t}{\t}stringBuilder.append("    \"name\": \"{view.javaClassName}\",\n");{\n}
+		{\t}{\t}stringBuilder.append("    \"fields\": [\n");{\n}
+
+		{loop view.fields as field}
+			{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} }{if !fieldStatus.last}, {endif}\n");{\n}
+		{endloop}
+
+		{\t}{\t}stringBuilder.append("    ]\n");{\n}
+		{\t}{\t}stringBuilder.append("  }\n");{\n}
+		{\t}{\t}stringBuilder.append("}\n");{\n}
+
+		{\t}{\t}return(stringBuilder.toString());{\n}
+		{\t}}{\n}
+		{\n}
+
+	{-- and the getJSONString - for chaining --}
+	{\t}public String getJsonString() {{{\n}
+	{\t}{\t}return(toJsonString());{\n}
+	{\t}}{\n}
+
 }
