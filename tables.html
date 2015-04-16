@@ -79,4 +79,17 @@ public void deleteSilent()
 public void refreshSilent() 
 </code></pre><p><strong>Foreign key references</strong></p><pre class="prettyprint lang-java"><code>public UserType getUserType() 
 </code></pre><p>Where there is a foreign key reference to the table, not only can you retrieve the id for the foreign key, you may also get a direct reference to the model object, which will automatically find the object in the foreign table.</p><p>In the above code example this will retrieve the <code>UserType</code> object from the database with the associated primary key.</p><p><em>Note: In the case of a constant model (as is above) the lookup field on the constant model will be used, rather than a database query.</em></p><p><strong>Getters and setters</strong></p><pre class="prettyprint lang-java"><code>public void setIdUser(Long idUser) {if(isDifferent(this.idUser, idUser)) {this.idUser = idUser;this.isDirty = true;}}
-</code></pre><p>All getters are generated, the setters are generated (in highly compressed format) with a conditional check to ensure that if the member variable has not changed, the model will not be marked as dirty and any call to the update method signatures will do nothing.</p></section></div><script src="javascripts/scale.fix.js"></script></body></html>
+</code></pre><p>All getters are generated, the setters are generated (in highly compressed format) with a conditional check to ensure that if the member variable has not changed, the model will not be marked as dirty and any call to the update method signatures will do nothing.</p></section><script type="text/javascript">
+	var _paq = _paq || [];
+	_paq.push(['trackPageView']);
+	_paq.push(['enableLinkTracking']);
+	(function() {
+		var u="//piwik.synapticloop.com/";
+		_paq.push(['setTrackerUrl', u+'piwik.php']);
+		_paq.push(['setSiteId', 13]);
+		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+	})();
+</script>
+<noscript><p><img src="//piwik.synapticloop.com/piwik.php?idsite=13" style="border:0;" alt="" /></p></noscript>
+</div><script src="javascripts/scale.fix.js"></script></body></html>

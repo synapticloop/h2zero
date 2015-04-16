@@ -57,4 +57,17 @@ private static final String SQL_UPDATE = "update user set id_user_type = ?, fl_i
 private static final String SQL_DELETE = "delete from user where " + PRIMARY_KEY_FIELD + " = ?";
 private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user where id_user_type = ? and fl_is_alive = ? and num_age = ? and nm_username = ? and txt_address_email = ? and txt_password = ? and dtm_signup = ?";
 </code></pre><p>The basic CRUD operations for the model.  Each model knows how to create, read, update and delete itself from the database.  There is also an 'ensure' mode, which will be covered later in this documentation set.</p><p><strong>Constructors</strong></p><h4>Interactions</h4><blockquote>Please see the <a href="method-signatures.html"><code>method signatures</code></a> page for information about usage patterns for the various method signatures that are generated.</blockquote><p><strong>inserts - CRUD operators (and then some)</strong></p><p>Insert methods are not valid and consequently not generated on views as they create their rows from the <code>asClause</code>,</p><p><strong>ensure - CRUD operators (and then some)</strong></p><p>Ensure methods are not valid and consequently not generated on views as they create their rows from the <code>asClause</code>,</p><p><strong>updates - CRUD operators (and then some)</strong></p><p>Update methods are not valid and consequently not generated on views as they create their rows from the <code>asClause</code>,</p><p><strong>insert or updates - CRUD operators (and then some)</strong></p><p>Insert or update methods are not valid and consequently not generated on views as they create their rows from the <code>asClause</code>,</p><p><strong>deletes - CRUD operators (and then some)</strong></p><p>Delete methods are not valid and consequently not generated on views as they create their rows from the <code>asClause</code>,</p><p><strong>refreshes - CRUD operators (and then some)</strong></p><p>Refresh methods are not valid and consequently not generated on views as they create their rows from the <code>asClause</code>,</p><p><strong>Getters and setters</strong></p><pre class="prettyprint lang-java"><code>public void setIdUser(Long idUser)
-</code></pre><p>Only getters are generated.</p></section></div><script src="javascripts/scale.fix.js"></script></body></html>
+</code></pre><p>Only getters are generated.</p></section><script type="text/javascript">
+	var _paq = _paq || [];
+	_paq.push(['trackPageView']);
+	_paq.push(['enableLinkTracking']);
+	(function() {
+		var u="//piwik.synapticloop.com/";
+		_paq.push(['setTrackerUrl', u+'piwik.php']);
+		_paq.push(['setSiteId', 13]);
+		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+	})();
+</script>
+<noscript><p><img src="//piwik.synapticloop.com/piwik.php?idsite=13" style="border:0;" alt="" /></p></noscript>
+</div><script src="javascripts/scale.fix.js"></script></body></html>
