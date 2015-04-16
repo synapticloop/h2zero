@@ -9,7 +9,9 @@
 	<p>
 		&raquo; <a href="index.html">Home</a><br />
 		&raquo; <a href="quick-start.html">Quick Start</a><br />
-		&raquo; <a href="allowable-keys.html">Allowable Keys</a><br />
+		&raquo; Allowable JSON Keys Reference<br />
+		&mdash;&raquo; <a href="allowable-keys-schema-objects.html">Schema Objects</a><br />
+		&mdash;&raquo; <a href="allowable-keys-sql-interactions.html">SQL Interactions</a><br />
 		&raquo; <a href="database-naming-conventions.html">Database Naming Conventions</a><br />
 		&raquo; <a href="generated-code.html">Generated Code</a><br />
 		&raquo; <a href="method-signatures.html">Method Signatures</a><br />

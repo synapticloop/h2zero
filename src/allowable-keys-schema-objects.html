@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+{import src/imports/head.templar}
+<body>
+	<div class="wrapper">
+		{import src/imports/sidenav.templar}
+		<section>
+
+			<h3>
+				<a id="page-heading" class="anchor" href="#page-heading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Allowable JSON keys for SQL interaction objects
+			</h3>
+
+			<p>
+				SQL interaction objects are java objects that allow CRUD operations on the database.
+			</p>
+
+			<table class="keys">
+				<thead>
+					<tr>
+						<th>Key Name</th>
+						<th>Tables</th>
+						<th>Views</th>
+						<th>Notes</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td><code>name</code></td>
+						<td class="mandatory"><span>mandatory</span></td>
+						<td class="mandatory"><span>mandatory</span></td>
+						<td class="mandatory">Both tables and views <strong>MUST</strong> have a name</td>
+					</tr>
+					<tr>
+						<td><code>cacheable</code></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td>must be a boolean value of true or false, defaults to false</td>
+					</tr>
+					<tr>
+						<td><code>cacheFindAll</code></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td>must be a boolean value of true or false, defaults to false</td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/finders.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+
+					<tr>
+						<td>{import src/imports/links/whereClause.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/whereFields.templar}<br /> only if required by the where clause</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/insertClause.templar}</td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/valuesClause.templar}</td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="optional"><span>optional</span><br />only if there is no select clause</td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/valueFields.templar}</td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="optional"><span>optional</span><br />only if there is no select clause and there is a values clause</td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/setClause.templar}</td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="mandatory"><span>mandatory</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/setFields.templar}</td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="mandatory"><span>optional</span><br />only if required by the set clause</td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+					</tr>
+					<tr>
+						<td><code>orderBy</code></td>
+						<td class="optional"><span>optional</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td class="invalid"><span>invalid</span></td>
+					</tr>
+				<tbody>
+			</table>
+
+		</section>
+		{import src/imports/footer.templar}
+	</div>
+	<script src="javascripts/scale.fix.js"></script>
+
+</body>
+</html>
