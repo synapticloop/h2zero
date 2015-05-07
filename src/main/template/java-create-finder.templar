@@ -15,16 +15,6 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}private static final Logger LOGGER = Logger.getLogger({table.javaClassName}Finder.class);{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-			Is this cacheable?
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
-
-{if table.cacheable}
-	
-	{\t}private static ConcurrentHashMap<String, Boolean> SHOULD_REFRESH_CACHE = new ConcurrentHashMap<String, Boolean>();{\n}
-	{\t}private static ConcurrentHashMap<String, List<{table.javaClassName}>> CACHE = new ConcurrentHashMap<String, List<{table.javaClassName}>>();{\n}
-{endif}
-
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				FIRST UP THE FIELDS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
@@ -267,15 +257,6 @@ public class {table.javaClassName}Finder {{{\n}
 
 {\t}public static List<{table.javaClassName}> findAll(Integer limit, Integer offset) throws SQLException {{{\n}
 
-{if table.cacheFindAll}
-	{\t}{\t}if(!shouldRefresh("findAll")) {{{\n}
-	{\t}{\t}{\t}List<{table.javaClassName}> results = getCachedResults("findAll");{\n}
-	{\t}{\t}{\t}if(null != results) {{{\n}
-	{\t}{\t}{\t}{\t}return(results);{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}{\n}
-{endif}
-
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\t}{\t}ResultSet resultSet = null;{\n}
 {\t}{\t}Connection connection = null;{\n}
@@ -300,9 +281,6 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
 {\t}{\t}}{\n}
 {\n}
-{if table.cacheFindAll}
-	{\t}{\t}refreshCache("findAll", results);{\n}
-{endif}
 
 {\t}{\t}return(results);{\n}
 {\t}}{\n}
@@ -333,12 +311,4 @@ public class {table.javaClassName}Finder {{{\n}
 
 {set table as tableOrView}
 {import classpath:/snippet/finder/user-finders.templar}
-
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-			Is this cacheable?
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
-
-{if table.cacheable}
-	{import classpath:/snippet/finder/table-cache-methods.templar}
-{endif}
 }

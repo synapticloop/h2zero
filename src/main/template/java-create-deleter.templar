@@ -15,9 +15,6 @@ import java.sql.SQLException;{\n}
 import java.sql.Types;{\n}
 {\n}
 import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
-{if table.cacheable}
-	import {database.package}.finder.{table.javaClassName}Finder;{\n}
-{endif}
 
 import {database.package}.model.util.Constants;{\n}
 {\n}
@@ -69,9 +66,6 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY);{\n}
 	{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
 	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
-	{if table.cacheable}
-		{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
-	{endif}
 	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
 	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}{\n}
@@ -159,9 +153,6 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL);{\n}
 
 	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
-	{if table.cacheable}
-		{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
-	{endif}
 	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
 	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}{\n}
@@ -185,9 +176,6 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL_TRUNCATE);{\n}
 
 	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
-	{if table.cacheable}
-		{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
-	{endif}
 	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
 	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}{\n}
@@ -224,10 +212,6 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\n}
 
 	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
-
-	{if table.cacheable}
-		{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
-	{endif}
 
 	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
 	{\t}{\t}return(numResults);{\n}
