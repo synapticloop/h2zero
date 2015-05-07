@@ -11,6 +11,10 @@
 {\t}"tables": [{\n}
 {\t}{\t}{{{\n}
 {\t}{\t}{\t}"name": "user_type",{\n}
+{\t}{\t}{\t}"comments": [{\n}
+{\t}{\t}{\t}{\t}"This is the user type table, which is a constant-generated table for all",{\n}
+{\t}{\t}{\t}{\t}"of the user types."{\n}
+{\t}{\t}{\t}],{\n}
 {\t}{\t}{\t}"fields": [{\n}
 {\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false },{\n}

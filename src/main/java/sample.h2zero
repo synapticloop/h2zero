@@ -11,6 +11,10 @@
 	"tables": [
 		{
 			"name": "user_type",
+			"comments": [
+				"This is the user type table, which is a constant-generated table for all",
+				"of the user types."
+			],
 			"fields": [
 				{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },
 				{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false },
