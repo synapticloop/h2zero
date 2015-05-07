@@ -11,8 +11,6 @@
 {\t}"tables": [{\n}
 {\t}{\t}{{{\n}
 {\t}{\t}{\t}"name": "user_type",{\n}
-{\t}{\t}{\t}"cacheable": false,{\n}
-{\t}{\t}{\t}"cacheFindAll": false,{\n}
 {\t}{\t}{\t}"fields": [{\n}
 {\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false },{\n}
@@ -28,8 +26,6 @@
 {\n}
 {\t}{\t}{{{\n}
 {\t}{\t}{\t}"name": "user",{\n}
-{\t}{\t}{\t}"cacheable": false,{\n}
-{\t}{\t}{\t}"cacheFindAll": false,{\n}
 {\t}{\t}{\t}"fields": [{\n}
 {\t}{\t}{\t}{\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },{\n}
 {\t}{\t}{\t}{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user_type.id_user_type" },{\n}

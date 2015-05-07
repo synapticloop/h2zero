@@ -11,8 +11,6 @@
 	"tables": [
 		{
 			"name": "user_type",
-			"cacheable": false,
-			"cacheFindAll": false,
 			"fields": [
 				{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },
 				{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false },
@@ -28,8 +26,6 @@
 
 		{
 			"name": "user",
-			"cacheable": false,
-			"cacheFindAll": false,
 			"fields": [
 				{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },
 				{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user_type.id_user_type" },
