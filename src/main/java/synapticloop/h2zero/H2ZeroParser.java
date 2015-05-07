@@ -48,8 +48,6 @@ import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidat
 import synapticloop.h2zero.validator.question.QuestionKeyValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectClauseValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectFieldsValidator;
-import synapticloop.h2zero.validator.table.TableDeprecatedFinderKeyValidator;
-import synapticloop.h2zero.validator.table.TableDeprecatedForeignKeyValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyExistsValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyNameValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyTypeValidator;
@@ -87,8 +85,6 @@ public class H2ZeroParser {
 		validators.add(new TablePrimaryKeyExistsValidator());
 		validators.add(new TablePrimaryKeyNameValidator());
 		validators.add(new TablePrimaryKeyTypeValidator());
-		validators.add(new TableDeprecatedFinderKeyValidator());
-		validators.add(new TableDeprecatedForeignKeyValidator());
 
 		// Finder validators
 		validators.add(new FinderInQueryValidator());

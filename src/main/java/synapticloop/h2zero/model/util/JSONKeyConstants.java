@@ -59,4 +59,6 @@ public class JSONKeyConstants {
 
 	public static final String ON_UPDATE = "onUpdate";
 	public static final String ON_DELETE = "onDelete";
+
+	public static final String COMMENTS = "comments";
 }
