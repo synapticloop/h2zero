@@ -37,9 +37,6 @@ import {database.package}.model.util.Constants;{\n}
 		{endif}
 	{endloop}
 
-	{if table.cacheable}
-		import {database.package}.finder.{table.javaClassName}Finder;{\n}
-	{endif}
 {endif}
 
 {\n}{\n}
@@ -229,10 +226,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 	{endloop}
 
-	{if table.cacheable}
-		{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
-	{endif}
-
 	{\t}{\t}preparedStatement.executeUpdate();{\n}
 
 	{\t}{\t}ResultSet resultSet = preparedStatement.getGeneratedKeys();{\n}
@@ -319,10 +312,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{loop table.nonPrimaryFields as field}
 		{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 	{endloop}
-
-	{if table.cacheable}
-		{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
-	{endif}
 
 	{\t}{\t}ResultSet resultSet = preparedStatement.executeQuery();{\n}
 
@@ -575,9 +564,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{\t}{\t}this.{field.javaName} = {table.javaFieldName}.get{field.javaAccessorName}();{\n}
 		{endloop}
 
-		{if table.cacheable}
-			{\t}{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
-		{endif}
 	{\t}}{\n}
 	{\n}
 
@@ -640,10 +626,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 			{if fn:notNull[field.foreignKeyTable]}
 				this.{field.secondaryJavaName} = null;
-			{endif}
-
-			{if table.cacheable}
-				{table.javaClassName}Finder.markRefreshAllCaches();
 			{endif}
 
 				}

@@ -23,8 +23,6 @@ public class Table extends BaseSchemaObject {
 	private String charset = "UTF8";
 	private ArrayList<String> comments = new ArrayList<String>();
 
-	private boolean cacheable = false;
-	private boolean cacheFindAll = false;
 	private boolean hasLargeObject = false;
 
 	// a list of all of the fields that this table has
@@ -57,8 +55,6 @@ public class Table extends BaseSchemaObject {
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.engine = JsonHelper.getStringValue(jsonObject, "engine", engine);
 		this.charset = JsonHelper.getStringValue(jsonObject, "charset", charset);
-		this.cacheable = JsonHelper.getBooleanValue(jsonObject, "cacheable", cacheable);
-		this.cacheFindAll = JsonHelper.getBooleanValue(jsonObject, "cacheFindAll", cacheFindAll);
 		String tempComments = JsonHelper.getStringValue(jsonObject, "comment", null);
 
 		if(null != tempComments) {
@@ -343,8 +339,6 @@ public class Table extends BaseSchemaObject {
 
 	public ArrayList<BaseField> getNonNullFields() { return(nonNullFields); }
 	public ArrayList<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
-	public boolean getCacheable() { return(cacheable); }
-	public boolean getCacheFindAll() { return(cacheFindAll); }
 	public BaseField getSetField(String name) { return(setFieldLookup.get(name)); }
 	public BaseField getWhereField(String name) { return(whereFieldLookup.get(name)); }
 	public String getJavaClassName() { return(NamingHelper.getFirstUpper(name)); }

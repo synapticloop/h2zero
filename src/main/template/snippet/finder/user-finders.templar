@@ -12,12 +12,6 @@
 				{import classpath:/snippet/finder/method-parameters.templar}
 			) throws H2ZeroFinderException, SQLException {{{\n}
 
-		{if finder.cache}
-			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
-			{\t}{\t}{\t}return(getCachedResults("{finder.name}"));{\n}
-			{\t}{\t}}{\n}
-		{endif}
-
 		{\t}{\t}Connection connection = null;{\n}
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 		{\t}{\t}ResultSet resultSet = null;{\n}
@@ -97,10 +91,6 @@
 
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 				{\t}{\t}{\t}results = list(resultSet);{\n}
-
-				{if finder.cache}
-					{\t}{\t}{\t}refreshCache("{finder.name}", results);{\n}
-				{endif}
 	
 			{endif}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
@@ -130,11 +120,6 @@
 		{finder.name}(Connection connection
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 		) throws H2ZeroFinderException, SQLException {{{\n}
-		{if finder.cache}
-			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
-			{\t}{\t}{\t}return(getCachedResults("{finder.name}"));{\n}
-			{\t}{\t}}{\n}
-		{endif}
 
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 		{\t}{\t}ResultSet resultSet = null;{\n}
@@ -212,10 +197,6 @@
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 				{\t}{\t}{\t}results = list(resultSet);{\n}
 
-				{if finder.cache}
-					{\t}{\t}{\t}refreshCache("findByOrderedPlanAmount", results);{\n}
-				{endif}
-	
 			{endif}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
 		{\t}{\t}{\t}throw sqlex;{\n}
@@ -373,11 +354,6 @@
 			{import classpath:/snippet/finder/method-parameters.templar}
 
 		) throws H2ZeroFinderException, SQLException {{{\n}
-		{if finder.cache}
-			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
-			{\t}{\t}{\t}return(getCachedResults("{finder.name}"));{\n}
-			{\t}{\t}}{\n}
-		{endif}
 
 		{\t}{\t}Connection connection = null;{\n}
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
@@ -454,10 +430,6 @@
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 				{\t}{\t}{\t}List<{finder.finderTagName}Bean> results = list{finder.finderTagName}Bean(resultSet);{\n}
 
-				{if finder.cache}
-					{\t}{\t}{\t}refreshCache("findByOrderedPlanAmount", results);{\n}
-				{endif}
-	
 				{\t}{\t}{\t}return(results);{\n}
 			{endif}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
@@ -484,12 +456,6 @@
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 
 		) throws H2ZeroFinderException, SQLException {{{\n}
-		{if finder.cache}
-			{\t}{\t}if(!shouldRefresh("{finder.name}")){{{\n}
-			{\t}{\t}{\t}return(getCachedResults("{finder.name}"));{\n}
-			{\t}{\t}}{\n}
-		{endif}
-
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 		{\t}{\t}ResultSet resultSet = null;{\n}
 
@@ -562,10 +528,6 @@
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 				{\t}{\t}{\t}List<{finder.finderTagName}Bean> results = list{finder.finderTagName}Bean(resultSet);{\n}
 
-				{if finder.cache}
-					{\t}{\t}{\t}refreshCache("findByOrderedPlanAmount", results);{\n}
-				{endif}
-	
 				{\t}{\t}{\t}return(results);{\n}
 			{endif}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}

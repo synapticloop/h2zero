@@ -61,10 +61,6 @@ public class {table.javaClassName}Updater {{{\n}
 	{endloop}
 	{\n}
 
-	{if table.cacheable}
-		{\t}{\t}{table.javaClassName}Finder.markRefreshAllCaches();{\n}
-	{endif}
-
 	{\t}{\t}int numRowsUpdated = preparedStatement.executeUpdate();{\n}{\n}
 	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}{\n}
 	{\t}{\t}return(numRowsUpdated);{\n}
