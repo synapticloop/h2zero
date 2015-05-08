@@ -32,87 +32,69 @@
 						<td class="mandatory">Both tables and views <strong>MUST</strong> have a name</td>
 					</tr>
 					<tr>
+						<td>{import src/imports/links/fields.templar}</td>
+						<td class="mandatory"><span>mandatory</span></td>
+						<td class="mandatory"><span>mandatory</span></td>
+						<td>
+							Tables and views must have <code>fields</code> defined.  In the case of a <code>view</code> each field 
+							<strong>MUST</strong> match to the fields referenced is the <code>asClause</code>
+						</td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/finders.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td>By fefault the some finders are automatically generated, e.g. <code>findByPrimaryKey</code> and <code>findAll</code></td>
+					</tr>
+					<tr>
 						<td>{import src/imports/links/finders.templar}</td>
 						<td class="optional"><span>optional</span></td>
 						<td class="optional"><span>optional</span></td>
 						<td></td>
 					</tr>
+					<tr>
+						<td>{import src/imports/links/fieldFinders.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/deleters.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td>Views are not able to perform delete statements</td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/inserters.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td>Views are not able to perform insert statements</td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/updaters.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td>Views are not able to perform update statements</td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/questions.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/counters.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="optional"><span>optional</span></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>{import src/imports/links/constants.templar}</td>
+						<td class="optional"><span>optional</span></td>
+						<td class="invalid"><span>invalid</span></td>
+						<td>You cannot create a constant view.</td>
+					</tr>
 				</tbody>
-			</table>
-
-					<tr>
-						<td>{import src/imports/links/whereClause.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/whereFields.templar}<br /> only if required by the where clause</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/insertClause.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/valuesClause.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="optional"><span>optional</span><br />only if there is no select clause</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/valueFields.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="optional"><span>optional</span><br />only if there is no select clause and there is a values clause</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/setClause.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/setFields.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="mandatory"><span>optional</span><br />only if required by the set clause</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td><code>orderBy</code></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-				<tbody>
 			</table>
 
 		</section>
