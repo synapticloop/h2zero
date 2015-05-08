@@ -8,6 +8,13 @@ import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.validator.Validator;
 
+/**
+ * Validate that a constant table does not have any 'inserter' objects on it.  This will add a FATAL warning to the 
+ * validation stream
+ * 
+ * @author synapticloop
+ *
+ */
 public class ConstantInserterValidator extends Validator {
 
 	@Override

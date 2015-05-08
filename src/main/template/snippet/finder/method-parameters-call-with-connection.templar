@@ -3,7 +3,7 @@
 		, {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {else}
-	{loop finder.uniqueWhereFields as whereField}{if whereField.isInField}List{endif}
-		, {whereField.javaName}
+	{loop finder.uniqueWhereFields as whereField}
+		, {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {endif}

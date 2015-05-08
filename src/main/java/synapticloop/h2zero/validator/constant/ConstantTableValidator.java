@@ -9,6 +9,13 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.validator.Validator;
 
+/**
+ * Validate that values to be inserted into the constant table do not have duplicate primary key or constant label 
+ * values.  Any errors will add a FATAL message to the validation stream.
+ * 
+ * @author synapticloop
+ *
+ */
 public class ConstantTableValidator extends Validator {
 	HashSet<String> primaryKeyValues = new HashSet<String>();
 	HashSet<String> names = new HashSet<String>();
