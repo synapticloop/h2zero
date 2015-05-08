@@ -15,15 +15,23 @@ public class TableIgnoredKeysValidator extends Validator {
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
 			ArrayList<String> foundIgnoredKeys = table.getFoundIgnoredKeys();
+			String replacementKey = "There is no replacement for this key.";
 			for (String key : foundIgnoredKeys) {
-				addWarnMessage("Table '" + table.getName() + "' has a json key of '" + key + "' which is no longer valid and consequently ignored.");
+				if(table.getReplacementForKey(key) != null) {
+					replacementKey = "This should be replaced by key '" + table.getReplacementForKey(key) + "'.";
+				}
+				addWarnMessage("Table '" + table.getName() + "' has a json key of '" + key + "' which is no longer valid and consequently ignored.  " + replacementKey);
 			}
 
 			ArrayList<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
 				foundIgnoredKeys = baseField.getFoundIgnoredKeys();
 				for (String key : foundIgnoredKeys) {
-					addWarnMessage("Field '" + table.getName() + "." + baseField.getName() +  "' has a json key of '" + key + "' which is no longer valid and consequently ignored.");
+					replacementKey = "There is no replacement for this key.";
+					if(baseField.getReplacementForKey(key) != null) {
+						replacementKey = "This should be replaced by key '" + baseField.getReplacementForKey(key) + "'.";
+					}
+					addWarnMessage("Field '" + table.getName() + "." + baseField.getName() +  "' has a json key of '" + key + "' which is no longer valid and consequently ignored.  " + replacementKey);
 				}
 			}
 		}

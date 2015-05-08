@@ -3,6 +3,7 @@ package synapticloop.h2zero.model.field;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -43,7 +44,16 @@ public abstract class BaseField {
 	static {
 		ignoredKeys.add("foreign");
 		ignoredKeys.add("finder");
+		ignoredKeys.add("comment");
 	}
+
+	private static HashMap<String, String> replacementKeys = new HashMap<String, String>();
+	static {
+		replacementKeys.put("foreign", "foreignKey");
+		replacementKeys.put("finder", "fieldFinder");
+		replacementKeys.put("comment", "comments");
+	}
+
 	private ArrayList<String> foundIgnoredKeys = new ArrayList<String>();
 
 	private JSONObject jsonObjectConstructor = null;
@@ -304,6 +314,7 @@ public abstract class BaseField {
 	public String getOnDelete() { return(onDelete); }
 
 	public ArrayList<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
+	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public BaseField copy() throws H2ZeroParseException {

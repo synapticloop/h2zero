@@ -25,6 +25,11 @@ public class Table extends BaseSchemaObject {
 		ignoredKeys.add("cacheFindAll");
 	}
 
+	private static HashMap<String, String> replacementKeys = new HashMap<String, String>();
+	static {
+		replacementKeys.put("comment", "comments");
+	}
+
 	private ArrayList<String> foundIgnoredKeys = new ArrayList<String>();
 
 	private String engine = "innodb";
@@ -53,6 +58,12 @@ public class Table extends BaseSchemaObject {
 	private ArrayList<Counter> counters = new ArrayList<Counter>(); // a list of all of the counters
 	private ArrayList<Question> questions = new ArrayList<Question>(); // a list of all of the questions
 
+	/**
+	 * Create a new Table object from the passed in jsonObject.
+	 * 
+	 * @param jsonObject the json object to create the table from.
+	 * @throws H2ZeroParseException if there was an error parsing the jsonObject
+	 */
 	public Table(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 
@@ -86,6 +97,21 @@ public class Table extends BaseSchemaObject {
 
 	}
 
+	/**
+	 * Populate all of the actions that can be performed on this table, including 
+	 *  <ul>
+	 *    <li>field finders</li>
+	 *    <li>finders</li>
+	 *    <li>updaters</li>
+	 *    <li>deleters</li>
+	 *    <li>inserters</li>
+	 *    <li>constants</li>
+	 *    <li>counters</li>
+	 *    <li>questsions</li>
+	 *  </ul>
+	 * 
+	 * @throws H2ZeroParseException
+	 */
 	public void populateActions() throws H2ZeroParseException {
 		populateFieldFinders(jsonObject);
 		populateFinders(jsonObject);
@@ -317,6 +343,7 @@ public class Table extends BaseSchemaObject {
 		}
 	}
 
+	// boring old getters and setters
 	public String getEngine() { return(this.engine); }
 	public String getCharset() { return(this.charset); }
 	public ArrayList<String> getComments() { return comments; }
@@ -346,4 +373,5 @@ public class Table extends BaseSchemaObject {
 	public boolean getIsView() { return(false); }
 
 	public ArrayList<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
+	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
 }
