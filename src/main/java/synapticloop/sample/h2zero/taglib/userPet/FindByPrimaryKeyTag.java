@@ -14,6 +14,7 @@ import synapticloop.sample.h2zero.model.UserPet;
 import synapticloop.sample.h2zero.finder.UserPetFinder;
 import synapticloop.sample.h2zero.model.util.Constants;
 
+@SuppressWarnings("serial")
 public class FindByPrimaryKeyTag extends BodyTagSupport {
 	private static final String BINDER = Constants.USER_PET_binder;
 

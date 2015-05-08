@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import synapticloop.sample.h2zero.counter.PetCounter;
 import synapticloop.sample.h2zero.model.util.Constants;
 
+@SuppressWarnings("serial")
 public class CountAllTag extends BodyTagSupport {
 	private static final String BINDER = Constants.PET_binder;
 

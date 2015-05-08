@@ -320,7 +320,7 @@ public class UserFinder {
 
 	public static List<User> findByNumAgeSilent(Connection connection, Integer numAge) {
 		try {
-			return(findByNumAge(numAge));
+			return(findByNumAge(connection, numAge));
 		} catch(H2ZeroFinderException h2zfex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("H2ZeroFinderException findByNumAgeSilent(" + numAge + "): " + h2zfex.getMessage());
@@ -414,7 +414,7 @@ public class UserFinder {
 
 	public static List<User> findByFlIsAliveNumAgeSilent(Connection connection, Boolean flIsAlive, Integer numAge) {
 		try {
-			return(findByFlIsAliveNumAge(flIsAlive, numAge));
+			return(findByFlIsAliveNumAge(connection, flIsAlive, numAge));
 		} catch(H2ZeroFinderException h2zfex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("H2ZeroFinderException findByFlIsAliveNumAgeSilent(" + flIsAlive + ", " + numAge + "): " + h2zfex.getMessage());
@@ -529,7 +529,7 @@ public class UserFinder {
 				}
 			}
 			return(null);
-	}
+		}
 	}
 
 	public static User findByTxtAddressEmail(String txtAddressEmail) throws H2ZeroFinderException, SQLException {
@@ -627,7 +627,7 @@ public class UserFinder {
 				}
 			}
 			return(null);
-	}
+		}
 	}
 
 	public static User findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword) throws H2ZeroFinderException, SQLException {
@@ -727,7 +727,7 @@ public class UserFinder {
 				}
 			}
 			return(null);
-	}
+		}
 	}
 
 	public static List<User> findByNumAgeIn(List<Integer> numAgeList) throws H2ZeroFinderException, SQLException {
@@ -840,7 +840,7 @@ public class UserFinder {
 
 	public static List<User> findByNumAgeInSilent(Connection connection, List<Integer> numAgeList) {
 		try {
-			return(findByNumAgeIn(numAgeList));
+			return(findByNumAgeIn(connectionList, numAge));
 		} catch(H2ZeroFinderException h2zfex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("H2ZeroFinderException findByNumAgeInSilent(" + numAgeList + "): " + h2zfex.getMessage());
@@ -934,7 +934,7 @@ public class UserFinder {
 
 	public static List<User> findByNumAgeBetweenSilent(Connection connection, Integer numAgeMin, Integer numAgeMax) {
 		try {
-			return(findByNumAgeBetween(numAgeMin, numAgeMax));
+			return(findByNumAgeBetween(connection, numAgeMin, numAgeMax));
 		} catch(H2ZeroFinderException h2zfex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("H2ZeroFinderException findByNumAgeBetweenSilent(" + numAgeMin + ", " + numAgeMax + "): " + h2zfex.getMessage());

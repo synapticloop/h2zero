@@ -14,6 +14,7 @@ import synapticloop.sample.h2zero.model.User;
 import synapticloop.sample.h2zero.finder.UserFinder;
 import synapticloop.sample.h2zero.model.util.Constants;
 
+@SuppressWarnings("serial")
 public class FindAllTag extends BodyTagSupport {
 	private static final String BINDER = Constants.USER_binder;
 

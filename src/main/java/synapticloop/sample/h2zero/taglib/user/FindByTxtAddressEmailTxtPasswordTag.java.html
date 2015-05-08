@@ -18,6 +18,7 @@ import synapticloop.sample.h2zero.model.util.Constants;
 import synapticloop.sample.h2zero.model.User;
 import synapticloop.sample.h2zero.finder.UserFinder;
 
+@SuppressWarnings("serial")
 public class FindByTxtAddressEmailTxtPasswordTag extends BodyTagSupport {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_binder;
@@ -49,7 +50,6 @@ public class FindByTxtAddressEmailTxtPasswordTag extends BodyTagSupport {
 	public void setVar(String var) {
 		this.var = var;
 	}
-
 
 	public void setRemoveVar(boolean removeVar) {
 		this.removeVar = removeVar;

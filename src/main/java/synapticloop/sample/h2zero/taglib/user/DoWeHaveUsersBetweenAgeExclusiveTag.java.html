@@ -20,6 +20,7 @@ import synapticloop.sample.h2zero.finder.UserFinder;
 
 import synapticloop.sample.h2zero.question.UserQuestion;
 
+@SuppressWarnings("serial")
 public class DoWeHaveUsersBetweenAgeExclusiveTag extends BodyTagSupport {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -53,7 +54,6 @@ public class DoWeHaveUsersBetweenAgeExclusiveTag extends BodyTagSupport {
 	public void setVar(String var) {
 		this.var = var;
 	}
-
 
 	public void setRemoveVar(boolean removeVar) {
 		this.removeVar = removeVar;

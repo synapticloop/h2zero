@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import synapticloop.sample.h2zero.model.UserType;
 import synapticloop.sample.h2zero.model.util.Constants;
 
+@SuppressWarnings("serial")
 public class FindByPrimaryKeyTag extends BodyTagSupport {
 	private static final String BINDER = Constants.USER_TYPE_binder;
 

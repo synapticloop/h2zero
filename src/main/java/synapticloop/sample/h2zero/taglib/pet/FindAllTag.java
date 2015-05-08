@@ -14,6 +14,7 @@ import synapticloop.sample.h2zero.model.Pet;
 import synapticloop.sample.h2zero.finder.PetFinder;
 import synapticloop.sample.h2zero.model.util.Constants;
 
+@SuppressWarnings("serial")
 public class FindAllTag extends BodyTagSupport {
 	private static final String BINDER = Constants.PET_binder;
 

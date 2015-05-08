@@ -9,6 +9,10 @@ create database sample;
 
 use sample;
 
+--
+-- This is the user type table, which is a constant-generated table for all
+-- of the user types.
+--
 drop table if exists user_type;
 show warnings;
 

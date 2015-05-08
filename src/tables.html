@@ -25,6 +25,12 @@
 "tables": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "user_type",{\n}
+{\t}{\t}"engine": "innodb",{\n}
+{\t}{\t}"charset": "UTF8",{\n}
+{\t}{\t}"comments": [
+{\t}{\t}{\t}"comment for the table, which is an array and can be on multiple",
+{\t}{\t}{\t}"lines"{\n}
+{\t}{\t}],{\n}
 {\t}{\t}...{\n}
 {\t}},{\n}
 {\t}{{{\n}
@@ -34,6 +40,8 @@
 ]{\n}
 				</code>
 			</pre>
+
+			{import src/imports/tables/allowable-table-key-value-pairs.templar}
 
 			<p>
 				Each table <strong>MUST</strong> have a key of <code>name</code> which 

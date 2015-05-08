@@ -6,6 +6,10 @@
 		</fileset>
 	</path>
 
+	<target name="download-dependencies" description="">
+		<copy file="../h2zero/dist/h2zero.jar" todir="lib/runtime" overwrite="true" />
+	</target>
+
 	<target name="h2zero" description="h2zero generate">
 		<taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" />
 		<h2zero in="src/main/java/sample.h2zero" outDir="." verbose="false" />

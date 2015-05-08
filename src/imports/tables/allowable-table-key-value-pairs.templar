@@ -1,0 +1,55 @@
+<table>
+	<thead>
+		<tr>
+			<th>JSON key</th>
+			<th>usage</th>
+			<th>allowable values</th>
+			<th>notes</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>name</strong></td>
+			<td class="mandatory"><span>mandatory</span></td>
+			<td>any valid MySQL table name value</td>
+			<td>
+				Each table <strong>MUST</strong> have a name.  It is recommended to use 
+				<code>snake_case</code> for field naming.
+			</td>
+		</tr>
+		<tr>
+			<td><strong>engine</strong></td>
+			<td class="optional"><span>optional</span></td>
+			<td>
+				Any valid MySQL storage engine type, although it is recommended to use
+				<code>Innodb</code>.  The available storage types are:
+				<code>MyISAM</code>, 
+				<code>InnoDB</code>, 
+				<code>Memory</code>, 
+				<code>Merge</code>, 
+				<code>Archive</code>, 
+				<code>Federated</code>, 
+				<code>NDB</code>, 
+				<code>CSV</code>, 
+				<code>Blackhole</code>
+			</td>
+			<td>
+				The default is <code>innodb</code>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>charset</strong></td>
+			<td class="optional"><span>optional</span></td>
+			<td>Any valid MySQL character set</td>
+			<td>By default this is set to <code>UTF8</code>.</td>
+		</tr>
+		<tr>
+			<td><strong>comments</strong></td>
+			<td class="optional"><span>optional</span></td>
+			<td>A JSON Array of strings</td>
+			<td>These do not affect the code generation, but they do insert comments where possible</td>
+		</tr>
+	</tbody>
+</table>
+
