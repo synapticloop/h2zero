@@ -1,0 +1,29 @@
+<table>
+	<thead>
+		<tr>
+			<th>JSON key</th>
+			<th>usage</th>
+			<th>allowable values</th>
+			<th>notes</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>name</strong></td>
+			<td class="mandatory"><span>mandatory</span></td>
+			<td>any valid MySQL view name value</td>
+			<td>
+				Each view <strong>MUST</strong> have a name.  It is recommended to use 
+				<code>snake_case</code> for field naming.
+			</td>
+		</tr>
+		<tr>
+			<td><strong>comments</strong></td>
+			<td class="optional"><span>optional</span></td>
+			<td>A JSON Array of strings</td>
+			<td>These do not affect the code generation, but they do insert comments where possible</td>
+		</tr>
+	</tbody>
+</table>
+
