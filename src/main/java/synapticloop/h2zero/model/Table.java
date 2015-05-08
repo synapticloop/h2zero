@@ -18,6 +18,15 @@ import synapticloop.h2zero.util.SimpleLogger;
 
 
 public class Table extends BaseSchemaObject {
+	private static ArrayList<String> ignoredKeys = new ArrayList<String>();
+	static {
+		ignoredKeys.add("comment");
+		ignoredKeys.add("cacheable");
+		ignoredKeys.add("cacheFindAll");
+	}
+
+	private ArrayList<String> foundIgnoredKeys = new ArrayList<String>();
+
 	private String engine = "innodb";
 	private String charset = "UTF8";
 	private ArrayList<String> comments = new ArrayList<String>();
@@ -66,8 +75,15 @@ public class Table extends BaseSchemaObject {
 			throw new H2ZeroParseException("The table 'name' attribute cannot be null.");
 		}
 
+		for (String key : ignoredKeys) {
+			if(jsonObject.opt(key) != null) {
+				foundIgnoredKeys.add(key);
+			}
+		}
+
 		// now for the fields
 		populateFields(jsonObject);
+
 	}
 
 	public void populateActions() throws H2ZeroParseException {
@@ -328,4 +344,6 @@ public class Table extends BaseSchemaObject {
 
 	public boolean getIsTable() { return(true); }
 	public boolean getIsView() { return(false); }
+
+	public ArrayList<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 }
