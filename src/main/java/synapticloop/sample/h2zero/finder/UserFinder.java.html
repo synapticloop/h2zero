@@ -840,7 +840,7 @@ public class UserFinder {
 
 	public static List<User> findByNumAgeInSilent(Connection connection, List<Integer> numAgeList) {
 		try {
-			return(findByNumAgeIn(connectionList, numAge));
+			return(findByNumAgeIn(connection, numAgeList));
 		} catch(H2ZeroFinderException h2zfex) {
 			if(LOGGER.isEnabledFor(Level.WARN)) {
 				LOGGER.warn("H2ZeroFinderException findByNumAgeInSilent(" + numAgeList + "): " + h2zfex.getMessage());
