@@ -17,6 +17,14 @@ public class Inserter extends BaseQueryObject {
 		allowableJsonKeys.put(JSONKeyConstants.INSERT_CLAUSE, UsageType.OPTIONAL);
 		allowableJsonKeys.put(JSONKeyConstants.VALUE_FIELDS, UsageType.OPTIONAL);
 
+		if(null != selectClause) {
+			populateFields(inserterObject, JSONKeyConstants.SELECT_FIELDS, selectFields, uniqueSelectFields);
+		}
+
+		if(null != whereClause) {
+			populateFields(inserterObject, JSONKeyConstants.WHERE_FIELDS, whereFields, uniqueWhereFields);
+		}
+
 		// TODO - in the base query object class perhaps???
 		// now for the value fields
 		try {
@@ -39,6 +47,10 @@ public class Inserter extends BaseQueryObject {
 			}
 		} catch (JSONException ojjsonex) {
 			// do nothing
+		}
+
+		if(null == name) {
+			throw new H2ZeroParseException("The inserter 'name' attribute cannot be null for table '" + table.getName() + "'.");
 		}
 
 		if(null != insertClause) {

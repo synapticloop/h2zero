@@ -45,6 +45,8 @@ public class Counter extends BaseQueryObject {
 			// automatically add one 
 			this.selectClause = "select count(*) from " + table.getName() + " ";
 		}
+
+		populateWhereFields(counterObject);
 	}
 
 	public String getBaseQueryObjectType() {

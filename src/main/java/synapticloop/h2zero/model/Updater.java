@@ -58,7 +58,8 @@ public class Updater extends BaseQueryObject {
 		}
 
 		// TODO - this needs both a set and where field...
-		
+		// this is probably going to end up with the wrong generation as the same value is used for the set and where fields
+		// which the other base sql objects are not aware of...  This skips all of the aliases and in fields...
 		try {
 			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 			for (int i = 0; i < whereFieldArray.length(); i++) {

@@ -33,6 +33,18 @@ public class Finder extends BaseQueryObject {
 		// if we have a select clause then we are returning a bean...
 
 		this.unique = JsonHelper.getBooleanValue(finderObject, JSONKeyConstants.UNIQUE, unique);
+
+		// now for the select fields
+		if(null != selectClause) {
+			populateFields(finderObject, JSONKeyConstants.SELECT_FIELDS, selectFields, uniqueSelectFields);
+		}
+
+		this.unique = JsonHelper.getBooleanValue(finderObject, JSONKeyConstants.UNIQUE, unique);
+
+		// we may not have any whereFields
+		if(null != whereClause) {
+			populateWhereFields(finderObject);
+		}
 	}
 
 	public String getFinderTagName() { return(NamingHelper.getFirstUpper(name)); }

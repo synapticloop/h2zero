@@ -26,6 +26,8 @@ public class Deleter extends BaseQueryObject {
 
 	public Deleter(Table table, JSONObject jsonObject) throws H2ZeroParseException {
 		super(table, jsonObject);
+
+		populateWhereFields(jsonObject);
 	}
 
 	public String getBaseQueryObjectType() {
