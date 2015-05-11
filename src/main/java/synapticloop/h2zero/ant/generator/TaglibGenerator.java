@@ -18,6 +18,20 @@ import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
 
+/**
+ * This generator will generate all of the java classes for the tag libraries and the tag library descriptor file
+ * 
+ * <ul>
+ *   <li>Finders</li>
+ *   <li>Counters</li>
+ *   <li>Questions</li>
+ *   <li>FindByPrimaryKey</li>
+ *   <li>FindAll</li>
+ *   <li>CountAll</li>
+ * </ul>
+ * @author synapticloop
+ *
+ */
 public class TaglibGenerator extends Generator {
 
 	public TaglibGenerator(Database database, Options options, File outFile, boolean verbose) {

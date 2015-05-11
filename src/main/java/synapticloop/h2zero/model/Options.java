@@ -13,7 +13,7 @@ import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 
 public class Options {
-	private boolean statistics = false;
+	private boolean metrics = false;
 	private String logging = "";
 
 	private HashSet<String> generators = new HashSet<String>();
@@ -50,7 +50,7 @@ public class Options {
 			return;
 		}
 
-		this.statistics = optionsJson.optBoolean("statistics", false);
+		this.metrics = optionsJson.optBoolean("metrics", false);
 		this.logging = optionsJson.optString("logging", "");
 
 		JSONArray generatorArray = optionsJson.optJSONArray("generators");
@@ -105,8 +105,8 @@ public class Options {
 
 	public boolean hasGenerator(String generator) { return(generators.contains(generator)); }
 	public boolean hasGenerators() { return(generators.size() != 0); }
-	public boolean getStatistics() { return statistics; }
-	public void setStatistics(boolean statistics) { this.statistics = statistics; }
+	public boolean getMetrics() { return metrics; }
+	public void setMetrics(boolean metrics) { this.metrics = metrics; }
 	public String getLogging() { return logging; }
 	public void setLogging(String logging) { this.logging = logging; }
 	public boolean hasLogging() { return(!this.logging.equals("")); }
