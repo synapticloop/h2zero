@@ -1,16 +1,35 @@
 package synapticloop.h2zero.ant.generator;
 
+import java.io.File;
+
+import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import synapticloop.templar.Parser;
+import synapticloop.templar.exception.ParseException;
+import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
 
-public class SqlGenerator implements Generator {
+public class SqlGenerator extends Generator {
 
-	private TemplarContext templarContext;
-
-	public SqlGenerator(TemplarContext templarContext) {
-		this.templarContext = templarContext;
+	public SqlGenerator(Database database, Options options, File outFile, boolean verbose) {
+		super(database, options, outFile, verbose);
 	}
 
-	public void generate() {
+	public void generate() throws RenderException, ParseException {
+		if(!options.hasGenerator(Options.OPTION_SQL)) {
+			return;
+		}
+
+		Parser sqlCreateDatabaseParser = getParser("/sql-create-database.templar");
+
+		TemplarContext templarContext = getDefaultTemplarContext();
+
+		SimpleLogger.logInfo(LoggerType.GENERATE, "[ SQL ] Generating for database '" + database.getSchema() + "'.");
+		// first up the database creation script
+		String pathname = outFile + "/src/main/sql/create-database.sql";
+		renderToFile(templarContext, sqlCreateDatabaseParser, pathname);
 	}
 
 }
