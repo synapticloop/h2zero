@@ -58,8 +58,6 @@ public class Updater extends BaseQueryObject {
 		}
 
 		// TODO - this needs both a set and where field...
-		//populateWhereFields(jsonObject);
-		// and the where fields
 		try {
 			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 			for (int i = 0; i < whereFieldArray.length(); i++) {
@@ -81,7 +79,7 @@ public class Updater extends BaseQueryObject {
 		}
 
 		if(null == name) {
-			throw new H2ZeroParseException("The updater 'name' attribute cannot be null.");
+			throw new H2ZeroParseException("The updater '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
 		}
 	}
 

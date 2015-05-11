@@ -21,7 +21,6 @@ package synapticloop.h2zero.model;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,26 +33,24 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
-public class Finder {
-	private String name;
-	private String selectClause;
-	private String whereClause;
-	private String orderBy;
-
-	private ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
-	private LinkedHashMap<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
-	private ArrayList<BaseField> selectFields = new ArrayList<BaseField>();
-
+public class Finder extends BaseQueryObject {
+//	private String name;
+//	private String selectClause;
+//	private String whereClause;
+//	private String orderBy;
+//
+//	private ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
+//	private LinkedHashMap<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
+//	private ArrayList<BaseField> selectFields = new ArrayList<BaseField>();
+//
 	private boolean unique = false;
-	private boolean cache = false;
-	private boolean hasInFields = false;
-	private ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
+//	private boolean cache = false;
+//	private boolean hasInFields = false;
+//	private ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
 	private boolean hasWhereFieldAliases = false;
-	private BaseSchemaObject baseSchemaObject;
 
-	public Finder(JSONObject jsonObject, BaseSchemaObject baseSchemaObject) throws H2ZeroParseException {
-		this.baseSchemaObject = baseSchemaObject;
-		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
+	public Finder(BaseSchemaObject baseSchemaObject, JSONObject jsonObject) throws H2ZeroParseException {
+		super(baseSchemaObject, jsonObject);
 		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
 		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
 		// if we have a select clause then we are returning a bean...
@@ -64,7 +61,6 @@ public class Finder {
 		}
 
 		this.unique = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, unique);
-		this.cache = JsonHelper.getBooleanValue(jsonObject, "cache", cache);
 
 		// now for the where clauses
 		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
@@ -183,7 +179,6 @@ public class Finder {
 	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
 	public ArrayList<BaseField> getSelectFields() { return(selectFields); }
 	public ArrayList<BaseField> getInWhereFields() { return(inWhereFields); }
-	public boolean getCache() { return(cache); }
 	public boolean getHasInFields() { return(hasInFields); }
 	public String getSelectClause() { return selectClause; }
 	public void setSelectClause(String selectClause) { this.selectClause = selectClause; }
@@ -197,4 +192,11 @@ public class Finder {
 	 * @return whether this finder has where field aliases
 	 */
 	public boolean getHasWhereFieldAliases() { return hasWhereFieldAliases;}
+
+
+	@Override
+	public String getBaseQueryObjectType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
