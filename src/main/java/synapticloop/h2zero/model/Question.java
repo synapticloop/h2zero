@@ -42,12 +42,6 @@ public class Question extends BaseQueryObject {
 		if(null == selectClause) {
 			throw new H2ZeroParseException("Questions must always have a '" + JSONKeyConstants.SELECT_CLAUSE + "' and return one and only one boolean object.");
 		}
-
-		populateWhereFields(questionObject);
-
-		if(null == name) {
-			throw new H2ZeroParseException("The question '"  + JSONKeyConstants.NAME + "' attribute cannot be null.");
-		}
 	}
 
 	public String getBaseQueryObjectType() {

@@ -65,7 +65,7 @@ public abstract class BaseQueryObject {
 	protected ArrayList<BaseField> updateFields = new ArrayList<BaseField>();
 	protected LinkedHashMap<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
 
-	protected BaseQueryObject(BaseSchemaObject baseSchemaObject, JSONObject jsonObject) {
+	protected BaseQueryObject(BaseSchemaObject baseSchemaObject, JSONObject jsonObject) throws H2ZeroParseException {
 		// set up the default allowable keys
 		allowableJsonKeys.put(JSONKeyConstants.NAME, UsageType.MANDATORY);
 		allowableJsonKeys.put(JSONKeyConstants.UNIQUE, UsageType.INVALID);
@@ -84,8 +84,15 @@ public abstract class BaseQueryObject {
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
+		// now for the select fields
+		if(null != selectClause) {
+			populateFields(jsonObject, JSONKeyConstants.SELECT_FIELDS, selectFields, uniqueSelectFields);
+		}
 
 		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
+		if(null != whereClause) {
+			populateWhereFields(jsonObject);
+		}
 
 		this.insertClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.INSERT_CLAUSE, null);
 		this.valuesClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.VALUES_CLAUSE, null);
@@ -93,6 +100,10 @@ public abstract class BaseQueryObject {
 
 		this.orderBy = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ORDER_BY, null);
 		this.jsonUniqueKey = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, null);
+
+		if(null == name) {
+			throw new H2ZeroParseException("The '" + getBaseQueryObjectType() + "' '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
+		}
 	}
 
 	public abstract String getBaseQueryObjectType();

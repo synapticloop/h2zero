@@ -45,12 +45,6 @@ public class Counter extends BaseQueryObject {
 			// automatically add one 
 			this.selectClause = "select count(*) from " + table.getName() + " ";
 		}
-
-		populateWhereFields(counterObject);
-
-		if(null == name) {
-			throw new H2ZeroParseException("The counter '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
-		}
 	}
 
 	public String getBaseQueryObjectType() {

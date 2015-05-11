@@ -21,18 +21,11 @@ package synapticloop.h2zero.model;
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
-import synapticloop.h2zero.model.util.JSONKeyConstants;
 
 public class Deleter extends BaseQueryObject {
 
 	public Deleter(Table table, JSONObject jsonObject) throws H2ZeroParseException {
 		super(table, jsonObject);
-
-		populateWhereFields(jsonObject);
-
-		if(null == name) {
-			throw new H2ZeroParseException("The deleter '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
-		}
 	}
 
 	public String getBaseQueryObjectType() {
