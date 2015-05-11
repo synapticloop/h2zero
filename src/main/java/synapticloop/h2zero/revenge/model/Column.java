@@ -10,7 +10,6 @@ public class Column {
 		LENGTH_DATA_TYPES.add("varchar");
 		LENGTH_DATA_TYPES.add("tinyint");
 	}
-	private static final String SQL_FIND_FOREIGN_KEYS = "select * from KEY_COLUMN_USAGE where REFERENCED_TABLE_SCHEMA = ? and TABLE_NAME = ? and COLUMN_NAME = ?";
 
 	private String name = null;
 	private String dataType = null;
@@ -26,7 +25,11 @@ public class Column {
 	private boolean hasDefault = false;
 	private boolean hasLength = false;
 
-	private boolean hasForeignKey = false;
+	private String foreignKeyTable = null;
+	private String foreignKeyColumn = null;
+	
+	private boolean isIndexed = false;
+	private boolean isUnique = false;
 
 	public Column(ResultSet resultSet) throws SQLException {
 		this.name = resultSet.getString("COLUMN_NAME");
@@ -50,24 +53,50 @@ public class Column {
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("        { ");
-		stringBuilder.append("\"name\": \"" + name + "\", ");
-		stringBuilder.append("\"type\": \"" + dataType + "\", ");
+		stringBuilder.append("\"name\": \"" + name + "\"");
+		stringBuilder.append(", \"type\": \"" + dataType + "\"");
 
 		if(this.dataType.equals("tinyint")) {
 			stringBuilder.append("length: \"1, ");
 		} else if(null != length && length.longValue() != 0) {
-			stringBuilder.append("\"length\": " + length + ", ");
+			stringBuilder.append(", \"length\": " + length);
 		}
 
-		stringBuilder.append("\"nullable\": " + isNullable + ", ");
+		stringBuilder.append(", \"nullable\": " + isNullable);
 
 		if(hasDefault) {
-			stringBuilder.append(" \"default\": \"" + defaultValue + "\", ");
+			stringBuilder.append(", \"default\": \"" + defaultValue + "\"");
 		}
 
-		stringBuilder.append("\"primary\": " + isPrimary + " ");
+		if(isPrimary) {
+			stringBuilder.append(", \"primary\": " + isPrimary);
+		}
 
-		stringBuilder.append("}");
+		if(getIsIndexed()) {
+			stringBuilder.append(", \"index\": " + getIsIndexed());
+		}
+
+		if(getIsUnique() && !isPrimary) {
+			stringBuilder.append(", \"unique\": " + getIsUnique());
+		}
+
+		if(hasForeignKey()) {
+			stringBuilder.append(", \"foreignKey\": \"" + foreignKeyTable + "." + foreignKeyColumn + "\"");
+		}
+
+		stringBuilder.append(" }");
 		return (stringBuilder.toString());
 	}
+
+	public String getName() { return name; }
+
+	public String getForeignKeyTable() { return this.foreignKeyTable; }
+	public void setForeignKeyTable(String foreignKeyTable) { this.foreignKeyTable = foreignKeyTable; }
+	public String getForeignKeyColumn() { return this.foreignKeyColumn; }
+	public void setForeignKeyColumn(String foreignKeyColumn) { this.foreignKeyColumn = foreignKeyColumn; }
+	public boolean hasForeignKey() { return(null != foreignKeyTable && null != foreignKeyColumn); }
+	public boolean getIsIndexed() { return(isPrimary || hasForeignKey() || isIndexed); }
+	public void setIsIndexed(boolean isIndexed) { this.isIndexed = isIndexed; }
+	public void setIsUnique(boolean isUnique) { this.isUnique = isUnique; }
+	public boolean getIsUnique() { return(isUnique); }
 }

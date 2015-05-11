@@ -54,7 +54,7 @@
 
 	<target name="test-h2zero-revenge" description="test the h2zero reverse engineering">
 		<taskdef resource="h2zero.properties" classpath="${dist.dir}/h2zero.jar;${lib.dir}/templar.jar;${lib.dir}/mysql-connector-java-5.1.10-bin.jar;${lib.dir}/log4j-1.2.17.jar;${lib.dir}/mail.jar" />
-		<h2zero.revenge outFile="panl-test.h2zero" host="localhost" database="panl" user="root" password="password" />
+		<h2zero.revenge outFile="macdaddy-test.h2zero" host="localhost" database="macdaddy" user="root" password="password" />
 	</target>
 
 </project>

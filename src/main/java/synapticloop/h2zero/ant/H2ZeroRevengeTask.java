@@ -18,6 +18,8 @@ package synapticloop.h2zero.ant;
  */
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import org.apache.tools.ant.BuildException;
@@ -47,55 +49,35 @@ public class H2ZeroRevengeTask extends Task {
 		}
 
 		// else we are good to go
+		PrintWriter printWriter = null;
 		try {
 			ModelBuilder modelBuilder = new ModelBuilder(host, database, user, password);
-			System.out.println(modelBuilder.generate());
+			printWriter = new PrintWriter(outFileWrite);
+			String generated = modelBuilder.generate();
+
+			printWriter.write(generated);
 		} catch (ClassNotFoundException cnfex) {
 			cnfex.printStackTrace();
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
+		} catch (FileNotFoundException fnfex) {
+			fnfex.printStackTrace();
+		} finally {
+			if(null != printWriter) {
+				printWriter.close();
+			}
 		}
-
 	}
 
-	public void setOutFile(String outFile) {
-		this.outFile = outFile;
-	}
-
-	public String getOutFile() {
-		return outFile;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	public String getDatabase() {
-		return database;
-	}
-
-	public void setDatabase(String database) {
-		this.database = database;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	public void setOutFile(String outFile) { this.outFile = outFile; }
+	public String getOutFile() { return outFile; }
+	public String getHost() { return host; }
+	public void setHost(String host) { this.host = host; }
+	public String getDatabase() { return database; }
+	public void setDatabase(String database) { this.database = database; }
+	public String getUser() { return user; }
+	public void setUser(String user) { this.user = user; }
+	public String getPassword() { return password; }
+	public void setPassword(String password) { this.password = password; }
 
 }
