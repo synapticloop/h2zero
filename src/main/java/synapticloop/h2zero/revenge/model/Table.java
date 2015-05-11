@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import synapticloop.h2zero.model.util.JSONKeyConstants;
+
 public class Table {
 	private static final String SQL_SELECT_COLUMNS = "select * from COLUMNS where TABLE_SCHEMA = ? and TABLE_NAME = ? order by ORDINAL_POSITION asc";
 	private static final String SQL_FIND_FOREIGN_KEYS = "select * from KEY_COLUMN_USAGE where TABLE_SCHEMA = ? and TABLE_NAME = ? and COLUMN_NAME = ? order by ORDINAL_POSITION asc";
@@ -15,17 +17,18 @@ public class Table {
 
 	private static ArrayList<String> SQL_INTERACTION_OBJECTS = new ArrayList<String>();
 	static {
-		SQL_INTERACTION_OBJECTS.add("fieldFinders");
-		SQL_INTERACTION_OBJECTS.add("finders");
-		SQL_INTERACTION_OBJECTS.add("updaters");
-		SQL_INTERACTION_OBJECTS.add("inserters");
-		SQL_INTERACTION_OBJECTS.add("deleters");
-		SQL_INTERACTION_OBJECTS.add("counters");
-		SQL_INTERACTION_OBJECTS.add("questions");
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIELD_FINDERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FINDERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.UPDATERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.INSERTERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.DELETERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.COUNTERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.QUESTIONS);
 	}
 
 	public Table(Connection connection, String database, String name) throws SQLException {
 		this.name = name;
+
 		PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_COLUMNS);
 		preparedStatement.setString(1, database);
 		preparedStatement.setString(2, name);
@@ -99,8 +102,6 @@ public class Table {
 			stringBuilder.append("\": [\n      ]");
 		}
 		stringBuilder.append("\n");
-
-		// now go through and generate all of the keywords that can be done
 
 		stringBuilder.append("    }");
 		return (stringBuilder.toString());

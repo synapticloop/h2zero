@@ -27,7 +27,7 @@ public abstract class BaseQueryObject {
 	public HashMap<String, UsageType> allowableJsonKeys = new HashMap<String, UsageType>();
 
 	protected JSONObject jsonObject = null;
-	protected Table table = null;
+	protected BaseSchemaObject baseSchemaObject = null;
 
 	protected String name; // the name of the query object
 	protected String selectClause; // the select clause
@@ -65,10 +65,7 @@ public abstract class BaseQueryObject {
 	protected ArrayList<BaseField> updateFields = new ArrayList<BaseField>();
 	protected LinkedHashMap<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
 
-
-
-
-	protected BaseQueryObject(Table table, JSONObject jsonObject) {
+	protected BaseQueryObject(BaseSchemaObject baseSchemaObject, JSONObject jsonObject) {
 		// set up the default allowable keys
 		allowableJsonKeys.put(JSONKeyConstants.NAME, UsageType.MANDATORY);
 		allowableJsonKeys.put(JSONKeyConstants.UNIQUE, UsageType.INVALID);
@@ -82,11 +79,12 @@ public abstract class BaseQueryObject {
 		allowableJsonKeys.put(JSONKeyConstants.SET_FIELDS, UsageType.INVALID);
 		allowableJsonKeys.put(JSONKeyConstants.ORDER_BY, UsageType.INVALID);
 
-		this.table = table;
+		this.baseSchemaObject = baseSchemaObject;
 		this.jsonObject = jsonObject;
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
+
 		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
 
 		this.insertClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.INSERT_CLAUSE, null);
@@ -131,9 +129,9 @@ public abstract class BaseQueryObject {
 				BaseField baseField = null;
 				if(hasWhereFieldAliases) {
 					// we need to create a new BaseField identical to the current one - as it is currently cached
-					baseField = FieldLookupHelper.getBaseField(table, whereFieldName).copy();
+					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName).copy();
 				} else {
-					baseField = FieldLookupHelper.getBaseField(table, whereFieldName);
+					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName);
 				}
 
 				if(!this.hasInFields) {
@@ -273,7 +271,7 @@ public abstract class BaseQueryObject {
 
 	public boolean getHasJsonUniqueKey() { return(null != jsonUniqueKey); }
 	public HashMap<String, UsageType> getAllowableJsonKeys() { return(allowableJsonKeys); }
-	public Table getTable() { return(table); }
+	public BaseSchemaObject getBaseSchemaObject() { return(baseSchemaObject); }
 
 	/**
 	 * Whether this finder has aliases for the where fields, or it is just straight where field string array

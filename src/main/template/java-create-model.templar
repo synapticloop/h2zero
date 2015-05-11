@@ -25,9 +25,6 @@ package {database.package}.model;{\n}{\n}
 import {database.package}.model.util.Constants;{\n}
 
 {if !table.isConstant}
-	{if options.statistics}
-		import {database.package}.model.util.Statistics;{\n}
-	{endif}
 	{\n}
 
 	import {database.package}.finder.{table.javaClassName}Finder;{\n}
@@ -603,18 +600,12 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{endloop}
 
 	{\t}/*{\n}
-	{\t} * Boring ol' getters and setters {if options.statistics}- with statistics generation{endif}{\n}
+	{\t} * Boring ol' getters and setters {\n}
 	{\t} */{\n}
 	{\n}
 
 	{loop table.fields as field}
 		{\t}public {field.javaType} get{field.javaAccessorName}() {{
-		{if options.statistics}{if !table.isConstant}
-			if(populated[{fieldStatus.offset}]) {{
-				Statistics.cacheHit(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName});
-			} else {{
-				Statistics.cacheMiss(Statistics.{table.upperName}, Statistics.{table.upperName}_{field.upperName});
-			} {endif}{endif}
 			return(this.{field.javaName});
 		}{\n}
 
