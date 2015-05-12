@@ -116,7 +116,7 @@ public abstract class BaseField {
 		this.validator = JsonHelper.getStringValue(jsonObject, "validator", null);
 		this.minLength = JsonHelper.getIntValue(jsonObject, "minLength", 0);
 		this.populate = jsonObject.optBoolean("populate", true);
-		this.populate = jsonObject.optBoolean("secure", false);
+		this.secure = jsonObject.optBoolean("secure", false);
 
 		this.foreignKey = jsonObject.optString(JSONKeyConstants.FOREIGN_KEY, null);
 
@@ -260,48 +260,6 @@ public abstract class BaseField {
 			stringBuilder.append(")");
 		}
 		return(stringBuilder.toString());
-	}
-
-	public String getCreateField() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("\t");
-
-		// name
-		stringBuilder.append(name);
-		stringBuilder.append(" ");
-
-		// type and length
-		stringBuilder.append(type);
-		stringBuilder.append(getLengthFormat());
-
-		if(!nullable) {
-			stringBuilder.append(" not");
-		}
-
-		stringBuilder.append(" null");
-
-		if(primary) {
-			stringBuilder.append(" auto_increment");
-		}
-
-		if(null != defaultValue) {
-			stringBuilder.append(" default " + defaultValue);
-		}
-
-		if(primary) {
-			stringBuilder.append(",\n\tprimary key(" + name + ")");
-		}
-
-		if(unique) {
-			stringBuilder.append(",\n\tunique key(" + name + ")");
-		}
-
-		if(index) {
-			stringBuilder.append(",\n\tindex (" + name + ")");
-		}
-
-		stringBuilder.append("\n");
-		return (stringBuilder.toString());
 	}
 
 	public boolean getIsLargeObject() { return isLargeObject; }

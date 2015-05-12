@@ -195,6 +195,7 @@ public class Table extends BaseSchemaObject {
 
 					setFieldLookup.put(name, setBaseField);
 					whereFieldLookup.put(name, whereBaseField);
+
 				} catch (ClassNotFoundException cnfex) {
 					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "ClassNotFoundException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
 					throw new H2ZeroParseException(cnfex.getMessage());

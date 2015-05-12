@@ -38,6 +38,15 @@ import {database.package}.model.util.Constants;{\n}
 
 {\n}{\n}
 
+{if options.metrics}
+import synapticloop.h2zero.base.manager.MetricsManager;{\n}
+import com.codahale.metrics.Counter;{\n}
+import com.codahale.metrics.MetricRegistry;{\n}
+import com.codahale.metrics.RatioGauge;{\n}
+
+{\n}{\n}
+{endif}
+
 public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endif}{{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}
 {\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
@@ -132,12 +141,85 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\n}
 	{\t}// whether the fields are auto-populated{\n}
-	{\t}private boolean[] populated = {{
-	{loop table.fields as field}{field.populate}{if fieldStatus.last}{else}, {endif}{endloop}
+	{\t}private boolean[] populated = {{ 
+		{loop table.fields as field}{field.populate}{if fieldStatus.last}{else}, {endif}{endloop}
 	 };{\n}{\n}
-{endif} {-- end of !if.isConstant}
+{endif}{-- end of !if.isConstant}
 
+	{if options.metrics}
+		{-- 
+			NOW FOR THE METRICS
+		}
+		{\t}// These are the metrics holders - there are a lot of them - better to have and not need, than need and not have!{\n}
+		{\t}// <fieldName>SetterHit counts the number setters that are invoked which successfully changes the value{\n}
+		{\t}// <fieldName>SetterMiss counts the number of setters that did not change the value{\n}
+		{\t}// <fieldName>SetterHitRatio provides the ratio of hits to total setters{\n}
+		{\t}// <fieldName>SetterMissRatio provides the ratio of misses to total setters{\n}
+		{\t}// <fieldName>GetterHit counts the number of getters that returns an already filled in value{\n}
+		{\t}// <fieldName>GetterMiss counts the number of getters that needed to be loaded from a non-populated value{\n}
+		{\t}// <fieldName>GetterHitRatio provides the ratio of hits to total getters{\n}
+		{\t}// <fieldName>GetterMissRatio provides the ratio of misses to total getters{\n}
+		{\t}// <className>GetterHit counts the number of getters that returns an already filled in object{\n}
+		{\t}// <className>GetterMiss counts the number of getters that needed to be loaded from a non-populated object{\n}
+		{\t}// <className>GetterHitRatio provides the ratio of hits to total getters{\n}
+		{\t}// <className>GetterMissRatio provides the ratio of misses to total getters{\n}
+		{loop table.fields as field}
 
+			{if fn:notNull[field.foreignKeyTable]}
+				{\t}private static final Counter {field.secondaryJavaName}GetterHit = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "{field.secondaryJavaName}", "getter", "hit"));{\n}
+				{\t}private static final Counter {field.secondaryJavaName}GetterMiss = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "{field.secondaryJavaName}", "getter", "miss"));{\n}
+				{\t}private static final RatioGauge {field.secondaryJavaName}GetterHitRatio = MetricsManager.getMetricsRegistry().register(MetricRegistry.name({table.javaClassName}.class, "{field.secondaryJavaName}", "getter", "hit", "ratio"), new RatioGauge() {{ 
+					protected Ratio getRatio() {{ 
+						return(Ratio.of({field.secondaryJavaName}GetterHit.getCount(), {field.secondaryJavaName}GetterHit.getCount() + {field.secondaryJavaName}GetterMiss.getCount()));
+					}
+				});{\n}
+				{\t}private static final RatioGauge {field.secondaryJavaName}GetterMissRatio = MetricsManager.getMetricsRegistry().register(MetricRegistry.name({table.javaClassName}.class, "{field.secondaryJavaName}", "getter", "miss", "ratio"), new RatioGauge() {{ 
+					protected Ratio getRatio() {{ 
+						return(Ratio.of({field.secondaryJavaName}GetterMiss.getCount(), {field.secondaryJavaName}GetterHit.getCount() + {field.secondaryJavaName}GetterMiss.getCount()));
+					}
+				});{\n}
+			{endif}
+
+			{\t}private static final Counter {field.javaName}GetterHit = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "{field.javaName}", "getter", "hit"));{\n}
+			{\t}private static final Counter {field.javaName}GetterMiss = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "{field.javaName}", "getter", "miss"));{\n}
+			{\t}private static final RatioGauge {field.javaName}GetterHitRatio = MetricsManager.getMetricsRegistry().register(MetricRegistry.name({table.javaClassName}.class, "{field.javaName}", "getter", "hit", "ratio"), new RatioGauge() {{ 
+				protected Ratio getRatio() {{ 
+					return(Ratio.of({field.javaName}GetterHit.getCount(), {field.javaName}GetterHit.getCount() + {field.javaName}GetterMiss.getCount()));
+				}
+			});{\n}
+			{\t}private static final RatioGauge {field.javaName}GetterMissRatio = MetricsManager.getMetricsRegistry().register(MetricRegistry.name({table.javaClassName}.class, "{field.javaName}", "getter", "miss", "ratio"), new RatioGauge() {{ 
+				protected Ratio getRatio() {{ 
+					return(Ratio.of({field.javaName}GetterMiss.getCount(), {field.javaName}GetterHit.getCount() + {field.javaName}GetterMiss.getCount()));
+				}
+			});{\n}
+
+			{\t}private static final Counter {field.javaName}SetterHit = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "{field.javaName}", "setter", "hit"));{\n}
+			{\t}private static final Counter {field.javaName}SetterMiss = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "{field.javaName}", "setter", "miss"));{\n}
+
+			{\t}private static final RatioGauge {field.javaName}SetterHitRatio = MetricsManager.getMetricsRegistry().register(MetricRegistry.name({table.javaClassName}.class, "{field.javaName}", "Setter", "hit", "ratio"), new RatioGauge() {{ 
+				protected Ratio getRatio() {{ 
+					return(Ratio.of({field.javaName}SetterHit.getCount(), {field.javaName}SetterHit.getCount() + {field.javaName}SetterMiss.getCount()));
+				}
+			});{\n}
+			{\t}private static final RatioGauge {field.javaName}SetterMissRatio = MetricsManager.getMetricsRegistry().register(MetricRegistry.name({table.javaClassName}.class, "{field.javaName}", "Setter", "miss", "ratio"), new RatioGauge() {{ 
+				protected Ratio getRatio() {{ 
+					return(Ratio.of({field.javaName}SetterMiss.getCount(), {field.javaName}SetterHit.getCount() + {field.javaName}SetterMiss.getCount()));
+				}
+			});{\n}
+
+		{endloop}
+		{\n}
+
+		{\t}// now for the table statistics{\n}
+		{\t}private static final Counter {table.javaFieldName}Insert = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "insert"));{\n}
+		{\t}private static final Counter {table.javaFieldName}InsertOrUpdate = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "insertOrUpdate"));{\n}
+		{\t}private static final Counter {table.javaFieldName}Delete = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "delete"));{\n}
+		{\t}private static final Counter {table.javaFieldName}Ensure = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "ensure"));{\n}
+		{\t}private static final Counter {table.javaFieldName}Refresh = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "refresh"));{\n}
+		{\t}private static final Counter {table.javaFieldName}Update = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "update"));{\n}
+		{\n}
+
+	{endif}
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					LIST ALL OF THE JAVA FIELDS
 	}
@@ -213,6 +295,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	}
 
 	{\t}public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
+	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Insert.inc();{\n}
+	{endif}
+
 	{\t}{\t}if(primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot insert bean when primary key is not null.");{\n}
 	{\t}{\t}}{\n}
@@ -304,6 +390,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	    ENSURE
 	}
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
+
+	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Ensure.inc();{\n}
+	{endif}
+
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);{\n}
 
 	{loop table.nonPrimaryFields as field}
@@ -388,6 +479,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 	{\t}public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
+
+	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Update.inc();{\n}
+	{endif}
+
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");{\n}
 	{\t}{\t}}{\n}
@@ -460,7 +556,75 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
+	{\t}public void insertOrUpdate(Connection connection) throws H2ZeroPrimaryKeyException, SQLException {{{\n}
+
+	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
+	{endif}
+
+	{\t}{\t}if(!primaryKeySet()) {{{\n}
+	{\t}{\t}{\t}insert(connection);{\n}
+	{\t}{\t}} else {{{\n}
+	{\t}{\t}{\t}update(connection);{\n}
+	{\t}{\t}}{\n}
+
+	{\t}}{\n}
+	{\n}
+
+
+	{\t}public void insertOrUpdate() throws H2ZeroPrimaryKeyException, SQLException {{{\n}
+
+	{\t}{\t}Connection connection = null;{\n}
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+	{\t}{\t}{\t}insertOrUpdate(connection);{\n}
+
+	{\t}{\t}{\t}connection.close();{\n}
+	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
+	{\t}{\t}{\t}throw(h2zpkex);{\n}
+	{\t}{\t}} catch(SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}throw (sqlex);{\n}
+	{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}if(connection != null) {{{\n}
+	{\t}{\t}{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
+	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
+	{\t}{\t}{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
+	{\t}{\t}{\t}{\t}}{\n}
+	{\t}{\t}{\t}}{\n}
+	{\t}{\t}}{\n}
+	{\t}}{\n}
+	{\n}
+	{\t}public void insertOrUpdateSilent(Connection connection) {{{\n}
+
+	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
+	{endif}
+
+	{\t}{\t}try {{{\n}
+
+	{\t}{\t}{\t}if(!primaryKeySet()) {{{\n}
+	{\t}{\t}{\t}{\t}insert(connection);{\n}
+	{\t}{\t}{\t}} else {{{\n}
+	{\t}{\t}{\t}{\t}update(connection);{\n}
+	{\t}{\t}{\t}}{\n}
+
+	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
+	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
+	{\t}{\t}} catch(SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+	{\t}{\t}}{\n}
+	{\t}}{\n}
+	{\n}
+
 	{\t}public void insertOrUpdateSilent() {{{\n}
+
+	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
+	{endif}
+
 	{\t}{\t}Connection connection = null;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
@@ -491,6 +655,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{{{\n}
+
+	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Delete.inc();{\n}
+	{endif}
+
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");{\n}
 	{\t}{\t}}{\n}
@@ -548,6 +717,9 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 	{\t}public void refresh() throws H2ZeroPrimaryKeyException {{{\n}
+	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Refresh.inc();{\n}
+	{endif}
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");{\n}
 	{\t}{\t}}{\n}
@@ -585,12 +757,24 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{\t}public {field.foreignKeyTableLookup.javaClassName} get{field.secondaryJavaFieldName}() {{{\n}
 			{if !field.foreignKeyTableLookup.isConstant}
 				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
+				{if options.metrics}
+					{\t}{\t}{\t}{field.secondaryJavaName}GetterMiss.inc();{\n}
+				{endif}
 				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
+				{if options.metrics}
+					{\t}{\t}} else {{{\n}
+					{\t}{\t}{\t}{field.secondaryJavaName}GetterHit.inc();{\n}
+				{endif}
 				{\t}{\t}}{\n}
+
 				{\t}{\t}return(this.{field.secondaryJavaName});{\n}
 			{else}
+				{if options.metrics}
+					{\t}{\t}{field.secondaryJavaName}GetterHit.inc();{\n}
+				{endif}
 				{\t}{\t}return({field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName}));{\n}
 			{endif}
+
 			{--
 				At this point the foreign table is constant so it was already looked up
 				at construction time
@@ -605,19 +789,30 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 	{loop table.fields as field}
-		{\t}public {field.javaType} get{field.javaAccessorName}() {{
-			return(this.{field.javaName});
+		{\t}public {field.javaType} get{field.javaAccessorName}() {{ 
+
+			{if options.metrics}
+				{field.javaName}GetterHit.inc();
+			{endif}
+
+			return(this.{field.javaName}); 
 		}{\n}
 
 		{if !table.isConstant}
-			{\t}public void set{field.javaAccessorName}({field.javaType} {field.javaName}) {{
-				if(isDifferent(this.{field.javaName}, {field.javaName})) {{
-				this.{field.javaName} = {field.javaName};
-				this.isDirty = true;
+			{\t}public void set{field.javaAccessorName}({field.javaType} {field.javaName}) {{ 
+				if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 
+					this.{field.javaName} = {field.javaName};
+					this.isDirty = true; 
 
-			{if fn:notNull[field.foreignKeyTable]}
-				this.{field.secondaryJavaName} = null;
-			{endif}
+					{if fn:notNull[field.foreignKeyTable]}
+						this.{field.secondaryJavaName} = null;
+					{endif}
+
+					{if options.metrics}
+						{field.javaName}SetterHit.inc();
+				} else {{
+						{field.javaName}SetterMiss.inc();
+					{endif}
 
 				}
 			}{\n}
@@ -631,7 +826,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 		{\t}{\t}stringBuilder.append("Model[{table.javaClassName}]\n");{\n}
 		{loop table.fields as field}
-			{\t}{\t}stringBuilder.append("  Field[{field.javaName}:" + this.{field.javaName} + "]\n");{\n}
+			{if field.secure}
+				{\t}{\t}stringBuilder.append("  Field[{field.javaName}:<secure>]\n");{\n}
+			{else}
+				{\t}{\t}stringBuilder.append("  Field[{field.javaName}:" + this.{field.javaName} + "]\n");{\n}
+			{endif}
 		{endloop}
 
 		{\t}{\t}return(stringBuilder.toString());{\n}
@@ -641,7 +840,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{-- Now we need the toJsonString Method--}
 	{\n}
 		{\t}public String toJsonString() {{{\n}
-		{\t}{\t}// !!! work in progress !!!{\n}
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
 		{\t}{\t}stringBuilder.append("{{\n");{\n}
@@ -650,7 +848,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}stringBuilder.append("    \"fields\": [\n");{\n}
 
 		{loop table.fields as field}
-			{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} }{if !fieldStatus.last}, {endif}\n");{\n}
+			{if field.secure}
+				{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": \"<secure>\" }\n");{\n}
+			{else}
+				{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} }{if !fieldStatus.last}, {endif}\n");{\n}
+			{endif}
 		{endloop}
 
 		{\t}{\t}stringBuilder.append("    ]\n");{\n}
