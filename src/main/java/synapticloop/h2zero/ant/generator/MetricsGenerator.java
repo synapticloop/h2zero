@@ -1,9 +1,11 @@
 package synapticloop.h2zero.ant.generator;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.Parser;
@@ -22,15 +24,19 @@ public class MetricsGenerator extends Generator {
 			return;
 		}
 
-		Parser javaCreateMetricsRegistry = getParser("/java-create-metrics-registry.templar");
+		ArrayList<Table> tables = database.getTables();
+		for (Table table : tables) {
+			Parser javaCreateMetricsRegistry = getParser("/java-create-metrics-table.templar");
 
-		TemplarContext templarContext = getDefaultTemplarContext();
+			TemplarContext templarContext = getDefaultTemplarContext();
+			templarContext.add("table", table);
 
-		SimpleLogger.logInfo(LoggerType.GENERATE_METRICS, "Generating for database '" + database.getSchema() + "'.");
+			SimpleLogger.logInfo(LoggerType.GENERATE_METRICS, "Generating for database '" + database.getSchema() + "'.");
 
-		// first up the database creation script
-		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/metrics/MetricsRegistry.java";
-		renderToFile(templarContext, javaCreateMetricsRegistry, pathname);
+			// first up the database creation script
+			String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/metrics/" + table.getJavaClassName() + "Metrics.java";
+			renderToFile(templarContext, javaCreateMetricsRegistry, pathname);
+		}
 	}
 
 }
