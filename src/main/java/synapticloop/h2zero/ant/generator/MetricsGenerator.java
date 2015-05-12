@@ -1,0 +1,36 @@
+package synapticloop.h2zero.ant.generator;
+
+import java.io.File;
+
+import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import synapticloop.templar.Parser;
+import synapticloop.templar.exception.ParseException;
+import synapticloop.templar.exception.RenderException;
+import synapticloop.templar.utils.TemplarContext;
+
+public class MetricsGenerator extends Generator {
+
+	public MetricsGenerator(Database database, Options options, File outFile, boolean verbose) {
+		super(database, options, outFile, verbose);
+	}
+
+	public void generate() throws RenderException, ParseException {
+		if(!options.getMetrics()) {
+			return;
+		}
+
+		Parser javaCreateMetricsRegistry = getParser("/java-create-metrics-registry.templar");
+
+		TemplarContext templarContext = getDefaultTemplarContext();
+
+		SimpleLogger.logInfo(LoggerType.GENERATE_METRICS, "Generating for database '" + database.getSchema() + "'.");
+
+		// first up the database creation script
+		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/metrics/MetricsRegistry.java";
+		renderToFile(templarContext, javaCreateMetricsRegistry, pathname);
+	}
+
+}

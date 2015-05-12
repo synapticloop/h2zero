@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import synapticloop.h2zero.base.manager.MetricsManager;
 
 import com.codahale.metrics.Counter;
+import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 
 public class MuninMetricsServlet extends HttpServlet {
@@ -24,8 +25,15 @@ public class MuninMetricsServlet extends HttpServlet {
 		Iterator<String> iterator = counters.keySet().iterator();
 		while (iterator.hasNext()) {
 			String string = (String) iterator.next();
-			System.out.println(string);
+			System.out.println("COUNTER: " + string);
 			
+			
+		}
+		SortedMap<String,Gauge> gauges = metricsRegistry.getGauges();
+		Iterator<String> gaugeIterator = gauges.keySet().iterator();
+		while (gaugeIterator.hasNext()) {
+			String string2 = (String) gaugeIterator.next();
+			System.out.println("GAUGE: " + string2);
 		}
 	}
 	
