@@ -57,7 +57,7 @@ public class JavaGenerator extends Generator {
 		while (tableIterator.hasNext()) {
 			Table table = tableIterator.next();
 			templarContext.add("table", table);
-			SimpleLogger.logInfo(LoggerType.GENERATE, "[ JAVA ] Generating for table '" + table.getName() + "'.");
+			SimpleLogger.logInfo(LoggerType.GENERATE_JAVA, "Generating for table '" + table.getName() + "'.");
 
 			// the model
 			pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";

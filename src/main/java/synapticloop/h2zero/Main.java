@@ -1,5 +1,7 @@
 package synapticloop.h2zero;
 
+import synapticloop.h2zero.ant.H2ZeroTask;
+
 /*
  * Copyright (c) 2012-2015 synapticloop.
  * 
@@ -33,9 +35,10 @@ public class Main {
 			System.out.println("FATAL: " + exception.getMessage() + "\n");
 		}
 
-		System.out.println("Usage:\n\tjava synapticloop.h2zero.Main <filename.h2zero>");
+		System.out.println("Usage:\n\tjava synapticloop.h2zero.Main <filename.h2zero> <out.dir>");
 		System.out.println("Where:");
 		System.out.println("\t<filename.h2zero> is the path to the json format file");
+		System.out.println("\t<out.dir> is the path to where the generated artefacts will go");
 
 		if(null != exception) {
 			System.out.println("Stack trace follows:");
@@ -45,10 +48,17 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		if(null == args || args.length != 1) {
+		if(null == args || args.length != 2) {
 			usage();
 		} else {
-			
+			String inFile = args[0];
+			String outDir = args[1];
+
+			H2ZeroTask h2ZeroTask = new H2ZeroTask();
+			h2ZeroTask.setIn(inFile);
+			h2ZeroTask.setOutDir(outDir);
+
+			h2ZeroTask.execute();
 		}
 	}
 }

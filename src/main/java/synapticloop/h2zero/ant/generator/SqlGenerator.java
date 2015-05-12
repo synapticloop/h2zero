@@ -11,6 +11,12 @@ import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
 
+/**
+ * The SQL Generator generates the database schema to the create-database.sql script.
+ * 
+ * @author synapticloop
+ *
+ */
 public class SqlGenerator extends Generator {
 
 	public SqlGenerator(Database database, Options options, File outFile, boolean verbose) {
@@ -26,7 +32,7 @@ public class SqlGenerator extends Generator {
 
 		TemplarContext templarContext = getDefaultTemplarContext();
 
-		SimpleLogger.logInfo(LoggerType.GENERATE, "[ SQL ] Generating for database '" + database.getSchema() + "'.");
+		SimpleLogger.logInfo(LoggerType.GENERATE_SQL, "Generating for database '" + database.getSchema() + "'.");
 		// first up the database creation script
 		String pathname = outFile + "/src/main/sql/create-database.sql";
 		renderToFile(templarContext, sqlCreateDatabaseParser, pathname);

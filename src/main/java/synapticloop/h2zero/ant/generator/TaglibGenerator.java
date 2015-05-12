@@ -63,7 +63,7 @@ public class TaglibGenerator extends Generator {
 		while (tableIterator.hasNext()) {
 			Table table = tableIterator.next();
 			templarContext.add("table", table);
-			SimpleLogger.logInfo(LoggerType.GENERATE, "[ TAGLIB ] Generating for table '" + table.getName() + "'.");
+			SimpleLogger.logInfo(LoggerType.GENERATE_TAGLIB, "Generating for table '" + table.getName() + "'.");
 
 			ArrayList<Finder> finders = table.getFinders();
 			Iterator<Finder> finderIterator = finders.iterator();;

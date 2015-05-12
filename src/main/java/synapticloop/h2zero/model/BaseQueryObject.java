@@ -84,15 +84,8 @@ public abstract class BaseQueryObject {
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
-		// now for the select fields
-//		if(null != selectClause) {
-//			populateFields(jsonObject, JSONKeyConstants.SELECT_FIELDS, selectFields, uniqueSelectFields);
-//		}
 
 		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
-//		if(null != whereClause) {
-//			populateWhereFields(jsonObject);
-//		}
 
 		this.insertClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.INSERT_CLAUSE, null);
 		this.valuesClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.VALUES_CLAUSE, null);

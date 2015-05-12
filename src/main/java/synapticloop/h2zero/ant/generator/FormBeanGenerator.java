@@ -39,7 +39,7 @@ public class FormBeanGenerator extends Generator {
 		while (tableIterator.hasNext()) {
 			Table table = tableIterator.next();
 			templarContext.add("table", table);
-			SimpleLogger.logInfo(LoggerType.GENERATE, "Generating for table '" + table.getName() + "'.");
+			SimpleLogger.logInfo(LoggerType.GENERATE_FORM_BEANS, "Generating for table '" + table.getName() + "'.");
 
 			// the default form beans
 			String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/form/auto/" + table.getJavaClassName() + "CreateFormBean.java";

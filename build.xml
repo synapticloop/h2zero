@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ====================================================================== 
-     h2zero    
+     h2zero
+     
+     The ORM generator for java with
+       - Java POJO Models
+       - SQL Scripts
+       - Tag libraries
+       - Form Beans (in progress)
+       - Administration pages (in progress)
      ====================================================================== -->
 <project name="h2zero" default="help">
 	<property name="lib.dir" value="lib/runtime" />
@@ -23,7 +30,7 @@
 			</fileset>
 		</copy>
 
-		<jar destfile="${dist.dir}/h2zero.jar">
+		<jar destfile="${dist.dir}/h2zero.jar" manifest="src/main/META-INF/MANIFEST.MF">
 			<fileset dir="${build.classes.dir}">
 				<include name="**/*.*" />
 			</fileset>
@@ -44,7 +51,7 @@
 
 	<target name="test-h2zero" description="test the h2zero generation">
 		<taskdef resource="h2zero.properties" classpath="${dist.dir}/h2zero.jar;${lib.dir}/templar.jar;${lib.dir}/log4j-1.2.17.jar;${lib.dir}/mail.jar" />
-		<h2zero in="src/test/java/insityou.h2zero" outDir="generate" verbose="false" />
+		<h2zero in="src/test/java/sample.h2zero" outDir="generate" verbose="false" />
 	</target>
 
 	<target name="test-h2zero-quick" description="test the h2zero quick generation">
@@ -54,7 +61,7 @@
 
 	<target name="test-h2zero-revenge" description="test the h2zero reverse engineering">
 		<taskdef resource="h2zero.properties" classpath="${dist.dir}/h2zero.jar;${lib.dir}/templar.jar;${lib.dir}/mysql-connector-java-5.1.10-bin.jar;${lib.dir}/log4j-1.2.17.jar;${lib.dir}/mail.jar" />
-		<h2zero.revenge outFile="macdaddy-test.h2zero" host="localhost" database="macdaddy" user="root" password="password" />
+		<h2zero.revenge outFile="sample.h2zero" host="localhost" database="sample" user="root" password="password" />
 	</target>
 
 </project>

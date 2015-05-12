@@ -33,7 +33,7 @@ public class Database {
 		try {
 			databaseJson = jsonObject.getJSONObject(JSONKeyConstants.DATABASE);
 		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("The json file must have a key of 'database'.");
+			throw new H2ZeroParseException("The json file must have a key of '" + JSONKeyConstants.DATABASE + "'.");
 		}
 
 		this.schema = JsonHelper.getStringValue(databaseJson, JSONKeyConstants.SCHEMA, null);

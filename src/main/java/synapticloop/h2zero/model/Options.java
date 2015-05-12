@@ -88,14 +88,14 @@ public class Options {
 		Iterator<String> generatorsIterator = generators.iterator();
 		while (generatorsIterator.hasNext()) {
 			String next = (String) generatorsIterator.next();
-			SimpleLogger.logInfo(LoggerType.GENERATORS, "ENABLED  Generator '" + next + "'");
+			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ ENABLED  ] Generator '" + next + "'");
 			disabledGenerators.remove(next);
 		}
 
 		Iterator<String> disabledIterator = disabledGenerators.iterator();
 		while (disabledIterator.hasNext()) {
 			String next = (String) disabledIterator.next();
-			SimpleLogger.logInfo(LoggerType.GENERATORS, "DISABLED Generator '" + next + "'");
+			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ DISABLED ] Generator '" + next + "'");
 		}
 
 		if(!ALLOWABLE_LOGGERS.contains(this.getLogging())) {
