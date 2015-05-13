@@ -12,6 +12,11 @@
 				{import classpath:/snippet/finder/method-parameters.templar}
 			) throws H2ZeroFinderException, SQLException {{{\n}
 
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
+			{endif}
+
+
 		{\t}{\t}Connection connection = null;{\n}
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 		{\t}{\t}ResultSet resultSet = null;{\n}
@@ -354,6 +359,12 @@
 			{import classpath:/snippet/finder/method-parameters.templar}
 
 		) throws H2ZeroFinderException, SQLException {{{\n}
+
+
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
+			{endif}
+
 
 		{\t}{\t}Connection connection = null;{\n}
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}

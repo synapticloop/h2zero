@@ -19,6 +19,12 @@ import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
+{if options.metrics}
+import synapticloop.h2zero.base.manager.MetricsManager;{\n}
+import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
+{\n}{\n}
+{endif}
+
 public class {table.javaClassName}Deleter {{{\n}
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				THE DELETER STRINGS FIELDS

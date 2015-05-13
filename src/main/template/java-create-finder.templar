@@ -9,6 +9,12 @@ package {database.package}.finder;{\n}{\n}
 
 {import classpath:/snippet/global/finder-imports.templar}
 
+{if options.metrics}
+import synapticloop.h2zero.base.manager.MetricsManager;{\n}
+import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
+{\n}{\n}
+{endif}
+
 public class {table.javaClassName}Finder {{{\n}
 {set table as baseSchemaObject}
 {import classpath:/snippet/global/java-binder-declaration.templar}
@@ -95,6 +101,11 @@ public class {table.javaClassName}Finder {{{\n}
 {\t} */{\n}
 
 {\t}public static {table.javaClassName} findByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws H2ZeroFinderException, SQLException {{{\n}
+
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
+			{endif}
+
 {\t}{\t}{table.javaClassName} {table.javaFieldName} = null;{\n}
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\t}{\t}ResultSet resultSet = null;{\n}
@@ -256,6 +267,10 @@ public class {table.javaClassName}Finder {{{\n}
 {\t} */{\n}
 
 {\t}public static List<{table.javaClassName}> findAll(Integer limit, Integer offset) throws SQLException {{{\n}
+
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
+			{endif}
 
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\t}{\t}ResultSet resultSet = null;{\n}

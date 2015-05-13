@@ -89,6 +89,15 @@ public class {table.javaClassName}Metrics {{{\n}
 	{\n}
 
 	{\t}// now for the table statistics{\n}
+	{\t}public static final Counter {table.javaFieldName}Access = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "access"));{\n}
+
+	{\t}public static final Counter {table.javaFieldName}FinderAccess = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "finder", "access"));{\n}
+	{\t}public static final Counter {table.javaFieldName}CounterAccess = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "counter", "access"));{\n}
+	{\t}public static final Counter {table.javaFieldName}QuestionAccess = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "question", "access"));{\n}
+	{\t}public static final Counter {table.javaFieldName}DeleterAccess = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "deleter", "access"));{\n}
+	{\t}public static final Counter {table.javaFieldName}InserterAccess = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "inserter", "access"));{\n}
+	{\t}public static final Counter {table.javaFieldName}UpdaterAccess = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "updater", "access"));{\n}
+
 	{\t}public static final Counter {table.javaFieldName}Insert = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "insert"));{\n}
 	{\t}public static final Counter {table.javaFieldName}InsertOrUpdate = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "insertOrUpdate"));{\n}
 	{\t}public static final Counter {table.javaFieldName}Delete = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "delete"));{\n}

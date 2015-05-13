@@ -219,6 +219,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\t}public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}Insert.inc();{\n}
 	{endif}
 
@@ -315,6 +316,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}Ensure.inc();{\n}
 	{endif}
 
@@ -404,6 +406,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}Update.inc();{\n}
 	{endif}
 
@@ -482,6 +485,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}public void insertOrUpdate(Connection connection) throws H2ZeroPrimaryKeyException, SQLException {{{\n}
 
 	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
 	{endif}
 
@@ -523,6 +527,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}public void insertOrUpdateSilent(Connection connection) {{{\n}
 
 	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
 	{endif}
 
@@ -545,6 +550,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}public void insertOrUpdateSilent() {{{\n}
 
 	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
 	{endif}
 
@@ -580,6 +586,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{{{\n}
 
 	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}Delete.inc();{\n}
 	{endif}
 
@@ -641,6 +648,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\t}public void refresh() throws H2ZeroPrimaryKeyException {{{\n}
 	{if options.metrics}
+		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}Refresh.inc();{\n}
 	{endif}
 	{\t}{\t}if(!primaryKeySet()) {{{\n}

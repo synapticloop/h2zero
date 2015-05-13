@@ -9,6 +9,12 @@ package {database.package}.counter;{\n}{\n}
 
 {import classpath:/snippet/global/java-model-imports.templar}
 
+{if options.metrics}
+import synapticloop.h2zero.base.manager.MetricsManager;{\n}
+import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
+{\n}{\n}
+{endif}
+
 public class {table.javaClassName}Counter {{{\n}
 	{set table as baseSchemaObject}
 	{import classpath:/snippet/global/java-binder-declaration.templar}

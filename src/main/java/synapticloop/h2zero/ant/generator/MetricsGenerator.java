@@ -24,18 +24,23 @@ public class MetricsGenerator extends Generator {
 			return;
 		}
 
+		SimpleLogger.logInfo(LoggerType.GENERATE_METRICS, "Generating for database '" + database.getSchema() + "'.");
+
+		TemplarContext templarContext = getDefaultTemplarContext();
+
+		Parser javaCreateMetricsServletMunin = getParser("/java-create-metrics-servlet-munin.templar");
+		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/servlet/MuninMetricsServlet.java";
+		renderToFile(templarContext, javaCreateMetricsServletMunin, pathname);
+
 		ArrayList<Table> tables = database.getTables();
 		for (Table table : tables) {
-			Parser javaCreateMetricsRegistry = getParser("/java-create-metrics-table.templar");
+			Parser javaCreateMetricsTable = getParser("/java-create-metrics-table.templar");
 
-			TemplarContext templarContext = getDefaultTemplarContext();
 			templarContext.add("table", table);
 
-			SimpleLogger.logInfo(LoggerType.GENERATE_METRICS, "Generating for database '" + database.getSchema() + "'.");
-
 			// first up the database creation script
-			String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/metrics/" + table.getJavaClassName() + "Metrics.java";
-			renderToFile(templarContext, javaCreateMetricsRegistry, pathname);
+			pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/metrics/" + table.getJavaClassName() + "Metrics.java";
+			renderToFile(templarContext, javaCreateMetricsTable, pathname);
 		}
 	}
 
