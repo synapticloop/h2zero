@@ -60,15 +60,51 @@ public class {table.javaClassName}Updater {{{\n}
 
 	) throws SQLException {{{\n}
 
-	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_{updater.staticName});{\n}
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}UpdaterAccess.inc();{\n}
+			{endif}
+
+	{\t}{\t}int numRowsUpdated = -1;{\n}
+	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{updater.staticName});{\n}
 
 	{loop updater.updateFields as updateField}
-		{\t}{\t}ConnectionManager.set{updateField.upperType}(preparedStatement, {updateFieldStatus.index}, {updateField.javaName});{\n}
+		{\t}{\t}{\t}ConnectionManager.set{updateField.upperType}(preparedStatement, {updateFieldStatus.index}, {updateField.javaName});{\n}
 	{endloop}
 	{\n}
 
-	{\t}{\t}int numRowsUpdated = preparedStatement.executeUpdate();{\n}{\n}
-	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}{\n}
+	{\t}{\t}{\t}numRowsUpdated = preparedStatement.executeUpdate();{\n}
+	{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}throw sqlex;{\n}
+	{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
+	{\t}{\t}}{\n}
+
+	{\t}{\t}return(numRowsUpdated);{\n}
+	{\t}}{\n}
+{\n}
+
+	{\t}public static int {updater.name}(
+
+		{import classpath:/snippet/updater/method-parameters.templar}
+
+	) throws SQLException {{{\n}
+
+	{\t}{\t}int numRowsUpdated = -1;
+	{\t}{\t}Connection connection = null;
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, 0]}, {endif}
+
+		{import classpath:/snippet/updater/method-parameters-call.templar}
+
+	);{\n}
+	{\t}{\t}} catch(SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}throw sqlex;{\n}
+	{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+	{\t}{\t}}{\n}
 	{\t}{\t}return(numRowsUpdated);{\n}
 	{\t}}{\n}
 {\n}
@@ -78,38 +114,25 @@ public class {table.javaClassName}Updater {{{\n}
 		{import classpath:/snippet/updater/method-parameters.templar}
 
 	) {{{\n}
-	{\t}{\t}Connection connection;{\n}
+	{\t}{\t}int numRowsUpdated = -1;{\n}
+	{\t}{\t}Connection connection = null;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}int numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, 0]}, {endif}
+	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, 0]}, {endif}
 
 		{import classpath:/snippet/updater/method-parameters-call.templar}
 
 	);{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
-	{\t}{\t}{\t}return(numRowsUpdated);{\n}
 	{\t}{\t}} catch (SQLException sqlex) {{{\n}
 	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 	{\t}{\t}{\t}return(-1);{\n}
+	{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
 	{\t}{\t}}{\n}
-	{\t}}{\n}
-{\n}
-
-	{\t}public static int {updater.name}(
-
-		{import classpath:/snippet/updater/method-parameters.templar}
-
-	) throws SQLException {{{\n}
-	{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}int numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, 0]}, {endif}
-
-		{import classpath:/snippet/updater/method-parameters-call.templar}
-
-	);{\n}
-	{\t}{\t}ConnectionManager.closeAll(connection);{\n}
 	{\t}{\t}return(numRowsUpdated);{\n}
 	{\t}}{\n}
 {\n}
+
 {endloop}
 
 }
