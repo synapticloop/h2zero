@@ -50,29 +50,13 @@ public class {table.javaClassName}Question {{{\n}
 {loop table.questions as question}
 	{set question as baseQueryObject}
 
-	{\t}public static boolean {question.name}(
-		{import classpath:/snippet/global/java-method-parameters.templar}
-	) throws H2ZeroFinderException, SQLException {{{\n}
-
-	{\t}{\t}Connection connection = null;{\n}
-	{\n}
-
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}return({question.name}(connection
-		{import classpath:/snippet/global/java-method-parameters-call-with-connection.templar}
-		));{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}throw sqlex;{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-{\n}
-
 	{\t}public static boolean {question.name}(Connection connection
 		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
-	) throws H2ZeroFinderException, SQLException {{{\n}
+	) throws SQLException {{{\n}
+
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}QuestionAccess.inc();{\n}
+			{endif}
 
 	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 	{\t}{\t}ResultSet resultSet = null;{\n}
@@ -97,23 +81,23 @@ public class {table.javaClassName}Question {{{\n}
 	{\t}}{\n}
 {\n}
 
-	{\t}public static boolean {question.name}Silent(
+	{\t}public static boolean {question.name}(
 		{import classpath:/snippet/global/java-method-parameters.templar}
-	) {{{\n}
+	) throws SQLException {{{\n}
+
+	{\t}{\t}Connection connection = null;{\n}
+	{\n}
 
 	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return({question.name}(
-		{import classpath:/snippet/global/java-method-parameters-call.templar}
+	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+	{\t}{\t}{\t}return({question.name}(connection
+		{import classpath:/snippet/global/java-method-parameters-call-with-connection.templar}
 		));{\n}
-	{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
-		{import classpath:/snippet/global/exception-h2zero-log-silent.templar}
-	{\t}{\t}{\t}return(false);{\n}
-
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-		{import classpath:/snippet/global/exception-sql-log-silent.templar}
-	{\t}{\t}{\t}return(false);{\n}
+	{\t}{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}{\t}throw sqlex;{\n}
+	{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
 	{\t}{\t}}{\n}
-
 	{\t}}{\n}
 {\n}
 
@@ -125,9 +109,6 @@ public class {table.javaClassName}Question {{{\n}
 	{\t}{\t}{\t}return({question.name}(connection
 		{import classpath:/snippet/global/java-method-parameters-call-with-connection.templar}
 		));{\n}
-	{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
-		{import classpath:/snippet/global/exception-h2zero-log-silent.templar}
-	{\t}{\t}{\t}return(false);{\n}
 
 	{\t}{\t}} catch(SQLException sqlex) {{{\n}
 		{import classpath:/snippet/global/exception-sql-log-silent.templar}
@@ -136,5 +117,23 @@ public class {table.javaClassName}Question {{{\n}
 
 	{\t}}{\n}
 {\n}
+
+	{\t}public static boolean {question.name}Silent(
+		{import classpath:/snippet/global/java-method-parameters.templar}
+	) {{{\n}
+
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}return({question.name}(
+		{import classpath:/snippet/global/java-method-parameters-call.templar}
+		));{\n}
+
+	{\t}{\t}} catch(SQLException sqlex) {{{\n}
+		{import classpath:/snippet/global/exception-sql-log-silent.templar}
+	{\t}{\t}{\t}return(false);{\n}
+	{\t}{\t}}{\n}
+
+	{\t}}{\n}
+{\n}
+
 {endloop}
 }
