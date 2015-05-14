@@ -69,6 +69,11 @@ public class {table.javaClassName}Deleter {{{\n}
 {\t} */{\n}
 
 {\t}public static int deleteByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws SQLException {{{\n}
+
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}DeleterAccess.inc();{\n}
+			{endif}
+
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY);{\n}
 	{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
 	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
@@ -156,6 +161,11 @@ public class {table.javaClassName}Deleter {{{\n}
 {\t} * @return The number of rows affected by this statement{\n}
 {\t} */{\n}
 {\t}public static int deleteAll(Connection connection) throws SQLException {{{\n}
+
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}DeleterAccess.inc();{\n}
+			{endif}
+
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL);{\n}
 
 	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
@@ -179,6 +189,11 @@ public class {table.javaClassName}Deleter {{{\n}
 {\t} * @return The number of rows affected by this statement{\n}
 {\t} */{\n}
 {\t}public static int deleteAllTruncate(Connection connection) throws SQLException {{{\n}
+
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}DeleterAccess.inc();{\n}
+			{endif}
+
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL_TRUNCATE);{\n}
 
 	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
@@ -210,6 +225,10 @@ public class {table.javaClassName}Deleter {{{\n}
 
 	) throws SQLException {{{\n}
 
+			{if options.metrics}
+{\t}{\t}{table.javaFieldName}DeleterAccess.inc();{\n}
+			{endif}
+
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_{deleter.staticName});{\n}
 
 	{loop deleter.whereFields as whereField}
@@ -236,6 +255,7 @@ public class {table.javaClassName}Deleter {{{\n}
 	{endloop}
 
 	) {{{\n}
+
 	{\t}{\t}Connection connection;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
