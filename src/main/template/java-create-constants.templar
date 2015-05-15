@@ -10,9 +10,10 @@ package {database.package}.model.util;{\n}{\n}
 public class Constants {{{\n}
 	{\t}// The binder variables below are used to show up compilation errors where{\n}
 	{\t}// it has been removed from the generation.{\n}{\n}
-{loop database.tables as table}
-	{\t}public static final String {table.upperName}_binder = "{table.upperName}";{\n}
-{endloop}
+
+	{loop database.tables as table}
+		{\t}public static final String {table.upperName}_binder = "{table.upperName}";{\n}
+	{endloop}
 {\n}
 
 {loop database.tables as table}
@@ -33,6 +34,4 @@ public class Constants {{{\n}
 		{\t}public static final String {view.upperName}_{field.upperName} = "{field.javaName}";{\n}
 	{endloop}{\n}{\n}
 {endloop}
-
-
 }

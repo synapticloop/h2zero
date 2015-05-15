@@ -20,7 +20,7 @@
 	{\n}
 	{\t}  The tag library definitions for the {table.name} table{\n}
 	{\n}
-	{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --->{\n}
+	{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->{\n}
 
 	{\t}<tag>{\n}
 	{\t}{\t}<description>{\n}

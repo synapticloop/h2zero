@@ -24,6 +24,7 @@ public class Options {
 	public static final String OPTION_JSP = "jsp";
 	public static final String OPTION_JAVA = "java";
 	public static final String OPTION_SQL = "sql";
+	public static final String OPTION_RESTFUL_SERVLET = "restfulservlet";
 
 	private static HashSet<String> ALLOWABLE_GENERATORS = new HashSet<String>();
 	static {
