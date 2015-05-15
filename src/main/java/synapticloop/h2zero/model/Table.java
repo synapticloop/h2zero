@@ -37,6 +37,7 @@ public class Table extends BaseSchemaObject {
 	private ArrayList<String> comments = new ArrayList<String>();
 
 	private boolean hasLargeObject = false;
+	private boolean hasForeignKey = false;
 
 	// a list of all of the fields that this table has
 	private ArrayList<BaseField> fields = new ArrayList<BaseField>();
@@ -220,6 +221,13 @@ public class Table extends BaseSchemaObject {
 				}
 			}
 		}
+		
+		// now figure out if there is a foreign key relationship
+		for (BaseField baseField : fields) {
+			if(null != baseField.getForeignKeyField() && null != baseField.getForeignKeyTable()) {
+				hasForeignKey = true;
+			}
+		}
 	}
 
 	private void populateUpdaters(JSONObject jsonObject) throws H2ZeroParseException {
@@ -375,4 +383,7 @@ public class Table extends BaseSchemaObject {
 
 	public ArrayList<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
+
+	public boolean getHasForeignKey() { return this.hasForeignKey; }
+	public void setHasForeignKey(boolean hasForeignKey) { this.hasForeignKey = hasForeignKey; }
 }
