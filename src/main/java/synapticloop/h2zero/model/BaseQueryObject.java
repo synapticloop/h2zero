@@ -65,6 +65,8 @@ public abstract class BaseQueryObject {
 	protected ArrayList<BaseField> updateFields = new ArrayList<BaseField>();
 	protected LinkedHashMap<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
 
+	private ArrayList<String> comments = new ArrayList<String>();
+
 	protected BaseQueryObject(BaseSchemaObject baseSchemaObject, JSONObject jsonObject) throws H2ZeroParseException {
 		// set up the default allowable keys
 		allowableJsonKeys.put(JSONKeyConstants.NAME, UsageType.MANDATORY);
@@ -97,6 +99,17 @@ public abstract class BaseQueryObject {
 		if(null == name) {
 			throw new H2ZeroParseException("The '" + getBaseQueryObjectType() + "' '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
 		}
+
+		JSONArray optJSONArray = jsonObject.optJSONArray(JSONKeyConstants.COMMENTS);
+		if(null != optJSONArray) {
+			for (int i = 0; i < optJSONArray.length(); i++) {
+				String comment = optJSONArray.optString(i, null);
+				if(null != comment) {
+					comments.add(comment);
+				}
+			}
+		}
+
 	}
 
 	public abstract String getBaseQueryObjectType();
@@ -283,4 +296,7 @@ public abstract class BaseQueryObject {
 	 * @return whether this finder has where field aliases
 	 */
 	public boolean getHasWhereFieldAliases() { return hasWhereFieldAliases;}
+
+	public ArrayList<String> getComments() { return comments; }
+
 }

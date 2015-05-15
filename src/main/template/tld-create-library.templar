@@ -16,9 +16,11 @@
 {\n}
 
 {loop database.tables as table}
-	{\t}<!--{\n}
-	{\t}  The tag library definitions for the {table.name} {\n}
-	{\t}  -->{\n}
+	{\t}<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -{\n}
+	{\n}
+	{\t}  The tag library definitions for the {table.name} table{\n}
+	{\n}
+	{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --->{\n}
 
 	{\t}<tag>{\n}
 	{\t}{\t}<description>{\n}
@@ -87,14 +89,25 @@
 
 	{loop table.finders as finder}
 		{if finderStatus.first}
-			{\t}<!--{\n}
-			{\t}Generated finder tags{\n}
-			{\t}-->{\n}
+			{\t}<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -{\n}
+			{\n}
+			{\t}  Generated finder tags for the {table.name} table{\n}
+			{\n}
+			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --->{\n}
 		{endif}
 
 		{\t}<tag>{\n}
 		{\t}{\t}<description>{\n}
-		{\t}{\t}{\t}Automaticall generated tag that maps to the {finder.name} on the {table.name} table{\n}
+		{\t}{\t}{\t}Automatically generated tag that maps to the {finder.name} finder{\n}
+		{loop finder.comments as comment}
+			{if commentStatus.first}
+				{\n}
+				{\t}{\t}{\t}User generated comments{\n}
+				{\n}
+			{endif}
+			{\t}{\t}{\t}{comment}{\n}
+		{endloop}
+
 		{\t}{\t}</description>{\n}
 		{\t}{\t}<name>{table.javaClassName}{finder.finderTagName}</name>{\n}
 		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{finder.finderTagName}Tag</tag-class>{\n}
@@ -165,14 +178,26 @@
 
 	{loop table.counters as counter}
 		{if counterStatus.first}
-			{\t}<!--{\n}
-			{\t}Generated counter tags{\n}
-			{\t}-->{\n}
+			{\t}<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -{\n}
+			{\n}
+			{\t}  Generated counter tags for the {table.name} table{\n}
+			{\n}
+			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --->{\n}
 		{endif}
 
 		{\t}<tag>{\n}
 		{\t}{\t}<description>{\n}
 		{\t}{\t}{\t}counter tag generated tag for the {counter.name}{\n}
+
+		{loop counter.comments as comment}
+			{if commentStatus.first}
+				{\n}
+				{\t}{\t}{\t}User generated comments{\n}
+				{\n}
+			{endif}
+			{\t}{\t}{\t}{comment}{\n}
+		{endloop}
+
 		{\t}{\t}</description>{\n}
 		{\t}{\t}<name>{table.javaClassName}{counter.tagName}</name>{\n}
 		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{counter.tagName}Tag</tag-class>{\n}
@@ -215,14 +240,26 @@
 
 	{loop table.questions as question}
 		{if questionStatus.first}
-			{\t}<!--{\n}
-			{\t}Generated question tags{\n}
-			{\t}-->{\n}
+			{\t}<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -{\n}
+			{\n}
+			{\t}  Generated question tags for the {table.name} table{\n}
+			{\n}
+			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --->{\n}
 		{endif}
 
 		{\t}<tag>{\n}
 		{\t}{\t}<description>{\n}
 		{\t}{\t}{\t}generated tag for the {question.name}{\n}
+
+		{loop question.comments as comment}
+			{if commentStatus.first}
+				{\n}
+				{\t}{\t}{\t}User generated comments{\n}
+				{\n}
+			{endif}
+			{\t}{\t}{\t}{comment}{\n}
+		{endloop}
+
 		{\t}{\t}</description>{\n}
 		{\t}{\t}<name>{table.javaClassName}{question.tagName}</name>{\n}
 		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{question.tagName}Tag</tag-class>{\n}
