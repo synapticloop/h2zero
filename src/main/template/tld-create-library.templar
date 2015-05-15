@@ -93,7 +93,7 @@
 			{\n}
 			{\t}  Generated finder tags for the {table.name} table{\n}
 			{\n}
-			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --->{\n}
+			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->{\n}
 		{endif}
 
 		{\t}<tag>{\n}
@@ -182,7 +182,7 @@
 			{\n}
 			{\t}  Generated counter tags for the {table.name} table{\n}
 			{\n}
-			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --->{\n}
+			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->{\n}
 		{endif}
 
 		{\t}<tag>{\n}
@@ -244,7 +244,7 @@
 			{\n}
 			{\t}  Generated question tags for the {table.name} table{\n}
 			{\n}
-			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --->{\n}
+			{\t}  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->{\n}
 		{endif}
 
 		{\t}<tag>{\n}
