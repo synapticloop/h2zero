@@ -19,7 +19,10 @@ import synapticloop.h2zero.util.NamingHelper;
 
 
 public abstract class BaseField {
+	// the list of keywords that are allowed for the 'onUpdate' and 'onDelete' JSON keys, this is used for debugging when 
+	// a value falls out of the range of allowable update/delete actions 
 	private static String ALLOWABLE_UPDATE_DELETE_VALUES = null;
+	// a hashset of the allowable values for the 'onUpdate' and the 'onDelete' JSON keys for quick validation and lookup
 	private static HashSet<String> ALLOWABLE_UPDATE_DELETE_ACTIONS = new HashSet<String>();
 	static {
 		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("RESTRICT");
@@ -27,6 +30,7 @@ public abstract class BaseField {
 		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("SET NULL");
 		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("NO ACTION");
 
+		// build the print out of what the available actions are
 		StringBuilder stringBuilder = new StringBuilder();
 		Iterator<String> iterator = ALLOWABLE_UPDATE_DELETE_ACTIONS.iterator();
 		while (iterator.hasNext()) {
@@ -40,6 +44,7 @@ public abstract class BaseField {
 		ALLOWABLE_UPDATE_DELETE_VALUES = stringBuilder.toString();
 	}
 
+	// a list of the ignored keys (and therefore soon to be removed)
 	private static ArrayList<String> ignoredKeys = new ArrayList<String>();
 	static {
 		ignoredKeys.add("foreign");
@@ -47,6 +52,7 @@ public abstract class BaseField {
 		ignoredKeys.add("comment");
 	}
 
+	// the hashmap lookup for the ignored keys and there (possible) replacements
 	private static HashMap<String, String> replacementKeys = new HashMap<String, String>();
 	static {
 		replacementKeys.put("foreign", "foreignKey");
@@ -54,28 +60,32 @@ public abstract class BaseField {
 		replacementKeys.put("comment", "comments");
 	}
 
+	// the list of ignored keys that were found on this field object
 	private ArrayList<String> foundIgnoredKeys = new ArrayList<String>();
 
-	private JSONObject jsonObjectConstructor = null;
-	protected String name = null;
-	private String alias = null;
-	protected String type = null;
-	protected int length = 0;
-	protected boolean nullable = true;
-	protected int decimalLength = 0;
-	protected String defaultValue = null;
-	protected boolean primary = false;
-	protected boolean index = false;
-	protected boolean unique = false;
-	protected boolean populate = true;
-	protected boolean secure = false;
-	protected boolean isInField = false;
-	protected boolean isLargeObject = false;
-	protected String onUpdate = null;
-	protected String onDelete = null;
+	
+	private JSONObject jsonObjectConstructor = null; // the json object that was used to construct this object
+	protected String name = null; // the name of the database field
+	private String alias = null; // the alias of the field to use
+	protected String type = null; // the type of the field
+	protected int length = 0; // the length of the field
+	protected boolean nullable = true; // whether the field is nullable
+	protected int decimalLength = 0; // the decimal length - if required for the fields
+	protected String defaultValue = null; // the default value
+	protected boolean primary = false; // whether this field is primary
+	protected boolean index = false; // whether to index this field
+	protected boolean unique = false; // whether this field is unique
+	protected boolean populate = true; // whether to populate this field
+	protected boolean secure = false; // whether this field is secure and therefore do not output it to the console
+	protected boolean isInField = false; // whether this field is an in field (i.e. where <field_name> in)
+	protected boolean isLargeObject = false; // whether this field is a BLOB/CLOB or equivalent
+	protected String onUpdate = null; // the onUpdate action
+	protected String onDelete = null; // the onDelete action
 
-	protected String foreignKeyTable = null;
-	protected String foreignKeyField = null;
+	protected boolean requiresConfirm = false; // whether this fields requires a confirmation field for entry
+
+	protected String foreignKeyTable = null;  // the foreign key table for lookups
+	protected String foreignKeyField = null; // the foreign key field for lookups
 
 	// generated for the updaters
 	protected String javaName = null;
@@ -120,11 +130,13 @@ public abstract class BaseField {
 
 		this.foreignKey = jsonObject.optString(JSONKeyConstants.FOREIGN_KEY, null);
 
+		this.requiresConfirm = jsonObject.optBoolean(JSONKeyConstants.CONFIRM, false);
+
 		if(null != foreignKey) {
 			// split into table and field
 			String[] split = foreignKey.split("\\.");
 			if(split.length != 2) {
-				throw new H2ZeroParseException("Field '" + name + "' has a '" + JSONKeyConstants.FOREIGN_KEY + " key which must be in the format of <foreign_table_name>.<field_name>");
+				throw new H2ZeroParseException("Field '" + name + "' has a '" + JSONKeyConstants.FOREIGN_KEY + " key which must be in the format of <foreign_table_name>.<foreign_field_name>");
 			} else {
 				foreignKeyTable = split[0];
 				foreignKeyField = split[1];
@@ -162,11 +174,6 @@ public abstract class BaseField {
 				throw new H2ZeroParseException("Field '" + name + "' cannot have a '" + JSONKeyConstants.ON_UPDATE + "' has an invalid value of '" + onUpdate + "', allowable values are: " + ALLOWABLE_UPDATE_DELETE_VALUES);
 			}
 		}
-
-		//		if(jsonObject.optString("finder", null) != null) {
-		//			// no validation done here - this should have already been done
-		//			this.isAutoGeneratedFinder = true;
-		//		}
 
 		for (String key : ignoredKeys) {
 			if(jsonObject.opt(key) != null) {
@@ -270,6 +277,7 @@ public abstract class BaseField {
 	public boolean getHasAlias() { return(null != this.alias); }
 	public String getOnUpdate() { return(onUpdate); }
 	public String getOnDelete() { return(onDelete); }
+	public boolean getRequiresConfirm() { return(requiresConfirm); }
 
 	public ArrayList<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
