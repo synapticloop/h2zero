@@ -13,7 +13,8 @@
 			"name": "user_type",
 			"comments": [
 				"This is the user type table, which is a constant-generated table for all",
-				"of the user types."
+				"of the user types.  This enables quick and easy lookups from within the code",
+				"for values that do not change."
 			],
 			"fields": [
 				{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },

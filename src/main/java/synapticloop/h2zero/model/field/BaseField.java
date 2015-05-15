@@ -282,6 +282,14 @@ public abstract class BaseField {
 	public ArrayList<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
 
+	/**
+	 * Return a copy of this BaseField with the same details as the original.  In effect this creates
+	 * a new BaseField object from the original json object that was passed in to create this field.
+	 * 
+	 * @return A copy of this BaseField object
+	 * 
+	 * @throws H2ZeroParseException If the BaseField could not be created.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public BaseField copy() throws H2ZeroParseException {
 		String firstUpper = NamingHelper.getFirstUpper(this.type);
@@ -290,7 +298,7 @@ public abstract class BaseField {
 		Constructor constructor = null;
 		BaseField baseField = null;
 		try {
-			forName = Class.forName("synapticloop.h2zero.model.field." + firstUpper + "Field");
+			forName = Class.forName(this.getClass().getPackage().getName() + "." + firstUpper + "Field");
 			constructor = forName.getConstructor(JSONObject.class);
 			baseField = (BaseField)constructor.newInstance(jsonObjectConstructor);
 		} catch (NoSuchMethodException ex) {

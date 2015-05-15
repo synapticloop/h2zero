@@ -1,38 +1,15 @@
 package synapticloop.h2zero.util;
 
-import java.util.HashSet;
-
 public class NamingHelper {
-	private static HashSet<Character> UPPER_CASE = new HashSet<Character>();
-	static {
-		UPPER_CASE.add('A');
-		UPPER_CASE.add('B');
-		UPPER_CASE.add('C');
-		UPPER_CASE.add('D');
-		UPPER_CASE.add('E');
-		UPPER_CASE.add('F');
-		UPPER_CASE.add('G');
-		UPPER_CASE.add('H');
-		UPPER_CASE.add('I');
-		UPPER_CASE.add('J');
-		UPPER_CASE.add('K');
-		UPPER_CASE.add('L');
-		UPPER_CASE.add('M');
-		UPPER_CASE.add('N');
-		UPPER_CASE.add('O');
-		UPPER_CASE.add('P');
-		UPPER_CASE.add('Q');
-		UPPER_CASE.add('R');
-		UPPER_CASE.add('S');
-		UPPER_CASE.add('T');
-		UPPER_CASE.add('U');
-		UPPER_CASE.add('V');
-		UPPER_CASE.add('W');
-		UPPER_CASE.add('X');
-		UPPER_CASE.add('Y');
-		UPPER_CASE.add('Z');
-	}
 
+	/**
+	 * Convert a java package like name to a path, e.g. java.lang.String would be converted to
+	 * java/lang/String
+	 * 
+	 * @param toBeConverted the string to be converted
+	 * 
+	 * @return the converted path
+	 */
 	public static String convertToPath(String toBeConverted) {
 		return(toBeConverted.replaceAll("\\.", "/"));
 	}
@@ -113,7 +90,7 @@ public class NamingHelper {
 		char[] characters = name.toCharArray();
 		for (int i = 0; i < characters.length; i++) {
 			char c = characters[i];
-			if(UPPER_CASE.contains(c)) {
+			if(Character.isUpperCase(c)) {
 				stringBuilder.append("_");
 			}
 			stringBuilder.append(c);
