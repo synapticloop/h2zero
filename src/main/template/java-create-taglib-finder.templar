@@ -9,23 +9,16 @@ package {database.package}.taglib.{table.javaFieldName};{\n}{\n}
 
 {import classpath:/snippet/global/java-taglib-imports.templar}
 
-@SuppressWarnings("serial"){\n}
-public class {finder.finderTagName}Tag extends BodyTagSupport {{{\n}
-	{\t}@SuppressWarnings("unused"){\n}
-	{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
-	{\t}private static final Logger LOGGER = Logger.getLogger({finder.finderTagName}Tag.class);{\n}{\n}
-	{\t}private String var = null;{\n}
-	{\t}private boolean removeVar = false;{\n}{\n}
+{set finder as baseQueryObject}
 
-	{set finder as baseQueryObject}
+@SuppressWarnings("serial"){\n}
+public class {finder.tagName}Tag extends BodyTagSupport {{{\n}
+
+	{import classpath:/snippet/global/java-taglib-members.templar}
+
 	{import classpath:/snippet/global/java-class-field-declaration.templar}
 
-	{\t}public int doStartTag() throws JspException {{{\n}
-		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}{if table.isView}View{endif}Finder.{finder.name}Silent(
-			{import classpath:/snippet/global/java-taglib-method-call.templar}
-		));{\n}
-		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
-	{\t}}{\n}
+	{import classpath:/snippet/global/java-taglib-do-start-tag.templar}
 
 	{import classpath:/snippet/global/java-taglib-do-end-tag.templar}
 

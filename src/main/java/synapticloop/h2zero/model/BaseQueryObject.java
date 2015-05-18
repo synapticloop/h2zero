@@ -97,7 +97,7 @@ public abstract class BaseQueryObject {
 		this.jsonUniqueKey = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.UNIQUE, null);
 
 		if(null == name) {
-			throw new H2ZeroParseException("The '" + getBaseQueryObjectType() + "' '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
+			throw new H2ZeroParseException("The '" + getType() + "' '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
 		}
 
 		JSONArray optJSONArray = jsonObject.optJSONArray(JSONKeyConstants.COMMENTS);
@@ -112,7 +112,7 @@ public abstract class BaseQueryObject {
 
 	}
 
-	public abstract String getBaseQueryObjectType();
+	public abstract String getType();
 
 	/**
 	 * Populate the where fields from the passed in json object
@@ -126,7 +126,7 @@ public abstract class BaseQueryObject {
 			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 
 			if(null == whereClause && whereFieldArray.length() > 0) {
-				throw new H2ZeroParseException(this.getBaseQueryObjectType() + " '" + this.name + "' cannot have '" + JSONKeyConstants.WHERE_FIELDS + "' when there is no '" + JSONKeyConstants.WHERE_CLAUSE + "'.");
+				throw new H2ZeroParseException(this.getType() + " '" + this.name + "' cannot have '" + JSONKeyConstants.WHERE_FIELDS + "' when there is no '" + JSONKeyConstants.WHERE_CLAUSE + "'.");
 			}
 
 			for (int i = 0; i < whereFieldArray.length(); i++) {
@@ -160,7 +160,7 @@ public abstract class BaseQueryObject {
 				}
 
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getBaseQueryObjectType() + " '" + name + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getType() + " '" + name + "'.");
 				}
 
 				whereFields.add(baseField);

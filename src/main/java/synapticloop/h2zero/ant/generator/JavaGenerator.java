@@ -92,7 +92,7 @@ public class JavaGenerator extends Generator {
 
 				// don't forget the beans for the selectClause finders
 				if(null != finder.getSelectClause()) {
-					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getFinderTagName() + "Bean.java";
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
 					renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
 				}
 			}
@@ -131,7 +131,7 @@ public class JavaGenerator extends Generator {
 				Finder finder = finderIterator.next();
 				templarContext.add("finder", finder);
 				if(null != finder.getSelectClause()) {
-					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getFinderTagName() + "Bean.java";
+					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
 					renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
 				}
 			}

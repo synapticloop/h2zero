@@ -10,7 +10,7 @@ import java.sql.Timestamp;{\n}
 
 {\n}{\n}
 
-public class {finder.finderTagName}Bean {{{\n}
+public class {finder.tagName}Bean {{{\n}
 
 {loop finder.selectFields as selectField}
 	{\t}private {selectField.javaType} {selectField.javaName} = null;{\n}
@@ -18,7 +18,7 @@ public class {finder.finderTagName}Bean {{{\n}
 
 	{\n}
 
-	{\t}public {finder.finderTagName}Bean(
+	{\t}public {finder.tagName}Bean(
 		{loop finder.selectFields as selectField}
 			{selectField.javaType} {selectField.javaName}
 			{if selectFieldStatus.last}{else}, {endif}

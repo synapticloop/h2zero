@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
-import synapticloop.h2zero.util.NamingHelper;
 
 public class Finder extends BaseQueryObject {
 	private boolean unique = false;
@@ -47,9 +46,8 @@ public class Finder extends BaseQueryObject {
 		}
 	}
 
-	public String getFinderTagName() { return(NamingHelper.getFirstUpper(name)); }
 	public void setOrderBy(String orderBy) { this.orderBy = orderBy; }
 	public boolean getUnique() { return(unique); }
 
-	public String getBaseQueryObjectType() { return("Finder"); }
+	public String getType() { return("Finder"); }
 }

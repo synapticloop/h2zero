@@ -109,8 +109,8 @@
 		{endloop}
 
 		{\t}{\t}</description>{\n}
-		{\t}{\t}<name>{table.javaClassName}{finder.finderTagName}</name>{\n}
-		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{finder.finderTagName}Tag</tag-class>{\n}
+		{\t}{\t}<name>{table.javaClassName}{finder.tagName}</name>{\n}
+		{\t}{\t}<tag-class>{database.package}.taglib.{table.javaFieldName}.{finder.tagName}Tag</tag-class>{\n}
 		{\t}{\t}<body-content>JSP</body-content>{\n}
 
 		{\t}{\t}<attribute>{\n}

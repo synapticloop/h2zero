@@ -30,7 +30,7 @@ public class Deleter extends BaseQueryObject {
 		populateWhereFields(jsonObject);
 	}
 
-	public String getBaseQueryObjectType() {
+	public String getType() {
 		return("Deleter");
 	}
 }

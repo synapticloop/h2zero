@@ -21,12 +21,7 @@ public class {question.tagName}Tag extends BodyTagSupport {{{\n}
 
 	{import classpath:/snippet/global/java-class-field-declaration.templar}
 
-{\t}public int doStartTag() throws JspException {{{\n}
-	{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Question.{baseQueryObject.name}Silent(
-		{import classpath:/snippet/global/java-taglib-method-call.templar}
-	));{\n}
-	{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
-{\t}}{\n}
+	{import classpath:/snippet/global/java-taglib-do-start-tag.templar}
 
 	{import classpath:/snippet/global/java-taglib-do-end-tag.templar}
 

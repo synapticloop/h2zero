@@ -49,7 +49,7 @@ public class Counter extends BaseQueryObject {
 		populateWhereFields(counterObject);
 	}
 
-	public String getBaseQueryObjectType() {
+	public String getType() {
 		return("Counter");
 	}
 }

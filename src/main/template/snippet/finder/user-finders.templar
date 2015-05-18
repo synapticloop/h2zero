@@ -353,7 +353,7 @@
 {loop tableOrView.finders as finder}
 	{if fn:notNull[finder.selectClause]}
 		{\t}public static 
-		{if finder.unique}{finder.finderTagName}Bean {else}List<{finder.finderTagName}Bean> {endif}
+		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
 		{finder.name}(
 
 			{import classpath:/snippet/finder/method-parameters.templar}
@@ -433,13 +433,13 @@
 			{\n}
 			{if finder.unique}
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}{finder.finderTagName}Bean result = unique{finder.finderTagName}BeanResult(resultSet);{\n}
+				{\t}{\t}{\t}{finder.tagName}Bean result = unique{finder.tagName}BeanResult(resultSet);{\n}
 				{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
 				{\t}{\t}{\t}return(result);{\n}
 			{else}
 
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}List<{finder.finderTagName}Bean> results = list{finder.finderTagName}Bean(resultSet);{\n}
+				{\t}{\t}{\t}List<{finder.tagName}Bean> results = list{finder.tagName}Bean(resultSet);{\n}
 
 				{\t}{\t}{\t}return(results);{\n}
 			{endif}
@@ -461,7 +461,7 @@
 
 
 		{\t}public static 
-		{if finder.unique}{finder.finderTagName}Bean {else}List<{finder.finderTagName}Bean> {endif}
+		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
 		{finder.name}(Connection connection
 
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
@@ -531,13 +531,13 @@
 			{\n}
 			{if finder.unique}
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}{finder.finderTagName}Bean result = unique{finder.finderTagName}BeanResult(resultSet);{\n}
+				{\t}{\t}{\t}{finder.tagName}Bean result = unique{finder.tagName}BeanResult(resultSet);{\n}
 				{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 				{\t}{\t}{\t}return(result);{\n}
 			{else}
 
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}List<{finder.finderTagName}Bean> results = list{finder.finderTagName}Bean(resultSet);{\n}
+				{\t}{\t}{\t}List<{finder.tagName}Bean> results = list{finder.tagName}Bean(resultSet);{\n}
 
 				{\t}{\t}{\t}return(results);{\n}
 			{endif}
@@ -559,7 +559,7 @@
 
 
 		{\t}public static 
-		{if finder.unique}{finder.finderTagName}Bean {else}List<{finder.finderTagName}Bean> {endif}
+		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
 		{finder.name}Silent(
 			{import classpath:/snippet/finder/method-parameters.templar}
 		) {{{\n}
@@ -622,7 +622,7 @@
 
 			{\t}{\t}{\t}}{\n}
 
-			{\t}{\t}{\t}return(new ArrayList<{finder.finderTagName}Bean>());{\n}
+			{\t}{\t}{\t}return(new ArrayList<{finder.tagName}Bean>());{\n}
 			{\t}{\t}} catch(SQLException sqlex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
@@ -638,7 +638,7 @@
 
 			{\t}{\t}{\t}}{\n}
 
-			{\t}{\t}{\t}return(new ArrayList<{finder.finderTagName}Bean>());{\n}
+			{\t}{\t}{\t}return(new ArrayList<{finder.tagName}Bean>());{\n}
 			{\t}{\t}}{\n}
 		{endif}
 		{\t}}{\n}
@@ -646,7 +646,7 @@
 
 
 		{\t}public static 
-		{if finder.unique}{finder.finderTagName}Bean {else}List<{finder.finderTagName}Bean> {endif}
+		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
 		{finder.name}Silent(Connection connection
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 		) {{{\n}
@@ -709,7 +709,7 @@
 
 			{\t}{\t}{\t}}{\n}
 
-			{\t}{\t}{\t}return(new ArrayList<{finder.finderTagName}Bean>());{\n}
+			{\t}{\t}{\t}return(new ArrayList<{finder.tagName}Bean>());{\n}
 			{\t}{\t}} catch(SQLException sqlex) {{{\n}
 
 			{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
@@ -725,7 +725,7 @@
 
 			{\t}{\t}{\t}}{\n}
 
-			{\t}{\t}{\t}return(new ArrayList<{finder.finderTagName}Bean>());{\n}
+			{\t}{\t}{\t}return(new ArrayList<{finder.tagName}Bean>());{\n}
 			{\t}{\t}}{\n}
 		{endif}
 		{\t}}{\n}
@@ -826,17 +826,17 @@
 			{\t} * {\n}
 			{\t} * @param resultSet The result set of the query{\n}
 			{\t} * {\n}
-			{\t} * @return The {finder.finderTagName}Beans that represents this result{\n}
+			{\t} * @return The {finder.tagName}Beans that represents this result{\n}
 			{\t} * {\n}
 			{\t} * @throws H2ZeroFinderException if no results were found{\n}
 			{\t} * @throws SQLException if there was a problem retrieving the results{\n}
 			{\t} */{\n}
 
-			{\t}private static {finder.finderTagName}Bean unique{finder.finderTagName}BeanResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
+			{\t}private static {finder.tagName}Bean unique{finder.tagName}BeanResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
 			{\t}{\t}if(resultSet.first()) {{{\n}
 			{\t}{\t}{\t}// we have a result{\n}
 
-			{\t}{\t}{\t}return(new {finder.finderTagName}Bean({\n}
+			{\t}{\t}{\t}return(new {finder.tagName}Bean({\n}
 			{loop finder.selectFields as selectField}
 				{\t}{\t}{\t}{\t}{\t}resultSet.get{selectField.sqlJavaType}({selectFieldStatus.index})
 				{if !selectFieldStatus.last},{\n}{endif}
@@ -853,21 +853,21 @@
 		{else}
 
 			{\t}/**{\n}
-			{\t} * Return the results as a list of {finder.finderTagName}Beans, this will be empty if{\n}
+			{\t} * Return the results as a list of {finder.tagName}Beans, this will be empty if{\n}
 			{\t} * none are found.{\n}
 			{\t} * {\n}
-			{\t} * @param resultSet the results as a list of {finder.finderTagName}Bean{\n}
+			{\t} * @param resultSet the results as a list of {finder.tagName}Bean{\n}
 			{\t} * {\n}
 			{\t} * @return the list of results{\n}
 			{\t} * {\n}
 			{\t} * @throws SQLException if there was a problem retrieving the results{\n}
 			{\t} */{\n}
 
-			{\t}private static List<{finder.finderTagName}Bean> list{finder.finderTagName}Bean(ResultSet resultSet) throws SQLException {{{\n}
-			{\t}{\t}List<{finder.finderTagName}Bean> arrayList = new ArrayList<{finder.finderTagName}Bean>();{\n}
+			{\t}private static List<{finder.tagName}Bean> list{finder.tagName}Bean(ResultSet resultSet) throws SQLException {{{\n}
+			{\t}{\t}List<{finder.tagName}Bean> arrayList = new ArrayList<{finder.tagName}Bean>();{\n}
 			{\t}{\t}while(resultSet.next()) {{{\n}
 
-			{\t}{\t}{\t}arrayList.add(new {finder.finderTagName}Bean({\n}
+			{\t}{\t}{\t}arrayList.add(new {finder.tagName}Bean({\n}
 
 			{loop finder.selectFields as selectField}
 				{\t}{\t}{\t}{\t}{\t}resultSet.get{selectField.sqlJavaType}({selectFieldStatus.index})

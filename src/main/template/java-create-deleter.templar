@@ -164,7 +164,7 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\t} * method would have been faster, but would fail, hence the 'DELETE FROM' SQL{\n}
 	{\t} * statement is used{\n}
 {else}
-	{\t} * This table has now foriegn key relationships and consequently can be truncated.{\n}
+	{\t} * This table has now foreign key relationships and consequently can be truncated.{\n}
 {endif}
 {\t} * {\n}
 {\t} * @return The number of rows affected by this statement{\n}

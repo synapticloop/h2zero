@@ -1,21 +1,6 @@
 {\n}
-	{\t}public String getVar() {{{\n}
-	{\t}{\t}return var;{\n}
-	{\t}}{\n}
-
-{\n}
-	{\t}public void setVar(String var) {{{\n}
-	{\t}{\t}this.var = var;{\n}
-	{\t}}{\n}
-{\n}
-
-	{\t}public void setRemoveVar(boolean removeVar) {{{\n}
-	{\t}{\t}this.removeVar = removeVar;{\n}
-	{\t}}{\n}
-
-{\n}
-	{\t}public boolean getRemoveVar() {{{\n}
-	{\t}{\t}return removeVar;{\n}
-	{\t}}{\n}
-
+	{\t}public String getVar() {{ return var; }{\n}
+	{\t}public void setVar(String var) {{ this.var = var; }{\n}
+	{\t}public void setRemoveVar(boolean removeVar) {{ this.removeVar = removeVar; }{\n}
+	{\t}public boolean getRemoveVar() {{ return removeVar; }{\n}
 {\n}

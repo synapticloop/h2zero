@@ -81,7 +81,7 @@ public class Updater extends BaseQueryObject {
 		}
 	}
 
-	public String getBaseQueryObjectType() {
+	public String getType() {
 		return("Updater");
 	}
 }

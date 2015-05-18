@@ -115,7 +115,7 @@ tbody tr:nth-child(even) {{ background-color:#fff; }
 		{endif}
 
 
-		<{database.schema}:{finder.finderTagName} var="{table.javaFieldName}s">
+		<{database.schema}:{finder.tagName} var="{table.javaFieldName}s">
 			<h2>${{fn:length({table.javaFieldName}s)} results found</h2>
 			<c:forEach items="${{{table.javaFieldName}s}" var="{table.javaFieldName}" varStatus="status">
 				<c:if test="${{status.first}">
@@ -141,7 +141,7 @@ tbody tr:nth-child(even) {{ background-color:#fff; }
 					</table>
 				</c:if>
 			</c:forEach>
-		</{database.schema}:{finder.finderTagName}>
+		</{database.schema}:{finder.tagName}>
 
 
 	</div>

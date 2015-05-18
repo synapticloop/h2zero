@@ -12,7 +12,7 @@ public abstract class KeyValidator extends Validator {
 
 	public void validate(BaseQueryObject baseQueryObject) {
 		JSONObject jsonObject = baseQueryObject.getJsonObject();
-		String baseQueryObjectType = baseQueryObject.getBaseQueryObjectType();
+		String baseQueryObjectType = baseQueryObject.getType();
 		String tableName = baseQueryObject.getBaseSchemaObject().getName();
 
 		HashMap<String, UsageType> allowableJsonKeys = baseQueryObject.getAllowableJsonKeys();

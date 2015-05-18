@@ -46,7 +46,7 @@ public class Question extends BaseQueryObject {
 		populateWhereFields(questionObject);
 	}
 
-	public String getBaseQueryObjectType() {
+	public String getType() {
 		return("Question");
 	}
 }
