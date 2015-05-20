@@ -3,9 +3,20 @@ package synapticloop.h2zero.ant.quick;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+
 public class Database {
+	private String schema = null;
+	private String javaPackage = null;
+
 	private ArrayList<Table> tables = new ArrayList<Table>();
 	private HashMap<String, Table> tableNames = new HashMap<String, Table>();
+
+	public Database(String schema, String javaPackage) {
+		this.schema = schema;
+		this.javaPackage = javaPackage;
+	}
 
 	public void addTable(Table table) {
 		tables.add(table);
@@ -17,7 +28,14 @@ public class Database {
 			return(false);
 		}
 
-		tableNames.get(from).addForeignKey(to);
+		
+		Table table = tableNames.get(from);
+		if(null != table) {
+			table.addForeignKey(to);
+		} else {
+			SimpleLogger.logFatal(LoggerType.GENERATE, "Table '" + from + "' was not defined before usage.");
+			return(false);
+		}
 		return(true);
 	}
 
@@ -30,8 +48,8 @@ public class Database {
 		stringBuilder.append("\t\"generators\": [ \"java\", \"sql\" ]\n");
 		stringBuilder.append("},\n");
 		stringBuilder.append("\"database\": {\n");
-		stringBuilder.append("\t\"schema\": \"your_schema_here\",\n");
-		stringBuilder.append("\t\"package\": \"your.package.here\",\n");
+		stringBuilder.append("\t\"schema\": \"" + schema + "re\",\n");
+		stringBuilder.append("\t\"package\": \"" + javaPackage + "\",\n");
 		stringBuilder.append("\t\"tables\": [\n");
 
 		int size = tables.size();

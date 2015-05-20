@@ -25,6 +25,8 @@ import synapticloop.h2zero.ant.quick.Database;
 import synapticloop.h2zero.ant.quick.Table;
 
 public class H2ZeroQuickTask extends Task {
+	private String schema = "your_schema_here";
+	private String javaPackage = "your.package.here";
 	private String tables = null;
 	private String foreign = null;
 
@@ -35,18 +37,18 @@ public class H2ZeroQuickTask extends Task {
 			return;
 		}
 
-		Database database = new Database();
+		Database database = new Database(schema, javaPackage);
 
 		String[] splitTables = tables.split(",");
 		for (int i = 0; i < splitTables.length; i++) {
-			String splitTable = splitTables[i];
-			database.addTable(new Table(splitTable.trim()));
+			String splitTable = splitTables[i].trim();
+			database.addTable(new Table(splitTable));
 		}
 
 		if(foreign.trim().length() != 0) {
 			String[] splitForeigns = foreign.split(",");
 			for (int i = 0; i < splitForeigns.length; i++) {
-				String splitForeign = splitForeigns[i];
+				String splitForeign = splitForeigns[i].trim();
 				String[] fromTo = splitForeign.split("\\.");
 				if(fromTo.length != 2) {
 					getProject().log("Could not read foreign key of '" + splitForeign + "' as it is not in the format <table_from>.<table_to>", Project.MSG_ERR);
@@ -58,11 +60,18 @@ public class H2ZeroQuickTask extends Task {
 				}
 			}
 		}
+
 		getProject().log(database.toString());
 	}
+
+	public String getSchema() { return schema; }
+	public void setSchema(String schema) { this.schema = schema; }
+	public String getPackage() { return javaPackage; }
+	public void setPackage(String javaPackage) { this.javaPackage = javaPackage; }
 
 	public String getTables() { return tables; }
 	public void setTables(String tables) { this.tables = tables; }
 	public String getForeign() { return foreign; }
 	public void setForeign(String foreign) { this.foreign = foreign; }
+
 }
