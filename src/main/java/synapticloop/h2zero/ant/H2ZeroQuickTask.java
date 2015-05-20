@@ -77,6 +77,4 @@ public class H2ZeroQuickTask extends Task {
 	public void setTables(String tables) { this.tables = tables; }
 	public String getForeign() { return foreign; }
 	public void setForeign(String foreign) { this.foreign = foreign; }
-
-
 }

@@ -30,7 +30,7 @@ public class Database {
 			return(false);
 		}
 
-		
+
 		Table table = tableNames.get(from);
 		if(null != table) {
 			table.addForeignKey(to);
