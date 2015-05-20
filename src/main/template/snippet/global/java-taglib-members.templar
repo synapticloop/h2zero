@@ -4,5 +4,6 @@
 {\t}@SuppressWarnings("unused"){\n}
 {\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}
 {\t}private static final Logger LOGGER = Logger.getLogger({baseQueryObject.tagName}Tag.class);{\n}{\n}
+
 {\t}private String var = null;{\n}
 {\t}private boolean removeVar = false;{\n}{\n}

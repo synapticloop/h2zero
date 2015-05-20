@@ -44,7 +44,7 @@ import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
 
 public class H2ZeroTask extends Task {
-	private String in = null;
+	private String inFile = null;
 	private String outDir = null;
 	private int numTables = 0;
 
@@ -54,24 +54,24 @@ public class H2ZeroTask extends Task {
 
 	@Override
 	public void execute() throws BuildException {
-		if(null == outDir || null == in) {
-			getProject().log("Both attributes 'in' and 'outDir' are required, exiting...", Project.MSG_ERR);
+		if(null == outDir || null == inFile) {
+			getProject().log("Both attributes 'inFile' and 'outDir' are required, exiting...", Project.MSG_ERR);
 			return;
 		}
 
-		File h2zeroFile = new File(in);
+		File h2zeroFile = new File(inFile);
 		if(!h2zeroFile.exists()|| !h2zeroFile.canRead()) {
-			getProject().log("h2zero file 'in' does not exist, or is not readable, exiting...", Project.MSG_ERR);
+			getProject().log("h2zero file 'inFile': '" + inFile + "' does not exist, or is not readable, exiting...", Project.MSG_ERR);
 			return;
 		}
 
 		File outFile = new File(outDir);
 		if(!outFile.exists() || !outFile.isDirectory()) {
-			getProject().log("'outDir' does not exists or is not a directory, exiting...", Project.MSG_ERR);
+			getProject().log("'outDir': '" + outDir + "' does not exists or is not a directory, exiting...", Project.MSG_ERR);
 			return;
 		}
 
-		SimpleLogger.logInfo(LoggerType.OPTIONS, "In file: " + in);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "In file: " + inFile);
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "Out dir: " + outDir);
 
 		// otherwise we are good to go
@@ -231,10 +231,16 @@ public class H2ZeroTask extends Task {
 		}
 	}
 
-	public void setIn(String in) { this.in = in; }
-	public String getIn() { return in; }
+	@Deprecated
+	public void setIn(String in) {
+		getProject().log("Attribute 'in' is depecrated and __MUST__ be replced with 'inFile', exitting...", Project.MSG_ERR);
+		System.exit(-1);
+	}
+	public String getInFile() { return inFile; }
+	public void setInFile(String inFile) { this.inFile = inFile; }
 	public void setOutDir(String outDir) { this.outDir = outDir; }
 	public String getOutDir() { return outDir; }
 	public boolean getVerbose() { return verbose; }
 	public void setVerbose(boolean verbose) { this.verbose = verbose; }
+
 }

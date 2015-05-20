@@ -55,7 +55,7 @@ public class Main {
 			String outDir = args[1];
 
 			H2ZeroTask h2ZeroTask = new H2ZeroTask();
-			h2ZeroTask.setIn(inFile);
+			h2ZeroTask.setInFile(inFile);
 			h2ZeroTask.setOutDir(outDir);
 
 			h2ZeroTask.execute();

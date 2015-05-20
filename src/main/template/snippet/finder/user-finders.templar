@@ -5,7 +5,39 @@
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {loop tableOrView.finders as finder}
+
 	{if fn:null[finder.selectClause]}
+
+		{\t}/**{\n}
+				{\t} * {finder.name}{\n}
+				{\t} * {\n}
+			{loop finder.comments as comment}
+				{\t} * {comment}{\n}
+				{if commentStatus.last}
+					{\t} * {\n}
+				{endif}
+			{endloop}
+	{if finder.hasWhereFieldAliases}
+		{loop finder.whereFields as whereField}
+			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif}{\n}
+		{endloop}
+	{else}
+		{loop finder.uniqueWhereFields as whereField}
+			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif}{\n}
+		{endloop}
+	{endif}
+
+		{\t} * {\n}
+			{if finder.unique}
+				{\t} * @return the unique result of {tableOrView.javaClassName} found{\n}
+			{else}
+				{\t} * @return the list of {tableOrView.javaClassName} results found{\n}
+			{endif}
+		{\t} * {\n}
+		{\t} * @throws H2ZeroFinderException if no results could be found{\n}
+		{\t} * @throws SQLException if there was an error in the SQL statement{\n}
+		{\t} */{\n}
+
 		{\t}public static 
 		{if finder.unique}{tableOrView.javaClassName} {else}List<{tableOrView.javaClassName}> {endif}
 			{finder.name}(
