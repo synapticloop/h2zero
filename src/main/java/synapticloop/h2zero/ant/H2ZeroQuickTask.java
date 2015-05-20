@@ -27,17 +27,18 @@ import synapticloop.h2zero.ant.quick.Table;
 public class H2ZeroQuickTask extends Task {
 	private String schema = "your_schema_here";
 	private String javaPackage = "your.package.here";
+	private String generators = "java,sql";
 	private String tables = null;
 	private String foreign = null;
 
 	@Override
 	public void execute() throws BuildException {
 		if(null == tables || null == foreign) {
-			getProject().log("Attributes 'tables', 'foreign' are required, exiting...", Project.MSG_ERR);
+			getProject().log("Attributes 'tables' and 'foreign' are required, exiting...", Project.MSG_ERR);
 			return;
 		}
 
-		Database database = new Database(schema, javaPackage);
+		Database database = new Database(schema, javaPackage, generators);
 
 		String[] splitTables = tables.split(",");
 		for (int i = 0; i < splitTables.length; i++) {
@@ -69,9 +70,13 @@ public class H2ZeroQuickTask extends Task {
 	public String getPackage() { return javaPackage; }
 	public void setPackage(String javaPackage) { this.javaPackage = javaPackage; }
 
+	public String getGenerators() { return generators; }
+	public void setGenerators(String generators) { this.generators = generators; }
+
 	public String getTables() { return tables; }
 	public void setTables(String tables) { this.tables = tables; }
 	public String getForeign() { return foreign; }
 	public void setForeign(String foreign) { this.foreign = foreign; }
+
 
 }

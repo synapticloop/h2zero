@@ -12,10 +12,12 @@ public class Database {
 
 	private ArrayList<Table> tables = new ArrayList<Table>();
 	private HashMap<String, Table> tableNames = new HashMap<String, Table>();
+	private String generators;
 
-	public Database(String schema, String javaPackage) {
+	public Database(String schema, String javaPackage, String generators) {
 		this.schema = schema;
 		this.javaPackage = javaPackage;
+		this.generators = generators;
 	}
 
 	public void addTable(Table table) {
@@ -44,11 +46,22 @@ public class Database {
 		stringBuilder.append("{\n");
 		stringBuilder.append("\"options\": {\n");
 		stringBuilder.append("\t\"logging\": \"log4j\",\n");
-		stringBuilder.append("\t\"statistics\": false,\n");
-		stringBuilder.append("\t\"generators\": [ \"java\", \"sql\" ]\n");
+
+		// now for the generators
+		stringBuilder.append("\t\"generators\": [ ");
+		String[] splits = generators.split(",");
+		for (int i = 0; i < splits.length; i++) {
+			String generator = splits[i];
+			stringBuilder.append("\"" + generator +  "\"");
+			if(i != splits.length - 1) {
+				stringBuilder.append(", ");
+			}
+		}
+		stringBuilder.append(" ]\n");
+
 		stringBuilder.append("},\n");
 		stringBuilder.append("\"database\": {\n");
-		stringBuilder.append("\t\"schema\": \"" + schema + "re\",\n");
+		stringBuilder.append("\t\"schema\": \"" + schema + "\",\n");
 		stringBuilder.append("\t\"package\": \"" + javaPackage + "\",\n");
 		stringBuilder.append("\t\"tables\": [\n");
 
