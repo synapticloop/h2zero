@@ -31,6 +31,18 @@ public class Table {
 
 		// add a name into it
 		stringBuilder.append("\t\t\t\t{ \"name\": \"nm_" + name + "\", \"type\": \"varchar\", \"length\": \"256\", \"nullable\": false }\n");
+		stringBuilder.append("\t\t\t],\n");
+		stringBuilder.append("\t\t\t\"fieldFinders\": [\n");
+		stringBuilder.append("\t\t\t],\n");
+		stringBuilder.append("\t\t\t\"finders\": [\n");
+		stringBuilder.append("\t\t\t],\n");
+		stringBuilder.append("\t\t\t\"updaters\": [\n");
+		stringBuilder.append("\t\t\t],\n");
+		stringBuilder.append("\t\t\t\"deleters\": [\n");
+		stringBuilder.append("\t\t\t],\n");
+		stringBuilder.append("\t\t\t\"counters\": [\n");
+		stringBuilder.append("\t\t\t],\n");
+		stringBuilder.append("\t\t\t\"questions\": [\n");
 		stringBuilder.append("\t\t\t]\n");
 		stringBuilder.append("\t\t}");
 		return(stringBuilder.toString());

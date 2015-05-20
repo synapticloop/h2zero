@@ -42,7 +42,7 @@ public class H2ZeroQuickTask extends Task {
 			String splitTable = splitTables[i];
 			database.addTable(new Table(splitTable.trim()));
 		}
-		
+
 		if(foreign.trim().length() != 0) {
 			String[] splitForeigns = foreign.split(",");
 			for (int i = 0; i < splitForeigns.length; i++) {
@@ -58,7 +58,7 @@ public class H2ZeroQuickTask extends Task {
 				}
 			}
 		}
-		System.out.println(database.toString());
+		getProject().log(database.toString());
 	}
 
 	public String getTables() { return tables; }
