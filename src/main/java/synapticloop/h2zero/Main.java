@@ -1,6 +1,5 @@
 package synapticloop.h2zero;
 
-import synapticloop.h2zero.ant.H2ZeroTask;
 
 /*
  * Copyright (c) 2012-2015 synapticloop.
@@ -21,44 +20,28 @@ import synapticloop.h2zero.ant.H2ZeroTask;
  */
 
 public class Main {
-	private static void usage() {
-		usage(null);
-	}
-
 	/**
-	 * Simple usage message with optional explanatory message
-	 * 
-	 * @param message The message to be printed out if not null
+	 * Simple usage message
 	 */
-	private static void usage(Exception exception) {
-		if(exception != null) {
-			System.out.println("FATAL: " + exception.getMessage() + "\n");
-		}
 
-		System.out.println("Usage:\n\tjava synapticloop.h2zero.Main <filename.h2zero> <out.dir>");
-		System.out.println("Where:");
-		System.out.println("\t<filename.h2zero> is the path to the json format file");
-		System.out.println("\t<out.dir> is the path to where the generated artefacts will go");
+	private static void usage() {
+		System.out.println("This can no longer be run from the command line - please use the following in your ant build scripts:\n\n");
 
-		if(null != exception) {
-			System.out.println("Stack trace follows:");
-			exception.printStackTrace();
-		}
-		throw new IllegalArgumentException();
+		System.out.println("\t<path id=\"classpath-h2zero\">");
+		System.out.println("\t\t<fileset dir=\"lib/compile\">");
+		System.out.println("\t\t\t<include name=\"*.jar\"/>");
+		System.out.println("\t\t</fileset>");
+		System.out.println("\t</path>");
+		System.out.println("\t");
+		System.out.println("\t<target name=\"h2zero\" description=\"h2zero generate\">");
+		System.out.println("\t\t<taskdef resource=\"h2zero.properties\" classpathref=\"classpath-h2zero\" />");
+		System.out.println("\t\t<h2zero in=\"src/main/java/your_file_name_here.h2zero\" outDir=\".\" verbose=\"false\" />");
+		System.out.println("\t</target>\n");
+
+		System.out.println("Exiting...");
 	}
 
 	public static void main(String[] args) {
-		if(null == args || args.length != 2) {
-			usage();
-		} else {
-			String inFile = args[0];
-			String outDir = args[1];
-
-			H2ZeroTask h2ZeroTask = new H2ZeroTask();
-			h2ZeroTask.setInFile(inFile);
-			h2ZeroTask.setOutDir(outDir);
-
-			h2ZeroTask.execute();
-		}
+		usage();
 	}
 }
