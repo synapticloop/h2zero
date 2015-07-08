@@ -2,7 +2,15 @@
 "options": {
 	"logging": "log4j",
 	"metrics": true,
-	"generators": [ "java", "sql", "taglib" ]
+	"generators": [ "java", "sql", "taglib" ],
+	"validators: {
+		"UpdaterNameValidator": {
+			"allowablePrefixes": "update,reset"
+		},
+		"FinderNameValidator": {
+			"allowablePrefixes": "find,calculate"
+		}
+	}
 },
 "database": {
 	"schema": "sample",

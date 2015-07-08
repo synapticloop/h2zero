@@ -156,6 +156,8 @@ public class H2ZeroParser {
 		// now do the actual parsing
 		this.database = new Database(jsonObject);
 
+		// now that we have parsed the file - go through and update the validator options
+		
 		// now go through and run the validators
 		boolean isValid = true;
 

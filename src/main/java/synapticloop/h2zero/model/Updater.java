@@ -66,7 +66,7 @@ public class Updater extends BaseQueryObject {
 				String whereFieldName = whereFieldArray.getString(i);
 				BaseField baseField = table.getField(whereFieldName);
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for updater '" + name + "'.");
+					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getType() + " '" + name + "'.");
 				}
 
 				BaseField updateBaseField = table.getWhereField(whereFieldName);
