@@ -20,6 +20,7 @@ package {database.package}.model;{\n}{\n}
 	{\n}
 {else}
 	import java.util.HashMap;{\n}{\n}
+	import java.util.Map;{\n}{\n}
 {endif}
 
 import {database.package}.model.util.Constants;{\n}
@@ -71,14 +72,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}{loop table.constants as constant}
 				{table.javaClassName}.{constant.name}{if !constantStatus.last}, {endif}
 			{endloop}{\n}
-	{\t}}{\n}
+	{\t}};{\n}
 	{\n}
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		And the static HashMap lookup
 	}
 
-	{\t}public static final HashMap<Long, {table.javaClassName}> ALL_LOOKUP = new HashMap<Long, {table.javaClassName}>();{\n}
+	{\t}public static final Map<Long, {table.javaClassName}> ALL_LOOKUP = new HashMap<Long, {table.javaClassName}>();{\n}
 	{\t}static{{{\n}
 		{loop table.constants as constant}
 			{\t}{\t}ALL_LOOKUP.put({constant.primaryKeyValue}, {table.javaClassName}.{constant.name});{\n}
@@ -752,6 +753,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{endloop}
 	{-- Now we need the toString Method--}
 	{\n}
+	{\t}@Override{\t}
 		{\t}public String toString() {{{\n}
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
