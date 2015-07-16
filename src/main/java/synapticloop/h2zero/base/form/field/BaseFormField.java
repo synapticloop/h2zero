@@ -77,13 +77,12 @@ public abstract class BaseFormField {
 
 		this.defaultValue = JsonHelper.getStringValue(jsonObject, "default", null);
 		// now we need to check that the default value falls within the allowable values
-		if(null != defaultValue) {
-			if(!allowableValues.contains(defaultValue)) {
-				if(LOGGER.isEnabledFor(Level.WARN)) {
-					LOGGER.warn("Default value of '" + defaultValue + "' is not within the allowable values list of '" + allowableValuesString + "', ignoring.");
-				}
-				this.defaultValue = null;
+		if(null != defaultValue && 
+				!allowableValues.contains(defaultValue)) {
+			if(LOGGER.isEnabledFor(Level.WARN)) {
+				LOGGER.warn("Default value of '" + defaultValue + "' is not within the allowable values list of '" + allowableValuesString + "', ignoring.");
 			}
+			this.defaultValue = null;
 		}
 
 		// now for the only if fields

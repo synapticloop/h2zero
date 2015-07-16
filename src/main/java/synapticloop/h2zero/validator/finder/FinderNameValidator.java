@@ -2,6 +2,7 @@ package synapticloop.h2zero.validator.finder;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
@@ -10,7 +11,7 @@ import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.validator.Validator;
 
 public class FinderNameValidator extends Validator {
-	private HashSet<String> finderNames = new HashSet<String>();
+	private Set<String> finderNames = new HashSet<String>();
 
 	public void validate(Database database, Options options) {
 		List<Table> tables = database.getTables();

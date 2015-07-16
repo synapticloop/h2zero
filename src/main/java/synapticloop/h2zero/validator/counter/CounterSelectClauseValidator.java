@@ -18,11 +18,9 @@ public class CounterSelectClauseValidator extends Validator {
 			List<Counter> counters = table.getCounters();
 			for (Counter counter : counters) {
 				String selectClause = counter.getSelectClause();
-				if(null != selectClause) {
-					if(!selectClause.toLowerCase().contains("select")) {
-						addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has a selectClause that does not start with 'select', so I am going to add one.");
-						counter.setSelectClause(" select " + selectClause);
-					}
+				if(null != selectClause && !selectClause.toLowerCase().contains("select")) {
+					addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has a selectClause that does not start with 'select', so I am going to add one.");
+					counter.setSelectClause(" select " + selectClause);
 				}
 			}
 		}

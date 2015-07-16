@@ -63,7 +63,7 @@ public class Inserter extends BaseQueryObject {
 			}
 		}
 
-		if(null != selectClause && valueFields.size() != 0) {
+		if(null != selectClause && !valueFields.isEmpty()) {
 			throw new H2ZeroParseException("The inserter '" + name + "' for table '" + table.getName() + "'has selectClause and value fields.");
 		}
 	}

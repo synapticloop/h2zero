@@ -16,11 +16,9 @@ public abstract class ValidatorBase {
 	}
 
 	public void validateDefault(String value, String valueConfirm) {
-		if(null == value) {
-			if(!baseField.getNullable()) {
-				isValid = false;
-				return;
-			}
+		if(null == value && !baseField.getNullable()) {
+			isValid = false;
+			return;
 		}
 
 		if(baseField.getRequiresConfirm()) {

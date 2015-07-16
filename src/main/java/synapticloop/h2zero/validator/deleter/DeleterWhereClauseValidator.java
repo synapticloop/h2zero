@@ -17,11 +17,9 @@ public class DeleterWhereClauseValidator extends Validator {
 			List<Deleter> deleters = table.getDeleters();
 			for (Deleter deleter : deleters) {
 				String whereClause = deleter.getWhereClause();
-				if(null != whereClause) {
-					if(!whereClause.toLowerCase().contains("where")) {
-						addWarnMessage("Deleter '" + table.getName() + "." + deleter.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
-						deleter.setWhereClause(" where " + whereClause);
-					}
+				if(null != whereClause && !whereClause.toLowerCase().contains("where")) {
+					addWarnMessage("Deleter '" + table.getName() + "." + deleter.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
+					deleter.setWhereClause(" where " + whereClause);
 				}
 			}
 		}

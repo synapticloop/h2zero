@@ -43,11 +43,13 @@ public class FileUtils {
 				try {
 					inputStream.close();
 				} catch (IOException ignored) {
+					// do nothing
 				}
 			}
 			try {
 				outputStream.close();
 			} catch (IOException ignored) {
+				// do nothing
 			}
 		}
 	}
@@ -84,11 +86,13 @@ public class FileUtils {
 				try {
 					resourceAsStream.close();
 				} catch (IOException ignored) {
+					// do nothing
 				}
 			}
 			try {
 				outputStream.close();
 			} catch (IOException ignored) {
+				// do nothing
 			}
 		}
 	}

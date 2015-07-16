@@ -18,10 +18,8 @@ public class FinderOrderByClauseValidator extends Validator {
 			List<Finder> finders = table.getFinders();
 			for (Finder finder : finders) {
 				String orderBy = finder.getOrderBy();
-				if(null != orderBy) {
-					if(orderBy.toLowerCase().contains("order by")) {
-						addFatalMessage("Finder '" + table.getName() + "." + finder.getName() + "' has an orderBy that contains the phrase 'order by'.");
-					}
+				if(null != orderBy && orderBy.toLowerCase().contains("order by")) {
+					addFatalMessage("Finder '" + table.getName() + "." + finder.getName() + "' has an orderBy that contains the phrase 'order by'.");
 				}
 			}
 		}

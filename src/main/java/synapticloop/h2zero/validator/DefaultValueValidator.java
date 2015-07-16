@@ -16,11 +16,9 @@ public class DefaultValueValidator extends Validator {
 			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
 				String defaultValue = baseField.getDefault();
-				if(null != defaultValue) {
-					if(!defaultValue.startsWith("'") && !defaultValue.endsWith("'")) {
-						isValid = false;
-						addFatalMessage("Field '" + table.getName() + "." + baseField.getName() + "' has an invalid attribute: \"default\" . It __MUST__ start and end with the single quote (') character.");
-					}
+				if(null != defaultValue && !defaultValue.startsWith("'") && !defaultValue.endsWith("'")) {
+					isValid = false;
+					addFatalMessage("Field '" + table.getName() + "." + baseField.getName() + "' has an invalid attribute: \"default\" . It __MUST__ start and end with the single quote (') character.");
 				}
 			}
 		}

@@ -2,6 +2,7 @@ package synapticloop.h2zero.validator.finder;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
@@ -14,7 +15,7 @@ public class FinderSelectClauseBeanNameValidator extends Validator {
 
 	@Override
 	public void validate(Database database, Options options) {
-		HashMap<String, String> selectClauseBeanNames = new HashMap<String, String>();
+		Map<String, String> selectClauseBeanNames = new HashMap<String, String>();
 
 		List<Table> tables = database.getTables();
 		for (Table table : tables) {

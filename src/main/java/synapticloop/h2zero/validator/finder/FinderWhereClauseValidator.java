@@ -17,11 +17,9 @@ public class FinderWhereClauseValidator extends Validator {
 			List<Finder> finders = table.getFinders();
 			for (Finder finder : finders) {
 				String whereClause = finder.getWhereClause();
-				if(null != whereClause) {
-					if(!whereClause.toLowerCase().contains("where")) {
-						addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
-						finder.setWhereClause(" where " + whereClause);
-					}
+				if(null != whereClause && !whereClause.toLowerCase().contains("where")) {
+					addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
+					finder.setWhereClause(" where " + whereClause);
 				}
 			}
 		}

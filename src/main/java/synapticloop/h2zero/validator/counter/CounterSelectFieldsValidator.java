@@ -18,7 +18,7 @@ public class CounterSelectFieldsValidator extends Validator {
 		for (Table table : tables) {
 			List<Counter> counters = table.getCounters();
 			for (Counter counter : counters) {
-				if(counter.getSelectFields().size() > 0) {
+				if(!counter.getSelectFields().isEmpty()) {
 					addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has '" + JSONKeyConstants.SELECT_FIELDS + "' which are ignored, and therefore un-neccessary.");
 				}
 			}

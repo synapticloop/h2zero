@@ -27,7 +27,8 @@ public abstract class BaseQueryObject {
 		MANDATORY,
 		INVALID
 	}
-	public Map<String, UsageType> allowableJsonKeys = new HashMap<String, UsageType>();
+
+	protected Map<String, UsageType> allowableJsonKeys = new HashMap<String, UsageType>();
 
 	protected JSONObject jsonObject = null;
 	protected BaseSchemaObject baseSchemaObject = null;

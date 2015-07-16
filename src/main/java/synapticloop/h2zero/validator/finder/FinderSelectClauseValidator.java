@@ -19,11 +19,9 @@ public class FinderSelectClauseValidator extends Validator {
 			List<Finder> finders = table.getFinders();
 			for (Finder finder : finders) {
 				String selectClause = finder.getSelectClause();
-				if(null != selectClause) {
-					if(!selectClause.toLowerCase().contains("select")) {
-						addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a " + JSONKeyConstants.SELECT_CLAUSE + " that does not start with 'select', so I am going to add one.");
-						finder.setSelectClause(" select " + selectClause);
-					}
+				if(null != selectClause && !selectClause.toLowerCase().contains("select")) {
+					addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a " + JSONKeyConstants.SELECT_CLAUSE + " that does not start with 'select', so I am going to add one.");
+					finder.setSelectClause(" select " + selectClause);
 				}
 			}
 		}

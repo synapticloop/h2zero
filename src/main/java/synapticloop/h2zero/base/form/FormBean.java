@@ -84,11 +84,10 @@ public class FormBean {
 
 					// we want to test to make sure that onlyIfBaseFieldValue is equal to
 					//
-					if(null != onlyIfBaseFieldValue) {
-						if(!onlyIfBaseFieldValue.equals(baseField.getOnlyIfFieldValue())) {
-							shouldValidate = false;
-							baseField.setValue(null);
-						}
+					if(null != onlyIfBaseFieldValue && 
+							!onlyIfBaseFieldValue.equals(baseField.getOnlyIfFieldValue())) {
+						shouldValidate = false;
+						baseField.setValue(null);
 					}
 				}
 
@@ -97,10 +96,10 @@ public class FormBean {
 			// now we need to check the exclusive or field
 			if(null != baseField.getOrField()) {
 				BaseFormField orBaseField = fieldMap.get(baseField.getOrField());
-				if(null != orBaseField) {
-					if(null == baseField.getValue() && null != orBaseField.getValue()) {
-						shouldValidate = false;
-					}
+				if(null != orBaseField && 
+						null == baseField.getValue() && 
+						null != orBaseField.getValue()) {
+					shouldValidate = false;
 				}
 			}
 
