@@ -18,6 +18,8 @@ import {database.package}.model.util.Constants;{\n}
 
 import {database.package}.finder.{table.javaClassName}{if table.isView}View{endif}Finder;{\n}
 
+import synapticloop.h2zero.base.taglib.BaseVarTag;{\n}{\n}
+
 {\n}
 
 

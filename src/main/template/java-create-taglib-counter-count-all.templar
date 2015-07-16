@@ -16,47 +16,20 @@ import org.apache.log4j.Logger;{\n}
 import {database.package}.counter.{table.javaClassName}Counter;{\n}
 import {database.package}.model.util.Constants;{\n}
 {\n}
+import synapticloop.h2zero.base.taglib.BaseVarTag;{\n}{\n}
 
 @SuppressWarnings("serial"){\n}
-public class CountAllTag extends BodyTagSupport {{{\n}
+public class CountAllTag extends BaseVarTag {{{\n}
 	{\t}// the binder is unused in code, but will generate compile problems if this {\n}
 	{\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
 	{\t}// removing dead code{\n}
 	{\t}@SuppressWarnings("unused"){\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_BINDER;{\n}{\n}
 	{\t}private static final Logger LOGGER = Logger.getLogger(CountAllTag.class);{\n}{\n}
-	{\t}private String var = null;{\n}
-	{\t}private boolean removeVar = false;{\n}{\n}
 
 	{\t}public int doStartTag() throws JspException {{{\n}
 		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Counter.countAllSilent());{\n}
 		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}
 	}{\n}
-
-{\n}
-	{\t}public int doEndTag() throws JspException {{{\n}
-	{\t}{\t}pageContext.removeAttribute(var, PageContext.PAGE_SCOPE);{\n}
-	{\t}{\t}return(EVAL_PAGE);{\n}
-	{\t}}{\n}
-
-{\n}
-	{\t}public String getVar() {{{\n}
-	{\t}{\t}return var;{\n}
-	{\t}}{\n}
-
-{\n}
-	{\t}public void setVar(String var) {{{\n}
-	{\t}{\t}this.var = var;{\n}
-	{\t}}{\n}
-
-{\n}
-	{\t}public void setRemoveVar(boolean removeVar) {{{\n}
-	{\t}{\t}this.removeVar = removeVar;{\n}
-	{\t}}{\n}
-
-{\n}
-	{\t}public boolean getRemoveVar() {{{\n}
-	{\t}{\t}return removeVar;{\n}
-	{\t}}{\n}
 
 }
