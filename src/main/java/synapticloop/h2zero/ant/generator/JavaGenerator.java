@@ -27,6 +27,14 @@ public class JavaGenerator extends Generator {
 			return;
 		}
 
+		TemplarContext templarContext = getDefaultTemplarContext();
+		generateTables(templarContext);
+		generateViews(templarContext);
+
+
+	}
+
+	private void generateTables(TemplarContext templarContext) throws ParseException, RenderException {
 		Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
 		// The model
 		Parser javaCreateModelParser = getParser("/java-create-model.templar");
@@ -41,11 +49,6 @@ public class JavaGenerator extends Generator {
 
 		// the taglibs
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
-
-		Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
-		Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
-
-		TemplarContext templarContext = getDefaultTemplarContext();
 
 		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Constants.java";
 		renderToFile(templarContext, javaCreateConstantsParser, pathname);
@@ -107,7 +110,14 @@ public class JavaGenerator extends Generator {
 				renderToFile(templarContext, javaCreateDeleterParser, pathname);
 			}
 		}
+	}
 
+	private void generateViews(TemplarContext templarContext) throws ParseException, RenderException {
+		Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
+		Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
+		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
+
+		String pathname = null;
 
 		// now for the views
 		List<View> views = database.getViews();
@@ -137,4 +147,5 @@ public class JavaGenerator extends Generator {
 			}
 		}
 	}
+
 }
