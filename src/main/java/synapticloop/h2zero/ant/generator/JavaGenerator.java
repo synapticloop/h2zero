@@ -84,7 +84,7 @@ public class JavaGenerator extends Generator {
 			}
 
 			List<Finder> finders = table.getFinders();
-			Iterator<Finder> finderIterator = finders.iterator();;
+			Iterator<Finder> finderIterator = finders.iterator();
 
 			while (finderIterator.hasNext()) {
 				Finder finder = finderIterator.next();

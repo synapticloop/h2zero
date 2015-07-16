@@ -22,11 +22,8 @@ public class ConstantDeleterValidator extends Validator {
 
 		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			if(table.getIsConstant()) {
-				// go through and validate the values
-				if(table.getDeleters().size() > 0) {
-					addFatalMessage("Constant model '" + table.getName() + "' has '" + JSONKeyConstants.DELETERS + "' which are not allowed, as you may not change the underlying database tables dynamically.");
-				}
+			if(table.getIsConstant() && !table.getDeleters().isEmpty()) {
+				addFatalMessage("Constant model '" + table.getName() + "' has '" + JSONKeyConstants.DELETERS + "' which are not allowed, as you may not change the underlying database tables dynamically.");
 			}
 		}
 	}

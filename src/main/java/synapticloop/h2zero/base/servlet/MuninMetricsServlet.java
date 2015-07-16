@@ -24,7 +24,7 @@ public class MuninMetricsServlet extends HttpServlet {
 		SortedMap<String,Counter> counters = metricsRegistry.getCounters();
 		Iterator<String> iterator = counters.keySet().iterator();
 		while (iterator.hasNext()) {
-			String string = (String) iterator.next();
+			String string = iterator.next();
 			System.out.println("COUNTER: " + string);
 			
 			
@@ -32,7 +32,7 @@ public class MuninMetricsServlet extends HttpServlet {
 		SortedMap<String,Gauge> gauges = metricsRegistry.getGauges();
 		Iterator<String> gaugeIterator = gauges.keySet().iterator();
 		while (gaugeIterator.hasNext()) {
-			String string2 = (String) gaugeIterator.next();
+			String string2 = gaugeIterator.next();
 			System.out.println("GAUGE: " + string2);
 		}
 	}

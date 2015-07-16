@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class FileUtils {
+	private FileUtils() {}
 	/**
 	 * Copy a file from one destination to another
 	 *

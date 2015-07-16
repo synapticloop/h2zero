@@ -4,6 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JsonHelper {
+	private JsonHelper() {}
+
 	public static String getStringValue(JSONObject jsonObject, String key, String defaultValue) {
 		try {
 			return(jsonObject.getString(key));

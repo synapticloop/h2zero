@@ -66,7 +66,7 @@ public class TaglibGenerator extends Generator {
 			SimpleLogger.logInfo(LoggerType.GENERATE_TAGLIB, "Generating for table '" + table.getName() + "'.");
 
 			List<Finder> finders = table.getFinders();
-			Iterator<Finder> finderIterator = finders.iterator();;
+			Iterator<Finder> finderIterator = finders.iterator();
 
 			while (finderIterator.hasNext()) {
 				Finder finder = finderIterator.next();

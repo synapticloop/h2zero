@@ -16,10 +16,8 @@ public class TablePrimaryKeyNameValidator extends Validator {
 		for (Table table : tables) {
 			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
-				if(baseField.getPrimary()) {
-					if(baseField.getName().compareToIgnoreCase("id_" + table.getName()) != 0) {
-						addWarnMessage("Primary key for table '" + table.getName() + "' __SHOULD__ be named 'id_" + table.getName() + "', currently named '" + baseField.getName() + "'.");
-					}
+				if(baseField.getPrimary() && baseField.getName().compareToIgnoreCase("id_" + table.getName()) != 0) {
+					addWarnMessage("Primary key for table '" + table.getName() + "' __SHOULD__ be named 'id_" + table.getName() + "', currently named '" + baseField.getName() + "'.");
 				}
 			}
 		}

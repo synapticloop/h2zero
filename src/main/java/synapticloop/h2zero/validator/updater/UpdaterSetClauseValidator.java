@@ -17,11 +17,9 @@ public class UpdaterSetClauseValidator extends Validator {
 			List<Updater> updaters = table.getUpdaters();
 			for (Updater updater : updaters) {
 				String setClause = updater.getSetClause();
-				if(null != setClause) {
-					if(!setClause.toLowerCase().contains("set ")) {
-						addWarnMessage("Updater '" + table.getName() + "." + updater.getName() + "' has a setClause that does not start with 'set', so I am going to add one.");
-						updater.setSetClause(" set " + setClause);
-					}
+				if(null != setClause && !setClause.toLowerCase().contains("set ")) {
+					addWarnMessage("Updater '" + table.getName() + "." + updater.getName() + "' has a setClause that does not start with 'set', so I am going to add one.");
+					updater.setSetClause(" set " + setClause);
 				}
 			}
 		}

@@ -36,6 +36,8 @@ public class SimpleLogger {
 	public static final String ERROR = "ERROR";
 	public static final String FATAL = "FATAL";
 
+	private SimpleLogger() {}
+
 	public static void logInfo(LoggerType loggerType, String message) {
 		log(INFO, loggerType, message);
 	}

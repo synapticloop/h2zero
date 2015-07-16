@@ -10,8 +10,9 @@ import synapticloop.h2zero.base.form.manager.FieldManager;
 
 
 public class FormBeanFactory {
-	public static Map<String, LinkedHashMap<String, BaseFormField>> formFieldMap = new HashMap<String, LinkedHashMap<String,BaseFormField>>();
+	public static Map<String, Map<String, BaseFormField>> formFieldMap = new HashMap<String, Map<String,BaseFormField>>();
 
+	private FormBeanFactory() {}
 	/**
 	 * Add an entry to the form's field map
 	 *
@@ -20,7 +21,7 @@ public class FormBeanFactory {
 	 * @param baseField the actual field
 	 */
 	public static void addToFieldMap(String formName, String fieldName, BaseFormField baseField) {
-		LinkedHashMap<String, BaseFormField> fieldMap = null;
+		Map<String, BaseFormField> fieldMap = null;
 		//formFieldMap.get(formName);
 
 		if(!formFieldMap.containsKey(formName)) {

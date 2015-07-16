@@ -2,6 +2,8 @@ package synapticloop.h2zero.util;
 
 public class NamingHelper {
 
+	private NamingHelper() {}
+
 	/**
 	 * Convert a java package like name to a path, e.g. java.lang.String would be converted to
 	 * java/lang/String
@@ -67,8 +69,9 @@ public class NamingHelper {
 				stringBuilder.append(splits[0].substring(0,1).toLowerCase() + splits[0].substring(1));
 			}
 		} else {
-			
+			// TODO - do something here
 		}
+
 		for (int i = 0; i < splits.length; i++) {
 			String split = splits[i];
 			if(i == 0) {

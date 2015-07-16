@@ -17,7 +17,7 @@ public class Options {
 	private boolean metrics = false;
 	private String logging = "";
 
-	private HashSet<String> generators = new HashSet<String>();
+	private Set<String> generators = new HashSet<String>();
 
 	public static final String OPTION_FORMBEANS = "formbeans";
 	public static final String OPTION_ADMINPAGES = "adminpages";
@@ -84,19 +84,19 @@ public class Options {
 			}
 		}
 
-		HashSet<String> disabledGenerators = new HashSet<String>();
+		Set<String> disabledGenerators = new HashSet<String>();
 		disabledGenerators.addAll(ALLOWABLE_GENERATORS);
 
 		Iterator<String> generatorsIterator = generators.iterator();
 		while (generatorsIterator.hasNext()) {
-			String next = (String) generatorsIterator.next();
+			String next = generatorsIterator.next();
 			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ ENABLED  ] Generator '" + next + "'");
 			disabledGenerators.remove(next);
 		}
 
 		Iterator<String> disabledIterator = disabledGenerators.iterator();
 		while (disabledIterator.hasNext()) {
-			String next = (String) disabledIterator.next();
+			String next = disabledIterator.next();
 			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ DISABLED ] Generator '" + next + "'");
 		}
 

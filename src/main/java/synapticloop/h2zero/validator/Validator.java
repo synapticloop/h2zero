@@ -1,6 +1,7 @@
 package synapticloop.h2zero.validator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -9,7 +10,7 @@ import synapticloop.h2zero.validator.bean.Message;
 
 public abstract class Validator {
 	protected boolean isValid = true;
-	private ArrayList<Message> messages = new ArrayList<Message>();
+	private List<Message> messages = new ArrayList<Message>();
 	private int numInfo = 0;
 	private int numWarn = 0;
 	private int numFatal = 0;
@@ -77,7 +78,7 @@ public abstract class Validator {
 		messages.add(new Message(SimpleLogger.INFO, "+-> " + message));
 	}
 
-	public ArrayList<Message> getMessages() {
+	public List<Message> getMessages() {
 		if(isValid) {
 			addSummaryMessage("Valid.    [ info: " + numInfo + ", warn: " + numWarn + ", fatal: " + numFatal + " ]");
 		} else {

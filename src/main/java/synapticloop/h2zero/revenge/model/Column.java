@@ -46,7 +46,7 @@ public class Column {
 		this.isPrimary = "PRI".equals(resultSet.getString("COLUMN_KEY"));
 
 		defaultValue = resultSet.getString("COLUMN_DEFAULT");
-		if(null != defaultValue && (defaultValue.equals("1") || defaultValue.equals("0"))) {
+		if(null != defaultValue && ("1".equals(defaultValue) || "0".equals(defaultValue))) {
 			hasDefault = true;
 		}
 	}
@@ -57,7 +57,7 @@ public class Column {
 		stringBuilder.append("\"name\": \"" + name + "\"");
 		stringBuilder.append(", \"type\": \"" + dataType + "\"");
 
-		if(this.dataType.equals("tinyint")) {
+		if("tinyint".equals(this.dataType)) {
 			stringBuilder.append("length: \"1, ");
 		} else if(null != length && length.longValue() != 0) {
 			stringBuilder.append(", \"length\": " + length);

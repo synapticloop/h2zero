@@ -17,11 +17,10 @@ public class UpdaterWhereClauseValidator extends Validator {
 			List<Updater> updaters = table.getUpdaters();
 			for (Updater updater : updaters) {
 				String whereClause = updater.getWhereClause();
-				if(null != whereClause) {
-					if(!whereClause.toLowerCase().contains("where")) {
-						addWarnMessage("Updater '" + table.getName() + "." + updater.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
-						updater.setWhereClause(" where " + whereClause);
-					}
+
+				if(null != whereClause && !whereClause.toLowerCase().contains("where")) {
+					addWarnMessage("Updater '" + table.getName() + "." + updater.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
+					updater.setWhereClause(" where " + whereClause);
 				}
 			}
 		}

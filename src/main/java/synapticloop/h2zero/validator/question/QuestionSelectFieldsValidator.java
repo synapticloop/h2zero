@@ -18,7 +18,7 @@ public class QuestionSelectFieldsValidator extends Validator {
 		for (Table table : tables) {
 			List<Question> questions = table.getQuestions();
 			for (Question question : questions) {
-				if(question.getSelectFields().size() > 0) {
+				if(!question.getSelectFields().isEmpty()) {
 					addWarnMessage("Question '" + table.getName() + "." + question.getName() + "' has '" + JSONKeyConstants.SELECT_FIELDS + "' which are ignored, and therefore un-neccessary.");
 				}
 			}

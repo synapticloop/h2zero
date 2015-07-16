@@ -19,11 +19,9 @@ public class QuestionSelectClauseValidator extends Validator {
 			List<Question> questions = table.getQuestions();
 			for (Question question : questions) {
 				String selectClause = question.getSelectClause();
-				if(null != selectClause) {
-					if(!selectClause.toLowerCase().contains("select")) {
-						addWarnMessage("Question '" + table.getName() + "." + question.getName() + "' has a '" + JSONKeyConstants.SELECT_CLAUSE + "' that does not start with 'select', so I am going to add one.");
-						question.setSelectClause(" select " + selectClause);
-					}
+				if(null != selectClause && !selectClause.toLowerCase().contains("select")) {
+					addWarnMessage("Question '" + table.getName() + "." + question.getName() + "' has a '" + JSONKeyConstants.SELECT_CLAUSE + "' that does not start with 'select', so I am going to add one.");
+					question.setSelectClause(" select " + selectClause);
 				}
 			}
 		}

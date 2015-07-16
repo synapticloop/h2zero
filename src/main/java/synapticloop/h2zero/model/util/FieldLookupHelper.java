@@ -39,11 +39,11 @@ public class FieldLookupHelper {
 	public static BaseField getBaseField(BaseSchemaObject baseSchemaObject, String fieldName) {
 		BaseField baseField = null;
 		if(fieldName.startsWith(IN_DESIGNATOR)) {
-			fieldName = fieldName.substring(3);
+			String inFieldName = fieldName.substring(3);
 
-			if(fieldName.contains(".")) {
+			if(inFieldName.contains(".")) {
 				// we are doing a table lookup
-				String[] splits = fieldName.split("\\.", 2);
+				String[] splits = inFieldName.split("\\.", 2);
 				String tableName = splits[0];
 				String tableFieldName = splits[1];
 				Table tableLookup = Database.getTableLookup(tableName);
@@ -54,7 +54,7 @@ public class FieldLookupHelper {
 				}
 			}
 
-			baseField = baseSchemaObject.getInField(fieldName);
+			baseField = baseSchemaObject.getInField(inFieldName);
 		} else {
 			if(fieldName.contains(".")) {
 				// we are doing a table lookup
