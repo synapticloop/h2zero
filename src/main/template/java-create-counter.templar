@@ -73,7 +73,6 @@ public class {table.javaClassName}Counter {{{\n}
 {\t}{\t}int count = -1;{\n}
 {\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 {\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_COUNT_ALL);{\n}
 {\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 {\t}{\t}{\t}if(resultSet.next()) {{{\n}
