@@ -12,7 +12,7 @@ public class Constants {{{\n}
 	{\t}// it has been removed from the generation.{\n}{\n}
 
 	{loop database.tables as table}
-		{\t}public static final String {table.upperName}_binder = "{table.upperName}";{\n}
+		{\t}public static final String {table.upperName}_BINDER = "{table.upperName}";{\n}
 	{endloop}
 {\n}
 
@@ -24,7 +24,7 @@ public class Constants {{{\n}
 {endloop}
 
 {loop database.views as view}
-	{\t}public static final String {view.upperName}_binder = "{view.upperName}";{\n}
+	{\t}public static final String {view.upperName}_BINDER = "{view.upperName}";{\n}
 {endloop}
 {\n}
 

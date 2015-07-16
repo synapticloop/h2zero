@@ -42,6 +42,7 @@ public class {table.javaClassName}Question {{{\n}
 	{endif}
 {endloop}
 
+{\t}private {table.javaClassName}Question() {{}{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				AND THE SELECT CLAUSE QUESTIONS

@@ -59,6 +59,7 @@ public class {table.javaClassName}Deleter {{{\n}
 {endloop}
 {\n}
 
+{\t}private {table.javaClassName}Deleter() {{}{\n}{\n}
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				DELETE BY PRIMARY KEY
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}

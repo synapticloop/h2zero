@@ -45,6 +45,8 @@ public class {table.javaClassName}Updater {{{\n}
 {endloop}
 {\n}
 
+{\t}private {table.javaClassName}Updater() {{}{\n}{\n}
+
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				THE UPDATER STATEMENTS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}

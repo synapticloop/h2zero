@@ -46,7 +46,9 @@ public class {table.javaClassName}Counter {{{\n}
 	{endif}
 {endloop}
 
-
+{\n}
+{\t}private {table.javaClassName}Counter() {{}{\n}
+{\n}
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				FIND COUNT ALL
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}

@@ -807,7 +807,7 @@
 {\t}{\t}{\t}{\t}return({tableOrView.javaFieldName});{\n}
 {\t}{\t}{\t}}{\n}
 {\t}{\t}} else {{{\n}
-{\t}{\t}{\t}// could not get a result;{\n}
+{\t}{\t}{\t}// could not get a result{\n}
 {\t}{\t}{\t}return(null);{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}

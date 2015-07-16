@@ -75,6 +75,7 @@ public class {table.javaClassName}Inserter {{{\n}
 {endloop}
 {\n}
 
+{\t}private {table.javaClassName}Inserter() {{}{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				INSERTER WITH DEFAULT VALUES
