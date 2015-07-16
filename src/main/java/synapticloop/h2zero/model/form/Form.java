@@ -66,7 +66,7 @@ public class Form {
 		// good to go
 		for (int i = 0; i < fieldJson.length(); i++) {
 			String ref = null;
-			String name = null;
+			String fieldName = null;
 			JSONObject fieldObject = null;
 			BaseField baseField = null;
 			try {
@@ -84,15 +84,15 @@ public class Form {
 					}
 				} else {
 					//maybe we have a name???
-					name = JsonHelper.getStringValue(fieldObject, "name", null);
-					System.out.println("Form field name of " + name);
-					if(null == name) {
+					fieldName = JsonHelper.getStringValue(fieldObject, "name", null);
+					//					System.out.println("Form field name of " + fieldName)
+					if(null == fieldName) {
 						throw new H2ZeroParseException("A form field must have a name.");
 					} else {
 						formFields.add(new FormField(fieldObject));
 					}
 				}
-				
+
 			} catch (JSONException ojjsonex) {
 				throw new H2ZeroParseException("Could not parse the 'fields' array.");
 			}

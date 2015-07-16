@@ -1,6 +1,7 @@
 package synapticloop.h2zero.base.form.field;
 
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,9 +40,7 @@ public abstract class BaseFormField {
 
 	private String errorMessage = null;
 
-	private LinkedHashSet<String> allowableValues = new LinkedHashSet<String>();
-
-	public abstract boolean isValid();
+	private Set<String> allowableValues = new LinkedHashSet<String>();
 
 	protected Object parsedValue;
 
@@ -101,6 +100,8 @@ public abstract class BaseFormField {
 			}
 		}
 	}
+
+	public abstract boolean isValid();
 
 	/**
 	 * Populate this field from the servlet reuest
@@ -204,12 +205,13 @@ public abstract class BaseFormField {
 	public String getOnlyIfFieldValue() { return onlyIfFieldValue; }
 	public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 	public String getErrorMessage() { return errorMessage; }
-	public LinkedHashSet<String> getAllowableValues() { return allowableValues; }
+	public Set<String> getAllowableValues() { return allowableValues; }
 	public void setOrField(String orField) { this.orField = orField; }
 	public String getOrField() { return orField; }
 	public void setDefaultValue(String defaultValue) { this.defaultValue = defaultValue; }
 	public String getDefaultValue() { return defaultValue; }
 
+	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");

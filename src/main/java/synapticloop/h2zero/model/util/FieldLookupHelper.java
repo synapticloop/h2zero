@@ -26,6 +26,8 @@ import synapticloop.h2zero.model.field.BaseField;
 public class FieldLookupHelper {
 	private static final String IN_DESIGNATOR = "in:";
 
+	private FieldLookupHelper() {}
+
 	/**
 	 * Get the base field from the base schema object (table or view) with the specified name
 	 * 

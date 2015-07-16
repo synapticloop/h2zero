@@ -27,6 +27,7 @@ public class FormTag extends BaseFormTag {
 				try {
 					httpServletResponse.sendRedirect(successPage);
 				} catch (IOException jiioex) {
+					// do nothing
 				}
 				return(SKIP_PAGE);
 			} else {

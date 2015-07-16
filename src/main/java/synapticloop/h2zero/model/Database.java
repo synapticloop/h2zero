@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +21,7 @@ import synapticloop.h2zero.util.NamingHelper;
 
 
 public class Database {
-	public static HashMap<String, Table> tableLookup = new HashMap<String, Table>();
+	public static Map<String, Table> tableLookup = new HashMap<String, Table>();
 	private String schema = null;
 	private String packageName = null;
 
@@ -27,7 +29,7 @@ public class Database {
 	private List<View> views = new ArrayList<View>();
 	private List<Form> forms = new ArrayList<Form>();
 
-	private HashSet<String> tableNames = new HashSet<String>();
+	private Set<String> tableNames = new HashSet<String>();
 
 	public Database(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONObject databaseJson = null;

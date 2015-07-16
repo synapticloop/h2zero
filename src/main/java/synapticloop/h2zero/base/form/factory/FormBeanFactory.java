@@ -2,6 +2,7 @@ package synapticloop.h2zero.base.form.factory;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import synapticloop.h2zero.base.form.FormBean;
 import synapticloop.h2zero.base.form.field.BaseFormField;
@@ -9,7 +10,7 @@ import synapticloop.h2zero.base.form.manager.FieldManager;
 
 
 public class FormBeanFactory {
-	public static HashMap<String, LinkedHashMap<String, BaseFormField>> formFieldMap = new HashMap<String, LinkedHashMap<String,BaseFormField>>();
+	public static Map<String, LinkedHashMap<String, BaseFormField>> formFieldMap = new HashMap<String, LinkedHashMap<String,BaseFormField>>();
 
 	/**
 	 * Add an entry to the form's field map

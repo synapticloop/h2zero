@@ -91,8 +91,11 @@ public class FormField {
 			Class.forName(SYNAPTICLOOP_H2ZERO_BASE_FORM_FIELD + validator);
 			return(true);
 		} catch (ClassNotFoundException ignore) {
+			// do nothing
 		} catch (SecurityException ignore) {
+			// do nothing
 		} catch (IllegalArgumentException ignore) {
+			// do nothing
 		}
 		return(false);
 	}

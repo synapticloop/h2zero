@@ -3,6 +3,8 @@ package synapticloop.h2zero.base.form;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,11 +16,11 @@ import synapticloop.h2zero.base.form.field.EmailFormField;
 
 
 public class FormBean {
-	private LinkedHashMap<String, BaseFormField> fieldMap = new LinkedHashMap<String, BaseFormField>();
-	private LinkedHashSet<BaseFormField> errorFields = new LinkedHashSet<BaseFormField>();
-	private LinkedHashSet<String> errorFieldNames = new LinkedHashSet<String>();
+	private Map<String, BaseFormField> fieldMap = new LinkedHashMap<String, BaseFormField>();
+	private Set<BaseFormField> errorFields = new LinkedHashSet<BaseFormField>();
+	private Set<String> errorFieldNames = new LinkedHashSet<String>();
 
-	public FormBean(LinkedHashMap<String, BaseFormField> fieldMap) {
+	public FormBean(Map<String, BaseFormField> fieldMap) {
 		this.fieldMap = fieldMap;
 	}
 
@@ -45,7 +47,7 @@ public class FormBean {
 		return(errorFieldNames.contains(fieldName));
 	}
 
-	public LinkedHashSet<BaseFormField> getFieldsInError() {
+	public Set<BaseFormField> getFieldsInError() {
 		return(errorFields);
 	}
 
@@ -120,7 +122,7 @@ public class FormBean {
 		return(errorFields.isEmpty());
 	}
 
-	public LinkedHashMap<String, BaseFormField> getValues() {
+	public Map<String, BaseFormField> getValues() {
 		return(fieldMap);
 	}
 

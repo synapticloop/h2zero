@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONObject;
 
@@ -24,7 +26,7 @@ public abstract class BaseField {
 	// a value falls out of the range of allowable update/delete actions 
 	private static String ALLOWABLE_UPDATE_DELETE_VALUES = null;
 	// a hashset of the allowable values for the 'onUpdate' and the 'onDelete' JSON keys for quick validation and lookup
-	private static HashSet<String> ALLOWABLE_UPDATE_DELETE_ACTIONS = new HashSet<String>();
+	private static Set<String> ALLOWABLE_UPDATE_DELETE_ACTIONS = new HashSet<String>();
 	static {
 		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("RESTRICT");
 		ALLOWABLE_UPDATE_DELETE_ACTIONS.add("CASCADE");
@@ -35,7 +37,7 @@ public abstract class BaseField {
 		StringBuilder stringBuilder = new StringBuilder();
 		Iterator<String> iterator = ALLOWABLE_UPDATE_DELETE_ACTIONS.iterator();
 		while (iterator.hasNext()) {
-			String value = (String) iterator.next();
+			String value = iterator.next();
 			stringBuilder.append("'" + value + "'");
 			if(iterator.hasNext()) {
 				stringBuilder.append(", ");
@@ -54,7 +56,7 @@ public abstract class BaseField {
 	}
 
 	// the hashmap lookup for the ignored keys and there (possible) replacements
-	private static HashMap<String, String> replacementKeys = new HashMap<String, String>();
+	private static Map<String, String> replacementKeys = new HashMap<String, String>();
 	static {
 		replacementKeys.put("foreign", "foreignKey");
 		replacementKeys.put("finder", "fieldFinder");

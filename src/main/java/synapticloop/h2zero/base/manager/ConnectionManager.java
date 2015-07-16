@@ -42,6 +42,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class ConnectionManager {
 	private static ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 
+	private ConnectionManager() {}
+
 	public static Connection getConnection() throws SQLException {
 		return(comboPooledDataSource.getConnection());
 	}
@@ -67,6 +69,7 @@ public class ConnectionManager {
 			try {
 				resultSet.close();
 			} catch (SQLException jssqlex) {
+				// do nothing
 			} finally {
 				resultSet = null;
 			}
@@ -76,6 +79,7 @@ public class ConnectionManager {
 			try {
 				statement.close();
 			} catch (SQLException jssqlex) {
+				// do nothing
 			} finally {
 				statement = null;
 			}
@@ -85,6 +89,7 @@ public class ConnectionManager {
 			try {
 				connection.close();
 			} catch (SQLException jssqlex) {
+				// do nothing
 			} finally {
 				connection = null;
 			}
@@ -512,7 +517,7 @@ public class ConnectionManager {
 		try {
 			br = new BufferedReader(new FileReader(fileName));
 			String nextLine = "";
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			while ((nextLine = br.readLine()) != null) {
 				writerArg.write(nextLine);
 				sb.append(nextLine);

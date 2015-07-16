@@ -2,6 +2,7 @@ package synapticloop.h2zero.ant.generator;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -20,7 +21,7 @@ public abstract class Generator {
 
 	private boolean verbose = false;
 
-	private HashMap<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
+	private Map<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
 
 	private int numFiles = 0;
 
@@ -79,5 +80,5 @@ public abstract class Generator {
 	}
 
 	public int getNumFiles() { return numFiles; }
-	public HashMap<String, Integer> getNumFilesHashMap() { return numFilesHashMap; }
+	public Map<String, Integer> getNumFilesHashMap() { return numFilesHashMap; }
 }

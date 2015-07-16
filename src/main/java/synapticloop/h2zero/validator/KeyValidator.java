@@ -1,7 +1,7 @@
 package synapticloop.h2zero.validator;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -15,11 +15,11 @@ public abstract class KeyValidator extends Validator {
 		String baseQueryObjectType = baseQueryObject.getType();
 		String tableName = baseQueryObject.getBaseSchemaObject().getName();
 
-		HashMap<String, UsageType> allowableJsonKeys = baseQueryObject.getAllowableJsonKeys();
+		Map<String, UsageType> allowableJsonKeys = baseQueryObject.getAllowableJsonKeys();
 		Iterator<String> iterator = allowableJsonKeys.keySet().iterator();
 
 		while (iterator.hasNext()) {
-			String key = (String) iterator.next();
+			String key = iterator.next();
 			Object value = jsonObject.opt(key);
 			UsageType usageType = allowableJsonKeys.get(key);
 

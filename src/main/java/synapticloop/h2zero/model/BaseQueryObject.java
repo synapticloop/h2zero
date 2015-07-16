@@ -27,7 +27,7 @@ public abstract class BaseQueryObject {
 		MANDATORY,
 		INVALID
 	}
-	public HashMap<String, UsageType> allowableJsonKeys = new HashMap<String, UsageType>();
+	public Map<String, UsageType> allowableJsonKeys = new HashMap<String, UsageType>();
 
 	protected JSONObject jsonObject = null;
 	protected BaseSchemaObject baseSchemaObject = null;
@@ -181,7 +181,7 @@ public abstract class BaseQueryObject {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void populateFields(JSONObject jsonObject, String jsonKey, List<BaseField> fields, LinkedHashMap<String, BaseField> uniqueFields) throws H2ZeroParseException {
+	protected void populateFields(JSONObject jsonObject, String jsonKey, List<BaseField> fields, Map<String, BaseField> uniqueFields) throws H2ZeroParseException {
 
 		JSONArray fieldJson = new JSONArray();
 		try {
@@ -290,7 +290,7 @@ public abstract class BaseQueryObject {
 	public JSONObject getJsonObject() { return(jsonObject); }
 
 	public boolean getHasJsonUniqueKey() { return(null != jsonUniqueKey); }
-	public HashMap<String, UsageType> getAllowableJsonKeys() { return(allowableJsonKeys); }
+	public Map<String, UsageType> getAllowableJsonKeys() { return(allowableJsonKeys); }
 	public BaseSchemaObject getBaseSchemaObject() { return(baseSchemaObject); }
 
 	/**

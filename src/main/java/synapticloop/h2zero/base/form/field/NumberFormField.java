@@ -1,11 +1,12 @@
 package synapticloop.h2zero.base.form.field;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONObject;
 
 public class NumberFormField extends BaseFormField {
-	private static HashSet<Character> VALID_NUMBERS = new HashSet<Character>();
+	private static Set<Character> VALID_NUMBERS = new HashSet<Character>();
 	static {
 		VALID_NUMBERS.add('0');
 		VALID_NUMBERS.add('1');

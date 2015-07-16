@@ -3,9 +3,10 @@ package synapticloop.h2zero.revenge.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Column {
-	private static final HashSet<String> LENGTH_DATA_TYPES = new HashSet<String>();
+	private static final Set<String> LENGTH_DATA_TYPES = new HashSet<String>();
 	static {
 		LENGTH_DATA_TYPES.add("varchar");
 		LENGTH_DATA_TYPES.add("tinyint");
@@ -41,8 +42,8 @@ public class Column {
 		}
 
 
-		this.isNullable = resultSet.getString("IS_NULLABLE").equals("YES");
-		this.isPrimary = resultSet.getString("COLUMN_KEY").equals("PRI");
+		this.isNullable = "YES".equals(resultSet.getString("IS_NULLABLE"));
+		this.isPrimary = "PRI".equals(resultSet.getString("COLUMN_KEY"));
 
 		defaultValue = resultSet.getString("COLUMN_DEFAULT");
 		if(null != defaultValue && (defaultValue.equals("1") || defaultValue.equals("0"))) {

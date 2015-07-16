@@ -42,7 +42,7 @@ public class ModelBuilder {
 		ResultSet resultSet = preparedStatement.executeQuery();
 
 		while(resultSet.next()) {
-			if(resultSet.getString("TABLE_TYPE").equals("VIEW")) {
+			if("VIEW".equals(resultSet.getString("TABLE_TYPE"))) {
 				views.add(new View(connection, database, resultSet.getString("TABLE_NAME")));
 			} else {
 				tables.add(new Table(connection, database, resultSet.getString("TABLE_NAME")));

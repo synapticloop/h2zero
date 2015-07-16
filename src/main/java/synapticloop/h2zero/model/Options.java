@@ -2,6 +2,7 @@ package synapticloop.h2zero.model;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +27,7 @@ public class Options {
 	public static final String OPTION_SQL = "sql";
 	public static final String OPTION_RESTFUL_SERVLET = "restfulservlet";
 
-	private static HashSet<String> ALLOWABLE_GENERATORS = new HashSet<String>();
+	private static Set<String> ALLOWABLE_GENERATORS = new HashSet<String>();
 	static {
 		ALLOWABLE_GENERATORS.add(OPTION_SQL);
 		ALLOWABLE_GENERATORS.add(OPTION_JAVA);
@@ -36,7 +37,7 @@ public class Options {
 		ALLOWABLE_GENERATORS.add(OPTION_FORMBEANS);
 	}
 
-	private static HashSet<String> ALLOWABLE_LOGGERS = new HashSet<String>();
+	private static Set<String> ALLOWABLE_LOGGERS = new HashSet<String>();
 	static {
 		ALLOWABLE_LOGGERS.add("");
 		ALLOWABLE_LOGGERS.add("log4j");
@@ -105,10 +106,10 @@ public class Options {
 	}
 
 	public boolean hasGenerator(String generator) { return(generators.contains(generator)); }
-	public boolean hasGenerators() { return(generators.size() != 0); }
+	public boolean hasGenerators() { return(!generators.isEmpty()); }
 	public boolean getMetrics() { return metrics; }
 	public void setMetrics(boolean metrics) { this.metrics = metrics; }
 	public String getLogging() { return logging; }
 	public void setLogging(String logging) { this.logging = logging; }
-	public boolean hasLogging() { return(!this.logging.equals("")); }
+	public boolean hasLogging() { return(!"".equals(this.logging)); }
 }

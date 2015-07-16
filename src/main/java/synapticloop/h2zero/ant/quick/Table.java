@@ -1,11 +1,12 @@
 package synapticloop.h2zero.ant.quick;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Table {
 	private String name;
-	private ArrayList<String> foreignKeys = new ArrayList<String>();
+	private List<String> foreignKeys = new ArrayList<String>();
 
 	public Table(String name) {
 		this.name = name;
@@ -15,6 +16,7 @@ public class Table {
 		foreignKeys.add(to);
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\t\t{\n");

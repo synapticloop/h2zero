@@ -3,6 +3,7 @@ package synapticloop.h2zero.base.form.field;
 import org.json.JSONObject;
 
 public class IntegerFormField extends BaseFormField {
+	private Integer parsedValue = null;
 
 	public IntegerFormField(JSONObject jsonObject) {
 		super(jsonObject);
@@ -12,8 +13,7 @@ public class IntegerFormField extends BaseFormField {
 		super(name, allowNull, requiresConfirm, length, minLength);
 	}
 
-	private Integer parsedValue = null;
-
+	@Override
 	public Object getParsedValue() {
 		return(parsedValue);
 	}

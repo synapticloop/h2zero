@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +27,7 @@ public class Table extends BaseSchemaObject {
 		ignoredKeys.add("cacheFindAll");
 	}
 
-	private static HashMap<String, String> replacementKeys = new HashMap<String, String>();
+	private static Map<String, String> replacementKeys = new HashMap<String, String>();
 	static {
 		replacementKeys.put("comment", "comments");
 	}
@@ -47,8 +48,8 @@ public class Table extends BaseSchemaObject {
 	// all fields that are marked as secure
 	private List<BaseField> secureFields = new ArrayList<BaseField>();
 
-	private HashMap<String, BaseField> setFieldLookup = new HashMap<String, BaseField>();
-	private HashMap<String, BaseField> whereFieldLookup = new HashMap<String, BaseField>();
+	private Map<String, BaseField> setFieldLookup = new HashMap<String, BaseField>();
+	private Map<String, BaseField> whereFieldLookup = new HashMap<String, BaseField>();
 
 	private List<BaseField> nonNullFields = new ArrayList<BaseField>();
 	private List<BaseField> nonPrimaryFields = new ArrayList<BaseField>();
@@ -375,9 +376,9 @@ public class Table extends BaseSchemaObject {
 	public String getJavaFieldName() { return(NamingHelper.getSecondUpper(name)); }
 	public boolean getHasNonNullConstructor() { return(nonNullFields.size() != fields.size()); }
 	public boolean getHasLargeObject() { return hasLargeObject; }
-	public boolean getHasQuestions() { return(questions.size() > 0); }
+	public boolean getHasQuestions() { return(!questions.isEmpty()); }
 
-	public boolean getIsConstant() { return(constants.size() > 0); }
+	public boolean getIsConstant() { return(!constants.isEmpty()); }
 
 	public boolean getIsTable() { return(true); }
 	public boolean getIsView() { return(false); }

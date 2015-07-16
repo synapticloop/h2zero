@@ -1,11 +1,12 @@
 package synapticloop.h2zero.base.form.field;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONObject;
 
 public class BooleanFormField extends BaseFormField {
-	private static HashSet<String> TRUE_VALUES = new HashSet<String>();
+	private static final Set<String> TRUE_VALUES = new HashSet<String>();
 	static {
 		TRUE_VALUES.add("true");
 		TRUE_VALUES.add("yes");

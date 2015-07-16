@@ -3,6 +3,7 @@ package synapticloop.h2zero.ant.quick;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
@@ -12,7 +13,7 @@ public class Database {
 	private String javaPackage = null;
 
 	private List<Table> tables = new ArrayList<Table>();
-	private HashMap<String, Table> tableNames = new HashMap<String, Table>();
+	private Map<String, Table> tableNames = new HashMap<String, Table>();
 	private String generators;
 
 	public Database(String schema, String javaPackage, String generators) {
@@ -42,6 +43,7 @@ public class Database {
 		return(true);
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
