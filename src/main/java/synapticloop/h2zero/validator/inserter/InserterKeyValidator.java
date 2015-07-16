@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.inserter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Inserter;
@@ -12,9 +12,9 @@ public class InserterKeyValidator extends KeyValidator {
 
 	@Override
 	public void validate(Database database, Options options) {
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			ArrayList<Inserter> inserters = table.getInserters();
+			List<Inserter> inserters = table.getInserters();
 			for (Inserter inserter : inserters) {
 				validate(inserter);
 			}

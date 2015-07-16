@@ -1,7 +1,7 @@
 package synapticloop.h2zero.ant.generator;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -32,7 +32,7 @@ public class MetricsGenerator extends Generator {
 		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/servlet/MuninMetricsServlet.java";
 		renderToFile(templarContext, javaCreateMetricsServletMunin, pathname);
 
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
 			Parser javaCreateMetricsTable = getParser("/java-create-metrics-table.templar");
 

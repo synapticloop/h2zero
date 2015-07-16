@@ -1,7 +1,7 @@
 package synapticloop.h2zero.validator;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -13,10 +13,10 @@ public class FieldNameDuplicateValidator extends Validator {
 
 	@Override
 	public void validate(Database database, Options options) {
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
 			names.clear();
-			ArrayList<BaseField> fields = table.getFields();
+			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
 				String fieldName = baseField.getName();
 				if(names.contains(fieldName)) {

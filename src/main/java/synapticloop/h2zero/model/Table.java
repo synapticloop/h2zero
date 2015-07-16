@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +19,7 @@ import synapticloop.h2zero.util.SimpleLogger;
 
 
 public class Table extends BaseSchemaObject {
-	private static ArrayList<String> ignoredKeys = new ArrayList<String>();
+	private static List<String> ignoredKeys = new ArrayList<String>();
 	static {
 		ignoredKeys.add("comment");
 		ignoredKeys.add("cacheable");
@@ -30,34 +31,34 @@ public class Table extends BaseSchemaObject {
 		replacementKeys.put("comment", "comments");
 	}
 
-	private ArrayList<String> foundIgnoredKeys = new ArrayList<String>();
+	private List<String> foundIgnoredKeys = new ArrayList<String>();
 
 	private String engine = "innodb";
 	private String charset = "UTF8";
-	private ArrayList<String> comments = new ArrayList<String>();
+	private List<String> comments = new ArrayList<String>();
 
 	private boolean hasLargeObject = false;
 	private boolean hasForeignKey = false;
 
 	// a list of all of the fields that this table has
-	private ArrayList<BaseField> fields = new ArrayList<BaseField>();
+	private List<BaseField> fields = new ArrayList<BaseField>();
 	// all fields that are not marked as secure
-	private ArrayList<BaseField> nonSecureFields = new ArrayList<BaseField>();
+	private List<BaseField> nonSecureFields = new ArrayList<BaseField>();
 	// all fields that are marked as secure
-	private ArrayList<BaseField> secureFields = new ArrayList<BaseField>();
+	private List<BaseField> secureFields = new ArrayList<BaseField>();
 
 	private HashMap<String, BaseField> setFieldLookup = new HashMap<String, BaseField>();
 	private HashMap<String, BaseField> whereFieldLookup = new HashMap<String, BaseField>();
 
-	private ArrayList<BaseField> nonNullFields = new ArrayList<BaseField>();
-	private ArrayList<BaseField> nonPrimaryFields = new ArrayList<BaseField>();
+	private List<BaseField> nonNullFields = new ArrayList<BaseField>();
+	private List<BaseField> nonPrimaryFields = new ArrayList<BaseField>();
 
-	private ArrayList<Updater> updaters = new ArrayList<Updater>(); // a list of all of the updaters
-	private ArrayList<Inserter> inserters = new ArrayList<Inserter>(); // a list of all of the inserters
-	private ArrayList<Deleter> deleters = new ArrayList<Deleter>(); // a list of all of the deleters
-	private ArrayList<Constant> constants = new ArrayList<Constant>(); // a list of all of the constants
-	private ArrayList<Counter> counters = new ArrayList<Counter>(); // a list of all of the counters
-	private ArrayList<Question> questions = new ArrayList<Question>(); // a list of all of the questions
+	private List<Updater> updaters = new ArrayList<Updater>(); // a list of all of the updaters
+	private List<Inserter> inserters = new ArrayList<Inserter>(); // a list of all of the inserters
+	private List<Deleter> deleters = new ArrayList<Deleter>(); // a list of all of the deleters
+	private List<Constant> constants = new ArrayList<Constant>(); // a list of all of the constants
+	private List<Counter> counters = new ArrayList<Counter>(); // a list of all of the counters
+	private List<Question> questions = new ArrayList<Question>(); // a list of all of the questions
 
 	/**
 	 * Create a new Table object from the passed in jsonObject.
@@ -355,19 +356,19 @@ public class Table extends BaseSchemaObject {
 	// boring old getters and setters
 	public String getEngine() { return(this.engine); }
 	public String getCharset() { return(this.charset); }
-	public ArrayList<String> getComments() { return comments; }
+	public List<String> getComments() { return comments; }
 
-	public ArrayList<BaseField> getFields() { return(fields); }
+	public List<BaseField> getFields() { return(fields); }
 
-	public ArrayList<Updater> getUpdaters() { return(updaters); }
-	public ArrayList<Inserter> getInserters() { return(inserters); }
-	public ArrayList<Deleter> getDeleters() { return(deleters); }
-	public ArrayList<Constant> getConstants() { return(constants); }
-	public ArrayList<Counter> getCounters() { return(counters); }
-	public ArrayList<Question> getQuestions() { return(questions); }
+	public List<Updater> getUpdaters() { return(updaters); }
+	public List<Inserter> getInserters() { return(inserters); }
+	public List<Deleter> getDeleters() { return(deleters); }
+	public List<Constant> getConstants() { return(constants); }
+	public List<Counter> getCounters() { return(counters); }
+	public List<Question> getQuestions() { return(questions); }
 
-	public ArrayList<BaseField> getNonNullFields() { return(nonNullFields); }
-	public ArrayList<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
+	public List<BaseField> getNonNullFields() { return(nonNullFields); }
+	public List<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
 	public BaseField getSetField(String name) { return(setFieldLookup.get(name)); }
 	public BaseField getWhereField(String name) { return(whereFieldLookup.get(name)); }
 	public String getJavaClassName() { return(NamingHelper.getFirstUpper(name)); }
@@ -381,7 +382,7 @@ public class Table extends BaseSchemaObject {
 	public boolean getIsTable() { return(true); }
 	public boolean getIsView() { return(false); }
 
-	public ArrayList<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
+	public List<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
 
 	public boolean getHasForeignKey() { return this.hasForeignKey; }

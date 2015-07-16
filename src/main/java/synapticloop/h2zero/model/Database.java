@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,9 +23,9 @@ public class Database {
 	private String schema = null;
 	private String packageName = null;
 
-	private ArrayList<Table> tables = new ArrayList<Table>();
-	private ArrayList<View> views = new ArrayList<View>();
-	private ArrayList<Form> forms = new ArrayList<Form>();
+	private List<Table> tables = new ArrayList<Table>();
+	private List<View> views = new ArrayList<View>();
+	private List<Form> forms = new ArrayList<Form>();
 
 	private HashSet<String> tableNames = new HashSet<String>();
 
@@ -125,9 +126,9 @@ public class Database {
 
 	public String getSchema() { return(this.schema); }
 	public String getPackage() { return(this.packageName); }
-	public ArrayList<Table> getTables() { return(tables); }
-	public ArrayList<View> getViews() { return(views); }
-	public ArrayList<Form> getForms() { return(forms); }
+	public List<Table> getTables() { return(tables); }
+	public List<View> getViews() { return(views); }
+	public List<Form> getForms() { return(forms); }
 
 	public BaseField getField(String fieldName) {
 		Iterator<Table> iterator = tables.iterator();

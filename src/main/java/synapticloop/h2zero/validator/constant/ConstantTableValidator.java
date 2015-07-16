@@ -1,7 +1,7 @@
 package synapticloop.h2zero.validator.constant;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import synapticloop.h2zero.model.Constant;
 import synapticloop.h2zero.model.Database;
@@ -23,13 +23,13 @@ public class ConstantTableValidator extends Validator {
 	@Override
 	public void validate(Database database, Options options) {
 
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
 			primaryKeyValues.clear();
 			names.clear();
 			if(table.getIsConstant()) {
 				// go through and validate the values
-				ArrayList<Constant> constants = table.getConstants();
+				List<Constant> constants = table.getConstants();
 				for (Constant constant : constants) {
 					String primaryKeyValue = constant.getPrimaryKeyValue().toString();
 					String name = constant.getName();

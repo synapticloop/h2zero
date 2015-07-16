@@ -1,8 +1,8 @@
 package synapticloop.h2zero.ant.generator;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -33,7 +33,7 @@ public class FormBeanGenerator extends Generator {
 		TemplarContext templarContext = getDefaultTemplarContext();
 
 		// now for the tables
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		Iterator<Table> tableIterator = tables.iterator();
 
 		while (tableIterator.hasNext()) {
@@ -47,7 +47,7 @@ public class FormBeanGenerator extends Generator {
 		}
 
 		// now for the forms
-		ArrayList<Form> forms = database.getForms();
+		List<Form> forms = database.getForms();
 		Iterator<Form> formsIterator = forms.iterator();
 
 		while (formsIterator.hasNext()) {

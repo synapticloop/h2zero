@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,34 +41,34 @@ public abstract class BaseQueryObject {
 
 	protected Boolean jsonUniqueKey; // whether there is a 'unique' jsonKey for this object
 
-	protected ArrayList<BaseField> allFields = new ArrayList<BaseField>();
-	protected HashSet<String> allUniqueFieldNames = new HashSet<String>();
-	protected ArrayList<BaseField> allUniqueFields = new ArrayList<BaseField>();
+	protected List<BaseField> allFields = new ArrayList<BaseField>();
+	protected Set<String> allUniqueFieldNames = new HashSet<String>();
+	protected List<BaseField> allUniqueFields = new ArrayList<BaseField>();
 
 	// select fields
-	protected ArrayList<BaseField> selectFields = new ArrayList<BaseField>();
-	protected LinkedHashMap<String, BaseField> uniqueSelectFields = new LinkedHashMap<String, BaseField>();
+	protected List<BaseField> selectFields = new ArrayList<BaseField>();
+	protected Map<String, BaseField> uniqueSelectFields = new LinkedHashMap<String, BaseField>();
 
 
 	// where fields and their associated properties
-	protected ArrayList<BaseField> whereFields = new ArrayList<BaseField>();
-	protected LinkedHashMap<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
-	protected ArrayList<BaseField> inWhereFields = new ArrayList<BaseField>();
+	protected List<BaseField> whereFields = new ArrayList<BaseField>();
+	protected Map<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
+	protected List<BaseField> inWhereFields = new ArrayList<BaseField>();
 
 	protected boolean hasInFields = false;
 	private boolean hasWhereFieldAliases = false;
 
 
-	protected ArrayList<BaseField> valueFields = new ArrayList<BaseField>();
-	protected LinkedHashMap<String, BaseField> uniqueValueFields = new LinkedHashMap<String, BaseField>();
+	protected List<BaseField> valueFields = new ArrayList<BaseField>();
+	protected Map<String, BaseField> uniqueValueFields = new LinkedHashMap<String, BaseField>();
 
 	protected String setClause;
-	protected ArrayList<BaseField> setFields = new ArrayList<BaseField>();
+	protected List<BaseField> setFields = new ArrayList<BaseField>();
 
-	protected ArrayList<BaseField> updateFields = new ArrayList<BaseField>();
-	protected LinkedHashMap<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
+	protected List<BaseField> updateFields = new ArrayList<BaseField>();
+	protected Map<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
 
-	private ArrayList<String> comments = new ArrayList<String>();
+	private List<String> comments = new ArrayList<String>();
 
 	protected BaseQueryObject(BaseSchemaObject baseSchemaObject, JSONObject jsonObject) throws H2ZeroParseException {
 		// set up the default allowable keys
@@ -178,7 +181,7 @@ public abstract class BaseQueryObject {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void populateFields(JSONObject jsonObject, String jsonKey, ArrayList<BaseField> fields, LinkedHashMap<String, BaseField> uniqueFields) throws H2ZeroParseException {
+	protected void populateFields(JSONObject jsonObject, String jsonKey, List<BaseField> fields, LinkedHashMap<String, BaseField> uniqueFields) throws H2ZeroParseException {
 
 		JSONArray fieldJson = new JSONArray();
 		try {
@@ -251,9 +254,9 @@ public abstract class BaseQueryObject {
 	public String getWhereClause() { return(whereClause); }
 	public String getOrderBy() { return(orderBy); }
 
-	public ArrayList<BaseField> getWhereFields() { return(whereFields); }
-	public ArrayList<BaseField> getSelectFields() { return(selectFields); }
-	public ArrayList<BaseField> getInWhereFields() { return(inWhereFields); }
+	public List<BaseField> getWhereFields() { return(whereFields); }
+	public List<BaseField> getSelectFields() { return(selectFields); }
+	public List<BaseField> getInWhereFields() { return(inWhereFields); }
 	public boolean getHasInFields() { return(hasInFields); }
 	public String getSelectClause() { return selectClause; }
 	public void setSelectClause(String selectClause) { this.selectClause = selectClause; }
@@ -270,18 +273,18 @@ public abstract class BaseQueryObject {
 	public boolean getHasValuesClause() { return(null != valuesClause); }
 	public boolean getHasWhereClause() { return(null != whereClause); }
 
-	public ArrayList<BaseField> getValueFields() { return valueFields; }
-	public LinkedHashMap<String, BaseField> getUniqueValueFields() { return uniqueValueFields; }
+	public List<BaseField> getValueFields() { return valueFields; }
+	public Map<String, BaseField> getUniqueValueFields() { return uniqueValueFields; }
 
 	public Collection<BaseField> getUniqueSelectFields() { return(uniqueSelectFields.values()); }
 
-	public ArrayList<BaseField> getAllFields() { return allFields; }
-	public ArrayList<BaseField> getAllUniqueFields() { return allUniqueFields; }
+	public List<BaseField> getAllFields() { return allFields; }
+	public List<BaseField> getAllUniqueFields() { return allUniqueFields; }
 
 	public String getSetClause() { return(setClause); }
 	public void setSetClause(String setClause) { this.setClause = setClause; }
-	public ArrayList<BaseField> getSetFields() { return(setFields); }
-	public ArrayList<BaseField> getUpdateFields() { return(updateFields); }
+	public List<BaseField> getSetFields() { return(setFields); }
+	public List<BaseField> getUpdateFields() { return(updateFields); }
 	public Collection<BaseField> getUniqueUpdateFields() { return(uniqueUpdateFields.values()); }
 
 	public JSONObject getJsonObject() { return(jsonObject); }
@@ -297,6 +300,6 @@ public abstract class BaseQueryObject {
 	 */
 	public boolean getHasWhereFieldAliases() { return hasWhereFieldAliases;}
 
-	public ArrayList<String> getComments() { return comments; }
+	public List<String> getComments() { return comments; }
 
 }

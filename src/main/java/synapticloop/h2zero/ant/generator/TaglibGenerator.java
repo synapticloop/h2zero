@@ -1,8 +1,8 @@
 package synapticloop.h2zero.ant.generator;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import synapticloop.h2zero.model.Counter;
 import synapticloop.h2zero.model.Database;
@@ -57,7 +57,7 @@ public class TaglibGenerator extends Generator {
 		TemplarContext templarContext = getDefaultTemplarContext();
 
 		// now for the tables
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		Iterator<Table> tableIterator = tables.iterator();
 
 		while (tableIterator.hasNext()) {
@@ -65,7 +65,7 @@ public class TaglibGenerator extends Generator {
 			templarContext.add("table", table);
 			SimpleLogger.logInfo(LoggerType.GENERATE_TAGLIB, "Generating for table '" + table.getName() + "'.");
 
-			ArrayList<Finder> finders = table.getFinders();
+			List<Finder> finders = table.getFinders();
 			Iterator<Finder> finderIterator = finders.iterator();;
 
 			while (finderIterator.hasNext()) {
@@ -76,7 +76,7 @@ public class TaglibGenerator extends Generator {
 				renderToFile(templarContext, javaCreateTaglibFinderParser, pathname);
 			}
 
-			ArrayList<Counter> counters = table.getCounters();
+			List<Counter> counters = table.getCounters();
 			Iterator<Counter> counterIterator = counters.iterator();
 
 			while(counterIterator.hasNext()) {
@@ -86,7 +86,7 @@ public class TaglibGenerator extends Generator {
 				renderToFile(templarContext, javaCreateTaglibCounterParser, pathname);
 			}
 
-			ArrayList<Question> questions = table.getQuestions();
+			List<Question> questions = table.getQuestions();
 			Iterator<Question> questionIterator = questions.iterator();
 
 			while(questionIterator.hasNext()) {
@@ -109,7 +109,7 @@ public class TaglibGenerator extends Generator {
 		}
 
 		// now for the views
-		ArrayList<View> views = database.getViews();
+		List<View> views = database.getViews();
 		Iterator<View> viewsIterator = views.iterator();
 		while (viewsIterator.hasNext()) {
 			View view = viewsIterator.next();
@@ -117,7 +117,7 @@ public class TaglibGenerator extends Generator {
 			// hack for finder taglibs for views - should be split out
 			templarContext.add("table", view);
 
-			ArrayList<Finder> finders = view.getFinders();
+			List<Finder> finders = view.getFinders();
 			Iterator<Finder> finderIterator = finders.iterator();;
 
 			while (finderIterator.hasNext()) {

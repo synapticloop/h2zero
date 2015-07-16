@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.counter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Counter;
 import synapticloop.h2zero.model.Database;
@@ -14,9 +14,9 @@ public class CounterJsonUniqueKeyExistsValidator extends Validator {
 	@Override
 	public void validate(Database database, Options options) {
 
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			ArrayList<Counter> counters = table.getCounters();
+			List<Counter> counters = table.getCounters();
 			for (Counter counter : counters) {
 				if(counter.getHasJsonUniqueKey()) {
 					addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has a key of '" + JSONKeyConstants.UNIQUE + "' which is ignored, invalid, and therefore un-neccessary.");

@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.table;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -12,9 +12,9 @@ public class TableIgnoredKeysValidator extends Validator {
 
 	@Override
 	public void validate(Database database, Options options) {
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			ArrayList<String> foundIgnoredKeys = table.getFoundIgnoredKeys();
+			List<String> foundIgnoredKeys = table.getFoundIgnoredKeys();
 			String replacementKey = "There is no replacement for this key.";
 			for (String key : foundIgnoredKeys) {
 				if(table.getReplacementForKey(key) != null) {
@@ -23,7 +23,7 @@ public class TableIgnoredKeysValidator extends Validator {
 				addWarnMessage("Table '" + table.getName() + "' has a json key of '" + key + "' which is no longer valid and consequently ignored.  " + replacementKey);
 			}
 
-			ArrayList<BaseField> fields = table.getFields();
+			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
 				foundIgnoredKeys = baseField.getFoundIgnoredKeys();
 				for (String key : foundIgnoredKeys) {

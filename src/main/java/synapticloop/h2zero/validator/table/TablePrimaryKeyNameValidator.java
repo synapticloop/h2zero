@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.table;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -12,9 +12,9 @@ public class TablePrimaryKeyNameValidator extends Validator {
 
 	@Override
 	public void validate(Database database, Options options) {
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			ArrayList<BaseField> fields = table.getFields();
+			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
 				if(baseField.getPrimary()) {
 					if(baseField.getName().compareToIgnoreCase("id_" + table.getName()) != 0) {

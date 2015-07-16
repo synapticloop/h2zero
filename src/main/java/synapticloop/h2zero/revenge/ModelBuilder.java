@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.revenge.model.Options;
 import synapticloop.h2zero.revenge.model.Table;
@@ -13,8 +14,8 @@ import synapticloop.h2zero.revenge.model.View;
 
 public class ModelBuilder {
 	private static final String SQL_SELECT_TABLES = "select * from TABLES where TABLE_SCHEMA = ?";
-	private ArrayList<Table> tables = new ArrayList<Table>();
-	private ArrayList<View> views = new ArrayList<View>();
+	private List<Table> tables = new ArrayList<Table>();
+	private List<View> views = new ArrayList<View>();
 
 	private String host;
 	private String database;

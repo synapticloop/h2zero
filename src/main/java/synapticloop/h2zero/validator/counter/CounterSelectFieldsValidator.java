@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.counter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Counter;
 import synapticloop.h2zero.model.Database;
@@ -14,9 +14,9 @@ public class CounterSelectFieldsValidator extends Validator {
 	@Override
 	public void validate(Database database, Options options) {
 
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			ArrayList<Counter> counters = table.getCounters();
+			List<Counter> counters = table.getCounters();
 			for (Counter counter : counters) {
 				if(counter.getSelectFields().size() > 0) {
 					addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has '" + JSONKeyConstants.SELECT_FIELDS + "' which are ignored, and therefore un-neccessary.");

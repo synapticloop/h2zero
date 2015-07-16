@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.updater;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -12,9 +12,9 @@ public class UpdaterKeyValidator extends KeyValidator {
 
 	@Override
 	public void validate(Database database, Options options) {
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			ArrayList<Updater> updaters = table.getUpdaters();
+			List<Updater> updaters = table.getUpdaters();
 			for (Updater updater : updaters) {
 				validate(updater);
 			}

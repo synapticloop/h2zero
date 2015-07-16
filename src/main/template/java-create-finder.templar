@@ -98,10 +98,9 @@ public class {table.javaClassName}Finder {{{\n}
 {\t} * @return the unique result or throw an exception if one couldn't be found{\n}
 {\t} * {\n}
 {\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
-{\t} * @throws SQLException if there was an error in the SQL statement{\n}
 {\t} */{\n}
 
-{\t}public static {table.javaClassName} findByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws H2ZeroFinderException, SQLException {{{\n}
+{\t}public static {table.javaClassName} findByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws H2ZeroFinderException {{{\n}
 
 			{if options.metrics}
 {\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
@@ -121,7 +120,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 {\t}{\t}{\t}{table.javaFieldName} = uniqueResult(resultSet);{\n}
 {\t}{\t}} catch (SQLException sqlex) {{{\n}
-{\t}{\t}{\t}throw sqlex;{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException(sqlex);{\n}
 {\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
 {\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
 {\t}{\t}} finally {{{\n}
@@ -143,10 +142,9 @@ public class {table.javaClassName}Finder {{{\n}
 {\t} * @return the unique result or throw an exception if one coudn't be found.{\n}
 {\t} * {\n}
 {\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
-{\t} * @throws SQLException if there was an error in the SQL statement{\n}
 {\t} */{\n}
 
-{\t}public static {table.javaClassName} findByPrimaryKey(Long {primaryFieldJavaName}) throws H2ZeroFinderException, SQLException {{{\n}
+{\t}public static {table.javaClassName} findByPrimaryKey(Long {primaryFieldJavaName}) throws H2ZeroFinderException {{{\n}
 {\t}{\t}{table.javaClassName} {table.javaFieldName} = null;{\n}
 {\t}{\t}Connection connection = null;{\n}
 {\n}
@@ -158,7 +156,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 {\t}{\t}{\t}{table.javaFieldName} = findByPrimaryKey(connection, {primaryFieldJavaName});{\n}
 {\t}{\t}} catch (SQLException sqlex) {{{\n}
-{\t}{\t}{\t}throw sqlex;{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException(sqlex);{\n}
 {\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
 {\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
 {\t}{\t}} finally {{{\n}

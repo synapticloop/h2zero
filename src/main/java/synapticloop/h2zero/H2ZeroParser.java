@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +66,7 @@ public class H2ZeroParser {
 	private int numWarn = 0;
 	private int numFatal = 0;
 
-	private static ArrayList<Validator> validators = new ArrayList<Validator>();
+	private static List<Validator> validators = new ArrayList<Validator>();
 	static {
 		// options
 		validators.add(new OptionsGeneratorsValidator());
@@ -171,7 +172,7 @@ public class H2ZeroParser {
 			numWarn += validator.getNumWarn();
 			numFatal += validator.getNumFatal();
 
-			ArrayList<Message> messages = validator.getMessages();
+			List<Message> messages = validator.getMessages();
 			for (Message message: messages) {
 				if(message.getType().equals(SimpleLogger.INFO)) {
 					SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getMessage()));

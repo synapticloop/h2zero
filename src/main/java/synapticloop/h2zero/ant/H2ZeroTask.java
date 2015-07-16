@@ -21,6 +21,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -51,7 +53,7 @@ public class H2ZeroTask extends Task {
 
 	private boolean verbose = true; // whether to be verbose with the logging
 
-	private ArrayList<Generator> generators = new ArrayList<Generator>();
+	private List<Generator> generators = new ArrayList<Generator>();
 
 	@Override
 	public void execute() throws BuildException {
@@ -133,18 +135,18 @@ public class H2ZeroTask extends Task {
 
 		// now that we are done - print out the overview
 		if(null != h2zeroParser) {
-			
+
 			// go through the generators and get the summary information
-			
-			HashMap<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
+
+			Map<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
 			int numFiles = 0;
 
 			for (Generator generator : generators) {
 				numFiles += generator.getNumFiles();
-				HashMap<String, Integer> generatorNumFilesHashMap = generator.getNumFilesHashMap();
+				Map<String, Integer> generatorNumFilesHashMap = generator.getNumFilesHashMap();
 				Iterator<String> iterator = generatorNumFilesHashMap.keySet().iterator();
 				while (iterator.hasNext()) {
-					String key = (String) iterator.next();
+					String key = iterator.next();
 					Integer generatorNumFiles = generatorNumFilesHashMap.get(key);
 					if(numFilesHashMap.containsKey(key)) {
 						numFilesHashMap.put(key, numFilesHashMap.get(key) + generatorNumFiles);
@@ -159,7 +161,7 @@ public class H2ZeroTask extends Task {
 			Iterator<String> iterator = numFilesHashMap.keySet().iterator();
 
 			while (iterator.hasNext()) {
-				String key = (String) iterator.next();
+				String key = iterator.next();
 				Integer count = numFilesHashMap.get(key);
 				String multiple = "s";
 				if(count == 1) {
@@ -179,7 +181,7 @@ public class H2ZeroTask extends Task {
 	private void logDatabaseInfo(H2ZeroParser h2zeroParser) {
 		if(verbose) {
 			SimpleLogger.logInfo(LoggerType.PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
-			ArrayList<Table> tables = h2zeroParser.getDatabase().getTables();
+			List<Table> tables = h2zeroParser.getDatabase().getTables();
 			int maxTableNameLength = 0;
 
 			int maxFields = 0;
@@ -233,6 +235,11 @@ public class H2ZeroTask extends Task {
 		}
 	}
 
+	/**
+	 * 
+	 * @param in the h2zero file to use as the input
+	 * @deprecated
+	 */
 	@Deprecated
 	public void setIn(String in) {
 		getProject().log("Attribute 'in' is depecrated and __MUST__ be replced with 'inFile', exitting...", Project.MSG_ERR);

@@ -1,6 +1,7 @@
 package synapticloop.h2zero.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,8 +11,8 @@ import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 
 public class Constant {
-	private ArrayList<Object> values = new ArrayList<Object>();
-	private ArrayList<Object> sqlValues = new ArrayList<Object>();
+	private List<Object> values = new ArrayList<Object>();
+	private List<Object> sqlValues = new ArrayList<Object>();
 	private String name = null;
 	private Object primaryKeyValue = null;
 
@@ -58,8 +59,8 @@ public class Constant {
 		}
 	}
 
-	public ArrayList<Object> getValues() { return values; }
-	public ArrayList<Object> getSqlValues() { return sqlValues; }
+	public List<Object> getValues() { return values; }
+	public List<Object> getSqlValues() { return sqlValues; }
 	public String getName() { return name; }
 	public Object getPrimaryKeyValue() { return primaryKeyValue; }
 	public void setPrimaryKeyValue(Object primaryKeyValue) { this.primaryKeyValue = primaryKeyValue; }

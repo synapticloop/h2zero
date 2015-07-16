@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.constant;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -21,7 +21,7 @@ public class ConstantUpdaterValidator extends Validator {
 	@Override
 	public void validate(Database database, Options options) {
 
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
 			if(table.getIsConstant()) {
 				// go through and validate the values

@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.finder;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
@@ -12,10 +12,10 @@ public class FinderOrderByClauseValidator extends Validator {
 
 	@Override
 	public void validate(Database database, Options options) {
-		
-		ArrayList<Table> tables = database.getTables();
+
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			ArrayList<Finder> finders = table.getFinders();
+			List<Finder> finders = table.getFinders();
 			for (Finder finder : finders) {
 				String orderBy = finder.getOrderBy();
 				if(null != orderBy) {

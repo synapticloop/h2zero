@@ -20,7 +20,7 @@ public class View extends BaseSchemaObject {
 	private boolean cacheable = false;
 	private boolean cacheFindAll= false;
 
-	private ArrayList<BaseField> fields = new ArrayList<BaseField>();
+	private List<BaseField> fields = new ArrayList<BaseField>();
 	private HashMap<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
 
 	public View(JSONObject jsonObject) throws H2ZeroParseException {
@@ -109,7 +109,7 @@ public class View extends BaseSchemaObject {
 
 	public BaseField getField(String name) { return(fieldLookup.get(name)); }
 	public String getAsClause() { return asClause; }
-	public ArrayList<BaseField> getFields() { return fields; }
+	public List<BaseField> getFields() { return fields; }
 	public boolean getCacheable() { return cacheable; }
 	public boolean getCacheFindAll() { return cacheFindAll; }
 

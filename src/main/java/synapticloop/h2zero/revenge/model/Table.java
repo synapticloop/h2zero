@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 
@@ -13,9 +14,9 @@ public class Table {
 	private static final String SQL_FIND_FOREIGN_KEYS = "select * from KEY_COLUMN_USAGE where TABLE_SCHEMA = ? and TABLE_NAME = ? and COLUMN_NAME = ? order by ORDINAL_POSITION asc";
 	private static final String SQL_FIND_INDEXES = "select * from STATISTICS where TABLE_SCHEMA = ? and TABLE_NAME = ? and COLUMN_NAME = ? and INDEX_NAME != 'PRIMARY'";
 	private String name = null;
-	private ArrayList<Column> columns = new ArrayList<Column>();
+	private List<Column> columns = new ArrayList<Column>();
 
-	private static ArrayList<String> SQL_INTERACTION_OBJECTS = new ArrayList<String>();
+	private static List<String> SQL_INTERACTION_OBJECTS = new ArrayList<String>();
 	static {
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIELD_FINDERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FINDERS);

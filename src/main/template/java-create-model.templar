@@ -49,7 +49,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 {\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
 {\t}// removing dead code{\n}
 {\t}@SuppressWarnings("unused"){\n}
-{\t}private static final String BINDER = Constants.{table.upperName}_BINDER;{\n}{\n}
+{\t}private static final String BINDER = Constants.{table.upperName}_binder;{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				CONSTANTS GENERATOR

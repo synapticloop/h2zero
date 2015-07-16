@@ -2,6 +2,7 @@ package synapticloop.h2zero.ant.quick;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
@@ -10,7 +11,7 @@ public class Database {
 	private String schema = null;
 	private String javaPackage = null;
 
-	private ArrayList<Table> tables = new ArrayList<Table>();
+	private List<Table> tables = new ArrayList<Table>();
 	private HashMap<String, Table> tableNames = new HashMap<String, Table>();
 	private String generators;
 

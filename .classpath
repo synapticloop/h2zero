@@ -18,6 +18,7 @@
 	<classpathentry kind="lib" path="lib/test/mockito-all-1.8.5.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/c3p0-0.9.5-pre8.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/metrics-core-3.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/runtime/JSON-java.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>

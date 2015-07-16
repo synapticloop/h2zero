@@ -1,7 +1,7 @@
 package synapticloop.h2zero.validator.finder;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
@@ -13,10 +13,10 @@ public class FinderNameValidator extends Validator {
 	private HashSet<String> finderNames = new HashSet<String>();
 
 	public void validate(Database database, Options options) {
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
 			finderNames.clear();
-			ArrayList<Finder> finders = table.getFinders();
+			List<Finder> finders = table.getFinders();
 			for (Finder finder : finders) {
 				String name = finder.getName();
 				if(name.contains(" ")) {

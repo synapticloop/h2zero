@@ -1,6 +1,6 @@
 package synapticloop.h2zero.validator.question;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
@@ -14,9 +14,9 @@ public class QuestionSelectFieldsValidator extends Validator {
 	@Override
 	public void validate(Database database, Options options) {
 
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			ArrayList<Question> questions = table.getQuestions();
+			List<Question> questions = table.getQuestions();
 			for (Question question : questions) {
 				if(question.getSelectFields().size() > 0) {
 					addWarnMessage("Question '" + table.getName() + "." + question.getName() + "' has '" + JSONKeyConstants.SELECT_FIELDS + "' which are ignored, and therefore un-neccessary.");

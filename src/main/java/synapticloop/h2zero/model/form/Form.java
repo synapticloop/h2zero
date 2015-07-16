@@ -19,6 +19,7 @@ package synapticloop.h2zero.model.form;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +37,7 @@ public class Form {
 	private String name = null;
 	private String respondTo = null;
 
-	private ArrayList<FormField> formFields = new ArrayList<FormField>();
+	private List<FormField> formFields = new ArrayList<FormField>();
 
 	public Form(Database database, JSONObject jsonObject) throws H2ZeroParseException {
 		this.database = database;
@@ -99,7 +100,7 @@ public class Form {
 	}
 
 	public String getName() { return(name); }
-	public ArrayList<FormField> getFields() { return(formFields); }
+	public List<FormField> getFields() { return(formFields); }
 
 	public void setRespondTo(String respondTo) {
 		this.respondTo = respondTo;

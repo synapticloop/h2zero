@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -45,7 +46,7 @@ public abstract class BaseField {
 	}
 
 	// a list of the ignored keys (and therefore soon to be removed)
-	private static ArrayList<String> ignoredKeys = new ArrayList<String>();
+	private static List<String> ignoredKeys = new ArrayList<String>();
 	static {
 		ignoredKeys.add("foreign");
 		ignoredKeys.add("finder");
@@ -61,7 +62,7 @@ public abstract class BaseField {
 	}
 
 	// the list of ignored keys that were found on this field object
-	private ArrayList<String> foundIgnoredKeys = new ArrayList<String>();
+	private List<String> foundIgnoredKeys = new ArrayList<String>();
 
 	
 	private JSONObject jsonObjectConstructor = null; // the json object that was used to construct this object
@@ -150,7 +151,7 @@ public abstract class BaseField {
 
 		onDelete = jsonObject.optString(JSONKeyConstants.ON_DELETE, null);
 		if(null != onDelete) {
-			if(null == foreignKeyTable || null == foreignKeyTable) {
+			if(null == foreignKeyTable || null == foreignKeyField) {
 				throw new H2ZeroParseException("Field '" + name + "' cannot have a '" + JSONKeyConstants.ON_DELETE + "' unless there is a '" + JSONKeyConstants.FOREIGN + "' on the same field.");
 			}
 
@@ -164,7 +165,7 @@ public abstract class BaseField {
 
 		onUpdate = jsonObject.optString(JSONKeyConstants.ON_UPDATE, null);
 		if(null != onUpdate) {
-			if(null == foreignKeyTable || null == foreignKeyTable) {
+			if(null == foreignKeyTable || null == foreignKeyField) {
 				throw new H2ZeroParseException("Field '" + name + "' cannot have a '" + JSONKeyConstants.ON_UPDATE + "' unless there is a '" + JSONKeyConstants.FOREIGN + "' on the same field.");
 			}
 
@@ -279,7 +280,7 @@ public abstract class BaseField {
 	public String getOnDelete() { return(onDelete); }
 	public boolean getRequiresConfirm() { return(requiresConfirm); }
 
-	public ArrayList<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
+	public List<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
 
 	/**

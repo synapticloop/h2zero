@@ -6,3 +6,4 @@ generate/*
 cobertura.ser
 .DS_Store
 src/test/java/insityou.h2zero
+build-sonar.xml

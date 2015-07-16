@@ -1,8 +1,8 @@
 package synapticloop.h2zero.ant.generator;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
@@ -40,7 +40,7 @@ public class AdminPagesGenerator extends Generator {
 		Parser cssCreateAllParser = getParser("/css-create-all.templar");
 
 		// now for the tables
-		ArrayList<Table> tables = database.getTables();
+		List<Table> tables = database.getTables();
 		Iterator<Table> tableIterator = tables.iterator();
 
 		while (tableIterator.hasNext()) {
@@ -48,8 +48,8 @@ public class AdminPagesGenerator extends Generator {
 			templarContext.add("table", table);
 			SimpleLogger.logInfo(LoggerType.GENERATE, "Generating for table '" + table.getName() + "'.");
 
-			ArrayList<Finder> finders = table.getFinders();
-			Iterator<Finder> finderIterator = finders.iterator();;
+			List<Finder> finders = table.getFinders();
+			Iterator<Finder> finderIterator = finders.iterator();
 
 			while (finderIterator.hasNext()) {
 				Finder finder = finderIterator.next();
@@ -77,7 +77,7 @@ public class AdminPagesGenerator extends Generator {
 		}
 
 		// now for the views
-		ArrayList<View> views = database.getViews();
+		List<View> views = database.getViews();
 		Iterator<View> viewsIterator = views.iterator();
 		while (viewsIterator.hasNext()) {
 			View view = viewsIterator.next();
@@ -85,8 +85,8 @@ public class AdminPagesGenerator extends Generator {
 			// hack for finder taglibs for views - should be split out
 			templarContext.add("table", view);
 
-			ArrayList<Finder> finders = view.getFinders();
-			Iterator<Finder> finderIterator = finders.iterator();;
+			List<Finder> finders = view.getFinders();
+			Iterator<Finder> finderIterator = finders.iterator();
 
 			while (finderIterator.hasNext()) {
 				Finder finder = finderIterator.next();
@@ -110,6 +110,7 @@ public class AdminPagesGenerator extends Generator {
 			// now for the CSS
 			pathname = outFile + "/src/main/webapps/admin/static/css/style.css";
 			renderToFile(templarContext, cssCreateAllParser, pathname);
-		}	}
+		}
+	}
 
 }
