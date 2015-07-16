@@ -23,4 +23,8 @@ public class H2ZeroException extends Exception {
 	public H2ZeroException(String message) {
 		super(message);
 	}
+
+	public H2ZeroException(Exception exception) {
+		super(exception);
+	}
 }
