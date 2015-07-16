@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +23,7 @@ public class View extends BaseSchemaObject {
 	private boolean cacheFindAll= false;
 
 	private List<BaseField> fields = new ArrayList<BaseField>();
-	private HashMap<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
+	private Map<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
 
 	public View(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);

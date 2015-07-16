@@ -118,7 +118,7 @@ public class TaglibGenerator extends Generator {
 			templarContext.add("table", view);
 
 			List<Finder> finders = view.getFinders();
-			Iterator<Finder> finderIterator = finders.iterator();;
+			Iterator<Finder> finderIterator = finders.iterator();
 
 			while (finderIterator.hasNext()) {
 				Finder finder = finderIterator.next();

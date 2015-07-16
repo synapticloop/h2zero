@@ -135,7 +135,7 @@ public class JavaGenerator extends Generator {
 			renderToFile(templarContext, javaCreateViewFinderParser, pathname);
 
 			List<Finder> finders = view.getFinders();
-			Iterator<Finder> finderIterator = finders.iterator();;
+			Iterator<Finder> finderIterator = finders.iterator();
 
 			while (finderIterator.hasNext()) {
 				Finder finder = finderIterator.next();
