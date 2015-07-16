@@ -196,18 +196,6 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}}{\n}
 
 {\t}{\t}{\t}return(null);{\n}
-{\t}{\t}} catch(SQLException sqlex){{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findByPrimaryKeySilent(" + {primaryFieldJavaName} + "): " + sqlex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(null);{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
 {\n}
@@ -232,18 +220,6 @@ public class {table.javaClassName}Finder {{{\n}
 
 {\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
 {\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(null);{\n}
-{\t}{\t}} catch(SQLException sqlex){{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findByPrimaryKeySilent(" + {primaryFieldJavaName} + "): " + sqlex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 {\t}{\t}{\t}{\t}}{\n}
 
 {\t}{\t}{\t}}{\n}
