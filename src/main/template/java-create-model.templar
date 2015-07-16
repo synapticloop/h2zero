@@ -71,7 +71,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}{loop table.constants as constant}
 				{table.javaClassName}.{constant.name}{if !constantStatus.last}, {endif}
 			{endloop}{\n}
-	{\t}};{\n}
+	{\t}}{\n}
 	{\n}
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
