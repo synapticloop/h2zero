@@ -24,4 +24,7 @@ public class H2ZeroFinderException extends H2ZeroException {
 		super(message);
 	}
 
+	public H2ZeroFinderException(Exception exception) {
+		super(exception);
+	}
 }
