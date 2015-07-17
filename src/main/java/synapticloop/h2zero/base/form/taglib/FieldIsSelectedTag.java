@@ -18,19 +18,17 @@ public class FieldIsSelectedTag extends BaseFormTag {
 			BaseFormField baseField = formBean.getField(fieldName);
 			if(null != baseField) {
 				String value = baseField.getValue();
-				if(null != value) {
-					if(value.equals(fieldValue)) {
-						return(EVAL_BODY_INCLUDE);
-					}
+				if(null != value && value.equals(fieldValue)) {
+					return(EVAL_BODY_INCLUDE);
 				}
 			}
 		} else {
 			// we haven't submitted the form, so use the default if available
 			BaseFormField defaultValueField = FieldManager.getField(fieldName);
-			if(null != defaultValueField && null != defaultValueField.getDefaultValue()) {
-				if(defaultValueField.getDefaultValue().equals(fieldValue)) {
-					return(EVAL_BODY_INCLUDE);
-				}
+			if(null != defaultValueField && 
+					null != defaultValueField.getDefaultValue() && 
+					defaultValueField.getDefaultValue().equals(fieldValue)) {
+				return(EVAL_BODY_INCLUDE);
 			}
 		}
 		return(SKIP_BODY);

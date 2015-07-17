@@ -47,7 +47,9 @@ public class FileUtils {
 				}
 			}
 			try {
-				outputStream.close();
+				if(null != outputStream) {
+					outputStream.close();
+				}
 			} catch (IOException ignored) {
 				// do nothing
 			}
@@ -90,7 +92,9 @@ public class FileUtils {
 				}
 			}
 			try {
-				outputStream.close();
+				if(null != outputStream) {
+					outputStream.close();
+				}
 			} catch (IOException ignored) {
 				// do nothing
 			}

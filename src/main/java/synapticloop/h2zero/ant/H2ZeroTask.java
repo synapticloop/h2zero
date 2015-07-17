@@ -53,29 +53,16 @@ public class H2ZeroTask extends Task {
 
 	private boolean verbose = true; // whether to be verbose with the logging
 
+	private File h2zeroFile = null;
+	private File outFile = null;
+
 	private List<Generator> generators = new ArrayList<Generator>();
 
 	@Override
 	public void execute() throws BuildException {
-		if(null == outDir || null == inFile) {
-			getProject().log("Both attributes 'inFile' and 'outDir' are required, exiting...", Project.MSG_ERR);
+		if(!areParametersCorrect()) {
 			return;
 		}
-
-		File h2zeroFile = new File(inFile);
-		if(!h2zeroFile.exists()|| !h2zeroFile.canRead()) {
-			getProject().log("h2zero file 'inFile': '" + inFile + "' does not exist, or is not readable, exiting...", Project.MSG_ERR);
-			return;
-		}
-
-		File outFile = new File(outDir);
-		if(!outFile.exists() || !outFile.isDirectory()) {
-			getProject().log("'outDir': '" + outDir + "' does not exists or is not a directory, exiting...", Project.MSG_ERR);
-			return;
-		}
-
-		SimpleLogger.logInfo(LoggerType.OPTIONS, "In file: " + inFile);
-		SimpleLogger.logInfo(LoggerType.OPTIONS, "Out dir: " + outDir);
 
 		// otherwise we are good to go
 		H2ZeroParser h2zeroParser = null;
@@ -133,6 +120,11 @@ public class H2ZeroTask extends Task {
 			return;
 		}
 
+		logSummaryInformation(h2zeroParser);
+
+	}
+
+	private void logSummaryInformation(H2ZeroParser h2zeroParser) {
 		// now that we are done - print out the overview
 		if(null != h2zeroParser) {
 
@@ -170,9 +162,32 @@ public class H2ZeroTask extends Task {
 				SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("     %d %s file%s", count, key, multiple));
 			}
 		}
-
 	}
 
+	private boolean areParametersCorrect() {
+		if(null == outDir || null == inFile) {
+			getProject().log("Both attributes 'inFile' and 'outDir' are required, exiting...", Project.MSG_ERR);
+			return(false);
+		}
+
+		h2zeroFile = new File(inFile);
+		if(!h2zeroFile.exists()|| !h2zeroFile.canRead()) {
+			getProject().log("h2zero file 'inFile': '" + inFile + "' does not exist, or is not readable, exiting...", Project.MSG_ERR);
+			return(false);
+		}
+
+		outFile = new File(outDir);
+		if(!outFile.exists() || !outFile.isDirectory()) {
+			getProject().log("'outDir': '" + outDir + "' does not exists or is not a directory, exiting...", Project.MSG_ERR);
+			return(false);
+		}
+
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "Parameters are correct");
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tIn file: " + inFile);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tOut dir: " + outDir);
+
+		return(true);
+	}
 	/**
 	 * Log the database information
 	 * 

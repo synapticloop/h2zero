@@ -2,7 +2,6 @@ package synapticloop.h2zero;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -195,15 +194,11 @@ public class H2ZeroParser {
 		}
 
 		StringBuilder stringBuilder = new StringBuilder();
-		BufferedReader bufferedReader;
-		try {
-			bufferedReader = new BufferedReader(new FileReader(file));
-		} catch (FileNotFoundException jifnfex) {
-			throw new H2ZeroParseException("The file '" + file.getAbsolutePath() + "' does not exist.");
-		}
+		BufferedReader bufferedReader = null;
 
 		String line = null;
 		try {
+			bufferedReader = new BufferedReader(new FileReader(file));
 			while((line = bufferedReader.readLine()) != null) {
 				stringBuilder.append(line);
 				stringBuilder.append("\n");

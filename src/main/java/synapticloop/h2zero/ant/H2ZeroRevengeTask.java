@@ -27,6 +27,8 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 import synapticloop.h2zero.revenge.ModelBuilder;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 public class H2ZeroRevengeTask extends Task {
 	private String outFile = null;
@@ -57,11 +59,11 @@ public class H2ZeroRevengeTask extends Task {
 
 			printWriter.write(generated);
 		} catch (ClassNotFoundException cnfex) {
-			cnfex.printStackTrace();
+			SimpleLogger.logFatal(LoggerType.REVENGE, cnfex.getMessage());
 		} catch (SQLException sqlex) {
-			sqlex.printStackTrace();
+			SimpleLogger.logFatal(LoggerType.REVENGE, sqlex.getMessage());
 		} catch (FileNotFoundException fnfex) {
-			fnfex.printStackTrace();
+			SimpleLogger.logFatal(LoggerType.REVENGE, fnfex.getMessage());
 		} finally {
 			if(null != printWriter) {
 				printWriter.close();

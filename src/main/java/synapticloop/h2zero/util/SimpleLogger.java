@@ -17,7 +17,8 @@ public class SimpleLogger {
 		VALIDATOR,
 		ANALYSER,
 		PARSE,
-		SUMMARY
+		SUMMARY, 
+		REVENGE
 	}
 
 	private static int maxLength = 0;
