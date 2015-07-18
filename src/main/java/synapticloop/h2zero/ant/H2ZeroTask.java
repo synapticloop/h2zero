@@ -238,13 +238,13 @@ public class H2ZeroTask extends Task {
 			for (Table table : tables) {
 				SimpleLogger.logInfo(LoggerType.PARSE, "Found table " + String.format("%-" + maxTableNameLength + "s", table.getName()) + 
 						" [ " + 
-						String.format("%" + (maxFields + "").length() + "s fields, ", table.getFields().size()) + 
-						String.format("%" + (maxFinders + "").length() + "s finders, ", table.getFinders().size()) + 
-						String.format("%" + (maxDeleters + "").length() + "s deleters, ", table.getDeleters().size()) + 
-						String.format("%" + (maxUpdaters + "").length() + "s updaters, ", table.getUpdaters().size()) + 
-						String.format("%" + (maxInserters + "").length() + "s inserters, ", table.getInserters().size()) + 
-						String.format("%" + (maxQuestions + "").length() + "s questions, ", table.getQuestions().size()) + 
-						String.format("%" + (maxCounters + "").length() + "s counters", table.getCounters().size()) + 
+						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", table.getFields().size()) + 
+						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", table.getFinders().size()) + 
+						String.format("%" + (Integer.toString(maxDeleters)).length() + "s deleters, ", table.getDeleters().size()) + 
+						String.format("%" + (Integer.toString(maxUpdaters)).length() + "s updaters, ", table.getUpdaters().size()) + 
+						String.format("%" + (Integer.toString(maxInserters)).length() + "s inserters, ", table.getInserters().size()) + 
+						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", table.getQuestions().size()) + 
+						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", table.getCounters().size()) + 
 						" ] ");
 			}
 		}
