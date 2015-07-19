@@ -26,8 +26,8 @@ public class FormTag extends BaseFormTag {
 			if(formBean.isValid()) {
 				try {
 					httpServletResponse.sendRedirect(successPage);
-				} catch (IOException jiioex) {
-					// do nothing
+				} catch (IOException ioex) {
+					throw new JspException(ioex);
 				}
 				return(SKIP_PAGE);
 			} else {

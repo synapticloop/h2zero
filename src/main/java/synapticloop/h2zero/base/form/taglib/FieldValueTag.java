@@ -33,8 +33,8 @@ public class FieldValueTag extends BaseFormTag {
 			if(null != fieldValue) {
 				try {
 					pageContext.getOut().write(fieldValue);
-				} catch (IOException jiioex) {
-					// do nothing
+				} catch (IOException ioex) {
+					throw new JspException(ioex);
 				}
 			}
 		}

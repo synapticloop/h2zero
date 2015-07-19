@@ -147,7 +147,7 @@ public class H2ZeroParser {
 		try {
 			jsonObject = new JSONObject(getFileContents(file));
 		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Error parsing JSON, message was '" + ojjsonex.getMessage() + "'.");
+			throw new H2ZeroParseException("Error parsing JSON, message was '" + ojjsonex.getMessage() + "'.", ojjsonex);
 		}
 
 		// try and get the options
