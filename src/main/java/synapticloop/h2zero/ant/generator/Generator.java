@@ -6,7 +6,7 @@ import java.util.Map;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
-import synapticloop.h2zero.templar.function.FunctionHasImport;
+import synapticloop.h2zero.templar.function.FunctionRequiresImport;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.Parser;
@@ -17,7 +17,7 @@ import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
 
 public abstract class Generator {
-	private static final String FUNCTION_NAME_HAS_IMPORT = "hasImport";
+	private static final String FUNCTION_NAME_HAS_IMPORT = "requiresImport";
 	protected Database database;
 	protected Options options;
 	protected File outFile;
@@ -47,7 +47,7 @@ public abstract class Generator {
 		templarContext.add("options", options);
 
 		if(!templarContext.hasFunction(FUNCTION_NAME_HAS_IMPORT)) {
-			templarContext.addFunction(FUNCTION_NAME_HAS_IMPORT, new FunctionHasImport());
+			templarContext.addFunction(FUNCTION_NAME_HAS_IMPORT, new FunctionRequiresImport());
 		}
 
 		return templarContext;
