@@ -15,18 +15,12 @@ import {database.package}.question.{table.javaClassName}Question;{\n}
 {set question as baseQueryObject}
 
 @SuppressWarnings("serial"){\n}
-public class {question.tagName}Tag extends BodyTagSupport {{{\n}
+public class {question.tagName}Tag extends BaseVarTag {{{\n}
 
 	{import classpath:/snippet/global/java-taglib-members.templar}
 
 	{import classpath:/snippet/global/java-class-field-declaration.templar}
 
 	{import classpath:/snippet/global/java-taglib-do-start-tag.templar}
-
-	{import classpath:/snippet/global/java-taglib-do-end-tag.templar}
-
-	{import classpath:/snippet/global/java-taglib-base-getter-setters.templar}
-
-	{import classpath:/snippet/global/java-class-setters.templar}
 
 }

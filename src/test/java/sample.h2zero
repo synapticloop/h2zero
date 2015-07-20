@@ -3,7 +3,7 @@
 	"logging": "log4j",
 	"metrics": true,
 	"generators": [ "java", "sql", "taglib" ],
-	"validators: {
+	"validators": {
 		"UpdaterNameValidator": {
 			"allowablePrefixes": "update,reset"
 		},

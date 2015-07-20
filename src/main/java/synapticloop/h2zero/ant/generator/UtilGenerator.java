@@ -7,6 +7,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.Parser;
+import synapticloop.templar.exception.FunctionException;
 import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
@@ -23,7 +24,13 @@ public class UtilGenerator extends Generator {
 		}
 
 		Parser javaCreateDatabaseCheckerHelperParser = getParser("/java-create-database-checker-helper.templar");
-		TemplarContext templarContext = getDefaultTemplarContext();
+
+		TemplarContext templarContext = null;
+		try {
+			templarContext = getDefaultTemplarContext();
+		} catch (FunctionException fex) {
+			throw new RenderException("Could not instantiate the function.", fex);
+		}
 
 		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/util/DatabaseCheckerHelper.java";
 		SimpleLogger.logInfo(LoggerType.GENERATE_JAVA_UTIL, "Generating for 'DatabaseCheckerHelper'.");

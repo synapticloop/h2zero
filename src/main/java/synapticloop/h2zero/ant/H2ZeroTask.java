@@ -103,20 +103,23 @@ public class H2ZeroTask extends Task {
 				generator.generate();
 			}
 
-		} catch (H2ZeroParseException shepex) {
+		} catch (H2ZeroParseException h2zpex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2zeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + shepex.getMessage());
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
+			h2zpex.printStackTrace();
 			return;
-		} catch (synapticloop.templar.exception.ParseException stepex) {
+		} catch (synapticloop.templar.exception.ParseException pex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2zeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "The message was:");
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "  " + stepex.getMessage());
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "  " + pex.getMessage());
+			pex.printStackTrace();
 			return;
 		} catch (RenderException rex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "RenderException: There was an error rendering the '" + h2zeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "  " + rex.getMessage());
+			rex.printStackTrace();
 			return;
 		}
 

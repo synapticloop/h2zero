@@ -49,9 +49,19 @@
 		</zip>
 	</target>
 
+	<path id="classpath-h2zero-dist">
+		<fileset dir="lib/runtime">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="dist">
+			<include name="h2zero*.jar"/>
+		</fileset>
+	</path>
+
 	<target name="test-h2zero" description="test the h2zero generation">
-		<taskdef resource="h2zero.properties" classpath="${dist.dir}/h2zero.jar;${lib.dir}/templar.jar;${lib.dir}/log4j-1.2.17.jar;${lib.dir}/mail.jar" />
-		<h2zero in="src/test/java/sample.h2zero" outDir="generate" verbose="false" />
+		<delete dir="generate/src/main/java/*" />
+		<taskdef resource="h2zero.properties" classpathref="classpath-h2zero-dist" />
+		<h2zero inFile="src/test/java/sample.h2zero" outDir="generate" verbose="false" />
 	</target>
 
 	<target name="test-h2zero-quick" description="test the h2zero quick generation">

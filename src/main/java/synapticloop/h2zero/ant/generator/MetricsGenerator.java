@@ -9,6 +9,7 @@ import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.Parser;
+import synapticloop.templar.exception.FunctionException;
 import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
@@ -26,7 +27,12 @@ public class MetricsGenerator extends Generator {
 
 		SimpleLogger.logInfo(LoggerType.GENERATE_METRICS, "Generating for database '" + database.getSchema() + "'.");
 
-		TemplarContext templarContext = getDefaultTemplarContext();
+		TemplarContext templarContext = null;
+		try {
+			templarContext = getDefaultTemplarContext();
+		} catch (FunctionException fex) {
+			throw new RenderException("Could not instantiate the function.", fex);
+		}
 
 		Parser javaCreateMetricsServletMunin = getParser("/java-create-metrics-servlet-munin.templar");
 		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/servlet/MuninMetricsServlet.java";

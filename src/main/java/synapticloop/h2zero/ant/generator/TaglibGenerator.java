@@ -14,6 +14,7 @@ import synapticloop.h2zero.model.View;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.Parser;
+import synapticloop.templar.exception.FunctionException;
 import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
@@ -54,7 +55,12 @@ public class TaglibGenerator extends Generator {
 		// the TLD
 		Parser tldCreateLibraryParser = getParser("/tld-create-library.templar");
 
-		TemplarContext templarContext = getDefaultTemplarContext();
+		TemplarContext templarContext = null;
+		try {
+			templarContext = getDefaultTemplarContext();
+		} catch (FunctionException fex) {
+			throw new RenderException("Could not instantiate the function.", fex);
+		}
 
 		// now for the tables
 		List<Table> tables = database.getTables();
