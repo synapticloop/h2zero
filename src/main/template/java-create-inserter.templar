@@ -10,11 +10,12 @@ package {database.package}.inserter;{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //                (java-create-inserter.templar){\n}{\n}
 
+{if table.hasLargeObject}
 import java.io.InputStream;{\n}
+{endif}
 import java.sql.Connection;{\n}
 import java.sql.PreparedStatement;{\n}
 import java.sql.SQLException;{\n}
-import java.sql.Types;{\n}
 {if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
 {if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
 {if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
