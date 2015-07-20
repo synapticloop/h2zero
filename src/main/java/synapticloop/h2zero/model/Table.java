@@ -355,6 +355,17 @@ public class Table extends BaseSchemaObject {
 		}
 	}
 
+	public boolean getHasQuestionInfields() {
+		for (Question question : questions) {
+			if(question.getHasInFields()) {
+				return(true);
+			}
+		}
+		return(false);
+	}
+
+	
+
 	// boring old getters and setters
 	public String getEngine() { return(this.engine); }
 	public String getCharset() { return(this.charset); }

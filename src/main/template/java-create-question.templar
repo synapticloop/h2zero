@@ -8,9 +8,14 @@ package {database.package}.question;{\n}{\n}
 //                (java-create-question.templar){\n}{\n}
 
 {import classpath:/snippet/global/java-model-imports.templar}
-import java.util.HashMap;{\n}
-import java.util.Map;{\n}
+
+{if table.hasQuestionInFields}
+	import java.util.HashMap;{\n}
+	import java.util.Map;{\n}
+{endif}
+
 import java.util.List;{\n}
+{\n}
 
 {if options.metrics}
 import synapticloop.h2zero.base.manager.MetricsManager;{\n}
