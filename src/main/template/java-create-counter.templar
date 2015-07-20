@@ -11,6 +11,9 @@ import java.sql.Connection;{\n}
 import java.sql.PreparedStatement;{\n}
 import java.sql.ResultSet;{\n}
 import java.sql.SQLException;{\n}
+import java.util.HashMap;{\n}
+import java.util.List;{\n}
+import java.util.Map;{\n}
 {\n}
 import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
 {\n}
@@ -53,7 +56,7 @@ public class {table.javaClassName}Counter {{{\n}
 
 {loop table.counters as counter}
 	{if counter.hasInFields}
-		{\t}private static HashMap<String, String> {counter.name}_statement_cache = new HashMap<String, String>();{\n}
+		{\t}private static Map<String, String> {counter.name}_statement_cache = new HashMap<String, String>();{\n}
 	{endif}
 {endloop}
 

@@ -35,10 +35,8 @@ import {database.package}.model.util.Constants;{\n}
 	  table, then we need to import the finder
 	}
 	{loop table.fields as field}
-		{if fn:notNull[field.foreignKeyTable]}
-			{if !field.foreignKeyTableLookup.isConstant}
-				import {database.package}.finder.{field.foreignKeyTableLookup.javaClassName}Finder;{\n}
-			{endif}
+		{if fn:notNull[field.foreignKeyTable] & !field.foreignKeyTableLookup.isConstant}
+			import {database.package}.finder.{field.foreignKeyTableLookup.javaClassName}Finder;{\n}
 		{endif}
 	{endloop}
 
