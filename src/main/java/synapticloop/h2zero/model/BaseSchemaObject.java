@@ -2,9 +2,11 @@ package synapticloop.h2zero.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +28,10 @@ public abstract class BaseSchemaObject {
 
 	protected Map<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
 	protected Map<String, BaseField> inFieldLookup = new HashMap<String, BaseField>();
+
+	protected List<BaseField> fields = new ArrayList<BaseField>();
+
+	protected Set<String> referencedFieldTypes = new HashSet<String>(); // this is a set of all of the referenced field types
 
 	public BaseSchemaObject(JSONObject jsonObject) {
 		this.jsonObject = jsonObject;
@@ -159,6 +165,28 @@ public abstract class BaseSchemaObject {
 			}
 		}
 	}
+
+	/**
+	 * Go through all of the fields and populate the referenced field types
+	 * private List<BaseField> fields = new ArrayList<BaseField>();
+	 */
+	protected void populateReferencedFieldTypes() {
+		for (BaseField baseField : fields) {
+			referencedFieldTypes.add(baseField.getSqlJavaType());
+		}
+	}
+
+	/**
+	 * Whether this table requires the import for this specific field type
+	 * 
+	 * @param fieldType the type of the field
+	 * 
+	 * @return whether an import statement is required for this table
+	 */
+	public boolean requiresImport(String fieldType) {
+		return(referencedFieldTypes.contains(fieldType));
+	}
+
 
 	public String getName() { return(this.name); }
 	public String getUpperName() { return(this.name.toUpperCase()); }

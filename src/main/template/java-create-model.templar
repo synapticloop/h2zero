@@ -9,11 +9,11 @@ package {database.package}.model;{\n}{\n}
 	import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;{\n}
 	import java.lang.StringBuilder;{\n}
 	import java.sql.Connection;{\n}
-	import java.sql.Date;{\n}
-	import java.sql.Clob;{\n}
-	import java.sql.Blob;{\n}
+{if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
+{if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
+{if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
+{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
 	import java.sql.ResultSet;{\n}
-	import java.sql.Timestamp;{\n}
 	import java.sql.Statement;{\n}
 	import java.sql.PreparedStatement;{\n}
 	import java.sql.SQLException;{\n}
@@ -29,9 +29,16 @@ import {database.package}.model.util.Constants;{\n}
 	{\n}
 
 	import {database.package}.finder.{table.javaClassName}Finder;{\n}
+
+	{--
+	  if this isn't a lookup on a foreign key and if the foreign key is not a constant
+	  table, then we need to import the finder
+	}
 	{loop table.fields as field}
 		{if fn:notNull[field.foreignKeyTable]}
-			import {database.package}.finder.{field.foreignKeyTableLookup.javaClassName}Finder;{\n}
+			{if !field.foreignKeyTableLookup.isConstant}
+				import {database.package}.finder.{field.foreignKeyTableLookup.javaClassName}Finder;{\n}
+			{endif}
 		{endif}
 	{endloop}
 
@@ -139,9 +146,9 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\n}
 	{\t}// whether the fields are auto-populated{\n}
-	{\t}private boolean[] populated = {{ 
+//	{\t}private boolean[] populated = {{ 
 		{loop table.fields as field}{field.populate}{if fieldStatus.last}{else}, {endif}{endloop}
-	 };{\n}{\n}
+	 }{\n}{\n}
 {endif}{-- end of !if.isConstant}
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -150,7 +157,9 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{loop table.fields as field}
 		{if fn:notNull[field.foreignKeyTable]}
-			{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null;{\n}
+			{if !field.foreignKeyTableLookup.isConstant}
+				{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null;{\n}
+			{endif}
 		{endif}
 		{if fieldStatus.last}
 			{\n}
@@ -693,17 +702,21 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 					{\t}{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterMiss.inc();{\n}
 				{endif}
 				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
+
 				{if options.metrics}
 					{\t}{\t}} else {{{\n}
 					{\t}{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
 				{endif}
+
 				{\t}{\t}}{\n}
 
 				{\t}{\t}return(this.{field.secondaryJavaName});{\n}
 			{else}
+
 				{if options.metrics}
 					{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
 				{endif}
+
 				{\t}{\t}return({field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName}));{\n}
 			{endif}
 
@@ -737,7 +750,9 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 					this.isDirty = true; 
 
 					{if fn:notNull[field.foreignKeyTable]}
-						this.{field.secondaryJavaName} = null;
+						{if !field.foreignKeyTableLookup.isConstant}
+							this.{field.secondaryJavaName} = null;
+						{endif}
 					{endif}
 
 					{if options.metrics}
@@ -753,7 +768,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{endloop}
 	{-- Now we need the toString Method--}
 	{\n}
-	{\t}@Override{\t}
+	{\t}@Override{\n}
 		{\t}public String toString() {{{\n}
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 

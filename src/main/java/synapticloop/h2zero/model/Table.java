@@ -4,10 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,8 +41,6 @@ public class Table extends BaseSchemaObject {
 	private boolean hasLargeObject = false;
 	private boolean hasForeignKey = false;
 
-	// a list of all of the fields that this table has
-	private List<BaseField> fields = new ArrayList<BaseField>();
 	// all fields that are not marked as secure
 	private List<BaseField> nonSecureFields = new ArrayList<BaseField>();
 	// all fields that are marked as secure
@@ -63,7 +59,6 @@ public class Table extends BaseSchemaObject {
 	private List<Counter> counters = new ArrayList<Counter>(); // a list of all of the counters
 	private List<Question> questions = new ArrayList<Question>(); // a list of all of the questions
 
-	private Set<String> referencedFieldTypes = new HashSet<String>(); // this is a set of all of the referenced field types
 
 	/**
 	 * Create a new Table object from the passed in jsonObject.
@@ -130,23 +125,6 @@ public class Table extends BaseSchemaObject {
 		populateQuestions(jsonObject);
 
 		populateReferencedFieldTypes();
-	}
-
-	/**
-	 * Go through all of the fields and populate the referenced field types
-	 * private List<BaseField> fields = new ArrayList<BaseField>();
-	private List<BaseField> nonSecureFields = new ArrayList<BaseField>();
-	// all fields that are marked as secure
-	private List<BaseField> secureFields = new ArrayList<BaseField>();
-
-	private Map<String, BaseField> setFieldLookup = new HashMap<String, BaseField>();
-	private Map<String, BaseField> whereFieldLookup = new HashMap<String, BaseField>();
-
-	 */
-	private void populateReferencedFieldTypes() {
-		for (BaseField baseField : fields) {
-			referencedFieldTypes.add(baseField.getSqlJavaType());
-		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -375,17 +353,6 @@ public class Table extends BaseSchemaObject {
 				throw new H2ZeroParseException("Could not parse questions JSON Array.");
 			}
 		}
-	}
-
-	/**
-	 * Whether this table requires the import for this specific field type
-	 * 
-	 * @param fieldType the type of the field
-	 * 
-	 * @return whether an import statement is required for this table
-	 */
-	public boolean requiresImport(String fieldType) {
-		return(referencedFieldTypes.contains(fieldType));
 	}
 
 	// boring old getters and setters

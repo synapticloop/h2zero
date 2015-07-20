@@ -2,7 +2,6 @@ package synapticloop.h2zero.model;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ public class View extends BaseSchemaObject {
 	private boolean cacheable = false;
 	private boolean cacheFindAll= false;
 
-	private List<BaseField> fields = new ArrayList<BaseField>();
 	private Map<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
 
 	public View(JSONObject jsonObject) throws H2ZeroParseException {
@@ -43,6 +41,8 @@ public class View extends BaseSchemaObject {
 
 		populateFields(jsonObject);
 		populateFinders(jsonObject);
+
+		populateReferencedFieldTypes();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

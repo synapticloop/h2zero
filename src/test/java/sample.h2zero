@@ -1,7 +1,7 @@
 {
 "options": {
 	"logging": "log4j",
-	"metrics": true,
+	"metrics": false,
 	"generators": [ "java", "sql", "taglib" ],
 	"validators": {
 		"UpdaterNameValidator": {
