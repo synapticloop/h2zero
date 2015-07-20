@@ -6,15 +6,12 @@ import java.sql.SQLException;{\n}
 {if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
 {if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
 {if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
-{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
+{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{else}// no import for timestamp{\n}{endif}
 
-import java.sql.Types;{\n}
 import java.util.HashMap;{\n}
 import java.util.List;{\n}
 import java.util.Map;{\n}
-import java.util.Enumeration;{\n}
 import java.util.ArrayList;{\n}
-import java.util.concurrent.ConcurrentHashMap;{\n}
 {\n}
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
 import synapticloop.h2zero.base.manager.ConnectionManager;{\n}

@@ -48,6 +48,7 @@ public abstract class Generator {
 
 		if(!templarContext.hasFunction(FUNCTION_NAME_HAS_IMPORT)) {
 			templarContext.addFunction(FUNCTION_NAME_HAS_IMPORT, new FunctionRequiresImport());
+			SimpleLogger.logInfo(LoggerType.FUNCTION_REGISTER, "Registered new Function '" + FUNCTION_NAME_HAS_IMPORT + "'.");
 		}
 
 		return templarContext;

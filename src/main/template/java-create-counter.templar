@@ -7,7 +7,18 @@ package {database.package}.counter;{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //                (java-create-counter.templar){\n}{\n}
 
-{import classpath:/snippet/global/java-model-imports.templar}
+import java.sql.Connection;{\n}
+import java.sql.PreparedStatement;{\n}
+import java.sql.ResultSet;{\n}
+import java.sql.SQLException;{\n}
+{\n}
+import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
+{\n}
+import org.apache.log4j.Level;{\n}
+import org.apache.log4j.Logger;{\n}
+{\n}
+import {database.package}.model.util.Constants;{\n}
+{\n}
 
 {if options.metrics}
 	import synapticloop.h2zero.base.manager.MetricsManager;{\n}
