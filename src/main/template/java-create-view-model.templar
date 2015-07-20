@@ -6,8 +6,8 @@ package {database.package}.view;{\n}{\n}
 
 import synapticloop.h2zero.base.view.ViewBase;{\n}
 
-import java.sql.Date;{\n}
-import java.sql.Timestamp;{\n}
+{if fn:requiresImport[view, "Date"]}import java.sql.Date;{\n}{endif}
+{if fn:requiresImport[view, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
 import {database.package}.model.util.Constants;{\n}
 
 {\n}{\n}
