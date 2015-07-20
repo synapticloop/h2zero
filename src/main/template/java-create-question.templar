@@ -9,8 +9,8 @@ package {database.package}.question;{\n}{\n}
 
 {import classpath:/snippet/global/java-model-imports.templar}
 import java.util.HashMap;{\n}
-import java.util.List;{\n}
 import java.util.Map;{\n}
+import java.util.List;{\n}
 
 {if options.metrics}
 import synapticloop.h2zero.base.manager.MetricsManager;{\n}
@@ -41,7 +41,7 @@ public class {table.javaClassName}Question {{{\n}
 
 {loop table.questions as question}
 	{if question.hasInFields}
-		{\t}private static HashMap<String, String> {question.name}_statement_cache = new HashMap<String, String>();{\n}
+		{\t}private static Map<String, String> {question.name}_statement_cache = new HashMap<String, String>();{\n}
 	{endif}
 {endloop}
 
