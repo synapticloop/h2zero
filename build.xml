@@ -17,7 +17,7 @@
 	<import file="java-build.xml" />
 
 	<target name="download-dependencies" description="download the code dependencies">
-		<get dest="${lib.dir}" src="http://jenkins.synapticloop.local/job/templar/lastSuccessfulBuild/artifact/templar/dist/templar.jar" />
+		<copy file="../templar/dist/templar.jar" todir="lib/runtime" />
 	</target>
 
 	<target name="dist" description="Build the h2zero distributable">
@@ -62,6 +62,8 @@
 		<delete dir="generate/src/main/java/*" />
 		<taskdef resource="h2zero.properties" classpathref="classpath-h2zero-dist" />
 		<h2zero inFile="src/test/java/sample.h2zero" outDir="generate" verbose="false" />
+		<!-- now try and javac the generated code -->
+		<javac srcdir="${basedir}/generate/src/main/java" destdir="${basedir}/build/classes" debug="on" classpathref="compile.classpath" includeantruntime="false" compiler="javac1.6" source="1.6" target="1.6" />
 	</target>
 
 	<target name="test-h2zero-quick" description="test the h2zero quick generation">
