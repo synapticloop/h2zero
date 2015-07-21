@@ -245,8 +245,8 @@ public class Table extends BaseSchemaObject {
 			try {
 				JSONObject updaterObject = updaterJson.getJSONObject(i);
 				updaters.add(new Updater(this, updaterObject));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse updaters.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse updaters.", jsonex);
 			}
 		}
 	}
@@ -263,8 +263,8 @@ public class Table extends BaseSchemaObject {
 			try {
 				JSONObject deleterObject = deleterJson.getJSONObject(i);
 				deleters.add(new Deleter(this, deleterObject));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse deleters.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse deleters.", jsonex);
 			}
 		}
 	}
@@ -281,8 +281,8 @@ public class Table extends BaseSchemaObject {
 			try {
 				JSONObject inserterObject = inserterJson.getJSONObject(i);
 				inserters.add(new Inserter(this, inserterObject));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse inserters.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse inserters.", jsonex);
 			}
 		}
 	}
@@ -299,8 +299,8 @@ public class Table extends BaseSchemaObject {
 			try {
 				JSONObject constantsObject = constantJson.getJSONObject(i);
 				constants.add(new Constant(constantsObject, this));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse constants.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse constants.", jsonex);
 			}
 		}
 	}
@@ -324,8 +324,8 @@ public class Table extends BaseSchemaObject {
 			try {
 				JSONObject counterObject = counterJson.getJSONObject(i);
 				counters.add(new Counter(this, counterObject));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse counter JSON Array.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse counter JSON Array.", jsonex);
 			}
 		}
 	}
@@ -349,8 +349,8 @@ public class Table extends BaseSchemaObject {
 			try {
 				JSONObject questionObject = questionJson.getJSONObject(i);
 				questions.add(new Question(this, questionObject));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse questions JSON Array.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse questions JSON Array.", jsonex);
 			}
 		}
 	}

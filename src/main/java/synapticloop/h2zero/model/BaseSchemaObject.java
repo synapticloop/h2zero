@@ -151,8 +151,8 @@ public abstract class BaseSchemaObject {
 				autoFinder.put(JSONKeyConstants.WHERE_FIELDS, whereFieldsArray);
 
 				finders.add(new Finder(this, autoFinder));
-			} catch (JSONException jsonEx) {
-				throw new H2ZeroParseException("Could not generate the multiple finder for '" + uniqueFinder + "'.", jsonEx);
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not generate the multiple finder for '" + uniqueFinder + "'.", jsonex);
 			}
 		}
 
@@ -160,8 +160,8 @@ public abstract class BaseSchemaObject {
 			try {
 				JSONObject finderObject = finderJson.getJSONObject(i);
 				finders.add(new Finder(this, finderObject));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse finder.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse finder.", jsonex);
 			}
 		}
 	}

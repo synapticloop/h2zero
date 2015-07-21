@@ -65,8 +65,8 @@ public class Database {
 				Table table = new Table(tableObject);
 				tables.add(table);
 				tableLookup.put(table.getName(), table);
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.TABLES + "' array.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.TABLES + "' array.", jsonex);
 			}
 		}
 
@@ -86,8 +86,8 @@ public class Database {
 
 				Table table = tableLookup.get(tableName);
 				table.populateActions();
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.TABLES + "' array.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.TABLES + "' array.", jsonex);
 			}
 		}
 
@@ -103,8 +103,8 @@ public class Database {
 			try {
 				JSONObject viewObject = viewJson.getJSONObject(i);
 				views.add(new View(viewObject));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.VIEWS + "' array.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.VIEWS + "' array.", jsonex);
 			}
 		}
 
@@ -120,8 +120,8 @@ public class Database {
 			try {
 				JSONObject formObject = formJson.getJSONObject(i);
 				forms.add(new Form(this, formObject));
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.FORMS + "' array.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.FORMS + "' array.", jsonex);
 			}
 		}
 	}
