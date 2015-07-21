@@ -96,7 +96,7 @@ public class Options {
 		} else {
 			Iterator<String> keys = validatorJson.keys();
 			while (keys.hasNext()) {
-				String validatorName = (String) keys.next();
+				String validatorName = keys.next();
 				BaseValidator validator = H2ZeroParser.getValidatorByName(validatorName);
 				if(null != validator) {
 					SimpleLogger.logInfo(LoggerType.OPTIONS_VALIDATOR, "Parsing options for validator '" + validatorName + "'.");

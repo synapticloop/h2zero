@@ -19,10 +19,12 @@ import synapticloop.templar.utils.TemplarContext;
 
 
 public class JavaGenerator extends Generator {
+
 	public JavaGenerator(Database database, Options options, File outFile, boolean verbose) {
 		super(database, options, outFile, verbose);
 	}
 
+	@Override
 	public void generate() throws RenderException, ParseException {
 		if(!options.hasGenerator(Options.OPTION_JAVA)) {
 			return;
@@ -56,7 +58,7 @@ public class JavaGenerator extends Generator {
 		// the taglibs
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
 
-		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/util/Constants.java";
+		String pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/model/util/Constants.java";
 		renderToFile(templarContext, javaCreateConstantsParser, pathname);
 
 		// now for the tables
@@ -69,26 +71,26 @@ public class JavaGenerator extends Generator {
 			SimpleLogger.logInfo(LoggerType.GENERATE_JAVA, "Generating for table '" + table.getName() + "'.");
 
 			// the model
-			pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
+			pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
 			renderToFile(templarContext, javaCreateModelParser, pathname);
 
 			// the finder
-			pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
+			pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
 			renderToFile(templarContext, javaCreateFinderParser, pathname);
 
 			// the inserter
 			if(!table.getIsConstant()) {
-				pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
+				pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
 				renderToFile(templarContext, javaCreateInserterParser, pathname);
 			}
 
 			// the counters
-			pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
+			pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
 			renderToFile(templarContext, javaCreateCounterParser, pathname);
 
 			// the questions - but only if we have some
 			if(table.getHasQuestions()) {
-				pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/question/" + table.getJavaClassName() + "Question.java";
+				pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/question/" + table.getJavaClassName() + "Question.java";
 				renderToFile(templarContext, javaCreateQuestionParser, pathname);
 			}
 
@@ -101,18 +103,18 @@ public class JavaGenerator extends Generator {
 
 				// don't forget the beans for the selectClause finders
 				if(null != finder.getSelectClause()) {
-					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
+					pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
 					renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
 				}
 			}
 
 			if(!table.getIsConstant()) {
 				// the updater
-				pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
+				pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
 				renderToFile(templarContext, javaCreateUpdaterParser, pathname);
 
 				// the deleter
-				pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java";
+				pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java";
 				renderToFile(templarContext, javaCreateDeleterParser, pathname);
 			}
 		}
@@ -134,10 +136,10 @@ public class JavaGenerator extends Generator {
 			// hack for finder taglibs for views - should be split out
 			templarContext.add("table", view);
 
-			pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java";
+			pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java";
 			renderToFile(templarContext, javaCreateViewModelParser, pathname);
 
-			pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java";
+			pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java";
 			renderToFile(templarContext, javaCreateViewFinderParser, pathname);
 
 			List<Finder> finders = view.getFinders();
@@ -147,7 +149,7 @@ public class JavaGenerator extends Generator {
 				Finder finder = finderIterator.next();
 				templarContext.add("finder", finder);
 				if(null != finder.getSelectClause()) {
-					pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
+					pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
 					renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
 				}
 			}

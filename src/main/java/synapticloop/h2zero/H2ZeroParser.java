@@ -236,7 +236,7 @@ public class H2ZeroParser {
 
 	public Database getDatabase() { return(this.database); }
 	public Options getOptions() { return(this.options); }
-	public int getNumWarn() { return(numWarn); };
-	public int getNumFatal() { return(numFatal); };
+	public int getNumWarn() { return(numWarn); }
+	public int getNumFatal() { return(numFatal); }
 	public static BaseValidator getValidatorByName(String name) { return(validator_map.get(name)); }
 }

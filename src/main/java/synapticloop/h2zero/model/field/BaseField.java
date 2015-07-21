@@ -22,6 +22,7 @@ import synapticloop.h2zero.util.NamingHelper;
 
 
 public abstract class BaseField {
+	private static final String COULD_NOT_CREATE_BASE_FIELD_COPY = "Could not create baseField copy";
 	// the list of keywords that are allowed for the 'onUpdate' and 'onDelete' JSON keys, this is used for debugging when 
 	// a value falls out of the range of allowable update/delete actions 
 	private static String ALLOWABLE_UPDATE_DELETE_VALUES = null;
@@ -305,19 +306,19 @@ public abstract class BaseField {
 			constructor = forName.getConstructor(JSONObject.class);
 			baseField = (BaseField)constructor.newInstance(jsonObjectConstructor);
 		} catch (NoSuchMethodException ex) {
-			throw new H2ZeroParseException("Could not create baseField copy", ex);
+			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
 		} catch (SecurityException ex) {
-			throw new H2ZeroParseException("Could not create baseField copy", ex);
+			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
 		} catch (ClassNotFoundException ex) {
-			throw new H2ZeroParseException("Could not create baseField copy", ex);
+			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
 		} catch (InstantiationException ex) {
-			throw new H2ZeroParseException("Could not create baseField copy", ex);
+			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
 		} catch (IllegalAccessException ex) {
-			throw new H2ZeroParseException("Could not create baseField copy", ex);
+			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
 		} catch (IllegalArgumentException ex) {
-			throw new H2ZeroParseException("Could not create baseField copy", ex);
+			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
 		} catch (InvocationTargetException ex) {
-			throw new H2ZeroParseException("Could not create baseField copy", ex);
+			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
 		}
 
 		return(baseField);

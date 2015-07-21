@@ -20,6 +20,8 @@ import synapticloop.templar.utils.TemplarContext;
 
 public class AdminPagesGenerator extends Generator {
 
+	private static final String SRC_MAIN_WEBAPPS_ADMIN = "/src/main/webapps/admin/";
+
 	public AdminPagesGenerator(Database database, Options options, File outFile, boolean verbose) {
 		super(database, options, outFile, verbose);
 	}
@@ -62,7 +64,7 @@ public class AdminPagesGenerator extends Generator {
 				templarContext.add("finder", finder);
 
 				// now for the jsp finder pages
-				String pathname = outFile + "/src/main/webapps/admin/" + table.getName() + "-" + finder.getName() + ".html";
+				String pathname = outFile + SRC_MAIN_WEBAPPS_ADMIN + table.getName() + "-" + finder.getName() + ".html";
 				renderToFile(templarContext, jspCreateFinderParser, pathname);
 			}
 
@@ -74,11 +76,11 @@ public class AdminPagesGenerator extends Generator {
 			FileUtils.copyResourceToFile("/favicon.png", outFile + "/src/main/webapps/admin/static/img/favicon.png");
 			FileUtils.copyResourceToFile("/favicon.ico", outFile + "/src/main/webapps/admin/static/img/favicon.ico");
 			// each jsp index page for each table
-			String pathname = outFile + "/src/main/webapps/admin/" + table.getName() + ".html";
+			String pathname = outFile + SRC_MAIN_WEBAPPS_ADMIN + table.getName() + ".html";
 			renderToFile(templarContext, jspCreateIndexTableParser, pathname);
 
 			// The jsp findAll page
-			pathname = outFile + "/src/main/webapps/admin/" + table.getName() + "-findAll.html";
+			pathname = outFile + SRC_MAIN_WEBAPPS_ADMIN + table.getName() + "-findAll.html";
 			renderToFile(templarContext, jspCreateFindAllParser, pathname);
 		}
 
@@ -100,7 +102,7 @@ public class AdminPagesGenerator extends Generator {
 
 				if(options.hasGenerator(Options.OPTION_ADMINPAGES)) {
 					// now for the jsp finder pages
-					String pathname = outFile + "/src/main/webapps/admin/" + view.getName() + "-" + finder.getName() + ".html";
+					String pathname = outFile + SRC_MAIN_WEBAPPS_ADMIN + view.getName() + "-" + finder.getName() + ".html";
 					renderToFile(templarContext, jspCreateFinderParser, pathname);
 				}
 			}
