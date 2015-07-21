@@ -172,6 +172,14 @@ public class H2ZeroParser {
 		// now that we have parsed the file - go through and update the validator options
 		
 		// now go through and run the validators
+		boolean isValid = checkAndLogValidators();
+
+		if(!isValid) {
+			throw new H2ZeroParseException("Validators found FATAL warnings, exiting...");
+		}
+	}
+
+	private boolean checkAndLogValidators() {
 		boolean isValid = true;
 
 		for (BaseValidator validator : validators) {
@@ -195,10 +203,7 @@ public class H2ZeroParser {
 				}
 			}
 		}
-
-		if(!isValid) {
-			throw new H2ZeroParseException("Validators found FATAL warnings, exiting...");
-		}
+		return isValid;
 	}
 
 	private String getFileContents(File file) throws H2ZeroParseException {

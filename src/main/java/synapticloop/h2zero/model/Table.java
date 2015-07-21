@@ -317,7 +317,7 @@ public class Table extends BaseSchemaObject {
 		try {
 			counterJson = jsonObject.getJSONArray(JSONKeyConstants.COUNTERS);
 		} catch (JSONException ojjsonex) {
-			// do nothing - no finders is ok
+			// do nothing - no counters is ok
 		}
 
 		for (int i = 0; i < counterJson.length(); i++) {

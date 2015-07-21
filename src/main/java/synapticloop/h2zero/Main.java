@@ -24,6 +24,8 @@ public class Main {
 	 * Simple usage message
 	 */
 
+	private Main() {}
+
 	private static void usage() {
 		System.out.println("This can no longer be run from the command line - please use the following in your ant build scripts:\n\n");
 
