@@ -7,9 +7,9 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Question;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
-import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.BaseValidator;
 
-public class QuestionJsonUniqueKeyExistsValidator extends Validator {
+public class QuestionJsonUniqueKeyExistsValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {

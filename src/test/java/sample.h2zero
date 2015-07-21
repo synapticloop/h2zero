@@ -5,7 +5,7 @@
 	"generators": [ "java", "sql", "taglib" ],
 	"validators": {
 		"UpdaterNameValidator": {
-			"allowablePrefixes": "update,reset"
+			"allowablePrefixes": "reset,"
 		},
 		"FinderNameValidator": {
 			"allowablePrefixes": "find,calculate"

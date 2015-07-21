@@ -7,7 +7,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
 
-public class ForeignKeyTableValidator extends Validator {
+public class ForeignKeyTableValidator extends BaseValidator {
 
 	public void validate(Database database, Options options) {
 		List<Table> tables = database.getTables();

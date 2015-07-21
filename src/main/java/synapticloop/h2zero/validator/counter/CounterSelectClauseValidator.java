@@ -6,9 +6,9 @@ import synapticloop.h2zero.model.Counter;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
-import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.BaseValidator;
 
-public class CounterSelectClauseValidator extends Validator {
+public class CounterSelectClauseValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {

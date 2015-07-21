@@ -8,7 +8,7 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 
-public class TableNameDuplicateValidator extends Validator {
+public class TableNameDuplicateValidator extends BaseValidator {
 	private Set<String> names = new HashSet<String>();
 
 

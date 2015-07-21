@@ -8,9 +8,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import synapticloop.h2zero.H2ZeroParser;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import synapticloop.h2zero.validator.BaseValidator;
 
 
 public class Options {
@@ -47,7 +49,7 @@ public class Options {
 		JSONObject optionsJson = null;
 		try {
 			optionsJson = jsonObject.getJSONObject("options");
-		} catch (JSONException ojjsonex) {
+		} catch (JSONException jsonex) {
 			// do nothing - it is optional
 			return;
 		}
@@ -62,26 +64,7 @@ public class Options {
 
 			generators.addAll(ALLOWABLE_GENERATORS);
 		} else {
-			for (int i = 0; i < generatorArray.length(); i++) {
-				String generator = generatorArray.optString(i, null);
-				if(null != generator && ALLOWABLE_GENERATORS.contains(generator.trim().toLowerCase())) {
-					generators.add(generator.trim().toLowerCase());
-				} else {
-					StringBuilder stringBuilder = new StringBuilder();
-					int j = 0;
-					for (String allowableGenerator : ALLOWABLE_GENERATORS) {
-						if(j != 0) {
-							stringBuilder.append(", ");
-						}
-						j = 1;
-						stringBuilder.append("'");
-						stringBuilder.append(allowableGenerator);
-						stringBuilder.append("'");
-					}
-					SimpleLogger.logFatal(LoggerType.GENERATORS, "Unknown generator type of '" + generator + "'.  Allowable types are " + stringBuilder.toString() + ".");
-					throw new H2ZeroParseException("Unknown generator type of '" + generator + "'.");
-				}
-			}
+			enableGenerators(generatorArray);
 		}
 
 		Set<String> disabledGenerators = new HashSet<String>();
@@ -102,6 +85,50 @@ public class Options {
 
 		if(!ALLOWABLE_LOGGERS.contains(this.getLogging())) {
 			throw new H2ZeroParseException("Unknown logging type of '" + this.logging + "'.");
+		}
+
+		updateValidators(optionsJson.optJSONObject("validators"));
+	}
+
+	private void updateValidators(JSONObject validatorJson) {
+		if(null == validatorJson) {
+			SimpleLogger.logInfo(LoggerType.OPTIONS_VALIDATOR, "No validator options found.");
+		} else {
+			Iterator<String> keys = validatorJson.keys();
+			while (keys.hasNext()) {
+				String validatorName = (String) keys.next();
+				BaseValidator validator = H2ZeroParser.getValidatorByName(validatorName);
+				if(null != validator) {
+					SimpleLogger.logInfo(LoggerType.OPTIONS_VALIDATOR, "Parsing options for validator '" + validatorName + "'.");
+					validator.parseAndValidateOptions(validatorJson.getJSONObject(validatorName));
+				} else {
+					SimpleLogger.logError(LoggerType.OPTIONS_VALIDATOR, "Could not find validator for validator name '" + validatorName + "', ignoring...");
+				}
+			}
+		}
+		
+	}
+
+	private void enableGenerators(JSONArray generatorArray) throws H2ZeroParseException {
+		for (int i = 0; i < generatorArray.length(); i++) {
+			String generator = generatorArray.optString(i, null);
+			if(null != generator && ALLOWABLE_GENERATORS.contains(generator.trim().toLowerCase())) {
+				generators.add(generator.trim().toLowerCase());
+			} else {
+				StringBuilder stringBuilder = new StringBuilder();
+				int j = 0;
+				for (String allowableGenerator : ALLOWABLE_GENERATORS) {
+					if(j != 0) {
+						stringBuilder.append(", ");
+					}
+					j = 1;
+					stringBuilder.append("'");
+					stringBuilder.append(allowableGenerator);
+					stringBuilder.append("'");
+				}
+				SimpleLogger.logFatal(LoggerType.GENERATORS, "Unknown generator type of '" + generator + "'.  Allowable types are " + stringBuilder.toString() + ".");
+				throw new H2ZeroParseException("Unknown generator type of '" + generator + "'.");
+			}
 		}
 	}
 

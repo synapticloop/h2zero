@@ -6,9 +6,9 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Deleter;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
-import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.BaseValidator;
 
-public class DeleterWhereClauseValidator extends Validator {
+public class DeleterWhereClauseValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {

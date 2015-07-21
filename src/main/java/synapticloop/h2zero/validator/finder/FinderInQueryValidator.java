@@ -6,9 +6,9 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
-import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.BaseValidator;
 
-public class FinderInQueryValidator extends Validator {
+public class FinderInQueryValidator extends BaseValidator {
 
 	public void validate(Database database, Options options) {
 		List<Table> tables = database.getTables();

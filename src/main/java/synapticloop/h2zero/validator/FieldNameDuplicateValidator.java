@@ -9,7 +9,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
 
-public class FieldNameDuplicateValidator extends Validator {
+public class FieldNameDuplicateValidator extends BaseValidator {
 	private Set<String> names = new HashSet<String>();
 
 	@Override

@@ -6,7 +6,7 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
-import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.BaseValidator;
 
 /**
  * Validate that a constant table does not have any 'updater' objects on it.  This will add a FATAL warning to the 
@@ -16,7 +16,7 @@ import synapticloop.h2zero.validator.Validator;
  *
  */
 
-public class ConstantUpdaterValidator extends Validator {
+public class ConstantUpdaterValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {

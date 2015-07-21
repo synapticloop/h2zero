@@ -8,9 +8,9 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
-import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.BaseValidator;
 
-public class FinderQueryParameterNumberValidator extends Validator {
+public class FinderQueryParameterNumberValidator extends BaseValidator {
 	public void validate(Database database, Options options) {
 		List<Table> tables = database.getTables();
 		for (Table table : tables) {

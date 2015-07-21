@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,13 +17,13 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import synapticloop.h2zero.validator.BaseValidator;
 import synapticloop.h2zero.validator.DefaultValueValidator;
 import synapticloop.h2zero.validator.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.validator.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.UniqeAndIndexValidator;
-import synapticloop.h2zero.validator.Validator;
 import synapticloop.h2zero.validator.bean.Message;
 import synapticloop.h2zero.validator.constant.ConstantDeleterValidator;
 import synapticloop.h2zero.validator.constant.ConstantInserterValidator;
@@ -29,6 +31,7 @@ import synapticloop.h2zero.validator.constant.ConstantTableValidator;
 import synapticloop.h2zero.validator.constant.ConstantUpdaterValidator;
 import synapticloop.h2zero.validator.counter.CounterJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.counter.CounterKeyValidator;
+import synapticloop.h2zero.validator.counter.CounterNameValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectClauseValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectFieldsValidator;
 import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
@@ -46,6 +49,7 @@ import synapticloop.h2zero.validator.inserter.InserterKeyValidator;
 import synapticloop.h2zero.validator.inserter.InserterNameValidator;
 import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.question.QuestionKeyValidator;
+import synapticloop.h2zero.validator.question.QuestionNameValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectClauseValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectFieldsValidator;
 import synapticloop.h2zero.validator.table.TableIgnoredKeysValidator;
@@ -65,7 +69,7 @@ public class H2ZeroParser {
 	private int numWarn = 0;
 	private int numFatal = 0;
 
-	private static List<Validator> validators = new ArrayList<Validator>();
+	private static List<BaseValidator> validators = new ArrayList<BaseValidator>();
 	static {
 		// options
 		validators.add(new OptionsGeneratorsValidator());
@@ -118,12 +122,14 @@ public class H2ZeroParser {
 		validators.add(new CounterSelectFieldsValidator());
 		validators.add(new CounterJsonUniqueKeyExistsValidator());
 		validators.add(new CounterKeyValidator());
+		validators.add(new CounterNameValidator());
 
 		// question validators
 		validators.add(new QuestionSelectClauseValidator());
 		validators.add(new QuestionSelectFieldsValidator());
 		validators.add(new QuestionJsonUniqueKeyExistsValidator());
 		validators.add(new QuestionKeyValidator());
+		validators.add(new QuestionNameValidator());
 
 		// constant validators
 		validators.add(new ConstantTableValidator());
@@ -132,9 +138,16 @@ public class H2ZeroParser {
 		validators.add(new ConstantUpdaterValidator());
 	}
 
+	private static Map<String, BaseValidator> validator_map = new HashMap<String, BaseValidator>();
+	static {
+		for (BaseValidator validator : validators) {
+			validator_map.put(validator.getClass().getSimpleName(), validator);
+		}
+	}
+
 	private static int maxValidatorClassNameLength = 0;
 	static {
-		for (Validator validator : validators) {
+		for (BaseValidator validator : validators) {
 			int validatorSimpleNameLength = validator.getClass().getSimpleName().length();
 			if(validatorSimpleNameLength > maxValidatorClassNameLength) {
 				maxValidatorClassNameLength = validatorSimpleNameLength;
@@ -161,7 +174,7 @@ public class H2ZeroParser {
 		// now go through and run the validators
 		boolean isValid = true;
 
-		for (Validator validator : validators) {
+		for (BaseValidator validator : validators) {
 			validator.validate(database, options);
 
 			if(!validator.isValid()) {
@@ -220,4 +233,5 @@ public class H2ZeroParser {
 	public Options getOptions() { return(this.options); }
 	public int getNumWarn() { return(numWarn); };
 	public int getNumFatal() { return(numFatal); };
+	public static BaseValidator getValidatorByName(String name) { return(validator_map.get(name)); }
 }

@@ -6,9 +6,9 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
-import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.BaseValidator;
 
-public class FinderWhereClauseValidator extends Validator {
+public class FinderWhereClauseValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {

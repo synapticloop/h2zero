@@ -3,7 +3,7 @@ package synapticloop.h2zero.validator;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 
-public class OptionsGeneratorsValidator extends Validator {
+public class OptionsGeneratorsValidator extends BaseValidator {
 
 	public void validate(Database database, Options options) {
 		isValid = options.hasGenerators();

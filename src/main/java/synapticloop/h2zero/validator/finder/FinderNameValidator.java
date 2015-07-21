@@ -1,39 +1,42 @@
 package synapticloop.h2zero.validator.finder;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import org.json.JSONObject;
 
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
-import synapticloop.h2zero.validator.Validator;
+import synapticloop.h2zero.validator.BaseNameValidator;
 
-public class FinderNameValidator extends Validator {
-	private Set<String> finderNames = new HashSet<String>();
+public class FinderNameValidator extends BaseNameValidator {
 
+	public FinderNameValidator() {
+		super("Finder");
+		allowablePrefixNames.add("find");
+		allowablePrefixList = "find";
+	}
+
+	@Override
+	public void parseAndValidateOptions(JSONObject optionsObject) {
+		parseAndValidateAllowablePrefixes(optionsObject, "find");
+	}
+
+	@Override
 	public void validate(Database database, Options options) {
 		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			finderNames.clear();
 			List<Finder> finders = table.getFinders();
+			List<String> finderNames = new ArrayList<String>();
+
 			for (Finder finder : finders) {
 				String name = finder.getName();
-				if(name.contains(" ")) {
-					addFatalMessage("Finder '" + table.getName() + "." + name + "' contains a ' ' (whitespace) character.");
-				}
-
-				if(!name.startsWith("find")) {
-					addWarnMessage("Finder '" + table.getName() + "." + name + "' should really start with 'find'.");
-				}
-
-				if(finderNames.contains(name)) {
-					addFatalMessage("Finder '" + table.getName() + "." + name + "' is a duplicate.");
-				}
-
 				finderNames.add(name);
+				validateAllowablePrefixes(table, name);
 			}
+			validateQueryName(table, finderNames);
 		}
 	}
 

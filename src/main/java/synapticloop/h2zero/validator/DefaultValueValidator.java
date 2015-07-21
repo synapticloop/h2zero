@@ -7,7 +7,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
 
-public class DefaultValueValidator extends Validator {
+public class DefaultValueValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {

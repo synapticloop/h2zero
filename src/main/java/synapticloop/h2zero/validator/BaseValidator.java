@@ -3,12 +3,14 @@ package synapticloop.h2zero.validator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.validator.bean.Message;
 
-public abstract class Validator {
+public abstract class BaseValidator {
 	protected boolean isValid = true;
 	private List<Message> messages = new ArrayList<Message>();
 	private int numInfo = 0;
@@ -29,6 +31,17 @@ public abstract class Validator {
 	 * @param options the options for the generation
 	 */
 	public abstract void validate(Database database, Options options);
+
+	/**
+	 * Return whether the passed in options are valid for the current validator.  By default this always returns true
+	 * unless over-ridden by the child class.
+	 * 
+	 * @param optionsObject the options for the validator
+	 * 
+	 * @return whether the options are correct for this validator.
+	 */
+	public void parseAndValidateOptions(JSONObject optionsObject) {
+	}
 
 	/**
 	 * Count the number of occurrences of the needle parameter in the haystack parameter
