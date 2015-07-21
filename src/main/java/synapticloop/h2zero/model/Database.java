@@ -21,7 +21,7 @@ import synapticloop.h2zero.util.NamingHelper;
 
 
 public class Database {
-	public static Map<String, Table> tableLookup = new HashMap<String, Table>();
+	public static final Map<String, Table> tableLookup = new HashMap<String, Table>();
 	private String schema = null;
 	private String packageName = null;
 
@@ -36,7 +36,7 @@ public class Database {
 		try {
 			databaseJson = jsonObject.getJSONObject(JSONKeyConstants.DATABASE);
 		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("The json file must have a key of '" + JSONKeyConstants.DATABASE + "'.");
+			throw new H2ZeroParseException("The json file must have a key of '" + JSONKeyConstants.DATABASE + "'.", ojjsonex);
 		}
 
 		this.schema = JsonHelper.getStringValue(databaseJson, JSONKeyConstants.SCHEMA, null);

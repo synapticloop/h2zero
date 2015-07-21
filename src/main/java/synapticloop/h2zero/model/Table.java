@@ -132,8 +132,8 @@ public class Table extends BaseSchemaObject {
 		JSONArray fieldJson = new JSONArray();
 		try {
 			fieldJson = jsonObject.getJSONArray(JSONKeyConstants.FIELDS);
-		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Cannot create a table without '" + JSONKeyConstants.FIELDS + "'.");
+		} catch (JSONException jsonex) {
+			throw new H2ZeroParseException("Cannot create a table without '" + JSONKeyConstants.FIELDS + "'.", jsonex);
 		}
 
 		for (int i = 0; i < fieldJson.length(); i++) {
@@ -202,25 +202,25 @@ public class Table extends BaseSchemaObject {
 
 				} catch (ClassNotFoundException cnfex) {
 					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "ClassNotFoundException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(cnfex.getMessage());
+					throw new H2ZeroParseException(cnfex.getMessage(), cnfex);
 				} catch (SecurityException sex) {
 					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "SecurityException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(sex.getMessage());
+					throw new H2ZeroParseException(sex.getMessage(), sex);
 				} catch (NoSuchMethodException nsmex) {
 					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "NoSuchMethodException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(nsmex.getMessage());
+					throw new H2ZeroParseException(nsmex.getMessage(), nsmex);
 				} catch (IllegalArgumentException iaex) {
 					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "IllegalArgumentException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(iaex.getMessage());
+					throw new H2ZeroParseException(iaex.getMessage(), iaex);
 				} catch (InstantiationException iex) {
 					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "InstantiationException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(iex.getMessage());
+					throw new H2ZeroParseException(iex.getMessage(), iex);
 				} catch (IllegalAccessException iaex) {
 					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "IllegalAccessException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(iaex.getMessage());
+					throw new H2ZeroParseException(iaex.getMessage(), iaex);
 				} catch (InvocationTargetException itex) {
 					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "InvocationTargetException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(itex.getCause().getMessage());
+					throw new H2ZeroParseException(itex.getCause().getMessage(), itex);
 				}
 			}
 		}

@@ -221,8 +221,8 @@ public class H2ZeroParser {
 				stringBuilder.append(line);
 				stringBuilder.append("\n");
 			}
-		} catch (IOException jiioex) {
-			throw new H2ZeroParseException("There was a problem reading the file '" + file.getAbsolutePath() + "'.");
+		} catch (IOException ioex) {
+			throw new H2ZeroParseException("There was a problem reading the file '" + file.getAbsolutePath() + "'.", ioex);
 		} finally {
 			if(null != bufferedReader) {
 				try {

@@ -55,7 +55,7 @@ public class Constant {
 			}
 
 		} catch (JSONException jsonex) {
-			throw new H2ZeroParseException("Could not parse constants object '" + constantsObject + "'.");
+			throw new H2ZeroParseException("Could not parse constants object '" + constantsObject + "'.", jsonex);
 		}
 	}
 

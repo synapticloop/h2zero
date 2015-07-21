@@ -234,7 +234,7 @@ public abstract class BaseQueryObject {
 					}
 
 				} catch (Exception ex) {
-					throw new H2ZeroParseException(ex.getMessage());
+					throw new H2ZeroParseException(ex.getMessage(), ex);
 				}
 			}
 		}
