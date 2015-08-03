@@ -17,12 +17,13 @@ public class QuestionNameValidator extends BaseNameValidator {
 		super("Question");
 		allowablePrefixNames.add("is");
 		allowablePrefixNames.add("has");
-		allowablePrefixList = "is,has";
+		allowablePrefixNames.add("does");
+		allowablePrefixList = "is, has, does";
 	}
 
 	@Override
 	public void parseAndValidateOptions(JSONObject optionsObject) {
-		parseAndValidateAllowablePrefixes(optionsObject, "is,has");
+		parseAndValidateAllowablePrefixes(optionsObject, "is, has, does");
 	}
 
 	@Override
