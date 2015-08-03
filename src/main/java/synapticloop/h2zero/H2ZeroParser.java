@@ -19,7 +19,6 @@ import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.validator.BaseValidator;
 import synapticloop.h2zero.validator.DefaultValueValidator;
-import synapticloop.h2zero.validator.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.validator.TableNameDuplicateValidator;
@@ -36,6 +35,8 @@ import synapticloop.h2zero.validator.counter.CounterSelectClauseValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectFieldsValidator;
 import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
 import synapticloop.h2zero.validator.deleter.DeleterWhereClauseValidator;
+import synapticloop.h2zero.validator.field.FieldIgnoredKeysValidator;
+import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
 import synapticloop.h2zero.validator.finder.FinderInQueryValidator;
 import synapticloop.h2zero.validator.finder.FinderNameValidator;
@@ -84,8 +85,11 @@ public class H2ZeroParser {
 
 		validators.add(new TableNameDuplicateValidator());
 
+		// field validators
 		validators.add(new FieldNameDuplicateValidator());
+		validators.add(new FieldIgnoredKeysValidator());
 
+		
 		// table validators
 		validators.add(new TablePrimaryKeyExistsValidator());
 		validators.add(new TablePrimaryKeyNameValidator());
@@ -192,7 +196,7 @@ public class H2ZeroParser {
 			numWarn += validator.getNumWarn();
 			numFatal += validator.getNumFatal();
 
-			List<Message> messages = validator.getMessages();
+			List<Message> messages = validator.getFormattedMessages();
 			for (Message message: messages) {
 				if(message.getType().equals(SimpleLogger.INFO)) {
 					SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));

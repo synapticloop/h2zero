@@ -772,8 +772,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 		{\t}{\t}stringBuilder.append("Model[{table.javaClassName}]\n");{\n}
 		{loop table.fields as field}
-			{if field.secure}
-				{\t}{\t}stringBuilder.append("  Field[{field.javaName}:<secure>]\n");{\n}
+			{if field.isSecure}
+				{\t}{\t}stringBuilder.append("  Field[{field.javaName}:<**secure**>]\n");{\n}
 			{else}
 				{\t}{\t}stringBuilder.append("  Field[{field.javaName}:" + this.{field.javaName} + "]\n");{\n}
 			{endif}
@@ -794,8 +794,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}stringBuilder.append("    \"fields\": [\n");{\n}
 
 		{loop table.fields as field}
-			{if field.secure}
-				{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": \"<secure>\" }\n");{\n}
+			{if field.isSecure}
+				{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": \"<**secure**>\" }\n");{\n}
 			{else}
 				{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} }{if !fieldStatus.last}, {endif}\n");{\n}
 			{endif}

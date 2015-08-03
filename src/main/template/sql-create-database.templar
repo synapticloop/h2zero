@@ -36,6 +36,7 @@ use {database.schema};{\n}{\n}
 		{if !field.nullable} not{endif} null
 		{if fn:notNull[field.default]} default {field.default}{endif}
 		{if field.primary} auto_increment{endif}
+		{if fn:notNull[field.comment]} COMMENT '{field.comment}'{endif}
 		{if fn:not=[fieldStatus.index, fieldsLength]},{\n}{endif}
 	{endloop}
 

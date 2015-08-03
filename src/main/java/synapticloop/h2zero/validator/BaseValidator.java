@@ -25,6 +25,7 @@ public abstract class BaseValidator {
 	public boolean isValid() {
 		return(isValid);
 	}
+
 	/**
 	 * 
 	 * @param database the database object from which all other objects may be retrieved
@@ -65,6 +66,11 @@ public abstract class BaseValidator {
 		return(count);
 	}
 
+	/**
+	 * Add an informational message to the messages array
+	 * 
+	 * @param infoMessages the informational messages to add
+	 */
 	protected void addInfoMessage(String ... infoMessages) {
 		numInfo++;
 		for (int i = 0; i < infoMessages.length; i++) {
@@ -72,6 +78,23 @@ public abstract class BaseValidator {
 		}
 	}
 
+	/**
+	 * Add a warning message (or messages) to the messages array
+	 * 
+	 * @param warnMessages the warning message (or messages) to be added
+	 */
+	protected void addWarnMessage(String ... warnMessages) {
+		numWarn++;
+		for (int i = 0; i < warnMessages.length; i++) {
+			messages.add(new Message(SimpleLogger.WARN, warnMessages[i]));
+		}
+	}
+
+	/**
+	 * Add a fatal message to the messages array
+	 * 
+	 * @param fatalMessages the fatal messages to add
+	 */
 	protected void addFatalMessage(String ... fatalMessages) {
 		numFatal++;
 		for (int i = 0; i < fatalMessages.length; i++) {
@@ -80,22 +103,26 @@ public abstract class BaseValidator {
 		isValid = false;
 	}
 
-	protected void addWarnMessage(String ... warnMessages) {
-		numWarn++;
-		for (int i = 0; i < warnMessages.length; i++) {
-			messages.add(new Message(SimpleLogger.WARN, warnMessages[i]));
-		}
-	}
-
+	/**
+	 * Add a summary message to the messages array
+	 * 
+	 * @param message the message to be added
+	 */
 	private void addSummaryMessage(String message) {
 		messages.add(new Message(SimpleLogger.INFO, "+-> " + message));
 	}
 
-	public List<Message> getMessages() {
+	/**
+	 * Get all of the messages that have been added in a format which indicates whether the message is valid/invalid and
+	 * the number of info, warning and fatal messages.
+	 * 
+	 * @return all of the formatted messages
+	 */
+	public List<Message> getFormattedMessages() {
 		if(isValid) {
-			addSummaryMessage("Valid.    [ info: " + numInfo + ", warn: " + numWarn + ", fatal: " + numFatal + " ]");
+			addSummaryMessage("Valid:    [ info: " + numInfo + ", warn: " + numWarn + ", fatal: " + numFatal + " ]");
 		} else {
-			addSummaryMessage("INVALID.  [ info: " + numInfo + ", warn: " + numWarn + ", fatal: " + numFatal + " ]");
+			addSummaryMessage("INVALID:  [ info: " + numInfo + ", warn: " + numWarn + ", fatal: " + numFatal + " ]");
 		}
 		return(messages);
 	}

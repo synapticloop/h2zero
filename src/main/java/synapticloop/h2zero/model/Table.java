@@ -18,7 +18,10 @@ import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 import synapticloop.h2zero.util.SimpleLogger;
 
-
+/**
+ * The table encapsulates everything that is required for a single database table
+ *
+ */
 public class Table extends BaseSchemaObject {
 	private static List<String> ignoredKeys = new ArrayList<String>();
 	static {
@@ -70,8 +73,8 @@ public class Table extends BaseSchemaObject {
 		super(jsonObject);
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
-		this.engine = JsonHelper.getStringValue(jsonObject, "engine", engine);
-		this.charset = JsonHelper.getStringValue(jsonObject, "charset", charset);
+		this.engine = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ENGINE, engine);
+		this.charset = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.CHARSET, charset);
 
 		// maybe it is a comment array
 		JSONArray optJSONArray = jsonObject.optJSONArray(JSONKeyConstants.COMMENTS);
@@ -139,7 +142,6 @@ public class Table extends BaseSchemaObject {
 		for (int i = 0; i < fieldJson.length(); i++) {
 			String type = null;
 			String name = null;
-			//			String foreignKey = null;
 
 			JSONObject fieldObject = null;
 			try {
@@ -189,6 +191,12 @@ public class Table extends BaseSchemaObject {
 					}
 
 					fields.add(baseField);
+					if(baseField.getIsSecure()) {
+						secureFields.add(baseField);
+					} else {
+						nonSecureFields.add(baseField);
+					}
+
 					fieldLookup.put(name, baseField);
 					inFieldLookup.put(name, inBaseField);
 
@@ -201,26 +209,19 @@ public class Table extends BaseSchemaObject {
 					whereFieldLookup.put(name, whereBaseField);
 
 				} catch (ClassNotFoundException cnfex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "ClassNotFoundException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(cnfex.getMessage(), cnfex);
+					logFatalFieldParse(cnfex, cnfex.getMessage(), firstUpper);
 				} catch (SecurityException sex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "SecurityException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(sex.getMessage(), sex);
+					logFatalFieldParse(sex, sex.getMessage(), firstUpper);
 				} catch (NoSuchMethodException nsmex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "NoSuchMethodException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(nsmex.getMessage(), nsmex);
+					logFatalFieldParse(nsmex, nsmex.getMessage(), firstUpper);
 				} catch (IllegalArgumentException iaex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "IllegalArgumentException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(iaex.getMessage(), iaex);
+					logFatalFieldParse(iaex, iaex.getMessage(), firstUpper);
 				} catch (InstantiationException iex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "InstantiationException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(iex.getMessage(), iex);
+					logFatalFieldParse(iex, iex.getMessage(), firstUpper);
 				} catch (IllegalAccessException iaex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "IllegalAccessException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(iaex.getMessage(), iaex);
+					logFatalFieldParse(iaex, iaex.getMessage(), firstUpper);
 				} catch (InvocationTargetException itex) {
-					SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "InvocationTargetException: on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-					throw new H2ZeroParseException(itex.getCause().getMessage(), itex);
+					logFatalFieldParse(itex, itex.getCause().getMessage(), firstUpper);
 				}
 			}
 		}
@@ -231,6 +232,11 @@ public class Table extends BaseSchemaObject {
 				hasForeignKey = true;
 			}
 		}
+	}
+
+	private void logFatalFieldParse(Exception exception, String message, String firstUpper) throws H2ZeroParseException {
+		SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, exception.getClass().getSimpleName() + ": on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
+		throw new H2ZeroParseException(message, exception);
 	}
 
 	private void populateUpdaters(JSONObject jsonObject) throws H2ZeroParseException {

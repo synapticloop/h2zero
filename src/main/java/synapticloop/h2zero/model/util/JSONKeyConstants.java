@@ -63,5 +63,13 @@ public class JSONKeyConstants {
 	public static final String COMMENTS = "comments";
 	public static final String CONFIRM = "requiresConfirm";
 
+	public static final String COMMENT = "comment";
+
+	public static final String ENGINE = "engine";
+
+	public static final String CHARSET = "charset";
+
+	public static final String SINGLE = "single";
+
 	private JSONKeyConstants() {}
 }
