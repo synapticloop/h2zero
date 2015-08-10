@@ -31,6 +31,7 @@ import synapticloop.h2zero.validator.constant.ConstantUpdaterValidator;
 import synapticloop.h2zero.validator.counter.CounterJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.counter.CounterKeyValidator;
 import synapticloop.h2zero.validator.counter.CounterNameValidator;
+import synapticloop.h2zero.validator.counter.CounterQueryParameterNameValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectClauseValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectFieldsValidator;
 import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
@@ -41,6 +42,7 @@ import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
 import synapticloop.h2zero.validator.finder.FinderInQueryValidator;
 import synapticloop.h2zero.validator.finder.FinderNameValidator;
 import synapticloop.h2zero.validator.finder.FinderOrderByClauseValidator;
+import synapticloop.h2zero.validator.finder.FinderQueryParameterNameValidator;
 import synapticloop.h2zero.validator.finder.FinderQueryParameterNumberValidator;
 import synapticloop.h2zero.validator.finder.FinderSelectClauseBeanNameValidator;
 import synapticloop.h2zero.validator.finder.FinderSelectClauseValidator;
@@ -48,9 +50,11 @@ import synapticloop.h2zero.validator.finder.FinderWhereClauseValidator;
 import synapticloop.h2zero.validator.finder.FinderWhereFieldAliasValidator;
 import synapticloop.h2zero.validator.inserter.InserterKeyValidator;
 import synapticloop.h2zero.validator.inserter.InserterNameValidator;
+import synapticloop.h2zero.validator.inserter.InserterQueryParameterNameValidator;
 import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.question.QuestionKeyValidator;
 import synapticloop.h2zero.validator.question.QuestionNameValidator;
+import synapticloop.h2zero.validator.question.QuestionQueryParameterNameValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectClauseValidator;
 import synapticloop.h2zero.validator.question.QuestionSelectFieldsValidator;
 import synapticloop.h2zero.validator.table.TableIgnoredKeysValidator;
@@ -59,6 +63,7 @@ import synapticloop.h2zero.validator.table.TablePrimaryKeyNameValidator;
 import synapticloop.h2zero.validator.table.TablePrimaryKeyTypeValidator;
 import synapticloop.h2zero.validator.updater.UpdaterKeyValidator;
 import synapticloop.h2zero.validator.updater.UpdaterNameValidator;
+import synapticloop.h2zero.validator.updater.UpdaterQueryParameterNameValidator;
 import synapticloop.h2zero.validator.updater.UpdaterSetClauseValidator;
 import synapticloop.h2zero.validator.updater.UpdaterWhereClauseValidator;
 
@@ -105,9 +110,11 @@ public class H2ZeroParser {
 		validators.add(new FinderSelectClauseBeanNameValidator());
 		validators.add(new FinderAutoIndexValidator());
 		validators.add(new FinderWhereFieldAliasValidator());
+		validators.add(new FinderQueryParameterNameValidator());
 		validators.add(new FinderQueryParameterNumberValidator());
 
 		// inserter validators
+		validators.add(new InserterQueryParameterNameValidator());
 		validators.add(new InserterNameValidator());
 		validators.add(new InserterKeyValidator());
 
@@ -116,12 +123,14 @@ public class H2ZeroParser {
 		validators.add(new DeleterWhereClauseValidator());
 
 		// updater validators
+		validators.add(new UpdaterQueryParameterNameValidator());
 		validators.add(new UpdaterNameValidator());
 		validators.add(new UpdaterWhereClauseValidator());
 		validators.add(new UpdaterSetClauseValidator());
 		validators.add(new UpdaterKeyValidator());
 
 		// counter validators
+		validators.add(new CounterQueryParameterNameValidator());
 		validators.add(new CounterSelectClauseValidator());
 		validators.add(new CounterSelectFieldsValidator());
 		validators.add(new CounterJsonUniqueKeyExistsValidator());
@@ -129,6 +138,7 @@ public class H2ZeroParser {
 		validators.add(new CounterNameValidator());
 
 		// question validators
+		validators.add(new QuestionQueryParameterNameValidator());
 		validators.add(new QuestionSelectClauseValidator());
 		validators.add(new QuestionSelectFieldsValidator());
 		validators.add(new QuestionJsonUniqueKeyExistsValidator());

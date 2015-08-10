@@ -26,6 +26,7 @@ import synapticloop.h2zero.util.JsonHelper;
 
 public class Finder extends BaseQueryObject {
 	private boolean unique = false;
+	private boolean isAutoFinder = false;
 
 	public Finder(BaseSchemaObject baseSchemaObject, JSONObject finderObject) throws H2ZeroParseException {
 		super(baseSchemaObject, finderObject);
@@ -50,4 +51,7 @@ public class Finder extends BaseQueryObject {
 	public boolean getUnique() { return(unique); }
 
 	public String getType() { return("Finder"); }
+
+	public boolean getIsAutoFinder() { return isAutoFinder; }
+	public void setIsAutoFinder(boolean isAutoFinder) { this.isAutoFinder = isAutoFinder; }
 }

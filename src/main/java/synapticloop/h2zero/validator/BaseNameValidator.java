@@ -67,18 +67,18 @@ public abstract class BaseNameValidator extends BaseValidator {
 		allowablePrefixList = stringBuilder.toString();
 	}
 
-	protected void validateQueryName(Table table, List<String> updaterNames) {
+	protected void validateQueryName(Table table, List<String> queryNames) {
 		queryObjectNames.clear();
-		for (String updaterName : updaterNames) {
-			if(updaterName.contains(" ")) {
-				addFatalMessage(queryObjectType + " '" + table.getName() + "." + updaterName + "' contains a ' ' (whitespace) character.");
+		for (String queryName : queryNames) {
+			if(queryName.contains(" ")) {
+				addFatalMessage(queryObjectType + " '" + table.getName() + "." + queryName + "' contains a ' ' (whitespace) character.");
 			}
 
 			
-			if(queryObjectNames.contains(updaterName)) {
-				addFatalMessage(queryObjectType + " '" + table.getName() + "." + updaterName + "' is a duplicate.");
+			if(queryObjectNames.contains(queryName)) {
+				addFatalMessage(queryObjectType + " '" + table.getName() + "." + queryName + "' is a duplicate.");
 			}
-			queryObjectNames.add(updaterName);
+			queryObjectNames.add(queryName);
 		}
 		queryObjectNames.clear();
 	}
