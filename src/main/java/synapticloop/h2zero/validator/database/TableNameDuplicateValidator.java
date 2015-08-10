@@ -1,4 +1,4 @@
-package synapticloop.h2zero.validator;
+package synapticloop.h2zero.validator.database;
 
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Set;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
+import synapticloop.h2zero.validator.BaseValidator;
 
 public class TableNameDuplicateValidator extends BaseValidator {
 	private Set<String> names = new HashSet<String>();

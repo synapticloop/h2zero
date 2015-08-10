@@ -11,8 +11,8 @@ import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.validator.BaseValidator;
 
 /**
- * Validate that values to be inserted into the constant table do not have duplicate primary key or constant label 
- * values.  Any errors will add a FATAL message to the validation stream.
+ * Validate that values to be inserted into the constant table do not have duplicate primary key or duplicate 
+ * constant label values.  Any errors will add a FATAL message to the validation stream.
  * 
  * @author synapticloop
  *

@@ -6,9 +6,9 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Inserter;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
-import synapticloop.h2zero.validator.KeyValidator;
+import synapticloop.h2zero.validator.BaseKeyValidator;
 
-public class InserterKeyValidator extends KeyValidator {
+public class InserterKeyValidator extends BaseKeyValidator {
 
 	@Override
 	public void validate(Database database, Options options) {

@@ -18,10 +18,8 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.validator.BaseValidator;
-import synapticloop.h2zero.validator.DefaultValueValidator;
 import synapticloop.h2zero.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
-import synapticloop.h2zero.validator.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.UniqeAndIndexValidator;
 import synapticloop.h2zero.validator.bean.Message;
 import synapticloop.h2zero.validator.constant.ConstantDeleterValidator;
@@ -34,8 +32,10 @@ import synapticloop.h2zero.validator.counter.CounterNameValidator;
 import synapticloop.h2zero.validator.counter.CounterQueryParameterNameValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectClauseValidator;
 import synapticloop.h2zero.validator.counter.CounterSelectFieldsValidator;
+import synapticloop.h2zero.validator.database.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
 import synapticloop.h2zero.validator.deleter.DeleterWhereClauseValidator;
+import synapticloop.h2zero.validator.field.FieldDefaultValueValidator;
 import synapticloop.h2zero.validator.field.FieldIgnoredKeysValidator;
 import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
@@ -85,21 +85,19 @@ public class H2ZeroParser {
 		validators.add(new ForeignKeyTableValidator());
 		validators.add(new UniqeAndIndexValidator());
 
-
-		validators.add(new DefaultValueValidator());
-
-		validators.add(new TableNameDuplicateValidator());
-
-		// field validators
-		validators.add(new FieldNameDuplicateValidator());
-		validators.add(new FieldIgnoredKeysValidator());
-
-		
 		// table validators
+		validators.add(new TableNameDuplicateValidator());
 		validators.add(new TablePrimaryKeyExistsValidator());
 		validators.add(new TablePrimaryKeyNameValidator());
 		validators.add(new TablePrimaryKeyTypeValidator());
 		validators.add(new TableIgnoredKeysValidator());
+
+
+		// field validators
+		validators.add(new FieldDefaultValueValidator());
+		validators.add(new FieldNameDuplicateValidator());
+		validators.add(new FieldIgnoredKeysValidator());
+
 
 		// Finder validators
 		validators.add(new FinderInQueryValidator());
@@ -184,7 +182,7 @@ public class H2ZeroParser {
 		this.database = new Database(jsonObject);
 
 		// now that we have parsed the file - go through and update the validator options
-		
+
 		// now go through and run the validators
 		boolean isValid = checkAndLogValidators();
 
