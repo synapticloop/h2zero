@@ -129,7 +129,7 @@ select {{
 				{endloop}
 			</ul>
 			{set fn:length[table.updaters] as length}
-			{if fn:>[length,0]}
+			{if fn:>[length,'0']}
 				<ul>
 					<li><strong>UPDATERS</strong></li>
 					{loop table.updaters as updater}
@@ -138,7 +138,7 @@ select {{
 				</ul>
 			{endif}
 			{set fn:length[table.deleters] as length}
-			{if fn:>[length,0]}
+			{if fn:>[length,'0']}
 				<ul>
 					<li><strong>DELETERS</strong></li>
 					{loop table.deleters as deleter}
@@ -166,7 +166,7 @@ select {{
 										</{database.schema}:{field.foreignKeyTable}FindAll>
 									</select>
 								{else}
-									<input type="text" id="{field.name}" name="{field.name}" {if fn:<>[field.maxLength, 0]} maxlength="{field.maxLength}"{endif} />
+									<input type="text" id="{field.name}" name="{field.name}" {if fn:<>[field.maxLength, '0']} maxlength="{field.maxLength}"{endif} />
 								{endif}
 							{endif}
 						</label>

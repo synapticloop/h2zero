@@ -99,7 +99,7 @@ public class Options {
 				String validatorName = keys.next();
 				BaseValidator validator = H2ZeroParser.getValidatorByName(validatorName);
 				if(null != validator) {
-					SimpleLogger.logInfo(LoggerType.OPTIONS_VALIDATOR, "Parsing options for validator '" + validatorName + "'.");
+					SimpleLogger.logInfo(LoggerType.OPTIONS_VALIDATOR, "[ " + validatorName + " ] Parsing options...");
 					validator.parseAndValidateOptions(validatorJson.getJSONObject(validatorName));
 				} else {
 					SimpleLogger.logError(LoggerType.OPTIONS_VALIDATOR, "Could not find validator for validator name '" + validatorName + "', ignoring...");

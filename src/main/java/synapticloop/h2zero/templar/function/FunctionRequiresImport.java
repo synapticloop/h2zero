@@ -16,8 +16,15 @@ public class FunctionRequiresImport extends Function {
 	@Override
 	public Object evaluate(Object[] args, TemplarContext templarContext) throws FunctionException {
 		if(verifyArgumentLength(args)) {
-			Object tableObject = ObjectUtils.evaluateObjectToDefault(args[0].toString(), templarContext);
+			Object tableObject = null;
+			if(args[0] instanceof BaseSchemaObject) {
+				tableObject = args[0];
+			} else {
+				tableObject = ObjectUtils.evaluateObjectToDefault(args[0].toString(), templarContext);
+			}
+
 			Object fieldTypeObject = ObjectUtils.evaluateObjectToDefault(args[1], templarContext);
+
 			if(tableObject instanceof BaseSchemaObject && fieldTypeObject instanceof String) {
 				BaseSchemaObject baseSchemaObject = (BaseSchemaObject)tableObject;
 				String fieldType = (String)fieldTypeObject;

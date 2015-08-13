@@ -53,7 +53,7 @@ public class {table.javaClassName}Updater {{{\n}
 {loop table.updaters as updater}
 	{set fn:length[updater.updateFields] as updateFieldsLength}
 
-	{\t}public static int {updater.name}(Connection connection{if fn:>[updateFieldsLength, 0]}, {endif}
+	{\t}public static int {updater.name}(Connection connection{if fn:>[updateFieldsLength, '0']}, {endif}
 	{--
 		Now for the set and where fields
 	}
@@ -97,7 +97,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}Connection connection = null;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, 0]}, {endif}
+	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, '0']}, {endif}
 
 		{import classpath:/snippet/updater/method-parameters-call.templar}
 
@@ -120,7 +120,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}Connection connection = null;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, 0]}, {endif}
+	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, '0']}, {endif}
 
 		{import classpath:/snippet/updater/method-parameters-call.templar}
 

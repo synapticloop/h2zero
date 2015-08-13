@@ -83,6 +83,7 @@ public abstract class BaseField {
 	protected boolean isLargeObject = false; // whether this field is a BLOB/CLOB or equivalent
 	protected String onUpdate = null; // the onUpdate action
 	protected String onDelete = null; // the onDelete action
+	public int fieldIndex = 0; // the index of the field on the table - 0 being the first 
 
 	protected boolean requiresConfirm = false; // whether this fields requires a confirmation field for entry
 
@@ -290,6 +291,8 @@ public abstract class BaseField {
 	public String getOnUpdate() { return(onUpdate); }
 	public String getOnDelete() { return(onDelete); }
 	public boolean getRequiresConfirm() { return(requiresConfirm); }
+	public int getFieldIndex() { return(this.fieldIndex); }
+	public void setFieldIndex(int fieldIndex) { this.fieldIndex = fieldIndex; }
 
 	public List<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }

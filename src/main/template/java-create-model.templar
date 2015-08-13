@@ -12,7 +12,7 @@ package {database.package}.model;{\n}{\n}
 {if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
 {if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
 {if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
-{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{else}// no import for timestamp{\n}{endif}
+{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
 	import java.sql.ResultSet;{\n}
 	import java.sql.Statement;{\n}
 	import java.sql.PreparedStatement;{\n}
@@ -35,8 +35,11 @@ import {database.package}.model.util.Constants;{\n}
 	  table, then we need to import the finder
 	}
 	{loop table.fields as field}
-		{if fn:notNull[field.foreignKeyTable] & !field.foreignKeyTableLookup.isConstant}
-			import {database.package}.finder.{field.foreignKeyTableLookup.javaClassName}Finder;{\n}
+		{if fn:notNull[field.foreignKeyTable]}
+			{if !field.foreignKeyTableLookup.isConstant}
+				// {field.foreignKeyTable}.{field.foreignKeyField}:{field.foreignKeyTableLookup.isConstant}{\n}
+				import {database.package}.finder.{field.foreignKeyTableLookup.javaClassName}Finder;{\n}
+			{endif}
 		{endif}
 	{endloop}
 
@@ -143,6 +146,13 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{endloop}";{\n}
 
 	{\n}
+	{\t}// whether the fields have been fully-populated{\n}
+	{\t}//private boolean isFullyPopulated = false{\n}
+	{\t}// the list of fields for the hit - starting with 'TOTAL'{\n}
+	{\t}//private static final String[] HIT_FIELDS = {{ "TOTAL", {loop table.fields as field}"{field.name}"{if fieldStatus.last}{else}, {endif}{endloop} }{\n}
+	{\t}// the number of read-hits for a particular field{\n}
+	{\t}private static int[] HIT_COUNTS = {{ 0, {loop table.fields as field}0{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
+
 	{\t}// whether the fields are auto-populated{\n}
 //	{\t}private boolean[] populated = {{ 
 		{loop table.fields as field}{field.populate}{if fieldStatus.last}{else}, {endif}{endloop}
@@ -732,10 +742,59 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 	{loop table.fields as field}
+		{if field.primary}
+		{\t}public {field.javaType} getPrimaryKey() {{ 
+
+			{if options.metrics}
+				{table.javaFieldName}{field.javaAccessorName}GetterHit.inc();
+			{endif}
+
+			{if !table.isConstant}
+				HIT_COUNTS[0] = HIT_COUNTS[0]++; 
+				HIT_COUNTS[{field.fieldIndex} + 1] = HIT_COUNTS[{field.fieldIndex} + 1]++; 
+			{endif}
+
+			return(this.{field.javaName}); 
+		}{\n}
+		{endif}
+	{endloop}
+
+	{loop table.fields as field}
+		{if field.primary}
+			{if !table.isConstant}
+				{\t}public void setPrimaryKey({field.javaType} {field.javaName}) {{ 
+					if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 
+						this.{field.javaName} = {field.javaName};
+						this.isDirty = true; 
+
+						{if fn:notNull[field.foreignKeyTable]}
+							{if !field.foreignKeyTableLookup.isConstant}
+								this.{field.secondaryJavaName} = null;
+							{endif}
+						{endif}
+
+						{if options.metrics}
+							{table.javaFieldName}{field.javaAccessorName}SetterHit.inc();
+					} else {{
+							{table.javaFieldName}{field.javaAccessorName}SetterMiss.inc();
+						{endif}
+
+					}
+				}{\n}
+			{endif}
+		{endif}
+	{endloop}
+
+	{loop table.fields as field}
 		{\t}public {field.javaType} get{field.javaAccessorName}() {{ 
 
 			{if options.metrics}
 				{table.javaFieldName}{field.javaAccessorName}GetterHit.inc();
+			{endif}
+
+			{if !table.isConstant}
+				HIT_COUNTS[0] = HIT_COUNTS[0]++; 
+				HIT_COUNTS[{field.fieldIndex} + 1] = HIT_COUNTS[{field.fieldIndex} + 1]++; 
 			{endif}
 
 			return(this.{field.javaName}); 

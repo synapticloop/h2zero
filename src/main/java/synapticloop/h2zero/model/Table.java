@@ -177,6 +177,7 @@ public class Table extends BaseSchemaObject {
 
 					constructor = forName.getConstructor(JSONObject.class);
 					BaseField baseField = (BaseField)constructor.newInstance(fieldObject);
+					baseField.setFieldIndex(i);
 
 					if(!baseField.getNullable()) {
 						nonNullFields.add(baseField);

@@ -234,7 +234,7 @@ public class {table.javaClassName}Deleter {{{\n}
 {loop table.deleters as deleter}
 	{set fn:length[deleter.whereFields] as deleterFieldsLength}
 
-	{\t}public static int {deleter.name}(Connection connection{if fn:>[deleterFieldsLength, 0]}, {endif} 
+	{\t}public static int {deleter.name}(Connection connection{if fn:>[deleterFieldsLength, '0']}, {endif} 
 		{--
 		Now for the where fields
 	}
@@ -279,7 +279,7 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\t}{\t}Connection connection;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}int numRowsDeleted = {deleter.name}(connection{if fn:>[deleterFieldsLength, 0]}, {endif}{loop deleter.whereFields as whereField}
+	{\t}{\t}{\t}int numRowsDeleted = {deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
 		{whereField.javaName}
 		{if whereFieldStatus.last}{else},{endif}
 	{endloop});{\n}
@@ -303,7 +303,7 @@ public class {table.javaClassName}Deleter {{{\n}
 	{\t}{\t}Connection connection;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}int numRowsDeleted = {deleter.name}(connection{if fn:>[deleterFieldsLength, 0]}, {endif}{loop deleter.whereFields as whereField}
+	{\t}{\t}{\t}int numRowsDeleted = {deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
 		{whereField.javaName}
 		{if whereFieldStatus.last}{else},{endif}
 	{endloop});{\n}
@@ -326,7 +326,7 @@ public class {table.javaClassName}Deleter {{{\n}
 
 	) {{{\n}
 	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, 0]}, {endif}{loop deleter.whereFields as whereField}
+	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
 		{whereField.javaName}
 		{if whereFieldStatus.last}{else},{endif}
 	{endloop}));{\n}
