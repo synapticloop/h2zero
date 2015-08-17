@@ -225,7 +225,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 				C(R)UD METHODS - WITHOUT THE READ
 	}
 
-	{\t}@Override{\n}
 	{\t}public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 	{if options.metrics}
 		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
@@ -266,7 +265,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{--
 	    ENSURE
 	}
-	{\t}@Override{\n}
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{if options.metrics}
@@ -301,7 +299,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
-	{\t}@Override{\n}
 	{\t}public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{if options.metrics}
@@ -340,7 +337,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 
-	{\t}@Override{\n}
 	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{{{\n}
 
 	{if options.metrics}
@@ -363,7 +359,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 
-	{\t}@Override{\n}
 	{\t}public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {{{\n}
 	{if options.metrics}
 		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
@@ -435,6 +430,13 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{endif}
 	{endloop}
 
+	{if !table.isConstant}
+		{\t}public static void updateHitCount(int offset) {{{\n}
+		{\t}{\t}HIT_COUNTS[0]++;{\n}
+		{\t}{\t}HIT_COUNTS[offset]++;{\n}
+		{\t}}{\n}{\n}
+	{endif}
+
 	{\t}/*{\n}
 	{\t} * Boring ol' getters and setters {\n}
 	{\t} */{\n}
@@ -482,14 +484,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{endif}
 		{endif}
 	{endloop}
-
-
-	{if !table.isConstant}
-		{\t}public static void updateHitCount(int offset) {{{\n}
-		{\t}{\t}HIT_COUNTS[0]++;{\n}
-		{\t}{\t}HIT_COUNTS[offset]++;{\n}
-		{\t}}{\n}{\n}
-	{endif}
 
 	{loop table.fields as field}
 		{\t}public {field.javaType} get{field.javaAccessorName}() {{ 
