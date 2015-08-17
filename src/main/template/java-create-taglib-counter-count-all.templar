@@ -27,6 +27,7 @@ public class CountAllTag extends BaseVarTag {{{\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_BINDER;{\n}{\n}
 	{\t}private static final Logger LOGGER = Logger.getLogger(CountAllTag.class);{\n}{\n}
 
+	{\t}@Override{\n}
 	{\t}public int doStartTag() throws JspException {{{\n}
 		{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Counter.countAllSilent());{\n}
 		{\t}{\t}return(EVAL_BODY_INCLUDE);{\n}

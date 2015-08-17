@@ -30,6 +30,7 @@ public class FindAllTag extends BaseVarTag {{{\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_BINDER;{\n}{\n}
 	{\t}private static final Logger LOGGER = Logger.getLogger(FindAllTag.class);{\n}{\n}
 
+	{\t}@Override{\n}
 	{\t}public int doStartTag() throws JspException {{{\n}
 		{if !table.isConstant}
 			{\t}{\t}pageContext.setAttribute(var, {table.javaClassName}Finder.findAllSilent());{\n}

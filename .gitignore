@@ -2,7 +2,7 @@
 build-eclipse/
 build/
 CVS
-generate/*
+
 cobertura.ser
 .DS_Store
 src/test/java/insityou.h2zero

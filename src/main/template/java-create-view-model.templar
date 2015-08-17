@@ -75,6 +75,7 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 
 	{-- Now we need the toJsonString Method--}
 	{\n}
+		{\t}@Override{\n}
 		{\t}public String toJsonString() {{{\n}
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
