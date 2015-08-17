@@ -215,7 +215,7 @@ public abstract class BaseQueryObject {
 				stringBuilder.append("  { \"name\": \"<fieldName1>\", \"type\": \"<type>\" },\n");
 				stringBuilder.append("  { \"name\": \"<fieldName2>\", \"type\": \"<type>\" },\n");
 				stringBuilder.append("]\n");
-				throw new H2ZeroParseException(stringBuilder.toString());
+				throw new H2ZeroParseException(stringBuilder.toString(), ojjsonex);
 			}
 
 			if(null != type) {

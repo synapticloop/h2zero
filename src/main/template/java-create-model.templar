@@ -143,17 +143,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{endloop}";{\n}
 
 	{\n}
-	{\t}// whether the fields have been fully-populated{\n}
-	{\t}//private boolean isFullyPopulated = false{\n}
 	{\t}// the list of fields for the hit - starting with 'TOTAL'{\n}
-	{\t}//private static final String[] HIT_FIELDS = {{ "TOTAL", {loop table.fields as field}"{field.name}"{if fieldStatus.last}{else}, {endif}{endloop} }{\n}
+	{\t}private static final String[] HIT_FIELDS = {{ "TOTAL", {loop table.fields as field}"{field.name}"{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
 	{\t}// the number of read-hits for a particular field{\n}
 	{\t}private static int[] HIT_COUNTS = {{ 0, {loop table.fields as field}0{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
-
-	{\t}// whether the fields are auto-populated{\n}
-//	{\t}private boolean[] populated = {{ 
-		{loop table.fields as field}{field.populate}{if fieldStatus.last}{else}, {endif}{endloop}
-	 }{\n}{\n}
 {endif}{-- end of !if.isConstant}
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -221,7 +214,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{loop table.fields as field}
 		{if field.primary}
 			{\n}
-			{\t}private boolean primaryKeySet() {{{\n}
+			{\t}public boolean primaryKeySet() {{{\n}
 			{\t}{\t}return(null != {field.javaName});{\n}
 			{\t}}{\n}
 			{\n}
@@ -232,6 +225,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 				C(R)UD METHODS - WITHOUT THE READ
 	}
 
+	{\t}@Override{\n}
 	{\t}public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 	{if options.metrics}
 		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
@@ -269,65 +263,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
-	{\t}public void insertSilent(Connection connection) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}insert(connection);{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}public void insert() throws SQLException, H2ZeroPrimaryKeyException {{{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}insert(connection);{\n}
-	{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}if(connection != null) {{{\n}
-	{\t}{\t}{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
-	{\t}{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-
-	{\t}public void insertSilent() {{{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}insert(connection);{\n}
-	{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}if(connection != null) {{{\n}
-	{\t}{\t}{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
-	{\t}{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
 	{--
 	    ENSURE
 	}
+	{\t}@Override{\n}
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{if options.metrics}
@@ -362,62 +301,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
-	{\t}public void ensureSilent(Connection connection) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}ensure(connection);{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}public void ensure() throws SQLException, H2ZeroPrimaryKeyException {{{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}ensure(connection);{\n}
-	{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}if(connection != null) {{{\n}
-	{\t}{\t}{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
-	{\t}{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-
-	{\t}public void ensureSilent() {{{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}ensure(connection);{\n}
-	{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}if(connection != null) {{{\n}
-	{\t}{\t}{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
-	{\t}{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
+	{\t}@Override{\n}
 	{\t}public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{if options.metrics}
@@ -455,149 +339,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
-	{\t}public void updateSilent(Connection connection) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}update(connection);{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
 
-	{\t}public void update() throws SQLException, H2ZeroPrimaryKeyException {{{\n}
-	{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}update(connection);{\n}
-	{\t}{\t}connection.close();{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}public void updateSilent() {{{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}update(connection);{\n}
-	{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}if(connection != null) {{{\n}
-	{\t}{\t}{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
-	{\t}{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}public void insertOrUpdate(Connection connection) throws H2ZeroPrimaryKeyException, SQLException {{{\n}
-
-	{if options.metrics}
-		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
-	{endif}
-
-	{\t}{\t}if(!primaryKeySet()) {{{\n}
-	{\t}{\t}{\t}insert(connection);{\n}
-	{\t}{\t}} else {{{\n}
-	{\t}{\t}{\t}update(connection);{\n}
-	{\t}{\t}}{\n}
-
-	{\t}}{\n}
-	{\n}
-
-
-	{\t}public void insertOrUpdate() throws H2ZeroPrimaryKeyException, SQLException {{{\n}
-
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}insertOrUpdate(connection);{\n}
-
-	{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}throw(h2zpkex);{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}throw (sqlex);{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}if(connection != null) {{{\n}
-	{\t}{\t}{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
-	{\t}{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-	{\t}public void insertOrUpdateSilent(Connection connection) {{{\n}
-
-	{if options.metrics}
-		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
-	{endif}
-
-	{\t}{\t}try {{{\n}
-
-	{\t}{\t}{\t}if(!primaryKeySet()) {{{\n}
-	{\t}{\t}{\t}{\t}insert(connection);{\n}
-	{\t}{\t}{\t}} else {{{\n}
-	{\t}{\t}{\t}{\t}update(connection);{\n}
-	{\t}{\t}{\t}}{\n}
-
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}public void insertOrUpdateSilent() {{{\n}
-
-	{if options.metrics}
-		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-		{\t}{\t}{table.javaFieldName}InsertOrUpdate.inc();{\n}
-	{endif}
-
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-
-	{\t}{\t}{\t}if(!primaryKeySet()) {{{\n}
-	{\t}{\t}{\t}{\t}insert(connection);{\n}
-	{\t}{\t}{\t}} else {{{\n}
-	{\t}{\t}{\t}{\t}update(connection);{\n}
-	{\t}{\t}{\t}}{\n}
-
-	{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}if(connection != null) {{{\n}
-	{\t}{\t}{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
-	{\t}{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
+	{\t}@Override{\n}
 	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{{{\n}
 
 	{if options.metrics}
@@ -619,49 +362,9 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
-	{\t}public void deleteSilent(Connection connection) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}delete(connection);{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
 
-	{\t}public void delete() throws SQLException, H2ZeroPrimaryKeyException {{{\n}
-	{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}delete(connection);{\n}
-	{\t}{\t}connection.close();{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}public void deleteSilent() {{{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}delete(connection);{\n}
-	{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}if(connection != null) {{{\n}
-	{\t}{\t}{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection.close();{\n}
-	{\t}{\t}{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}{\t}{\t}// do nothing{\n}
-	{\t}{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}{\t}connection = null;{\n}
-	{\t}{\t}{\t}{\t}}{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}public void refresh() throws H2ZeroPrimaryKeyException {{{\n}
+	{\t}@Override{\n}
+	{\t}public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {{{\n}
 	{if options.metrics}
 		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
 		{\t}{\t}{table.javaFieldName}Refresh.inc();{\n}
@@ -671,7 +374,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}{\t}}{\n}
 	{loop table.fields as field}
 		{if field.primary}
-			{\t}{\t}{table.javaClassName} {table.javaFieldName} = {table.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
+			{\t}{\t}{table.javaClassName} {table.javaFieldName} = {table.javaClassName}Finder.findByPrimaryKeySilent(connection, this.{field.javaName});{\n}
 		{endif}
 	{endloop}
 
@@ -683,19 +386,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 
-	{\t}public void refreshSilent() {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}refresh();{\n}
-	{\t}{\t}} catch(H2ZeroPrimaryKeyException h2zpkex) {{{\n}
-	{\t}{\t}{\t}h2zpkex.printStackTrace();{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
+	{\t}public static String[] getHitFields() {{ return(HIT_FIELDS); }{\n}
+	{\t}public static int[] getHitCounts() {{ return(HIT_COUNTS); }{\n}{\n}
 
-{endif} {-- end of !isconstant table }
+{endif}{-- end of !isconstant table }
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					SETTERS AND GETTERS
+
+					The first getter is for any referenced foreign key tables that exist
+					which will get the actual object, rather than the primary key that 
+					references it.
 	}
 
 	{loop table.fields as field}
@@ -718,6 +419,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 				{\t}{\t}return(this.{field.secondaryJavaName});{\n}
 			{else}
 
+				{--
+					At this point the foreign table is constant so it was already looked up
+					at construction time
+				}
+
 				{if options.metrics}
 					{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
 				{endif}
@@ -725,10 +431,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 				{\t}{\t}return({field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName}));{\n}
 			{endif}
 
-			{--
-				At this point the foreign table is constant so it was already looked up
-				at construction time
-			}
 			{\t}}{\n}{\n}
 		{endif}
 	{endloop}
@@ -747,8 +449,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{endif}
 
 			{if !table.isConstant}
-				HIT_COUNTS[0] = HIT_COUNTS[0]++; 
-				HIT_COUNTS[{field.fieldIndex} + 1] = HIT_COUNTS[{field.fieldIndex} + 1]++; 
+				updateHitCount({field.fieldIndex} + 1);
 			{endif}
 
 			return(this.{field.javaName}); 
@@ -782,6 +483,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{endif}
 	{endloop}
 
+
+	{if !table.isConstant}
+		{\t}public static void updateHitCount(int offset) {{{\n}
+		{\t}{\t}HIT_COUNTS[0]++;{\n}
+		{\t}{\t}HIT_COUNTS[offset]++;{\n}
+		{\t}}{\n}{\n}
+	{endif}
+
 	{loop table.fields as field}
 		{\t}public {field.javaType} get{field.javaAccessorName}() {{ 
 
@@ -790,8 +499,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{endif}
 
 			{if !table.isConstant}
-				HIT_COUNTS[0] = HIT_COUNTS[0]++; 
-				HIT_COUNTS[{field.fieldIndex} + 1] = HIT_COUNTS[{field.fieldIndex} + 1]++; 
+				updateHitCount({field.fieldIndex} + 1); 
 			{endif}
 
 			return(this.{field.javaName}); 

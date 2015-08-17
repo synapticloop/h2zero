@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.manager.ConnectionManager;
 
 /**
  * This is the base class for all h2zero generated models and defines the required functionality for a working model.  
@@ -30,14 +31,7 @@ import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 public abstract class ModelBase {
 	protected boolean isDirty = false; // whether the model has changes to any of its fields or values
 
-	/**
-	 * Persist the model object to the database
-	 * 
-	 * @param connection the SQL connection to be used
-	 * @throws SQLException if there was an error in the SQL expression
-	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
-	 */
-	protected abstract void insert() throws SQLException, H2ZeroPrimaryKeyException;
+	public abstract boolean primaryKeySet();
 
 	/**
 	 * Persist the model object to the database
@@ -46,29 +40,367 @@ public abstract class ModelBase {
 	 * @throws SQLException if there was an error in the SQL expression
 	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
 	 */
-	protected abstract void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
+	public abstract void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
+
+	/**
+	 * Persist the model object to the database
+	 * 
+	 * @param connection the SQL connection to be used
+	 * @throws SQLException if there was an error in the SQL expression
+	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
+	 */
+	public void insert() throws SQLException, H2ZeroPrimaryKeyException {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			insert(connection);
+			connection.close();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Persist the model object to the database silently, i.e. swallow any SQL or H2Zero exceptions
 	 */
-	protected abstract void insertSilent();
+	public void insertSilent() {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			insert(connection);
+			connection.close();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Persist the model object to the database silently, i.e. swallow any SQL or H2Zero exceptions
 	 * 
 	 * @param connection the SQL connection to be used
 	 */
-	protected abstract void insertSilent(Connection connection);
+	public void insertSilent(Connection connection) {
+		try {
+			insert(connection);
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		}
+	}
 
-	protected abstract void update() throws SQLException, H2ZeroPrimaryKeyException;
-	protected abstract void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
-	protected abstract void updateSilent();
-	protected abstract void updateSilent(Connection connection);
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * All of the update methods
+	 * 
+	 */
+	public abstract void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 
-	protected abstract void delete() throws SQLException, H2ZeroPrimaryKeyException;
-	protected abstract void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
-	protected abstract void deleteSilent();
-	protected abstract void deleteSilent(Connection connection);
+	public void updateSilent(Connection connection) {
+		try {
+			update(connection);
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		}
+	}
+
+	public void update() throws SQLException, H2ZeroPrimaryKeyException {
+		Connection connection = ConnectionManager.getConnection();
+		update(connection);
+		connection.close();
+	}
+
+	public void updateSilent() {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			update(connection);
+			connection.close();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
+
+	/*
+	 * All of the insert or update methods
+	 */
+	public void insertOrUpdate(Connection connection) throws H2ZeroPrimaryKeyException, SQLException {
+		if(!primaryKeySet()) {
+			insert(connection);
+		} else {
+			update(connection);
+		}
+	}
+
+	public void insertOrUpdate() throws H2ZeroPrimaryKeyException, SQLException {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			insertOrUpdate(connection);
+			connection.close();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			throw(h2zpkex);
+		} catch(SQLException sqlex) {
+			throw (sqlex);
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
+
+	public void insertOrUpdateSilent(Connection connection) {
+		try {
+			if(!primaryKeySet()) {
+				insert(connection);
+			} else {
+				update(connection);
+			}
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		}
+	}
+
+	public void insertOrUpdateSilent() {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			if(!primaryKeySet()) {
+				insert(connection);
+			} else {
+				update(connection);
+			}
+			connection.close();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * All of the delete methods
+	 * 
+	 */
+
+	public abstract void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
+
+	public void deleteSilent(Connection connection) {
+		try {
+			delete(connection);
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		}
+	}
+
+	public void delete() throws SQLException, H2ZeroPrimaryKeyException {
+		Connection connection = ConnectionManager.getConnection();
+		delete(connection);
+		connection.close();
+	}
+
+	public void deleteSilent() {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			delete(connection);
+			connection.close();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
+
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * All of the ensure methods
+	 * 
+	 */
+
+	public abstract void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
+
+	public void ensureSilent(Connection connection) {
+		try {
+			ensure(connection);
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		}
+	}
+
+	public void ensure() throws SQLException, H2ZeroPrimaryKeyException {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			ensure(connection);
+			connection.close();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
+
+	public void ensureSilent() {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			ensure(connection);
+			connection.close();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
+
+	
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * All of the refresh methods
+	 * 
+	 */
+
+	/**
+	 * Refresh the bean with the passed in connection by loading all of the information again using the primary 
+	 * key to look it up.  The passed in connection can be used for transactional purposes.
+	 * 
+	 * @param Connection The connection to use
+	 * @throws SQLException If there was an error in the SQL statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key is null
+	 */
+	public abstract void refresh(Connection Connection) throws SQLException, H2ZeroPrimaryKeyException;
+
+	/**
+	 * Refresh the bean by loading all of the information again using the primary key to look it up
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key is null
+	 */
+	public void refresh() throws SQLException, H2ZeroPrimaryKeyException {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			refresh(connection);
+			connection.close();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
+
+	public void refreshSilent() {
+		try {
+			refresh();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch (SQLException sqlex) {
+			// TODO Auto-generated catch block
+			sqlex.printStackTrace();
+		}
+	}
+
+	public void refreshSilent(Connection connection) {
+		try {
+			refresh(connection);
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch (SQLException sqlex) {
+			// TODO Auto-generated catch block
+			sqlex.printStackTrace();
+		}
+	}
 
 	/**
 	 * Determine whether the two objects differ
