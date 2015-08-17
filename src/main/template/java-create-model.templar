@@ -214,6 +214,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{loop table.fields as field}
 		{if field.primary}
 			{\n}
+			{\t}@Override{\n}
 			{\t}public boolean primaryKeySet() {{{\n}
 			{\t}{\t}return(null != {field.javaName});{\n}
 			{\t}}{\n}
@@ -225,6 +226,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 				C(R)UD METHODS - WITHOUT THE READ
 	}
 
+	{\t}@Override{\n}
 	{\t}public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 	{if options.metrics}
 		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
@@ -265,6 +267,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{--
 	    ENSURE
 	}
+	{\t}@Override{\n}
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{if options.metrics}
@@ -299,6 +302,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
+	{\t}@Override{\n}
 	{\t}public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{if options.metrics}
@@ -337,6 +341,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 
+	{\t}@Override{\n}
 	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{{{\n}
 
 	{if options.metrics}
@@ -359,6 +364,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 
 
+	{\t}@Override{\n}
 	{\t}public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {{{\n}
 	{if options.metrics}
 		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
