@@ -377,6 +377,18 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{\t}{\t}this.{field.javaName} = {table.javaFieldName}.get{field.javaAccessorName}();{\n}
 		{endloop}
 
+		{--
+			Now we need to go through all of the constant fields and set them to null
+		}
+
+	{loop table.fields as field}
+		{if fn:notNull[field.foreignKeyTable]}
+			{if !field.foreignKeyTableLookup.isConstant}
+				{\t}{\t}this.{field.secondaryJavaName} = null;{\n}
+			{endif}
+		{endif}
+	{endloop}
+
 	{\t}}{\n}
 	{\n}
 
