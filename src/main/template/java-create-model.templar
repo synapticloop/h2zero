@@ -4,7 +4,7 @@ package {database.package}.model;{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //                  (java-create-model.templar){\n}{\n}
 {if !table.isConstant}
-	import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
+	import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 	import synapticloop.h2zero.base.model.ModelBase;{\n}
 	import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;{\n}
 	import java.lang.StringBuilder;{\n}

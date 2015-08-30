@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  Common Build file with common routines
+  -->
+<project name="build-common" basedir="." default="help-instructions">
+	<!-- 
+	  First thing that we have to do is to download the ant contributions jar file
+	  which should probably come from sourceforge, rather than the prodman hudson
+	  server
+	  -->
+	<property name="util.lib.dir" location="lib/util" />
+	<property name="compile.lib.dir" location="lib/compile" />
+	<property name="runtime.lib.dir" location="lib/runtime" />
+	<property name="test.lib.dir" location="lib/test" />
+
+	<mkdir dir="${util.lib.dir}" />
+	<mkdir dir="${compile.lib.dir}" />
+	<mkdir dir="${runtime.lib.dir}" />
+
+	<property name="src.java.dir" location="src/main/java" />
+	<property name="src.test.dir" value="src/test/java" />
+
+	<property name="build.dir" value="build" />
+	<property name="build.test.dir" location="build/test" />
+	<property name="build.classes.dir" value="build/classes" />
+
+	<property name="dist.dir" value="dist" />
+
+	<property name="junit.reports.dir" value="build/reports/junit"/>
+	<property name="cobertura.reports.dir" value="build/reports/cobertura"/>
+
+	<property name="build.instrumented.dir" value="build/classes-instrumented"/>
+
+	<import file="build-javac.xml" />
+
+	<target name="dist" depends="clean,init,compile,jar" description="[build-common] Build the distributable" />
+
+	<target name="jar" depends="compile" description="[build-common] Jar the code">
+		<mkdir dir="${dist.dir}" />
+		<jar destfile="${dist.dir}/${ant.project.name}.jar">
+			<fileset dir="${build.classes.dir}">
+				<include name="**/*.*" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="init" description="[build-common] Clean the build and distribution directories">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<target name="clean" description="[build-common] Clean the build and distribution directories">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="help-instructions">
+		<echo>
+                 ! ! !   I M P O R T A N T   ! ! !
+
+This file is not designed to be invoked directly, however it is included and
+invoked by each of the individual projects.
+		</echo>
+	</target>
+
+	<target name="help">
+		<echo>
+type:
+	ant -p
+
+For a complete list of available targets
+		</echo>
+	</target>
+</project>

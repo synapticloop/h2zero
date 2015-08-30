@@ -15,7 +15,7 @@ import java.util.HashMap;{\n}
 import java.util.Map;{\n}
 import java.util.List;{\n}
 {\n}
-import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
+import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 {\n}
 import org.apache.log4j.Level;{\n}
 import org.apache.log4j.Logger;{\n}

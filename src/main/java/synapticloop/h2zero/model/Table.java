@@ -16,7 +16,6 @@ import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
-import synapticloop.h2zero.util.SimpleLogger;
 
 /**
  * The table encapsulates everything that is required for a single database table
@@ -233,11 +232,6 @@ public class Table extends BaseSchemaObject {
 				hasForeignKey = true;
 			}
 		}
-	}
-
-	private void logFatalFieldParse(Exception exception, String message, String firstUpper) throws H2ZeroParseException {
-		SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, exception.getClass().getSimpleName() + ": on table '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
-		throw new H2ZeroParseException(message, exception);
 	}
 
 	private void populateUpdaters(JSONObject jsonObject) throws H2ZeroParseException {

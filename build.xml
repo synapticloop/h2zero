@@ -16,6 +16,9 @@
 
 	<import file="java-build.xml" />
 
+	<import file="build-common.xml" />
+	<import file="build-cobertura.xml" />
+
 	<target name="download-dependencies" description="download the code dependencies">
 		<copy file="../templar/dist/templar.jar" todir="lib/runtime" />
 	</target>

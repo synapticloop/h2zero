@@ -18,6 +18,7 @@ import synapticloop.h2zero.validator.BaseValidator;
 public class Options {
 	private boolean metrics = false;
 	private String logging = "";
+	private String database = "mysql";
 
 	private Set<String> generators = new HashSet<String>();
 
@@ -45,6 +46,12 @@ public class Options {
 		ALLOWABLE_LOGGERS.add("log4j");
 	}
 
+	private static Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
+	static {
+		ALLOWABLE_DATABASES.add("mysql");
+		ALLOWABLE_DATABASES.add("sqlite");
+	}
+
 	public Options(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONObject optionsJson = null;
 		try {
@@ -56,6 +63,8 @@ public class Options {
 
 		this.metrics = optionsJson.optBoolean("metrics", false);
 		this.logging = optionsJson.optString("logging", "");
+		this.database = optionsJson.optString("database", "mysql");
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "Generating for database type '" + database + "'.");
 
 		JSONArray generatorArray = optionsJson.optJSONArray("generators");
 		if(null == generatorArray) {
@@ -139,4 +148,6 @@ public class Options {
 	public String getLogging() { return logging; }
 	public void setLogging(String logging) { this.logging = logging; }
 	public boolean hasLogging() { return(!"".equals(this.logging)); }
+	public String getDatabase() { return database; }
+	public void setDatabase(String database) { this.database = database; }
 }

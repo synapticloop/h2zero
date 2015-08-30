@@ -2,7 +2,7 @@ package synapticloop.h2zero.base.monitor;
 
 import java.sql.SQLException;
 
-import synapticloop.h2zero.base.manager.ConnectionManager;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 

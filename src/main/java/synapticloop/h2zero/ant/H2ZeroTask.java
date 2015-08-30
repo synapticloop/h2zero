@@ -253,16 +253,6 @@ public class H2ZeroTask extends Task {
 		}
 	}
 
-	/**
-	 * 
-	 * @param in the h2zero file to use as the input
-	 * @deprecated
-	 */
-	@Deprecated
-	public void setIn(String in) {
-		getProject().log("Attribute 'in' is depecrated and __MUST__ be replced with 'inFile', exitting...", Project.MSG_ERR);
-		System.exit(-1);
-	}
 	public String getInFile() { return inFile; }
 	public void setInFile(String inFile) { this.inFile = inFile; }
 	public void setOutDir(String outDir) { this.outDir = outDir; }

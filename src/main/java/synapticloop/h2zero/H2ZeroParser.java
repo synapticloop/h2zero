@@ -157,6 +157,10 @@ public class H2ZeroParser {
 		}
 	}
 
+	/*
+	 * The following is used to determine the max width of the validators, for 
+	 * logging out the information through the SimpleLogger
+	 */
 	private static int maxValidatorClassNameLength = 0;
 	static {
 		for (BaseValidator validator : validators) {
@@ -167,6 +171,12 @@ public class H2ZeroParser {
 		}
 	}
 
+	/**
+	 * Pare a .h2zero file
+	 * 
+	 * @param file The file to be parsed
+	 * @throws H2ZeroParseException if there was an error parsing the file
+	 */
 	public H2ZeroParser(File file) throws H2ZeroParseException {
 		JSONObject jsonObject = null;
 		try {

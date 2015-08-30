@@ -16,6 +16,7 @@ import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.NamingHelper;
+import synapticloop.h2zero.util.SimpleLogger;
 
 public abstract class BaseSchemaObject {
 	protected JSONObject jsonObject;
@@ -138,6 +139,11 @@ public abstract class BaseSchemaObject {
 		} catch (JSONException jsonex) {
 			throw new H2ZeroParseException("Could not generate the field finder for '" + uniqueFinder + "'.", jsonex);
 		}
+	}
+
+	protected void logFatalFieldParse(Exception exception, String message, String firstUpper) throws H2ZeroParseException {
+		SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, exception.getClass().getSimpleName() + ": on table or view '" + this.name + "', throwing upwards..., for field synapticloop.h2zero.model.field." + firstUpper + "Field");
+		throw new H2ZeroParseException(message, exception);
 	}
 
 	/**

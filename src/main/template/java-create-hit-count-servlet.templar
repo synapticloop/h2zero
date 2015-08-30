@@ -16,7 +16,7 @@ import java.util.Iterator;{\n}
 {\n}
 import org.apache.log4j.Logger;{\n}
 {\n}
-import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
+import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 
 public class HitCountServlet {{{\n}
 {\t}private static final Logger LOGGER = Logger.getLogger(HitCountServlet.class);{\n}{\n}

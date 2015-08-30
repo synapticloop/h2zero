@@ -50,8 +50,8 @@ public class View extends BaseSchemaObject {
 		JSONArray fieldJson = new JSONArray();
 		try {
 			fieldJson = jsonObject.getJSONArray(JSONKeyConstants.FIELDS);
-		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Cannot create a view without '" + JSONKeyConstants.FIELDS + "'.");
+		} catch (JSONException jsonex) {
+			throw new H2ZeroParseException("Cannot create a view without '" + JSONKeyConstants.FIELDS + "'.", jsonex);
 		}
 
 		for (int i = 0; i < fieldJson.length(); i++) {
@@ -62,8 +62,8 @@ public class View extends BaseSchemaObject {
 				fieldObject = fieldJson.getJSONObject(i);
 				type = fieldObject.getString(JSONKeyConstants.TYPE);
 				name = fieldObject.getString(JSONKeyConstants.NAME);
-			} catch (JSONException ojjsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.FIELDS + "' array.");
+			} catch (JSONException jsonex) {
+				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.FIELDS + "' array.", jsonex);
 			}
 
 			if(null != type) {
@@ -76,34 +76,20 @@ public class View extends BaseSchemaObject {
 					fields.add(baseField);
 					fieldLookup.put(name, baseField);
 
-					//					BaseField setBaseField = (BaseField)constructor.newInstance(fieldObject);
-					//					setBaseField.suffixJavaName("Set");
-					//					BaseField whereBaseField = (BaseField)constructor.newInstance(fieldObject);
-					//					whereBaseField.suffixJavaName("Where");
-					//
-					//					setFieldLookup.put(name, setBaseField);
-					//					whereFieldLookup.put(name, whereBaseField);
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (ClassNotFoundException cnfex) {
+					logFatalFieldParse(cnfex, cnfex.getCause().getMessage(), firstUpper);
 				} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
 				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
 				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
 				}
 			}
 		}

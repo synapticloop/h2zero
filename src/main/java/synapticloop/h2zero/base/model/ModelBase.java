@@ -21,7 +21,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
-import synapticloop.h2zero.base.manager.ConnectionManager;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 
 /**
  * This is the base class for all h2zero generated models and defines the required functionality for a working model.  

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ====================================================================== 
-     h20    
+     h2zero default build file
      ====================================================================== -->
 <project name="{metaDataModel.schemaName}" default="help">
 

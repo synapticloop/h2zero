@@ -8,7 +8,7 @@ import java.sql.SQLException;{\n}
 {if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
 {\n}
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
-import synapticloop.h2zero.base.manager.ConnectionManager;{\n}
+import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 {\n}
 import org.apache.log4j.Level;{\n}
 import org.apache.log4j.Logger;{\n}
