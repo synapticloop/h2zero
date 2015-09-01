@@ -43,12 +43,18 @@
 			<fileset dir="${src.dir}/template/img">
 				<include name="**/*.*" />
 			</fileset>
+			<zipgroupfileset dir="lib/runtime" includes="templar.jar" />
+			<zipgroupfileset dir="lib/runtime" includes="JSON-java.jar" />
 		</jar>
 
 		<zip destfile="${dist.dir}/${ant.project.name}.zip">
 			<zipfileset dir="${dist.dir}" includes="**/*.*" />
 			<zipfileset dir="." includes="build-h2zero.xml" />
-			<zipfileset dir="${lib.dir}" includes="*.jar" />
+			<zipfileset dir="${lib.dir}">
+				<include name="**/**.jar" />
+				<exclude name="templar.jar" />
+				<exclude name="JSON-java.jar" />
+			</zipfileset>
 		</zip>
 	</target>
 
