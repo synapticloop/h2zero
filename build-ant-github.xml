@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================================
+     ant-github - default build file
+     
+     You can copy the output of this command to a file - we suggest: 
+       build-ant-github.xml
+     You can then invoke this file from your ant build file with the 
+     following command:
+     
+     <target name="download-dependencies" description="download project dependencies">
+       <ant antfile="build-ant-github.xml" target="download-dependencies" />
+     </target>
+     
+     alternatively you can invoke this file directly with:
+     
+     ant -f build-ant-github.xml
+     
+     which will invoke the default target
+     ====================================================================== -->
+
+<project name="build-ant-github" xmlns:github="antlib:github" default="download-dependencies">
+	<!-- you should change the classpath to wherever you have installed the ant-github.jar file -->
+	<taskdef uri="antlib:github" resource="synapticloop/github/ant/antlib.xml" classpath="lib/util/ant-github.jar" />
+
+	<!--
+	  At this point the following will download the release from the github repo below.
+	    Note:
+	      if now 'version' attribute is added, the version is set to 'latest'
+	  -->
+	
+	<target name="download-dependencies">
+		<github:get-release owner="synapticloop" repo="ant-github" asset="ant-github.jar" outDir="lib/util/" overwrite="true" />
+		<github:get-release owner="synapticloop" repo="templar" asset="templar.jar" outDir="lib/runtime/" overwrite="true" />
+		<github:get-release owner="synapticloop" repo="JSON-java" asset="JSON-java.jar" outDir="lib/runtime/" overwrite="true" />
+	</target>
+</project>
