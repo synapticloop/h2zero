@@ -15,12 +15,14 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
+import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 import synapticloop.h2zero.util.SimpleLogger;
 
 public abstract class BaseSchemaObject {
 	protected JSONObject jsonObject;
 	protected String name = null;
+	private int findAllStatementCacheSize = 1024; // 1024 is the default size
 
 	private List<Finder> finders = new ArrayList<Finder>(); // a list of all of the finders
 
@@ -36,6 +38,7 @@ public abstract class BaseSchemaObject {
 
 	public BaseSchemaObject(JSONObject jsonObject) {
 		this.jsonObject = jsonObject;
+		this.findAllStatementCacheSize = JsonHelper.getIntValue(jsonObject, JSONKeyConstants.FINDALL_STATEMENT_CACHE_SIZE, 1024);
 	}
 
 	public abstract boolean getIsTable();
@@ -176,5 +179,7 @@ public abstract class BaseSchemaObject {
 	public BaseField getInField(String name) { return(inFieldLookup.get(name)); }
 
 	public List<Finder> getFinders() { return(finders); }
+
+	public int getFindAllStatementCacheSize() { return findAllStatementCacheSize; }
 
 }

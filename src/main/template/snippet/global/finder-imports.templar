@@ -8,13 +8,13 @@ import java.sql.SQLException;{\n}
 {if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
 {if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
 
-import java.util.HashMap;{\n}
 import java.util.List;{\n}
-import java.util.Map;{\n}
 import java.util.ArrayList;{\n}
 {\n}
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
 import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import synapticloop.h2zero.util.LruCache;{\n}
+
 {\n}
 import org.apache.log4j.Level;{\n}
 import org.apache.log4j.Logger;{\n}

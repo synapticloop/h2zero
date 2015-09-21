@@ -27,6 +27,7 @@ import synapticloop.h2zero.util.JsonHelper;
 public class Finder extends BaseQueryObject {
 	private boolean unique = false;
 	private boolean isAutoFinder = false;
+	private int statementCacheSize = 1024; // by default we use a cache of 1024
 
 	public Finder(BaseSchemaObject baseSchemaObject, JSONObject finderObject) throws H2ZeroParseException {
 		super(baseSchemaObject, finderObject);
@@ -41,6 +42,8 @@ public class Finder extends BaseQueryObject {
 
 		this.unique = JsonHelper.getBooleanValue(finderObject, JSONKeyConstants.UNIQUE, unique);
 
+		this.statementCacheSize = JsonHelper.getIntValue(finderObject, JSONKeyConstants.FINDER_STATEMENT_CACHE_SIZE, 1024);
+
 		// we may not have any whereFields
 		if(null != whereClause) {
 			populateWhereFields(finderObject);
@@ -50,8 +53,11 @@ public class Finder extends BaseQueryObject {
 	public void setOrderBy(String orderBy) { this.orderBy = orderBy; }
 	public boolean getUnique() { return(unique); }
 
+	@Override
 	public String getType() { return("Finder"); }
 
 	public boolean getIsAutoFinder() { return isAutoFinder; }
 	public void setIsAutoFinder(boolean isAutoFinder) { this.isAutoFinder = isAutoFinder; }
+
+	public int getStatementCacheSize() { return statementCacheSize; }
 }

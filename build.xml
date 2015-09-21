@@ -19,10 +19,6 @@
 	<import file="build-common.xml" />
 	<import file="build-cobertura.xml" />
 
-	<target name="download-dependencies" description="download the code dependencies">
-		<get src="https://github.com/synapticloop/templar/releases/download/v1.0.3/templar.jar" dest="lib/runtime" />
-	</target>
-
 	<target name="dist" description="Build the h2zero distributable">
 		<antcall target="java-build.clean" />
 		<antcall target="java-build.compile" />

@@ -1,0 +1,43 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<style type="text/css">
+* { font-family: monospace; }
+body { width: 800px; margin: 5px auto; }
+h1 { text-align: center; }
+pre { border: 1px solid #efefef; }
+</style>
+</head>
+
+<body>
+	<h1>quick conversion of text to templar format</h1>
+
+	<form>
+		<textarea rows="20" cols="120" id="plaininput"></textarea>
+
+		<p>just click on the button below and away you go!</p>
+
+		<input type="submit" id="convert" name="submit" value="convert">
+	</form>
+
+	<p>the templar formatted output will appear below:
+
+	<pre id="templaroutput"></pre>
+</body>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	// quick 'n' dirty conversion function
+
+	$("#convert").on("click", function() {
+		var plain = $("#plaininput").val();
+		plain = plain.replace(/{/g, "{{");
+		plain = plain.replace(/\n/g, "{\\n}\n");
+		plain = plain.replace(/\t/g, "{\\t}");
+		$("#templaroutput").empty();
+		$("#templaroutput").append(plain);
+		return(false);
+	});
+});
+</script>
+</html>

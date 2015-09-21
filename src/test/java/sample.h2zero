@@ -56,12 +56,17 @@
 			],
 			"finders": [
 				{
-					"name": "findAllOrdered",
+					"name": "findIdUserTitleNmUserTitleOrdered",
 					"selectClause": "select id_user_title, nm_user_title from user_title order by num_order_by",
 					"selectFields": [
 						{ "name": "id_user_title", "type": "bigint" },
 						{ "name": "nm_user_title", "type": "varchar" }
 					],
+					"unique": false
+				},
+				{
+					"name": "findAllOrdered",
+					"orderBy": "num_order_by",
 					"unique": false
 				}
 			]

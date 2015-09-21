@@ -18,7 +18,9 @@ import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
 public class {table.javaClassName}Finder {{{\n}
 {set table as baseSchemaObject}
 {import classpath:/snippet/global/java-binder-declaration.templar}
-{\t}private static final Logger LOGGER = Logger.getLogger({table.javaClassName}Finder.class);{\n}
+
+{set "Finder" as classType}
+{import classpath:/snippet/global/java-logger-declaration.templar}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				FIRST UP THE FIELDS
@@ -45,7 +47,6 @@ public class {table.javaClassName}Finder {{{\n}
 {endloop}
 
 {\t}private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where {primaryFieldName} = ?";{\n}
-{\t}private static final String SQL_BUILTIN_PRIMARY_KEY_EXISTS = "select count(*) from {table.name} where {primaryFieldName} = ?";{\n}
 {\n}
 
 
@@ -69,21 +70,23 @@ public class {table.javaClassName}Finder {{{\n}
 				THE FINDERS FOR THE SELECT CLAUSES CACHES
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
+	{\t}// This is the cache for 'in finders' which have an ellipses (...) in the statement{\n}
 {loop table.finders as finder}
 	{if finder.hasInFields}
-		{\t}private static Map<String, String> {finder.name}_statement_cache = new HashMap<String, String>();{\n}
+		{\t}private static LruCache<String, String> {finder.name}_statement_cache = new LruCache<String, String>({finder.statementCacheSize});{\n}
 	{endif}
 {endloop}
 
-		{\t}private static Map<String, String> findAll_limit_statement_cache = new HashMap<String, String>();{\n}
+		{\t}// now for the statement limit cache(s){\n}
+		{\t}private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>({table.findAllStatementCacheSize});{\n}
 
 {loop table.finders as finder}
-	{if fn:null[finder.selectClause]}
-		{\t}private static Map<String, String> {finder.name}_limit_statement_cache = new HashMap<String, String>();{\n}
-	{endif}
+	{-- if fn:null[finder.selectClause]}
+		{\t}private static LruCache<String, String> {finder.name}_limit_statement_cache = new LruCache<String, String>({finder.statementCacheSize});{\n}
+	{-- endif}
 {endloop}
 
-{\t}private {table.javaClassName}Finder() {{}{\n}{\n}
+{\n}{\t}private {table.javaClassName}Finder() {{}{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				FIND BY PRIMARY KEY
@@ -234,27 +237,75 @@ public class {table.javaClassName}Finder {{{\n}
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {\t}/**{\n}
-{\t} * Find all {table.javaClassName} objects{\n}
+{\t} * Find all UserTitle objects with the passed in connection, with limited{\n}
+{\t} * results starting at a particular offset.{\n}
 {\t} * {\n}
-{\t} * @return a list of all of the {table.javaClassName} objects{\n}
+{\t} * If the limit parameter is null, there will be no limit applied.{\n}
+{\t} * {\n}
+{\t} * If the offset is null, then this will be set to 0{\n}
+{\t} * {\n}
+{\t} * If both limit and offset are null, then no limit and no offset will be applied{\n}
+{\t} * to the statement.{\n}
+{\t} * {\n}
+{\t} * The passed in connection object is usable for transactional SQL statements,{\n}
+{\t} * where the connection has already had a transaction started on it.{\n}
+{\t} * {\n}
+{\t} * If the connection object is null an new connection object will be created {\n}
+{\t} * and closed at the end of the method.{\n}
+{\t} * {\n}
+{\t} * If the connection object is not null, then it will not be closed.{\n}
+{\t} * {\n}
+{\t} * @param connection - the connection object to use (or null if not part of a transaction){\n}
+{\t} * @param limit - the limit for the result set{\n}
+{\t} * @param offset - the offset for the start of the results.{\n}
+{\t} * {\n}
+{\t} * @return a list of all of the UserTitle objects{\n}
 {\t} * {\n}
 {\t} * @throws SQLException if there was an error in the SQL statement{\n}
 {\t} */{\n}
 
-{\t}public static List<{table.javaClassName}> findAll(Integer limit, Integer offset) throws SQLException {{{\n}
+{\t}public static List<{table.javaClassName}> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {{{\n}
 
 			{if options.metrics}
 {\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
 			{endif}
 
+{\t}{\t}// first find the statement that we want{\n}
+{\n}
+{\t}{\t}String cacheKey = limit + ":" + offset;{\n}
+{\t}{\t}if(!findAll_limit_statement_cache.containsKey(cacheKey)) {{{\n}
+{\t}{\t}{\t}// place the cacheKey in the cache for later use{\n}
+{\n}
+{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(SQL_SELECT_START);{\n}
+{\n}
+{\t}{\t}{\t}if(null != limit) {{{\n}
+{\t}{\t}{\t}{\t}stringBuilder.append(" limit ");{\n}
+{\t}{\t}{\t}{\t}stringBuilder.append(limit);{\n}
+{\t}{\t}{\t}}{\n}
+{\n}
+{\t}{\t}{\t}if(null != offset) {{{\n}
+{\t}{\t}{\t}{\t}stringBuilder.append(" offset ");{\n}
+{\t}{\t}{\t}{\t}stringBuilder.append(offset);{\n}
+{\t}{\t}{\t}}{\n}
+{\n}
+{\t}{\t}{\t}findAll_limit_statement_cache.put(cacheKey, stringBuilder.toString());{\n}
+{\t}{\t}}{\n}
+{\n}
+
+{\t}{\t}// now set up the statement{\n}
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\t}{\t}ResultSet resultSet = null;{\n}
-{\t}{\t}Connection connection = null;{\n}
+{\t}{\t}Connection usableConnection = null;{\n}
+{\t}{\t}if(null == connection) {{{\n}
+{\t}{\t}{\t}usableConnection = ConnectionManager.getConnection();{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}usableConnection = connection;{\n}
+{\t}{\t}}{\n}
+
 {\t}{\t}List<{table.javaClassName}> results = new ArrayList<{table.javaClassName}>();{\n}
 {\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_SELECT_START);{\n}
+{\t}{\t}{\t}preparedStatement = usableConnection.prepareStatement(SQL_SELECT_START);{\n}
 {\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 {\t}{\t}{\t}results = list(resultSet);{\n}
 {\t}{\t}} catch(SQLException sqlex) {{{\n}
@@ -268,7 +319,11 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}throw sqlex;{\n}
 {\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
+{\t}{\t}{\t}if(null == connection) {{{\n}
+{\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, null);{\n}
+{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, usableConnection);{\n}
+{\t}{\t}{\t}}{\n}
 {\t}{\t}}{\n}
 {\n}
 
@@ -277,8 +332,21 @@ public class {table.javaClassName}Finder {{{\n}
 {\n}
 
 {\t}public static List<{table.javaClassName}> findAll() throws SQLException {{{\n}
-{\t}{\t}return(findAll(null, null));{\n}
+{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}return(findAll(connection, null, null));{\n}
 {\t}}{\n}
+{\n}
+
+{\t}public static List<{table.javaClassName}> findAll(Connection connection) throws SQLException {{{\n}
+{\t}{\t}return(findAll(connection, null, null));{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{table.javaClassName}> findAll(Integer limit, Integer offset) throws SQLException {{{\n}
+{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}return(findAll(connection, limit, offset));{\n}
+{\t}}{\n}
+{\n}
 
 {\t}public static List<{table.javaClassName}> findAllSilent() {{{\n}
 {\t}{\t}try {{{\n}
@@ -287,6 +355,66 @@ public class {table.javaClassName}Finder {{{\n}
 
 {\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
 {\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(): " + sqlex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}>());{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{table.javaClassName}> findAllSilent(Integer limit, Integer offset) {{{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}return(findAll(limit, offset));{\n}
+{\t}{\t}} catch(SQLException sqlex){{{\n}
+
+{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(): " + sqlex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}>());{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{table.javaClassName}> findAllSilent(Connection connection) {{{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}return(findAll(connection));{\n}
+{\t}{\t}} catch(SQLException sqlex){{{\n}
+
+{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(connection): " + sqlex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}>());{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{-- 
+
+}
+{\t}public static List<{table.javaClassName}> findAllSilent(Connection connection, Integer start, Integer offset) {{{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}return(findAll(connection, start, offset));{\n}
+{\t}{\t}} catch(SQLException sqlex){{{\n}
+
+{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(connection): " + sqlex.getMessage());{\n}
 
 {\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
 {\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}

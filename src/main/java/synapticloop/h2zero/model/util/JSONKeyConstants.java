@@ -71,5 +71,9 @@ public class JSONKeyConstants {
 
 	public static final String SINGLE = "single";
 
+	public static final String FINDER_STATEMENT_CACHE_SIZE = "statementCacheSize";
+
+	public static final String FINDALL_STATEMENT_CACHE_SIZE = "findAllStatementCacheSize";
+
 	private JSONKeyConstants() {}
 }
