@@ -270,6 +270,9 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
 			{endif}
 
+{\t}{\t}boolean hasConnection = (null != connection);{\n}
+{\t}{\t}String statement = null;{\n}
+
 {\t}{\t}// first find the statement that we want{\n}
 {\n}
 {\t}{\t}String cacheKey = limit + ":" + offset;{\n}
@@ -288,24 +291,25 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}{\t}stringBuilder.append(offset);{\n}
 {\t}{\t}{\t}}{\n}
 {\n}
-{\t}{\t}{\t}findAll_limit_statement_cache.put(cacheKey, stringBuilder.toString());{\n}
+{\t}{\t}{\t}statement = stringBuilder.toString();{\n}
+{\t}{\t}{\t}findAll_limit_statement_cache.put(cacheKey, statement);{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}statement = findAll_limit_statement_cache.get(cacheKey);{\n}
 {\t}{\t}}{\n}
 {\n}
 
 {\t}{\t}// now set up the statement{\n}
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\t}{\t}ResultSet resultSet = null;{\n}
-{\t}{\t}Connection usableConnection = null;{\n}
-{\t}{\t}if(null == connection) {{{\n}
-{\t}{\t}{\t}usableConnection = ConnectionManager.getConnection();{\n}
-{\t}{\t}} else {{{\n}
-{\t}{\t}{\t}usableConnection = connection;{\n}
+{\t}{\t}if(connection == null) {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 {\t}{\t}}{\n}
+{\n}
 
 {\t}{\t}List<{table.javaClassName}> results = new ArrayList<{table.javaClassName}>();{\n}
 {\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}preparedStatement = usableConnection.prepareStatement(SQL_SELECT_START);{\n}
+{\t}{\t}{\t}preparedStatement = connection.prepareStatement(statement);{\n}
 {\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 {\t}{\t}{\t}results = list(resultSet);{\n}
 {\t}{\t}} catch(SQLException sqlex) {{{\n}
@@ -319,11 +323,13 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}throw sqlex;{\n}
 {\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}if(null == connection) {{{\n}
+
+{\t}{\t}{\t}if(hasConnection) {{{\n}
 {\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, null);{\n}
 {\t}{\t}{\t}} else {{{\n}
-{\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, usableConnection);{\n}
+{\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
 {\t}{\t}{\t}}{\n}
+
 {\t}{\t}}{\n}
 {\n}
 
@@ -373,7 +379,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}} catch(SQLException sqlex){{{\n}
 
 {\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(): " + sqlex.getMessage());{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(limit, offset): " + sqlex.getMessage());{\n}
 
 {\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
 {\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
@@ -414,7 +420,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}{\t}} catch(SQLException sqlex){{{\n}
 
 {\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(connection): " + sqlex.getMessage());{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(connection, limit, offset): " + sqlex.getMessage());{\n}
 
 {\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
 {\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
