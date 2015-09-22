@@ -8,11 +8,11 @@
 {if finder.hasWhereFieldAliases}
 	{loop finder.whereFields as whereField}
 		, {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-		, Integer offset, Integer limit
 	{endloop}
+	, Integer offset, Integer limit
 {else}
 	{loop finder.uniqueWhereFields as whereField}
 		, {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-		, Integer offset, Integer limit
 	{endloop}
+	, Integer offset, Integer limit
 {endif}

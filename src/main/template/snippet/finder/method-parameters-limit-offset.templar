@@ -1,0 +1,21 @@
+{--
+ This is used to iterate the parameters that are passed to the finder function.
+ It checks whether the finder has an alias, and if so, goes through all of the
+ where fields, not just the unique ones.
+ --}
+
+{set "false" as hasParameters}
+
+{if finder.hasWhereFieldAliases}
+	{loop finder.whereFields as whereField}
+		{set "true" as hasParameters}
+		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
+	{endloop}
+{else}
+	{loop finder.uniqueWhereFields as whereField}
+		{set "true" as hasParameters}
+		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
+	{endloop}
+{endif}
+
+{if fn:=[hasParameters, "true"]}, {endif}Integer limit, Integer offset

@@ -1,0 +1,11 @@
+{if finder.hasWhereFieldAliases}
+	{loop finder.whereFields as whereField}
+		, {whereField.javaName}{if whereField.isInField}List{endif}
+	{endloop}
+{else}
+	{loop finder.uniqueWhereFields as whereField}
+		, {whereField.javaName}{if whereField.isInField}List{endif}
+	{endloop}
+{endif}
+
+, limit, offset

@@ -338,8 +338,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\n}
 
 {\t}public static List<{table.javaClassName}> findAll() throws SQLException {{{\n}
-{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}return(findAll(connection, null, null));{\n}
+{\t}{\t}return(findAll(null, null, null));{\n}
 {\t}}{\n}
 {\n}
 
@@ -349,8 +348,7 @@ public class {table.javaClassName}Finder {{{\n}
 {\n}
 
 {\t}public static List<{table.javaClassName}> findAll(Integer limit, Integer offset) throws SQLException {{{\n}
-{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}return(findAll(connection, limit, offset));{\n}
+{\t}{\t}return(findAll(null, limit, offset));{\n}
 {\t}}{\n}
 {\n}
 
