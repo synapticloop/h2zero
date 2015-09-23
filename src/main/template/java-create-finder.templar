@@ -412,6 +412,7 @@ public class {table.javaClassName}Finder {{{\n}
 {-- 
 
 }
+
 {\t}public static List<{table.javaClassName}> findAllSilent(Connection connection, Integer start, Integer offset) {{{\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}return(findAll(connection, start, offset));{\n}

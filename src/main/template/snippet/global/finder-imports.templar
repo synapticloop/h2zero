@@ -29,7 +29,7 @@ import {database.package}.model.util.Constants;{\n}
 {\n}
 
 {if table.isTable}
-	import {database.package}.model.{table.javaClassName};{\n}
+	import {database.package}.model.{table.javaClassName};{\n}{\n}
 {else}
-	import {database.package}.view.{table.javaClassName};{\n}
+	import {database.package}.view.{table.javaClassName};{\n}{\n}
 {endif}
