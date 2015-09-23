@@ -47,6 +47,9 @@ public class {view.javaClassName}ViewFinder {{{\n}
 {endloop}
 {\n}
 
+{set table as tableOrView}
+
+{import classpath:/snippet/finder/statement-caches.templar}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				FIND ALL
@@ -98,6 +101,9 @@ public class {view.javaClassName}ViewFinder {{{\n}
 {\n}
 
 {set view as tableOrView}
+
 {import classpath:/snippet/finder/user-finders.templar}
+{import classpath:/snippet/finder/user-finders-select-clause.templar}
+
 }
 

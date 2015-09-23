@@ -44,7 +44,6 @@ public class Database {
 		this.packageName = JsonHelper.getStringValue(databaseJson, JSONKeyConstants.PACKAGE, null);
 
 		this.defaultStatementCacheSize = JsonHelper.getIntValue(databaseJson, JSONKeyConstants.DEFAULT_STATEMENT_CACHE_SIZE, 1024);
-		System.out.println(defaultStatementCacheSize);
 
 		if(null == schema) {
 			throw new H2ZeroParseException("You must have a key and value of '" + JSONKeyConstants.SCHEMA + "'.");

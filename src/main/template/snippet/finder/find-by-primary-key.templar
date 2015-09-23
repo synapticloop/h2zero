@@ -1,0 +1,143 @@
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				FIND BY PRIMARY KEY
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{\t}/**{\n}
+{\t} * Find a {tableOrView.javaClassName} by its primary key{\n}
+{\t} * {\n}
+{\t} * @param connection the connection item{\n}
+{\t} * @param {primaryFieldJavaName} the primary key{\n}
+{\t} * {\n}
+{\t} * @return the unique result or throw an exception if one couldn't be found{\n}
+{\t} * {\n}
+{\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
+{\t} */{\n}
+
+{\t}public static {tableOrView.javaClassName} findByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws H2ZeroFinderException {{{\n}
+
+			{if options.metrics}
+{\t}{\t}{tableOrView.javaFieldName}FinderAccess.inc();{\n}
+			{endif}
+
+{\t}{\t}{tableOrView.javaClassName} {tableOrView.javaFieldName} = null;{\n}
+{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+{\t}{\t}ResultSet resultSet = null;{\n}
+{\n}
+{\t}{\t}if(null == {primaryFieldJavaName}) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result as the primary key field [{primaryFieldJavaName}] was null.");{\n}
+{\t}{\t}}{\n}
+{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_FIND_BY_PRIMARY_KEY);{\n}
+{\t}{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
+{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
+{\t}{\t}{\t}{tableOrView.javaFieldName} = uniqueResult(resultSet);{\n}
+{\t}{\t}} catch (SQLException sqlex) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException(sqlex);{\n}
+{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
+{\t}{\t}}{\n}
+{\n}
+{\t}{\t}if(null == {tableOrView.javaFieldName}) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
+{\t}{\t}}{\n}
+{\t}{\t}return({tableOrView.javaFieldName});{\n}
+{\t}}{\n}
+{\n}
+
+{\t}/**{\n}
+{\t} * Find a {tableOrView.javaClassName} by its primary key{\n}
+{\t} * {\n}
+{\t} * @param {primaryFieldJavaName} the primary key{\n}
+{\t} * {\n}
+{\t} * @return the unique result or throw an exception if one coudn't be found.{\n}
+{\t} * {\n}
+{\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
+{\t} */{\n}
+
+{\t}public static {tableOrView.javaClassName} findByPrimaryKey(Long {primaryFieldJavaName}) throws H2ZeroFinderException {{{\n}
+{\t}{\t}{tableOrView.javaClassName} {tableOrView.javaFieldName} = null;{\n}
+{\t}{\t}Connection connection = null;{\n}
+{\n}
+{\t}{\t}if(null == {primaryFieldJavaName}) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result as the primary key field [{primaryFieldJavaName}] was null.");{\n}
+{\t}{\t}}{\n}
+{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}{tableOrView.javaFieldName} = findByPrimaryKey(connection, {primaryFieldJavaName});{\n}
+{\t}{\t}} catch (SQLException sqlex) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException(sqlex);{\n}
+{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+{\t}{\t}}{\n}
+{\n}
+{\t}{\t}if(null == {tableOrView.javaFieldName}) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
+{\t}{\t}}{\n}
+{\t}{\t}return({tableOrView.javaFieldName});{\n}
+{\t}}{\n}
+{\n}
+
+{\t}/**{\n}
+{\t} * Find a {tableOrView.javaClassName} by its primary key and silently fail.{\n}
+{\t} * I.e. Do not throw an exception on error.{\n}
+{\t} * {\n}
+{\t} * @param connection the connection item{\n}
+{\t} * @param {primaryFieldJavaName} the primary key{\n}
+{\t} * {\n}
+{\t} * @return the unique result or null if it couldn't be found{\n}
+{\t} * {\n}
+{\t} */{\n}
+
+{\t}public static {tableOrView.javaClassName} findByPrimaryKeySilent(Connection connection, Long {primaryFieldJavaName}) {{{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}return(findByPrimaryKey(connection, {primaryFieldJavaName}));{\n}
+{\t}{\t}} catch(H2ZeroFinderException h2zfex){{{\n}
+
+{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException findByPrimaryKeySilent(" + {primaryFieldJavaName} + "): " + h2zfex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}return(null);{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{\t}/**{\n}
+{\t} * Find a {tableOrView.javaClassName} by its primary key and silently fail.{\n}
+{\t} * I.e. Do not throw an exception on error.{\n}
+{\t} * {\n}
+{\t} * @param {primaryFieldJavaName} the primary key{\n}
+{\t} * {\n}
+{\t} * @return the unique result or null if it couldn't be found{\n}
+{\t} * {\n}
+{\t} */{\n}
+
+{\t}public static {tableOrView.javaClassName} findByPrimaryKeySilent(Long {primaryFieldJavaName}) {{{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}return(findByPrimaryKey({primaryFieldJavaName}));{\n}
+{\t}{\t}} catch(H2ZeroFinderException h2zfex){{{\n}
+
+{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException findByPrimaryKeySilent(" + {primaryFieldJavaName} + "): " + h2zfex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}return(null);{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}

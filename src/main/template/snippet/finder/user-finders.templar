@@ -357,54 +357,11 @@
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 		) {{{\n}
 
-		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}return({finder.name}(connection
+		{\t}{\t}return({finder.name}Silent(connection
 			{import classpath:/snippet/finder/method-parameters-call-with-connection.templar}
 			, null, null
 		));{\n}
-		{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
-		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-		{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-
-			{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-		): " + h2zfex.getMessage());{\n}
-
-		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-		{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-		{\t}{\t}{\t}{\t}}{\n}
-
-		{\t}{\t}{\t}}{\n}
-
-		{if finder.unique}
-			{\t}{\t}{\t}return(null);{\n}
-		{else}
-			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-		{endif}
-
-		{\t}{\t}} catch(SQLException sqlex) {{{\n}
-
-		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-		{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
-
-			{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-		): " + sqlex.getMessage());{\n}
-
-		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-		{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-		{\t}{\t}{\t}{\t}}{\n}
-
-		{\t}{\t}{\t}}{\n}
-
-		{if finder.unique}
-			{\t}{\t}{\t}return(null);{\n}
-		{else}
-			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-		{endif}
-
-		{\t}{\t}}{\n}
 		{\t}}{\n}
 	{\n}
 
@@ -416,51 +373,10 @@
 			{import classpath:/snippet/finder/method-parameters-limit-offset.templar}
 		) {{{\n}
 
-		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}return({finder.name}(
-			{import classpath:/snippet/finder/method-parameters-call-limit-offset.templar}
+		{\t}{\t}return({finder.name}Silent(null 
+			{import classpath:/snippet/finder/method-parameters-call-with-connection-limit-offset.templar}
 		));{\n}
-		{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
 
-		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-		{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-			{import classpath:/snippet/finder/h2zero-exception-output-silent-limit-offset.templar}
-		): " + h2zfex.getMessage());{\n}
-
-		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-		{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-		{\t}{\t}{\t}{\t}}{\n}
-
-		{\t}{\t}{\t}}{\n}
-
-		{if finder.unique}
-			{\t}{\t}{\t}return(null);{\n}
-		{else}
-			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-		{endif}
-
-		{\t}{\t}} catch(SQLException sqlex) {{{\n}
-
-		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-		{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
-
-			{import classpath:/snippet/finder/h2zero-exception-output-silent-limit-offset.templar}
-
-		): " + sqlex.getMessage());{\n}
-
-		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-		{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-		{\t}{\t}{\t}{\t}}{\n}
-
-		{\t}{\t}{\t}}{\n}
-
-		{if finder.unique}
-			{\t}{\t}{\t}return(null);{\n}
-		{else}
-			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-		{endif}
-
-		{\t}{\t}}{\n}
 
 		{\t}}{\n}
 	{\n}
@@ -471,54 +387,92 @@
 			{import classpath:/snippet/finder/method-parameters.templar}
 		) {{{\n}
 
-		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}return({finder.name}(
-			{import classpath:/snippet/finder/method-parameters-call.templar}
+		{\t}{\t}return({finder.name}Silent(null
+			{import classpath:/snippet/finder/method-parameters-call-with-connection.templar}
+			, null, null
 		));{\n}
-		{\t}{\t}} catch(H2ZeroFinderException h2zfex) {{{\n}
-
-		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-		{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException {finder.name}Silent(
-			{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-		): " + h2zfex.getMessage());{\n}
-
-		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-		{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-		{\t}{\t}{\t}{\t}}{\n}
-
-		{\t}{\t}{\t}}{\n}
-
-		{if finder.unique}
-			{\t}{\t}{\t}return(null);{\n}
-		{else}
-			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-		{endif}
-
-		{\t}{\t}} catch(SQLException sqlex) {{{\n}
-
-		{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-		{\t}{\t}{\t}{\t}LOGGER.warn("SQLException {finder.name}Silent(
-
-			{import classpath:/snippet/finder/h2zero-exception-output-silent.templar}
-
-		): " + sqlex.getMessage());{\n}
-
-		{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-		{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-		{\t}{\t}{\t}{\t}}{\n}
-
-		{\t}{\t}{\t}}{\n}
-
-		{if finder.unique}
-			{\t}{\t}{\t}return(null);{\n}
-		{else}
-			{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-		{endif}
-
-		{\t}{\t}}{\n}
 
 		{\t}}{\n}
 	{\n}
 
 	{endif}
 {endloop}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+				THE BEAN CREATORS
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{\t}/**{\n}
+{\t} * Return a unique result for the query - in effect just the first result of{\n}
+{\t} * query.{\n}
+{\t} * {\n}
+{\t} * @param resultSet The result set of the query{\n}
+{\t} * {\n}
+{\t} * @return The {tableOrView.javaClassName} that represents this result{\n}
+{\t} * {\n}
+{\t} * @throws H2ZeroFinderException if no results were found{\n}
+{\t} * @throws SQLException if there was a problem retrieving the results{\n}
+{\t} */{\n}
+
+{\t}private static {tableOrView.javaClassName} uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
+{\t}{\t}if(resultSet.first()) {{{\n}
+{\t}{\t}{\t}// we have a result{\n}
+{loop tableOrView.fields as field}
+	{\t}{\t}{\t}{field.javaType} {field.javaName} = resultSet.get{field.sqlJavaType}({fieldStatus.index});{\n}
+		{if field.nullable}
+			{\t}{\t}{\t}if(resultSet.wasNull()) {{{\n}
+			{\t}{\t}{\t}{\t}{field.javaName} = null;{\n}
+			{\t}{\t}{\t}}{\n}
+		{endif}
+{endloop}
+{\n}
+{\t}{\t}{\t}{tableOrView.javaClassName} {tableOrView.javaFieldName} = new {tableOrView.javaClassName}({loop tableOrView.fields as field}
+{field.javaName}{if !fieldStatus.last}, {endif}
+{endloop});{\n}
+{\n}
+{\t}{\t}{\t}if(resultSet.next()) {{{\n}
+{\t}{\t}{\t}{\t}throw new H2ZeroFinderException("More than one result in resultset for unique finder.");{\n}
+{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}return({tableOrView.javaFieldName});{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}// could not get a result{\n}
+{\t}{\t}{\t}return(null);{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{\t}/**{\n}
+{\t} * Return the results as a list of {tableOrView.javaClassName}, this will be empty if{\n}
+{\t} * none are found.{\n}
+{\t} * {\n}
+{\t} * @param resultSet the results as a list of {tableOrView.javaClassName}{\n}
+{\t} * {\n}
+{\t} * @return the list of results{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was a problem retrieving the results{\n}
+{\t} */{\n}
+
+{\t}private static List<{tableOrView.javaClassName}> list(ResultSet resultSet) throws SQLException {{{\n}
+{\t}{\t}List<{tableOrView.javaClassName}> arrayList = new ArrayList<{tableOrView.javaClassName}>();{\n}
+{\t}{\t}while(resultSet.next()) {{{\n}
+
+{\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
+
+{loop tableOrView.fields as field}
+		{if field.nullable}
+			{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
+		{else}
+			{\t}{\t}{\t}{\t}{\t}resultSet.get{field.sqlJavaType}({fieldStatus.index})
+		{endif}
+	{if !fieldStatus.last},{\n}{endif}
+{endloop}
+));{\n}
+
+{\t}{\t}}{\n}
+{\t}{\t}return(arrayList);{\n}
+{\t}}{\n}
+{\n}
+

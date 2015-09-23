@@ -70,172 +70,13 @@ public class {table.javaClassName}Finder {{{\n}
 				THE FINDERS FOR THE SELECT CLAUSES CACHES
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
-{set "true" as hasInfield}
-{loop table.finders as finder}
-	{if finder.hasInFields}
-		{if fn:=[hasInfield, "true"]}
-			{\t}// This is the cache for 'in finders' which have an ellipses (...) in the statement{\n}
-			{set "false" as hasInfield}
-		{endif}
+{set table as tableOrView}
 
-		{\t}private static LruCache<String, String> {finder.name}_statement_cache = new LruCache<String, String>({finder.statementCacheSize});{\n}
-	{endif}
-{endloop}
-
-		{\t}// now for the statement limit cache(s){\n}
-		{\t}private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>({table.findAllStatementCacheSize});{\n}
-
-{loop table.finders as finder}
-	{-- if fn:null[finder.selectClause]}
-		{\t}private static LruCache<String, String> {finder.name}_limit_statement_cache = new LruCache<String, String>({finder.statementCacheSize});{\n}
-	{-- endif}
-{endloop}
+{import classpath:/snippet/finder/statement-caches.templar}
 
 {\n}{\t}private {table.javaClassName}Finder() {{}{\n}{\n}
 
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				FIND BY PRIMARY KEY
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
-
-{\t}/**{\n}
-{\t} * Find a {table.javaClassName} by its primary key{\n}
-{\t} * {\n}
-{\t} * @param connection the connection item{\n}
-{\t} * @param {primaryFieldJavaName} the primary key{\n}
-{\t} * {\n}
-{\t} * @return the unique result or throw an exception if one couldn't be found{\n}
-{\t} * {\n}
-{\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
-{\t} */{\n}
-
-{\t}public static {table.javaClassName} findByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws H2ZeroFinderException {{{\n}
-
-			{if options.metrics}
-{\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
-			{endif}
-
-{\t}{\t}{table.javaClassName} {table.javaFieldName} = null;{\n}
-{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-{\t}{\t}ResultSet resultSet = null;{\n}
-{\n}
-{\t}{\t}if(null == {primaryFieldJavaName}) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result as the primary key field [{primaryFieldJavaName}] was null.");{\n}
-{\t}{\t}}{\n}
-{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_FIND_BY_PRIMARY_KEY);{\n}
-{\t}{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
-{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-{\t}{\t}{\t}{table.javaFieldName} = uniqueResult(resultSet);{\n}
-{\t}{\t}} catch (SQLException sqlex) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException(sqlex);{\n}
-{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
-{\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
-{\t}{\t}}{\n}
-{\n}
-{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
-{\t}{\t}}{\n}
-{\t}{\t}return({table.javaFieldName});{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find a {table.javaClassName} by its primary key{\n}
-{\t} * {\n}
-{\t} * @param {primaryFieldJavaName} the primary key{\n}
-{\t} * {\n}
-{\t} * @return the unique result or throw an exception if one coudn't be found.{\n}
-{\t} * {\n}
-{\t} * @throws H2ZeroFinderException if one couldn't be found{\n}
-{\t} */{\n}
-
-{\t}public static {table.javaClassName} findByPrimaryKey(Long {primaryFieldJavaName}) throws H2ZeroFinderException {{{\n}
-{\t}{\t}{table.javaClassName} {table.javaFieldName} = null;{\n}
-{\t}{\t}Connection connection = null;{\n}
-{\n}
-{\t}{\t}if(null == {primaryFieldJavaName}) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result as the primary key field [{primaryFieldJavaName}] was null.");{\n}
-{\t}{\t}}{\n}
-{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}{\t}{table.javaFieldName} = findByPrimaryKey(connection, {primaryFieldJavaName});{\n}
-{\t}{\t}} catch (SQLException sqlex) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException(sqlex);{\n}
-{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
-{\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
-{\t}{\t}}{\n}
-{\n}
-{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
-{\t}{\t}}{\n}
-{\t}{\t}return({table.javaFieldName});{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find a {table.javaClassName} by its primary key and silently fail.{\n}
-{\t} * I.e. Do not throw an exception on error.{\n}
-{\t} * {\n}
-{\t} * @param connection the connection item{\n}
-{\t} * @param {primaryFieldJavaName} the primary key{\n}
-{\t} * {\n}
-{\t} * @return the unique result or null if it couldn't be found{\n}
-{\t} * {\n}
-{\t} */{\n}
-
-{\t}public static {table.javaClassName} findByPrimaryKeySilent(Connection connection, Long {primaryFieldJavaName}) {{{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findByPrimaryKey(connection, {primaryFieldJavaName}));{\n}
-{\t}{\t}} catch(H2ZeroFinderException h2zfex){{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException findByPrimaryKeySilent(" + {primaryFieldJavaName} + "): " + h2zfex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(null);{\n}
-{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find a {table.javaClassName} by its primary key and silently fail.{\n}
-{\t} * I.e. Do not throw an exception on error.{\n}
-{\t} * {\n}
-{\t} * @param {primaryFieldJavaName} the primary key{\n}
-{\t} * {\n}
-{\t} * @return the unique result or null if it couldn't be found{\n}
-{\t} * {\n}
-{\t} */{\n}
-
-{\t}public static {table.javaClassName} findByPrimaryKeySilent(Long {primaryFieldJavaName}) {{{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findByPrimaryKey({primaryFieldJavaName}));{\n}
-{\t}{\t}} catch(H2ZeroFinderException h2zfex){{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("H2ZeroFinderException findByPrimaryKeySilent(" + {primaryFieldJavaName} + "): " + h2zfex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-{\t}{\t}{\t}{\t}{\t}h2zfex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(null);{\n}
-{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
+{import classpath:/snippet/finder/find-by-primary-key.templar}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				FIND ALL
@@ -357,32 +198,23 @@ public class {table.javaClassName}Finder {{{\n}
 {\t}}{\n}
 {\n}
 
-{\t}public static List<{table.javaClassName}> findAllSilent() {{{\n}
+
+
+{--
+
+	FIND ALL SILENT
+
+}
+
+
+
+{\t}public static List<{table.javaClassName}> findAllSilent(Connection connection, Integer limit, Integer offset) {{{\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findAll());{\n}
+{\t}{\t}{\t}return(findAll(connection, limit, offset));{\n}
 {\t}{\t}} catch(SQLException sqlex){{{\n}
 
 {\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(): " + sqlex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}>());{\n}
-{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
-
-{\t}public static List<{table.javaClassName}> findAllSilent(Integer limit, Integer offset) {{{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findAll(limit, offset));{\n}
-{\t}{\t}} catch(SQLException sqlex){{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(limit, offset): " + sqlex.getMessage());{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + sqlex.getMessage());{\n}
 
 {\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
 {\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
@@ -396,49 +228,33 @@ public class {table.javaClassName}Finder {{{\n}
 {\n}
 
 {\t}public static List<{table.javaClassName}> findAllSilent(Connection connection) {{{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findAll(connection));{\n}
-{\t}{\t}} catch(SQLException sqlex){{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(connection): " + sqlex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}>());{\n}
-{\t}{\t}}{\n}
+{\t}{\t}return(findAllSilent(connection, null, null));{\n}
 {\t}}{\n}
 {\n}
+
+{\t}public static List<{table.javaClassName}> findAllSilent(Integer limit, Integer offset) {{{\n}
+{\t}{\t}return(findAllSilent(null, limit, offset));{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{table.javaClassName}> findAllSilent() {{{\n}
+{\t}{\t}return(findAllSilent(null, null, null));{\n}
+{\t}}{\n}
+{\n}
+
+
+
 
 {-- 
 
 }
 
-{\t}public static List<{table.javaClassName}> findAllSilent(Connection connection, Integer start, Integer offset) {{{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findAll(connection, start, offset));{\n}
-{\t}{\t}} catch(SQLException sqlex){{{\n}
 
-{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(connection, limit, offset): " + sqlex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.DEBUG)) {{{\n}
-{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}>());{\n}
-{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
 
 {set table as tableOrView}
+
 {import classpath:/snippet/finder/user-finders.templar}
+
 {import classpath:/snippet/finder/user-finders-select-clause.templar}
 
 }
