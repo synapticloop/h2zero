@@ -42,7 +42,7 @@ public class Finder extends BaseQueryObject {
 
 		this.unique = JsonHelper.getBooleanValue(finderObject, JSONKeyConstants.UNIQUE, unique);
 
-		this.statementCacheSize = JsonHelper.getIntValue(finderObject, JSONKeyConstants.FINDER_STATEMENT_CACHE_SIZE, 1024);
+		this.statementCacheSize = JsonHelper.getIntValue(finderObject, JSONKeyConstants.FINDER_STATEMENT_CACHE_SIZE, baseSchemaObject.getDefaultStatementCacheSize());
 
 		// we may not have any whereFields
 		if(null != whereClause) {

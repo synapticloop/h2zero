@@ -23,8 +23,8 @@ public class View extends BaseSchemaObject {
 
 	private Map<String, BaseField> fieldLookup = new HashMap<String, BaseField>();
 
-	public View(JSONObject jsonObject) throws H2ZeroParseException {
-		super(jsonObject);
+	public View(JSONObject jsonObject, int defaultStatementCacheSize) throws H2ZeroParseException {
+		super(jsonObject, defaultStatementCacheSize);
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
 		this.asClause = JsonHelper.getStringValue(jsonObject, "asClause", null);
 

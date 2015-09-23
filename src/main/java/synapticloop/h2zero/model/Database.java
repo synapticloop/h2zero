@@ -30,6 +30,7 @@ public class Database {
 	private List<Form> forms = new ArrayList<Form>();
 
 	private Set<String> tableNames = new HashSet<String>();
+	private int defaultStatementCacheSize = 1024;
 
 	public Database(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONObject databaseJson = null;
@@ -41,6 +42,9 @@ public class Database {
 
 		this.schema = JsonHelper.getStringValue(databaseJson, JSONKeyConstants.SCHEMA, null);
 		this.packageName = JsonHelper.getStringValue(databaseJson, JSONKeyConstants.PACKAGE, null);
+
+		this.defaultStatementCacheSize = JsonHelper.getIntValue(databaseJson, JSONKeyConstants.DEFAULT_STATEMENT_CACHE_SIZE, 1024);
+		System.out.println(defaultStatementCacheSize);
 
 		if(null == schema) {
 			throw new H2ZeroParseException("You must have a key and value of '" + JSONKeyConstants.SCHEMA + "'.");
@@ -62,7 +66,7 @@ public class Database {
 		for (int i = 0; i < tableJson.length(); i++) {
 			try {
 				JSONObject tableObject = tableJson.getJSONObject(i);
-				Table table = new Table(tableObject);
+				Table table = new Table(tableObject, defaultStatementCacheSize);
 				tables.add(table);
 				tableLookup.put(table.getName(), table);
 			} catch (JSONException jsonex) {
@@ -102,7 +106,7 @@ public class Database {
 		for (int i = 0; i < viewJson.length(); i++) {
 			try {
 				JSONObject viewObject = viewJson.getJSONObject(i);
-				views.add(new View(viewObject));
+				views.add(new View(viewObject, defaultStatementCacheSize));
 			} catch (JSONException jsonex) {
 				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.VIEWS + "' array.", jsonex);
 			}

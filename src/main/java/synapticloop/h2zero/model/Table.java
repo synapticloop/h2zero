@@ -66,10 +66,11 @@ public class Table extends BaseSchemaObject {
 	 * Create a new Table object from the passed in jsonObject.
 	 * 
 	 * @param jsonObject the json object to create the table from.
+	 * @param defaultStatementCacheSize 
 	 * @throws H2ZeroParseException if there was an error parsing the jsonObject
 	 */
-	public Table(JSONObject jsonObject) throws H2ZeroParseException {
-		super(jsonObject);
+	public Table(JSONObject jsonObject, int defaultStatementCacheSize) throws H2ZeroParseException {
+		super(jsonObject, defaultStatementCacheSize);
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.engine = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ENGINE, engine);

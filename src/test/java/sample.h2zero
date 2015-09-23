@@ -15,6 +15,7 @@
 "database": {
 	"schema": "sample",
 	"package": "synapticloop.sample.h2zero",
+	"defaultStatementCacheSize": 1024,
 
 	"tables": [
 		{

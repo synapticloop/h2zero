@@ -35,10 +35,12 @@ public abstract class BaseSchemaObject {
 	protected List<BaseField> fields = new ArrayList<BaseField>();  // a list of all of the fields on this table
 
 	protected Set<String> referencedFieldTypes = new HashSet<String>(); // this is a set of all of the referenced field types
+	private int defaultStatementCacheSize;
 
-	public BaseSchemaObject(JSONObject jsonObject) {
+	public BaseSchemaObject(JSONObject jsonObject, int defaultStatementCacheSize) {
 		this.jsonObject = jsonObject;
-		this.findAllStatementCacheSize = JsonHelper.getIntValue(jsonObject, JSONKeyConstants.FINDALL_STATEMENT_CACHE_SIZE, 1024);
+		this.findAllStatementCacheSize = JsonHelper.getIntValue(jsonObject, JSONKeyConstants.FINDALL_STATEMENT_CACHE_SIZE, defaultStatementCacheSize);
+		this.defaultStatementCacheSize = defaultStatementCacheSize;
 	}
 
 	public abstract boolean getIsTable();
@@ -181,5 +183,6 @@ public abstract class BaseSchemaObject {
 	public List<Finder> getFinders() { return(finders); }
 
 	public int getFindAllStatementCacheSize() { return findAllStatementCacheSize; }
+	public int getDefaultStatementCacheSize() { return defaultStatementCacheSize; }
 
 }

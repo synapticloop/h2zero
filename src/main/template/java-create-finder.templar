@@ -70,9 +70,14 @@ public class {table.javaClassName}Finder {{{\n}
 				THE FINDERS FOR THE SELECT CLAUSES CACHES
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
-	{\t}// This is the cache for 'in finders' which have an ellipses (...) in the statement{\n}
+{set "true" as hasInfield}
 {loop table.finders as finder}
 	{if finder.hasInFields}
+		{if fn:=[hasInfield, "true"]}
+			{\t}// This is the cache for 'in finders' which have an ellipses (...) in the statement{\n}
+			{set "false" as hasInfield}
+		{endif}
+
 		{\t}private static LruCache<String, String> {finder.name}_statement_cache = new LruCache<String, String>({finder.statementCacheSize});{\n}
 	{endif}
 {endloop}
@@ -434,4 +439,6 @@ public class {table.javaClassName}Finder {{{\n}
 
 {set table as tableOrView}
 {import classpath:/snippet/finder/user-finders.templar}
+{import classpath:/snippet/finder/user-finders-select-clause.templar}
+
 }

@@ -1,6 +1,8 @@
 package synapticloop.h2zero.model.util;
 
 public class JSONKeyConstants {
+	private JSONKeyConstants() {}
+
 	public static final String NAME = "name";
 
 	public static final String UNIQUE = "unique";
@@ -71,9 +73,9 @@ public class JSONKeyConstants {
 
 	public static final String SINGLE = "single";
 
+	// cache sizes for various things
 	public static final String FINDER_STATEMENT_CACHE_SIZE = "statementCacheSize";
-
 	public static final String FINDALL_STATEMENT_CACHE_SIZE = "findAllStatementCacheSize";
+	public static final String DEFAULT_STATEMENT_CACHE_SIZE = "defaultStatementCacheSize";
 
-	private JSONKeyConstants() {}
 }

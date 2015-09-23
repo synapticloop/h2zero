@@ -1,9 +1,13 @@
+{set "false" as hasParameters}
+
 {if finder.hasWhereFieldAliases}
 	{loop finder.whereFields as whereField}
+		{set "true" as hasParameters}
 		, {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {else}
 	{loop finder.uniqueWhereFields as whereField}
+		{set "true" as hasParameters}
 		, {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {endif}
