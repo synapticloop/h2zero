@@ -40,6 +40,9 @@ public class {view.javaClassName}ViewFinder {{{\n}
 	{endif}
 {endloop}
 
+{\t}private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where {primaryFieldName} = ?";{\n}
+{\n}
+
 {loop view.finders as finder}
 	{\t}private static final String SQL_{finder.staticName} = SQL_SELECT_START
 	{if fn:notNull[finder.whereClause]} + " {finder.whereClause}"{endif}
@@ -47,63 +50,20 @@ public class {view.javaClassName}ViewFinder {{{\n}
 {endloop}
 {\n}
 
-{set table as tableOrView}
+	{set table as tableOrView}
 
-{import classpath:/snippet/finder/statement-caches.templar}
+	{import classpath:/snippet/finder/statement-caches.templar}
+
+	{import classpath:/snippet/finder/find-by-primary-key.templar}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				FIND ALL
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
-{\t}/**{\n}
-{\t} * Find all {view.javaClassName} objects{\n}
-{\t} * {\n}
-{\t} * @return a list of all of the {view.javaClassName} objects{\n}
-{\t} * {\n}
-{\t} * @throws SQLException if there was an error in the SQL statement{\n}
-{\t} */{\n}
+	{import classpath:/snippet/finder/find-all.templar}
 
-{\t}public static List<{view.javaClassName}> findAll() throws SQLException {{{\n}
+	{import classpath:/snippet/finder/user-finders.templar}
 
-{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-{\t}{\t}ResultSet resultSet = null;{\n}
-{\t}{\t}Connection connection = null;{\n}
-{\t}{\t}List<{view.javaClassName}> results = new ArrayList<{view.javaClassName}>();{\n}
-{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_SELECT_START);{\n}
-{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-{\t}{\t}{\t}results = list(resultSet);{\n}
-{\t}{\t}} catch(SQLException sqlex) {{{\n}
-{\t}{\t}{\t}throw sqlex;{\n}
-{\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
-{\t}{\t}}{\n}
-{\n}
-
-{\t}{\t}return(results);{\n}
-{\t}}{\n}
-{\n}
-
-{\t}public static List<{view.javaClassName}> findAllSilent() {{{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findAll());{\n}
-{\t}{\t}} catch(SQLException sqlex){{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isEnabledFor(Level.WARN)) {{{\n}
-{\t}{\t}{\t}LOGGER.warn("SQLException: " + sqlex.getMessage());{\n}
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(new ArrayList<{view.javaClassName}>());{\n}
-{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
-
-{set view as tableOrView}
-
-{import classpath:/snippet/finder/user-finders.templar}
-{import classpath:/snippet/finder/user-finders-select-clause.templar}
-
+	{import classpath:/snippet/finder/user-finders-select-clause.templar}
 }
 
