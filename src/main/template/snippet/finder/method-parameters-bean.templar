@@ -1,3 +1,0 @@
-{loop finder.uniqueWhereFields as whereField}
-	{if !whereFieldStatus.first}, {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-{endloop}

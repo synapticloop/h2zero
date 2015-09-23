@@ -9,6 +9,9 @@ package {database.package}.finder;{\n}{\n}
 
 {import classpath:/snippet/global/finder-imports.templar}
 
+
+
+
 {if options.metrics}
 import synapticloop.h2zero.base.manager.MetricsManager;{\n}
 import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
@@ -16,65 +19,35 @@ import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
 {endif}
 
 public class {table.javaClassName}Finder {{{\n}
+
 {set table as baseSchemaObject}
+
 {import classpath:/snippet/global/java-binder-declaration.templar}
 
 {set "Finder" as classType}
+
 {import classpath:/snippet/global/java-logger-declaration.templar}
 
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				FIRST UP THE FIELDS
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
-
-{\t}private static final String SQL_SELECT_START = "select 
-{loop table.fields as field}
-	{field.name}
-	{if !fieldStatus.last}, {endif}
-{endloop}
- from {table.name}";{\n}
-
-
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				THE FINDER FIELDS
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
-
-
-{loop table.fields as field}
-	{if field.primary}
-		{set field.name as primaryFieldName}
-		{set field.javaName as primaryFieldJavaName}
-	{endif}
-{endloop}
-
-{\t}private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where {primaryFieldName} = ?";{\n}
-{\n}
-
-
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				THE FINDERS FOR THE SELECT CLAUSES AND NORMAL CLAUSES
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
-
-{loop table.finders as finder}
-	{if fn:null[finder.selectClause]}
-		{\t}private static final String SQL_{finder.staticName} = SQL_SELECT_START
-	{else}
-		{\t}private static final String SQL_{finder.staticName} = "{finder.selectClause}"
-	{endif}
-
-	{if fn:notNull[finder.whereClause]} + " {finder.whereClause}"{endif}
-	{if fn:notNull[finder.orderBy]} + " order by {finder.orderBy}"{endif};{\n}
-{endloop}
-{\n}
-
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				THE FINDERS FOR THE SELECT CLAUSES CACHES
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {set table as tableOrView}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				STATIC SQL STATEMENTS
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{import classpath:/snippet/finder/sql-statements.templar}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				STATEMENT CACHES
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {import classpath:/snippet/finder/statement-caches.templar}
 
 {\n}{\t}private {table.javaClassName}Finder() {{}{\n}{\n}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				FIND BY PRIMARY KEY
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {import classpath:/snippet/finder/find-by-primary-key.templar}
 
@@ -84,18 +57,15 @@ public class {table.javaClassName}Finder {{{\n}
 
 {import classpath:/snippet/finder/find-all.templar}
 
-
-
-
-{-- 
-
-}
-
-
-
-{set table as tableOrView}
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				USER FINDERS
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {import classpath:/snippet/finder/user-finders.templar}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				USER FINDERS SELECT CLAUSE
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {import classpath:/snippet/finder/user-finders-select-clause.templar}
 

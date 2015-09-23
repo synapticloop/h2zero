@@ -1,0 +1,42 @@
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				FIRST UP THE FIELDS
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{\t}private static final String SQL_SELECT_START = "select 
+{loop tableOrView.fields as field}
+	{field.name}
+	{if !fieldStatus.last}, {endif}
+{endloop}
+ from {tableOrView.name}";{\n}
+
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				THE FINDER FIELDS
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{loop tableOrView.fields as field}
+	{if field.primary}
+		{set field.name as primaryFieldName}
+		{set field.javaName as primaryFieldJavaName}
+	{endif}
+{endloop}
+
+{\t}private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where {primaryFieldName} = ?";{\n}
+{\n}
+
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				THE FINDERS FOR THE SELECT CLAUSES AND NORMAL CLAUSES
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{loop tableOrView.finders as finder}
+	{if fn:null[finder.selectClause]}
+		{\t}private static final String SQL_{finder.staticName} = SQL_SELECT_START
+	{else}
+		{\t}private static final String SQL_{finder.staticName} = "{finder.selectClause}"
+	{endif}
+
+	{if fn:notNull[finder.whereClause]} + " {finder.whereClause}"{endif}
+	{if fn:notNull[finder.orderBy]} + " order by {finder.orderBy}"{endif};{\n}
+{endloop}
+{\n}
