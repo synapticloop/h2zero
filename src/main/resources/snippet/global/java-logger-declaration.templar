@@ -1,0 +1,1 @@
+{\t}private static final Logger LOGGER = LogManager.getLogger({table.javaClassName}{classType}.class);{\n}

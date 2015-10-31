@@ -1,0 +1,74 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'net.saliman.cobertura' version '2.2.6'
+	id "org.sonarqube" version "1.0"
+	id "com.jfrog.bintray" version "1.4"
+	id 'application'
+}
+
+group = 'synapticloop'
+archivesBaseName = 'h2zero'
+description = """lightweight ORM generator for mysql, java and optionally jsp/servlets"""
+
+version = 'v1.0.5'
+
+mainClassName = 'synapticloop.h2zero.Main'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+
+jar {
+	manifest {
+		attributes("Main-Class": "synapticloop.h2zero.Main",
+				"Implementation-Version": version)
+	}
+}
+
+cobertura {
+	coverageFormats = [ 'html', 'xml']
+}
+
+test {
+	include '**/*Test.class' 
+	maxParallelForks = 5
+	forkEvery = 50 
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	jcenter()
+}
+
+dependencies {
+	testCompile 'junit:junit:4.11'
+	testCompile 'org.mockito:mockito-all:1.10.19'
+
+	compile 'synapticloop:templar:v1.0.5'
+	compile 'org.json:json:20150729'
+	compile 'org.apache.ant:ant:1.9.6'
+	compile 'javax.servlet.jsp:jsp-api:2.2'
+	compile 'javax.servlet:javax.servlet-api:3.1.0'
+	compile 'com.mchange:c3p0:0.9.5.1'
+	compile 'commons-validator:commons-validator:1.4.1'
+	compile 'org.apache.logging.log4j:log4j-core:2.4.1'
+	compile 'io.dropwizard.metrics:metrics-core:3.1.2'
+	compile 'javax.mail:javax.mail-api:1.5.4'
+
+	runtime 'synapticloop:templar:v1.0.5'
+	runtime 'org.json:json:20150729'
+	runtime 'com.mchange:c3p0:0.9.5.1'
+	runtime 'commons-validator:commons-validator:1.4.1'
+	runtime 'org.apache.logging.log4j:log4j-core:2.4.1'
+	runtime 'io.dropwizard.metrics:metrics-core:3.1.2'
+	runtime 'javax.mail:javax.mail-api:1.5.4'
+}
+
+task(dist).dependsOn( [ 'cobertura', 'jar' ] )
+
+task(testMain, dependsOn: jar, type: JavaExec ) {
+	main = 'synapticloop.h2zero.Main'
+	classpath = sourceSets.main.runtimeClasspath
+}

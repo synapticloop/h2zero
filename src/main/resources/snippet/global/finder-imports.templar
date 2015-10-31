@@ -1,0 +1,35 @@
+import java.sql.Connection;{\n}
+import java.sql.PreparedStatement;{\n}
+import java.sql.ResultSet;{\n}
+import java.sql.SQLException;{\n}
+
+{if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
+{if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
+{if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
+{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
+
+import java.util.List;{\n}
+import java.util.ArrayList;{\n}
+{\n}
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
+import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import synapticloop.h2zero.util.LruCache;{\n}
+
+{\n}
+import org.apache.logging.log4j.LogManager;{\n}
+import org.apache.logging.log4j.Logger;{\n}
+{\n}
+import {database.package}.model.util.Constants;{\n}
+
+{loop table.finders as finder}
+	{if fn:notNull[finder.selectClause]}
+		import {database.package}.bean.{finder.tagName}Bean;{\n}
+	{endif}
+{endloop}
+{\n}
+
+{if table.isTable}
+	import {database.package}.model.{table.javaClassName};{\n}{\n}
+{else}
+	import {database.package}.view.{table.javaClassName};{\n}{\n}
+{endif}

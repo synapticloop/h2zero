@@ -26,9 +26,10 @@ public abstract class ValidatorBase {
 	/**
 	 * Determine whether the field is valid with a confirmation field presented as well
 	 * 
-	 * @param field
-	 * @param fieldConfirm
-	 * @return
+	 * @param field the field to validate
+	 * @param fieldConfirm the confirm field to validate
+	 * 
+	 * @return whether the field and the confirm field are the same
 	 */
 	public boolean isValidConfirm(String field, String fieldConfirm) {
 		String tempField = convertToNullIfEmpty(field);

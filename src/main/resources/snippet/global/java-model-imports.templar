@@ -1,0 +1,18 @@
+import java.sql.Connection;{\n}
+import java.sql.PreparedStatement;{\n}
+import java.sql.ResultSet;{\n}
+import java.sql.SQLException;{\n}
+{if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
+{if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
+{if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
+{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
+{\n}
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
+import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+{\n}
+import org.apache.logging.log4j.LogManager;{\n}
+import org.apache.logging.log4j.Logger;{\n}
+{\n}
+import {database.package}.model.util.Constants;{\n}
+
+{\n}

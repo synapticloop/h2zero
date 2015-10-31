@@ -9,3 +9,5 @@ src/test/java/insityou.h2zero
 build-sonar.xml
 dist/
 src/test/java/*Test.java
+target/
+/bin/

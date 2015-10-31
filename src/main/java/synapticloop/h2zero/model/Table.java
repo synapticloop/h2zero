@@ -66,7 +66,7 @@ public class Table extends BaseSchemaObject {
 	 * Create a new Table object from the passed in jsonObject.
 	 * 
 	 * @param jsonObject the json object to create the table from.
-	 * @param defaultStatementCacheSize 
+	 * @param defaultStatementCacheSize the default statement cache size 
 	 * @throws H2ZeroParseException if there was an error parsing the jsonObject
 	 */
 	public Table(JSONObject jsonObject, int defaultStatementCacheSize) throws H2ZeroParseException {
@@ -115,7 +115,7 @@ public class Table extends BaseSchemaObject {
 	 *    <li>questsions</li>
 	 *  </ul>
 	 * 
-	 * @throws H2ZeroParseException
+	 * @throws H2ZeroParseException if there was an error parsing the jsonObject
 	 */
 	public void populateActions() throws H2ZeroParseException {
 		populateFieldFinders(jsonObject);

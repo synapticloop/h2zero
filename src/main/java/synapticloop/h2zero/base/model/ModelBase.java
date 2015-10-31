@@ -45,7 +45,6 @@ public abstract class ModelBase {
 	/**
 	 * Persist the model object to the database
 	 * 
-	 * @param connection the SQL connection to be used
 	 * @throws SQLException if there was an error in the SQL expression
 	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
 	 */

@@ -38,8 +38,6 @@ public abstract class BaseValidator {
 	 * unless over-ridden by the child class.
 	 * 
 	 * @param optionsObject the options for the validator
-	 * 
-	 * @return whether the options are correct for this validator.
 	 */
 	public void parseAndValidateOptions(JSONObject optionsObject) {
 	}

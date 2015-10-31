@@ -5,14 +5,14 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import synapticloop.h2zero.util.JsonHelper;
 
 public abstract class BaseFormField {
-	private static final Logger LOGGER = Logger.getLogger(BaseFormField.class);
+	private static final Logger LOGGER = LogManager.getLogger(BaseFormField.class);
 
 	// the name of the field to that is bound - i.e. <input type="text" name="firstname" />
 	// the input attribute of 'name'
@@ -79,7 +79,7 @@ public abstract class BaseFormField {
 		// now we need to check that the default value falls within the allowable values
 		if(null != defaultValue && 
 				!allowableValues.contains(defaultValue)) {
-			if(LOGGER.isEnabledFor(Level.WARN)) {
+			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("Default value of '" + defaultValue + "' is not within the allowable values list of '" + allowableValuesString + "', ignoring.");
 			}
 			this.defaultValue = null;
@@ -93,7 +93,7 @@ public abstract class BaseFormField {
 				this.onlyIfFieldName = splitter[0];
 				this.onlyIfFieldValue = splitter[1];
 			} else {
-				if(LOGGER.isEnabledFor(Level.WARN)) {
+				if(LOGGER.isWarnEnabled()) {
 					LOGGER.warn("The 'onlyif' value of '" + onlyIf + "' could not be parsed, ignoring.");
 				}
 			}
@@ -117,6 +117,8 @@ public abstract class BaseFormField {
 	/**
 	 * Whether this field passes whether it is null (including empty strings or
 	 * whitespace only) and is allowed to be null.
+	 * 
+	 * @return whether the field passes the default checks
 	 */
 	protected boolean passesDefaultChecks() {
 		if(null == value || value.length() == 0) {

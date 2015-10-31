@@ -1,0 +1,165 @@
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		PACKAGE DECLARATION, IMPORT STATEMENTS AND CLASS DEFINITION
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+package {database.package}.util;{\n}{\n}
+
+import java.sql.Connection;{\n}
+import java.sql.DatabaseMetaData;{\n}
+import java.sql.ResultSet;{\n}
+import java.sql.SQLException;{\n}
+import java.util.HashMap;{\n}
+import java.util.HashSet;{\n}
+import java.util.Map;{\n}
+import java.util.Set;{\n}
+import java.util.Iterator;{\n}
+{\n}
+import org.apache.logging.log4j.Logger;{\n}
+import org.apache.logging.log4j.LogManager;{\n}
+
+{\n}
+import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+
+public class DatabaseCheckerHelper {{{\n}
+{\t}private static final Logger LOGGER = LogManager.getLogger(DatabaseCheckerHelper.class);{\n}{\n}
+{\t}private Set<String> allTables = new HashSet<String>();{\n}
+{\t}private Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();{\n}{\n}
+
+{\t}private static final String[] ALL_TABLE_NAMES = {{ 
+{loop database.tables as table}
+	"{table.name}"{if !tableStatus.last}, {endif}
+{endloop}
+ };{\n}
+
+{\t}private static final String[] ALL_TABLE_FIELD_NAMES = {{ 
+{loop database.tables as table}
+	{loop table.fields as field}
+		"{table.name}.{field.name}"
+		{if !tableStatus.last}, {else}
+			{if !fieldStatus.last}, {endif}
+		{endif}
+	{endloop}
+	{\n}{\t}{\t}{\t}
+{endloop}
+ };{\n}{\n}
+
+{\t}private void initialiseDataStructures() {{{\n}
+{\t}{\t}for (int i = 0; i < ALL_TABLE_NAMES.length; i++) {{{\n}
+{\t}{\t}{\t}String allTableName = ALL_TABLE_NAMES[i];{\n}
+{\t}{\t}{\t}allTables.add(allTableName);{\n}
+{\t}{\t}}{\n}{\n}
+
+{\t}{\t}for (int i = 0; i < ALL_TABLE_FIELD_NAMES.length; i++) {{{\n}
+{\t}{\t}{\t}String allTableFieldName = ALL_TABLE_FIELD_NAMES[i];{\n}
+{\t}{\t}{\t}String[] split = allTableFieldName.split("\\.");{\n}
+{\t}{\t}{\t}String table = split[0];{\n}
+{\t}{\t}{\t}String field = split[1];{\n}
+{\t}{\t}{\t}if(allTableFields.containsKey(table)) {{{\n}
+{\t}{\t}{\t}{\t}allTableFields.get(table).add(field);{\n}
+{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}Set<String> hashSet = new HashSet<String>();{\n}
+{\t}{\t}{\t}{\t}hashSet.add(field);{\n}
+{\t}{\t}{\t}{\t}allTableFields.put(table, hashSet);{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{\t}private boolean areTablesCorrect() {{{\n}
+{\t}{\t}boolean isDatabaseCorrect = true;{\n}
+{\t}{\t}Connection connection = null;{\n}
+{\t}{\t}ResultSet tablesResultSet = null;{\n}
+{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}DatabaseMetaData databaseMetaData = connection.getMetaData();{\n}
+{\t}{\t}{\t}tablesResultSet = databaseMetaData.getTables("macdaddy", null, "%", new String[] {{ "TABLE" });{\n}
+{\t}{\t}{\t}while(tablesResultSet.next()) {{{\n}
+{\t}{\t}{\t}{\t}String tableName = tablesResultSet.getString("TABLE_NAME");{\n}
+{\t}{\t}{\t}{\t}if(allTables.contains(tableName)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}LOGGER.info("Table '" + tableName + "' exists in the h2zero file and in the database.");{\n}
+{\t}{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}{\t}LOGGER.fatal("Table '" + tableName + "' exists in the database but not in the h2zero file.");{\n}
+{\t}{\t}{\t}{\t}{\t}LOGGER.fatal("SQL COMMAND -> DROP TABLE " + tableName + ";");{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}{\t}allTables.remove(tableName);{\n}
+{\t}{\t}{\t}}{\n}
+{\n}
+{\t}{\t}{\t}// now go through the tableNames and see what is left...{\n}
+{\t}{\t}{\t}Iterator<String> allTablesIterator = allTables.iterator();{\n}
+{\t}{\t}{\t}while (allTablesIterator.hasNext()) {{{\n}
+{\t}{\t}{\t}{\t}String tableName = allTablesIterator.next();{\n}
+{\t}{\t}{\t}{\t}LOGGER.fatal("Table '" + tableName + "' exists in the h2zero file, but not in the database.");{\n}
+{\t}{\t}{\t}{\t}LOGGER.fatal("SQL COMMAND -> CREATE TABLE " + tableName + ";");{\n}
+{\t}{\t}{\t}{\t}// now we need to remove this from the all table fields lookup as it won't be found and we will get spurious{\n}
+{\t}{\t}{\t}{\t}// errors{\n}
+{\t}{\t}{\t}{\t}allTableFields.remove(tableName);{\n}
+{\t}{\t}{\t}{\t}isDatabaseCorrect = false;{\n}
+{\t}{\t}{\t}}{\n}
+{\n}
+{\t}{\t}} catch (SQLException sqlex) {{{\n}
+{\t}{\t}{\t}// do nothing{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}ConnectionManager.closeAll(tablesResultSet, null, connection);{\n}
+{\t}{\t}}{\n}
+{\n}
+{\t}{\t}return(isDatabaseCorrect);{\n}
+{\t}}{\n}
+{\n}
+{\t}private boolean areTableFieldsCorrect() {{{\n}
+{\t}{\t}boolean isDatabaseCorrect = true;{\n}
+{\t}{\t}// now it is time to check all of the fields for all of the tables{\n}
+{\t}{\t}Connection connection = null;{\n}
+{\t}{\t}ResultSet columns = null;{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}DatabaseMetaData databaseMetaData = connection.getMetaData();{\n}
+{\t}{\t}{\t}columns = databaseMetaData.getColumns("macdaddy", null, "%", "%");{\n}
+{\t}{\t}{\t}while(columns.next()) {{{\n}
+{\t}{\t}{\t}{\t}String tableName = columns.getString("TABLE_NAME");{\n}
+{\t}{\t}{\t}{\t}String columnName = columns.getString("COLUMN_NAME");{\n}
+{\n}
+{\t}{\t}{\t}{\t}// this will be picked up by the previous check{\n}
+{\t}{\t}{\t}{\t}if(allTableFields.containsKey(tableName)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}if(allTableFields.get(tableName).contains(columnName)) {{{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}LOGGER.info("table.field '" + tableName + "." + columnName + "' exists in the h2zero file and in the database.");{\n}
+{\t}{\t}{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}LOGGER.fatal("table.field '" + tableName + "." + columnName + "' exists in the h2zero file, but not in the database.");{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}LOGGER.fatal("SQL COMMAND -> ALTER TABLE " + tableName + " ADD COLUMN " + columnName + ";");{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}isDatabaseCorrect = false;{\n}
+{\t}{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}{\t}{\t}allTableFields.get(tableName).remove(columnName);{\n}
+{\t}{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}{\t}LOGGER.warn("Refusing to check '" + tableName + "." + columnName + "' as the table does not exist in the database.");{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}}{\n}
+{\n}
+{\t}{\t}{\t}// now go through everything that is left{\n}
+{\t}{\t}{\t}Iterator<String> allTableFieldsIterator = allTableFields.keySet().iterator();{\n}
+{\t}{\t}{\t}while (allTableFieldsIterator.hasNext()) {{{\n}
+{\t}{\t}{\t}{\t}String tableName = allTableFieldsIterator.next();{\n}
+{\t}{\t}{\t}{\t}Set<String> hashSet = allTableFields.get(tableName);{\n}
+{\t}{\t}{\t}{\t}Iterator<String> iterator = hashSet.iterator();{\n}
+{\t}{\t}{\t}{\t}while (iterator.hasNext()) {{{\n}
+{\t}{\t}{\t}{\t}{\t}String columnName = iterator.next();{\n}
+{\t}{\t}{\t}{\t}{\t}LOGGER.fatal("SQL COMMAND -> ALTER TABLE " + tableName + " DROP COLUMN " + columnName + ";");{\n}
+{\t}{\t}{\t}{\t}{\t}isDatabaseCorrect = false;{\n}
+{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}} catch (SQLException sqlex) {{{\n}
+{\t}{\t}{\t}// do nothing{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}ConnectionManager.closeAll(columns, null, connection);{\n}
+{\t}{\t}}{\n}
+{\n}
+{\t}{\t}return(isDatabaseCorrect);{\n}
+{\t}}{\n}
+{\n}
+{\t}public boolean isDatabaseCorrect() {{{\n}
+{\t}{\t}initialiseDataStructures();{\n}
+{\t}{\t}return(areTablesCorrect() && areTableFieldsCorrect());{\n}
+{\t}}{\n}
+{\n}
+
+}{\n}

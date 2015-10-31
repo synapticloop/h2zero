@@ -64,9 +64,11 @@ public abstract class Generator {
 	/**
 	 * A convenience method to keep track of the number of files rendered
 	 * 
-	 * @param templarParser
-	 * @param pathname
-	 * @throws RenderException
+	 * @param templarContext the templar context
+	 * @param templarParser the templar parser
+	 * @param pathname the pathname of the file to render to
+	 * 
+	 * @throws RenderException if there was an error rendering the file
 	 */
 	protected void renderToFile(TemplarContext templarContext, Parser templarParser, String pathname) throws RenderException {
 		if(verbose) {

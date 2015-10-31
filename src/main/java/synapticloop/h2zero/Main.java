@@ -1,5 +1,10 @@
 package synapticloop.h2zero;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 
 /*
  * Copyright (c) 2012-2015 synapticloop.
@@ -20,30 +25,32 @@ package synapticloop.h2zero;
  */
 
 public class Main {
+	private static final String USAGE_TXT = "/usage.txt";
+
 	/**
 	 * Simple usage message
 	 */
 
 	private Main() {}
 
-	private static void usage() {
-		System.out.println("This can no longer be run from the command line - please use the following in your ant build scripts:\n\n");
+	private static void usage() throws IOException {
+		InputStream inputStream = Main.class.getResourceAsStream(USAGE_TXT);
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+		String line = null;
+		while((line = bufferedReader.readLine()) != null) {
+			System.out.println(line);
+		}
+	}
 
-		System.out.println("\t<path id=\"classpath-h2zero\">");
-		System.out.println("\t\t<fileset dir=\"lib/compile\">");
-		System.out.println("\t\t\t<include name=\"*.jar\"/>");
-		System.out.println("\t\t</fileset>");
-		System.out.println("\t</path>");
-		System.out.println("\t");
-		System.out.println("\t<target name=\"h2zero\" description=\"h2zero generate\">");
-		System.out.println("\t\t<taskdef resource=\"h2zero.properties\" classpathref=\"classpath-h2zero\" />");
-		System.out.println("\t\t<h2zero in=\"src/main/java/your_file_name_here.h2zero\" outDir=\".\" verbose=\"false\" />");
-		System.out.println("\t</target>\n");
-
-		System.out.println("Exiting...");
+	private static void parseParamaters(String[] args) {
 	}
 
 	public static void main(String[] args) {
-		usage();
+//		parseParamaters(args);
+		try {
+			usage();
+		} catch (IOException ex) {
+			System.err.println("FATAL!!! could not find the file '" + USAGE_TXT + "' within the jar for reading");
+		}
 	}
 }

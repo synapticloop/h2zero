@@ -1,0 +1,159 @@
+{\t}/**{\n}
+{\t} * Find all UserTitle objects with the passed in connection, with limited{\n}
+{\t} * results starting at a particular offset.{\n}
+{\t} * {\n}
+{\t} * If the limit parameter is null, there will be no limit applied.{\n}
+{\t} * {\n}
+{\t} * If the offset is null, then this will be set to 0{\n}
+{\t} * {\n}
+{\t} * If both limit and offset are null, then no limit and no offset will be applied{\n}
+{\t} * to the statement.{\n}
+{\t} * {\n}
+{\t} * The passed in connection object is usable for transactional SQL statements,{\n}
+{\t} * where the connection has already had a transaction started on it.{\n}
+{\t} * {\n}
+{\t} * If the connection object is null an new connection object will be created {\n}
+{\t} * and closed at the end of the method.{\n}
+{\t} * {\n}
+{\t} * If the connection object is not null, then it will not be closed.{\n}
+{\t} * {\n}
+{\t} * @param connection - the connection object to use (or null if not part of a transaction){\n}
+{\t} * @param limit - the limit for the result set{\n}
+{\t} * @param offset - the offset for the start of the results.{\n}
+{\t} * {\n}
+{\t} * @return a list of all of the UserTitle objects{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the SQL statement{\n}
+{\t} */{\n}
+
+{\t}public static List<{tableOrView.javaClassName}> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {{{\n}
+
+			{if options.metrics}
+{\t}{\t}{tableOrView.javaFieldName}FinderAccess.inc();{\n}
+			{endif}
+
+{\t}{\t}boolean hasConnection = (null != connection);{\n}
+{\t}{\t}String statement = null;{\n}
+
+{\t}{\t}// first find the statement that we want{\n}
+{\n}
+{\t}{\t}String cacheKey = limit + ":" + offset;{\n}
+{\t}{\t}if(!findAll_limit_statement_cache.containsKey(cacheKey)) {{{\n}
+{\t}{\t}{\t}// place the cacheKey in the cache for later use{\n}
+{\n}
+{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(SQL_SELECT_START);{\n}
+{\n}
+{\t}{\t}{\t}if(null != limit) {{{\n}
+{\t}{\t}{\t}{\t}stringBuilder.append(" limit ");{\n}
+{\t}{\t}{\t}{\t}stringBuilder.append(limit);{\n}
+{\t}{\t}{\t}}{\n}
+{\n}
+{\t}{\t}{\t}if(null != offset) {{{\n}
+{\t}{\t}{\t}{\t}stringBuilder.append(" offset ");{\n}
+{\t}{\t}{\t}{\t}stringBuilder.append(offset);{\n}
+{\t}{\t}{\t}}{\n}
+{\n}
+{\t}{\t}{\t}statement = stringBuilder.toString();{\n}
+{\t}{\t}{\t}findAll_limit_statement_cache.put(cacheKey, statement);{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}statement = findAll_limit_statement_cache.get(cacheKey);{\n}
+{\t}{\t}}{\n}
+{\n}
+
+{\t}{\t}// now set up the statement{\n}
+{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+{\t}{\t}ResultSet resultSet = null;{\n}
+{\t}{\t}if(connection == null) {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}}{\n}
+{\n}
+
+{\t}{\t}List<{tableOrView.javaClassName}> results = new ArrayList<{tableOrView.javaClassName}>();{\n}
+{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}preparedStatement = connection.prepareStatement(statement);{\n}
+{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
+{\t}{\t}{\t}results = list(resultSet);{\n}
+{\t}{\t}} catch(SQLException sqlex) {{{\n}
+{\t}{\t}{\t}if(LOGGER.isWarnEnabled()) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAll(): " + sqlex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
+{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}throw sqlex;{\n}
+{\t}{\t}} finally {{{\n}
+
+{\t}{\t}{\t}if(hasConnection) {{{\n}
+{\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, null);{\n}
+{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
+{\t}{\t}{\t}}{\n}
+
+{\t}{\t}}{\n}
+{\n}
+
+{\t}{\t}return(results);{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{tableOrView.javaClassName}> findAll() throws SQLException {{{\n}
+{\t}{\t}return(findAll(null, null, null));{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{tableOrView.javaClassName}> findAll(Connection connection) throws SQLException {{{\n}
+{\t}{\t}return(findAll(connection, null, null));{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{tableOrView.javaClassName}> findAll(Integer limit, Integer offset) throws SQLException {{{\n}
+{\t}{\t}return(findAll(null, limit, offset));{\n}
+{\t}}{\n}
+{\n}
+
+
+
+{--
+
+	FIND ALL SILENT
+
+}
+
+
+
+{\t}public static List<{tableOrView.javaClassName}> findAllSilent(Connection connection, Integer limit, Integer offset) {{{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}return(findAll(connection, limit, offset));{\n}
+{\t}{\t}} catch(SQLException sqlex){{{\n}
+
+{\t}{\t}{\t}if(LOGGER.isWarnEnabled()) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + sqlex.getMessage());{\n}
+
+{\t}{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
+{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}}{\n}
+
+{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{tableOrView.javaClassName}> findAllSilent(Connection connection) {{{\n}
+{\t}{\t}return(findAllSilent(connection, null, null));{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{tableOrView.javaClassName}> findAllSilent(Integer limit, Integer offset) {{{\n}
+{\t}{\t}return(findAllSilent(null, limit, offset));{\n}
+{\t}}{\n}
+{\n}
+
+{\t}public static List<{tableOrView.javaClassName}> findAllSilent() {{{\n}
+{\t}{\t}return(findAllSilent(null, null, null));{\n}
+{\t}}{\n}
+{\n}
