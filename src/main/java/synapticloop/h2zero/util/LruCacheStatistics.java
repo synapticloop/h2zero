@@ -1,5 +1,11 @@
 package synapticloop.h2zero.util;
 
+/**
+ * Light-weight POJO for cache statistics gathering
+ * 
+ * @author synapticloop
+ *
+ */
 public class LruCacheStatistics {
 	private int size = 0;
 	private int putCount = 0;
@@ -7,6 +13,12 @@ public class LruCacheStatistics {
 	private int hitCount = 0;
 	private int missCount = 0;
 
+	/**
+	 * Create a new statistics object with a particular size that should match
+	 * the size of the cache
+	 * 
+	 * @param size the size of the cache
+	 */
 	public LruCacheStatistics(int size) {
 		this.size = size;
 	}

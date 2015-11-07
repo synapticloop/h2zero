@@ -29,14 +29,14 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 import synapticloop.h2zero.H2ZeroParser;
-import synapticloop.h2zero.ant.generator.AdminPagesGenerator;
-import synapticloop.h2zero.ant.generator.Generator;
-import synapticloop.h2zero.ant.generator.JavaGenerator;
-import synapticloop.h2zero.ant.generator.MetricsGenerator;
-import synapticloop.h2zero.ant.generator.SqlGenerator;
-import synapticloop.h2zero.ant.generator.TaglibGenerator;
-import synapticloop.h2zero.ant.generator.UtilGenerator;
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.generator.AdminPagesGenerator;
+import synapticloop.h2zero.generator.Generator;
+import synapticloop.h2zero.generator.JavaGenerator;
+import synapticloop.h2zero.generator.MetricsGenerator;
+import synapticloop.h2zero.generator.SqlGenerator;
+import synapticloop.h2zero.generator.TaglibGenerator;
+import synapticloop.h2zero.generator.UtilGenerator;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
@@ -61,7 +61,7 @@ public class H2ZeroTask extends Task {
 	@Override
 	public void execute() throws BuildException {
 		if(!areParametersCorrect()) {
-			return;
+			throw new BuildException("Passed in parameters are incorrect.");
 		}
 
 		// otherwise we are good to go
@@ -86,8 +86,7 @@ public class H2ZeroTask extends Task {
 			templarContext.add("options", options);
 
 			if(!options.hasGenerators()) {
-				getProject().log("FATAL: You have not defined an 'options' section, and therefore no generators will be executed. Exiting...");
-				return;
+				throw new BuildException("FATAL: You have not defined an 'options' section, and therefore no generators will be executed. Exiting...");
 			}
 
 			// the JSPs
@@ -107,20 +106,17 @@ public class H2ZeroTask extends Task {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2zeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
-			h2zpex.printStackTrace();
-			return;
+			throw new BuildException(h2zpex);
 		} catch (synapticloop.templar.exception.ParseException pex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2zeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "  " + pex.getMessage());
-			pex.printStackTrace();
-			return;
+			throw new BuildException(pex);
 		} catch (RenderException rex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "RenderException: There was an error rendering the '" + h2zeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "  " + rex.getMessage());
-			rex.printStackTrace();
-			return;
+			throw new BuildException(rex);
 		}
 
 		logSummaryInformation(h2zeroParser);
@@ -169,19 +165,34 @@ public class H2ZeroTask extends Task {
 
 	private boolean areParametersCorrect() {
 		if(null == outDir || null == inFile) {
-			getProject().log("Both attributes 'inFile' and 'outDir' are required, exiting...", Project.MSG_ERR);
+			String message = "Both attributes 'inFile' and 'outDir' are required, exiting...";
+			if(null != getProject()) {
+				getProject().log(message, Project.MSG_ERR);
+			} else {
+				SimpleLogger.logFatal(LoggerType.H2ZERO_GENERATE, message);
+			}
 			return(false);
 		}
 
 		h2zeroFile = new File(inFile);
 		if(!h2zeroFile.exists()|| !h2zeroFile.canRead()) {
-			getProject().log("h2zero file 'inFile': '" + inFile + "' does not exist, or is not readable, exiting...", Project.MSG_ERR);
+			String message = "h2zero file 'inFile': '" + inFile + "' does not exist, or is not readable, exiting...";
+			if(null != getProject()) {
+				getProject().log(message, Project.MSG_ERR);
+			} else {
+				SimpleLogger.logFatal(LoggerType.H2ZERO_GENERATE, message);
+			}
 			return(false);
 		}
 
 		outFile = new File(outDir);
 		if(!outFile.exists() || !outFile.isDirectory()) {
-			getProject().log("'outDir': '" + outDir + "' does not exists or is not a directory, exiting...", Project.MSG_ERR);
+			String message = "'outDir': '" + outDir + "' does not exists or is not a directory, exiting...";
+			if(null != getProject()) {
+				getProject().log(message, Project.MSG_ERR);
+			} else {
+				SimpleLogger.logFatal(LoggerType.H2ZERO_GENERATE, message);
+			}
 			return(false);
 		}
 

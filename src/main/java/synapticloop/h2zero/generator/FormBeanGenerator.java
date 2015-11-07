@@ -1,4 +1,4 @@
-package synapticloop.h2zero.ant.generator;
+package synapticloop.h2zero.generator;
 
 import java.io.File;
 import java.util.Iterator;
@@ -65,7 +65,6 @@ public class FormBeanGenerator extends Generator {
 				renderToFile(templarContext, javaCreateFormBeanParser, pathname);
 			}
 		}
-
 	}
 
 }

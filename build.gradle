@@ -4,20 +4,54 @@ plugins {
 	id 'net.saliman.cobertura' version '2.2.6'
 	id "org.sonarqube" version "1.0"
 	id "com.jfrog.bintray" version "1.4"
-	id 'application'
+	id "maven"
+	id "maven-publish"
 }
 
 group = 'synapticloop'
 archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql, java and optionally jsp/servlets"""
-
 version = 'v1.0.5'
-
-mainClassName = 'synapticloop.h2zero.Main'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
+repositories {
+	mavenLocal()
+	mavenCentral()
+	jcenter()
+}
+
+dependencies {
+	runtime 'synapticloop:templar:v1.0.5'
+	runtime 'org.json:json:20150729'
+	runtime 'com.mchange:c3p0:0.9.5.1'
+	runtime 'commons-validator:commons-validator:1.4.1'
+	runtime 'org.apache.logging.log4j:log4j-core:2.4.1'
+	runtime 'io.dropwizard.metrics:metrics-core:3.1.2'
+	runtime 'javax.mail:javax.mail-api:1.5.4'
+
+	compile 'synapticloop:templar:v1.0.5'
+	compile 'org.json:json:20150729'
+	compile 'org.apache.ant:ant:1.9.6'
+	compile 'javax.servlet.jsp:jsp-api:2.2'
+	compile 'javax.servlet:javax.servlet-api:3.1.0'
+	compile 'com.mchange:c3p0:0.9.5.1'
+	compile 'commons-validator:commons-validator:1.4.1'
+	compile 'org.apache.logging.log4j:log4j-core:2.4.1'
+	compile 'io.dropwizard.metrics:metrics-core:3.1.2'
+	compile 'javax.mail:javax.mail-api:1.5.4'
+	compile 'com.github.stefanbirkner:system-rules:1.13.0'
+
+	testRuntime 'junit:junit:4.12'
+	testRuntime 'org.mockito:mockito-all:1.10.19'
+	testRuntime 'com.github.stefanbirkner:system-rules:1.13.0'
+
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.mockito:mockito-all:1.10.19'
+	testCompile 'com.github.stefanbirkner:system-rules:1.13.0'
+	testCompile 'org.mockito:mockito-all:1.10.19'
+}
 
 jar {
 	manifest {
@@ -36,37 +70,66 @@ test {
 	forkEvery = 50 
 }
 
-repositories {
-	mavenLocal()
-	mavenCentral()
-	jcenter()
+
+
+def javaApiUrl = 'http://docs.oracle.com/javase/1.7.0/docs/api/'
+def groovyApiUrl = 'http://groovy.codehaus.org/gapi/'
+
+tasks.withType(Javadoc) {
+	options.links(javaApiUrl, groovyApiUrl)
 }
 
-dependencies {
-	testCompile 'junit:junit:4.11'
-	testCompile 'org.mockito:mockito-all:1.10.19'
-
-	compile 'synapticloop:templar:v1.0.5'
-	compile 'org.json:json:20150729'
-	compile 'org.apache.ant:ant:1.9.6'
-	compile 'javax.servlet.jsp:jsp-api:2.2'
-	compile 'javax.servlet:javax.servlet-api:3.1.0'
-	compile 'com.mchange:c3p0:0.9.5.1'
-	compile 'commons-validator:commons-validator:1.4.1'
-	compile 'org.apache.logging.log4j:log4j-core:2.4.1'
-	compile 'io.dropwizard.metrics:metrics-core:3.1.2'
-	compile 'javax.mail:javax.mail-api:1.5.4'
-
-	runtime 'synapticloop:templar:v1.0.5'
-	runtime 'org.json:json:20150729'
-	runtime 'com.mchange:c3p0:0.9.5.1'
-	runtime 'commons-validator:commons-validator:1.4.1'
-	runtime 'org.apache.logging.log4j:log4j-core:2.4.1'
-	runtime 'io.dropwizard.metrics:metrics-core:3.1.2'
-	runtime 'javax.mail:javax.mail-api:1.5.4'
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from 'build/docs/javadoc'
 }
 
-task(dist).dependsOn( [ 'cobertura', 'jar' ] )
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allSource
+	classifier = 'sources'
+}
+
+test.finalizedBy(project.tasks.cobertura)
+
+
+publishing {
+	publications {
+		Synapticloop(MavenPublication) {
+			from components.java
+			artifact sourcesJar
+			artifact javadocJar
+
+			groupId 'synapticloop'
+			artifactId 'h2zero'
+
+			pom.withXml {
+				configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each { dep ->
+					asNode().dependencies[0].dependency.find {
+						it.artifactId[0].text() == dep.moduleName &&
+								it.groupId[0].text() == dep.moduleGroup
+					}.scope[0].value = 'compile'
+				}
+			}
+		}
+	}
+}
+
+bintray {
+	user = System.getenv('BINTRAY_USER')
+	key = System.getenv('BINTRAY_PASSWORD')
+
+	publications = [ 'Synapticloop' ]
+
+	publish = true
+
+	pkg {
+		repo = 'maven'
+		name = 'h2zero'
+	}
+
+}
+
+task(dist).dependsOn( [ 'cobertura', 'jar', 'javadoc' ] )
 
 task(testMain, dependsOn: jar, type: JavaExec ) {
 	main = 'synapticloop.h2zero.Main'

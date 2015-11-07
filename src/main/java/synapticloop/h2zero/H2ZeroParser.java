@@ -172,7 +172,7 @@ public class H2ZeroParser {
 	}
 
 	/**
-	 * Pare a .h2zero file
+	 * Parse a .h2zero file
 	 * 
 	 * @param file The file to be parsed
 	 * @throws H2ZeroParseException if there was an error parsing the file
@@ -256,9 +256,40 @@ public class H2ZeroParser {
 		return (stringBuilder.toString());
 	}
 
+	/**
+	 * Get the database object
+	 * 
+	 * @return the database object
+	 */
 	public Database getDatabase() { return(this.database); }
+
+	/**
+	 * Get the h2zero options
+	 * 
+	 * @return the h2zero options
+	 */
 	public Options getOptions() { return(this.options); }
+
+	/**
+	 * Return the number of warning messages that have occurred in the generator
+	 * 
+	 * @return the number of warning messages in generation
+	 */
 	public int getNumWarn() { return(numWarn); }
+
+	/**
+	 * Return the number of fatal messages that have occurred in the generator
+	 * 
+	 * @return the number of fatal messages in generation
+	 */
 	public int getNumFatal() { return(numFatal); }
+
+	/**
+	 * Retrieve a validator by name from the lookup cache (or null if it can not be found)
+	 * 
+	 * @param name the name of the validator to retrieve
+	 * 
+	 * @return The validator
+	 */
 	public static BaseValidator getValidatorByName(String name) { return(validator_map.get(name)); }
 }

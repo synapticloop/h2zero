@@ -18,9 +18,10 @@ public class SimpleLogger {
 		VALIDATOR,
 		ANALYSER,
 		PARSE,
-		SUMMARY, 
+		SUMMARY,
 		REVENGE,
-		FUNCTION_REGISTER
+		FUNCTION_REGISTER,
+		H2ZERO_GENERATE
 	}
 
 	private static int maxLength = 0;

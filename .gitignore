@@ -11,3 +11,4 @@ dist/
 src/test/java/*Test.java
 target/
 /bin/
+.gradle

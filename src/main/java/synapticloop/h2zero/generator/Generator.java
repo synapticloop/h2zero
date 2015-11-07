@@ -1,4 +1,4 @@
-package synapticloop.h2zero.ant.generator;
+package synapticloop.h2zero.generator;
 
 import java.io.File;
 import java.util.HashMap;

@@ -1,16 +1,20 @@
 Usage:
-  java -jar h2zero.jar generate|revenge|quick <options>
+
+Command line usage:
+===================
+
+  java -jar h2zero.jar <mode> <options>
 
 There are three (3) modes of operation, namely:
 
-  generate - this will generate the source code from the provided .h2zero file
-  revenge  - this will reverse engineer a database to an .h2zero file
-  quick    - this will generate a quick .h2zero file and output it to the console
+  generate  - this will generate the source code from the provided .h2zero file
+  revenge   - this will reverse engineer a database to an .h2zero file
+  quick     - this will generate a quick .h2zero file and output it to the console
 
 generate options:
-  -in <arg>       the input file
-  -outDir <arg>   the directory to output the generated files
-  -verbose        turn on verbose output
+  -in <arg>   the input file
+  -out <arg>  the directory to output the generated files
+  -verbose    turn on verbose output
 
 revenge options:
   -host <arg>      the host of the database
@@ -25,15 +29,19 @@ quick options:
   -tables <arg,...>      which tables to generate
   -foreign <arg,...>     which foreign keys between the tables
 
+
+Ant build.xml usage:
+====================
+
 If you are using ant, you can add this to your build.xml file
 
 <path id="classpath-h2zero">
-  <fileset dir="lib/compile">
+  <fileset dir="lib/runtime">
     <include name="*.jar"/>
   </fileset>
 </path>
 
-<target name="h2zero" description="h2zero generate">
+<target name="h2zero-generate" description="h2zero generate">
   <taskdef resource="h2zero.properties" classpathref="classpath-h2zero" />
   <h2zero inFile="src/main/java/your_file_name_here.h2zero" outDir="." verbose="false" />
 </target>

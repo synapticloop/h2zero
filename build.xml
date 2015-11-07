@@ -16,7 +16,6 @@
 	<property file="version.properties" />
 	<property file="../credentials.properties" />
 
-	<import file="build-maven-deploy.xml" />
 
 	<import file="java-build.xml" />
 
