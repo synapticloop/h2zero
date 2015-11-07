@@ -9,7 +9,7 @@
        - Form Beans (in progress)
        - Administration pages (in progress)
      ====================================================================== -->
-<project name="h2zero" default="help">
+<project name="h2zero" default="test-h2zero">
 	<property name="lib.dir" value="lib/runtime" />
 	<property name="util.lib.dir" value="lib/compile" />
 	<property name="test.lib.dir" value="lib/test" />
@@ -17,10 +17,7 @@
 	<property file="../credentials.properties" />
 
 
-	<import file="java-build.xml" />
 
-	<import file="build-common.xml" />
-	<import file="build-cobertura.xml" />
 
 	<target name="dist" description="Build the h2zero distributable">
 		<antcall target="java-build.clean" />
@@ -58,20 +55,21 @@
 	</target>
 
 	<path id="classpath-h2zero-dist">
-		<fileset dir="lib/runtime">
+		<fileset dir="build/libs">
 			<include name="*.jar"/>
 		</fileset>
-		<fileset dir="dist">
-			<include name="h2zero*.jar"/>
+		<fileset dir="libs">
+			<include name="*.jar"/>
 		</fileset>
 	</path>
 
 	<target name="test-h2zero" description="test the h2zero generation">
 		<delete dir="generate/src/main/java/*" />
 		<taskdef resource="h2zero.properties" classpathref="classpath-h2zero-dist" />
-		<h2zero inFile="src/test/java/sample.h2zero" outDir="generate" verbose="true" />
-		<!-- now try and javac the generated code -->
-		<javac srcdir="${basedir}/generate/src/main/java" destdir="${basedir}/build/classes" debug="on" classpathref="compile.classpath" includeantruntime="false" compiler="javac1.6" source="1.6" target="1.6" />
+		<h2zero inFile="src/test/resources/sample.h2zero" outDir="." verbose="true" />
+		<!-- now try and javac the generated code 
+		<javac srcdir="${basedir}/src/test/java" destdir="${basedir}/build/classes" debug="on" classpathref="compile.classpath" includeantruntime="false" compiler="javac1.6" source="1.6" target="1.6" />
+		-->
 	</target>
 
 	<target name="test-h2zero-quick" description="test the h2zero quick generation">

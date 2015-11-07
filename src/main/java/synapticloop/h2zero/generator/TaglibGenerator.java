@@ -78,7 +78,7 @@ public class TaglibGenerator extends Generator {
 				Finder finder = finderIterator.next();
 				templarContext.add("finder", finder);
 
-				String pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + finder.getTagName() + "Tag.java";
+				String pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + finder.getTagName() + "Tag.java";
 				renderToFile(templarContext, javaCreateTaglibFinderParser, pathname);
 			}
 
@@ -88,7 +88,7 @@ public class TaglibGenerator extends Generator {
 			while(counterIterator.hasNext()) {
 				Counter counter = counterIterator.next();
 				templarContext.add("counter", counter);
-				String pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + counter.getTagName() + "Tag.java";
+				String pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + counter.getTagName() + "Tag.java";
 				renderToFile(templarContext, javaCreateTaglibCounterParser, pathname);
 			}
 
@@ -98,19 +98,19 @@ public class TaglibGenerator extends Generator {
 			while(questionIterator.hasNext()) {
 				Question question = questionIterator.next();
 				templarContext.add("question", question);
-				String pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + question.getTagName() + "Tag.java";
+				String pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + question.getTagName() + "Tag.java";
 				renderToFile(templarContext, javaCreateTaglibQuestionParser, pathname);
 			}
 
 
 			// the extra 'missing' finders
-			String pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindByPrimaryKeyTag.java";
+			String pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindByPrimaryKeyTag.java";
 			renderToFile(templarContext, javaCreateTaglibFinderFindByPrimaryKeyParser, pathname);
 
-			pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindAllTag.java";
+			pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/" + "FindAllTag.java";
 			renderToFile(templarContext, javaCreateTaglibFinderFindAllParser, pathname);
 
-			pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/CountAllTag.java";
+			pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/taglib/" + table.getJavaFieldName() + "/CountAllTag.java";
 			renderToFile(templarContext, javaCreateTaglibCounterCountAllParser, pathname);
 		}
 
@@ -130,14 +130,14 @@ public class TaglibGenerator extends Generator {
 				Finder finder = finderIterator.next();
 				templarContext.add("finder", finder);
 
-				String pathname = outFile + SRC_MAIN_JAVA + database.getPackagePath() + "/taglib/" + view.getJavaFieldName() + "/" + finder.getTagName() + "Tag.java";
+				String pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/taglib/" + view.getJavaFieldName() + "/" + finder.getTagName() + "Tag.java";
 				renderToFile(templarContext, javaCreateTaglibFinderParser, pathname);
 			}
 		}
 
 
 		// the finder tld
-		String pathname = outFile + "/src/main/webapps/WEB-INF/tld/" + database.getSchema() + ".tld";
+		String pathname = outFile.getAbsolutePath() + options.getOutputWebapp() + "/WEB-INF/tld/" + database.getSchema() + ".tld";
 		renderToFile(templarContext, tldCreateLibraryParser, pathname);
 	}
 }

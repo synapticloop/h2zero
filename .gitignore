@@ -12,3 +12,5 @@ src/test/java/*Test.java
 target/
 /bin/
 .gradle
+lib/
+libs/

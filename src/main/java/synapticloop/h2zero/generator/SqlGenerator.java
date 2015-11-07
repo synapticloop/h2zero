@@ -24,6 +24,7 @@ public class SqlGenerator extends Generator {
 		super(database, options, outFile, verbose);
 	}
 
+	@Override
 	public void generate() throws RenderException, ParseException {
 		if(!options.hasGenerator(Options.OPTION_SQL)) {
 			return;
@@ -40,7 +41,7 @@ public class SqlGenerator extends Generator {
 
 		SimpleLogger.logInfo(LoggerType.GENERATE_SQL, "Generating for database '" + database.getSchema() + "'.");
 		// first up the database creation script
-		String pathname = outFile + "/src/main/sql/create-database.sql";
+		String pathname = outFile.getAbsolutePath() + options.getOutputSql() + "/create-database.sql";
 		renderToFile(templarContext, sqlCreateDatabaseParser, pathname);
 	}
 

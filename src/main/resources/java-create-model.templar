@@ -414,7 +414,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{loop table.fields as field}
 		{if fn:notNull[field.foreignKeyTable]}
-			{\t}public {field.foreignKeyTableLookup.javaClassName} get{field.secondaryJavaFieldName}() {{{\n}
+			{\t}public {field.foreignKeyTableLookup.javaClassName} get{field.secondaryJavaName}() {{{\n}
 			{if !field.foreignKeyTableLookup.isConstant}
 				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
 				{if options.metrics}

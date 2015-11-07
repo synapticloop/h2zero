@@ -10,7 +10,13 @@
 		"FinderNameValidator": {
 			"allowablePrefixes": "find,calculate"
 		}
+	},
+	"output": {
+		"java": "src/test/java/",
+		"sql": "src/test/resources/",
+		"webapp": "src/test/resources/"
 	}
+	
 },
 "database": {
 	"schema": "sample",

@@ -18,7 +18,6 @@ import synapticloop.templar.utils.TemplarContext;
 
 public abstract class Generator {
 	private static final String FUNCTION_NAME_HAS_IMPORT = "requiresImport";
-	protected static final String SRC_MAIN_JAVA = "/src/main/java/";
 	protected Database database;
 	protected Options options;
 	protected File outFile;

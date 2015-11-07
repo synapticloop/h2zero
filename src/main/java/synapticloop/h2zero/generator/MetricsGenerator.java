@@ -35,7 +35,7 @@ public class MetricsGenerator extends Generator {
 		}
 
 		Parser javaCreateMetricsServletMunin = getParser("/java-create-metrics-servlet-munin.templar");
-		String pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/servlet/MuninMetricsServlet.java";
+		String pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/servlet/MuninMetricsServlet.java";
 		renderToFile(templarContext, javaCreateMetricsServletMunin, pathname);
 
 		List<Table> tables = database.getTables();
@@ -45,7 +45,7 @@ public class MetricsGenerator extends Generator {
 			templarContext.add("table", table);
 
 			// first up the database creation script
-			pathname = outFile + "/src/main/java/" + database.getPackagePath() + "/metrics/" + table.getJavaClassName() + "Metrics.java";
+			pathname = outFile.getAbsolutePath() + options.getOutputJava() + database.getPackagePath() + "/metrics/" + table.getJavaClassName() + "Metrics.java";
 			renderToFile(templarContext, javaCreateMetricsTable, pathname);
 		}
 	}

@@ -93,7 +93,6 @@ public abstract class BaseField {
 	// generated for the updaters
 	protected String javaName = null;
 	private String secondaryJavaName = null;
-	private String secondaryJavaFieldName = null;
 
 	// these are for the forms
 	protected String validator = null;
@@ -118,7 +117,6 @@ public abstract class BaseField {
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
 		this.javaName = NamingHelper.getSecondUpper(name);
 		this.secondaryJavaName = NamingHelper.getSecondPartUpper(name);
-		this.secondaryJavaFieldName = NamingHelper.getFirstPartUpper(name);
 		this.type = JsonHelper.getStringValue(jsonObject, "type", null);
 		this.length = JsonHelper.getIntValue(jsonObject, "length", length);
 		this.decimalLength = JsonHelper.getIntValue(jsonObject, "decimalLength", decimalLength);
@@ -228,7 +226,6 @@ public abstract class BaseField {
 	}
 
 	public String getSecondaryJavaName() { return secondaryJavaName; }
-	public String getSecondaryJavaFieldName() { return secondaryJavaFieldName; }
 	public void suffixJavaName(String suffix) { this.javaName = javaName + suffix; }
 
 	public String getJavaAccessorName() {

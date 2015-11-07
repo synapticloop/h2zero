@@ -66,8 +66,7 @@ cobertura {
 
 test {
 	include '**/*Test.class' 
-	maxParallelForks = 5
-	forkEvery = 50 
+	maxParallelForks = 1
 }
 
 

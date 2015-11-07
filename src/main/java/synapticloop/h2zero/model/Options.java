@@ -5,30 +5,27 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import synapticloop.h2zero.H2ZeroParser;
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.validator.BaseValidator;
 
 
 public class Options {
-	private boolean metrics = false;
-	private String logging = "";
-	private String database = "mysql";
-
-	private Set<String> generators = new HashSet<String>();
-
 	public static final String OPTION_FORMBEANS = "formbeans";
 	public static final String OPTION_ADMINPAGES = "adminpages";
 	public static final String OPTION_TAGLIB = "taglib";
 	public static final String OPTION_JSP = "jsp";
 	public static final String OPTION_JAVA = "java";
 	public static final String OPTION_SQL = "sql";
+	public static final String OPTION_WEBAPP = "webapp";
 	public static final String OPTION_RESTFUL_SERVLET = "restfulservlet";
+
+	public static final String OPTION_OUTPUT = "output";
 
 	private static Set<String> ALLOWABLE_GENERATORS = new HashSet<String>();
 	static {
@@ -52,12 +49,22 @@ public class Options {
 		ALLOWABLE_DATABASES.add("sqlite");
 	}
 
+	/*
+	 * INSTANCE VARIABLES
+	 */
+	private boolean metrics = false;
+	private String logging = "";
+	private String database = "mysql";
+	private String outputJava = "/src/main/java/";
+	private String outputSql = "/src/main/sql/";
+	private String outputWebapp = "/src/main/webapps/";
+
+	private Set<String> generators = new HashSet<String>();
+
 	public Options(JSONObject jsonObject) throws H2ZeroParseException {
-		JSONObject optionsJson = null;
-		try {
-			optionsJson = jsonObject.getJSONObject("options");
-		} catch (JSONException jsonex) {
-			// do nothing - it is optional
+		JSONObject optionsJson = jsonObject.optJSONObject("options");
+		if(null == optionsJson) {
+			// options are optional
 			return;
 		}
 
@@ -97,6 +104,35 @@ public class Options {
 		}
 
 		updateValidators(optionsJson.optJSONObject("validators"));
+
+		// now we are going to update the output paths
+		JSONObject outputJson = optionsJson.optJSONObject("output");
+		if(null != outputJson) {
+			outputJava = JsonHelper.getStringValue(outputJson, OPTION_JAVA, outputJava);
+			outputSql = JsonHelper.getStringValue(outputJson, OPTION_SQL, outputSql);
+			outputWebapp = JsonHelper.getStringValue(outputJson, OPTION_WEBAPP, outputWebapp);
+		}
+
+		// now ensure that there are slashes on both sides of the output directory
+		outputJava = convertToAbsolutePath(outputJava);
+		outputSql = convertToAbsolutePath(outputSql);
+		outputWebapp = convertToAbsolutePath(outputWebapp);
+	}
+
+	private String convertToAbsolutePath(String name) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		if(!name.startsWith("/")) {
+			stringBuilder.append("/");
+		}
+
+		stringBuilder.append(name);
+
+		if(!name.endsWith("/")) {
+			stringBuilder.append("/");
+		}
+		
+		return(stringBuilder.toString());
 	}
 
 	private void updateValidators(JSONObject validatorJson) {
@@ -115,7 +151,7 @@ public class Options {
 				}
 			}
 		}
-		
+
 	}
 
 	private void enableGenerators(JSONArray generatorArray) throws H2ZeroParseException {
@@ -150,4 +186,8 @@ public class Options {
 	public boolean hasLogging() { return(!"".equals(this.logging)); }
 	public String getDatabase() { return database; }
 	public void setDatabase(String database) { this.database = database; }
+
+	public String getOutputJava() { return(outputJava); }
+	public String getOutputWebapp() { return(outputWebapp); }
+	public String getOutputSql() { return(outputSql); }
 }
