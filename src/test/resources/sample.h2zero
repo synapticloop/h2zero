@@ -87,7 +87,7 @@
 				{ "name": "num_age", "type": "int", "nullable": false },
 				{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false, "unique": true },
 				{ "name": "txt_address_email", "type": "varchar", "length": "256", "nullable": false, "unique": true },
-				{ "name": "txt_password", "type": "varchar", "length": "32", "nullable": false, "unique": true },
+				{ "name": "txt_password", "type": "varchar", "length": "32", "nullable": false, "unique": false },
 				{ "name": "dtm_signup", "type": "datetime", "nullable": true }
 			],
 

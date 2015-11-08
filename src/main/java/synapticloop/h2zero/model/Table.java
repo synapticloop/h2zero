@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
+import synapticloop.h2zero.model.util.FieldLookupHelper;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
@@ -141,27 +142,20 @@ public class Table extends BaseSchemaObject {
 
 		for (int i = 0; i < fieldJson.length(); i++) {
 			String type = null;
-			String name = null;
+			String fieldName = null;
 
 			JSONObject fieldObject = null;
 			try {
 				fieldObject = fieldJson.getJSONObject(i);
-				name = fieldObject.getString(JSONKeyConstants.NAME);
-				if(null == name) {
+				fieldName = fieldObject.getString(JSONKeyConstants.NAME);
+				if(null == fieldName) {
 					throw new H2ZeroParseException("Cannot have a field with a null name.");
 				}
 
-				// at this point we want to see if it is a foreign key...
-				//				String foreignKey = fieldObject.optString(JSONKeyConstants.FOREIGN_KEY, null);
 				type = fieldObject.optString("type", null);
-
-				//				if(null != foreignKey) {
-				//					// get the foreignkey
-				//					BaseField foreignBaseField = FieldLookupHelper.getBaseField(this, foreignKey);
-				//					type = foreignBaseField.getType();
-				//					// now override the current field with the values of the foreign key
-				//					fieldObject.put(JSONKeyConstants.TYPE, foreignBaseField.getType());
-				//				}
+				if(null == type) {
+					throw new H2ZeroParseException("No 'type' value found for field '" + fieldName + "'.");
+				}
 
 			} catch (JSONException jsonex) {
 				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.FIELDS + "' array.", jsonex);
@@ -198,16 +192,19 @@ public class Table extends BaseSchemaObject {
 						nonSecureFields.add(baseField);
 					}
 
-					fieldLookup.put(name, baseField);
-					inFieldLookup.put(name, inBaseField);
+					fieldLookup.put(fieldName, baseField);
+					inFieldLookup.put(fieldName, inBaseField);
 
 					BaseField setBaseField = (BaseField)constructor.newInstance(fieldObject);
 					setBaseField.suffixJavaName("Set");
 					BaseField whereBaseField = (BaseField)constructor.newInstance(fieldObject);
 					whereBaseField.suffixJavaName("Where");
 
-					setFieldLookup.put(name, setBaseField);
-					whereFieldLookup.put(name, whereBaseField);
+					setFieldLookup.put(fieldName, setBaseField);
+					whereFieldLookup.put(fieldName, whereBaseField);
+
+					// add it to the cache - for later lookups
+					FieldLookupHelper.addToTableFieldCache(this.name, fieldName);
 
 				} catch (ClassNotFoundException cnfex) {
 					logFatalFieldParse(cnfex, cnfex.getMessage(), firstUpper);
@@ -229,8 +226,14 @@ public class Table extends BaseSchemaObject {
 
 		// now figure out if there is a foreign key relationship
 		for (BaseField baseField : fields) {
-			if(null != baseField.getForeignKeyField() && null != baseField.getForeignKeyTable()) {
+			String foreignKeyTable = baseField.getForeignKeyTable();
+			String foreignKeyField = baseField.getForeignKeyField();
+			if(null != foreignKeyField && null != foreignKeyTable) {
 				hasForeignKey = true;
+				// at this point - see whether the foreign key table and field actually exists
+				if(!FieldLookupHelper.hasTableField(foreignKeyTable, foreignKeyField)) {
+					throw new H2ZeroParseException("Trying to reference a foreign key of '" + foreignKeyTable + "." + foreignKeyField + "' which has not been defined yet.");
+				}
 			}
 		}
 	}

@@ -4,126 +4,1478 @@
 
 -- the following will stop mysql from outputting 'notes' as warnings
 set sql_notes=0;
-drop database if exists sample;
-create database sample;
+drop database if exists insityou;
+create database insityou;
 
-use sample;
+use insityou;
 
---
--- This is the user type table, which is a constant-generated table for all
--- of the user types.  This enables quick and easy lookups from within the code
--- for values that do not change.
---
-drop table if exists user_type;
+drop table if exists entity_type;
 show warnings;
 
-create table user_type (
-	id_user_type bigint not null auto_increment,
-	nm_user_type varchar(32) not null,
-	primary key(id_user_type)
+create table entity_type (
+	id_entity_type bigint not null auto_increment,
+	cd_entity_type varchar(1) not null,
+	nm_entity_type varchar(24) not null,
+	num_colour_hex varchar(7) not null,
+	primary key(id_entity_type)
 ) engine=innodb default charset=UTF8;
 
 -- show any warnings that are applicable
 show warnings;
 
--- The user_type table is defined as being constant
+-- The entity_type table is defined as being constant
 -- insert the values
 
 SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-insert into user_type values(1, 'normal');
+insert into entity_type values(0, 'u', 'person', '#0D6759');
 SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-insert into user_type values(2, 'special');
+insert into entity_type values(1, 't', 'person attribute', '#7AB317');
 SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-insert into user_type values(3, 'admin');
+insert into entity_type values(2, 'b', 'building', '#CCCCCC');
 SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-insert into user_type values(4, 'super admin');
+insert into entity_type values(3, 'p', 'project', '#2A044A');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into entity_type values(4, 'd', 'department', '#67931E');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into entity_type values(5, 'z', 'zone', '#989898');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into entity_type values(6, 'y', 'project attribute', '#012E50');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into entity_type values(7, 'g', 'contingency person', '#989898');
 
 
---
--- This is the user title table, which is a constant-generated table for some 
--- of the user titles.  This enables quick and easy lookups from within the code
--- for values that do not change.
---
-drop table if exists user_title;
+drop table if exists relationship_type;
 show warnings;
 
-create table user_title (
-	id_user_title bigint not null auto_increment,
-	nm_user_title varchar(32) not null,
+create table relationship_type (
+	id_relationship_type bigint not null auto_increment,
+	cd_relationship_type varchar(2) not null,
+	id_entity_type_from bigint not null,
+	id_entity_type_to bigint not null,
+	nm_relationship_type varchar(64) not null,
+	primary key(id_relationship_type),
+	foreign key (id_entity_type_from) references entity_type (id_entity_type),
+	foreign key (id_entity_type_to) references entity_type (id_entity_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+-- The relationship_type table is defined as being constant
+-- insert the values
+
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(0, 'uu', 0, 0, 'person to person');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(1, 'up', 0, 3, 'person to project');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(2, 'ut', 0, 1, 'person to person attribute');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(3, 'ud', 0, 4, 'PERSON to department');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(4, 'pp', 3, 3, 'project to project');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(5, 'pb', 3, 2, 'project to building');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(6, 'pt', 3, 1, 'project to person attribute');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(7, 'dd', 4, 4, 'department to department');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(8, 'db', 4, 2, 'department to building');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(9, 'uz', 0, 5, 'person to zone');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(10, 'dz', 4, 5, 'department to zone');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(11, 'pz', 3, 5, 'project to zone');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into relationship_type values(12, 'py', 3, 6, 'project to project attribute');
+
+
+drop table if exists core_message_type;
+show warnings;
+
+create table core_message_type (
+	id_core_message_type bigint not null auto_increment,
+	nm_core_message_type varchar(14) not null,
+	primary key(id_core_message_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+-- The core_message_type table is defined as being constant
+-- insert the values
+
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into core_message_type values(0, 'physics update');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into core_message_type values(1, 'graph update');
+
+
+drop table if exists access_level;
+show warnings;
+
+create table access_level (
+	id_access_level bigint not null auto_increment,
+	nm_access_level varchar(50) not null,
+	primary key(id_access_level)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+-- The access_level table is defined as being constant
+-- insert the values
+
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into access_level values(1, 'strategic');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into access_level values(2, 'manager');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into access_level values(3, 'individual');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into access_level values(4, 'facility manager');
+
+
+drop table if exists contingency_type;
+show warnings;
+
+create table contingency_type (
+	id_contingency_type bigint not null auto_increment,
+	nm_contingency_type varchar(7) not null,
+	primary key(id_contingency_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+-- The contingency_type table is defined as being constant
+-- insert the values
+
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into contingency_type values(1, 'num');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into contingency_type values(2, 'percent');
+
+
+drop table if exists obj;
+show warnings;
+
+create table obj (
+	id_obj bigint not null auto_increment,
+	nm_file_name varchar(255) not null,
+	txt_obj longtext not null,
+	primary key(id_obj),
+	index (nm_file_name)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists obj_floor;
+show warnings;
+
+create table obj_floor (
+	id_obj_floor bigint not null auto_increment,
+	id_obj bigint not null,
+	num_floor int not null,
+	txt_obj_floor longtext null,
+	primary key(id_obj_floor),
+	foreign key (id_obj) references obj (id_obj)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists isy_file;
+show warnings;
+
+create table isy_file (
+	id_isy_file bigint not null auto_increment,
+	txt_isy_file mediumblob null,
+	primary key(id_isy_file)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists building_plan;
+show warnings;
+
+create table building_plan (
+	id_building_plan bigint not null auto_increment,
+	id_obj bigint not null,
+	id_isy_file bigint null,
+	nm_building_plan varchar(128) not null,
+	fl_is_valid tinyint(1) not null default '0',
+	dtm_building_plan datetime not null,
+	primary key(id_building_plan),
+	foreign key (id_obj) references obj (id_obj),
+	foreign key (id_isy_file) references isy_file (id_isy_file)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists dxf_type;
+show warnings;
+
+create table dxf_type (
+	id_dxf_type bigint not null auto_increment,
+	nm_dxf_type varchar(32) not null,
+	primary key(id_dxf_type),
+	index (nm_dxf_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+-- The dxf_type table is defined as being constant
+-- insert the values
+
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into dxf_type values(1, 'walls');
+SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+insert into dxf_type values(2, 'zones');
+
+
+drop table if exists dxf;
+show warnings;
+
+create table dxf (
+	id_dxf bigint not null auto_increment,
+	id_building_plan bigint not null,
+	id_dxf_type bigint not null,
+	num_floor int not null,
 	num_order_by int not null,
-	primary key(id_user_title)
+	txt_dxf_floor longtext null,
+	primary key(id_dxf),
+	foreign key (id_building_plan) references building_plan (id_building_plan),
+	foreign key (id_dxf_type) references dxf_type (id_dxf_type)
 ) engine=innodb default charset=UTF8;
 
 -- show any warnings that are applicable
 show warnings;
 
--- The user_title table is defined as being constant
--- insert the values
-
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-insert into user_title values(1, 'Mr.', 1);
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-insert into user_title values(2, 'Mrs.', 2);
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-insert into user_title values(3, 'Miss', 3);
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-insert into user_title values(4, 'Dr.', 4);
-
-
-drop table if exists user;
+drop table if exists building_plan_json;
 show warnings;
 
-create table user (
-	id_user bigint not null auto_increment,
-	id_user_type bigint not null,
-	fl_is_alive boolean null default '0',
-	num_age int not null,
-	nm_username varchar(64) not null,
+create table building_plan_json (
+	id_building_plan_json bigint not null auto_increment,
+	id_building_plan bigint not null,
+	num_floor int not null,
+	txt_json_floor longtext null,
+	primary key(id_building_plan_json),
+	foreign key (id_building_plan) references building_plan (id_building_plan)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists seat;
+show warnings;
+
+create table seat (
+	id_seat bigint not null auto_increment,
+	id_building_plan bigint not null,
+	id_core_generated varchar(256) not null,
+	x float(12,6) not null,
+	y float(12,6) not null,
+	z float(12,6) not null,
+	num_floor int not null,
+	primary key(id_seat),
+	unique index (id_core_generated(255)),
+	foreign key (id_building_plan) references building_plan (id_building_plan)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists node;
+show warnings;
+
+create table node (
+	id_node bigint not null auto_increment,
+	id_core_generated bigint not null,
+	id_building_plan bigint not null,
+	size varchar(125) not null,
+	x float(12,6) not null,
+	y float(12,6) not null,
+	z float(12,6) not null,
+	primary key(id_node),
+	index (id_core_generated),
+	foreign key (id_building_plan) references building_plan (id_building_plan)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists project;
+show warnings;
+
+create table project (
+	id_project bigint not null auto_increment,
+	nm_project varchar(256) not null,
+	txt_coords_xyz varchar(125) not null default '(0;0;0)',
+	flt_importance float(3,2) not null default '0.5',
+	flt_size float(8,3) not null default '0.001',
+	fl_is_fixed tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	num_contingency int not null default '0',
+	id_contingency_type bigint not null default '1',
+	sharing_ratio float(3,2) null,
+	primary key(id_project),
+	unique index (nm_project(255)),
+	foreign key (id_contingency_type) references contingency_type (id_contingency_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists building;
+show warnings;
+
+create table building (
+	id_building bigint not null auto_increment,
+	nm_building varchar(256) not null,
+	txt_coords_xyz varchar(125) not null default '(0;0;0)',
+	flt_importance float(3,2) not null default '0.5',
+	flt_size float(8,3) not null default '0.001',
+	fl_is_fixed tinyint(1) not null default '1',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	primary key(id_building),
+	unique index (nm_building(255))
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists department;
+show warnings;
+
+create table department (
+	id_department bigint not null auto_increment,
+	id_department_parent bigint null,
+	nm_department varchar(256) not null,
+	txt_coords_xyz varchar(125) not null default '(0;0;0)',
+	flt_importance float(3,2) not null default '0.5',
+	flt_size float(8,3) not null default '0.001',
+	fl_is_fixed tinyint(1) not null default '0',
+	fl_is_clustered tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	num_contingency int null default '0',
+	id_contingency_type bigint not null default '1',
+	sharing_ratio float(3,2) null,
+	primary key(id_department),
+	unique index (nm_department(255)),
+	foreign key (id_department_parent) references department (id_department) ON DELETE CASCADE,
+	foreign key (id_contingency_type) references contingency_type (id_contingency_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists person;
+show warnings;
+
+create table person (
+	id_person bigint not null auto_increment,
+	id_access_level bigint not null,
+	id_department bigint null,
+	nm_person varchar(100) not null,
 	txt_address_email varchar(256) not null,
-	txt_password varchar(32) not null,
-	dtm_signup datetime null,
-	primary key(id_user),
-	unique index (nm_username),
+	txt_digested_password varchar(32) not null,
+	txt_salt varchar(32) not null,
+	txt_forgotten_password varchar(36) null,
+	dtm_forgotten_timeout datetime null,
+	txt_coords_xyz varchar(125) not null default '(0;0;0)',
+	flt_importance float(3,2) not null default '0.5',
+	flt_size float(8,3) not null default '0.001',
+	fl_is_fixed tinyint(1) not null default '0',
+	fl_is_entity tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	fl_contingency tinyint(1) not null default '0',
+	num_employee varchar(10) null,
+	primary key(id_person),
 	unique index (txt_address_email(255)),
-	unique index (txt_password),
-	index (id_user_type),
-	index (fl_is_alive),
-	foreign key (id_user_type) references user_type (id_user_type)
+	unique index (num_employee),
+	foreign key (id_access_level) references access_level (id_access_level),
+	foreign key (id_department) references department (id_department)
 ) engine=innodb default charset=UTF8;
 
 -- show any warnings that are applicable
 show warnings;
 
-drop table if exists pet;
+drop table if exists person_attribute;
 show warnings;
 
-create table pet (
-	id_pet bigint not null auto_increment,
-	nm_pet boolean null default '0',
-	num_age int not null,
-	flt_weight float(6,1) null,
-	dt_birthday date null,
-	primary key(id_pet),
-	index (nm_pet)
+create table person_attribute (
+	id_person_attribute bigint not null auto_increment,
+	nm_person_attribute varchar(125) not null,
+	txt_coords_xyz varchar(125) not null default '0;0;0',
+	flt_importance float(3,2) not null default '0.5',
+	fl_is_fixed tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	primary key(id_person_attribute),
+	unique index (nm_person_attribute)
 ) engine=innodb default charset=UTF8;
 
 -- show any warnings that are applicable
 show warnings;
 
-drop table if exists user_pet;
+drop table if exists project_attribute;
 show warnings;
 
-create table user_pet (
-	id_user_pet bigint not null auto_increment,
-	id_user bigint not null,
-	id_pet bigint not null,
-	primary key(id_user_pet),
-	index (id_user),
-	index (id_pet),
-	foreign key (id_user) references user (id_user),
-	foreign key (id_pet) references pet (id_pet)
+create table project_attribute (
+	id_project_attribute bigint not null auto_increment,
+	nm_project_attribute varchar(125) not null,
+	txt_coords_xyz varchar(125) not null default '0;0;0',
+	flt_importance float(3,2) not null default '0.5',
+	fl_is_fixed tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	primary key(id_project_attribute),
+	unique index (nm_project_attribute)
 ) engine=innodb default charset=UTF8;
 
 -- show any warnings that are applicable
+show warnings;
+
+drop table if exists zone;
+show warnings;
+
+create table zone (
+	id_zone bigint not null auto_increment,
+	nm_zone varchar(128) not null,
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	primary key(id_zone)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists department_building_relationship;
+show warnings;
+
+create table department_building_relationship (
+	id_department_building_relationship bigint not null auto_increment,
+	id_department_source bigint not null,
+	id_building_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_department_building_relationship),
+	foreign key (id_department_source) references department (id_department) ON DELETE CASCADE,
+	foreign key (id_building_destination) references building (id_building) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists department_department_relationship;
+show warnings;
+
+create table department_department_relationship (
+	id_department_department_relationship bigint not null auto_increment,
+	id_department_source bigint not null,
+	id_department_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_department_department_relationship),
+	foreign key (id_department_source) references department (id_department) ON DELETE CASCADE,
+	foreign key (id_department_destination) references department (id_department) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists project_building_relationship;
+show warnings;
+
+create table project_building_relationship (
+	id_project_building_relationship bigint not null auto_increment,
+	id_project_source bigint not null,
+	id_building_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_project_building_relationship),
+	foreign key (id_project_source) references project (id_project) ON DELETE CASCADE,
+	foreign key (id_building_destination) references building (id_building) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists project_person_attribute_relationship;
+show warnings;
+
+create table project_person_attribute_relationship (
+	id_project_person_attribute_relationship bigint not null auto_increment,
+	id_project_source bigint not null,
+	id_person_attribute_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_project_person_attribute_relationship),
+	foreign key (id_project_source) references project (id_project) ON DELETE CASCADE,
+	foreign key (id_person_attribute_destination) references person_attribute (id_person_attribute) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists project_project_relationship;
+show warnings;
+
+create table project_project_relationship (
+	id_project_project_relationship bigint not null auto_increment,
+	id_project_source bigint not null,
+	id_project_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_project_project_relationship),
+	foreign key (id_project_source) references project (id_project) ON DELETE CASCADE,
+	foreign key (id_project_destination) references project (id_project) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists person_department_relationship;
+show warnings;
+
+create table person_department_relationship (
+	id_person_department_relationship bigint not null auto_increment,
+	id_person_source bigint not null,
+	id_department_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_person_department_relationship),
+	foreign key (id_person_source) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_department_destination) references department (id_department) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists person_person_attribute_relationship;
+show warnings;
+
+create table person_person_attribute_relationship (
+	id_person_person_attribute_relationship bigint not null auto_increment,
+	id_person_source bigint not null,
+	id_person_attribute_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_person_person_attribute_relationship),
+	foreign key (id_person_source) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_person_attribute_destination) references person_attribute (id_person_attribute) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists person_project_relationship;
+show warnings;
+
+create table person_project_relationship (
+	id_person_project_relationship bigint not null auto_increment,
+	id_person_source bigint not null,
+	id_project_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_person_project_relationship),
+	foreign key (id_person_source) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_project_destination) references project (id_project) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists project_project_attribute_relationship;
+show warnings;
+
+create table project_project_attribute_relationship (
+	id_project_project_attribute_relationship bigint not null auto_increment,
+	id_project_source bigint not null,
+	id_project_attribute_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_project_project_attribute_relationship),
+	foreign key (id_project_source) references project (id_project) ON DELETE CASCADE,
+	foreign key (id_project_attribute_destination) references project_attribute (id_project_attribute) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists person_person_relationship;
+show warnings;
+
+create table person_person_relationship (
+	id_person_person_relationship bigint not null auto_increment,
+	id_person_source bigint not null,
+	id_person_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_person_person_relationship),
+	foreign key (id_person_source) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_person_destination) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists person_zone_relationship;
+show warnings;
+
+create table person_zone_relationship (
+	id_person_zone_relationship bigint not null auto_increment,
+	id_person_source bigint not null,
+	id_zone_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_person_zone_relationship),
+	foreign key (id_person_source) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_zone_destination) references zone (id_zone) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists department_zone_relationship;
+show warnings;
+
+create table department_zone_relationship (
+	id_department_zone_relationship bigint not null auto_increment,
+	id_department_source bigint not null,
+	id_zone_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_department_zone_relationship),
+	foreign key (id_department_source) references department (id_department) ON DELETE CASCADE,
+	foreign key (id_zone_destination) references zone (id_zone) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists project_zone_relationship;
+show warnings;
+
+create table project_zone_relationship (
+	id_project_zone_relationship bigint not null auto_increment,
+	id_project_source bigint not null,
+	id_zone_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_project_zone_relationship),
+	foreign key (id_project_source) references project (id_project) ON DELETE CASCADE,
+	foreign key (id_zone_destination) references zone (id_zone) ON DELETE CASCADE,
+	foreign key (id_creator) references person (id_person) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists manager_department;
+show warnings;
+
+create table manager_department (
+	id_manager_department bigint not null auto_increment,
+	id_manager bigint not null,
+	id_department bigint null,
+	primary key(id_manager_department),
+	foreign key (id_manager) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_department) references department (id_department) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists project_project_attribute;
+show warnings;
+
+create table project_project_attribute (
+	id_project_project_attribute bigint not null auto_increment,
+	id_project bigint not null,
+	id_project_attribute bigint not null,
+	primary key(id_project_project_attribute),
+	foreign key (id_project) references project (id_project) ON DELETE CASCADE,
+	foreign key (id_project_attribute) references project_attribute (id_project_attribute) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists person_project;
+show warnings;
+
+create table person_project (
+	id_person_project bigint not null auto_increment,
+	id_person bigint not null,
+	id_project bigint not null,
+	flt_allocated float(4,3) not null,
+	primary key(id_person_project),
+	foreign key (id_person) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_project) references project (id_project) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists person_person_attribute;
+show warnings;
+
+create table person_person_attribute (
+	id_person_person_attribute bigint not null auto_increment,
+	id_person bigint not null,
+	id_person_attribute bigint not null,
+	primary key(id_person_person_attribute),
+	foreign key (id_person) references person (id_person) ON DELETE CASCADE,
+	foreign key (id_person_attribute) references person_attribute (id_person_attribute) ON DELETE CASCADE
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists lock_seat;
+show warnings;
+
+create table lock_seat (
+	id_lock_seat bigint not null auto_increment,
+	id_seat bigint not null,
+	id_person bigint null,
+	id_entity bigint null,
+	entity_type bigint null,
+	fl_before tinyint(1) not null default '0',
+	primary key(id_lock_seat),
+	foreign key (id_seat) references seat (id_seat) ON DELETE CASCADE,
+	foreign key (id_person) references person (id_person) ON DELETE CASCADE,
+	foreign key (entity_type) references entity_type (id_entity_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists scenario;
+show warnings;
+
+create table scenario (
+	id_scenario bigint not null auto_increment,
+	id_scenario_parent bigint null,
+	id_creator bigint null,
+	id_building_plan bigint not null default '2',
+	nm_scenario varchar(125) not null,
+	dtm_created datetime not null,
+	travel_speed int not null default '5',
+	fl_is_current tinyint not null default '0',
+	dtm_current datetime null,
+	dtm_run datetime null,
+	primary key(id_scenario),
+	foreign key (id_creator) references person (id_person),
+	foreign key (id_building_plan) references building_plan (id_building_plan)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists track_current_scenario;
+show warnings;
+
+create table track_current_scenario (
+	id_track_current_scenario bigint not null auto_increment,
+	id_creator bigint null,
+	id_scenario bigint not null,
+	dtm_archive datetime not null,
+	dtm_current datetime null,
+	primary key(id_track_current_scenario),
+	foreign key (id_creator) references person (id_person),
+	foreign key (id_scenario) references scenario (id_scenario)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_project;
+show warnings;
+
+create table s_project (
+	id_s_project bigint not null auto_increment,
+	id_prev_project bigint null,
+	id_scenario bigint not null,
+	nm_project varchar(125) not null,
+	txt_coords_xyz varchar(125) not null default '(0;0;0)',
+	flt_importance float(3,2) not null default '0.5',
+	flt_size float(8,3) not null default '0.001',
+	fl_is_fixed tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	num_contingency int not null default '0',
+	id_contingency_type bigint not null default '1',
+	sharing_ratio float(3,2) null,
+	primary key(id_s_project),
+	index (id_prev_project),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_contingency_type) references contingency_type (id_contingency_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_building;
+show warnings;
+
+create table s_building (
+	id_s_building bigint not null auto_increment,
+	id_prev_building bigint null,
+	id_scenario bigint not null,
+	nm_building varchar(125) not null,
+	txt_coords_xyz varchar(125) not null default '(0;0;0)',
+	flt_importance float(3,2) not null default '0.5',
+	flt_size float(8,3) not null default '0.001',
+	fl_is_fixed tinyint(1) not null default '1',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	primary key(id_s_building),
+	foreign key (id_scenario) references scenario (id_scenario)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_department;
+show warnings;
+
+create table s_department (
+	id_s_department bigint not null auto_increment,
+	id_prev_department bigint null,
+	id_scenario bigint not null,
+	id_department_parent bigint null,
+	nm_department varchar(125) not null,
+	txt_coords_xyz varchar(125) not null default '(0;0;0)',
+	flt_importance float(3,2) not null default '0.5',
+	flt_size float(8,3) not null default '0.001',
+	fl_is_fixed tinyint(1) not null default '0',
+	fl_is_clustered tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	num_contingency int null default '0',
+	id_contingency_type bigint not null default '1',
+	sharing_ratio float(3,2) null,
+	primary key(id_s_department),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_department_parent) references s_department (id_s_department),
+	foreign key (id_contingency_type) references contingency_type (id_contingency_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person;
+show warnings;
+
+create table s_person (
+	id_s_person bigint not null auto_increment,
+	id_prev_person bigint null,
+	id_scenario bigint not null,
+	id_department bigint null,
+	nm_person varchar(100) not null,
+	txt_coords_xyz varchar(125) not null default '(0;0;0)',
+	flt_importance float(3,2) not null default '0.5',
+	flt_size float(8,3) not null default '0.001',
+	fl_is_fixed tinyint(1) not null default '0',
+	fl_is_entity tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	fl_contingency tinyint(1) not null default '0',
+	primary key(id_s_person),
+	index (id_prev_person),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_department) references s_department (id_s_department)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person_attribute;
+show warnings;
+
+create table s_person_attribute (
+	id_s_person_attribute bigint not null auto_increment,
+	id_prev_person_attribute bigint null,
+	id_scenario bigint not null,
+	nm_person_attribute varchar(125) not null,
+	txt_coords_xyz varchar(125) not null default '0;0;0',
+	flt_importance float(3,2) not null default '0.5',
+	fl_is_fixed tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	primary key(id_s_person_attribute),
+	foreign key (id_scenario) references scenario (id_scenario)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_project_attribute;
+show warnings;
+
+create table s_project_attribute (
+	id_s_project_attribute bigint not null auto_increment,
+	id_prev_project_attribute bigint null,
+	id_scenario bigint not null,
+	nm_project_attribute varchar(125) not null,
+	txt_coords_xyz varchar(125) not null default '0;0;0',
+	flt_importance float(3,2) not null default '0.5',
+	fl_is_fixed tinyint(1) not null default '0',
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	primary key(id_s_project_attribute),
+	foreign key (id_scenario) references scenario (id_scenario)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_zone;
+show warnings;
+
+create table s_zone (
+	id_s_zone bigint not null auto_increment,
+	id_prev_zone bigint null,
+	id_scenario bigint not null,
+	nm_zone varchar(128) not null,
+	num_colour_r int not null default '192',
+	num_colour_g int not null default '192',
+	num_colour_b int not null default '192',
+	primary key(id_s_zone),
+	foreign key (id_scenario) references scenario (id_scenario)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_department_building_relationship;
+show warnings;
+
+create table s_department_building_relationship (
+	id_s_department_building_relationship bigint not null auto_increment,
+	id_prev_department_building_relationship bigint null,
+	id_scenario bigint not null,
+	id_department_source bigint not null,
+	id_building_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_department_building_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_department_source) references s_department (id_s_department),
+	foreign key (id_building_destination) references s_building (id_s_building),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_department_department_relationship;
+show warnings;
+
+create table s_department_department_relationship (
+	id_s_department_department_relationship bigint not null auto_increment,
+	id_prev_department_department_relationship bigint null,
+	id_scenario bigint not null,
+	id_department_source bigint not null,
+	id_department_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_department_department_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_department_source) references s_department (id_s_department),
+	foreign key (id_department_destination) references s_department (id_s_department),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_project_building_relationship;
+show warnings;
+
+create table s_project_building_relationship (
+	id_s_project_building_relationship bigint not null auto_increment,
+	id_prev_project_building_relationship bigint null,
+	id_scenario bigint not null,
+	id_project_source bigint not null,
+	id_building_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_project_building_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_project_source) references s_project (id_s_project),
+	foreign key (id_building_destination) references s_building (id_s_building),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_project_person_attribute_relationship;
+show warnings;
+
+create table s_project_person_attribute_relationship (
+	id_s_project_person_attribute_relationship bigint not null auto_increment,
+	id_prev_project_person_attribute_relationship bigint null,
+	id_scenario bigint not null,
+	id_project_source bigint not null,
+	id_person_attribute_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_project_person_attribute_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_project_source) references s_project (id_s_project),
+	foreign key (id_person_attribute_destination) references s_person_attribute (id_s_person_attribute),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_project_project_relationship;
+show warnings;
+
+create table s_project_project_relationship (
+	id_s_project_project_relationship bigint not null auto_increment,
+	id_prev_project_project_relationship bigint null,
+	id_scenario bigint not null,
+	id_project_source bigint not null,
+	id_project_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_project_project_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_project_source) references s_project (id_s_project),
+	foreign key (id_project_destination) references s_project (id_s_project),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person_department_relationship;
+show warnings;
+
+create table s_person_department_relationship (
+	id_s_person_department_relationship bigint not null auto_increment,
+	id_prev_person_department_relationship bigint null,
+	id_scenario bigint not null,
+	id_person_source bigint not null,
+	id_department_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_person_department_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_person_source) references s_person (id_s_person),
+	foreign key (id_department_destination) references s_department (id_s_department),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person_person_attribute_relationship;
+show warnings;
+
+create table s_person_person_attribute_relationship (
+	id_s_person_person_attribute_relationship bigint not null auto_increment,
+	id_prev_person_person_attribute_relationship bigint null,
+	id_scenario bigint not null,
+	id_person_source bigint not null,
+	id_person_attribute_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_person_person_attribute_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_person_source) references s_person (id_s_person),
+	foreign key (id_person_attribute_destination) references s_person_attribute (id_s_person_attribute),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person_project_relationship;
+show warnings;
+
+create table s_person_project_relationship (
+	id_s_person_project_relationship bigint not null auto_increment,
+	id_prev_person_project_relationship bigint null,
+	id_scenario bigint not null,
+	id_person_source bigint not null,
+	id_project_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_person_project_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_person_source) references s_person (id_s_person),
+	foreign key (id_project_destination) references s_project (id_s_project),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_project_project_attribute_relationship;
+show warnings;
+
+create table s_project_project_attribute_relationship (
+	id_s_project_project_attribute_relationship bigint not null auto_increment,
+	id_prev_project_project_attribute_relationship bigint null,
+	id_scenario bigint not null,
+	id_project_source bigint not null,
+	id_project_attribute_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_project_project_attribute_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_project_source) references s_project (id_s_project),
+	foreign key (id_project_attribute_destination) references s_project_attribute (id_s_project_attribute),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person_person_relationship;
+show warnings;
+
+create table s_person_person_relationship (
+	id_s_person_person_relationship bigint not null auto_increment,
+	id_prev_person_person_relationship bigint null,
+	id_scenario bigint not null,
+	id_person_source bigint not null,
+	id_person_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_person_person_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_person_source) references s_person (id_s_person),
+	foreign key (id_person_destination) references s_person (id_s_person),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person_zone_relationship;
+show warnings;
+
+create table s_person_zone_relationship (
+	id_s_person_zone_relationship bigint not null auto_increment,
+	id_prev_person_zone_relationship bigint null,
+	id_scenario bigint not null,
+	id_person_source bigint not null,
+	id_zone_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_person_zone_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_person_source) references s_person (id_s_person),
+	foreign key (id_zone_destination) references s_zone (id_s_zone),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_department_zone_relationship;
+show warnings;
+
+create table s_department_zone_relationship (
+	id_s_department_zone_relationship bigint not null auto_increment,
+	id_prev_department_zone_relationship bigint null,
+	id_scenario bigint not null,
+	id_department_source bigint not null,
+	id_zone_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_department_zone_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_department_source) references s_department (id_s_department),
+	foreign key (id_zone_destination) references s_zone (id_s_zone),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_project_zone_relationship;
+show warnings;
+
+create table s_project_zone_relationship (
+	id_s_project_zone_relationship bigint not null auto_increment,
+	id_prev_project_zone_relationship bigint null,
+	id_scenario bigint not null,
+	id_project_source bigint not null,
+	id_zone_destination bigint not null,
+	id_creator bigint null,
+	flt_importance float(3,2) not null default '0.5',
+	num_distance int not null default '5',
+	primary key(id_s_project_zone_relationship),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_project_source) references s_project (id_s_project),
+	foreign key (id_zone_destination) references s_zone (id_s_zone),
+	foreign key (id_creator) references s_person (id_s_person)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_manager_department;
+show warnings;
+
+create table s_manager_department (
+	id_s_manager_department bigint not null auto_increment,
+	id_prev_manager_department bigint null,
+	id_scenario bigint not null,
+	id_manager bigint not null,
+	id_department bigint null,
+	primary key(id_s_manager_department),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_manager) references s_person (id_s_person),
+	foreign key (id_department) references s_department (id_s_department)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_project_project_attribute;
+show warnings;
+
+create table s_project_project_attribute (
+	id_s_project_project_attribute bigint not null auto_increment,
+	id_prev_project_project_attribute bigint null,
+	id_scenario bigint not null,
+	id_project bigint not null,
+	id_project_attribute bigint not null,
+	primary key(id_s_project_project_attribute),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_project) references s_project (id_s_project),
+	foreign key (id_project_attribute) references s_project_attribute (id_s_project_attribute)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person_project;
+show warnings;
+
+create table s_person_project (
+	id_s_person_project bigint not null auto_increment,
+	id_prev_person_project bigint null,
+	id_scenario bigint not null,
+	id_person bigint not null,
+	id_project bigint not null,
+	flt_allocated float(4,3) not null,
+	primary key(id_s_person_project),
+	index (id_prev_person_project),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_person) references s_person (id_s_person),
+	foreign key (id_project) references s_project (id_s_project)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_person_person_attribute;
+show warnings;
+
+create table s_person_person_attribute (
+	id_s_person_person_attribute bigint not null auto_increment,
+	id_prev_person_person_attribute bigint null,
+	id_scenario bigint not null,
+	id_person bigint not null,
+	id_person_attribute bigint not null,
+	primary key(id_s_person_person_attribute),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_person) references s_person (id_s_person),
+	foreign key (id_person_attribute) references s_person_attribute (id_s_person_attribute)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_run_data;
+show warnings;
+
+create table s_run_data (
+	id_s_run_data bigint not null auto_increment,
+	id_scenario bigint not null,
+	id_core_message_type bigint not null,
+	txt_run_data longtext not null,
+	primary key(id_s_run_data),
+	index (id_scenario),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_core_message_type) references core_message_type (id_core_message_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_seating_allocation;
+show warnings;
+
+create table s_seating_allocation (
+	id_s_seating_allocation bigint not null auto_increment,
+	id_scenario bigint not null,
+	id_person bigint not null,
+	id_seat bigint null,
+	idEntity varchar(125) not null,
+	primary key(id_s_seating_allocation),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_person) references s_person (id_s_person),
+	foreign key (id_seat) references seat (id_seat)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_lock_seat;
+show warnings;
+
+create table s_lock_seat (
+	id_s_lock_seat bigint not null auto_increment,
+	id_prev_lock_seat bigint null,
+	id_scenario bigint not null,
+	id_seat bigint not null,
+	id_person bigint null,
+	id_entity bigint null,
+	entity_type bigint null,
+	fl_before tinyint(1) not null default '0',
+	primary key(id_s_lock_seat),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_seat) references seat (id_seat),
+	foreign key (id_person) references s_person (id_s_person),
+	foreign key (entity_type) references entity_type (id_entity_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_travel_time;
+show warnings;
+
+create table s_travel_time (
+	id_s_travel_time bigint not null auto_increment,
+	id_scenario bigint not null,
+	id_source varchar(225) not null,
+	nm_source varchar(125) not null,
+	id_destination varchar(225) not null,
+	nm_destination varchar(125) not null,
+	min_time int not null,
+	mid_time int not null,
+	primary key(id_s_travel_time),
+	foreign key (id_scenario) references scenario (id_scenario)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_link;
+show warnings;
+
+create table s_link (
+	id_s_link bigint not null auto_increment,
+	id_prev_link bigint null,
+	id_scenario bigint not null,
+	name varchar(225) not null,
+	speed float(5,2) not null,
+	unit varchar(25) not null,
+	link_type varchar(25) not null,
+	scale_unit varchar(25) not null,
+	primary key(id_s_link),
+	foreign key (id_scenario) references scenario (id_scenario)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+drop table if exists s_polyline;
+show warnings;
+
+create table s_polyline (
+	id_s_polyline bigint not null auto_increment,
+	id_prev_polyline bigint null,
+	id_scenario bigint not null,
+	id_link bigint not null,
+	txt_coords_xyz varchar(225) not null,
+	primary key(id_s_polyline),
+	foreign key (id_scenario) references scenario (id_scenario),
+	foreign key (id_link) references s_link (id_s_link)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+create view s_list_top_projects as select id_scenario, id_person, id_project, flt_allocated from s_person_project group by id_person order by max(flt_allocated);
+
+show warnings;
+
+create view list_entities_tables as  select nm_project as name, id_project as id_entity, id_entity_type from project, entity_type where nm_entity_type='department' union select nm_department as name, id_department, id_entity_type from department, entity_type where nm_entity_type='project' union select nm_person as name, id_person, id_entity_type from person, entity_type where nm_entity_type='person' union select nm_building as name, id_building, id_entity_type from building, entity_type where nm_entity_type='building' union select nm_person_attribute as name, id_person_attribute, id_entity_type from person_attribute, entity_type where nm_entity_type='person attribute' union select nm_project_attribute as name, id_project_attribute, id_entity_type from project_attribute, entity_type where nm_entity_type='project attribute';
+
 show warnings;
 

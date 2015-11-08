@@ -85,7 +85,6 @@ create table user (
 	primary key(id_user),
 	unique index (nm_username),
 	unique index (txt_address_email(255)),
-	unique index (txt_password),
 	index (id_user_type),
 	index (fl_is_alive),
 	foreign key (id_user_type) references user_type (id_user_type)

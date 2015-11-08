@@ -1,5 +1,8 @@
 package synapticloop.h2zero.model.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /*
  * Copyright (c) 2015 synapticloop.
  * 
@@ -27,6 +30,7 @@ public class FieldLookupHelper {
 	private static final String IN_DESIGNATOR = "in:";
 
 	private FieldLookupHelper() {}
+	private static Set<String> TABLE_FIELD_CACHE = new HashSet<String>();
 
 	/**
 	 * Get the base field from the base schema object (table or view) with the specified name
@@ -82,5 +86,13 @@ public class FieldLookupHelper {
 	 */
 	public static boolean hasInFieldDesignator(String fieldName) {
 		return(fieldName.startsWith(IN_DESIGNATOR));
+	}
+
+	public static void addToTableFieldCache(String tableName, String fieldName) {
+		TABLE_FIELD_CACHE.add(tableName + ":" + fieldName);
+	}
+
+	public static boolean hasTableField(String tableName, String fieldName) {
+		return(TABLE_FIELD_CACHE.contains(tableName + ":" + fieldName));
 	}
 }

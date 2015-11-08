@@ -28,6 +28,14 @@ public abstract class Generator {
 
 	private int numFiles = 0;
 
+	/**
+	 * Constructor for the generator
+	 * 
+	 * @param database the database object that the generator will act on
+	 * @param options the options for the generator
+	 * @param outFile the base file to output the generated assets
+	 * @param verbose whether to output debugging
+	 */
 	public Generator(Database database, Options options, File outFile, boolean verbose) {
 		this.database = database;
 		this.options = options;
@@ -35,8 +43,22 @@ public abstract class Generator {
 		this.verbose = verbose;
 	}
 
+	/**
+	 * Generate the output file from the inputs
+	 * 
+	 * @throws RenderException if there was an error rendering the file
+	 * @throws ParseException if there was an error parsing the templar templat file
+	 */
 	public abstract void generate() throws RenderException, ParseException;
 
+	/**
+	 * Get the default templar context, which contains the database and the 
+	 * options objects.
+	 * 
+	 * @return a new templar context with the default configuration
+	 * 
+	 * @throws FunctionException if there was an error registering the new function
+	 */
 	protected TemplarContext getDefaultTemplarContext() throws FunctionException {
 		TemplarConfiguration templarConfiguration = new TemplarConfiguration();
 		templarConfiguration.setExplicitNewLines(true);
@@ -53,6 +75,16 @@ public abstract class Generator {
 
 		return templarContext;
 	}
+
+	/**
+	 * Get the parser for the templar template file from the classpath
+	 * 
+	 * @param templarTemplateFile the templar file to retrieve from the classpath
+	 * 
+	 * @return the parser for the templar template file
+	 * 
+	 * @throws ParseException if there was an error parsing the file
+	 */
 	protected Parser getParser(String templarTemplateFile) throws ParseException {
 		if(verbose) {
 			SimpleLogger.logDebug(LoggerType.TEMPLAR_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
@@ -89,6 +121,18 @@ public abstract class Generator {
 		templarParser.renderToFile(templarContext, new File(pathname));
 	}
 
+	/**
+	 * Get the number of files that has been generated
+	 * 
+	 * @return the number of files generated
+	 */
 	public int getNumFiles() { return numFiles; }
+
+	/**
+	 * Return the map of the number of files keyed on extension, with the value 
+	 * being the number of files generated for that extension
+	 *  
+	 * @return the map of extension:#files_generated
+	 */
 	public Map<String, Integer> getNumFilesHashMap() { return numFilesHashMap; }
 }
