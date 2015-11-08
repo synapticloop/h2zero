@@ -8,7 +8,7 @@ public class AssertionHelper {
 
 	public static void assertNotNull(String key, String value) throws H2ZeroParseException {
 		if(null == value) {
-			throw new H2ZeroParseException("Value '" + key + "' cannot be null.");
+			throw new H2ZeroParseException("Value for key '" + key + "' cannot be null.");
 		}
 	}
 }

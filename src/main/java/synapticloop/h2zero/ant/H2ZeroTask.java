@@ -34,6 +34,7 @@ import synapticloop.h2zero.generator.AdminPagesGenerator;
 import synapticloop.h2zero.generator.Generator;
 import synapticloop.h2zero.generator.JavaGenerator;
 import synapticloop.h2zero.generator.MetricsGenerator;
+import synapticloop.h2zero.generator.ReportGenerator;
 import synapticloop.h2zero.generator.SqlGenerator;
 import synapticloop.h2zero.generator.TaglibGenerator;
 import synapticloop.h2zero.generator.UtilGenerator;
@@ -97,6 +98,7 @@ public class H2ZeroTask extends Task {
 			generators.add(new AdminPagesGenerator(database, options, outFile, verbose));
 			generators.add(new MetricsGenerator(database, options, outFile, verbose));
 			generators.add(new UtilGenerator(database, options, outFile, verbose));
+			generators.add(new ReportGenerator(database, options, outFile, verbose));
 
 			for (Generator generator : generators) {
 				generator.generate();

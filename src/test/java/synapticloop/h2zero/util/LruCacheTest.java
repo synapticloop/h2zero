@@ -60,4 +60,10 @@ public class LruCacheTest {
 		lruCache.get(1);
 		assertEquals("{ 3:3 }, { 2:2 }, { 1:1 }", lruCache.toString());
 	}
+
+	@Test(expected = NullPointerException.class)
+	public void testNullPut(){
+		LruCache<String, String> cache = new LruCache<String, String>();
+		cache.put(null, null);
+	}
 }

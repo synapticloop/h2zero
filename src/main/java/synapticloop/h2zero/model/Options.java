@@ -24,6 +24,7 @@ public class Options {
 	public static final String OPTION_SQL = "sql";
 	public static final String OPTION_WEBAPP = "webapp";
 	public static final String OPTION_RESTFUL_SERVLET = "restfulservlet";
+	public static final String OPTION_REPORT = "report";
 
 	public static final String OPTION_OUTPUT = "output";
 
@@ -58,6 +59,7 @@ public class Options {
 	private String outputJava = "/src/main/java/";
 	private String outputSql = "/src/main/sql/";
 	private String outputWebapp = "/src/main/webapps/";
+	private String outputReports = "/build/reports/";
 
 	private Set<String> generators = new HashSet<String>();
 
@@ -190,4 +192,5 @@ public class Options {
 	public String getOutputJava() { return(outputJava); }
 	public String getOutputWebapp() { return(outputWebapp); }
 	public String getOutputSql() { return(outputSql); }
+	public String getOutputReports() { return(outputReports); }
 }

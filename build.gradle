@@ -6,6 +6,7 @@ plugins {
 	id "com.jfrog.bintray" version "1.4"
 	id "maven"
 	id "maven-publish"
+	id "com.github.johnrengelman.shadow" version "1.2.2"
 }
 
 group = 'synapticloop'
@@ -65,11 +66,17 @@ cobertura {
 }
 
 test {
-	include '**/*Test.class' 
+	include '**/*Test.class'
 	maxParallelForks = 1
 }
 
-
+shadowJar {
+	dependencies {
+		include(dependency('synapticloop:templar:.*'))
+		include(dependency('org.json:json:.*'))
+		classifier = ""
+	}
+}
 
 def javaApiUrl = 'http://docs.oracle.com/javase/1.7.0/docs/api/'
 def groovyApiUrl = 'http://groovy.codehaus.org/gapi/'
@@ -88,6 +95,7 @@ task sourcesJar(type: Jar) {
 	classifier = 'sources'
 }
 
+build.finalizedBy(project.tasks.shadowJar)
 test.finalizedBy(project.tasks.cobertura)
 
 
@@ -99,6 +107,7 @@ publishing {
 			artifact javadocJar
 
 			groupId 'synapticloop'
+
 			artifactId 'h2zero'
 
 			pom.withXml {

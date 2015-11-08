@@ -16,7 +16,6 @@
 		"sql": "src/test/resources/",
 		"webapp": "src/test/resources/"
 	}
-	
 },
 "database": {
 	"schema": "sample",
@@ -144,8 +143,6 @@
 					],
 					"unique": false
 				}
-
-
 			],
 
 			"questions": [
