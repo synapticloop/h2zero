@@ -1,0 +1,59 @@
+# Database Schema for '{database.schema}'{\n}
+{\n}
+
+{loop database.tables as table}
+	## `{table.name}`{\n}{\n}
+
+	{loop table.comments as comment}
+		> {comment}{\n}
+	{endloop}
+	{\n}
+
+	| Name | Type |length (min:max) | Nullable | Keys | Comments |{\n}
+	--- | --- | --- | --- | --- | --- {\n}
+
+	{loop table.fields as field}
+		| `{field.name}` 
+		| {field.type} 
+		| {if !fn:=[field.maxLength, "0"]}
+			({field.minLength}:{field.maxLength}){else} -- {endif} 
+		| {field.nullable} 
+		| 
+			{if field.primary}`primary`{endif}
+			{if field.unique} `unique`{endif}
+			{if fn:notNull[field.foreignKeyTable]} `foreign -> {field.foreignKeyTable}.{field.foreignKeyField}`{endif} 
+		| {if fn:null[field.comment]} -- {else}{field.comment}{endif} |{\n}
+	{endloop}
+
+{\n}{\n}
+
+	{if table.isConstant}
+		This table is a **constant** table with the following values{\n}{\n}
+
+	| Name | Values |{\n}
+	--- | --- {\n}
+
+		{loop table.constants as constant}
+			| `{constant.name}` | {loop constant.sqlValues as sqlValue}`{sqlValue}`{if !sqlValueStatus.last}, {endif}{endloop} |{\n}
+		{endloop}
+		{\n}{\n}
+	{endif}
+
+	### Finder Signatures{\n}{\n}
+
+	> Find all `{table.name}` objects{\n}{\n}
+
+	`List<{table.javaClassName}> findAll()`{\n}{\n}
+	`List<{table.javaClassName}> findAll(Connection connection)`{\n}{\n}
+	`List<{table.javaClassName}> findAll(int offset, int limit)`{\n}{\n}
+	`List<{table.javaClassName}> findAll(Connection connection, int offset, int limit)`{\n}{\n}
+
+	> Find a particular `{table.name}` object by the primary key{\n}{\n}
+	
+	`{table.javaClassName} findByPrimaryKey(Long idPrimaryKey)`{\n}{\n}
+	`{table.javaClassName} findByPrimaryKey(Connection connection, Long idPrimaryKey)`{\n}{\n}
+
+	{loop table.finders as finder}
+		`{finder.name}`{\n}{\n}
+	{endloop}
+{endloop}

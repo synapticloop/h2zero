@@ -55,7 +55,7 @@ public abstract class Generator {
 	}
 	protected Parser getParser(String templarTemplateFile) throws ParseException {
 		if(verbose) {
-			SimpleLogger.logInfo(LoggerType.TEMPLAR_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
+			SimpleLogger.logDebug(LoggerType.TEMPLAR_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
 		}
 		return(new Parser(this.getClass().getResourceAsStream(templarTemplateFile)));
 	}
@@ -71,7 +71,7 @@ public abstract class Generator {
 	 */
 	protected void renderToFile(TemplarContext templarContext, Parser templarParser, String pathname) throws RenderException {
 		if(verbose) {
-			SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "Rendering to '" + pathname + "'");
+			SimpleLogger.logDebug(LoggerType.TEMPLAR_RENDER, "Rendering to '" + pathname + "'");
 		}
 
 		numFiles++;

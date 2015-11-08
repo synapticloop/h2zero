@@ -18,7 +18,7 @@ public class ReportGenerator extends Generator {
 
 	@Override
 	public void generate() throws RenderException, ParseException {
-		if(!options.hasGenerator(Options.OPTION_REPORT)) {
+		if(!options.hasGenerator(Options.OPTION_REPORTS)) {
 			return;
 		}
 		TemplarContext templarContext = null;
@@ -28,13 +28,13 @@ public class ReportGenerator extends Generator {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
 
-		generateDatabaseReport(templarContext);
+		generateDatabaseSchemaReport(templarContext);
 	}
 
-	private void generateDatabaseReport(TemplarContext templarContext) throws ParseException, RenderException {
-		Parser reportCreateDatabaseMd = getParser("/report-create-database-md.templar");
+	private void generateDatabaseSchemaReport(TemplarContext templarContext) throws ParseException, RenderException {
+		Parser mdReportCreateDatabaseSchema = getParser("/md-report-create-database-schema.templar");
 		String pathname = outFile + options.getOutputReports() + "/report-database-" + database.getSchema() + "-" + options.getDatabase() + ".md";
-		renderToFile(templarContext, reportCreateDatabaseMd, pathname);
+		renderToFile(templarContext, mdReportCreateDatabaseSchema, pathname);
 	}
 
 }

@@ -24,7 +24,7 @@ public class Options {
 	public static final String OPTION_SQL = "sql";
 	public static final String OPTION_WEBAPP = "webapp";
 	public static final String OPTION_RESTFUL_SERVLET = "restfulservlet";
-	public static final String OPTION_REPORT = "report";
+	public static final String OPTION_REPORTS = "reports";
 
 	public static final String OPTION_OUTPUT = "output";
 
@@ -36,6 +36,7 @@ public class Options {
 		ALLOWABLE_GENERATORS.add(OPTION_TAGLIB);
 		ALLOWABLE_GENERATORS.add(OPTION_ADMINPAGES);
 		ALLOWABLE_GENERATORS.add(OPTION_FORMBEANS);
+		ALLOWABLE_GENERATORS.add(OPTION_REPORTS);
 	}
 
 	private static Set<String> ALLOWABLE_LOGGERS = new HashSet<String>();

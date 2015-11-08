@@ -211,7 +211,7 @@ public class H2ZeroTask extends Task {
 	 */
 	private void logDatabaseInfo(H2ZeroParser h2zeroParser) {
 		if(verbose) {
-			SimpleLogger.logInfo(LoggerType.PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
+			SimpleLogger.logDebug(LoggerType.PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
 			List<Table> tables = h2zeroParser.getDatabase().getTables();
 			int maxTableNameLength = 0;
 
@@ -252,7 +252,7 @@ public class H2ZeroTask extends Task {
 			}
 
 			for (Table table : tables) {
-				SimpleLogger.logInfo(LoggerType.PARSE, "Found table " + String.format("%-" + maxTableNameLength + "s", table.getName()) + 
+				SimpleLogger.logDebug(LoggerType.PARSE, "Found table " + String.format("%-" + maxTableNameLength + "s", table.getName()) + 
 						" [ " + 
 						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", table.getFields().size()) + 
 						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", table.getFinders().size()) + 

@@ -35,12 +35,17 @@ public class SimpleLogger {
 		}
 	}
 
+	public static final String DEBUG = "DEBUG";
 	public static final String INFO = " INFO";
 	public static final String WARN = " WARN";
 	public static final String ERROR = "ERROR";
 	public static final String FATAL = "FATAL";
 
 	private SimpleLogger() {}
+
+	public static void logDebug(LoggerType loggerType, String message) { log(DEBUG, loggerType, message); }
+	@SuppressWarnings("rawtypes")
+	public static void logDebug(LoggerType loggerType, Class clazz, String message) { log(DEBUG, loggerType, clazz, message); }
 
 	public static void logInfo(LoggerType loggerType, String message) { log(INFO, loggerType, message); }
 	@SuppressWarnings("rawtypes")

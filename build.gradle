@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-	runtime 'synapticloop:templar:v1.0.5'
+	runtime 'synapticloop:templar:v1.0.8'
 	runtime 'org.json:json:20150729'
 	runtime 'com.mchange:c3p0:0.9.5.1'
 	runtime 'commons-validator:commons-validator:1.4.1'
@@ -32,7 +32,7 @@ dependencies {
 	runtime 'io.dropwizard.metrics:metrics-core:3.1.2'
 	runtime 'javax.mail:javax.mail-api:1.5.4'
 
-	compile 'synapticloop:templar:v1.0.5'
+	compile 'synapticloop:templar:v1.0.8'
 	compile 'org.json:json:20150729'
 	compile 'org.apache.ant:ant:1.9.6'
 	compile 'javax.servlet.jsp:jsp-api:2.2'
