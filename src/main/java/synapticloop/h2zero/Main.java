@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import synapticloop.h2zero.ant.H2ZeroTask;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 
 /*
@@ -170,7 +172,7 @@ public class Main {
 			}
 			parseAndExecute(args);
 		} catch (IOException ex) {
-			System.err.println("FATAL!!! could neither find, nor read the file '" + USAGE_TXT + "' within the jar.");
+			SimpleLogger.logFatal(LoggerType.MAIN, "Could neither find, nor read the file '" + USAGE_TXT + "' within the jar.");
 		}
 	}
 }

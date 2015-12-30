@@ -2,6 +2,7 @@ package synapticloop.h2zero.util;
 
 public class SimpleLogger {
 	public enum LoggerType {
+		MAIN,
 		OPTIONS,
 		OPTIONS_VALIDATOR,
 		GENERATORS,
