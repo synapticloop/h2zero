@@ -42,6 +42,7 @@ public class Form {
 	public Form(Database database, JSONObject jsonObject) throws H2ZeroParseException {
 		this.database = database;
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
+		System.out.println(this.name);
 		this.respondTo = JsonHelper.getStringValue(jsonObject, "respondTo", null);
 
 		if(null == name) {
@@ -75,12 +76,18 @@ public class Form {
 				ref = JsonHelper.getStringValue(fieldObject, "ref", null);
 				System.out.println("Form field ref of " + ref);
 				if(ref != null) {
-					baseField = database.getField(ref);
+					if(ref.contains(".")) {
+						String[] split = ref.split("\\.", 2);
+						baseField = database.getTableField(split[0], split[1]);
+					} else {
+						baseField = database.getField(ref);
+					}
+
 					if(null == baseField) {
 						throw new H2ZeroParseException("A ref of '" + ref + "' was used, but not field could be found with this name.");
 					} else {
 						// we have the field and are good to go
-						formFields.add(new FormField(baseField));
+						formFields.add(new FormField(this.name, baseField));
 					}
 				} else {
 					//maybe we have a name???
@@ -89,7 +96,7 @@ public class Form {
 					if(null == fieldName) {
 						throw new H2ZeroParseException("A form field must have a name.");
 					} else {
-						formFields.add(new FormField(fieldObject));
+						formFields.add(new FormField(this.name, fieldObject));
 					}
 				}
 

@@ -38,6 +38,7 @@ import synapticloop.h2zero.validator.deleter.DeleterWhereClauseValidator;
 import synapticloop.h2zero.validator.field.FieldDefaultValueValidator;
 import synapticloop.h2zero.validator.field.FieldIgnoredKeysValidator;
 import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
+import synapticloop.h2zero.validator.field.FieldNotNullLengthValidator;
 import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
 import synapticloop.h2zero.validator.finder.FinderInQueryValidator;
 import synapticloop.h2zero.validator.finder.FinderNameValidator;
@@ -67,6 +68,11 @@ import synapticloop.h2zero.validator.updater.UpdaterQueryParameterNameValidator;
 import synapticloop.h2zero.validator.updater.UpdaterSetClauseValidator;
 import synapticloop.h2zero.validator.updater.UpdaterWhereClauseValidator;
 
+/**
+ * This is the parser for the h2zero generator
+ * 
+ * @author synapticloop
+ */
 
 public class H2ZeroParser {
 	private Database database = null;
@@ -81,7 +87,6 @@ public class H2ZeroParser {
 		validators.add(new OptionsGeneratorsValidator());
 
 		// overall validators
-
 		validators.add(new ForeignKeyTableValidator());
 		validators.add(new UniqeAndIndexValidator());
 
@@ -97,6 +102,7 @@ public class H2ZeroParser {
 		validators.add(new FieldDefaultValueValidator());
 		validators.add(new FieldNameDuplicateValidator());
 		validators.add(new FieldIgnoredKeysValidator());
+		validators.add(new FieldNotNullLengthValidator());
 
 
 		// Finder validators
@@ -111,14 +117,17 @@ public class H2ZeroParser {
 		validators.add(new FinderQueryParameterNameValidator());
 		validators.add(new FinderQueryParameterNumberValidator());
 
+
 		// inserter validators
 		validators.add(new InserterQueryParameterNameValidator());
 		validators.add(new InserterNameValidator());
 		validators.add(new InserterKeyValidator());
 
+
 		// deleter validators
 		validators.add(new DeleterNameValidator());
 		validators.add(new DeleterWhereClauseValidator());
+
 
 		// updater validators
 		validators.add(new UpdaterQueryParameterNameValidator());
@@ -126,6 +135,7 @@ public class H2ZeroParser {
 		validators.add(new UpdaterWhereClauseValidator());
 		validators.add(new UpdaterSetClauseValidator());
 		validators.add(new UpdaterKeyValidator());
+
 
 		// counter validators
 		validators.add(new CounterQueryParameterNameValidator());
@@ -135,6 +145,7 @@ public class H2ZeroParser {
 		validators.add(new CounterKeyValidator());
 		validators.add(new CounterNameValidator());
 
+
 		// question validators
 		validators.add(new QuestionQueryParameterNameValidator());
 		validators.add(new QuestionSelectClauseValidator());
@@ -142,6 +153,7 @@ public class H2ZeroParser {
 		validators.add(new QuestionJsonUniqueKeyExistsValidator());
 		validators.add(new QuestionKeyValidator());
 		validators.add(new QuestionNameValidator());
+
 
 		// constant validators
 		validators.add(new ConstantTableValidator());

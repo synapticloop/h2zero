@@ -32,6 +32,13 @@ public class Database {
 	private Set<String> tableNames = new HashSet<String>();
 	private int defaultStatementCacheSize = 1024;
 
+	/**
+	 * Parse and create a new database object from the passed in JSON object
+	 * 
+	 * @param jsonObject the database jsonObject
+	 * 
+	 * @throws H2ZeroParseException if there was an error parsing the json object
+	 */
 	public Database(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONObject databaseJson = null;
 		try {
@@ -145,6 +152,23 @@ public class Database {
 			}
 		}
 		return(null);
+	}
+
+	/**
+	 * Get a field from a specific table
+	 * 
+	 * @param tableName the name of the table
+	 * @param fieldName the name of the field
+	 * 
+	 * @return the basefield for the table, or null if it doesn't exist
+	 */
+	public BaseField getTableField(String tableName, String fieldName) {
+		Table table = tableLookup.get(tableName);
+		if(null == table) {
+			return(null);
+		} else {
+			return(table.getField(fieldName));
+		}
 	}
 
 	public String getPackagePath() { return(NamingHelper.convertToPath(packageName)); }

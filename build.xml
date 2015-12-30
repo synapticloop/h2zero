@@ -66,7 +66,7 @@
 	<target name="test-h2zero" description="test the h2zero generation">
 		<delete dir="generate/src/main/java/*" />
 		<taskdef resource="h2zero.properties" classpathref="classpath-h2zero-dist" />
-		<h2zero inFile="src/test/resources/sample.h2zero" outDir="." verbose="true" />
+		<h2zero inFile="src/test/resources/sample.h2zero" outDir="." verbose="false" />
 		<!-- now try and javac the generated code 
 		<javac srcdir="${basedir}/src/test/java" destdir="${basedir}/build/classes" debug="on" classpathref="compile.classpath" includeantruntime="false" compiler="javac1.6" source="1.6" target="1.6" />
 		-->

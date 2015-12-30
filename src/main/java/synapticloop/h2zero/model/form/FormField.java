@@ -28,6 +28,7 @@ import synapticloop.h2zero.util.NamingHelper;
 public class FormField {
 	private static final String SYNAPTICLOOP_H2ZERO_BASE_FORM_FIELD = "synapticloop.h2zero.base.form.field.";
 
+	private String formName;
 	private String name;
 	private boolean nullable;
 	private boolean confirm;
@@ -35,18 +36,20 @@ public class FormField {
 	private int maxLength;
 	private String validator;
 
-	public FormField(JSONObject jsonObject) throws H2ZeroParseException {
+	public FormField(String formName, JSONObject jsonObject) throws H2ZeroParseException {
+		this.formName = formName;
 		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
 		this.nullable = JsonHelper.getBooleanValue(jsonObject, "nullable", false);
 		this.nullable = JsonHelper.getBooleanValue(jsonObject, "confirm", false);
 		this.minLength = JsonHelper.getIntValue(jsonObject, "minLength", 0);
 		this.maxLength = JsonHelper.getIntValue(jsonObject, "length", 0);
 		this.validator = JsonHelper.getStringValue(jsonObject, "validator", null);
-		System.out.println(jsonObject);
+		System.out.println(jsonObject.toString(2));
 		validateFormField();
 	}
 
-	public FormField(BaseField baseField) throws H2ZeroParseException {
+	public FormField(String formName, BaseField baseField) throws H2ZeroParseException {
+		this.formName = formName;
 		this.name = baseField.getName();
 		this.nullable = baseField.getNullable();
 		this.minLength = baseField.getMinLength();
@@ -65,7 +68,7 @@ public class FormField {
 		}
 
 		if (!this.nullable && this.minLength == 0) {
-			throw new H2ZeroParseException("The form field is not allowed to be null, but the minLength is 0.");
+			throw new H2ZeroParseException("The form field '" + name + "' on form '" + formName + "' is not allowed to be null, but the minLength is 0, either set a \"minlength\" on the form, or on the field.");
 		}
 
 		if (null == validator) {

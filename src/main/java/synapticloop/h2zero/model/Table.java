@@ -4,8 +4,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +18,7 @@ import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.model.util.FieldLookupHelper;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
+import synapticloop.h2zero.util.KeyHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
 /**
@@ -28,6 +31,21 @@ public class Table extends BaseSchemaObject {
 		ignoredKeys.add("comment");
 		ignoredKeys.add("cacheable");
 		ignoredKeys.add("cacheFindAll");
+	}
+
+	public static Set<String> ALLOWABLE_KEYS = new HashSet<String>();
+	static {
+		ALLOWABLE_KEYS.add("name");
+		ALLOWABLE_KEYS.add("comments");
+		ALLOWABLE_KEYS.add("fields");
+		ALLOWABLE_KEYS.add("constants");
+		ALLOWABLE_KEYS.add("fieldFinders");
+		ALLOWABLE_KEYS.add("finders");
+		ALLOWABLE_KEYS.add("questions");
+		ALLOWABLE_KEYS.add("updaters");
+		ALLOWABLE_KEYS.add("counters");
+		ALLOWABLE_KEYS.add("deleters");
+		ALLOWABLE_KEYS.add("inserters");
 	}
 
 	private static Map<String, String> replacementKeys = new HashMap<String, String>();
@@ -98,6 +116,8 @@ public class Table extends BaseSchemaObject {
 			}
 		}
 
+		// now we are going to go through and determine all of the 
+		KeyHelper.findMissingKeys(this, jsonObject, ALLOWABLE_KEYS);
 		// now for the fields
 		populateFields(jsonObject);
 
