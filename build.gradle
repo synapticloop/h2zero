@@ -12,7 +12,7 @@ plugins {
 group = 'synapticloop'
 archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql, java and optionally jsp/servlets"""
-version = 'v1.0.5'
+version = 'v1.0.6'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -26,7 +26,7 @@ repositories {
 dependencies {
 	runtime 'synapticloop:templar:v1.0.8'
 	runtime 'org.json:json:20150729'
-	runtime 'com.mchange:c3p0:0.9.5.1'
+	runtime 'com.mchange:c3p0:0.9.5.2'
 	runtime 'commons-validator:commons-validator:1.4.1'
 	runtime 'org.apache.logging.log4j:log4j-core:2.4.1'
 	runtime 'io.dropwizard.metrics:metrics-core:3.1.2'
@@ -37,7 +37,7 @@ dependencies {
 	compile 'org.apache.ant:ant:1.9.6'
 	compile 'javax.servlet.jsp:jsp-api:2.2'
 	compile 'javax.servlet:javax.servlet-api:3.1.0'
-	compile 'com.mchange:c3p0:0.9.5.1'
+	compile 'com.mchange:c3p0:0.9.5.2'
 	compile 'commons-validator:commons-validator:1.4.1'
 	compile 'org.apache.logging.log4j:log4j-core:2.4.1'
 	compile 'io.dropwizard.metrics:metrics-core:3.1.2'
