@@ -34,9 +34,9 @@ public class NamingHelper {
 	/**
 	 * Convert the second part of a variable name to uppercase, examples:
 	 * <ul>
-	 *   <li>thisVariableName -> thisVariableName</li>
-	 *   <li>ThisVariableName -> thisVariableName</li>
-	 *   <li>this_variable_name -> thisVariableName</li>
+	 *   <li>thisVariableName -&gt; thisVariableName</li>
+	 *   <li>ThisVariableName -&gt; thisVariableName</li>
+	 *   <li>this_variable_name -&gt; thisVariableName</li>
 	 * </ul>
 	 * 
 	 * @param name the name to convert
@@ -111,9 +111,9 @@ public class NamingHelper {
 	/**
 	 * Return a static constant name (i.e. ALL_UPPER_CASE).  Examples:
 	 * <ul>
-	 *   <li>thisVariableName -> THIS_VARIABLE_NAME</li>
-	 *   <li>ThisVariableName -> THIS_VARIABLE_NAME</li>
-	 *   <li>this_variable_name -> THIS_VARIABLE_NAME</li>
+	 *   <li>thisVariableName -&gt; THIS_VARIABLE_NAME</li>
+	 *   <li>ThisVariableName -&gt; THIS_VARIABLE_NAME</li>
+	 *   <li>this_variable_name -&gt; THIS_VARIABLE_NAME</li>
 	 * </ul>
 	 * 
 	 * @param name the name to convert
