@@ -137,11 +137,13 @@ public abstract class BaseQueryObject {
 				// at this point we need to check to see whether we are getting an array of objects, or just plain Strings
 				String whereFieldName = null;
 				String whereFieldAlias = null;
+				String whereFieldType = null;
 
 				if(null != whereFieldArray.optJSONObject(i)) {
 					JSONObject whereFieldObject = whereFieldArray.getJSONObject(i);
 					whereFieldName = whereFieldObject.getString(JSONKeyConstants.NAME);
 					whereFieldAlias = whereFieldObject.getString(JSONKeyConstants.ALIAS);
+					whereFieldType = whereFieldObject.optString(JSONKeyConstants.TYPE);
 					hasWhereFieldAliases = true;
 				} else {
 					whereFieldName = whereFieldArray.getString(i);
@@ -149,6 +151,9 @@ public abstract class BaseQueryObject {
 
 				BaseField baseField = null;
 				if(hasWhereFieldAliases) {
+					// TODO - if we have a type - we need to ignore finding the basefield and just
+					// create a new one...
+					
 					// we need to create a new BaseField identical to the current one - as it is currently cached
 					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName).copy();
 				} else {

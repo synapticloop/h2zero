@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /*
- * Copyright (c) 2015 synapticloop.
+ * Copyright (c) 2015-2016 synapticloop.
  * 
  * All rights reserved.
  *

@@ -24,7 +24,7 @@ public class FieldNotNullLengthValidator extends BaseValidator {
 			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
 				if(!baseField.getNullable() && baseField.getMinLength() == 0 && "String".equals(baseField.getJavaType())) {
-					addWarnMessage("Table field '" + table.getName() + "." + baseField.getName() + "' is not allowed to be null, but has a minimum length of 0");
+					addWarnMessage("Table field '" + table.getName() + "." + baseField.getName() + "' is not allowed to be null, but has a minimum length of 0, consider setting \"minLength\": 1");
 				}
 			}
 		}

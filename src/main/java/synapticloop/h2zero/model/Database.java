@@ -136,6 +136,11 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Get the schema name for the database (i.,e. the name of the database)
+	 * 
+	 * @return the schema name
+	 */
 	public String getSchema() { return(this.schema); }
 	public String getPackage() { return(this.packageName); }
 	public List<Table> getTables() { return(tables); }

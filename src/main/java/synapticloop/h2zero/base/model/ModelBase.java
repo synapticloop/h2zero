@@ -1,7 +1,7 @@
 package synapticloop.h2zero.base.model;
 
 /*
- * Copyright (c) 2012-2015 synapticloop.
+ * Copyright (c) 2012-2016 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -157,6 +157,16 @@ public abstract class ModelBase {
 	/*
 	 * All of the insert or update methods
 	 */
+	
+	/**
+	 * @see #upsert(Connection connection)
+	 * 
+	 * @param connection the connection to use (if a transaction has been started)
+	 * 
+	 * @throws H2ZeroPrimaryKeyException if there was an error retrieving the primary key 
+	 * @throws SQLException if there was an error with the SQL statement
+	 */
+	@Deprecated
 	public void insertOrUpdate(Connection connection) throws H2ZeroPrimaryKeyException, SQLException {
 		if(!primaryKeySet()) {
 			insert(connection);
@@ -165,6 +175,13 @@ public abstract class ModelBase {
 		}
 	}
 
+	/**
+	 * @see #upsert()
+	 * 
+	 * @throws H2ZeroPrimaryKeyException if there was an error retrieving the primary key 
+	 * @throws SQLException if there was an error with the SQL statement
+	 */
+	@Deprecated
 	public void insertOrUpdate() throws H2ZeroPrimaryKeyException, SQLException {
 		Connection connection = null;
 		try {
@@ -188,6 +205,12 @@ public abstract class ModelBase {
 		}
 	}
 
+	/**
+	 * @see #upsertSilent(Connection connection)
+	 * 
+	 * @param connection the connection to use (if a transaction has been started)
+	 */
+	@Deprecated
 	public void insertOrUpdateSilent(Connection connection) {
 		try {
 			if(!primaryKeySet()) {
@@ -202,6 +225,10 @@ public abstract class ModelBase {
 		}
 	}
 
+	/**
+	 * @see #upsertSilent()
+	 */
+	@Deprecated
 	public void insertOrUpdateSilent() {
 		Connection connection = null;
 		try {
@@ -226,6 +253,80 @@ public abstract class ModelBase {
 					connection = null;
 				}
 			}
+		}
+	}
+
+	/**
+	 * Update or insert the model object - updates are performed where the 
+	 * primary key is set, inserts where the primary key is null
+	 * 
+	 * @param connection The connection to use for transactional purposes 
+	 * @throws H2ZeroPrimaryKeyException if the return value for the primary key 
+	 *     could not be determined
+	 * @throws SQLException if there was an error with the SQL statement
+	 */
+	public void upsert(Connection connection) throws H2ZeroPrimaryKeyException, SQLException {
+		if(!primaryKeySet()) {
+			insert(connection);
+		} else {
+			update(connection);
+		}
+	}
+
+	/**
+	 * Update or insert the model object - updates are performed where the 
+	 * primary key is set, inserts where the primary key is null.  This will
+	 * grab a connection from the pool and close it at the end of the method.
+	 * 
+	 * @throws H2ZeroPrimaryKeyException if the return value for the primary key 
+	 *     could not be determined
+	 * @throws SQLException if there was an error with the SQL statement
+	 */
+	public void upsert() throws H2ZeroPrimaryKeyException, SQLException {
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			upsert(connection);
+			connection.close();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			throw(h2zpkex);
+		} catch(SQLException sqlex) {
+			throw (sqlex);
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	/**
+	 * Update or insert the model object silently (that is catch all exceptions)
+	 * updates are performed where the primary key is set, inserts where the 
+	 * primary key is null.
+	 * 
+	 * @param connection The connection to use for transactional purposes 
+	 */
+	public void upsertSilent(Connection connection) {
+		try {
+			upsert(connection);
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
+		}
+	}
+
+	/**
+	 * Update or insert the model object silently (that is catch all exceptions)
+	 * updates are performed where the primary key is set, inserts where the 
+	 * primary key is null.   This will grab a connection from the pool and 
+	 * close it at the end of the method.
+	 */
+	public void upsertSilent() {
+		try {
+			upsert();
+		} catch(H2ZeroPrimaryKeyException h2zpkex) {
+			h2zpkex.printStackTrace();
+		} catch(SQLException sqlex) {
+			sqlex.printStackTrace();
 		}
 	}
 
