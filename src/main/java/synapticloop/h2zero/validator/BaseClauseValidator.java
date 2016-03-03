@@ -19,7 +19,7 @@ public abstract class BaseClauseValidator extends BaseValidator {
 			String whereField = baseField.getName();
 			int indexOf = whereClause.indexOf(whereField);
 			if(indexOf == -1) {
-				addFatalMessage(baseQueryObject.getType() + "'" + baseQueryObject.getName() + "' has a whereClause '" + whereClause + "' which does not contain referenced whereField '" + whereField + "'.");
+				addFatalMessage(baseQueryObject.getType() + " '" + baseQueryObject.getName() + "' has a whereClause '" + whereClause + "' which does not contain referenced whereField '" + whereField + "'.");
 			}
 		}
 
