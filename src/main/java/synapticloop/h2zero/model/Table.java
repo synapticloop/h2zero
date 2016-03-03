@@ -173,7 +173,7 @@ public class Table extends BaseSchemaObject {
 				}
 
 				type = fieldObject.optString("type", null);
-				if(null == type) {
+				if(null == type || type.trim().length() == 0) {
 					throw new H2ZeroParseException("No 'type' value found for field '" + fieldName + "'.");
 				}
 
