@@ -20,6 +20,10 @@
 		) throws H2ZeroFinderException, SQLException {{{\n}
 
 		{\t}{\t}boolean hasConnection = (null != connection);{\n}
+		{\t}{\t}if(!hasConnection) {{{\n}
+		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+		{\t}{\t}}{\n}
+		{\n}
 		{\t}{\t}String statement = null;{\n}
 		{\n}
 		{\t}{\t}// first find the statement that we want{\n}
