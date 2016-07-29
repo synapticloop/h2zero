@@ -153,7 +153,7 @@ public abstract class BaseQueryObject {
 				if(hasWhereFieldAliases) {
 					// TODO - if we have a type - we need to ignore finding the basefield and just
 					// create a new one...
-					
+
 					// we need to create a new BaseField identical to the current one - as it is currently cached
 					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName).copy();
 				} else {

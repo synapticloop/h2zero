@@ -73,7 +73,7 @@ public class DatabaseCheckerHelper {{{\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 {\t}{\t}{\t}DatabaseMetaData databaseMetaData = connection.getMetaData();{\n}
-{\t}{\t}{\t}tablesResultSet = databaseMetaData.getTables("macdaddy", null, "%", new String[] {{ "TABLE" });{\n}
+{\t}{\t}{\t}tablesResultSet = databaseMetaData.getTables("{database.schema}", null, "%", new String[] {{ "TABLE" });{\n}
 {\t}{\t}{\t}while(tablesResultSet.next()) {{{\n}
 {\t}{\t}{\t}{\t}String tableName = tablesResultSet.getString("TABLE_NAME");{\n}
 {\t}{\t}{\t}{\t}if(allTables.contains(tableName)) {{{\n}

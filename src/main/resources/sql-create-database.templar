@@ -111,6 +111,11 @@ use {database.schema};{\n}{\n}
 
 
 {loop database.views as view}
+drop view if exists {view.name};{\n}{\n}
+
+show warnings;{\n}{\n}
+
 create view {view.name} as {view.asClause};{\n}{\n}
+
 show warnings;{\n}{\n}
 {endloop}

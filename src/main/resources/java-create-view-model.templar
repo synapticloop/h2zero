@@ -12,6 +12,17 @@ import {database.package}.model.util.Constants;{\n}
 
 {\n}{\n}
 
+{--
+  if this isn't a lookup on a foreign key and if the foreign key is not a constant
+  table, then we need to import the finder
+}
+{loop table.fields as field}
+	{if fn:and[fn:notNull[field.foreignKeyTable], !field.foreignKeyTableLookup.isConstant]}
+		import {database.package}.finder.{field.foreignKeyTableLookup.javaClassName}Finder;{\n}
+		import {database.package}.model.{field.foreignKeyTableLookup.javaClassName};{\n}
+	{endif}
+{endloop}
+
 public class {view.javaClassName} extends ViewBase {{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}
 {\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
@@ -23,7 +34,18 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 				LIST ALL OF THE JAVA FIELDS
 }
 
-{loop view.fields as field}
+{loop table.fields as field}
+	{if fn:notNull[field.foreignKeyTable]}
+		{if !field.foreignKeyTableLookup.isConstant}
+			{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null;{\n}
+		{endif}
+	{endif}
+	{if fieldStatus.last}
+		{\n}
+	{endif}
+{endloop}
+
+{loop table.fields as field}
 	{\t}private {field.javaType} {field.javaName} = null;{\n}
 {endloop}
 {\n}
@@ -46,6 +68,50 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 
 {\t}}{\n}
 {\n}
+
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+					SETTERS AND GETTERS
+
+					The first getter is for any referenced foreign key tables that exist
+					which will get the actual object, rather than the primary key that 
+					references it.
+	}
+
+	{loop table.fields as field}
+		{if fn:notNull[field.foreignKeyTable]}
+			{\t}public {field.foreignKeyTableLookup.javaClassName} get{field.secondaryJavaName}() {{{\n}
+			{if !field.foreignKeyTableLookup.isConstant}
+				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
+				{if options.metrics}
+					{\t}{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterMiss.inc();{\n}
+				{endif}
+				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
+
+				{if options.metrics}
+					{\t}{\t}} else {{{\n}
+					{\t}{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
+				{endif}
+
+				{\t}{\t}}{\n}
+
+				{\t}{\t}return(this.{field.secondaryJavaName});{\n}
+			{else}
+
+				{--
+					At this point the foreign table is constant so it was already looked up
+					at construction time
+				}
+
+				{if options.metrics}
+					{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
+				{endif}
+
+				{\t}{\t}return({field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName}));{\n}
+			{endif}
+
+			{\t}}{\n}{\n}
+		{endif}
+	{endloop}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				GETTERS ONLY

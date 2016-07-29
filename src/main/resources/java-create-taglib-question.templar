@@ -23,4 +23,5 @@ public class {question.tagName}Tag extends BaseVarTag {{{\n}
 
 	{import classpath:/snippet/global/java-taglib-do-start-tag.templar}
 
+	{import classpath:/snippet/global/java-class-setters.templar}
 }

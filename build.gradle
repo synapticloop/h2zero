@@ -5,13 +5,14 @@ plugins {
 	id "com.jfrog.bintray" version "1.4"
 	id "maven"
 	id "maven-publish"
-	id "com.github.johnrengelman.shadow" version "1.2.2"
+	id 'co.riiid.gradle' version '0.4.2'
+	id "com.github.johnrengelman.shadow" version "1.2.3"
 }
 
 group = 'synapticloop'
 archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql, java and optionally jsp/servlets"""
-version = 'v1.1.1'
+version = '1.2.0'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -23,7 +24,7 @@ repositories {
 }
 
 dependencies {
-	runtime 'synapticloop:templar:v1.1.3'
+	runtime 'synapticloop:templar:1.3.0'
 	runtime 'org.json:json:20160212'
 	runtime 'com.mchange:c3p0:0.9.5.2'
 	runtime 'commons-validator:commons-validator:1.4.1'
@@ -31,7 +32,7 @@ dependencies {
 	runtime 'io.dropwizard.metrics:metrics-core:3.1.2'
 	runtime 'javax.mail:javax.mail-api:1.5.4'
 
-	compile 'synapticloop:templar:v1.1.3'
+	compile 'synapticloop:templar:1.3.0'
 	compile 'org.json:json:20160212'
 	compile 'org.apache.ant:ant:1.9.6'
 	compile 'javax.servlet.jsp:jsp-api:2.2'
@@ -133,6 +134,19 @@ bintray {
 		name = 'h2zero'
 	}
 
+}
+
+github {
+	owner = group
+	repo = archivesBaseName
+	if(System.getenv('GITHUB_TOKEN')) {
+		token = System.getenv('GITHUB_TOKEN')
+	}
+	tagName = version
+	name = version
+	assets = [
+		'build/libs/' + archivesBaseName + '-' + version + '.jar'
+	]
 }
 
 task(dist).dependsOn( [ 'cobertura', 'jar', 'javadoc' ] )

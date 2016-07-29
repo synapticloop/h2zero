@@ -63,13 +63,27 @@ public class Updater extends BaseQueryObject {
 		try {
 			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 			for (int i = 0; i < whereFieldArray.length(); i++) {
+				BaseField updateBaseField = null;
+
 				String whereFieldName = whereFieldArray.getString(i);
-				BaseField baseField = table.getField(whereFieldName);
-				if(null == baseField) {
+				if(whereFieldName.contains(".")) {
+					// we are doing a table lookup
+					String[] splits = whereFieldName.split("\\.", 2);
+					String tableName = splits[0];
+					String tableFieldName = splits[1];
+					Table tableLookup = Database.getTableLookup(tableName);
+					if(null != tableLookup) {
+						updateBaseField = tableLookup.getField(tableFieldName);
+					}
+				} else {
+					updateBaseField = table.getField(whereFieldName);
+				}
+
+				if(null == updateBaseField) {
 					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getType() + " '" + name + "'.");
 				}
 
-				BaseField updateBaseField = table.getWhereField(whereFieldName);
+//				BaseField updateBaseField = table.getWhereField(whereFieldName);
 				updateFields.add(updateBaseField);
 
 				if(!uniqueUpdateFields.containsKey(updateBaseField.getJavaName())) {
