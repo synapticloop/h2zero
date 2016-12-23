@@ -156,4 +156,18 @@ github {
 	]
 }
 
+pluginBundle {
+	website = 'https://github.com/synapticloop/h2zero'
+	vcsUrl = 'https://github.com/synapticloop/h2zero'
+	description = 'lightweight ORM generator for mysql, java and optionally jsp/servlets - this utilises the templar templating language'
+	tags = [ 'h2zero', 'ORM', 'generator' ]
+
+	plugins {
+		documentrPlugin {
+			id = 'synapticloop.h2zero'
+			displayName = 'Synapticloop Gradle h2zero plugin'
+		}
+	}
+}
+
 task(dist).dependsOn( [ 'cobertura', 'jar', 'javadoc' ] )
