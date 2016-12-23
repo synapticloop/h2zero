@@ -1,12 +1,18 @@
 plugins {
 	id 'java'
 	id 'eclipse'
-	id 'net.saliman.cobertura' version '2.2.6'
-	id "com.jfrog.bintray" version "1.4"
 	id "maven"
 	id "maven-publish"
-	id 'co.riiid.gradle' version '0.4.2'
+
+	id "com.github.ben-manes.versions" version "0.13.0"
 	id "com.github.johnrengelman.shadow" version "1.2.3"
+	id "com.jfrog.bintray" version "1.4"
+
+	id 'co.riiid.gradle' version '0.4.2'
+	id 'net.saliman.cobertura' version '2.2.6'
+
+	id 'synapticloop.copyrightr' version '1.0.1'
+	id 'synapticloop.documentr' version '2.6.1'
 }
 
 group = 'synapticloop'
