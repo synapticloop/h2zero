@@ -21,6 +21,34 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry path="bin" kind="output"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7/"/>
+	<classpathentry sourcepath="/Users/osmanj/.m2/repository/synapticloop/templar/1.3.0/templar-1.3.0-sources.jar" kind="lib" path="/Users/osmanj/.m2/repository/synapticloop/templar/1.3.0/templar-1.3.0.jar"/>
+	<classpathentry sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/org.json/json/20160212/6b4ee9a02a4ed9eb92efe6104c424f70c822c8c8/json-20160212-sources.jar" kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/org.json/json/20160212/a742e3f85161835b95877478c5dd5b405cefaab9/json-20160212.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/org/apache/ant/ant/1.9.6/ant-1.9.6.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/javax/servlet/jsp/jsp-api/2.2/jsp-api-2.2.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/com.mchange/c3p0/0.9.5.2/147cbd16cde386d978a7d5f23f42778102a08cfc/c3p0-0.9.5.2-sources.jar" kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/com.mchange/c3p0/0.9.5.2/5f86cb6130bc6e8475615ed82d5b5e6fb226a86a/c3p0-0.9.5.2.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/commons-validator/commons-validator/1.4.1/commons-validator-1.4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/org/apache/logging/log4j/log4j-core/2.4.1/log4j-core-2.4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/io/dropwizard/metrics/metrics-core/3.1.2/metrics-core-3.1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/javax/mail/javax.mail-api/1.5.4/javax.mail-api-1.5.4.jar"/>
+	<classpathentry sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/com.github.stefanbirkner/system-rules/1.13.0/a76385635e224cc6b7626ecfae40e030cc08f4d3/system-rules-1.13.0-sources.jar" kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/com.github.stefanbirkner/system-rules/1.13.0/32e531ae040a2b2d3c23987dc2b569b6f9d27f47/system-rules-1.13.0.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/junit/junit/4.12/junit-4.12.jar"/>
+	<classpathentry sourcepath="/Users/osmanj/.m2/repository/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19-sources.jar" kind="lib" path="/Users/osmanj/.m2/repository/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/org/apache/ant/ant-launcher/1.9.6/ant-launcher-1.9.6.jar"/>
+	<classpathentry sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/com.mchange/mchange-commons-java/0.2.11/33a53955501fa830ecfc98d6ae611c6dc451946c/mchange-commons-java-0.2.11-sources.jar" kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/com.mchange/mchange-commons-java/0.2.11/2a6a6c1fe25f28f5a073171956ce6250813467ef/mchange-commons-java-0.2.11.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/commons-beanutils/commons-beanutils/1.8.3/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/commons-digester/commons-digester/1.8.1/commons-digester-1.8.1.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/org/apache/logging/log4j/log4j-api/2.4.1/log4j-api-2.4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar"/>
+	<classpathentry sourcepath="/Users/osmanj/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.5/caf033a4a7c37b4a8ff3ea084cba591539b0b69/commons-io-2.5-sources.jar" kind="lib" path="/Users/osmanj/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.5/2852e6e05fbb95076fc091f6d1780f1f8fe35e0f/commons-io-2.5.jar"/>
+	<classpathentry sourcepath="/Users/osmanj/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3-sources.jar" kind="lib" path="/Users/osmanj/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+	<classpathentry sourcepath="/Users/osmanj/.m2/repository/junit/junit/4.11/junit-4.11-sources.jar" kind="lib" path="/Users/osmanj/.m2/repository/junit/junit/4.11/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="/Users/osmanj/.gradle/caches/3.1/generated-gradle-jars/gradle-api-3.1.jar"/>
+	<classpathentry kind="lib" path="/java-libraries/gradle-3.1/lib/groovy-all-2.4.7.jar"/>
+	<classpathentry kind="lib" path="/java-libraries/gradle-3.1/lib/gradle-installation-beacon-3.1.jar"/>
 </classpath>
