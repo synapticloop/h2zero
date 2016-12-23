@@ -19,7 +19,7 @@ package synapticloop.h2zero.plugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
-public class h2ZeroPlugin implements Plugin<Project> {
+public class H2ZeroPlugin implements Plugin<Project> {
 	private static final String H2ZERO = "h2zero";
 
 	@Override
@@ -27,5 +27,4 @@ public class h2ZeroPlugin implements Plugin<Project> {
 		project.getExtensions().create(H2ZERO, H2ZeroPluginExtension.class);
 		project.getTasks().create(H2ZERO, H2ZeroTask.class);
 	}
-
 }

@@ -34,7 +34,7 @@ public class H2ZeroPluginExtension {
 	/**
 	 * Set the directory that the generated artefacts will be placed
 	 * 
-	 * @param directory the directory that the generated artefacts will be placed
+	 * @param outDir the directory that the generated artefacts will be placed
 	 */
 	public void setOutDir(String outDir) { this.outDir = outDir; }
 
