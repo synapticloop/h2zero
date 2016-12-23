@@ -157,15 +157,3 @@ github {
 }
 
 task(dist).dependsOn( [ 'cobertura', 'jar', 'javadoc' ] )
-
-task h2zero << {
-	logging.captureStandardOutput LogLevel.ERROR
-	ant.taskdef(resource: 'h2zero.properties',
-							classpath: configurations.runtime.asPath) {
-	}
-	ant.h2zero(inFile: 'src/test/resources/sample.h2zero',
-		outDir: '.',
-		verbose: 'false') {
-	}
-}
-
