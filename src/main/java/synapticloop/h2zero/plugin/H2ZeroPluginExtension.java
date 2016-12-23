@@ -17,68 +17,52 @@ package synapticloop.h2zero.plugin;
  */
 
 public class H2ZeroPluginExtension {
-	public static final String FILE_NAME_DOCUMENTR_JSON = "documentr.json";
-	public static final String FILE_NAME_DOCUMENTR_DEFAULT_JSON = "/documentr-default.json";
+	public static final String FILE_NAME_H2ZERO = "h2zero.h2zero";
 
 	private boolean verbose = false;
-	private String documentrFile = FILE_NAME_DOCUMENTR_JSON;
-	private String directory = ".";
-	private String extension = "md";
+	private String inFile = FILE_NAME_H2ZERO;
+	private String outDir = ".";
 
 	/**
-	 * Return the directory that the documentr plugin looks for the 'documentr.json'
-	 * file, by default this is the current working directory
+	 * Return the directory that the generated resources will be placed, by 
+	 * default, this will be '.' with the src/main/java appended
 	 * 
-	 * @return the directory that the 'documentr.json' file resides in
+	 * @return the directory that the generated artefacts will be placed
 	 */
-	public String getDirectory() { return(directory); }
+	public String getOutDir() { return(outDir); }
 
 	/**
-	 * Set the directory that the 'documentr.json' file resides in
+	 * Set the directory that the generated artefacts will be placed
 	 * 
-	 * @param directory the directory that the 'documentr.json' file resides in
+	 * @param directory the directory that the generated artefacts will be placed
 	 */
-	public void setDirectory(String directory) { this.directory = directory; }
+	public void setOutDir(String outDir) { this.outDir = outDir; }
 
 	/**
 	 * Get whether there should be verbose output
 	 * 
-	 * @return whether documentr should be verbose
+	 * @return whether h2zero should be verbose
 	 */
 	public boolean getVerbose() { return this.verbose; }
 
 	/**
-	 * Set whether to have verbose output from documentr
+	 * Set whether to have verbose output from h2zero
 	 * 
 	 * @param verbose whether to output verbose information
 	 */
 	public void setVerbose(boolean verbose) { this.verbose = verbose; }
 
 	/**
-	 * Get the output extension, by default this is .md
+	 * Get the h2ZeroFile file name to be parsed (by default this is 'h2zero.h2zero'
 	 * 
-	 * @return get the  extension for the output
+	 * @return the file name to be parsed by h2Zero
 	 */
-	public String getExtension() { return extension; }
-
-	/**
-	 * Set the extension for the output of the file
-	 * 
-	 * @param extension the extension for the output of the file
-	 */
-	public void setExtension(String extension) { this.extension = extension; }
-
-	/**
-	 * Get the documentr file name to be parsed (by default this is 'documentr.json'
-	 * 
-	 * @return the file name to be parsed by documentr
-	 */
-	public String getDocumentrFile() { return documentrFile; }
+	public String getInFile() { return inFile; }
 
 	/**
 	 * Set the file name to be parsed
 	 * 
-	 * @param documentrFile the file name to be parsed
+	 * @param inFile the file name to be parsed
 	 */
-	public void setDocumentrFile(String documentrFile) { this.documentrFile = documentrFile; }
+	public void setInFile(String inFile) { this.inFile = inFile; }
 }
