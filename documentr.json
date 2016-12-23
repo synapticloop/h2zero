@@ -1,14 +1,17 @@
 {
 	"context": {
-		"pluginId": "synapticloop.documentr"
+		"pluginId": "synapticloop.h2zero"
 	},
 	"templates": [
+		{ "type": "markup", "value": "\n\n> See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation\n\n" },
+
 		{ "type":"inbuilt", "value":"badge-travis-ci" },
 		{ "type":"inbuilt", "value":"badge-bintray" },
 		{ "type":"inbuilt", "value":"badge-shield-io-github-release" },
 		{ "type":"inbuilt", "value":"badge-shield-io-gradle-plugin" },
 
 		{ "type":"inbuilt", "value":"jvm-compatability" },
+
 
 		{ "type": "markup", "value": "\n\n# Table of Contents\n\n" },
 

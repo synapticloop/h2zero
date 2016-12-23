@@ -1,12 +1,7 @@
-# See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
-
-# h2zero
 
 This is a object relationship mapper for MySQL and Java.
 
 Whilst still a work in progress, database persistence is fully supported and running in production environments.
-
-*See the other markdown (.md) files for more information*
 
 # Background
 
@@ -31,7 +26,7 @@ Your database, just the way that you designed it.
  - **Java**
  - **MySQL**
  - **c3p0**
- - **Ant**
+ - **Ant** or **gradle**
 
 # Creating a h2zero configuration file
 
@@ -212,6 +207,8 @@ or
 
 # Gradle generation
 
+## ant (deprecated)
+
 assuming that you have added the dependency above to the `runtime` configuration
 
 ```
@@ -224,5 +221,15 @@ task h2zero << {
 				outDir: '.',
 				verbose: 'false') {
 	}
+}
+```
+
+## gradle plugin
+
+```
+h2zero {
+	inFile = 'src/test/resources/sample.h2zero'
+	outDir = '.'
+	verbose = 'false'
 }
 ```

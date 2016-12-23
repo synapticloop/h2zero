@@ -1,4 +1,8 @@
-<a name="documentr_top"></a>[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.3.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.documentr) 
+<a name="documentr_top"></a>
+
+> See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
+
+[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.3.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -15,22 +19,22 @@
 
  - [Table of Contents](#documentr_heading_0)
  - [h2zero](#documentr_heading_1)
- - [See http://synapticloop.github.io/h2zero/ for updated documentation](#documentr_heading_2)
- - [h2zero](#documentr_heading_3)
- - [Background](#documentr_heading_4)
- - [Requirements](#documentr_heading_5)
- - [Creating a h2zero configuration file](#documentr_heading_6)
- - [The CRUD operations (and some more)](#documentr_heading_7)
-   - [Create](#documentr_heading_8)
-   - [Read](#documentr_heading_9)
-   - [Update](#documentr_heading_10)
-   - [Delete](#documentr_heading_11)
-   - [and some more](#documentr_heading_12)
- - [The Little Things](#documentr_heading_13)
- - [Dependency Management](#documentr_heading_14)
-   - [maven](#documentr_heading_15)
-   - [gradle](#documentr_heading_16)
- - [Gradle generation](#documentr_heading_17)
+ - [Background](#documentr_heading_2)
+ - [Requirements](#documentr_heading_3)
+ - [Creating a h2zero configuration file](#documentr_heading_4)
+ - [The CRUD operations (and some more)](#documentr_heading_5)
+   - [Create](#documentr_heading_6)
+   - [Read](#documentr_heading_7)
+   - [Update](#documentr_heading_8)
+   - [Delete](#documentr_heading_9)
+   - [and some more](#documentr_heading_10)
+ - [The Little Things](#documentr_heading_11)
+ - [Dependency Management](#documentr_heading_12)
+   - [maven](#documentr_heading_13)
+   - [gradle](#documentr_heading_14)
+ - [Gradle generation](#documentr_heading_15)
+   - [ant (deprecated)](#documentr_heading_16)
+   - [gradle plugin](#documentr_heading_17)
  - [Building the Package](#documentr_heading_18)
    - [*NIX/Mac OS X](#documentr_heading_19)
    - [Windows](#documentr_heading_20)
@@ -61,26 +65,13 @@
 
 
 
-
-<a name="documentr_heading_2"></a>
-
-# See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation <sup><sup>[top](#documentr_top)</sup></sup>
-
-
-
-<a name="documentr_heading_3"></a>
-
-# h2zero <sup><sup>[top](#documentr_top)</sup></sup>
-
 This is a object relationship mapper for MySQL and Java.
 
 Whilst still a work in progress, database persistence is fully supported and running in production environments.
 
-*See the other markdown (.md) files for more information*
 
 
-
-<a name="documentr_heading_4"></a>
+<a name="documentr_heading_2"></a>
 
 # Background <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -102,18 +93,18 @@ Your database, just the way that you designed it.
 
 
 
-<a name="documentr_heading_5"></a>
+<a name="documentr_heading_3"></a>
 
 # Requirements <sup><sup>[top](#documentr_top)</sup></sup>
 
  - **Java**
  - **MySQL**
  - **c3p0**
- - **Ant**
+ - **Ant** or **gradle**
 
 
 
-<a name="documentr_heading_6"></a>
+<a name="documentr_heading_4"></a>
 
 # Creating a h2zero configuration file <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -169,13 +160,13 @@ By default the h2zero file would look like the following:
 
 
 
-<a name="documentr_heading_7"></a>
+<a name="documentr_heading_5"></a>
 
 # The CRUD operations (and some more) <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
-<a name="documentr_heading_8"></a>
+<a name="documentr_heading_6"></a>
 
 ## Create  <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -183,7 +174,7 @@ Normal plain old java objects (POJO).  Just instantiate and insert (or insert si
 
 
 
-<a name="documentr_heading_9"></a>
+<a name="documentr_heading_7"></a>
 
 ## Read  <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -191,7 +182,7 @@ Finders, Finders and more Finders
 
 
 
-<a name="documentr_heading_10"></a>
+<a name="documentr_heading_8"></a>
 
 ## Update <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -199,7 +190,7 @@ Updaters
 
 
 
-<a name="documentr_heading_11"></a>
+<a name="documentr_heading_9"></a>
 
 ## Delete <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -207,7 +198,7 @@ Deleters
 
 
 
-<a name="documentr_heading_12"></a>
+<a name="documentr_heading_10"></a>
 
 ## and some more <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -230,7 +221,7 @@ This will generate the following files
 
 
 
-<a name="documentr_heading_13"></a>
+<a name="documentr_heading_11"></a>
 
 # The Little Things <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -245,7 +236,7 @@ This will generate the following files
 
 
 
-<a name="documentr_heading_14"></a>
+<a name="documentr_heading_12"></a>
 
 # Dependency Management <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -255,7 +246,7 @@ Include the dependency
 
 
 
-<a name="documentr_heading_15"></a>
+<a name="documentr_heading_13"></a>
 
 ## maven <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -305,7 +296,7 @@ And now for the dependency
  
 
 
-<a name="documentr_heading_16"></a>
+<a name="documentr_heading_14"></a>
 
 ## gradle <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -338,9 +329,15 @@ or
 
 
 
-<a name="documentr_heading_17"></a>
+<a name="documentr_heading_15"></a>
 
 # Gradle generation <sup><sup>[top](#documentr_top)</sup></sup>
+
+
+
+<a name="documentr_heading_16"></a>
+
+## ant (deprecated) <sup><sup>[top](#documentr_top)</sup></sup>
 
 assuming that you have added the dependency above to the `runtime` configuration
 
@@ -359,6 +356,23 @@ task h2zero << {
 }
 ```
 
+
+
+
+
+<a name="documentr_heading_17"></a>
+
+## gradle plugin <sup><sup>[top](#documentr_top)</sup></sup>
+
+
+
+```
+h2zero {
+	inFile = 'src/test/resources/sample.h2zero'
+	outDir = '.'
+	verbose = 'false'
+}
+```
 
 
 
@@ -700,7 +714,7 @@ You will also need to download the following dependencies:
 
 This project publishes artefacts to [the gradle plugin portal](https://plugins.gradle.org/)
 
-> Note that the latest version can be found [https://plugins.gradle.org/plugin/synapticloop.documentr](https://plugins.gradle.org/plugin/synapticloop.documentr)
+> Note that the latest version can be found [https://plugins.gradle.org/plugin/synapticloop.h2zero](https://plugins.gradle.org/plugin/synapticloop.h2zero)
 
 
 
