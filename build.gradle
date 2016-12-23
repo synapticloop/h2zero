@@ -8,6 +8,7 @@ plugins {
 	id "com.github.johnrengelman.shadow" version "1.2.4"
 	id "com.jfrog.bintray" version "1.7.3"
 
+	id 'com.gradle.plugin-publish' version '0.9.3'
 	id 'co.riiid.gradle' version '0.4.2'
 	id 'net.saliman.cobertura' version '2.2.6'
 
