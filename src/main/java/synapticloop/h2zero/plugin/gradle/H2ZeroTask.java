@@ -1,21 +1,4 @@
-package synapticloop.h2zero.ant;
-
-/*
- * Copyright (c) 2012-2016 synapticloop.
- * All rights reserved.
- *
- * This source code and any derived binaries are covered by the terms and
- * conditions of the Licence agreement ("the Licence").  You may not use this
- * source code or any derived binaries except in compliance with the Licence.
- * A copy of the Licence is available in the file named LICENCE shipped with
- * this source code or binaries.
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * Licence for the specific language governing permissions and limitations
- * under the Licence.
- */
+package synapticloop.h2zero.plugin.gradle;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,8 +8,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.Task;
+
+/*
+ * Copyright (c) 2016 Synapticloop.
+ * 
+ * All rights reserved.
+ * 
+ * This code may contain contributions from other parties which, where 
+ * applicable, will be listed in the default build file for the project 
+ * ~and/or~ in a file named CONTRIBUTORS.txt in the root of the project.
+ * 
+ * This source code and any derived binaries are covered by the terms and 
+ * conditions of the Licence agreement ("the Licence").  You may not use this 
+ * source code or any derived binaries except in compliance with the Licence.  
+ * A copy of the Licence is available in the file named LICENSE.txt shipped with 
+ * this source code or binaries.
+ */
+
+
+import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.TaskAction;
 
 import synapticloop.h2zero.H2ZeroParser;
 import synapticloop.h2zero.exception.H2ZeroParseException;
@@ -47,20 +48,43 @@ import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
 
-public class H2ZeroTask extends Task {
-	private String inFile = null;
-	private String outDir = null;
-	private int numTables = 0;
+public class H2ZeroTask extends DefaultTask {
+	private boolean verbose = false;
+	private String inFile;
+	private String outDir;
 
-	private boolean verbose = true; // whether to be verbose with the logging
-
-	private File h2zeroFile = null;
-	private File outFile = null;
+	private File h2ZeroFile;
+	private File outFile;
+	private int numTables;
 
 	private List<Generator> generators = new ArrayList<Generator>();
+	
+	/**
+	 * Instantiate the task, setting the group and description
+	 */
+	public H2ZeroTask() {
+		super.setGroup("Generation");
+		super.setDescription("Generates a Java ORM for your project.");
+	}
 
-	@Override
-	public void execute() throws BuildException {
+	/**
+	 * Generate the H2Zero artefacts
+	 * 
+	 * @throws H2ZeroParseException If there was an error parsing/rendering the 
+	 *     artefacts
+	 */
+	@TaskAction
+	public void generate() throws H2ZeroParseException{
+		H2ZeroPluginExtension extension = getProject().getExtensions().findByType(H2ZeroPluginExtension.class);
+
+		if (extension == null) {
+			extension = new H2ZeroPluginExtension();
+		}
+
+		this.verbose = extension.getVerbose();
+		this.inFile = extension.getInFile();
+		this.outDir = extension.getOutDir();
+
 		if(!areParametersCorrect()) {
 			throw new BuildException("Passed in parameters are incorrect.");
 		}
@@ -68,7 +92,7 @@ public class H2ZeroTask extends Task {
 		// otherwise we are good to go
 		H2ZeroParser h2zeroParser = null;
 		try {
-			h2zeroParser = new H2ZeroParser(h2zeroFile);
+			h2zeroParser = new H2ZeroParser(h2ZeroFile);
 
 			logDatabaseInfo(h2zeroParser);
 
@@ -90,8 +114,6 @@ public class H2ZeroTask extends Task {
 				throw new BuildException("FATAL: You have not defined an 'options' section, and therefore no generators will be executed. Exiting...");
 			}
 
-			// the JSPs
-
 			generators.add(new SqlGenerator(database, options, outFile, verbose));
 			generators.add(new JavaGenerator(database, options, outFile, verbose));
 			generators.add(new TaglibGenerator(database, options, outFile, verbose));
@@ -105,24 +127,23 @@ public class H2ZeroTask extends Task {
 			}
 
 		} catch (H2ZeroParseException h2zpex) {
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2zeroFile.getName() + "'.");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
 			throw new BuildException(h2zpex);
 		} catch (synapticloop.templar.exception.ParseException pex) {
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2zeroFile.getName() + "'.");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "  " + pex.getMessage());
 			throw new BuildException(pex);
 		} catch (RenderException rex) {
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "RenderException: There was an error rendering the '" + h2zeroFile.getName() + "'.");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "RenderException: There was an error rendering the '" + h2ZeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "  " + rex.getMessage());
 			throw new BuildException(rex);
 		}
 
 		logSummaryInformation(h2zeroParser);
-
 	}
 
 	private void logSummaryInformation(H2ZeroParser h2zeroParser) {
@@ -167,20 +188,20 @@ public class H2ZeroTask extends Task {
 
 	private boolean areParametersCorrect() {
 		if(null == outDir || null == inFile) {
-			String message = "Both attributes 'inFile' and 'outDir' are required, exiting...";
+			String message = "Both attributes 'h2ZeroFile' and 'outDir' are required, exiting...";
 			if(null != getProject()) {
-				getProject().log(message, Project.MSG_ERR);
+				getProject().getLogger().error(message);
 			} else {
 				SimpleLogger.logFatal(LoggerType.H2ZERO_GENERATE, message);
 			}
 			return(false);
 		}
 
-		h2zeroFile = new File(inFile);
-		if(!h2zeroFile.exists()|| !h2zeroFile.canRead()) {
-			String message = "h2zero file 'inFile': '" + inFile + "' does not exist, or is not readable, exiting...";
+		h2ZeroFile = new File(inFile);
+		if(!h2ZeroFile.exists()|| !h2ZeroFile.canRead()) {
+			String message = "h2zero file 'h2ZeroFile': '" + inFile + "' does not exist, or is not readable, exiting...";
 			if(null != getProject()) {
-				getProject().log(message, Project.MSG_ERR);
+				getProject().getLogger().error(message);
 			} else {
 				SimpleLogger.logFatal(LoggerType.H2ZERO_GENERATE, message);
 			}
@@ -191,7 +212,7 @@ public class H2ZeroTask extends Task {
 		if(!outFile.exists() || !outFile.isDirectory()) {
 			String message = "'outDir': '" + outDir + "' does not exists or is not a directory, exiting...";
 			if(null != getProject()) {
-				getProject().log(message, Project.MSG_ERR);
+				getProject().getLogger().error(message);
 			} else {
 				SimpleLogger.logFatal(LoggerType.H2ZERO_GENERATE, message);
 			}
@@ -264,13 +285,4 @@ public class H2ZeroTask extends Task {
 						" ] ");
 			}
 		}
-	}
-
-	public String getInFile() { return inFile; }
-	public void setInFile(String inFile) { this.inFile = inFile; }
-	public void setOutDir(String outDir) { this.outDir = outDir; }
-	public String getOutDir() { return outDir; }
-	public boolean getVerbose() { return verbose; }
-	public void setVerbose(boolean verbose) { this.verbose = verbose; }
-
-}
+	}}

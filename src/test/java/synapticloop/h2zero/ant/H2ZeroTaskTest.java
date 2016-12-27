@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import synapticloop.h2zero.plugin.ant.H2ZeroTask;
+
 public class H2ZeroTaskTest {
 	private H2ZeroTask h2ZeroTask;
 

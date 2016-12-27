@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import synapticloop.h2zero.ant.H2ZeroTask;
+import synapticloop.h2zero.plugin.ant.H2ZeroTask;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 

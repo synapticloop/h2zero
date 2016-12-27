@@ -1,4 +1,4 @@
-package synapticloop.h2zero.plugin;
+package synapticloop.h2zero.plugin.gradle;
 
 /*
  * Copyright (c) 2016 Synapticloop.

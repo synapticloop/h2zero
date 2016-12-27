@@ -1,4 +1,4 @@
-package synapticloop.h2zero.ant;
+package synapticloop.h2zero.plugin.ant;
 
 /*
  * Copyright (c) 2013-2015 synapticloop.
@@ -21,8 +21,8 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
-import synapticloop.h2zero.ant.quick.Database;
-import synapticloop.h2zero.ant.quick.Table;
+import synapticloop.h2zero.plugin.ant.quick.Database;
+import synapticloop.h2zero.plugin.ant.quick.Table;
 
 public class H2ZeroQuickTask extends Task {
 	private String schema = "your_schema_here";

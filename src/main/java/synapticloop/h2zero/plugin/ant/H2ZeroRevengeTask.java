@@ -1,4 +1,4 @@
-package synapticloop.h2zero.ant;
+package synapticloop.h2zero.plugin.ant;
 
 /*
  * Copyright (c) 2013-2015 synapticloop.

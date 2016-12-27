@@ -1,4 +1,4 @@
-package synapticloop.h2zero.ant.quick;
+package synapticloop.h2zero.plugin.ant.quick;
 
 import java.util.ArrayList;
 import java.util.List;
