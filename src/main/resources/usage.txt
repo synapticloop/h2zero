@@ -29,6 +29,16 @@ quick options:
   -tables <arg,...>      which tables to generate
   -foreign <arg,...>     which foreign keys between the tables
 
+Gradle build.gradle usage:
+==========================
+
+If you are using gradle, you can add this to your build.gradle file
+
+h2zero {
+	inFile = 'src/main/resources/your_file_name_here.h2zero'
+	outDir = '.'
+	verbose = 'false'
+}
 
 Ant build.xml usage:
 ====================

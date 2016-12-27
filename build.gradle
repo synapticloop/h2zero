@@ -81,7 +81,7 @@ shadowJar {
 	dependencies {
 		include(dependency('synapticloop:templar:.*'))
 		include(dependency('org.json:json:.*'))
-		classifier = ""
+		classifier = "all"
 	}
 }
 
