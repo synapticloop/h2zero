@@ -157,7 +157,7 @@ public class Table extends BaseSchemaObject {
 		try {
 			fieldJson = jsonObject.getJSONArray(JSONKeyConstants.FIELDS);
 		} catch (JSONException jsonex) {
-			throw new H2ZeroParseException("Cannot create a table without '" + JSONKeyConstants.FIELDS + "'.", jsonex);
+			throw new H2ZeroParseException(String.format("Cannot create a table without '%s'.",JSONKeyConstants.FIELDS), jsonex);
 		}
 
 		for (int i = 0; i < fieldJson.length(); i++) {
@@ -174,11 +174,11 @@ public class Table extends BaseSchemaObject {
 
 				type = fieldObject.optString("type", null);
 				if(null == type || type.trim().length() == 0) {
-					throw new H2ZeroParseException("No 'type' value found for field '" + fieldName + "'.");
+					throw new H2ZeroParseException(String.format("No 'type' value found for field '%s'.", fieldName));
 				}
 
 			} catch (JSONException jsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.FIELDS + "' array.", jsonex);
+				throw new H2ZeroParseException(String.format("Could not parse the '%s' array.", JSONKeyConstants.FIELDS), jsonex);
 			}
 
 			if(null != type) {
@@ -252,7 +252,7 @@ public class Table extends BaseSchemaObject {
 				hasForeignKey = true;
 				// at this point - see whether the foreign key table and field actually exists
 				if(!FieldLookupHelper.hasTableField(foreignKeyTable, foreignKeyField)) {
-					throw new H2ZeroParseException(String.format("Table field '%s.%s' is trying to reference a foreign key of '%s.%s' which has not been defined yet.", name, baseField.getName(), foreignKeyTable, foreignKeyField));
+					throw new H2ZeroParseException(String.format("Field '%s' on table '%s' is trying to reference a foreign key of '%s.%s' which has not been defined yet.", baseField.getName(), name, foreignKeyTable, foreignKeyField));
 				}
 			}
 		}

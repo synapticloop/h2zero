@@ -3,7 +3,7 @@ Usage:
 Command line usage:
 ===================
 
-  java -jar h2zero.jar <mode> <options>
+  java -jar h2zero-all.jar <mode> <options>
 
 There are three (3) modes of operation, namely:
 
@@ -11,49 +11,57 @@ There are three (3) modes of operation, namely:
   revenge   - this will reverse engineer a database to an .h2zero file
   quick     - this will generate a quick .h2zero file and output it to the console
 
+
 generate options:
+-----------------
   -in <arg>   the input file
   -out <arg>  the directory to output the generated files
   -verbose    turn on verbose output
 
+
 revenge options:
+----------------
   -host <arg>      the host of the database
   -database <arg>  the database
   -user <arg>      the user that can connect to the database
   -password <arg>  the password for the user
   -outFile <arg>   the file to write out the .h2zero file
 
+
 quick options:
+--------------
   -schema <arg>          the schema
   -generators <arg,...>  which generators to invoke
   -tables <arg,...>      which tables to generate
   -foreign <arg,...>     which foreign keys between the tables
+
 
 Gradle build.gradle usage:
 ==========================
 
 If you are using gradle, you can add this to your build.gradle file
 
-h2zero {
-	inFile = 'src/main/resources/your_file_name_here.h2zero'
-	outDir = '.'
-	verbose = 'false'
-}
+  h2zero {
+    inFile = 'src/main/resources/your_file_name_here.h2zero'
+    outDir = '.'
+    verbose = 'false'
+  }
+
 
 Ant build.xml usage:
 ====================
 
 If you are using ant, you can add this to your build.xml file
 
-<path id="classpath-h2zero">
-  <fileset dir="lib/runtime">
-    <include name="*.jar"/>
-  </fileset>
-</path>
+  <path id="classpath-h2zero">
+    <fileset dir="lib/runtime">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
 
-<target name="h2zero-generate" description="h2zero generate">
-  <taskdef resource="h2zero.properties" classpathref="classpath-h2zero" />
-  <h2zero inFile="src/main/java/your_file_name_here.h2zero" outDir="." verbose="false" />
-</target>
+  <target name="h2zero-generate" description="h2zero generate">
+    <taskdef resource="h2zero.properties" classpathref="classpath-h2zero" />
+    <h2zero inFile="src/main/java/your_file_name_here.h2zero" outDir="." verbose="false" />
+  </target>
 
 Exiting...

@@ -2,7 +2,7 @@
 
 > See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
 
-[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.3.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
+[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.3.1-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -29,26 +29,25 @@
    - [Delete](#documentr_heading_9)
    - [and some more](#documentr_heading_10)
  - [The Little Things](#documentr_heading_11)
- - [Dependency Management](#documentr_heading_12)
-   - [maven](#documentr_heading_13)
-   - [gradle](#documentr_heading_14)
- - [Gradle generation](#documentr_heading_15)
-   - [ant (deprecated)](#documentr_heading_16)
-   - [gradle plugin](#documentr_heading_17)
- - [Building the Package](#documentr_heading_18)
-   - [*NIX/Mac OS X](#documentr_heading_19)
-   - [Windows](#documentr_heading_20)
- - [Logging - slf4j](#documentr_heading_21)
-   - [Log4j](#documentr_heading_22)
- - [Artefact Publishing - Github](#documentr_heading_27)
- - [Artefact Publishing - Bintray](#documentr_heading_28)
-   - [maven setup](#documentr_heading_29)
-   - [gradle setup](#documentr_heading_30)
+ - [h2Zero generation](#documentr_heading_12)
+   - [gradle plugin](#documentr_heading_13)
+   - [ant](#documentr_heading_14)
+   - [Command line generation](#documentr_heading_15)
+ - [Building the Package](#documentr_heading_16)
+   - [*NIX/Mac OS X](#documentr_heading_17)
+   - [Windows](#documentr_heading_18)
+ - [Logging - slf4j](#documentr_heading_19)
+   - [Log4j](#documentr_heading_20)
+ - [Artefact Publishing - Github](#documentr_heading_25)
+ - [All-In-One](#documentr_heading_26)
+ - [Artefact Publishing - Bintray](#documentr_heading_27)
+   - [maven setup](#documentr_heading_28)
+   - [gradle setup](#documentr_heading_29)
+ - [Artefact Publishing - gradle plugin portal](#documentr_heading_30)
    - [Dependencies - Gradle](#documentr_heading_31)
    - [Dependencies - Maven](#documentr_heading_32)
    - [Dependencies - Downloads](#documentr_heading_33)
- - [Artefact Publishing - gradle plugin portal](#documentr_heading_39)
- - [License](#documentr_heading_40)
+ - [License](#documentr_heading_39)
 
 
 
@@ -236,108 +235,37 @@ This will generate the following files
 
 
 
+
+
 <a name="documentr_heading_12"></a>
 
-# Dependency Management <sup><sup>[top](#documentr_top)</sup></sup>
-
-> Note that the latest version can be found [https://bintray.com/synapticloop/maven/h2zero/view](https://bintray.com/synapticloop/maven/h2zero/view)
-
-Include the dependency
+# h2Zero generation <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
 <a name="documentr_heading_13"></a>
 
-## maven <sup><sup>[top](#documentr_top)</sup></sup>
+## gradle plugin <sup><sup>[top](#documentr_top)</sup></sup>
 
-this comes from the jcenter bintray, to set up your repository:
+Assuming that you have included the plugin
 
-    <?xml version="1.0" encoding="UTF-8" ?>
-    <settings xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd' xmlns='http://maven.apache.org/SETTINGS/1.0.0' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
-      <profiles>
-        <profile>
-          <repositories>
-            <repository>
-              <snapshots>
-                <enabled>false</enabled>
-              </snapshots>
-              <id>central</id>
-              <name>bintray</name>
-              <url>http://jcenter.bintray.com</url>
-            </repository>
-          </repositories>
-          <pluginRepositories>
-            <pluginRepository>
-              <snapshots>
-                <enabled>false</enabled>
-              </snapshots>
-              <id>central</id>
-              <name>bintray-plugins</name>
-              <url>http://jcenter.bintray.com</url>
-            </pluginRepository>
-          </pluginRepositories>
-          <id>bintray</id>
-        </profile>
-      </profiles>
-      <activeProfiles>
-        <activeProfile>bintray</activeProfile>
-      </activeProfiles>
-    </settings>
 
-And now for the dependency
 
-    <dependency>
-      <groupId>synapticloop</groupId>
-      <artifactId>h2zero</artifactId>
-      <version>v1.0.5</version>
-      <type>jar</type>
-    </dependency>
- 
- 
+```
+h2zero {
+	inFile = 'src/test/resources/sample.h2zero'
+	outDir = '.'
+	verbose = 'false'
+}
+```
+
+
+
 
 
 <a name="documentr_heading_14"></a>
 
-## gradle <sup><sup>[top](#documentr_top)</sup></sup>
-
-Repository
-
-    repositories {
-        maven {
-            url  "http://jcenter.bintray.com" 
-        }
-    }
- 
- or just
- 
-    repositories {
-      jcenter()
-    }
-
-and then include the dependency:
-
-    runtime(group: 'synapticloop', name: 'h2zero', version: 'v1.0.5', ext: 'jar')
-
-    compile(group: 'synapticloop', name: 'h2zero', version: 'v1.0.5', ext: 'jar')
- 
-or 
-
-    runtime 'synapticloop:h2zero:v1.0.5'
-
-    compile 'synapticloop:h2zero:v1.0.5'
-
-
-
-
-<a name="documentr_heading_15"></a>
-
-# Gradle generation <sup><sup>[top](#documentr_top)</sup></sup>
-
-
-
-<a name="documentr_heading_16"></a>
-
-## ant (deprecated) <sup><sup>[top](#documentr_top)</sup></sup>
+## ant <sup><sup>[top](#documentr_top)</sup></sup>
 
 assuming that you have added the dependency above to the `runtime` configuration
 
@@ -360,31 +288,108 @@ task h2zero << {
 
 
 
-<a name="documentr_heading_17"></a>
+<a name="documentr_heading_15"></a>
 
-## gradle plugin <sup><sup>[top](#documentr_top)</sup></sup>
+## Command line generation <sup><sup>[top](#documentr_top)</sup></sup>
+
+try
 
 
 
 ```
-h2zero {
-	inFile = 'src/test/resources/sample.h2zero'
-	outDir = '.'
-	verbose = 'false'
-}
+  java -jar h2zero-all.jar
+```
+
+
+
+which will output:
+
+
+
+
+```
+Usage:
+
+Command line usage:
+===================
+
+  java -jar h2zero.jar <mode> <options>
+
+There are three (3) modes of operation, namely:
+
+  generate  - this will generate the source code from the provided .h2zero file
+  revenge   - this will reverse engineer a database to an .h2zero file
+  quick     - this will generate a quick .h2zero file and output it to the console
+
+
+generate options:
+-----------------
+  -in <arg>   the input file
+  -out <arg>  the directory to output the generated files
+  -verbose    turn on verbose output
+
+
+revenge options:
+----------------
+  -host <arg>      the host of the database
+  -database <arg>  the database
+  -user <arg>      the user that can connect to the database
+  -password <arg>  the password for the user
+  -outFile <arg>   the file to write out the .h2zero file
+
+
+quick options:
+--------------
+  -schema <arg>          the schema
+  -generators <arg,...>  which generators to invoke
+  -tables <arg,...>      which tables to generate
+  -foreign <arg,...>     which foreign keys between the tables
+
+
+Gradle build.gradle usage:
+==========================
+
+If you are using gradle, you can add this to your build.gradle file
+
+  h2zero {
+    inFile = 'src/main/resources/your_file_name_here.h2zero'
+    outDir = '.'
+    verbose = 'false'
+  }
+
+
+Ant build.xml usage:
+====================
+
+If you are using ant, you can add this to your build.xml file
+
+  <path id="classpath-h2zero">
+    <fileset dir="lib/runtime">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="h2zero-generate" description="h2zero generate">
+    <taskdef resource="h2zero.properties" classpathref="classpath-h2zero" />
+    <h2zero inFile="src/main/java/your_file_name_here.h2zero" outDir="." verbose="false" />
+  </target>
+
+Exiting...
 ```
 
 
 
 
 
-<a name="documentr_heading_18"></a>
+
+
+<a name="documentr_heading_16"></a>
 
 # Building the Package <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
-<a name="documentr_heading_19"></a>
+<a name="documentr_heading_17"></a>
 
 ## *NIX/Mac OS X <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -395,7 +400,7 @@ From the root of the project, simply run
 
 
 
-<a name="documentr_heading_20"></a>
+<a name="documentr_heading_18"></a>
 
 ## Windows <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -408,7 +413,7 @@ Note that this may also run tests (if applicable see the Testing notes)
 
 
 
-<a name="documentr_heading_21"></a>
+<a name="documentr_heading_19"></a>
 
 # Logging - slf4j <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -416,7 +421,7 @@ slf4j is the logging framework used for this project.  In order to set up a logg
 
 
 
-<a name="documentr_heading_22"></a>
+<a name="documentr_heading_20"></a>
 
 ## Log4j <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -501,7 +506,7 @@ A sample `log4j2.xml` is below:
 
 
 
-<a name="documentr_heading_27"></a>
+<a name="documentr_heading_25"></a>
 
 # Artefact Publishing - Github <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -513,7 +518,24 @@ As such, this is not a repository, but a location to download files from.
 
 
 
-<a name="documentr_heading_28"></a>
+
+<a name="documentr_heading_26"></a>
+
+# All-In-One <sup><sup>[top](#documentr_top)</sup></sup>
+
+This project's artefact output is an 'all in one' jar which includes all runtime dependencies.
+
+This should appear in the artefact repository along with the compiled code, as a convention, this is usually appended with an `-all` classifier
+
+For example:
+
+`h2zero-1.3.1.jar -> h2zero-1.3.1-all.jar`
+
+
+
+
+
+<a name="documentr_heading_27"></a>
 
 # Artefact Publishing - Bintray <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -523,7 +545,7 @@ This project publishes artefacts to [bintray](https://bintray.com/)
 
 
 
-<a name="documentr_heading_29"></a>
+<a name="documentr_heading_28"></a>
 
 ## maven setup <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -569,7 +591,7 @@ this comes from the jcenter bintray, to set up your repository:
 
 
 
-<a name="documentr_heading_30"></a>
+<a name="documentr_heading_29"></a>
 
 ## gradle setup <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -601,6 +623,16 @@ repositories {
 
 
 
+<a name="documentr_heading_30"></a>
+
+# Artefact Publishing - gradle plugin portal <sup><sup>[top](#documentr_top)</sup></sup>
+
+This project publishes artefacts to [the gradle plugin portal](https://plugins.gradle.org/)
+
+> Note that the latest version can be found [https://plugins.gradle.org/plugin/synapticloop.h2zero](https://plugins.gradle.org/plugin/synapticloop.h2zero)
+
+
+
 <a name="documentr_heading_31"></a>
 
 ## Dependencies - Gradle <sup><sup>[top](#documentr_top)</sup></sup>
@@ -609,9 +641,9 @@ repositories {
 
 ```
 dependencies {
-	runtime(group: 'synapticloop', name: 'h2zero', version: '1.3.0', ext: 'jar')
+	runtime(group: 'synapticloop', name: 'h2zero', version: '1.3.1', ext: 'jar')
 
-	compile(group: 'synapticloop', name: 'h2zero', version: '1.3.0', ext: 'jar')
+	compile(group: 'synapticloop', name: 'h2zero', version: '1.3.1', ext: 'jar')
 }
 ```
 
@@ -623,9 +655,9 @@ or, more simply for versions of gradle greater than 2.1
 
 ```
 dependencies {
-	runtime 'synapticloop:h2zero:1.3.0'
+	runtime 'synapticloop:h2zero:1.3.1'
 
-	compile 'synapticloop:h2zero:1.3.0'
+	compile 'synapticloop:h2zero:1.3.1'
 }
 ```
 
@@ -643,7 +675,7 @@ dependencies {
 <dependency>
 	<groupId>synapticloop</groupId>
 	<artifactId>h2zero</artifactId>
-	<version>1.3.0</version>
+	<version>1.3.1</version>
 	<type>jar</type>
 </dependency>
 ```
@@ -708,18 +740,8 @@ You will also need to download the following dependencies:
 **NOTE:** You may need to download any dependencies of the above dependencies in turn (i.e. the transitive dependencies)
 
 
+
 <a name="documentr_heading_39"></a>
-
-# Artefact Publishing - gradle plugin portal <sup><sup>[top](#documentr_top)</sup></sup>
-
-This project publishes artefacts to [the gradle plugin portal](https://plugins.gradle.org/)
-
-> Note that the latest version can be found [https://plugins.gradle.org/plugin/synapticloop.h2zero](https://plugins.gradle.org/plugin/synapticloop.h2zero)
-
-
-
-
-<a name="documentr_heading_40"></a>
 
 # License <sup><sup>[top](#documentr_top)</sup></sup>
 
