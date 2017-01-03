@@ -157,9 +157,8 @@ github {
 	tagName = version
 	name = version
 	assets = [
-		'build/libs/' + archivesBaseName + '-' + version + '.jar'
-//		,
-//		'build/libs/' + archivesBaseName + '-' + version + '-all.jar'
+		'build/libs/' + archivesBaseName + '-' + version + '.jar',
+		'build/libs/' + archivesBaseName + '-' + version + '-all.jar'
 	]
 }
 

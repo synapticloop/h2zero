@@ -47,7 +47,7 @@
    - [Dependencies - Gradle](#documentr_heading_31)
    - [Dependencies - Maven](#documentr_heading_32)
    - [Dependencies - Downloads](#documentr_heading_33)
- - [License](#documentr_heading_39)
+ - [License](#documentr_heading_40)
 
 
 
@@ -701,7 +701,7 @@ You will also need to download the following dependencies:
 ### compile dependencies
 
   - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
-  - org.json:json:20160810: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160810/view#files/org.json/json/20160810) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160810|jar))
+  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
   - org.apache.ant:ant:1.9.7: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.9.7/view#files/org.apache.ant/ant/1.9.7) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.9.7|jar))
   - javax.servlet.jsp:jsp-api:2.2: (It may be available on one of: [bintray](https://bintray.com/javax.servlet.jsp/maven/jsp-api/2.2/view#files/javax.servlet.jsp/jsp-api/2.2) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet.jsp|jsp-api|2.2|jar))
   - javax.servlet:javax.servlet-api:3.1.0: (It may be available on one of: [bintray](https://bintray.com/javax.servlet/maven/javax.servlet-api/3.1.0/view#files/javax.servlet/javax.servlet-api/3.1.0) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet|javax.servlet-api|3.1.0|jar))
@@ -716,12 +716,19 @@ You will also need to download the following dependencies:
 ### runtime dependencies
 
   - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
-  - org.json:json:20160810: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160810/view#files/org.json/json/20160810) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160810|jar))
+  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
   - com.mchange:c3p0:0.9.5.2: (It may be available on one of: [bintray](https://bintray.com/com.mchange/maven/c3p0/0.9.5.2/view#files/com.mchange/c3p0/0.9.5.2) [mvn central](http://search.maven.org/#artifactdetails|com.mchange|c3p0|0.9.5.2|jar))
   - commons-validator:commons-validator:1.5.1: (It may be available on one of: [bintray](https://bintray.com/commons-validator/maven/commons-validator/1.5.1/view#files/commons-validator/commons-validator/1.5.1) [mvn central](http://search.maven.org/#artifactdetails|commons-validator|commons-validator|1.5.1|jar))
   - org.apache.logging.log4j:log4j-core:2.4.1: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-core/2.4.1/view#files/org.apache.logging.log4j/log4j-core/2.4.1) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-core|2.4.1|jar))
   - io.dropwizard.metrics:metrics-core:3.1.2: (It may be available on one of: [bintray](https://bintray.com/io.dropwizard.metrics/maven/metrics-core/3.1.2/view#files/io.dropwizard.metrics/metrics-core/3.1.2) [mvn central](http://search.maven.org/#artifactdetails|io.dropwizard.metrics|metrics-core|3.1.2|jar))
   - javax.mail:javax.mail-api:1.5.6: (It may be available on one of: [bintray](https://bintray.com/javax.mail/maven/javax.mail-api/1.5.6/view#files/javax.mail/javax.mail-api/1.5.6) [mvn central](http://search.maven.org/#artifactdetails|javax.mail|javax.mail-api|1.5.6|jar))
+
+
+### shadowRuntime dependencies
+
+  - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
+  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
+  - org.apache.ant:ant:1.9.7: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.9.7/view#files/org.apache.ant/ant/1.9.7) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.9.7|jar))
 
 
 ### testCompile dependencies
@@ -741,7 +748,7 @@ You will also need to download the following dependencies:
 
 
 
-<a name="documentr_heading_39"></a>
+<a name="documentr_heading_40"></a>
 
 # License <sup><sup>[top](#documentr_top)</sup></sup>
 
