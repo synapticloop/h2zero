@@ -1,0 +1,10 @@
+{
+	"name": "pet",
+	"fields": [
+		{ "name": "id_pet", "type": "bigint", "nullable": false, "primary": true },
+		{ "name": "nm_pet", "type": "boolean", "nullable": true, "default": "'0'", "index": true },
+		{ "name": "num_age", "type": "int", "nullable": false },
+		{ "name": "flt_weight", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
+		{ "name": "dt_birthday", "type": "date", "nullable": true }
+	]
+}

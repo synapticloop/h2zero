@@ -1,0 +1,33 @@
+{
+"options": {
+	"logging": "log4j",
+	"metrics": false,
+	"generators": [ "java", "sql", "taglib", "reports" ],
+	"validators": {
+		"UpdaterNameValidator": {
+			"allowablePrefixes": "reset,"
+		},
+		"FinderNameValidator": {
+			"allowablePrefixes": "find,calculate"
+		}
+	},
+	"output": {
+		"java": "src/test/java/",
+		"sql": "src/test/resources/",
+		"webapp": "src/test/resources/"
+	}
+},
+"database": {
+	"schema": "sample",
+	"package": "synapticloop.sample.h2zero",
+	"defaultStatementCacheSize": 1024,
+
+	"tables": [
+		{ "include": "./user_type.json" },
+		{ "include": "./user_title.json" },
+		{ "include": "./user.json" },
+		{ "include": "./pet.json" },
+		{ "include": "./user_pet.json" }
+	],
+}
+}

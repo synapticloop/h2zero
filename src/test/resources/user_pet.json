@@ -1,0 +1,8 @@
+{
+	"name": "user_pet",
+	"fields": [
+		{ "name": "id_user_pet", "type": "bigint", "nullable": false, "primary": true },
+		{ "name": "id_user", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user.id_user" },
+		{ "name": "id_pet", "type": "bigint", "nullable": false, "index": true, "foreignKey": "pet.id_pet" }
+	]
+}
