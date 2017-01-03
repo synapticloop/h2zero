@@ -283,7 +283,8 @@ public class H2ZeroParser {
 		JSONObject jsonObject = new JSONObject(getFileContents(file));
 		// now go through and get all of the imports
 		String absolutePath = file.getParentFile().getAbsolutePath();
-		JSONArray tablesArray = jsonObject.getJSONObject("database").getJSONArray("tables");
+		JSONObject databaseObject = jsonObject.getJSONObject("database");
+		JSONArray tablesArray = databaseObject.getJSONArray("tables");
 		int i = 0;
 		for (Object object : tablesArray) {
 			JSONObject tableObject = (JSONObject) object;
@@ -294,7 +295,8 @@ public class H2ZeroParser {
 			}
 			i++;
 		}
-		return(jsonObject.getJSONObject("database").put("tables", newTablesArray));
+		JSONObject put = databaseObject.put("tables", newTablesArray);
+		return jsonObject;
 	}
 
 	/**
