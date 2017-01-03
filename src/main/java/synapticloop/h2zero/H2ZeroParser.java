@@ -4,13 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -282,25 +280,21 @@ public class H2ZeroParser {
 
 	public JSONObject getJSONFileContents(File file) throws H2ZeroParseException {
 		JSONArray newTablesArray = new JSONArray();
-		try {
-			JSONObject jsonObject = new JSONObject(FileUtils.readFileToString(file, Charset.defaultCharset()));
-			// now go through and get all of the imports
-			String absolutePath = file.getParentFile().getAbsolutePath();
-			JSONArray tablesArray = jsonObject.getJSONObject("database").getJSONArray("tables");
-			int i = 0;
-			for (Object object : tablesArray) {
-				JSONObject tableObject = (JSONObject) object;
-				if(tableObject.has("include")) {
-					newTablesArray.put(i, new JSONObject(getFileContents(new File(absolutePath + "/" + tableObject.getString("include")))));
-				} else {
-					newTablesArray.put(tableObject);
-				}
-				i++;
+		JSONObject jsonObject = new JSONObject(getFileContents(file));
+		// now go through and get all of the imports
+		String absolutePath = file.getParentFile().getAbsolutePath();
+		JSONArray tablesArray = jsonObject.getJSONObject("database").getJSONArray("tables");
+		int i = 0;
+		for (Object object : tablesArray) {
+			JSONObject tableObject = (JSONObject) object;
+			if(tableObject.has("include")) {
+				newTablesArray.put(i, new JSONObject(getFileContents(new File(absolutePath + "/" + tableObject.getString("include")))));
+			} else {
+				newTablesArray.put(tableObject);
 			}
-			return(jsonObject.getJSONObject("database").put("tables", newTablesArray));
-		} catch (IOException ex) {
-			throw new H2ZeroParseException(String.format("There was a problem reading the file '%s'.", file.getAbsolutePath()), ex);
+			i++;
 		}
+		return(jsonObject.getJSONObject("database").put("tables", newTablesArray));
 	}
 
 	/**
