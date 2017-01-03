@@ -2,7 +2,7 @@
 
 > See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
 
-[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.3.1-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
+[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.3.2-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -99,7 +99,7 @@ Your database, just the way that you designed it.
  - **Java**
  - **MySQL**
  - **c3p0**
- - **Ant** or **gradle**
+ - **Ant** or **gradle** or **command line usage**
 
 
 
@@ -313,7 +313,7 @@ Usage:
 Command line usage:
 ===================
 
-  java -jar h2zero.jar <mode> <options>
+  java -jar h2zero-all.jar <mode> <options>
 
 There are three (3) modes of operation, namely:
 
@@ -529,7 +529,7 @@ This should appear in the artefact repository along with the compiled code, as a
 
 For example:
 
-`h2zero-1.3.1.jar -> h2zero-1.3.1-all.jar`
+`h2zero-1.3.2.jar -> h2zero-1.3.2-all.jar`
 
 
 
@@ -641,9 +641,9 @@ This project publishes artefacts to [the gradle plugin portal](https://plugins.g
 
 ```
 dependencies {
-	runtime(group: 'synapticloop', name: 'h2zero', version: '1.3.1', ext: 'jar')
+	runtime(group: 'synapticloop', name: 'h2zero', version: '1.3.2', ext: 'jar')
 
-	compile(group: 'synapticloop', name: 'h2zero', version: '1.3.1', ext: 'jar')
+	compile(group: 'synapticloop', name: 'h2zero', version: '1.3.2', ext: 'jar')
 }
 ```
 
@@ -655,9 +655,9 @@ or, more simply for versions of gradle greater than 2.1
 
 ```
 dependencies {
-	runtime 'synapticloop:h2zero:1.3.1'
+	runtime 'synapticloop:h2zero:1.3.2'
 
-	compile 'synapticloop:h2zero:1.3.1'
+	compile 'synapticloop:h2zero:1.3.2'
 }
 ```
 
@@ -675,7 +675,7 @@ dependencies {
 <dependency>
 	<groupId>synapticloop</groupId>
 	<artifactId>h2zero</artifactId>
-	<version>1.3.1</version>
+	<version>1.3.2</version>
 	<type>jar</type>
 </dependency>
 ```
@@ -750,7 +750,7 @@ You will also need to download the following dependencies:
 ```
 The MIT License (MIT)
 
-Copyright (c) 2016 synapticloop
+Copyright (c) 2017 synapticloop
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
