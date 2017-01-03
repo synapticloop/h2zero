@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
 /*
- * Copyright (c) 2013-2015 synapticloop.
+ * Copyright (c) 2013-2017 synapticloop.
  * 
  * All rights reserved.
  *
