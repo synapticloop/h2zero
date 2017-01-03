@@ -1,6 +1,8 @@
 package synapticloop.h2zero;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -251,11 +253,31 @@ public class H2ZeroParser {
 	 * @throws H2ZeroParseException If there was an error getting the content of the file
 	 */
 	private String getFileContents(File file) throws H2ZeroParseException {
-		try {
-			return(FileUtils.readFileToString(file, Charset.defaultCharset()));
-		} catch (IOException ex) {
-			throw new H2ZeroParseException(String.format("There was a problem reading the file '%s'.", file.getAbsolutePath()), ex);
+		if(null == file) {
+			throw new H2ZeroParseException("Cannot parse, file is null.");
 		}
+
+		StringBuilder stringBuilder = new StringBuilder();
+		BufferedReader bufferedReader = null;
+
+		String line = null;
+		try {
+			bufferedReader = new BufferedReader(new FileReader(file));
+			while((line = bufferedReader.readLine()) != null) {
+				stringBuilder.append(line);
+				stringBuilder.append("\n");
+			}
+		} catch (IOException ioex) {
+			throw new H2ZeroParseException("There was a problem reading the file '" + file.getAbsolutePath() + "'.", ioex);
+		} finally {
+			if(null != bufferedReader) {
+				try {
+					bufferedReader.close();
+				} catch (IOException ignored) {
+				}
+			}
+		}
+		return (stringBuilder.toString());
 	}
 
 	public JSONObject getJSONFileContents(File file) throws H2ZeroParseException {
