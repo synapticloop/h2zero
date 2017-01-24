@@ -21,8 +21,6 @@ archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql, java and optionally jsp/servlets"""
 version = '1.4.1'
 
-tasks.withType(Javadoc).all { enabled = false }
-
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
