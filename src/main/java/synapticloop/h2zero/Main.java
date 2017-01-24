@@ -1,17 +1,5 @@
 package synapticloop.h2zero;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-
-import synapticloop.h2zero.plugin.ant.H2ZeroTask;
-import synapticloop.h2zero.util.SimpleLogger;
-import synapticloop.h2zero.util.SimpleLogger.LoggerType;
-
-
 /*
  * Copyright (c) 2012-2017 synapticloop.
  * 
@@ -29,6 +17,18 @@ import synapticloop.h2zero.util.SimpleLogger.LoggerType;
  * Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+
+import synapticloop.h2zero.plugin.ant.H2ZeroTask;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 public class Main {
 

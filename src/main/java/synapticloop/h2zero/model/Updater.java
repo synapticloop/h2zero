@@ -27,6 +27,7 @@ import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 
 public class Updater extends BaseQueryObject {
+	private boolean isAutoUpdater = false;
 
 	public Updater(Table table, JSONObject jsonObject) throws H2ZeroParseException {
 		super(table, jsonObject);
@@ -95,7 +96,12 @@ public class Updater extends BaseQueryObject {
 		}
 	}
 
+	@Override
 	public String getType() {
 		return("Updater");
 	}
+
+	public boolean getIsAutoUpdater() { return isAutoUpdater; }
+
+	public void setIsAutoUpdater(boolean isAutoUpdater) { this.isAutoUpdater = isAutoUpdater; }
 }

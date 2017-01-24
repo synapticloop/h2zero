@@ -29,6 +29,15 @@ public class Finder extends BaseQueryObject {
 	private boolean isAutoFinder = false;
 	private int statementCacheSize = 1024; // by default we use a cache of 1024
 
+	/**
+	 * Create a finder model object
+	 * 
+	 * @param baseSchemaObject The base schema object to attach to
+	 * @param finderObject The JSON object that encapsulates the finder
+	 * 
+	 * @throws H2ZeroParseException If there was an error parsing the JSON finder 
+	 *   object
+	 */
 	public Finder(BaseSchemaObject baseSchemaObject, JSONObject finderObject) throws H2ZeroParseException {
 		super(baseSchemaObject, finderObject);
 		// if we have a select clause then we are returning a bean...

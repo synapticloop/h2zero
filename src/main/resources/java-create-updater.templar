@@ -77,7 +77,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\n}
 
 	{\t}{\t}{\t}numRowsUpdated = preparedStatement.executeUpdate();{\n}
-	{\t}} catch (SQLException sqlex) {{{\n}
+	{\t}{\t}} catch (SQLException sqlex) {{{\n}
 	{\t}{\t}{\t}throw sqlex;{\n}
 	{\t}{\t}} finally {{{\n}
 	{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
