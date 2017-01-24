@@ -9,7 +9,7 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'synapticloop:h2zero:1.3.2'
+		classpath 'synapticloop:h2zero:1.4.0'
 	}
 }
 

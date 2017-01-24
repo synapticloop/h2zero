@@ -17,8 +17,7 @@ import java.util.List;{\n}
 {\n}
 import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 {\n}
-import org.apache.logging.log4j.LogManager;{\n}
-import org.apache.logging.log4j.Logger;{\n}
+{import classpath:/snippet/global/java-logger.templar}
 {\n}
 import {database.package}.model.util.Constants;{\n}
 {\n}
@@ -34,7 +33,9 @@ public class {table.javaClassName}Counter {{{\n}
 	{set table as baseSchemaObject}
 	{import classpath:/snippet/global/java-binder-declaration.templar}
 
-	{\t}private static final Logger LOGGER = LogManager.getLogger({baseSchemaObject.javaClassName}Counter.class);{\n}
+	{set "Counter" as classType}
+	{set baseSchemaObject.javaClassName as loggerClass}
+	{\t}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}
 	{\n}
 
 {\t}private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from {table.name}";{\n}

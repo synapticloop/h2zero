@@ -1,6 +1,6 @@
 {
 "options": {
-	"logging": "log4j",
+	"logging": "slf4j",
 	"metrics": false,
 	"generators": [ "java", "sql", "taglib", "reports" ],
 	"validators": {

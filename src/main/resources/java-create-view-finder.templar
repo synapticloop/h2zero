@@ -24,6 +24,7 @@ public class {view.javaClassName}ViewFinder {{{\n}
 
 {import classpath:/snippet/global/java-binder-declaration.templar}
 
+{set view.javaClassName as loggerClass}
 {set "ViewFinder" as classType}
 
 {import classpath:/snippet/global/java-logger-declaration.templar}

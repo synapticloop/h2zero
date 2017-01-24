@@ -16,8 +16,7 @@ import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n
 import synapticloop.h2zero.util.LruCache;{\n}
 
 {\n}
-import org.apache.logging.log4j.LogManager;{\n}
-import org.apache.logging.log4j.Logger;{\n}
+{import classpath:/snippet/global/java-logger.templar}
 {\n}
 import {database.package}.model.util.Constants;{\n}
 

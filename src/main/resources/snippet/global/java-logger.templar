@@ -1,0 +1,12 @@
+{\n}
+{if fn:=[options.logging, 'log4j']}
+import org.apache.logging.log4j.Logger;{\n}
+import org.apache.logging.log4j.LogManager;{\n}
+{else}
+	{if fn:=[options.logging, 'slf4j']}
+		import org.slf4j.Logger;{\n}
+		import org.slf4j.LoggerFactory;{\n}
+	{endif}
+{endif}
+{\n}
+

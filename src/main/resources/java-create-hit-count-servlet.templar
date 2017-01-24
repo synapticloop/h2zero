@@ -14,11 +14,12 @@ import java.util.Map;{\n}
 import java.util.Set;{\n}
 import java.util.Iterator;{\n}
 {\n}
-import org.apache.logging.log4j.Logger;{\n}
+{import classpath:/snippet/global/java-logger.templar}
 {\n}
 import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 
 public class HitCountServlet {{{\n}
+{\t}{set "HitCountServlet" as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
 {\t}private static final Logger LOGGER = LogManager.getLogger(HitCountServlet.class);{\n}{\n}
 {\t}private Set<String> allTables = new HashSet<String>();{\n}
 

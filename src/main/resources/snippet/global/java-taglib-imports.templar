@@ -6,8 +6,7 @@ import javax.servlet.jsp.JspException;{\n}
 import javax.servlet.jsp.PageContext;{\n}
 import javax.servlet.jsp.tagext.BodyTagSupport;{\n}
 {\n}
-import org.apache.logging.log4j.Logger;{\n}
-import org.apache.logging.log4j.LogManager;{\n}
+{import classpath:/snippet/global/java-logger.templar}
 
 {\n}
 import {database.package}.model.util.Constants;{\n}

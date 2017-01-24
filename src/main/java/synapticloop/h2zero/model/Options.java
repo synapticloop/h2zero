@@ -43,6 +43,7 @@ public class Options {
 	static {
 		ALLOWABLE_LOGGERS.add("");
 		ALLOWABLE_LOGGERS.add("log4j");
+		ALLOWABLE_LOGGERS.add("slf4j");
 	}
 
 	private static Set<String> ALLOWABLE_DATABASES = new HashSet<String>();

@@ -11,8 +11,7 @@ import javax.servlet.jsp.JspException;{\n}
 import javax.servlet.jsp.PageContext;{\n}
 import javax.servlet.jsp.tagext.BodyTagSupport;{\n}
 {\n}
-import org.apache.logging.log4j.LogManager;{\n}
-import org.apache.logging.log4j.Logger;{\n}
+{import classpath:/snippet/global/java-logger.templar}
 
 {\n}
 import {database.package}.counter.{table.javaClassName}Counter;{\n}
@@ -27,7 +26,7 @@ public class CountAllTag extends BaseVarTag {{{\n}
 	{\t}// removing dead code{\n}
 	{\t}@SuppressWarnings("unused"){\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_BINDER;{\n}{\n}
-	{\t}private static final Logger LOGGER = LogManager.getLogger(CountAllTag.class);{\n}{\n}
+	{\t}{set "CountAllTag" as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
 
 	{\t}@Override{\n}
 	{\t}public int doStartTag() throws JspException {{{\n}
