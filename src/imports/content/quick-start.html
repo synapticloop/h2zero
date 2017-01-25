@@ -1,7 +1,17 @@
 
 <h4>Step 1</h4>
-<p>Download the <a href="https://github.com/synapticloop/h2zero/tree/master/dist/h2zero.jar">h2zero jar file</a></p>
-<p>Download the <a href="https://github.com/synapticloop/h2zero/tree/master/lib/runtime/">required dependencies</a></p>
+
+<h5>Command Line</h5>
+
+<p>If you are looking to generate your files from the command line, you will need to download the 
+latest release from <a href="https://github.com/synapticloop/h2zero/releases">the github releases page</a>.  
+Ensure that you download the file with the <strong>-all</strong> classifier <em>(e.g. h2zero-1.4.1-all.jar)</em>
+</p>
+
+<h5>Ant/Gradle/Maven</h5>
+
+<p>See the dependencies listed in the <a href="https://github.com/synapticloop/h2zero">README</a> file in the 
+github project</p>
 
 <h4>Step 2</h4>
 
@@ -27,34 +37,33 @@
 
 <h4>Step 3</h4>
 
-<p>
-	Set up your ant build.xml file
-</p>
+<h5>Ant/gradle</h5>
 
-<pre class="prettyprint lang-xml">
-	<code>
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;{\n}
-&lt;project name="h2zero-sample"&gt;{\n}
-{\t}&lt;path id="classpath-h2zero"&gt;{\n}
-{\t}{\t}&lt;fileset dir="lib/runtime"&gt;{\n}
-{\t}{\t}{\t}&lt;include name="*.jar"/&gt;{\n}
-{\t}{\t}&lt;/fileset&gt;{\n}
-{\t}&lt;/path&gt;{\n}
-{\n}
-{\t}&lt;target name="h2zero" description="h2zero generate"&gt;{\n}
-{\t}{\t}&lt;taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" /&gt;{\n}
-{\t}{\t}&lt;h2zero in="src/main/java/sample.h2zero" outDir="." verbose="false" /&gt;{\n}
-{\t}&lt;/target&gt;{\n}
-{\n}
-&lt;/project&gt;{\n}
-	</code>
-</pre>
+<p>See the <a href="https://github.com/synapticloop/h2zero">Readme</a> in the project root
+ - the <strong>h2zero generation</strong> section</p>
 
 <h4>Step 4</h4>
 
 <p>
 	Generate the code!
 </p>
+
+<h5>command line</h5>
+<pre class="prettyprint lang-bash">
+	<code>
+java -jar h2zero-all.jar generate -in src/main/resources/sample.h2zero -out .
+	</code>
+</pre>
+
+<h5>gradle</h5>
+
+<pre class="prettyprint lang-bash">
+	<code>
+gradle h2zero
+	</code>
+</pre>
+
+<h5>ant</h5>
 
 <pre class="prettyprint lang-bash">
 	<code>
