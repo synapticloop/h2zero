@@ -28,6 +28,7 @@
 					<li><a href="deleters.html">Deleters</a></li>
 					<li><a href="inserters.html">Inserters</a></li>
 					<li><a href="updaters.html">Updaters</a></li>
+					<li><a href="field-updaters.html">Field Updaters</a></li>
 					<li><a href="questions.html">Questions</a></li>
 					<li><a href="counters.html">Counters</a></li>
 					<li><a href="constants.html">Constants</a></li>

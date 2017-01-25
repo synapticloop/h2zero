@@ -1,0 +1,92 @@
+{import src/imports/page-heading.templar}
+
+<p> 
+	Field updaters are a simple way to generate singular updaters that update a single field for either the complete 
+	table, or a specific row identified by its primary key.
+</p>
+
+<p>The key <code>fieldUpdaters</code> is a JSON Array of JSON Objects on the <code>table</code> JSON object, for example:</p>
+
+<pre class="prettyprint">
+	<code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"fieldUpdaters": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>Adding the following <code>fieldUpdaters</code> JSON array of JSON Objects:</p>
+
+			<pre class="prettyprint">
+				<code>
+"fieldUpdaters": [{\n}
+{\t}{{ "fl_is_indexed": "unique" },{\n}
+{\t}{{ "fl_is_alive": "multiple" }{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p><strong>Assuming that the primary key is named <code>id_user</code></strong></p>
+
+			<p>
+				<strong>unique updaters:</strong> The name of the updater will be <code>update&lt;CamelCaseFieldName&gt;By&lt;CamelCase&lt;PrimaryKeyFieldName&gt;&gt;</code>
+			</p>
+
+			<p>
+				<strong>multiple updaters:</strong> The name of the updater will be <code>update&lt;CamelCaseFieldName&gt;</code>
+			</p>
+
+			<p>This will automatically generate two updaters:</p>
+
+			<ol>
+				<li>
+					The first updater is <code>updateFlIsIndexedByIdUser</code> which will return the number 
+					of rows updated (which should <strong>always</strong> by one) with two parameters passed into the method, 
+					namely <code>flIsIndexed</code>, and <code>idUser</code>.
+				</li>
+
+				<li>
+					The second updater is <code>updateFlIsAlive</code>. which will the number of rows updated and 
+					has one parameter passed into the method, namely <code>flIsAlive</code>.
+				</li>
+
+			<p>
+				The alternate way to define the above updaters is as follows (which would generate identical code):
+			</p>
+
+			<pre class="prettyprint">
+				<code>
+"updaters": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "updateFlIsIndexedByIdUser",{\n}
+{\t}{\t}"setClause": "set fl_is_indexed = ?"",{\n}
+{\t}{\t}"setFields": [{\n}
+{\t}{\t}{\t}"fl_is_indexed"{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"whereClause": "where id_user = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"id_user"{\n}
+{\t}{\t}]{\n}
+{\t}},{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "updateFlIsAlive",{\n}
+{\t}{\t}"setClause": "set fl_is_alive = ?"",{\n}
+{\t}{\t}"setFields": [{\n}
+{\t}{\t}{\t}"fl_is_alive"{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				Which as you can see is a lot more work, more prone to error and un-necessary for something that can be 
+				automatically generated.
+			</p>
