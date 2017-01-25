@@ -1,0 +1,27 @@
+			{import src/imports/page-heading.templar}
+
+			<p> 
+				Field finders are a simple way to generate singular finders that act on one or more fields.  For field finders that 
+				query multiple fields, the fields should be separated by a comma ','.
+			</p>
+
+			<p>The key <code>fieldFinders</code> is a JSON Array of JSON Objects on the <code>views</code> JSON object, for example:</p>
+
+			<pre class="prettyprint">
+				<code>
+"views": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"fieldFinders": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>Field finders on views follow the same standards as those for tables.</p>
+
+			<p>Please see the {import src/imports/links/fieldFinders.templar} page for more details</p>

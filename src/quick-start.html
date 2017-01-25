@@ -2,88 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-			<h3>
-				<a id="h2zero-pages" class="anchor" href="#h2zero-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Start Guide.
-			</h3>
+{import src/imports/header.templar}
 
-			<h4>Step 1</h4>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<p>Download the <a href="https://github.com/synapticloop/h2zero/tree/master/dist/h2zero.jar">h2zero jar file</a></p>
-			<p>Download the <a href="https://github.com/synapticloop/h2zero/tree/master/lib/runtime/">required dependencies</a></p>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-			<h4>Step 2</h4>
+			<div class="8u$ 12u$(medium) important(medium)">
 
-			<p>Create your <code>.h2zero</code> file</p>
+				<section id="content">
+					{import src/imports/content/quick-start.html}
+				</section>
 
-			<p>
-				To get started quickly, you can use the following h2zero file as a 
-				reference point - which is used throughout the examples listed in this 
-				documentation set.
-			</p>
-
-			<p>
-				This file generates a simple schema for a database that records users and 
-				their pets.  Each user may have multiple pets and each pet may have multiple 
-				users.
-			</p>
-
-			<pre class="prettyprint">
-				<code>
-{import src/imports/h2zero/sample.templar}
-				</code>
-			</pre>
-
-			<h4>Step 3</h4>
-
-			<p>
-				Set up your ant build.xml file
-			</p>
-
-			<pre class="prettyprint lang-xml">
-				<code>
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;{\n}
-&lt;project name="h2zero-sample"&gt;{\n}
-{\t}&lt;path id="classpath-h2zero"&gt;{\n}
-{\t}{\t}&lt;fileset dir="lib/runtime"&gt;{\n}
-{\t}{\t}{\t}&lt;include name="*.jar"/&gt;{\n}
-{\t}{\t}&lt;/fileset&gt;{\n}
-{\t}&lt;/path&gt;{\n}
-{\n}
-{\t}&lt;target name="h2zero" description="h2zero generate"&gt;{\n}
-{\t}{\t}&lt;taskdef name="h2zero" classpathref="classpath-h2zero" classname="synapticloop.h2zero.ant.H2ZeroTask" /&gt;{\n}
-{\t}{\t}&lt;h2zero in="src/main/java/sample.h2zero" outDir="." verbose="false" /&gt;{\n}
-{\t}&lt;/target&gt;{\n}
-{\n}
-&lt;/project&gt;{\n}
-				</code>
-			</pre>
-
-			<h4>Step 4</h4>
-
-			<p>
-				Generate the code!
-			</p>
-
-			<pre class="prettyprint lang-bash">
-				<code>
-ant h2zero
-				</code>
-			</pre>
-
-			<p>
-				This will generate all of the required code for you h2zero file and database creation scripts, see the 
-				{import src/imports/links/generated-code.templar} page for an overview of the directory structure and 
-				the code that is generated.
-			</p>
-
-		</section>
-		{import src/imports/footer.templar}
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

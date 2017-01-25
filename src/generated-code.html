@@ -2,229 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-			<h3>
-				<a id="page-heading" class="anchor" href="#page-heading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Generated Code.
-			</h3>
+{import src/imports/header.templar}
 
-			<p>
-				h2zero takes the drudgery out of hand crafting code by automatically generating a swathe of artifacts that ensure 
-				consistency throughout the code base.
-			</p>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<p>
-				The following options are available (found in the  <code>synapticloop.h2zero.model.Options.java</code>)
-			</p>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-			<pre class="prettyprint lang-java">
-				<code>
+			<div class="8u$ 12u$(medium) important(medium)">
 
-public static final String OPTION_FORMBEANS = "formbeans";{\n}
-public static final String OPTION_ADMINPAGES = "adminpages";{\n}
-public static final String OPTION_TAGLIB = "taglib";{\n}
-public static final String OPTION_JSP = "jsp";{\n}
-public static final String OPTION_JAVA = "java";{\n}
-public static final String OPTION_SQL = "sql";{\n}
-{\n}
-private static HashSet&lt;String&gt; ALLOWABLE_GENERATORS = new HashSet&lt;String&gt;();{\n}
-static {{{\n}
-{\t}ALLOWABLE_GENERATORS.add(OPTION_SQL);{\n}
-{\t}ALLOWABLE_GENERATORS.add(OPTION_JAVA);{\n}
-{\t}ALLOWABLE_GENERATORS.add(OPTION_JSP);{\n}
-{\t}ALLOWABLE_GENERATORS.add(OPTION_TAGLIB);{\n}
-{\t}ALLOWABLE_GENERATORS.add(OPTION_ADMINPAGES);{\n}
-{\t}ALLOWABLE_GENERATORS.add(OPTION_FORMBEANS);{\n}
-}{\n}
-				</code>
-			</pre>
+				<section id="content">
+					{import src/imports/content/generated-code.html}
+				</section>
 
-
-			<p>
-				h2zero generates a lot of boilerplate code for you and places it in the following output directories:
-			</p>
-
-			<pre class="prettyprint lang-bash">
-				<code>
-/src{\n}
-    /main{\n}
-         /java{\n}
-              &lt;/your/package/here&gt;{\n}
-                                /bean{\n}
-                                /counter{\n}
-                                /deleter{\n}
-                                /finder{\n}
-                                /inserter{\n}
-                                /model{\n}
-                                /question{\n}
-                                /taglib{\n}
-                                /updater{\n}
-        /sql/create-database.sql{\n}
-        /webapps/WEB-INF/tld/&lt;your.schema.name.tld&gt;{\n}
-				</code>
-			</pre>
-
-			<h4><code>/src/main/java/&lt;/your/package/here&gt;</code></h4>
-			<p>
-				This is where the majority of the code will be generated to, 
-				<code>&lt;/your/package/here&gt;</code> is the java packaging and directory 
-				structure as defined in the <code>.h2zero</code> file.  In the example 
-				file, the package is defined as:
-			</p>
-
-			<pre class="prettyprint">
-				<code>
-					"package": "synapticloop.sample.h2zero"
-				</code>
-			</pre>
-
-			<p>
-				Which is a key under the {import src/imports/links/database.templar} JSON
-				object.
-			</p>
-
-			<p>
-				<em>It is recommended that the package is namespaced with a <code>.h2zero</code> 
-				as the last hierarchy to separate out the generated code.</em>
-			</p>
-			<p>
-				This will generate code that goes into the the following directory
-			</p>
-
-			<pre class="prettyprint lang-bash">
-				<code>
-/src/main/java/synapticloop/sample/h2zero
-				</code>
-			</pre>
-
-			<h4>The <code>/bean</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/selectClause.templar} key.
-			</p>
-
-			<p>
-				Code is only generated if there is a {import src/imports/links/selectClause.templar} 
-				generated for any of the beans.
-			</p>
-
-			<h4>The <code>/counter</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/counters.templar} key.
-			</p>
-
-			<h4>The <code>/deleter</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/deleters.templar} key.
-			</p>
-
-			<h4>The <code>/finder</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/finders.templar} key.
-			</p>
-
-			<h4>The <code>/inserter</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/inserters.templar} key.
-			</p>
-
-			<h4>The <code>/model</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/model.templar} key.
-			</p>
-
-			<h4>The <code>/question</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/questions.templar} key.
-			</p>
-
-			<h4>The <code>/taglib</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/taglib.templar} key.
-			</p>
-
-			<p>
-				Within this directory are sub-directories of all of the table objects, 
-				with their individual tags.
-			</p>
-
-			<h4>The <code>/updater</code> directory</h4>
-
-			<p>
-				The bean directory contains all of the code that is generated for the 
-				{import src/imports/links/updaters.templar} key.
-			</p>
-
-			<h4>Option code generation</h4>
-
-			<table>
-				<thead>
-					<tr>
-						<th>Option</th>
-						<th>Generated code</th>
-						<th>notes</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					<tr>
-						<td><strong>formBeans</strong></td>
-						<td>Genartion of beans for form completion</td>
-						<td>Under development</td>
-					</tr>
-					<tr>
-						<td><strong>adminpages</strong></td>
-						<td>Administrative pages for database CRUD opertaions</td>
-						<td>Under development</td>
-					</tr>
-					<tr>
-						<td><strong>taglib</strong></td>
-						<td>Tag libraries for finders, counters and questions</td>
-						<td>
-							Automatically generated for each of the SQL interactors, this will also automatically generate the correct 
-							tag library desciptor (tld) file.
-						</td>
-					</tr>
-					<tr>
-						<td><strong>jsp</strong></td>
-						<td>unused</td>
-						<td>Under development</td>
-					</tr>
-					<tr>
-						<td><strong>java</strong></td>
-						<td>Generate the model beans</td>
-						<td>Automatically generate the POJOs for the tables</td>
-					</tr>
-					<tr>
-						<td><strong>sql</strong></td>
-						<td>Generate the database cration script</td>
-						<td>Automatically generate the SQL database creation script and any constants table inserters as well.</td>
-					</tr>
-				</tbody>
-			</table>
-
-
-		</section>
-		{import src/imports/footer.templar}
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

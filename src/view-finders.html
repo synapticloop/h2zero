@@ -2,56 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-			{import src/imports/page-heading.templar}
+{import src/imports/header.templar}
 
-			<p>
-				Finders will most likely be the most often used elements of h2zero and can be configured in a variety of ways.
-			</p>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<p>
-				Rather than configuring {import src/imports/links/selectClause.templar} bean (more on this below) type queries, 
-				the following shortcut finder generators are also available:
-			</p>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-			<dl>
-				<dt>{import src/imports/links/fieldFinders.templar}</dt>
-				<dd>
-					For simple finders on either a single, or multiple fields, which return either a unique object 
-					or an <code>ArrayList</code> of objects.
-				</dd>
-				<dt>{import src/imports/links/counters.templar}</dt>
-				<dd>For simple counts on objects that return one and only one Integer value per query.</dd>
-				<dt>{import src/imports/links/questions.templar}</dt>
-				<dd>For simple questions on objects that return one and only one Boolean value per query.</dd>
-			</dl>
+			<div class="8u$ 12u$(medium) important(medium)">
 
-			<pre class="prettyprint">
-				<code>
-"views": [{\n}
-{\t}{{{\n}
-{\t}{\t}"fields": [{\n}
-{\t}{\t}{\t}...{\n}
-{\t}{\t}],{\n}
-{\t}{\t}"finders": [{\n}
-{\t}{\t}{\t}...{\n}
-{\t}{\t}]{\n}
-{\t}}{\n}
-]{\n}
-				</code>
-			</pre>
+				<section id="content">
+					{import src/imports/content/view-finders.html}
+				</section>
 
-			<p>Finders on views follow the same standards as those for tables.</p>
-
-			<p>Please see the {import src/imports/links/finders.templar} page for more details</p>
-
-		</section>
-		{import src/imports/footer.templar}
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

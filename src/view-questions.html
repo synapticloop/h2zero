@@ -2,37 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
-			{import src/imports/page-heading.templar}
 
-			<p>Questions are simple SQL statements that return one, and only one boolean (true/false) value.</p>
-			<p>This is a light-weight way to get a boolean answer to a question without using select beans or counters</p>
-			<p>The key <code>questions</code> is a JSON Array on the <code>view</code> JSON object, for example:</p>
+{import src/imports/header.templar}
 
-			<pre class="prettyprint">
-				<code>
-"views": [{\n}
-{\t}{{{\n}
-{\t}{\t}"fields": [{\n}
-{\t}{\t}{\t}...{\n}
-{\t}{\t}],{\n}
-{\t}{\t}"questions": [{\n}
-{\t}{\t}{\t}...{\n}
-{\t}{\t}]{\n}
-{\t}}{\n}
-]{\n}
-				</code>
-			</pre>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<p>Questions on views follow the same standards as those for tables.</p>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-			<p>Please see the {import src/imports/links/questions.templar} page for more details</p>
-		</section>
-		{import src/imports/footer.templar}
+			<div class="8u$ 12u$(medium) important(medium)">
+
+				<section id="content">
+					{import src/imports/content/view-questions.html}
+				</section>
+
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

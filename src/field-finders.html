@@ -2,129 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-			{import src/imports/page-heading.templar}
+{import src/imports/header.templar}
 
-			<p> 
-				Field finders are a simple way to generate singular finders that act on one or more fields.  For field finders that 
-				query multiple fields, the fields should be separated by a comma ','.
-			</p>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<p>The key <code>fieldFinders</code> is a JSON Array of JSON Objects on the <code>table</code> JSON object, for example:</p>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-			<pre class="prettyprint">
-				<code>
-"tables": [{\n}
-{\t}{{{\n}
-{\t}{\t}"fields": [{\n}
-{\t}{\t}{\t}...{\n}
-{\t}{\t}],{\n}
-{\t}{\t}"fieldFinders": [{\n}
-{\t}{\t}{\t}...{\n}
-{\t}{\t}]{\n}
-{\t}}{\n}
-]{\n}
-				</code>
-			</pre>
+			<div class="8u$ 12u$(medium) important(medium)">
 
-			<p>Adding the following <code>fieldFinders</code> JSON array of JSON Objects:</p>
+				<section id="content">
+					{import src/imports/content/field-finders.html}
+				</section>
 
-			<pre class="prettyprint">
-				<code>
-"fieldFinders": [{\n}
-{\t}{{ "nm_username": "unique" },{\n}
-{\t}{{ "txt_address_email": "unique" },{\n}
-{\t}{{ "num_age": "multiple" },{\n}
-{\t}{{ "fl_is_alive,num_age": "multiple" }{\n}
-]{\n}
-				</code>
-			</pre>
-
-			<p>
-				The name of the finder will be <code>findBy&lt;CamelCaseFieldName(s)&gt;</code>
-			</p>
-
-			<p>This will automatically generate four finders:</p>
-
-			<ol>
-				<li>
-					The first finder is <code>findByNmUsername</code>. which will return a unique <code>User</code> object that has 
-					one parameter passed into the method, namely <code>nmUsername</code>.
-				</li>
-
-				<li>
-					The second finder is <code>findByTxtAddressEmail</code>. which will return a unique <code>User</code> object that 
-					has one parameter passed into the method, namely <code>txtAddressEmail</code>.
-				</li>
-
-				<li>
-					The third finder is <code>findByNumAge</code> which will return an <code>ArrayList&lt;User&gt;</code> that has all 
-					of the users with a specific age.
-				</li>
-
-				<li>
-					The fourth and final finder is <code>findByFlIsAliveNumAge</code> which will return an <code>ArrayList&lt;User&gt;</code> 
-					that has all two parameters passed into it, namely <code>flIsAlive</code> and <code>findByNumAge</code>.
-				</li>
-			</ol>
-
-			<p>
-				The alternate way to define the above finders is as follows (which would generate identical code):
-			</p>
-
-			<pre class="prettyprint">
-				<code>
-"finders": [{\n}
-{\t}{{{\n}
-{\t}{\t}"name": "findByNmUsername",{\n}
-{\t}{\t}"whereClause": "where nm_username = ?",{\n}
-{\t}{\t}"whereFields": [{\n}
-{\t}{\t}{\t}"nm_username"{\n}
-{\t}{\t}],{\n}
-{\t}{\t}"unique": true{\n}
-{\t}},{\n}
-{\t}{{{\n}
-{\t}{\t}"name": "findByTxtAddressEmail",{\n}
-{\t}{\t}"whereClause": "where txt_address_email = ?",{\n}
-{\t}{\t}"whereFields": [{\n}
-{\t}{\t}{\t}"txt_address_email"{\n}
-{\t}{\t}],{\n}
-{\t}{\t}"unique": true{\n}
-{\t}},{\n}
-{\t}{{{\n}
-{\t}{\t}"name": "findByNumAge",{\n}
-{\t}{\t}"whereClause": "where num_age = ?",{\n}
-{\t}{\t}"whereFields": [{\n}
-{\t}{\t}{\t}"num_age"{\n}
-{\t}{\t}],{\n}
-{\t}{\t}"unique": false{\n}
-{\t}},{\n}
-{\t}{{{\n}
-{\t}{\t}"name": "findByFlIsAliveNumAge",{\n}
-{\t}{\t}"whereClause": "where fl_is_alive = ? and num_age = ?",{\n}
-{\t}{\t}"whereFields": [{\n}
-{\t}{\t}{\t}"fl_is_alive",{\n}
-{\t}{\t}{\t}"num_age"{\n}
-{\t}{\t}],{\n}
-{\t}{\t}"unique": false{\n}
-{\t}},{\n}
-
-]{\n}
-				</code>
-			</pre>
-
-			<p>
-				Which as you can see is a lot more work, more prone to error and un-necessary for something that can be 
-				automatically generated.
-			</p>
-
-		</section>
-		{import src/imports/footer.templar}
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

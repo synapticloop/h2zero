@@ -2,83 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-		<h3>
-			<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true">
-			</a>The <code>h2zero</code> file format.
-		</h3>
+{import src/imports/header.templar}
 
-			<p>
-				The h2zero file format is a JSON formatted document with a specific layout 
-				as per below.  The various sections are highlighted and linked to the
-				documentation for that key.
-			</p>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<pre class="prettyprint">
-				<code>
-{{{\n}
-{\t}"<a href="options.html">options</a>": {{{\n}
-{\t}{\t}...{\n}
-{\t}},{\n}
-{\t}"<a href="database.html">database</a>": {{{\n}
-{\t}{\t}"schema": "...",{\n}
-{\t}{\t}"package": "...",{\n}
-{\t}{\t}"<a href="tables.html">tables</a>": [{\n}
-{\t}{\t}{\t}{{{\n}
-{\t}{\t}{\t}{\t}"name": "...",{\n}
-{\t}{\t}{\t}{\t}"<a href="fields.html">fields</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}],{\n}
-{\t}{\t}{\t}{\t}"<a href="finders.html">finders</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}],{\n}
-{\t}{\t}{\t}{\t}"<a href="field-finders.html">fieldFinders</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}],{\n}
-{\t}{\t}{\t}{\t}"<a href="deleters.html">deleters</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}],{\n}
-{\t}{\t}{\t}{\t}"<a href="inserters.html">inserters</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}],{\n}
-{\t}{\t}{\t}{\t}"<a href="updaters.html">updaters</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}],{\n}
-{\t}{\t}{\t}{\t}"<a href="questions.html">questions</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}],{\n}
-{\t}{\t}{\t}{\t}"<a href="counters.html">counters</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}],{\n}
-{\t}{\t}{\t}{\t}"<a href="constants.html">constants</a>": [{\n}
-{\t}{\t}{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}{\t}{\t}]{\n}
-{\t}{\t}{\t}}{\n}
-{\t}{\t}], {\n}
-{\t}{\t}"<a href="views.html">views</a>": [{\n}
-{\t}{\t}{\t}{{...}{\n}
-{\t}{\t}]{\n}
-{\t}}{\n}
-}{\n}
-				</code>
-			</pre>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-			<p>
-				The navigation follows the file format, and you may click on any of the JSON keys above to get more information 
-				from the relevant section.
-			</p>
+			<div class="8u$ 12u$(medium) important(medium)">
 
-			<p>
-				See the {import src/imports/links/quick-start.templar} page for more 
-				a more detailed sample/example <code>.h2zero</code> file.
-			</p>
-		</section>
-		{import src/imports/footer.templar}
+				<section id="content">
+					{import src/imports/content/file-format.html}
+				</section>
+
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

@@ -1,0 +1,215 @@
+
+			{import src/imports/page-heading.templar}
+
+			<p>Questions are simple SQL statements that return one, and only one boolean (true/false) value.</p>
+			<p>This is a light-weight way to get a boolean answer to a question without using select beans or counters</p>
+			<p>The key <code>questions</code> is a JSON Array on the <code>table</code> JSON object, for example:</p>
+
+			<pre class="prettyprint">
+				<code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"questions": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			{import src/imports/tables/allowable-keys-table.templar}
+
+			<h4>Example 1: Simple Question</h4>
+
+			<pre class="prettyprint">
+				<code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}"name": "doWeHaveMoreThanTwentyUsers",{\n}
+{\t}"selectClause": "select count(*) > 20 from user"{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>Whilst rather contrived, this will return a true/false answer as to whether we have more than 20 users.</p>
+
+			<p>
+				The code that is generated for the above question resides in the following 
+				file location.
+			</p>
+
+			{set linkUserQuestion as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static boolean doWeHaveMoreThanTwentyUsers() throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveMoreThanTwentyUsers(Connection connection) throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveMoreThanTwentyUsersSilent(){\n}
+public static boolean doWeHaveMoreThanTwentyUsersSilent(Connection connection){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<p>You may also use a <code>whereClause</code> and <code>whereFields</code> if you wish to pass in additional parameters.</p>
+
+			<h4>Example 2: Parameterised Question</h4>
+
+			<pre class="prettyprint">
+				<code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "doesUserNameExist",{\n}
+{\t}{\t}"selectClause": "select count(*) > 0 from user",{\n}
+{\t}{\t}"whereClause": "where nm_user = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"nm_user"{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				In the above example, the question being asked is whether a particular username 
+				exists in the user table.  If it does, the return value is 
+				<code>true</code> else <code>false</code>.
+			</p>
+
+			<p>
+				The code that is generated for the above question resides in the following 
+				file location.
+			</p>
+
+			{set linkUserQuestion as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static boolean doesUserNameExist() throws H2ZeroFinderException, SQLException{\n}
+public static boolean doesUserNameExist(Connection connection) throws H2ZeroFinderException, SQLException{\n}
+public static boolean doesUserNameExistSilent(){\n}
+public static boolean doesUserNameExistSilent(Connection connection){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<h4>Example 3: Parameterised Question with dual parameter query</h4>
+
+			<pre class="prettyprint">
+				<code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "doWeHaveUsersBetweenAgeExclusive",{\n}
+{\t}{\t}"selectClause": "select count(*) &gt; 0 from user",{\n}
+{\t}{\t}"whereClause": "where num_age &gt; ? and num_age &lt; ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeFrom" },{\n}
+{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeTo" }{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				In the above example, the question being asked is whether we have users 
+				between two ages that are passed in as aprameters.  If we do, the return 
+				value is <code>true</code> else <code>false</code>.
+			</p>
+
+			<p>
+				The code that is generated for the above question resides in the following 
+				file location.
+			</p>
+
+			{set linkUserQuestion as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static boolean doWeHaveUsersBetweenAgeExclusive(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveUsersBetweenAgeExclusive(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Integer numAgeFrom, Integer numAgeTo){\n}
+public static boolean doWeHaveUsersBetweenAgeExclusiveSilent(Connection connection, Integer numAgeFrom, Integer numAgeTo){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<h4>Example 4: Parameterised Question with in: designator fields</h4>
+
+			<pre class="prettyprint">
+				<code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "doWeHaveUsersInAges",{\n}
+{\t}{\t}"selectClause": "select count(*) &gt; 0 from user",{\n}
+{\t}{\t}"whereClause": "where num_age in (...)",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"in:num_age"{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				In the above example, the question being asked is whether we have users 
+				in a list of ages.  If we do, the return 
+				value is <code>true</code> else <code>false</code>.
+			</p>
+
+			<p>
+				Note both the {import src/imports/links/whereClause.templar} having the ellipses (<code>...</code>) 
+				to designate that this is an <code>in</code> query and the {import src/imports/links/whereFields.templar} 
+				using the specialised <code>in:</code> designator.
+			</p>
+
+			<p>
+				The code generation uses these two parts in order to correctly specify the 
+				method parameters and the way in which a <code>PreparedStatement</code> is 
+				constructed.
+			</p>
+
+			<p>
+				The code that is generated for the above question resides in the following 
+				file location.
+			</p>
+
+			{set linkUserQuestion as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static boolean doWeHaveUsersInAges(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveUsersInAges(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
+public static boolean doWeHaveUsersInAgesSilent(List&lt;Integer&gt; numAgeList){\n}
+public static boolean doWeHaveUsersInAgesSilent(Connection connection, List&lt;Integer&gt; numAgeList){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+

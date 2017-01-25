@@ -2,128 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-			{import src/imports/page-heading.templar}
+{import src/imports/header.templar}
 
-			<p>
-				Fields are a required JSONArray for each table that is defined.  Field 
-				definitions are the basis for the interactions throughout the h2zero 
-				generated code.  The type, length, nullability, uniqueness and other 
-				attributes determine how the various helper classes are generated.
-			</p>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<p>
-				Throughout the code generation, the field definitions are linked through 
-				lookups to ensure that the maximum amount of integration is met and to 
-				ensure that the naming and lookup of fields is consitent throughout the 
-				code.
-			</p>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-			<pre class="prettyprint">
-				<code>
-"tables": [{\n}
-{\t}{{{\n}
-{\t}{\t}"fields": [{\n}
-{\t}{\t}{\t}...{\n}
-{\t}{\t}]{\n}
-{\t}}{\n}
-]{\n}
-				</code>
-			</pre>
+			<div class="8u$ 12u$(medium) important(medium)">
 
-			{import src/imports/database-naming-conventions-explanation.templar}
+				<section id="content">
+					{import src/imports/content/fields.html}
+				</section>
 
-			<h3>
-				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
-				Allowable key/value pairs on the field JSON Object
-			</h3>
-
-			{import src/imports/tables/allowable-field-key-value-pairs.templar}
-
-			<h3>
-				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
-				Primary Key Field
-			</h3>
-
-			<p>
-				Each table <strong>MUST</strong> have one, and only one primary key definition
-			</p>
-
-			<pre class="prettyprint">
-				<code>
-"fields": [{\n}
-{\t}{{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },{\n}
-{\t}{{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, "foreignKey": {{ "user_type.id_user_type" } },{\n}
-{\t}...{\n}
-]{\n}
-				</code>
-			</pre>
-
-			<p>
-				In the above example, the primary key definition in longer format is as 
-				follows:
-			</p>
-
-			<pre class="prettyprint">
-				<code>
-{{{\n}
-{\t}"name": "id_user", {\n}
-{\t}"type": "bigint", {\n}
-{\t}"nullable": false, {\n}
-{\t}"primary": true{\n}
-}{\n}
-				</code>
-			</pre>
-
-			<dl>
-				<dt><code>name</code></dt>
-				<dd>The name if the field - as a primary key, it is recommended that it be named thusly: <code>id_&lt;table_name&gt;</code></dd>
-				<dt><code>type</code></dt>
-				<dd>For a primary key, the type <strong>MUST</strong> be a <code>bigint</code></dd>
-				<dt><code>nullable</code></dt>
-				<dd>The primary key should never be null</dd>
-				<dt><code>primary</code></dt>
-				<dd>Indicating that the field is primary - this leads to indexes being placed automatically on this field</dd>
-			</dl>
-
-			<h3>
-				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
-				Foreign Key Reference
-			</h3>
-
-			<pre class="prettyprint">
-				<code>
-{{{\n}
-{\t}"name": "id_user_type", {\n}
-{\t}"type": "bigint", {\n}
-{\t}"nullable": false, {\n}
-{\t}"index": true, {\n}
-{\t}"foreignKey": {{ "user_type.id_user_type" }{\n}
-}{\n}
-				</code>
-			</pre>
-
-			<dl>
-				<dt><code>name</code></dt>
-				<dd>The name if the field</dd>
-				<dt><code>type</code></dt>
-				<dd>Since the foreign key references a primary key, the type <strong>MUST</strong> be a <code>bigint</code></dd>
-				<dt><code>nullable</code></dt>
-				<dd>The foreign key may be null</dd>
-				<dt><code>index</code></dt>
-				<dd>Whether to create an index on the field.</dd>
-				<dt><code>foreignKey</code></dt>
-				<dd>This is a JSON Object that references the <code>table</code> and <code>field</code> of the referenced primary key.</dd>
-			</dl>
-
-
-		</section>
-		{import src/imports/footer.templar}
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

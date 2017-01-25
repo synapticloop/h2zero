@@ -1,0 +1,26 @@
+{import src/imports/page-heading.templar}
+
+<p>Counters are simple SQL statements that return one, and only one integer value.</p>
+
+<p>This is a light-weight way to get a count of something without going through a selectClause bean finder.</p>
+
+<p>The key <code>counters</code> is a JSON Array on the <code>view</code> JSON object, for example:</p>
+
+<pre class="prettyprint">
+	<code>
+"views": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"counters": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+	</code>
+</pre>
+
+<p>Counters on views follow the same standards as those for tables.</p>
+
+<p>Please see the {import src/imports/links/counters.templar} page for more details</p>

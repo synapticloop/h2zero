@@ -1,0 +1,82 @@
+			{import src/imports/page-heading.templar}
+
+			<p>The <code>database</code> key is a JSON Object of which it <strong>MUST</strong> contain the following keys:</p>
+
+			<ul>
+				<li><code>schema</code></li>
+				<li><code>package</code></li>
+				<li><code>tables</code></li>
+			</ul>
+
+			<p>It may also optionally contain the following key:</p>
+
+			<ul>
+				<li><code>views</code></li>
+			</ul>
+
+			<h4>The <code>schema</code> key</h4>
+
+			<p>
+				The <code>schema</code> key is a <code>String</code> value which defines 
+				the name of the database schema.  This must be present and must be a valid 
+				MySQL database schema name.
+			<p>
+
+
+			<h4>The <code>package</code> key</h4>
+
+			<p>
+				The <code>package</code> key is a <code>String</code> value which defines 
+				the name (and therefore the directory layout) of the java package that 
+				the code will be generated.
+			<p>
+
+			<p>
+				As there is may be a large amout of files and code generated it is 
+				<em>recommended</em> that the package namespace end with a <code>.h2zero</code> 
+				to avoid cluttering up non-generated code.
+			</p>
+
+			<p>
+				As an example, if you java package namespace is <code>synapticloop.superproject</code>, 
+				then it is recommended that the <code>package</code> be set to 
+				<code>synapticloop.superproject.h2zero</code>.
+			</p>
+
+
+
+			<h4>The <code>tables</code> key</h4>
+
+			<p>
+				The <code>tables</code> key is a JSON Array that in turn holds JSON objects 
+				which describe the tables that are going to be created in the database schema 
+				and the code that is giong to be generated.
+			</p>
+
+
+
+			<h4>The <code>views</code> key</h4>
+
+			<p>
+				The <code>views</code> key is a JSON Array that in turn holds JSON objects 
+				which describe the views that are going to be created in the database schema 
+				and the code that is giong to be generated.
+			</p>
+
+			<pre class="prettyprint">
+				<code>
+{{{\n}
+{\t}"database": {{{\n}
+{\t}{\t}"schema": "h2zero_sample",{\n}
+{\t}{\t}"package": "h2zero.sample.h2zero",{\n}
+{\t}{\t}"tables": [{\n}
+{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}], {\n}
+{\t}{\t}"views": [{\n}
+{\t}{\t}{\t}{{...}{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+}{\n}
+
+				</code>
+			</pre>

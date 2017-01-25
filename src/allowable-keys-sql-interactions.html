@@ -2,147 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-			<h3>
-				<a id="page-heading" class="anchor" href="#page-heading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Allowable JSON keys for SQL interaction objects
-			</h3>
+{import src/imports/header.templar}
 
-			<p>
-				SQL interaction objects are java objects that allow CRUD operations on the database.
-			</p>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<table class="keys">
-				<thead>
-					<tr>
-						<th>Key Name</th>
-						<th>Finders</th>
-						<th>Updaters</th>
-						<th>Deleters</th>
-						<th>Inserters</th>
-						<th>Questions</th>
-						<th>Counters</th>
-					</tr>
-				</thead>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-				<tbody>
-					<tr>
-						<td><code>name</code></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-					</tr>
-					<tr>
-						<td><code>unique</code></td>
-						<td class="optional"><span>optional</span><br />must be a boolean value of true or false, defaults to false</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/selectClause.templar}<br />will create a select clause bean</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="mandatory"><span>mandatory</span><br /> must return a single result of type boolean</td>
-						<td class="optional"><span>optional</span><br /> must return a single result of type integer</td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/selectFields.templar}<br /> only if required by the select clause</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/whereClause.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/whereFields.templar}<br /> only if required by the where clause</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/insertClause.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/valuesClause.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="optional"><span>optional</span><br />only if there is no select clause</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/valueFields.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="optional"><span>optional</span><br />only if there is no select clause and there is a values clause</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/setClause.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/setFields.templar}</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="mandatory"><span>optional</span><br />only if required by the set clause</td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-					<tr>
-						<td><code>orderBy</code></td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td class="invalid"><span>invalid</span></td>
-					</tr>
-				<tbody>
-			</table>
+			<div class="8u$ 12u$(medium) important(medium)">
 
-		</section>
-		{import src/imports/footer.templar}
+				<section id="content">
+					{import src/imports/content/allowable-keys-sql-interactions.html}
+				</section>
+
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

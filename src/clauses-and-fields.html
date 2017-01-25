@@ -2,125 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-			<h3>
-				<a id="page-heading" class="anchor" href="#page-heading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clauses and Fields
-			</h3>
+{import src/imports/header.templar}
 
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<h4 id="selectClause">selectClause</h4>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-			<h4 id="selectFields">selectFields</h4>
+			<div class="8u$ 12u$(medium) important(medium)">
 
+				<section id="content">
+					{import src/imports/content/clauses-and-fields.html}
+				</section>
 
-			<h4 id="whereClause">whereClause</h4>
-
-			<h5>whereClause with in: fields</h5>
-
-			<p>
-				The where can use any of the normal SQL statements that you would find, e.g. cros-selects, joins, parameters etc. 
-				However, there are some specific sytnactical features that need to be inserted for 'in clauses'.
-			</p>
-
-			<p>For example:</p>
-
-			<pre class="prettyprint">
-				<code>
-"finders": [{\n}
-{\t}{{{\n}
-{\t}{\t}"name": "findByNumAgeIn",{\n}
-{\t}{\t}"whereClause": "where num_age in (...)",{\n}
-{\t}{\t}"whereFields": [{\n}
-{\t}{\t}{\t}"in:num_age"{\n}
-{\t}{\t}]{\n}
-{\t}{\t}"unique": false{\n}
-{\t}}{\n}
-]{\n}
-				</code>
-			</pre>
-
-			<p>
-				Note the <code>in (...)</code> which informs h2zero that a variable list of parameters may be queried on, this is 
-				then matched to the where fields <code>in:num_age</code> which determines the field lookup and generation.
-			</p>
-
-			<p>
-				Consequently the following method signatures are available:
-			</p>
-
-			<pre class="prettyprint lang-java">
-				<code>
-public static List<User> findByNumAgeIn(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
-public static List<User> findByNumAgeIn(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
-public static List<User> findByNumAgeInSilent(List&lt;Integer&gt; numAgeList){\n}
-public static List<User> findByNumAgeInSilent(Connection connection, List&lt;Integer&gt; numAgeList){\n}
-				</code>
-			</pre>
-
-			{import src/imports/method-signatures-explanation.templar}
-
-			<h4 id="whereFields">whereFields</h4>
-
-			<h5>whereFields with alias fields</h5>
-
-			<p>
-				If a finder has multiple where fields of the same name, h2zero will de-duplicate the fields in the method signature, 
-				in some instances, you may wish to pass in the same field with different values.
-			</p>
-
-			<p>For example:</p>
-
-			<pre class="prettyprint">
-				<code>
-"finders": [{\n}
-{\t}{{{\n}
-{\t}{\t}"name": "findByNumAgeBetween",{\n}
-{\t}{\t}"whereClause": "where num_age &gt; ? and num_age &lt; ?",{\n}
-{\t}{\t}"whereFields": [{\n}
-{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeMin" },{\n}
-{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeMax" }{\n}
-{\t}{\t}],{\n}
-{\t}{\t}"unique": false{\n}
-{\t}}{\n}
-				</code>
-			</pre>
-
-			<p>
-				In the above example, the <code>num_age</code> field is used twice, with differing values.  TO differentiate between 
-				the passed in parameters, an alias is used to generate the following method signatures:
-			</p>
-
-			<pre class="prettyprint lang-java">
-				<code>
-public static List<User> findByNumAgeBetween(Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
-public static List<User> findByNumAgeBetween(Connection connection, Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
-public static List<User> findByNumAgeBetweenSilent(Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
-public static List<User> findByNumAgeBetweenSilent(Connection connection, Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
-				</code>
-			</pre>
-
-			{import src/imports/method-signatures-explanation.templar}
-
-
-			<h4 id="insertClause">insertClause</h4>
-
-
-			<h4 id="valuesClause">valueClause</h4>
-
-			<h4 id="valueFields">valueFields</h4>
-
-
-			<h4 id="setClause">setClause</h4>
-
-			<h4 id="setFields">setFields</h4>
-
-		</section>
-		{import src/imports/footer.templar}
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

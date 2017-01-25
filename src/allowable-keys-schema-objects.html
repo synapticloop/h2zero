@@ -2,105 +2,42 @@
 <html>
 {import src/imports/head.templar}
 <body>
-	<div class="wrapper">
-		{import src/imports/sidenav.templar}
-		<section>
 
-			<h3>
-				<a id="page-heading" class="anchor" href="#page-heading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Allowable JSON keys for SQL interaction objects
-			</h3>
+{import src/imports/header.templar}
 
-			<p>
-				SQL interaction objects are java objects that allow CRUD operations on the database.
-			</p>
+<section id="main">
+	<div class="container">
+		<header class="major">
+			<h2>Welcome to h2zero</h2>
+			<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+		</header>
 
-			<table class="keys">
-				<thead>
-					<tr>
-						<th>Key Name</th>
-						<th>Tables</th>
-						<th>Views</th>
-						<th>Notes</th>
-					</tr>
-				</thead>
+		<div class="row 200%">
+			<div class="4u 12u$(medium)">
+				{import src/imports/sidebar.templar}
+			</div>
 
-				<tbody>
-					<tr>
-						<td><code>name</code></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="mandatory">Both tables and views <strong>MUST</strong> have a name</td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/fields.templar}</td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td class="mandatory"><span>mandatory</span></td>
-						<td>
-							Tables and views must have <code>fields</code> defined.  In the case of a <code>view</code> each field 
-							<strong>MUST</strong> match to the fields referenced is the <code>asClause</code>
-						</td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/finders.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td>By fefault the some finders are automatically generated, e.g. <code>findByPrimaryKey</code> and <code>findAll</code></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/finders.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/fieldFinders.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/deleters.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td>Views are not able to perform delete statements</td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/inserters.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td>Views are not able to perform insert statements</td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/updaters.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td>Views are not able to perform update statements</td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/questions.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/counters.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="optional"><span>optional</span></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>{import src/imports/links/constants.templar}</td>
-						<td class="optional"><span>optional</span></td>
-						<td class="invalid"><span>invalid</span></td>
-						<td>You cannot create a constant view.</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="8u$ 12u$(medium) important(medium)">
 
-		</section>
-		{import src/imports/footer.templar}
+				<section id="content">
+					{import src/imports/content/allowable-keys-schema-objects.html}
+				</section>
+
+			</div>
+		</div>
 	</div>
-	<script src="javascripts/scale.fix.js"></script>
+</section>
 
+<div id="footer">
+	<div class="container">
+		<div class="row 200% uniform">
+		</div>
+	</div>
+	<div class="copyright">
+		&copy; Synapticloop. All rights reserved.
+	</div>
+</div>
+
+{import src/imports/scripts.templar}
 </body>
 </html>

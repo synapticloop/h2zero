@@ -1,0 +1,97 @@
+<h3>
+	<a id="page-heading" class="anchor" href="#page-heading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Validators.
+</h3>
+
+<p>
+	The in-built validators are designed to ensure that as few errors as possible are allowed through the generation. 
+	Whilst the .h2zero file may be syntactically valid, these validators will help with the generated code.
+</p>
+
+<p>
+	When the .h2zero file has been successfully parsed and processed, validators are run across the java model to 
+	ensure that the generated code will be as free from errors as possible.
+</p>
+
+<h4>Validation error levels</h4>
+
+<p>
+	Validators will log to the console three different types of messages.
+</p>
+
+<dl>
+	<dt><code>INFO</code></dt>
+	<dd>
+		Informational messages that do not affect the h2zero generation.
+	</dd>
+
+	<dt><code>WARN</code></dt>
+	<dd>
+		Warning messages that should be cleared when next editing the .h2zero file.  This may also include deprecation 
+		messages.  These messages will not affect the successful generation of the .h2zero artifacts.
+	</dd>
+
+	<dt><code>FATAL</code></dt>
+	<dd>
+		Fatal messages that will stop the generation of the .h2zero artifacts.  These <strong>MUST</strong> be fixed 
+		before the code can be generated.
+	</dd>
+</dl>
+
+<h4>Validator list</h4>
+
+<p>
+	Some of the in-built validators that exist within the h2zero project are as follows:
+</p>
+
+<dl>
+	<dt><code>DefaultValueValidator.java</code></dt>
+	<dd>Ensure that the defaultValue field is enclosed within single quotation marks (')</dd>
+
+	<dt><code>FieldNameDuplicateValidator.java</code></dt>
+	<dd>Ensure that there are no duplicate field names</dd>
+
+	<dt><code>ForeignKeyTableValidator.java</code></dt>
+	<dd>Ensure that the foreign key table exists</dd>
+
+	<dt><code>TableNameDuplicateValidator.java</code></dt>
+	<dd>Ensure that there are no duplicate tables</dd>
+
+	<dt><code>UniqeAndIndexValidator.java</code></dt>
+	<dd>Warnings where a field is both unique and indexed - which is redundant.</dd>
+
+	<dt><code>ConstantTableValidator.java</code></dt>
+	<dd>Ensure that the generation of constants have unique primary keys and names</dd>
+
+	<dt><code>CounterJsonUniqueKeyExistsValidator.java</code></dt>
+	<dd>Warnings where a counter has a unique key, which is ignored</dd>
+
+	<dt><code>FinderAutoIndexValidator.java</code></dt>
+	<dd>Warnings for automatically generated finders that are neither marked as unique nor indexed which may slow down database lookups</dd>
+
+	<dt><code>FinderQueryParameterNumberValidator.java</code></dt>
+	<dd>Ensure that the number of parameters in the SQL whereClause has associated fields of the correct type in the whereClause</dd>
+
+	<dt><code>FinderWhereClauseValidator.java</code></dt>
+	<dd>Automatically add a 'where' string to the whereClause if it does not already start with one</dd>
+
+	<dt><code>FinderWhereFieldAliasValidator.java</code></dt>
+	<dd>Ensure that aliased whereFields have an alias attached to them</dd>
+
+	<dt><code>QuestionJsonUniqueKeyExistsValidator.java</code></dt>
+	<dd>Warnings where a question has a unique key, which is ignored</dd>
+
+	<dt><code>TableDeprecatedFinderKeyValidator.java</code></dt>
+	<dd>Deprecation warnings for fields that have a JSON key of 'finder'</dd>
+
+	<dt><code>TableDeprecatedForeignKeyValidator.java</code></dt>
+	<dd>Deprecation warnings for fields that have a JSON key of 'foreign'</dd>
+
+	<dt><code>TablePrimaryKeyExistsValidator.java</code></dt>
+	<dd>Ensure every table has a primary key.</dd>
+
+	<dt><code>TablePrimaryKeyNameValidator.java</code></dt>
+	<dd>Warnings where the primary key is not of the form id_&gt;table_name&lt; for a table</dd>
+
+	<dt><code>TablePrimaryKeyTypeValidator.java</code></dt>
+	<dd>Ensure that the primary key is always of type bigint</dd>
+</dl>

@@ -1,0 +1,245 @@
+			{import src/imports/page-heading.templar}
+
+			<p>
+				Finders will most likely be the most often used elements of h2zero and can be configured in a variety of ways.
+			</p>
+
+			<p>
+				Rather than configuring {import src/imports/links/selectClause.templar} bean (more on this below) type queries, 
+				the following shortcut finder generators are also available:
+			</p>
+
+			<dl>
+				<dt>{import src/imports/links/fieldFinders.templar}</dt>
+				<dd>
+					For simple finders on either a single, or multiple fields, which return either a unique object 
+					or an <code>ArrayList</code> of objects.
+				</dd>
+				<dt>{import src/imports/links/counters.templar}</dt>
+				<dd>For simple counts on objects that return one and only one Integer value per query.</dd>
+				<dt>{import src/imports/links/questions.templar}</dt>
+				<dd>For simple questions on objects that return one and only one Boolean value per query.</dd>
+			</dl>
+
+			<pre class="prettyprint">
+				<code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"finders": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			{import src/imports/tables/allowable-keys-table.templar}
+
+			<h3>
+				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
+				Default Finders
+			</h3>
+
+			<p>
+				By default <code>Finders</code> are designed to return either a unique object  or an ArrayList of objects, 
+				which contain the complete row record or records respectively. 
+			</p>
+
+			<pre class="prettyprint">
+				<code>
+"finders": [{\n}
+{\t}{{{\n}{\n}
+{\t}{\t}"name": "findByTxtAddressEmailTxtPassword",{\n}
+{\t}{\t}"whereClause": "where txt_address_email = ? and txt_password = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"txt_address_email",{\n}
+{\t}{\t}{\t}"txt_password"{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": true{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				This will return a unique row (if it exists) on a lookup by txt_address_email and txt_password.  Depending on 
+				the method signature, if the row cannot be found an exception will be thrown.  if the <code>*Silent</code> 
+				method signature is used, then a <code>null</code> result will be returned.
+			</p>
+
+			{set defaultUserFinder as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static User findByTxtAddressEmailTxtPassword(Connection connection, String txtAddressEmail, String txtPassword, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {\n}
+public static User findByTxtAddressEmailTxtPassword(Connection connection, String txtAddressEmail, String txtPassword) throws H2ZeroFinderException, SQLException {\n}
+public static User findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {\n}
+public static User findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword) throws H2ZeroFinderException, SQLException {\n}
+public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection, String txtAddressEmail, String txtPassword, Integer limit, Integer offset) {\n}
+public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection, String txtAddressEmail, String txtPassword) {\n}
+public static User findByTxtAddressEmailTxtPasswordSilent(String txtAddressEmail, String txtPassword, Integer limit, Integer offset) {\n}
+public static User findByTxtAddressEmailTxtPasswordSilent(String txtAddressEmail, String txtPassword) {\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<p>
+				If the "taglibs" option is enabled, this will also generate a tag library (and its associated entry in the TLD) 
+				file.
+			</p>
+
+			{set defaultUserFinderTaglib as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<h3>
+				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
+				selectClause Finders - subset of fields
+			</h3>
+
+			<p>
+				In some  instances it is desirable to only return specific fields from the database, or to use in-built MySQL 
+				language functions that do not map directly to a specific field in the table.  In this case the 
+				{import src/imports/links/selectClause.templar} finder is useful.
+			</p>
+
+			<pre class="prettyprint">
+				<code>
+"finders": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findNmUserDtmSignup",{\n}
+{\t}{\t}"selectClause": "select nm_user, dtm_signup from user",{\n}
+{\t}{\t}"selectFields": [{\n}
+{\t}{\t}{\t}{{ "name": "nm_user", "type": "varchar" },{\n}
+{\t}{\t}{\t}{{ "name": "dtm_signup", "type": "datetime" }{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": false{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				This will return multiple rows (if they exists) on a lookup by nm_user and dtm_signup.  Depending on 
+				the method signature, if the rows cannot be found an exception will be thrown.  if the <code>*Silent</code> 
+				method signature is used, then a <code>null</code> result will be returned.
+			</p>
+
+			<p>
+				Due to the fact that the entire table row is not being selected (only two of the fields are being selected) a 
+				bean is also generated for the returned results, which will contain getters and setters for all of the selected 
+				fields.  The bean name is <code>&lt;finderName&gt;Bean</code>. In the above example the bean name will be 
+				<code>findNmUserDtmSignupBean</code>
+			</p>
+
+			{set selectClauseUserFinder as code}
+			{import src/imports/links/link-to-code.templar}
+
+			{set selectClauseUserFinderBean as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Connection connection, Integer limit, Integer offset) {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Connection connection) {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Integer limit, Integer offset) {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent() {\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<p>
+				If the "taglibs" option is enabled, this will also generate a tag library (and its associated entry in the TLD) 
+				file.
+			</p>
+
+			{set selectClauseUserFinderTaglib as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<h3>
+				<a id="h2zero-page" class="anchor" href="#h2zero-page" aria-hidden="true"></a>
+				selectClause Finders - MySQL in-built functions
+			</h3>
+
+			<p>
+				In some  instances it is desirable to only return specific fields from the database, or to use in-built MySQL 
+				language functions that do not map directly to a specific field in the table.  In this case the 
+				{import src/imports/links/selectClause.templar} finder is useful.
+			</p>
+
+			<pre class="prettyprint">
+				<code>
+"finders": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "findGroupNumAge",{\n}
+{\t}{\t}"selectClause": "select count(*) as num_count, num_age from user group by num_count",{\n}
+{\t}{\t}"selectFields": [{\n}
+{\t}{\t}{\t}{{ "name": "num_count", "type": "int" },{\n}
+{\t}{\t}{\t}{{ "name": "num_age", "type": "int" }{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"unique": false{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+
+			<p>
+				This will return multiple rows (if they exists) on a lookup by nm_user and dtm_signup.  Depending on 
+				the method signature, if the rows cannot be found an exception will be thrown.  if the <code>*Silent</code> 
+				method signature is used, then a <code>null</code> result will be returned.
+			</p>
+
+			<p>
+				Due to the fact that the entire table row is not being selected (only two of the fields are being selected) a 
+				bean is also generated for the returned results, which will contain getters and setters for all of the selected 
+				fields.  The bean name is <code>&lt;finderName&gt;Bean</code>. In the above example the bean name will be 
+				<code>findNmUserDtmSignupBean</code>
+			</p>
+
+			{set selectClauseUserFinder as code}
+			{import src/imports/links/link-to-code.templar}
+
+			{set selectClauseGroupUserFinderBean as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static List&lt;FindNmGroupNumAgeBean&gt; findGroupNumAge() throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmGroupNumAgeBean&gt; findGroupNumAge(Connection connection) throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmGroupNumAgeBean&gt; findGroupNumAgeSilent() {\n}
+public static List&lt;FindNmGroupNumAgeBean&gt; findGroupNumAgeSilent(Connection connection) {\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<p>
+				If the "taglibs" option is enabled, this will also generate a tag library (and its associated entry in the TLD) 
+				file.
+			</p>
+
+			{set selectClauseGroupUserFinderTaglib as code}
+			{import src/imports/links/link-to-code.templar}
+

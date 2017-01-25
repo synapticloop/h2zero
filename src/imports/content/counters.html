@@ -1,0 +1,228 @@
+			{import src/imports/page-heading.templar}
+
+			<p>Counters are simple SQL statements that return one, and only one integer value.</p>
+
+			<p>This is a light-weight way to get a count of something without going through a selectClause bean finder.</p>
+
+			<p>The key <code>counters</code> is a JSON Array on the <code>table</code> JSON object, for example:</p>
+
+			<pre class="prettyprint">
+				<code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"counters": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+</code>
+			</pre>
+
+			{import src/imports/tables/allowable-keys-table.templar}
+
+
+			<h4>Automatically generated methods</h4>
+
+			<p>
+				Every table automatically has <code>countAll</code> methods generated, with 
+				the following signatures:
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static int countAll() throws SQLException{\n}
+public static int countAll(Connection connection) throws SQLException{\n}
+public static int countAllSilent(){\n}
+public static int countAllSilent(Connection connection){\n}
+				</code>
+			</pre>
+
+			<h4>Example 1: Simple Count</h4>
+
+			<pre class="prettyprint">
+				<code>
+"counters": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "countNumberOfUsers",{\n}
+{\t}{\t}"selectClause": "select count(*) from user"{\n}
+{\t}}{\n}
+]{\n}
+			</code>
+		</pre>
+
+			<p>
+				As it would appear, this would return the number of users in the table. 
+				Without a {import src/imports/links/whereClause.templar}, these methods are identical 
+				to the <code>countAll</code> methods and consequently aren't necessary, however this is 
+				included for illustrative purposes.
+			</p>
+
+			<p>
+				The code that is generated for the above counter resides in the following 
+				file location.
+			</p>
+
+			{set linkUserCounter as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static int countNumberOfUsers() throws H2ZeroFinderException, SQLException{\n}
+public static int countNumberOfUsers(Connection connection) throws H2ZeroFinderException, SQLException{\n}
+public static int countNumberOfUsersSilent(){\n}
+public static int countNumberOfUsersSilent(Connection connection){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<p>You may also use a <code>whereClause</code> and <code>whereFields</code> if you wish to pass in additional parameters.</p>
+
+			<h4>Example 2: Parameterised Count</h4>
+
+			<pre class="prettyprint">
+				<code>
+"counters": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "countNumberOfUsersOverAge",{\n}
+{\t}{\t}"selectClause": "select count(*) from user"{\n}
+{\t}{\t}"whereClause": "where num_user_age > ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"num_user_age"{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>In the above example, the count being given is the number of users that are older than a parameterised value that is passed in.</p>
+
+			<p>
+				The code that is generated for the above counter resides in the following 
+				file location.
+			</p>
+
+			{set linkUserCounter as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static int countNumberOfUsersOverAge(Integer numAge) throws H2ZeroFinderException, SQLException {\n}
+public static int countNumberOfUsersOverAge(Connection connection, Integer numAge) throws H2ZeroFinderException, SQLException {\n}
+public static int countNumberOfUsersOverAgeSilent(Integer numAge){\n}
+public static int countNumberOfUsersOverAgeSilent(Connection connection, Integer numAge){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<h4>Example 3: Parameterised Count with dual value parameter</h4>
+
+			<pre class="prettyprint">
+				<code>
+"counters": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "countNumberOfUsersBetweenAge",{\n}
+{\t}{\t}"selectClause": "select count(*) from user",{\n}
+{\t}{\t}"whereClause": "where num_age &gt; ? and num_age &lt; ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeFrom" },{\n}
+{\t}{\t}{\t}{{ "name": "num_age", "alias": "numAgeTo" }{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+
+				</code>
+			</pre>
+
+
+			<p>
+				The code that is generated for the above counter resides in the following 
+				file location.
+			</p>
+
+			{set linkUserCounter as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static int countNumberOfUsersBetweenAge(Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
+public static int countNumberOfUsersBetweenAge(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws H2ZeroFinderException, SQLException{\n}
+public static int countNumberOfUsersBetweenAgeSilent(Integer numAgeFrom, Integer numAgeTo){\n}
+public static int countNumberOfUsersBetweenAgeSilent(Connection connection, Integer numAgeFrom, Integer numAgeTo){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}
+
+			<h4>Example 4: Parameterised Counter with in: designator fields</h4>
+
+			<pre class="prettyprint">
+				<code>
+"questions": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "countUsersInAges",{\n}
+{\t}{\t}"selectClause": "select count(*) &gt; 0 from user",{\n}
+{\t}{\t}"whereClause": "where num_age in (...)",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"in:num_age"{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>
+				In the above example, the count being given is the number of users that 
+				have an age that equals that of the passed in list
+			</p>
+
+			<p>
+				Note both the {import src/imports/links/whereClause.templar} having the ellipses (<code>...</code>) 
+				to designate that this is an <code>in</code> query and the {import src/imports/links/whereFields.templar} 
+				using the specialised <code>in:</code> designator.
+			</p>
+
+			<p>
+				The code generation uses these two parts in order to correctly specify the 
+				method parameters and the way in which a <code>PreparedStatement</code> is 
+				constructed.
+			</p>
+
+			<p>
+				The code that is generated for the above counter resides in the following 
+				file location.
+			</p>
+
+			{set linkUserCounter as code}
+			{import src/imports/links/link-to-code.templar}
+
+			<p>
+				With the following method signatures
+			</p>
+
+			<pre class="prettyprint lang-java">
+				<code>
+public static int countUsersInAges(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
+public static int countUsersInAges(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
+public static int countUsersInAgesSilent(List&lt;Integer&gt; numAgeList){\n}
+public static int countUsersInAgesSilent(Connection connection, List&lt;Integer&gt; numAgeList){\n}
+				</code>
+			</pre>
+
+			{import src/imports/method-signatures-explanation.templar}

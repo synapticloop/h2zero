@@ -1,0 +1,25 @@
+
+			{import src/imports/page-heading.templar}
+
+			<p>Questions are simple SQL statements that return one, and only one boolean (true/false) value.</p>
+			<p>This is a light-weight way to get a boolean answer to a question without using select beans or counters</p>
+			<p>The key <code>questions</code> is a JSON Array on the <code>view</code> JSON object, for example:</p>
+
+			<pre class="prettyprint">
+				<code>
+"views": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"questions": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>Questions on views follow the same standards as those for tables.</p>
+
+			<p>Please see the {import src/imports/links/questions.templar} page for more details</p>

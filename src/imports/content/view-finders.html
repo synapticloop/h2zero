@@ -1,0 +1,42 @@
+			{import src/imports/page-heading.templar}
+
+			<p>
+				Finders will most likely be the most often used elements of h2zero and can be configured in a variety of ways.
+			</p>
+
+			<p>
+				Rather than configuring {import src/imports/links/selectClause.templar} bean (more on this below) type queries, 
+				the following shortcut finder generators are also available:
+			</p>
+
+			<dl>
+				<dt>{import src/imports/links/fieldFinders.templar}</dt>
+				<dd>
+					For simple finders on either a single, or multiple fields, which return either a unique object 
+					or an <code>ArrayList</code> of objects.
+				</dd>
+				<dt>{import src/imports/links/counters.templar}</dt>
+				<dd>For simple counts on objects that return one and only one Integer value per query.</dd>
+				<dt>{import src/imports/links/questions.templar}</dt>
+				<dd>For simple questions on objects that return one and only one Boolean value per query.</dd>
+			</dl>
+
+			<pre class="prettyprint">
+				<code>
+"views": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"finders": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			<p>Finders on views follow the same standards as those for tables.</p>
+
+			<p>Please see the {import src/imports/links/finders.templar} page for more details</p>
+

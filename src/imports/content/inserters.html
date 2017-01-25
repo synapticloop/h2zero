@@ -1,0 +1,26 @@
+			{import src/imports/page-heading.templar}
+
+			<p>
+				Inserters are simple SQL statements to insert a row into the database with the need to create a java POJO model.  
+				These are most useful when reading from an external data source for mass insertions without the need to 
+				manipulate the data once it has been read.
+			</p>
+			<p>This is a light-weight way to insert data without the need for a full java object</p>
+			<p>The key <code>inserters</code> is a JSON Array on the <code>table</code> JSON object, for example:</p>
+
+			<pre class="prettyprint">
+				<code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"inserters": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
+				</code>
+			</pre>
+
+			{import src/imports/tables/allowable-keys-table.templar}
