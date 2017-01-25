@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/runtime/c3p0-0.9.5-pre8.jar"/>
-	<classpathentry kind="lib" path="lib/runtime/h2zero.jar"/>
-	<classpathentry kind="lib" path="lib/runtime/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="lib/runtime/mail.jar"/>
-	<classpathentry kind="lib" path="lib/runtime/mchange-commons-java-0.2.7.jar"/>
-	<classpathentry kind="lib" path="lib/runtime/mysql-connector-java-5.1.10-bin.jar"/>
-	<classpathentry kind="lib" path="lib/runtime/templar.jar"/>
-	<classpathentry kind="lib" path="lib/compile/jsp-api.jar"/>
-	<classpathentry kind="lib" path="lib/compile/servlet-api.jar"/>
-	<classpathentry kind="output" path="build-eclipse"/>
+	<classpathentry kind="src" path="src/main/java">
+		<attributes>
+			<attribute name="FROM_GRADLE_MODEL" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7/"/>
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
