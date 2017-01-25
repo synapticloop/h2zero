@@ -87,10 +87,14 @@
 
 			<pre class="prettyprint lang-java">
 				<code>
-public static User findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword) throws H2ZeroFinderException, SQLException {\n}
+public static User findByTxtAddressEmailTxtPassword(Connection connection, String txtAddressEmail, String txtPassword, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {\n}
 public static User findByTxtAddressEmailTxtPassword(Connection connection, String txtAddressEmail, String txtPassword) throws H2ZeroFinderException, SQLException {\n}
-public static User findByTxtAddressEmailTxtPasswordSilent(String txtAddressEmail, String txtPassword) {\n}
+public static User findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {\n}
+public static User findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword) throws H2ZeroFinderException, SQLException {\n}
+public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection, String txtAddressEmail, String txtPassword, Integer limit, Integer offset) {\n}
 public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection, String txtAddressEmail, String txtPassword) {\n}
+public static User findByTxtAddressEmailTxtPasswordSilent(String txtAddressEmail, String txtPassword, Integer limit, Integer offset) {\n}
+public static User findByTxtAddressEmailTxtPasswordSilent(String txtAddressEmail, String txtPassword) {\n}
 				</code>
 			</pre>
 
@@ -156,10 +160,14 @@ public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection,
 
 			<pre class="prettyprint lang-java">
 				<code>
-public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {\n}
 public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException {\n}
-public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent() {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Connection connection, Integer limit, Integer offset) {\n}
 public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Connection connection) {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent(Integer limit, Integer offset) {\n}
+public static List&lt;FindNmUserDtmSignupBean&gt; findNmUserDtmSignupSilent() {\n}
 				</code>
 			</pre>
 

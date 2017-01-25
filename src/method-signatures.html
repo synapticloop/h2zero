@@ -11,6 +11,41 @@
 			</h3>
 
 			<p>
+				There are 8 (eight) separate method signatures for each generated finder, and 4 (four) for deleters, inserters,
+				updaters and questions.
+			</p>
+			
+			<p><strong>FINDERS</strong></p>
+
+			<pre class="prettyprint lang-java">
+				<code>{pre
+// connection, params..., limit, offset - throw exception
+public static &lt;ReturnType&gt; &lt;methodNameofBaseSqlObject&gt;(Connection connection, Type parameterValueOne, Type parameterValueTwo, [ additional parameters ...], Integer limit, Integer offset) throws H2ZeroFinderException, SQLException 
+
+// connection, params... - throw exception
+public static &lt;ReturnType&gt; &lt;methodNameofBaseSqlObject&gt;(Connection connection, Type parameterValueOne, Type parameterValueTwo, [ additional parameters ...]) throws H2ZeroFinderException, SQLException 
+
+// params..., limit, offset - throw exception
+public static &lt;ReturnType&gt; &lt;methodNameofBaseSqlObject&gt;(Type parameterValueOne, Type parameterValueTwo, [ additional parameters ...], Integer limit, Integer offset) throws H2ZeroFinderException, SQLException 
+
+// params... - throw exception
+public static &lt;ReturnType&gt; &lt;methodNameofBaseSqlObject&gt;(Type parameterValueOne, Type parameterValueTwo, [ additional parameters ...]) throws H2ZeroFinderException, SQLException 
+
+// connection, params..., limit, offset - silently swallow exceptions and log them
+public static &lt;ReturnType&gt; &lt;methodNameofBaseSqlObject&gt;Silent(Connection connection, Type parameterValueOne, Type parameterValueTwo, [ additional parameters ...], Integer limit, Integer offset) 
+
+// connection, params... - silently swallow exceptions and log them
+public static &lt;ReturnType&gt; &lt;methodNameofBaseSqlObject&gt;Silent(Connection connection, Type parameterValueOne, Type parameterValueTwo, [ additional parameters ...]) 
+
+// params..., limit, offset - silently swallow exceptions and log them
+public static &lt;ReturnType&gt; &lt;methodNameofBaseSqlObject&gt;Silent(Type parameterValueOne, Type parameterValueTwo, [ additional parameters ...], Integer limit, Integer offset) 
+
+// connection, params... - silently swallow exceptions and log them
+public static &lt;ReturnType&gt; &lt;methodNameofBaseSqlObject&gt;Silent(Type parameterValueOne, Type parameterValueTwo, [ additional parameters ...]) 
+pre}				</code>
+			</pre>
+
+			<p>
 				For the generated code, the following method signatures and the descriptions are 
 				noted below:
 			</p>
