@@ -17,6 +17,8 @@
 			<td>mandatory</td>
 			<td>This is the name for the {name}.  If not present on the JSON object an <code>H2ZeroParseException</code> will be thrown.</td>
 		</tr>
+
+		{if !fn:null[keySelectClause]}
 		<tr>
 			<td><strong>{import src/imports/links/selectClause.templar}</strong></td>
 			<td>String</td>
@@ -44,9 +46,12 @@
 				{endif}
 			</td>
 		</tr>
+		{endif}
+
+		{if !fn:null[keySelectFields]}
 		<tr>
 			<td><strong>{import src/imports/links/selectFields.templar}</strong></td>
-			<td>JSON Array</td>
+			<td>JSON Array (String)</td>
 			<td>{if fn:null[keySelectFields]}undocumented{else}{keySelectFields}{endif}</td>
 			<td>
 				Select fields are {keySelectFields} for the <code>{name}</code> JSON object. {if !fn:null[keySelectFieldsInfo]}{keySelectFieldsInfo}{endif}
@@ -63,6 +68,56 @@
 				{endif}
 			</td>
 		</tr>
+		{endif}
+
+
+		{if !fn:null[keySetClause]}
+		<tr>
+			<td><strong>{import src/imports/links/setClause.templar}</strong></td>
+			<td>String</td>
+			<td>{if fn:null[keySetClause]}undocumented{else}{keySetClause}{endif}</td>
+			<td>
+				<strong>Used for updaters only:</strong> You must provide a set clause which 
+				is valid SQL for inserting into the database.
+
+				{if fn:=[keySetClause, "invalid"]}
+					<br /><br />This will generate a <strong>FATAL</strong> validation message if present on the JSON object.
+				{else}
+					{if fn:=[keySetClause, "ignored"]}
+						<br /><br />This will generate a <strong>WARN</strong> validation message if present on the JSON object.
+					{else}
+						{if fn:=[keySetClause, "mandatory"]}
+							<br /><br />This will generate a <strong>FATAL</strong> validation message if not present on the JSON object.
+						{endif}
+					{endif}
+				{endif}
+			</td>
+		</tr>
+		{endif}
+
+		{if !fn:null[keySetFields]}
+		<tr>
+			<td><strong>{import src/imports/links/setFields.templar}</strong></td>
+			<td>JSON Array (String)</td>
+			<td>{if fn:null[keySetFields]}undocumented{else}{keySetFields}{endif}</td>
+			<td>
+				Select fields are {keySetFields} for the <code>{name}</code> JSON object. {if !fn:null[keySetFieldsInfo]}{keySetFieldsInfo}{endif}
+				{if fn:=[keySetFields, "invalid"]}
+					<br /><br />This will generate a <strong>FATAL</strong> validation message if present on the JSON object.
+				{else}
+					{if fn:=[keySetFields, "ignored"]}
+						<br /><br />This will generate a <strong>WARN</strong> validation message if present on the JSON object.
+					{else}
+						{if fn:=[keySetFields, "mandatory"]}
+							<br /><br />This will generate a <strong>FATAL</strong> validation message if not present on the JSON object.
+						{endif}
+					{endif}
+				{endif}
+			</td>
+		</tr>
+		{endif}
+
+		{if !fn:null[keyInsertClause]}
 		<tr>
 			<td><strong>{import src/imports/links/insertClause.templar}</strong></td>
 			<td>JSON Array</td>
@@ -91,15 +146,18 @@
 				{endif}
 			</td>
 		</tr>
+		{endif}
+
 		<tr>
 			<td><strong>{import src/imports/links/whereClause.templar}</strong></td>
 			<td>String</td>
 			<td>{if fn:null[keyWhereClause]}undocumented{else}{keyWhereClause}{endif}</td>
 			<td>Used if the SQL query is parameterised. {if !fn:null[keyWhereClauseInfo]}{keyWhereClauseInfo}{endif}</td>
 		</tr>
+
 		<tr>
 			<td><strong>{import src/imports/links/whereFields.templar}</strong></td>
-			<td>JSON Array</td>
+			<td>JSON Array (String)</td>
 			<td>{if fn:null[keyWhereFields]}undocumented{else}{keyWhereFields}{endif}</td>
 			<td>
 				The name for each of the {import src/imports/links/whereClause.templar} parameters.
@@ -109,6 +167,7 @@
 				validation message.
 			</td>
 		</tr>
+
 		<tr>
 			<td><strong><code>unique</code></strong></td>
 			<td>boolean</td>

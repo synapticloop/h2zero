@@ -1,6 +1,82 @@
 {import src/imports/page-heading.templar}
 
-<pre>
+<p>
+	Updaters are a way altering a single field on the underlying database
+</p>
+
+<p>
+	Rather than configuring {import src/imports/links/setClause.templar} bean (more on this below) type queries, 
+	the following shortcut updater generators are also available:
+</p>
+
+<dl>
+	<dt>{import src/imports/links/fieldUpdaters.templar}</dt>
+	<dd>
+		For simple updaters on either a single field, which will return the number of 
+		rows that have been updated.
+	</dd>
+</dl>
+
+<pre class="prettyprint">
 	<code>
+"tables": [{\n}
+{\t}{{{\n}
+{\t}{\t}"fields": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"updaters": [{\n}
+{\t}{\t}{\t}...{\n}
+{\t}{\t}]{\n}
+{\t}}{\n}
+]{\n}
 	</code>
 </pre>
+
+{import src/imports/tables/allowable-keys-table.templar}
+
+<h3>Default Updaters</h3>
+
+<p>
+	By default <code>Updaters</code> are designed to return the number of rows 
+	that have been updated
+</p>
+
+<pre class="prettyprint json">
+	<code>
+"updaters": [{\n}
+{\t}{{{\n}
+{\t}{\t}"name": "updateFlIsIndexedByIdUser",{\n}
+{\t}{\t}"setClause": "set fl_is_indexed = ?"",{\n}
+{\t}{\t}"setFields": [{\n}
+{\t}{\t}{\t}"fl_is_indexed"{\n}
+{\t}{\t}],{\n}
+{\t}{\t}"whereClause": "where id_user = ?",{\n}
+{\t}{\t}"whereFields": [{\n}
+{\t}{\t}{\t}"id_user"{\n}
+{\t}{\t}]{\n}
+{\t}}
+]{\n}
+	</code>
+</pre>
+
+<p>
+	This will update the <code>fl_is_indexed</code> to the passed in variable, where the <code>id_user</code> is 
+	equal to the passed in variable.
+</p>
+
+<p>With the following method signatures</p>
+
+<pre class="prettyprint java"><code>{pre public static int updateFlIsIndexedByIdUser(Connection connection, Boolean flIsIndexedSet, Long idUser) throws SQLException
+public static int updateFlIsIndexedByIdUser(Boolean flIsIndexedSet, Long idUser) throws SQLException
+public static int updateFlIsIndexedByIdUserSilent(Boolean flIsIndexedSet, Long idUser)
+pre}
+</code></pre>
+
+{import src/imports/method-signatures-explanation.templar}
+
+<p>
+	If the "taglibs" option is enabled, this will also generate a tag library (and its associated entry in the TLD) 
+	file.
+</p>
+
+

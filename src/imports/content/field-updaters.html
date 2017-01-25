@@ -7,7 +7,7 @@
 
 <p>The key <code>fieldUpdaters</code> is a JSON Array of JSON Objects on the <code>table</code> JSON object, for example:</p>
 
-<pre class="prettyprint">
+<pre class="prettyprint json">
 	<code>
 "tables": [{\n}
 {\t}{{{\n}
@@ -24,7 +24,7 @@
 
 			<p>Adding the following <code>fieldUpdaters</code> JSON array of JSON Objects:</p>
 
-			<pre class="prettyprint">
+			<pre class="prettyprint json">
 				<code>
 "fieldUpdaters": [{\n}
 {\t}{{ "fl_is_indexed": "unique" },{\n}
@@ -56,6 +56,7 @@
 					The second updater is <code>updateFlIsAlive</code>. which will the number of rows updated and 
 					has one parameter passed into the method, namely <code>flIsAlive</code>.
 				</li>
+			</ol>
 
 			<p>
 				The alternate way to define the above updaters is as follows (which would generate identical code):

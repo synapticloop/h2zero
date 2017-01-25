@@ -1,2 +1,15 @@
 object=Updater
 name=updater
+
+keySetClause=mandatory
+
+keySetFields=mandatory
+keySetFieldsInfo=<br /><br />One field for each of the replacement tokens <code>?</code> in the SQL set clause.
+
+
+keyWhereClause=optional
+
+keyWhereFields=optional
+
+keyUnique=ignored
+keyUniqueInfo=<br /><br />This is ignored, as updaters return the number of rows that have been updated as an integer.
