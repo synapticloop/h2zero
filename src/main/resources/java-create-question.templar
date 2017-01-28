@@ -26,8 +26,7 @@ import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
 public class {table.javaClassName}Question {{{\n}
 	{set table as baseSchemaObject}
 	{import classpath:/snippet/global/java-binder-declaration.templar}
-	{\t}{set baseSchemaObject.javaClassName as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
-	{\t}private static final Logger LOGGER = LogManager.getLogger({baseSchemaObject.javaClassName}Question.class);{\n}
+	{\t}{set "Question" as classType}{set baseSchemaObject.javaClassName as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
 	{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
