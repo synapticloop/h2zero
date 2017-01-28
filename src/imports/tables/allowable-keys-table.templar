@@ -170,10 +170,10 @@
 
 		<tr>
 			<td><strong><code>unique</code></strong></td>
-			<td>boolean</td>
+			<td>boolean (default false)</td>
 			<td>{if fn:null[keyUnique]}undocumented{else}{keyUnique}{endif}</td>
 			<td>
-				Whether the SQL query will return a single object or an <code>ArrayList</code> of objects.{if !fn:null[keyUniqueInfo]}{keyUniqueInfo}{endif}
+				Whether the SQL query will return a single object or an <code>List</code> of objects.{if !fn:null[keyUniqueInfo]}{keyUniqueInfo}{endif}
 				{if fn:=[keyUnique, invalid]}
 					<br /><br />This will generate a <strong>FATAL</strong> validation message if present on the JSON object.
 				{else}

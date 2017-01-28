@@ -76,3 +76,32 @@ ant h2zero
 	{import src/imports/links/generated-code.templar} page for an overview of the directory structure and 
 	the code that is generated.
 </p>
+
+<h4>Step 5</h4>
+
+<p>
+	Run the code
+</p>
+
+<p>
+	Don't forget to include your c3po.properties file:
+</p>
+
+<pre><code>
+{pre
+c3p0.user=your_user_name_here
+c3p0.password=your_password_here
+
+c3p0.jdbcUrl=jdbc:mysql://127.0.0.1:3306/your_schema_name_here?autoReconnect=true
+
+c3p0.maxPoolSize=40
+c3p0.maxStatements=0
+c3p0.maxStatementsPerConnection=0
+c3p0.minPoolSize=20
+c3p0.acquireIncrement=3
+c3p0.initialPoolSize=20
+c3p0.acquireRetryAttempts=1
+#c3p0.idleConnectionTestPeriod=300
+c3p0.debugUnreturnedConnectionStackTraces=true
+pre}
+</code></pre>
