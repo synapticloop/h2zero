@@ -3,13 +3,33 @@
 	h2zero is an easy to use object relationship mapper (ORM) code generator for Java and MySQL.
 </p>
 
+<h4>No..</h4>
+
 <ol>
-	<li><strong>No boring</strong> hand generation of POJOs to map to the database</li>
-	<li><strong>No ugly and inefficient</strong> SQL queries</li>
-	<li><strong>No exceptions</strong> <em>(unless you want them)</em></li>
+	<li><strong>boring</strong> hand generation of POJOs to map to the database</li>
+	<li><strong>ugly and inefficient</strong> SQL queries</li>
+	<li><strong>exceptions</strong> <em>(unless you want them)</em></li>
 </ol>
 
-<p><strong>Key Concepts</strong></p>
+<p>
+	The code that is generated does not change with each generation (unless of course you change the 
+	h2zero file).  <em>In fact - you could just use one of the plugins and generate it at build time</em>
+</p>
+
+<h4>Yes..</h4>
+
+<ol>
+	<li><strong>Automatically generated</strong> POJOs</li>
+	<li><strong>Finders</strong> for finding subsets of the table</li>
+	<li><strong>Updaters</strong> for updating subsets of the table</li>
+	<li><strong>Deleters</strong> for deleting subsets of the table</li>
+	<li><strong>Inserters</strong> for inserting subsets of the table</li>
+	<li><strong>Counters</strong> When you just want a simple count of the subset (or all) of the table</li>
+	<li><strong>Questions</strong> When you just want a simple boolean response to a question</li>
+	<li><strong>Validation</strong> to ensure that the <strong>majority of errors are caught</strong> before runtime</li>
+</ol>
+
+<h3><strong>Key Concepts</strong></h3>
 
 <p>
 	For those that are looking to dive straight into the code, there are two simple key concepts that need to be 
