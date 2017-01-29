@@ -29,6 +29,60 @@
 	<li><strong>Validation</strong> to ensure that the <strong>majority of errors are caught</strong> before runtime</li>
 </ol>
 
+<h3>The little things</h3>
+
+<p>
+	Beautiful code generation... Because:
+</p>
+<ul>
+	<li>spacing is important, </li>
+	<li>new-lines are important, </li>
+	<li>comments, </li>
+	<li>tabs,</li>
+	<li>ordering is important</li>
+</ul>
+
+<p>
+	it is probably the smallest of things. However the generated code, not only has to work, we believe 
+	that it also has to look the part as well.  As they say <em>"The cloth maketh the man"</em>.
+</p>
+
+<h4>If nothing changes... nothing changes</h4>
+
+<p>
+	No more file changes for generation.  If the h2zero file generation is the same, you won't see any file 
+	differences (unless you update to a newer version of h2zero that is) - we don't put dates, change-able 
+	comments or anything else in it
+</p>
+
+<h4>How do I change it?</h4>
+
+<p>
+	We tell you what file was used to generate the code - we use the templar templating language, which is open 
+	source and easily modifiable.
+</p>
+
+<p>
+Easy editing of the templar files.  If you don't like the way that we generate the file, you are free to 
+modify it any way that suits you.  Let's be honest though, you are not looking for something which you can get 
+into the code, and modify and all that malarky - so raise an issue on github and we will look into it for you.
+</p>
+
+<h4>Exceptions</h4>
+
+<p>
+		Exceptions, darn those Exceptions.  Whilst we based h2zero generation on the EJB model (and yes, people still 
+		use these things) - we felt that sometimes you just don't need to throw an exception if you already have an 
+		expectation of what you want.  The classic example is the login page.
+</p>
+
+<ol>
+	<li>User logs in with email address and password</li>
+	<li>You try to find the user by email address and password</li>
+	<li>Couldn't find it - EXCEPTION, EXCEPTION, EXCEPTION</li>
+	<li>you can just choose to return null (by using the *Silent method signature) - in the above case this means that you couldn't find the user and happily display an error message, rather than littering your code with try/catch/finally code everywhere.</li>
+</ol>
+
 <h3><strong>Key Concepts</strong></h3>
 
 <p>
@@ -92,38 +146,3 @@
 	<li>Command Line Interface</li>
 </ul>
 
-<h3>The little things</h3>
-
-<p>
-	Beautiful code generation... Because spacing is important, new-lines are important, comments, tabs ordering is 
-	important, it is probably the smallest of things. However the generated code, not only has to work, we believe 
-	that it also has to look the part as well.  As they say <em>"The cloth maketh the man"</em>.
-</p>
-<ol>
-	<li>
-		No more file changes for generation.  If the h2zero file generation is the same, you won't see any file 
-		differences (unless you update to a newer version of h2zero that is) - we don't put dates, change-able 
-		comments or anything else in it
-	</li>
-	<li>
-		We tell you what file was used to generate the code - we use the templar templating language, which is open 
-		source and easily modifiable.
-	</li>
-	<li>
-		Easy editing of the templar files.  If you don't like the way that we generate the file, you are free to 
-		modify it any way that suits you.  Let's be honest though, you are not looking for something which you can get 
-		into the code, and modify and all that malarky - so raise an issue on github and we will look into it for you.
-	</li>
-	<li>
-		Exceptions, darn those Exceptions.  Whilst we based h2zero generation on the EJB model (and yes, people still 
-		use these things) - we felt that sometimes you just don't need to throw an exception if you already have an 
-		expectation of what you want.  The classic example is the login page.
-
-		<ol>
-			<li>User logs in with email address and password</li>
-			<li>You try to find the user by email address and password</li>
-			<li>Couldn't find it - EXCEPTION, EXCEPTION, EXCEPTION</li>
-			<li>you can just choose to return null (by using the *Silent method signature) - in the above case this means that you couldn't find the user and happily display an error message, rather than littering your code with try/catch/finally code everywhere.</li>
-		</ol>
-	</li>
-</ol>
