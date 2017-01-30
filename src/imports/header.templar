@@ -4,3 +4,8 @@
 		{import ../synapticloop.github.io/src/includes/all-projects.html}
 	</nav>
 </div>
+
+<section id="banner">
+	<h2>Welcome to h2zero</h2>
+	<p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p>
+</section>
