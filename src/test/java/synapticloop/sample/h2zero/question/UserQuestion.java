@@ -11,10 +11,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import synapticloop.sample.h2zero.model.util.Constants;
 
@@ -29,7 +31,9 @@ public class UserQuestion {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_BINDER;
 
-	private static final Logger LOGGER = LogManager.getLogger(UserQuestion.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserQuestion.class);
+
+
 
 	private static final String SQL_DO_WE_HAVE_MORE_THAN_TWENTY_USERS = "select count(*) > 20 from user";
 	private static final String SQL_DOES_USER_NAME_EXIST = "select count(*) > 0 from user";

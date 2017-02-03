@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import synapticloop.sample.h2zero.model.util.Constants;
 
 public class UserDeleter {

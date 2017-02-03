@@ -4,7 +4,7 @@ package synapticloop.sample.h2zero.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import synapticloop.h2zero.base.model.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;

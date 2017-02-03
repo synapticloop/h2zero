@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.sql.Timestamp;
 
-import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import synapticloop.sample.h2zero.finder.PetFinder;
 import synapticloop.sample.h2zero.model.util.Constants;
 

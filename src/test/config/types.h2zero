@@ -1,6 +1,5 @@
 {
 "options": {
-	"logging": "log4j",
 	"statistics": true
 },
 database: {

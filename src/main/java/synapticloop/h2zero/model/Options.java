@@ -39,13 +39,6 @@ public class Options {
 		ALLOWABLE_GENERATORS.add(OPTION_REPORTS);
 	}
 
-	private static Set<String> ALLOWABLE_LOGGERS = new HashSet<String>();
-	static {
-		ALLOWABLE_LOGGERS.add("");
-		ALLOWABLE_LOGGERS.add("log4j");
-		ALLOWABLE_LOGGERS.add("slf4j");
-	}
-
 	private static Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
 	static {
 		ALLOWABLE_DATABASES.add("mysql");
@@ -56,7 +49,6 @@ public class Options {
 	 * INSTANCE VARIABLES
 	 */
 	private boolean metrics = false;
-	private String logging = "";
 	private String database = "mysql";
 	private String outputJava = "/src/main/java/";
 	private String outputSql = "/src/main/sql/";
@@ -73,7 +65,6 @@ public class Options {
 		}
 
 		this.metrics = optionsJson.optBoolean("metrics", false);
-		this.logging = optionsJson.optString("logging", "");
 		this.database = optionsJson.optString("database", "mysql");
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "Generating for database type '" + database + "'.");
 
@@ -101,10 +92,6 @@ public class Options {
 		while (disabledIterator.hasNext()) {
 			String next = disabledIterator.next();
 			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ DISABLED ] Generator '" + next + "'");
-		}
-
-		if(!ALLOWABLE_LOGGERS.contains(this.getLogging())) {
-			throw new H2ZeroParseException("Unknown logging type of '" + this.logging + "'.");
 		}
 
 		updateValidators(optionsJson.optJSONObject("validators"));
@@ -185,9 +172,6 @@ public class Options {
 	public boolean hasGenerators() { return(!generators.isEmpty()); }
 	public boolean getMetrics() { return metrics; }
 	public void setMetrics(boolean metrics) { this.metrics = metrics; }
-	public String getLogging() { return logging; }
-	public void setLogging(String logging) { this.logging = logging; }
-	public boolean hasLogging() { return(!"".equals(this.logging)); }
 	public String getDatabase() { return database; }
 	public void setDatabase(String database) { this.database = database; }
 

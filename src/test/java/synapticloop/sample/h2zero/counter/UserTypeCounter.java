@@ -12,10 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import synapticloop.sample.h2zero.model.util.Constants;
 
@@ -26,7 +28,8 @@ public class UserTypeCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TYPE_BINDER;
 
-	private static final Logger LOGGER = LogManager.getLogger(UserTypeCounter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeCounter.class);
+
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from user_type";
 
