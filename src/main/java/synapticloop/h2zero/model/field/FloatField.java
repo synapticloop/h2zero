@@ -1,9 +1,5 @@
 package synapticloop.h2zero.model.field;
 
-import org.json.JSONObject;
-
-import synapticloop.h2zero.exception.H2ZeroParseException;
-
 /*
  * Copyright (c) 2013-2017 synapticloop.
  * 
@@ -21,6 +17,11 @@ import synapticloop.h2zero.exception.H2ZeroParseException;
  * Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
+
+
+import org.json.JSONObject;
+
+import synapticloop.h2zero.exception.H2ZeroParseException;
 
 public class FloatField extends BaseField {
 
