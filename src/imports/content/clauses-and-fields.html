@@ -1,24 +1,90 @@
-			<h3>Clauses and Fields</h3>
+<h3>Clauses and Fields</h3>
 
 
-			<h4 id="selectClause">selectClause</h4>
+<h4 id="selectClause">selectClause</h4>
 
-			<h4 id="selectFields">selectFields</h4>
+<h4 id="selectFields">selectFields</h4>
 
 
-			<h4 id="whereClause">whereClause</h4>
+<h4 id="whereClause">whereClause</h4>
 
-			<h5>whereClause with in: fields</h5>
+<p>
+	A where clause allows you to retrieve only a subset of the data from the table, 
+	there is documentation below for the following:
+</p>
 
-			<p>
-				The where can use any of the normal SQL statements that you would find, e.g. cros-selects, joins, parameters etc. 
-				However, there are some specific sytnactical features that need to be inserted for 'in clauses'.
-			</p>
+<ul>
+	<li>
+		<strong>standard whereClause</strong> - As the name suggests, the standard 
+		where clause where all the fields to be filtered on exist within the current table.
+	</li>
+	<li>
+		<strong>whereClause with in: fields</strong> - For denoting that you wish to 
+		pass in an array of variables to the clause 
+	</li>
+</ul>
 
-			<p>For example:</p>
+<h5>standard whereClause</h5>
 
-			<pre class="prettyprint">
-				<code>
+<p>
+	For a simple where, you can just write a simple clause.  All of the input parameters 
+	exist on the current table, so the <code>whereFields</code> entries are just 
+	straight references to the table.
+</p>
+
+<pre class="prettyprint">
+	<code>
+{pre
+"finders": [
+	{
+		"name": "findByIdUserNumAge",
+		"whereClause": "where id_user = ? and num_age = ?",
+		"whereFields": [
+			"id_user",
+			"num_age"
+		]
+		"unique": true
+	}
+]
+pre}
+	</code>
+</pre>
+
+<p>
+	If you require a field from a separate table, then you can use the dot (<code>.</code>) 
+	notation to reference that table
+</p>
+
+<pre class="prettyprint">
+	<code>
+{pre
+"finders": [
+	{
+		"name": "findByIdUserNumAge",
+		"whereClause": "where id_user = (select id_user from user_repository where id_user_repository = ?) and num_age = ?",
+		"whereFields": [
+			"user_repository.id_user_repository",
+			"num_age"
+		]
+		"unique": false
+	}
+]
+pre}
+	</code>
+</pre>
+
+
+<h5>whereClause with in: fields</h5>
+
+<p>
+	The where can use any of the normal SQL statements that you would find, e.g. cross-selects, joins, parameters etc. 
+	However, there are some specific sytnactical features that need to be inserted for 'in clauses'.
+</p>
+
+<p>For example:</p>
+
+<pre class="prettyprint">
+	<code>
 "finders": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "findByNumAgeIn",{\n}
@@ -29,42 +95,42 @@
 {\t}{\t}"unique": false{\n}
 {\t}}{\n}
 ]{\n}
-				</code>
-			</pre>
+	</code>
+</pre>
 
-			<p>
-				Note the <code>in (...)</code> which informs h2zero that a variable list of parameters may be queried on, this is 
-				then matched to the where fields <code>in:num_age</code> which determines the field lookup and generation.
-			</p>
+<p>
+	Note the <code>in (...)</code> which informs h2zero that a variable list of parameters may be queried on, this is 
+	then matched to the where fields <code>in:num_age</code> which determines the field lookup and generation.
+</p>
 
-			<p>
-				Consequently the following method signatures are available:
-			</p>
+<p>
+	Consequently the following method signatures are available:
+</p>
 
-			<pre class="prettyprint lang-java">
-				<code>
+<pre class="prettyprint lang-java">
+	<code>
 public static List<User> findByNumAgeIn(List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
 public static List<User> findByNumAgeIn(Connection connection, List&lt;Integer&gt; numAgeList) throws H2ZeroFinderException, SQLException{\n}
 public static List<User> findByNumAgeInSilent(List&lt;Integer&gt; numAgeList){\n}
 public static List<User> findByNumAgeInSilent(Connection connection, List&lt;Integer&gt; numAgeList){\n}
-				</code>
-			</pre>
+	</code>
+</pre>
 
-			{import src/imports/method-signatures-explanation.templar}
+{import src/imports/method-signatures-explanation.templar}
 
-			<h4 id="whereFields">whereFields</h4>
+<h4>whereFields</h4>
 
-			<h5>whereFields with alias fields</h5>
+<h5>whereFields with alias fields</h5>
 
-			<p>
-				If a finder has multiple where fields of the same name, h2zero will de-duplicate the fields in the method signature, 
-				in some instances, you may wish to pass in the same field with different values.
-			</p>
+<p>
+	If a finder has multiple where fields of the same name, h2zero will de-duplicate the fields in the method signature, 
+	in some instances, you may wish to pass in the same field with different values.
+</p>
 
-			<p>For example:</p>
+<p>For example:</p>
 
-			<pre class="prettyprint">
-				<code>
+<pre class="prettyprint">
+	<code>
 "finders": [{\n}
 {\t}{{{\n}
 {\t}{\t}"name": "findByNumAgeBetween",{\n}
@@ -75,27 +141,27 @@ public static List<User> findByNumAgeInSilent(Connection connection, List&lt;Int
 {\t}{\t}],{\n}
 {\t}{\t}"unique": false{\n}
 {\t}}{\n}
-				</code>
-			</pre>
+	</code>
+</pre>
 
-			<p>
-				In the above example, the <code>num_age</code> field is used twice, with differing values.  TO differentiate between 
-				the passed in parameters, an alias is used to generate the following method signatures:
-			</p>
+<p>
+	In the above example, the <code>num_age</code> field is used twice, with differing values.  TO differentiate between 
+	the passed in parameters, an alias is used to generate the following method signatures:
+</p>
 
-			<pre class="prettyprint lang-java">
-				<code>
+<pre class="prettyprint lang-java">
+	<code>
 public static List<User> findByNumAgeBetween(Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
 public static List<User> findByNumAgeBetween(Connection connection, Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
 public static List<User> findByNumAgeBetweenSilent(Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
 public static List<User> findByNumAgeBetweenSilent(Connection connection, Integer numAgeMin, Integer numAgeMax) throws H2ZeroFinderException, SQLException{\n}
-				</code>
-			</pre>
+	</code>
+</pre>
 
-			{import src/imports/method-signatures-explanation.templar}
+{import src/imports/method-signatures-explanation.templar}
 
 
-			<h4 id="insertClause">insertClause</h4>
+<h4 id="insertClause">insertClause</h4>
 
 
 			<h4 id="valuesClause">valueClause</h4>
