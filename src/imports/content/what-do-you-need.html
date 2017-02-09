@@ -8,7 +8,25 @@
 	<dt><strong>Find by primary key...</strong></dt>
 	<dd>There is a <code>findByPrimaryKey</code> method on every <code>Finder</code></dd>
 	<dt><strong>Find all rows that match a query</strong></dt>
-	<dd>In the <code>.json</code> file you can use a <code>finder</code>, or for a short-cut method a <code>fieldFinder</code></dd>
+	<dd>
+		In the <code>.json</code> file you can use a <code>finder</code>, or for a short-cut method a <code>fieldFinder</code>, example:
+	</dd>
+</dl>
+<pre><code>
+{pre
+"fieldFinders": [
+	{ "field_one": "multiple" },
+	{ "field_one,field_two": "unique" }
+]
+pre}
+</code></pre>
+<p>
+	The first field finder will generate a where clause with the parameter <code>field_one</code>, (e.g. <code>select * from table where field_one = ?</code>) 
+</p>
+<p>
+	the second will generate a where clause with two parameters, namely: <code>field_one</code> and <code>field_two</code> (e.g. <code>select * from table where field_one = ? and field_two = ?</code>)
+</p>
+<dl>
 	<dt><strong>Find a sub-set of fields</strong></dt>
 	<dd>In the <code>.json</code> file you can use a <code>selectClauseFinder</code> which will return a <code>selectClauseBean</code></dd>
 </dl>
