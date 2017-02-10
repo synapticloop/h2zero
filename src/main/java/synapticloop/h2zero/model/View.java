@@ -42,6 +42,8 @@ public class View extends BaseSchemaObject {
 		populateFields(jsonObject);
 		populateFinders(jsonObject);
 		populateFieldFinders(jsonObject);
+		populateQuestions(jsonObject);
+		populateCounters(jsonObject);
 
 		populateReferencedFieldTypes();
 	}

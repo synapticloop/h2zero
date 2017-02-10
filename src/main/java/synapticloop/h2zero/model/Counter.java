@@ -28,14 +28,14 @@ public class Counter extends BaseQueryObject {
 	/**
 	 * Create a new counter SQL query object from the passed in JSON object
 	 * 
-	 * @param table the table to which this counter belongs
+	 * @param tableOrView the table or view to which this counter belongs
 	 * @param counterObject the jsonObject that contains the counter items
 	 * 
 	 * @throws H2ZeroParseException - if something went wrong with the parsing 
 	 */
 
-	public Counter(Table table, JSONObject counterObject) throws H2ZeroParseException {
-		super(table, counterObject);
+	public Counter(BaseSchemaObject tableOrView, JSONObject counterObject) throws H2ZeroParseException {
+		super(tableOrView, counterObject);
 
 		// set up the default allowable keys
 		allowableJsonKeys.put(JSONKeyConstants.UNIQUE, UsageType.INVALID);
@@ -43,7 +43,7 @@ public class Counter extends BaseQueryObject {
 
 		if(null == selectClause) {
 			// automatically add one 
-			this.selectClause = "select count(*) from " + table.getName() + " ";
+			this.selectClause = "select count(*) from " + tableOrView.getName() + " ";
 		}
 
 		populateWhereFields(counterObject);
