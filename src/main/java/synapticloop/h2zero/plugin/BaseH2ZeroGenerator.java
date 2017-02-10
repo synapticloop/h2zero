@@ -220,10 +220,10 @@ public class BaseH2ZeroGenerator {
 						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", table.getCounters().size()) + 
 						" ] ");
 			}
-			
+
 			for (View view : views) {
-				SimpleLogger.logDebug(LoggerType.PARSE, "Found table " + String.format("%-" + maxTableNameLength + "s", view.getName()) + 
-						" [ " + 
+				SimpleLogger.logDebug(LoggerType.PARSE, "Found view " + String.format("%-" + maxTableNameLength + "s", view.getName()) + 
+						"  [ " + 
 						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", view.getFields().size()) + 
 						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", view.getFinders().size()) + 
 						String.format("- deleters, ") + 

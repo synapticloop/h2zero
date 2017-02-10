@@ -124,6 +124,8 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
 		Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
+		Parser javaCreateViewCounterParser = getParser("/java-create-view-counter.templar");
+		Parser javaCreateViewQuestionParser = getParser("/java-create-view-question.templar");
 
 		String pathname = null;
 
@@ -141,6 +143,12 @@ public class JavaGenerator extends Generator {
 
 			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java";
 			renderToFile(templarContext, javaCreateViewFinderParser, pathname);
+
+			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/counter/" + view.getJavaClassName() + "ViewCounter.java";
+			renderToFile(templarContext, javaCreateViewCounterParser, pathname);
+
+			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/question/" + view.getJavaClassName() + "ViewQuestion.java";
+			renderToFile(templarContext, javaCreateViewQuestionParser, pathname);
 
 			List<Finder> finders = view.getFinders();
 			Iterator<Finder> finderIterator = finders.iterator();
