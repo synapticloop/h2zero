@@ -220,7 +220,7 @@ public class H2ZeroParser {
 		this.options = new Options(jsonObject);
 
 		// now do the actual parsing
-		this.database = new Database(jsonObject);
+		this.database = new Database(options, jsonObject);
 
 		// now that we have parsed the file - go through and update the validator options
 

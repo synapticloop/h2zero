@@ -23,13 +23,13 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
 
-public class VarcharField extends BaseField {
+public class NcharField extends BaseField {
 
-	public VarcharField(JSONObject jsonObject) throws H2ZeroParseException {
+	public NcharField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public VarcharField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public NcharField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
@@ -42,7 +42,7 @@ public class VarcharField extends BaseField {
 	}
 
 	public String getSqlNullType() {
-		return("CHAR");
+		return("VARCHAR");
 	}
 
 	public boolean getShouldEscape() {

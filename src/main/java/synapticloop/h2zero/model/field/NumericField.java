@@ -18,35 +18,47 @@ package synapticloop.h2zero.model.field;
  * under the Licence.
  */
 
+
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
+public class NumericField extends BaseField {
 
-public class VarcharField extends BaseField {
-
-	public VarcharField(JSONObject jsonObject) throws H2ZeroParseException {
+	public NumericField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public VarcharField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public NumericField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
 	public String getJavaType() {
-		return "String";
+		return("Float");
 	}
 
 	public String getSqlJavaType() {
-		return("String");
+		return("Float");
 	}
 
 	public String getSqlNullType() {
-		return("CHAR");
+		return("NUMERIC");
+	}
+
+	public String getLengthFormat() {
+		StringBuilder stringBuilder = new StringBuilder();
+		if(length != 0) {
+			stringBuilder.append("(");
+			stringBuilder.append(length);
+			stringBuilder.append(",");
+			stringBuilder.append(decimalLength);
+			stringBuilder.append(")");
+		}
+		return(stringBuilder.toString());
 	}
 
 	public boolean getShouldEscape() {
-		return true;
+		return false;
 	}
 
 }

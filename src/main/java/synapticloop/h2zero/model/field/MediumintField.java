@@ -22,31 +22,30 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
+public class MediumintField extends BaseField {
 
-public class VarcharField extends BaseField {
-
-	public VarcharField(JSONObject jsonObject) throws H2ZeroParseException {
+	public MediumintField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public VarcharField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public MediumintField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
 	public String getJavaType() {
-		return "String";
+		return "Integer";
 	}
 
 	public String getSqlJavaType() {
-		return("String");
+		return("Int");
 	}
 
 	public String getSqlNullType() {
-		return("CHAR");
+		return("INTEGER");
 	}
 
 	public boolean getShouldEscape() {
-		return true;
+		return false;
 	}
 
 }

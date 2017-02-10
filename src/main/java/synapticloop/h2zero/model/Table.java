@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
+import synapticloop.h2zero.model.util.DatabaseFieldTypeConfirm;
 import synapticloop.h2zero.model.util.FieldLookupHelper;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
@@ -99,16 +100,22 @@ public class Table extends BaseSchemaObject {
 	private List<Counter> counters = new ArrayList<Counter>(); // a list of all of the counters
 	private List<Question> questions = new ArrayList<Question>(); // a list of all of the questions
 
+	private final Options options;
+
 
 	/**
 	 * Create a new Table object from the passed in jsonObject.
 	 * 
+	 * @param options The options for the h2zero generation
 	 * @param jsonObject the json object to create the table from.
-	 * @param defaultStatementCacheSize the default statement cache size 
+	 * @param defaultStatementCacheSize the default statement cache size
+	 *  
 	 * @throws H2ZeroParseException if there was an error parsing the jsonObject
 	 */
-	public Table(JSONObject jsonObject, int defaultStatementCacheSize) throws H2ZeroParseException {
+	public Table(Options options, JSONObject jsonObject, int defaultStatementCacheSize) throws H2ZeroParseException {
 		super(jsonObject, defaultStatementCacheSize);
+
+		this.options = options;
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.engine = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ENGINE, engine);
@@ -197,6 +204,13 @@ public class Table extends BaseSchemaObject {
 					throw new H2ZeroParseException(String.format("No 'type' value found for field '%s'.", fieldName));
 				}
 
+				// now check to ensure that you can use this field type for the database
+				String database = options.getDatabase();
+
+				if(!DatabaseFieldTypeConfirm.getIsValidFieldTypeForDatabase(database, type)) {
+					throw new H2ZeroParseException(String.format("Type %s'' value found for field '%s' is not valid for database '%s'", type, fieldName, database));
+				}
+
 			} catch (JSONException jsonex) {
 				throw new H2ZeroParseException(String.format("Could not parse the '%s' array.", JSONKeyConstants.FIELDS), jsonex);
 			}
@@ -248,20 +262,13 @@ public class Table extends BaseSchemaObject {
 					// add it to the cache - for later lookups
 					FieldLookupHelper.addToTableFieldCache(this.name, fieldName);
 
-				} catch (ClassNotFoundException cnfex) {
-					logFatalFieldParse(cnfex, cnfex.getMessage(), firstUpper);
-				} catch (SecurityException sex) {
-					logFatalFieldParse(sex, sex.getMessage(), firstUpper);
-				} catch (NoSuchMethodException nsmex) {
-					logFatalFieldParse(nsmex, nsmex.getMessage(), firstUpper);
-				} catch (IllegalArgumentException iaex) {
-					logFatalFieldParse(iaex, iaex.getMessage(), firstUpper);
-				} catch (InstantiationException iex) {
-					logFatalFieldParse(iex, iex.getMessage(), firstUpper);
-				} catch (IllegalAccessException iaex) {
-					logFatalFieldParse(iaex, iaex.getMessage(), firstUpper);
-				} catch (InvocationTargetException itex) {
-					logFatalFieldParse(itex, itex.getCause().getMessage(), firstUpper);
+				} catch (ClassNotFoundException | 
+						InstantiationException | 
+						IllegalAccessException | 
+						IllegalArgumentException | 
+						InvocationTargetException | 
+						NoSuchMethodException | SecurityException ex) {
+					logFatalFieldParse(ex, ex.getMessage(), firstUpper);
 				}
 			}
 		}

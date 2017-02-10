@@ -69,6 +69,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		);{\n}
 	{endloop}
 	{\n}
+
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		Now add in the static array
 	}

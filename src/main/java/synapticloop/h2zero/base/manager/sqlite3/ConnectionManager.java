@@ -1,4 +1,4 @@
-package synapticloop.h2zero.base.manager.sqlite;
+package synapticloop.h2zero.base.manager.sqlite3;
 
 /*
  * Copyright (c) 2015-2017 synapticloop.

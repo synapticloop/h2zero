@@ -24,7 +24,10 @@ public class TableTest {
 				"			]\n" + 
 				"		}\n";
 		JSONObject jsonObject = new JSONObject(test);
-		table = new Table(jsonObject, 0);
+		JSONObject optionsObject = new JSONObject();
+		optionsObject.put("database", "mysql");
+		Options options = new Options(optionsObject);
+		table = new Table(options, jsonObject, 0);
 	}
 
 	@Test(expected = H2ZeroParseException.class)
@@ -38,7 +41,10 @@ public class TableTest {
 				"			]\n" + 
 				"		}\n";
 		JSONObject jsonObject = new JSONObject(test);
-		table = new Table(jsonObject, 0);
+		JSONObject optionsObject = new JSONObject();
+		optionsObject.put("database", "mysql");
+		Options options = new Options(optionsObject);
+		table = new Table(options, jsonObject, 0);
 	}
 
 }
