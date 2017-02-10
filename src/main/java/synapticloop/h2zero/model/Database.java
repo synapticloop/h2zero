@@ -52,11 +52,12 @@ public class Database {
 	/**
 	 * Parse and create a new database object from the passed in JSON object
 	 * 
+	 * @param options The options for the h2zero generation
 	 * @param jsonObject the database jsonObject
 	 * 
 	 * @throws H2ZeroParseException if there was an error parsing the json object
 	 */
-	public Database(JSONObject jsonObject) throws H2ZeroParseException {
+	public Database(Options options, JSONObject jsonObject) throws H2ZeroParseException {
 		JSONObject databaseJson = null;
 		try {
 			databaseJson = jsonObject.getJSONObject(JSONKeyConstants.DATABASE);
@@ -89,7 +90,7 @@ public class Database {
 		for (int i = 0; i < tableJson.length(); i++) {
 			try {
 				JSONObject tableObject = tableJson.getJSONObject(i);
-				Table table = new Table(tableObject, defaultStatementCacheSize);
+				Table table = new Table(options, tableObject, defaultStatementCacheSize);
 				tables.add(table);
 				tableLookup.put(table.getName(), table);
 			} catch (JSONException jsonex) {
