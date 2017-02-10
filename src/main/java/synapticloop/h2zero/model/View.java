@@ -40,8 +40,8 @@ public class View extends BaseSchemaObject {
 		this.cacheFindAll = JsonHelper.getBooleanValue(jsonObject, "cacheFindAll", false);
 
 		populateFields(jsonObject);
-		populateFinders(jsonObject);
 		populateFieldFinders(jsonObject);
+		populateFinders(jsonObject);
 		populateQuestions(jsonObject);
 		populateCounters(jsonObject);
 
