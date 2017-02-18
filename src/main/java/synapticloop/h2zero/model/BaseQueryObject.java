@@ -169,7 +169,12 @@ public abstract class BaseQueryObject {
 				}
 
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getType() + " '" + name + "'.");
+					throw new H2ZeroParseException(String.format("Could not look up where field '%s', for %s '%s.%s'.", 
+							whereFieldName,
+							this.getType(),
+							baseSchemaObject.getName(),
+							name
+							));
 				}
 
 				whereFields.add(baseField);

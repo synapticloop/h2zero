@@ -19,9 +19,9 @@ plugins {
 group = 'synapticloop'
 archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql, java and optionally jsp/servlets"""
-version = '1.4.8'
+version = '1.4.9'
 
-// tasks.withType(Javadoc).all { enabled = false }
+//tasks.withType(Javadoc).all { enabled = false }
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
