@@ -3,8 +3,57 @@
 
 <h4 id="selectClause">selectClause</h4>
 
+<p>
+	Seletc clauses <strong>MUST</strong> start with <code>select</code>.  A 
+	<code>selectClause</code> can be used in the following circumstances:
+</p>
+
+<ul>
+	<li><strong>finders</strong> <em>optional</em> - this will create a select clause bean for a finder, where only a certain subset of field will be returned</li>
+	<li><strong>counters</strong> <em>mandatory</em> - this MUST <strong>always</strong> return an integer count value (i.e. <code>select count(*)</code>)</li>
+	<li><strong>questions</strong> <em>mandatory</em> - this MUST <strong>always</strong> return a boolean value (i.e. <code>select (count(*) > 0)</code>)</li>
+</ul>
+
+<h5>finders</h5>
+
+<p>
+	When you only want to select a subset of the fields from a table or table.  As we 
+	cannot determine what the returned fields will be - you must always include the 
+	<code>selectFields</code> key as well.
+</p>
+
+<h5>counters</h5>
+
+<p>
+	This is a <strong>mandatory</strong> key for counters, and must always return an 
+	integer count value.  You <strong>MUST NOT</strong> include the <code>selectFields</code> 
+	as it must always return an integer.
+</p>
+
+<h5>questions</h5>
+
+<p>
+	This is a <strong>mandatory</strong> key for questions, and must always return an 
+	boolean value.  You <strong>MUST NOT</strong> include the <code>selectFields</code> 
+	as it must always return an boolean.
+</p>
+
 <h4 id="selectFields">selectFields</h4>
 
+<p>
+	Select fields provide h2zero with the details to bind the returned values.  The 
+	format is as follows, with a <code>name</code> and <code>type</code> keys.
+</p>
+
+<pre><code>
+{pre
+"selectFields": [
+	{ "name": "id_agent", "type": "bigint" },
+	{ "name": "id_organisation", "type": "bigint" },
+	{ "name": "count", "type": "int" }
+]
+pre}
+</code></pre>
 
 <h4 id="whereClause">whereClause</h4>
 
