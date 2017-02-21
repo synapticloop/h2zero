@@ -2,69 +2,67 @@
 
 <h4>It is always the little things that make such a difference...</h4>
 
-<dl>
-	<dt><strong>Find everything...</strong></dt>
-	<dd>There is a <code>findAll</code> method on every <code>Finder</code></dd>
-	<dt><strong>Find by primary key...</strong></dt>
-	<dd>There is a <code>findByPrimaryKey</code> method on every <code>Finder</code></dd>
-	<dt><strong>Find all rows that match a query</strong></dt>
-	<dd>
-		In the <code>.json</code> file you can use a <code>finder</code>, or for a short-cut method a <code>fieldFinder</code>, example:
-	</dd>
-</dl>
-<pre><code>
-{pre
-"fieldFinders": [
-	{ "field_one": "multiple" },
-	{ "field_one,field_two": "unique" }
-]
-pre}
-</code></pre>
 <p>
-	The first field finder will generate a where clause with the parameter <code>field_one</code>, (e.g. <code>select * from table where field_one = ?</code>) 
+	We, at synapticloop, try our best to reduce those little, tiny, small annoyances 
+	that irk you about other frameworks.  We code __A LOT__ so all of those little 
+	things pretty soon add up to a major grievance.  Where we can, we try to catch 
+	them up front, or at least flag them as errors to you.
 </p>
+
 <p>
-	the second will generate a where clause with two parameters, namely: <code>field_one</code> and <code>field_two</code> (e.g. <code>select * from table where field_one = ? and field_two = ?</code>)
+	As we carry on our journey through our code, if there is anything that irks us, 
+	even a little bit, that we could catch, we update the code and push out a new 
+	version.  Here are some small examples:
 </p>
-<dl>
-	<dt><strong>Find a sub-set of fields</strong></dt>
-	<dd>In the <code>.json</code> file you can use a <code>selectClauseFinder</code> which will return a <code>selectClauseBean</code></dd>
-</dl>
 
-<h4>I need to count something...</h4>
+<ul>
+	<li>
+		<strong>FATAL validation errors</strong> - we were tired of back-scrolling 
+		through the lines of text to figure out where the fatal validation occurred - 
+		so we print them out at the bottom as well
+	</li>
+	<li>
+		<strong><code>.h2zero</code> file expansion</strong> - we found that the h2zero 
+		definition file just got too long and too complex, so we added in the import 
+		command for tables.  Allowing us to split up each of the files per table.
+	</li>
+</ul>
 
-<p><em><strong>Remember:</strong> counters always return a single <code>integer</code> value...</em></p>
+<h4>Regeneration changes nothing! <em>(apart from what has actually changed)</em></h4>
 
-<dl>
-	<dt><strong>Count all...</strong></dt>
-	<dd>There is a <code>countAll</code> method on every <code>Count</code></dd>
-	<dt><strong>Count all rows that match a query</strong></dt>
-	<dd>In the <code>.json</code> file you can use a <code>counter</code> with a <code>whereClause</code></dd>
-</dl>
+<p>
+	On quite a frequent basis, we delete out <code>h2zero</code> generated code - we 
+	<strong>always</strong> namespace our generated code clear of everything else.  
+	We can then re-generate the code, and the only thing that has changed will show 
+	up.  If nothing has changed, then out source code repository won't flag a thing.  
+	In fact, you could just ignore the generated source code and generate in at build 
+	time.
+</p>
 
-<h4>I need to question something...</h4>
+<h4>No Exceptions to the rule</h4>
 
-<p><em><strong>Remember:</strong> questions always return a single <code>boolean</code> value...</em></p>
+<p>
+	We generally use the <code>*Silent</code> methods on all of our calls - and then 
+	test the return value.  This does have one down side though - if there is a 
+	<code>SQLException</code> in what has been generated then this will also be 
+	hidden - luckily we run through our unit tests to ensure that everything is 
+	working as it should...
+</p>
 
-<dl>
-	<dt><strong>Boolean question...</strong></dt>
-	<dd>In the <code>.json</code> file you can use an <code>question</code></dd>
-</dl>
+<h4>You have to have standards</h4>
 
-<h4>I need to delete something...</h4>
+<p>
+	We use a standard naming convention for all of our finder / counter / updater / 
+	deleter / question methods, that way we know what each method does explicitly 
+	in the database.
+</p>
 
-<dl>
-	<dt><strong>Delete all...</strong></dt>
-	<dd>There is a <code>deleteAll</code> method on every <code>Deleter</code></dd>
-	<dt><strong>Delete by primary key...</strong></dt>
-	<dd>There is a <code>deleteByPrimaryKey</code> method on every <code>Deleter</code></dd>
-	<dt><strong>Delete all rows that match a query</strong></dt>
-	<dd>In the <code>.json</code> file you can use a <code>deleter</code> with a <code>whereClause</code></dd>
-</dl>
+<h4>Bound to be good</h4>
 
-<h4>I need to update something...</h4>
+<p>
+	We use a <code>static final String BINDER</code> for all of our model objects 
+	and then reference them from  the other parts of the generated code.  This way 
+	we always know if the underlying database changes (and a table is renamed or 
+	deleted) that the <em>'dead'</em> code is then flagged by the compiler.
+</p>
 
-<dl>
-	<dt><strong>Update all rows that match a query</strong></dt>
-	<dd>In the <code>.json</code> file you can use an <code>updater</code> with a <code>whereClause</code></dd>
-</dl>
