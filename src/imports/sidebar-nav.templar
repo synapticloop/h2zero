@@ -1,7 +1,8 @@
 		<ul>
 			<li><a href="index.html">Home</a></li>
 			<li><a href="quick-start.html">Quick Start</a></li>
-			<li><a href="what-do-you-need.html">What do you need</a></li>
+			<li><a href="what-do-you-need.html">What Do You Need</a></li>
+			<li><a href="the-little-things.html">The Little Things</a></li>
 			<li>
 				Allowable JSON Keys Reference
 				<ul>
