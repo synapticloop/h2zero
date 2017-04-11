@@ -25,6 +25,7 @@ public class Options {
 	public static final String OPTION_WEBAPP = "webapp";
 	public static final String OPTION_RESTFUL_SERVLET = "restfulservlet";
 	public static final String OPTION_REPORTS = "reports";
+	public static final String OPTION_DATABASE = "reports";
 
 	public static final String OPTION_OUTPUT = "output";
 

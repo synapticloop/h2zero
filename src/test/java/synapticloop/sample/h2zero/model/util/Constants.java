@@ -42,6 +42,7 @@ public class Constants {
 	public static final String PET_NUM_AGE = "numAge";
 	public static final String PET_FLT_WEIGHT = "fltWeight";
 	public static final String PET_DT_BIRTHDAY = "dtBirthday";
+	public static final String PET_IMG_PHOTO = "imgPhoto";
 
 
 	// Field constants for the user_pet table

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 
 
 import org.slf4j.Logger;

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
 
 

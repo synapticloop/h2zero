@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 public class DatabaseCheckerHelper {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseCheckerHelper.class);
 
@@ -31,7 +31,7 @@ public class DatabaseCheckerHelper {
 	private static final String[] ALL_TABLE_FIELD_NAMES = { "user_type.id_user_type", "user_type.nm_user_type", 
 			"user_title.id_user_title", "user_title.nm_user_title", "user_title.num_order_by", 
 			"user.id_user", "user.id_user_type", "user.fl_is_alive", "user.num_age", "user.nm_username", "user.txt_address_email", "user.txt_password", "user.dtm_signup", 
-			"pet.id_pet", "pet.nm_pet", "pet.num_age", "pet.flt_weight", "pet.dt_birthday", 
+			"pet.id_pet", "pet.nm_pet", "pet.num_age", "pet.flt_weight", "pet.dt_birthday", "pet.img_photo", 
 			"user_pet.id_user_pet", "user_pet.id_user", "user_pet.id_pet"
 			 };
 

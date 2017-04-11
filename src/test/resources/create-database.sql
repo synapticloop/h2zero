@@ -93,17 +93,20 @@ create table user (
 -- show any warnings that are applicable
 show warnings;
 
+--
+-- This model maps to the pet table in the database
+--
 drop table if exists pet;
 show warnings;
 
 create table pet (
 	id_pet bigint not null auto_increment,
-	nm_pet boolean null default '0',
+	nm_pet varchar(64) not null,
 	num_age int not null,
 	flt_weight float(6,1) null,
 	dt_birthday date null,
-	primary key(id_pet),
-	index (nm_pet)
+	img_photo blob null,
+	primary key(id_pet)
 ) engine=innodb default charset=UTF8;
 
 -- show any warnings that are applicable

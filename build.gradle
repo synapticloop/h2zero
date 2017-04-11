@@ -10,10 +10,10 @@ plugins {
 
 	id 'com.gradle.plugin-publish' version '0.9.7'
 	id 'co.riiid.gradle' version '0.4.2'
-	id 'net.saliman.cobertura' version '2.2.6'
+	id 'net.saliman.cobertura' version '2.4.0'
 
 	id 'synapticloop.copyrightr' version '1.1.2'
-	id 'synapticloop.documentr' version '2.6.1'
+	id 'synapticloop.documentr' version '2.9.0'
 }
 
 group = 'synapticloop'
@@ -21,7 +21,7 @@ archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql, java and optionally jsp/servlets"""
 version = '2.0.0'
 
-// tasks.withType(Javadoc).all { enabled = false }
+tasks.withType(Javadoc).all { enabled = false }
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -53,7 +53,7 @@ dependencies {
 	compile 'com.mchange:c3p0:0.9.5.2'
 	compile 'commons-validator:commons-validator:1.5.1'
 
-	runtime 'org.slf4j:slf4j-api:1.7.13'
+	compile 'org.slf4j:slf4j-api:1.7.13'
 	compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.7'
 	compile 'org.apache.logging.log4j:log4j-core:2.7'
 
@@ -69,6 +69,8 @@ dependencies {
 	testRuntime 'junit:junit:4.12'
 	testRuntime 'org.mockito:mockito-all:1.10.19'
 	testRuntime 'com.github.stefanbirkner:system-rules:1.16.1'
+	testRuntime 'mysql:mysql-connector-java:6.0.6'
+	
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.mockito:mockito-all:1.10.19'
@@ -84,6 +86,14 @@ jar {
 
 cobertura {
 	coverageFormats = [ 'html', 'xml']
+	coverageDirs = [
+		project.sourceSets.main.output.classesDir,
+		file("build/classes/test/")
+	]
+	coverageSourceDirs = [ 
+		project.sourceSets.main.java.srcDirs, 
+		file("src/test/java/")
+	]
 }
 
 test {

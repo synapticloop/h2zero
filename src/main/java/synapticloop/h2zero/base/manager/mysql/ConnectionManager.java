@@ -39,6 +39,8 @@ import java.sql.Types;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+import synapticloop.h2zero.base.manager.BaseConnectionManager;
+
 public class ConnectionManager {
 	private static ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 
@@ -391,7 +393,7 @@ public class ConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
-	public static void setBlob(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+	public static void setBlobInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
 		if(null == inputStream) {
 			preparedStatement.setNull(parameterIndex, Types.BLOB);
 		} else {

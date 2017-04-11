@@ -4,12 +4,13 @@ package synapticloop.sample.h2zero.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.base.model.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -29,36 +30,39 @@ public class Pet extends ModelBase {
 
 	public static final String PRIMARY_KEY_FIELD = "id_pet";
 
-	private static final String SQL_INSERT = "insert into pet values (?, ?, ?, ?, ?)";
-	private static final String SQL_UPDATE = "update pet set nm_pet = ?, num_age = ?, flt_weight = ?, dt_birthday = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = "insert into pet values (?, ?, ?, ?, ?, ?)";
+	private static final String SQL_UPDATE = "update pet set nm_pet = ?, num_age = ?, flt_weight = ?, dt_birthday = ?, img_photo = ? where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_DELETE = "delete from pet where " + PRIMARY_KEY_FIELD + " = ?";
-	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ?";
+	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ? and img_photo = ?";
 
 	// the list of fields for the hit - starting with 'TOTAL'
-	private static final String[] HIT_FIELDS = { "TOTAL", "id_pet", "nm_pet", "num_age", "flt_weight", "dt_birthday" };
+	private static final String[] HIT_FIELDS = { "TOTAL", "id_pet", "nm_pet", "num_age", "flt_weight", "dt_birthday", "img_photo" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0 };
+	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0 };
 
 	private Long idPet = null;
-	private Boolean nmPet = null;
+	private String nmPet = null;
 	private Integer numAge = null;
 	private Float fltWeight = null;
 	private Date dtBirthday = null;
+	private Blob imgPhoto = null;
 
-	public Pet(Long idPet, Boolean nmPet, Integer numAge, Float fltWeight, Date dtBirthday) {
+	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
 		this.numAge = numAge;
 		this.fltWeight = fltWeight;
 		this.dtBirthday = dtBirthday;
+		this.imgPhoto = imgPhoto;
 	}
 
-	public Pet(Long idPet, Integer numAge) {
+	public Pet(Long idPet, String nmPet, Integer numAge) {
 		this.idPet = idPet;
-		this.nmPet = null;
+		this.nmPet = nmPet;
 		this.numAge = numAge;
 		this.fltWeight = null;
 		this.dtBirthday = null;
+		this.imgPhoto = null;
 	}
 
 	@Override
@@ -75,10 +79,11 @@ public class Pet extends ModelBase {
 		// create this bean 
 		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 		ConnectionManager.setBigint(preparedStatement, 1, idPet);
-		ConnectionManager.setBoolean(preparedStatement, 2, nmPet);
+		ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
 		ConnectionManager.setInt(preparedStatement, 3, numAge);
 		ConnectionManager.setFloat(preparedStatement, 4, fltWeight);
 		ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
+		ConnectionManager.setBlob(preparedStatement, 6, imgPhoto);
 		preparedStatement.executeUpdate();
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
 		if(resultSet.next()) {
@@ -92,10 +97,11 @@ public class Pet extends ModelBase {
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);
-		ConnectionManager.setBoolean(preparedStatement, 1, nmPet);
+		ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
 		ConnectionManager.setInt(preparedStatement, 2, numAge);
 		ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 		ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+		ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 		ResultSet resultSet = preparedStatement.executeQuery();
 		if(resultSet.next()) {
 			this.idPet = resultSet.getLong(1);
@@ -114,12 +120,13 @@ public class Pet extends ModelBase {
 		if(isDirty) {
 			// update this bean, but only if dirty
 			PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
-			ConnectionManager.setBoolean(preparedStatement, 1, nmPet);
+			ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
 			ConnectionManager.setInt(preparedStatement, 2, numAge);
 			ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 			ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+			ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 			// now set the primary key
-			preparedStatement.setLong(5, idPet);
+			preparedStatement.setLong(6, idPet);
 			preparedStatement.executeUpdate();
 			ConnectionManager.closeAll(preparedStatement);
 			isDirty = false;
@@ -148,6 +155,7 @@ public class Pet extends ModelBase {
 		this.numAge = pet.getNumAge();
 		this.fltWeight = pet.getFltWeight();
 		this.dtBirthday = pet.getDtBirthday();
+		this.imgPhoto = pet.getImgPhoto();
 	}
 
 	public static String[] getHitFields() { return(HIT_FIELDS); }
@@ -166,14 +174,16 @@ public class Pet extends ModelBase {
 	public void setPrimaryKey(Long idPet) { if(isDifferent(this.idPet, idPet)) { this.idPet = idPet;this.isDirty = true; }}
 	public Long getIdPet() { updateHitCount(1); return(this.idPet); }
 	public void setIdPet(Long idPet) { if(isDifferent(this.idPet, idPet)) { this.idPet = idPet;this.isDirty = true; }}
-	public Boolean getNmPet() { updateHitCount(2); return(this.nmPet); }
-	public void setNmPet(Boolean nmPet) { if(isDifferent(this.nmPet, nmPet)) { this.nmPet = nmPet;this.isDirty = true; }}
+	public String getNmPet() { updateHitCount(2); return(this.nmPet); }
+	public void setNmPet(String nmPet) { if(isDifferent(this.nmPet, nmPet)) { this.nmPet = nmPet;this.isDirty = true; }}
 	public Integer getNumAge() { updateHitCount(3); return(this.numAge); }
 	public void setNumAge(Integer numAge) { if(isDifferent(this.numAge, numAge)) { this.numAge = numAge;this.isDirty = true; }}
 	public Float getFltWeight() { updateHitCount(4); return(this.fltWeight); }
 	public void setFltWeight(Float fltWeight) { if(isDifferent(this.fltWeight, fltWeight)) { this.fltWeight = fltWeight;this.isDirty = true; }}
 	public Date getDtBirthday() { updateHitCount(5); return(this.dtBirthday); }
 	public void setDtBirthday(Date dtBirthday) { if(isDifferent(this.dtBirthday, dtBirthday)) { this.dtBirthday = dtBirthday;this.isDirty = true; }}
+	public Blob getImgPhoto() { updateHitCount(6); return(this.imgPhoto); }
+	public void setImgPhoto(Blob imgPhoto) { if(isDifferent(this.imgPhoto, imgPhoto)) { this.imgPhoto = imgPhoto;this.isDirty = true; }}
 
 	@Override
 	public String toString() {
@@ -184,6 +194,7 @@ public class Pet extends ModelBase {
 		stringBuilder.append("  Field[numAge:" + this.numAge + "]\n");
 		stringBuilder.append("  Field[fltWeight:" + this.fltWeight + "]\n");
 		stringBuilder.append("  Field[dtBirthday:" + this.dtBirthday + "]\n");
+		stringBuilder.append("  Field[imgPhoto:" + this.imgPhoto + "]\n");
 		return(stringBuilder.toString());
 	}
 
@@ -194,10 +205,11 @@ public class Pet extends ModelBase {
 		stringBuilder.append("    \"name\": \"Pet\",\n");
 		stringBuilder.append("    \"fields\": [\n");
 		stringBuilder.append("     { \"name\": \"idPet\", \"value\": " + this.idPet + " }, \n");
-		stringBuilder.append("     { \"name\": \"nmPet\", \"value\": " + this.nmPet + " }, \n");
+		stringBuilder.append("     { \"name\": \"nmPet\", \"value\": \"" + this.nmPet + "\" }, \n");
 		stringBuilder.append("     { \"name\": \"numAge\", \"value\": " + this.numAge + " }, \n");
 		stringBuilder.append("     { \"name\": \"fltWeight\", \"value\": " + this.fltWeight + " }, \n");
-		stringBuilder.append("     { \"name\": \"dtBirthday\", \"value\": \"" + this.dtBirthday + "\" }\n");
+		stringBuilder.append("     { \"name\": \"dtBirthday\", \"value\": \"" + this.dtBirthday + "\" }, \n");
+		stringBuilder.append("     { \"name\": \"imgPhoto\", \"value\": \"" + this.imgPhoto + "\" }\n");
 		stringBuilder.append("    ]\n");
 		stringBuilder.append("  }\n");
 		stringBuilder.append("}\n");

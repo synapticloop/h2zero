@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 
 
 import org.slf4j.Logger;

@@ -9,11 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.sql.Blob;
 import java.util.List;
 import java.util.ArrayList;
 
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
 
 
@@ -33,7 +34,7 @@ public class PetFinder {
 	private static final String BINDER = Constants.PET_BINDER;
 
 private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
-	private static final String SQL_SELECT_START = "select id_pet, nm_pet, num_age, flt_weight, dt_birthday from pet";
+	private static final String SQL_SELECT_START = "select id_pet, nm_pet, num_age, flt_weight, dt_birthday, img_photo from pet";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
 
 
@@ -300,10 +301,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 		if(resultSet.first()) {
 			// we have a result
 			Long idPet = resultSet.getLong(1);
-			Boolean nmPet = resultSet.getBoolean(2);
-			if(resultSet.wasNull()) {
-				nmPet = null;
-			}
+			String nmPet = resultSet.getString(2);
 			Integer numAge = resultSet.getInt(3);
 			Float fltWeight = resultSet.getFloat(4);
 			if(resultSet.wasNull()) {
@@ -313,8 +311,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 			if(resultSet.wasNull()) {
 				dtBirthday = null;
 			}
+			Blob imgPhoto = resultSet.getBlob(6);
+			if(resultSet.wasNull()) {
+				imgPhoto = null;
+			}
 
-			Pet pet = new Pet(idPet, nmPet, numAge, fltWeight, dtBirthday);
+			Pet pet = new Pet(idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
 
 			if(resultSet.next()) {
 				throw new H2ZeroFinderException("More than one result in resultset for unique finder.");
@@ -342,10 +344,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 		while(resultSet.next()) {
 			arrayList.add(new Pet(
 					resultSet.getLong(1),
-					ConnectionManager.getNullableResultBoolean(resultSet, 2),
+					resultSet.getString(2),
 					resultSet.getInt(3),
 					ConnectionManager.getNullableResultFloat(resultSet, 4),
-					ConnectionManager.getNullableResultDate(resultSet, 5)));
+					ConnectionManager.getNullableResultDate(resultSet, 5),
+					ConnectionManager.getNullableResultBlob(resultSet, 6)));
 		}
 		return(arrayList);
 	}
