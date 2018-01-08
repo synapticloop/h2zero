@@ -2,7 +2,7 @@
 
 > See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
 
-[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.4.9-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
+[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-1.4.11-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -529,7 +529,7 @@ This should appear in the artefact repository along with the compiled code, as a
 
 For example:
 
-`h2zero-1.4.9.jar -> h2zero-1.4.9-all.jar`
+`h2zero-1.4.11.jar -> h2zero-1.4.11-all.jar`
 
 
 
@@ -641,9 +641,9 @@ This project publishes artefacts to [the gradle plugin portal](https://plugins.g
 
 ```
 dependencies {
-	runtime(group: 'synapticloop', name: 'h2zero', version: '1.4.9', ext: 'jar')
+	runtime(group: 'synapticloop', name: 'h2zero', version: '1.4.11', ext: 'jar')
 
-	compile(group: 'synapticloop', name: 'h2zero', version: '1.4.9', ext: 'jar')
+	compile(group: 'synapticloop', name: 'h2zero', version: '1.4.11', ext: 'jar')
 }
 ```
 
@@ -655,9 +655,9 @@ or, more simply for versions of gradle greater than 2.1
 
 ```
 dependencies {
-	runtime 'synapticloop:h2zero:1.4.9'
+	runtime 'synapticloop:h2zero:1.4.11'
 
-	compile 'synapticloop:h2zero:1.4.9'
+	compile 'synapticloop:h2zero:1.4.11'
 }
 ```
 
@@ -675,7 +675,7 @@ dependencies {
 <dependency>
 	<groupId>synapticloop</groupId>
 	<artifactId>h2zero</artifactId>
-	<version>1.4.9</version>
+	<version>1.4.11</version>
 	<type>jar</type>
 </dependency>
 ```
@@ -700,7 +700,7 @@ You will also need to download the following dependencies:
 
 ### compile dependencies
 
-  - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
+  - synapticloop:templar:1.4.4: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.4.4/view#files/synapticloop/templar/1.4.4) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.4.4|jar))
   - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
   - org.apache.ant:ant:1.9.7: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.9.7/view#files/org.apache.ant/ant/1.9.7) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.9.7|jar))
   - javax.servlet.jsp:jsp-api:2.2: (It may be available on one of: [bintray](https://bintray.com/javax.servlet.jsp/maven/jsp-api/2.2/view#files/javax.servlet.jsp/jsp-api/2.2) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet.jsp|jsp-api|2.2|jar))
@@ -715,7 +715,7 @@ You will also need to download the following dependencies:
 
 ### runtime dependencies
 
-  - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
+  - synapticloop:templar:1.4.4: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.4.4/view#files/synapticloop/templar/1.4.4) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.4.4|jar))
   - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
   - com.mchange:c3p0:0.9.5.2: (It may be available on one of: [bintray](https://bintray.com/com.mchange/maven/c3p0/0.9.5.2/view#files/com.mchange/c3p0/0.9.5.2) [mvn central](http://search.maven.org/#artifactdetails|com.mchange|c3p0|0.9.5.2|jar))
   - commons-validator:commons-validator:1.5.1: (It may be available on one of: [bintray](https://bintray.com/commons-validator/maven/commons-validator/1.5.1/view#files/commons-validator/commons-validator/1.5.1) [mvn central](http://search.maven.org/#artifactdetails|commons-validator|commons-validator|1.5.1|jar))
@@ -726,7 +726,7 @@ You will also need to download the following dependencies:
 
 ### shadowRuntime dependencies
 
-  - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
+  - synapticloop:templar:1.4.4: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.4.4/view#files/synapticloop/templar/1.4.4) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.4.4|jar))
   - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
   - org.apache.ant:ant:1.9.7: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.9.7/view#files/org.apache.ant/ant/1.9.7) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.9.7|jar))
 
@@ -757,7 +757,7 @@ You will also need to download the following dependencies:
 ```
 The MIT License (MIT)
 
-Copyright (c) 2017 synapticloop
+Copyright (c) 2018 synapticloop
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
