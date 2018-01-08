@@ -16,8 +16,10 @@ import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import synapticloop.sample.h2zero.model.util.Constants;
 import synapticloop.sample.h2zero.bean.FindNmUserDtmSignupBean;
@@ -32,12 +34,12 @@ public class UserFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_BINDER;
 
-	private static final Logger LOGGER = LogManager.getLogger(UserFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 	private static final String SQL_SELECT_START = "select id_user, id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, dtm_signup from user";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user = ?";
 
 	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + " where num_age = ?";
-	private static final String SQL_FIND_BY_FL_IS_ALIVE_NUM_AGE = SQL_SELECT_START + " where fl_is_alive = ?num_age = ?, ";
+	private static final String SQL_FIND_BY_FL_IS_ALIVE_NUM_AGE = SQL_SELECT_START + " where fl_is_alive = ? and num_age = ?";
 	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START + " where nm_username = ?";
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL = SQL_SELECT_START + " where txt_address_email = ?";
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START + " where txt_address_email = ? and txt_password = ?";

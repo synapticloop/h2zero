@@ -15,8 +15,10 @@ import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import synapticloop.sample.h2zero.model.util.Constants;
 
@@ -29,7 +31,7 @@ public class UserTypeFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TYPE_BINDER;
 
-	private static final Logger LOGGER = LogManager.getLogger(UserTypeFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.class);
 	private static final String SQL_SELECT_START = "select id_user_type, nm_user_type from user_type";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_type = ?";
 

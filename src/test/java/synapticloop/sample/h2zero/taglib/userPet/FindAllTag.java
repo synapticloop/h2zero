@@ -8,8 +8,10 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import synapticloop.sample.h2zero.model.UserPet;
 import synapticloop.sample.h2zero.finder.UserPetFinder;
@@ -25,7 +27,8 @@ public class FindAllTag extends BaseVarTag {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_PET_BINDER;
 
-	private static final Logger LOGGER = LogManager.getLogger(FindAllTag.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(FindAllTag.class);
+
 
 	@Override
 	public int doStartTag() throws JspException {

@@ -16,8 +16,10 @@ import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import synapticloop.sample.h2zero.model.util.Constants;
 
@@ -30,7 +32,7 @@ public class PetFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_BINDER;
 
-	private static final Logger LOGGER = LogManager.getLogger(PetFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PetFinder.class);
 	private static final String SQL_SELECT_START = "select id_pet, nm_pet, num_age, flt_weight, dt_birthday from pet";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
 

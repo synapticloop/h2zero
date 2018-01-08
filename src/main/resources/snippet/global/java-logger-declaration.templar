@@ -1,5 +1,5 @@
 {if fn:=[options.logging, 'log4j']}
-	private static final Logger LOGGER = LogManager.getLogger(
+	{\t}private static final Logger LOGGER = LogManager.getLogger(
 		{if fn:notNull[loggerClass]}
 			{loggerClass}{if fn:notNull[classType]}{classType}{endif}
 		{else}
@@ -8,7 +8,7 @@
 	.class);
 {else}
 	{if fn:=[options.logging, 'slf4j']}
-		private static final Logger LOGGER = LoggerFactory.getLogger(
+		{\t}private static final Logger LOGGER = LoggerFactory.getLogger(
 			{if fn:notNull[loggerClass]}
 				{loggerClass}{if fn:notNull[classType]}{classType}{endif}
 			{else}

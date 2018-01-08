@@ -8,8 +8,10 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import synapticloop.sample.h2zero.model.UserTitle;
 import synapticloop.sample.h2zero.model.util.Constants;
@@ -24,7 +26,8 @@ public class FindByPrimaryKeyTag extends BaseVarTag {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
-	private static final Logger LOGGER = LogManager.getLogger(FindByPrimaryKeyTag.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(FindByPrimaryKeyTag.class);
+
 
 	private Long primaryKey = null;
 

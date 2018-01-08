@@ -14,8 +14,10 @@ import java.util.List;
 
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import synapticloop.sample.h2zero.model.util.Constants;
 
@@ -26,7 +28,8 @@ public class UserTitleCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
-	private static final Logger LOGGER = LogManager.getLogger(UserTitleCounter.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleCounter.class);
+
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from user_title";
 
