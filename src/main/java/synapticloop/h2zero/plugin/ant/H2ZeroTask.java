@@ -1,7 +1,7 @@
 package synapticloop.h2zero.plugin.ant;
 
 /*
- * Copyright (c) 2012-2017 synapticloop.
+ * Copyright (c) 2012-2018 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and

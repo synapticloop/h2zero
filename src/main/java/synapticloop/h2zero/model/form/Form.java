@@ -1,7 +1,7 @@
 package synapticloop.h2zero.model.form;
 
 /*
- * Copyright (c) 2013-2017 synapticloop.
+ * Copyright (c) 2013-2018 synapticloop.
  * 
  * All rights reserved.
  *
