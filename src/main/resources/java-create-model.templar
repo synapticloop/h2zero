@@ -13,6 +13,7 @@ package {database.package}.model;{\n}{\n}
 {if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
 {if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
 {if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
+{if fn:requiresImport[table, "Time"]}import java.sql.Time;{\n}{endif}
 	import java.sql.ResultSet;{\n}
 	import java.sql.Statement;{\n}
 	import java.sql.PreparedStatement;{\n}

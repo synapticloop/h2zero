@@ -34,6 +34,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 
@@ -205,6 +206,24 @@ public class ConnectionManager {
 			preparedStatement.setNull(parameterIndex, Types.TIMESTAMP);
 		} else {
 			preparedStatement.setTimestamp(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a TIME datatype to a prepared statement with the value of the passed
+	 * in time, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setTime(PreparedStatement preparedStatement, int parameterIndex, Time value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.TIME);
+		} else {
+			preparedStatement.setTime(parameterIndex, value);
 		}
 	}
 
