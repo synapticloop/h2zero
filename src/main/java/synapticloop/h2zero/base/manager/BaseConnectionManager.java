@@ -313,7 +313,7 @@ public abstract class BaseConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
-	public static void setClob(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+	public static void setClobInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
 		if(null == inputStream) {
 			preparedStatement.setNull(parameterIndex, Types.CLOB);
 		} else {
@@ -331,7 +331,7 @@ public abstract class BaseConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
-	public static void setClob(PreparedStatement preparedStatement, int parameterIndex, Reader reader) throws SQLException {
+	public static void setClobReader(PreparedStatement preparedStatement, int parameterIndex, Reader reader) throws SQLException {
 		if(null == reader) {
 			preparedStatement.setNull(parameterIndex, Types.CLOB);
 		} else {
