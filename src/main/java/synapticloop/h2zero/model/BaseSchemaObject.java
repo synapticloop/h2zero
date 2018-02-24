@@ -144,11 +144,12 @@ public abstract class BaseSchemaObject {
 				String field = fields[i].trim();
 				fieldNameBuilder.append(NamingHelper.getFirstUpper(field));
 
+				if(i != 0) {
+					whereClauseBuilder.append(" and ");
+				}
+
 				whereClauseBuilder.append(field);
 				whereClauseBuilder.append(" = ?");
-				if(i != 0) {
-					whereClauseBuilder.append(", ");
-				}
 
 				whereFieldsArray.put(field);
 			}
