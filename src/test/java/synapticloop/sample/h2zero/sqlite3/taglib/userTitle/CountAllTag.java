@@ -26,7 +26,7 @@ public class CountAllTag extends BaseVarTag {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CountAllTag.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(CountAllTag.class);
 
 
 	@Override

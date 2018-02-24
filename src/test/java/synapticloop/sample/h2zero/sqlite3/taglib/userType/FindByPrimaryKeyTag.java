@@ -26,7 +26,7 @@ public class FindByPrimaryKeyTag extends BaseVarTag {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TYPE_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FindByPrimaryKeyTag.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(FindByPrimaryKeyTag.class);
 
 
 	private Long primaryKey = null;

@@ -31,7 +31,7 @@ public class UserTypeFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TYPE_BINDER;
 
-private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.class);
 	private static final String SQL_SELECT_START = "select id_user_type, nm_user_type from user_type";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_type = ?";
 
@@ -296,10 +296,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.clas
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static UserType uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
-		if(resultSet.first()) {
+		if(resultSet.next()) {
 			// we have a result
-			Long idUserType = resultSet.getLong(1);
-			String nmUserType = resultSet.getString(2);
+			Long idUserType = ConnectionManager.getNullableResultLong(resultSet, 1);
+			String nmUserType = ConnectionManager.getNullableResultString(resultSet, 2);
 
 			UserType userType = new UserType(idUserType, nmUserType);
 
@@ -328,8 +328,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.clas
 		List<UserType> arrayList = new ArrayList<UserType>();
 		while(resultSet.next()) {
 			arrayList.add(new UserType(
-					resultSet.getLong(1),
-					resultSet.getString(2)));
+					ConnectionManager.getNullableResultLong(resultSet, 1),
+					ConnectionManager.getNullableResultString(resultSet, 2)));
 		}
 		return(arrayList);
 	}

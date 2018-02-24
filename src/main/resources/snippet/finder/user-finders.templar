@@ -417,15 +417,10 @@
 {\t} */{\n}
 
 {\t}private static {tableOrView.javaClassName} uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
-{\t}{\t}if(resultSet.first()) {{{\n}
+{\t}{\t}if(resultSet.next()) {{{\n}
 {\t}{\t}{\t}// we have a result{\n}
 {loop tableOrView.fields as field}
-	{\t}{\t}{\t}{field.javaType} {field.javaName} = resultSet.get{field.sqlJavaType}({fieldStatus.index});{\n}
-		{if field.nullable}
-			{\t}{\t}{\t}if(resultSet.wasNull()) {{{\n}
-			{\t}{\t}{\t}{\t}{field.javaName} = null;{\n}
-			{\t}{\t}{\t}}{\n}
-		{endif}
+	{\t}{\t}{\t}{field.javaType} {field.javaName} = ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index});{\n}
 {endloop}
 {\n}
 {\t}{\t}{\t}{tableOrView.javaClassName} {tableOrView.javaFieldName} = new {tableOrView.javaClassName}({loop tableOrView.fields as field}
@@ -462,11 +457,7 @@
 {\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
 
 {loop tableOrView.fields as field}
-		{if field.nullable}
-			{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
-		{else}
-			{\t}{\t}{\t}{\t}{\t}resultSet.get{field.sqlJavaType}({fieldStatus.index})
-		{endif}
+		{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
 	{if !fieldStatus.last},{\n}{endif}
 {endloop}
 ));{\n}

@@ -27,7 +27,7 @@ public class FindAllTag extends BaseVarTag {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FindAllTag.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(FindAllTag.class);
 
 
 	@Override

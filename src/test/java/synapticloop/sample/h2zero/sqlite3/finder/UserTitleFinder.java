@@ -32,7 +32,7 @@ public class UserTitleFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
-private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.class);
 	private static final String SQL_SELECT_START = "select id_user_title, nm_user_title, num_order_by from user_title";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_title = ?";
 
@@ -414,11 +414,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.clas
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static UserTitle uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
-		if(resultSet.first()) {
+		if(resultSet.next()) {
 			// we have a result
-			Long idUserTitle = resultSet.getLong(1);
-			String nmUserTitle = resultSet.getString(2);
-			Integer numOrderBy = resultSet.getInt(3);
+			Long idUserTitle = ConnectionManager.getNullableResultLong(resultSet, 1);
+			String nmUserTitle = ConnectionManager.getNullableResultString(resultSet, 2);
+			Integer numOrderBy = ConnectionManager.getNullableResultInt(resultSet, 3);
 
 			UserTitle userTitle = new UserTitle(idUserTitle, nmUserTitle, numOrderBy);
 
@@ -447,9 +447,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.clas
 		List<UserTitle> arrayList = new ArrayList<UserTitle>();
 		while(resultSet.next()) {
 			arrayList.add(new UserTitle(
-					resultSet.getLong(1),
-					resultSet.getString(2),
-					resultSet.getInt(3)));
+					ConnectionManager.getNullableResultLong(resultSet, 1),
+					ConnectionManager.getNullableResultString(resultSet, 2),
+					ConnectionManager.getNullableResultInt(resultSet, 3)));
 		}
 		return(arrayList);
 	}

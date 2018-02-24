@@ -34,12 +34,12 @@ public class UserFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_BINDER;
 
-private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleFinder.class);
 	private static final String SQL_SELECT_START = "select id_user, id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, dtm_signup from user";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user = ?";
 
 	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + " where num_age = ?";
-	private static final String SQL_FIND_BY_FL_IS_ALIVE_NUM_AGE = SQL_SELECT_START + " where fl_is_alive = ?num_age = ?, ";
+	private static final String SQL_FIND_BY_FL_IS_ALIVE_NUM_AGE = SQL_SELECT_START + " where fl_is_alive = ? and num_age = ?";
 	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START + " where nm_username = ?";
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL = SQL_SELECT_START + " where txt_address_email = ?";
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START + " where txt_address_email = ? and txt_password = ?";
@@ -1153,22 +1153,16 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleFinder.cla
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static User uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
-		if(resultSet.first()) {
+		if(resultSet.next()) {
 			// we have a result
-			Long idUser = resultSet.getLong(1);
-			Long idUserType = resultSet.getLong(2);
-			Boolean flIsAlive = resultSet.getBoolean(3);
-			if(resultSet.wasNull()) {
-				flIsAlive = null;
-			}
-			Integer numAge = resultSet.getInt(4);
-			String nmUsername = resultSet.getString(5);
-			String txtAddressEmail = resultSet.getString(6);
-			String txtPassword = resultSet.getString(7);
-			Timestamp dtmSignup = resultSet.getTimestamp(8);
-			if(resultSet.wasNull()) {
-				dtmSignup = null;
-			}
+			Long idUser = ConnectionManager.getNullableResultLong(resultSet, 1);
+			Long idUserType = ConnectionManager.getNullableResultLong(resultSet, 2);
+			Boolean flIsAlive = ConnectionManager.getNullableResultBoolean(resultSet, 3);
+			Integer numAge = ConnectionManager.getNullableResultInt(resultSet, 4);
+			String nmUsername = ConnectionManager.getNullableResultString(resultSet, 5);
+			String txtAddressEmail = ConnectionManager.getNullableResultString(resultSet, 6);
+			String txtPassword = ConnectionManager.getNullableResultString(resultSet, 7);
+			Timestamp dtmSignup = ConnectionManager.getNullableResultTimestamp(resultSet, 8);
 
 			User user = new User(idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup);
 
@@ -1197,13 +1191,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleFinder.cla
 		List<User> arrayList = new ArrayList<User>();
 		while(resultSet.next()) {
 			arrayList.add(new User(
-					resultSet.getLong(1),
-					resultSet.getLong(2),
+					ConnectionManager.getNullableResultLong(resultSet, 1),
+					ConnectionManager.getNullableResultLong(resultSet, 2),
 					ConnectionManager.getNullableResultBoolean(resultSet, 3),
-					resultSet.getInt(4),
-					resultSet.getString(5),
-					resultSet.getString(6),
-					resultSet.getString(7),
+					ConnectionManager.getNullableResultInt(resultSet, 4),
+					ConnectionManager.getNullableResultString(resultSet, 5),
+					ConnectionManager.getNullableResultString(resultSet, 6),
+					ConnectionManager.getNullableResultString(resultSet, 7),
 					ConnectionManager.getNullableResultTimestamp(resultSet, 8)));
 		}
 		return(arrayList);

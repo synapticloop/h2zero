@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 public class DatabaseCheckerHelper {
-	private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseCheckerHelper.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseCheckerHelper.class);
 
 
 	private Set<String> allTables = new HashSet<String>();
