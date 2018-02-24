@@ -37,9 +37,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 	private static final String SQL_SELECT_START = "select id_pet, nm_pet, num_age, flt_weight, dt_birthday, img_photo from pet";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
 
+	private static final String SQL_FIND_BY_NM_PET_NUM_AGE = SQL_SELECT_START + " where nm_pet = ?num_age = ?, ";
 
 	// now for the statement limit cache(s)
 	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
+	private static LruCache<String, String> findByNmPetNumAge_limit_statement_cache = new LruCache<String, String>(1024);
 
 	private PetFinder() {}
 
@@ -284,6 +286,126 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 
 	public static List<Pet> findAllSilent() {
 		return(findAllSilent(null, null, null));
+	}
+
+	/**
+	 * findByNmPetNumAge
+	 * @param nmPet
+	 * @param numAge
+	 * 
+	 * @return the unique result of Pet found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static Pet findByNmPetNumAge(Connection connection, String nmPet, Integer numAge, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByNmPetNumAge_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_NM_PET_NUM_AGE);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+			}
+
+			if(null != offset) {
+				stringBuilder.append(" offset ");
+				stringBuilder.append(offset);
+			}
+
+			statement = stringBuilder.toString();
+			findByNmPetNumAge_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByNmPetNumAge_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Pet result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
+			ConnectionManager.setInt(preparedStatement, 2, numAge);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[nmPet:" + nmPet + "], " + "[numAge:" + numAge + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static Pet findByNmPetNumAge(Connection connection, String nmPet, Integer numAge) throws H2ZeroFinderException, SQLException {
+		return(findByNmPetNumAge(connection, nmPet, numAge, null, null));
+	}
+
+	public static Pet findByNmPetNumAge(String nmPet, Integer numAge, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByNmPetNumAge(null, nmPet, numAge, limit, offset));
+	}
+
+	public static Pet findByNmPetNumAge(String nmPet, Integer numAge) throws H2ZeroFinderException, SQLException {
+		return(findByNmPetNumAge(null, nmPet, numAge, null, null));
+	}
+
+// silent connection, params..., limit, offset
+	public static Pet findByNmPetNumAgeSilent(Connection connection, String nmPet, Integer numAge, Integer limit, Integer offset) {
+		try {
+			return(findByNmPetNumAge(connection, nmPet, numAge, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByNmPetNumAgeSilent(connection: " + connection + ", " + nmPet + ", " + numAge + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByNmPetNumAgeSilent(connection: " + connection + ", " + nmPet + ", " + numAge + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+// silent connection, params...
+	public static Pet findByNmPetNumAgeSilent(Connection connection, String nmPet, Integer numAge) {
+		return(findByNmPetNumAgeSilent(connection, nmPet, numAge, null, null));
+	}
+
+// silent params..., limit, offset
+	public static Pet findByNmPetNumAgeSilent(String nmPet, Integer numAge, Integer limit, Integer offset) {
+		return(findByNmPetNumAgeSilent(null , nmPet, numAge, limit, offset));
+	}
+
+	public static Pet findByNmPetNumAgeSilent(String nmPet, Integer numAge) {
+		return(findByNmPetNumAgeSilent(null, nmPet, numAge, null, null));
 	}
 
 	/**

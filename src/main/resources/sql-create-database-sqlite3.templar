@@ -2,10 +2,6 @@
 --     with the use of synapticloop templar templating language{\n}
 --              (sql-create-database-sqlite3.templar){\n}{\n}
 
-drop database if exists {database.schema};{\n}
-create database {database.schema};{\n}
-{\n}
-use {database.schema};{\n}{\n}
 {--
 	Loop through all of the tables to write out the creation definition
 }
@@ -21,7 +17,6 @@ use {database.schema};{\n}{\n}
 	{endloop}
 
 	drop table if exists {table.name};{\n}
-	show warnings;{\n}{\n}
 	
 	create table {table.name} ({\n}
 	{--
@@ -30,48 +25,18 @@ use {database.schema};{\n}{\n}
 
 	{set fn:length[table.fields] as fieldsLength}
 	{loop table.fields as field}
-		{\t}{field.name} {field.type}{field.lengthFormat}
+		
+		{if field.primary}
+			{\t}{field.name} INTEGER
+		{else}
+			{\t}{field.name} {field.type}{field.lengthFormat}
+		{endif}
 		{if !field.nullable} not{endif} null
 		{if fn:notNull[field.default]} default {field.default}{endif}
-		{if field.primary} auto_increment{endif}
-		{if fn:notNull[field.comment]} COMMENT '{field.comment}'{endif}
+		{if field.primary} PRIMARY KEY AUTOINCREMENT{endif}
 		{if fn:not=[fieldStatus.index, fieldsLength]},{\n}{endif}
 	{endloop}
 
-	{--
-		Primary key definitions
-	}
-	{loop table.fields as field}
-		{if field.primary}
-			,{\n}{\t}primary key({field.name})
-		{endif}
-	{endloop}
-
-	{--
-		Unique key definitions
-	}
-	{loop table.fields as field}
-		{if field.unique}
-			{if fn:>[field.maxLength, '255']}
-				,{\n}{\t}unique index ({field.name}(255))
-			{else}
-				,{\n}{\t}unique index ({field.name})
-			{endif}
-		{endif}
-	{endloop}
-
-	{--
-		index definitions
-	}
-	{loop table.fields as field}
-		{if field.index}
-			{if fn:>[field.maxLength, '255']}
-				,{\n}{\t}index ({field.name}(255))
-			{else}
-				,{\n}{\t}index ({field.name})
-			{endif}
-		{endif}
-	{endloop}
 
 	{--
 		foreign key definitions
@@ -87,16 +52,36 @@ use {database.schema};{\n}{\n}
 	{endloop}
 
 {\n}
-	) engine={table.engine} default charset={table.charset};{\n}{\n}
-	-- show any warnings that are applicable{\n}
-	show warnings;{\n}{\n}
+	);{\n}{\n}
+
+	{--
+		Unique key definitions
+	}
+	{loop table.fields as field}
+		{if field.unique}
+			create unique index {table.name}_{field.name}_idx_unq on {table.name}({field.name});{\n}
+		{endif}
+	{endloop}
+
+	{--
+		index definitions
+	}
+
+	{loop table.fields as field}
+		{if field.index}
+			create index {table.name}_{field.name}_idx on {table.name}({field.name});{\n}
+		{endif}
+	{endloop}
+
+{\n}
+{\n}
+
 
 	{if table.isConstant}
 		-- The {table.name} table is defined as being constant{\n}
 		-- insert the values{\n}{\n}
 
 		{loop table.constants as constant}
-			SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";{\n}
 			insert into {table.name} values({loop constant.sqlValues as value}{value}{if !valueStatus.last}, {endif}{endloop});{\n}
 		{endloop}
 	{\n}
@@ -109,11 +94,6 @@ use {database.schema};{\n}{\n}
 
 
 {loop database.views as view}
-drop view if exists {view.name};{\n}{\n}
-
-show warnings;{\n}{\n}
 
 create view {view.name} as {view.asClause};{\n}{\n}
-
-show warnings;{\n}{\n}
 {endloop}

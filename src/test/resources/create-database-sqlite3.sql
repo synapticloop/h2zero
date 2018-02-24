@@ -2,38 +2,25 @@
 --     with the use of synapticloop templar templating language
 --              (sql-create-database-sqlite3.templar)
 
-drop database if exists sample;
-create database sample;
-
-use sample;
-
 --
 -- This is the user type table, which is a constant-generated table for all
 -- of the user types.  This enables quick and easy lookups from within the code
 -- for values that do not change.
 --
 drop table if exists user_type;
-show warnings;
-
 create table user_type (
-	id_user_type bigint not null auto_increment,
-	nm_user_type varchar(32) not null,
-	primary key(id_user_type)
-) engine=innodb default charset=UTF8;
+	id_user_type INTEGER not null PRIMARY KEY AUTOINCREMENT,
+	nm_user_type varchar(32) not null
+);
 
--- show any warnings that are applicable
-show warnings;
+
 
 -- The user_type table is defined as being constant
 -- insert the values
 
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 insert into user_type values(1, 'normal');
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 insert into user_type values(2, 'special');
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 insert into user_type values(3, 'admin');
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 insert into user_type values(4, 'super admin');
 
 
@@ -43,36 +30,26 @@ insert into user_type values(4, 'super admin');
 -- for values that do not change.
 --
 drop table if exists user_title;
-show warnings;
-
 create table user_title (
-	id_user_title bigint not null auto_increment,
+	id_user_title INTEGER not null PRIMARY KEY AUTOINCREMENT,
 	nm_user_title varchar(32) not null,
-	num_order_by int not null,
-	primary key(id_user_title)
-) engine=innodb default charset=UTF8;
+	num_order_by int not null
+);
 
--- show any warnings that are applicable
-show warnings;
+
 
 -- The user_title table is defined as being constant
 -- insert the values
 
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 insert into user_title values(1, 'Mr.', 1);
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 insert into user_title values(2, 'Mrs.', 2);
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 insert into user_title values(3, 'Miss', 3);
-SET SESSION SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 insert into user_title values(4, 'Dr.', 4);
 
 
 drop table if exists user;
-show warnings;
-
 create table user (
-	id_user bigint not null auto_increment,
+	id_user INTEGER not null PRIMARY KEY AUTOINCREMENT,
 	id_user_type bigint not null,
 	fl_is_alive boolean null default '0',
 	num_age int not null,
@@ -80,50 +57,40 @@ create table user (
 	txt_address_email varchar(256) not null,
 	txt_password varchar(32) not null,
 	dtm_signup datetime null,
-	primary key(id_user),
-	unique index (nm_username),
-	unique index (txt_address_email(255)),
-	index (id_user_type),
-	index (fl_is_alive),
 	foreign key (id_user_type) references user_type (id_user_type)
-) engine=innodb default charset=UTF8;
+);
 
--- show any warnings that are applicable
-show warnings;
+create unique index user_nm_username_idx_unq on user(nm_username);
+create unique index user_txt_address_email_idx_unq on user(txt_address_email);
+create index user_id_user_type_idx on user(id_user_type);
+create index user_fl_is_alive_idx on user(fl_is_alive);
+
 
 --
 -- This model maps to the pet table in the database
 --
 drop table if exists pet;
-show warnings;
-
 create table pet (
-	id_pet bigint not null auto_increment,
+	id_pet INTEGER not null PRIMARY KEY AUTOINCREMENT,
 	nm_pet varchar(64) not null,
 	num_age int not null,
 	flt_weight float(6,1) null,
 	dt_birthday date null,
-	img_photo blob null,
-	primary key(id_pet)
-) engine=innodb default charset=UTF8;
+	img_photo blob null
+);
 
--- show any warnings that are applicable
-show warnings;
+
 
 drop table if exists user_pet;
-show warnings;
-
 create table user_pet (
-	id_user_pet bigint not null auto_increment,
+	id_user_pet INTEGER not null PRIMARY KEY AUTOINCREMENT,
 	id_user bigint not null,
 	id_pet bigint not null,
-	primary key(id_user_pet),
-	index (id_user),
-	index (id_pet),
 	foreign key (id_user) references user (id_user),
 	foreign key (id_pet) references pet (id_pet)
-) engine=innodb default charset=UTF8;
+);
 
--- show any warnings that are applicable
-show warnings;
+create index user_pet_id_user_idx on user_pet(id_user);
+create index user_pet_id_pet_idx on user_pet(id_pet);
+
 
