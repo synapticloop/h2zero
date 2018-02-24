@@ -146,6 +146,7 @@ public abstract class BaseSchemaObject {
 			}
 		}
 	}
+
 	protected void populateFinders(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray finderJson = new JSONArray();
 		try {
@@ -237,7 +238,7 @@ public abstract class BaseSchemaObject {
 
 		try {
 			StringBuilder fieldNameBuilder = new StringBuilder();
-			fieldNameBuilder.append(JSONKeyConstants.FIND_BY);
+			fieldNameBuilder.append(JSONKeyConstants.FIND_BY_NULL);
 			StringBuilder whereClauseBuilder = new StringBuilder();
 			whereClauseBuilder.append("where ");
 

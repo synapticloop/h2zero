@@ -1,5 +1,23 @@
 package synapticloop.h2zero.generator;
 
+/*
+ * Copyright (c) 2012-2018 synapticloop.
+ * 
+ * All rights reserved.
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENCE shipped with
+ * this source code or binaries.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * Licence for the specific language governing permissions and limitations
+ * under the Licence.
+ */
+
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +35,11 @@ import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
 
-
+/**
+ * This class generates all things that are java (i.e. ends in a .java extension)
+ * 
+ * @author synapticloop
+ */
 public class JavaGenerator extends Generator {
 
 	public JavaGenerator(Database database, Options options, File outFile, boolean verbose) {
@@ -36,12 +58,14 @@ public class JavaGenerator extends Generator {
 		} catch (FunctionException fex) {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
+
 		generateTables(templarContext);
 		generateViews(templarContext);
 	}
 
 	private void generateTables(TemplarContext templarContext) throws ParseException, RenderException {
 		Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
+
 		// The model
 		Parser javaCreateModelParser = getParser("/java-create-model.templar");
 
