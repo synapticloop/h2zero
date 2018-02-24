@@ -1,4 +1,4 @@
-private static final Logger LOGGER = LoggerFactory.getLogger(
+{\t}private static final Logger LOGGER = LoggerFactory.getLogger(
 	{if fn:notNull[loggerClass]}
 		{loggerClass}{if fn:notNull[classType]}{classType}{endif}
 	{else}
