@@ -706,55 +706,57 @@ You will also need to download the following dependencies:
 
 ### cobertura dependencies
 
-  - net.sourceforge.cobertura:cobertura:2.0.3: (It may be available on one of: [bintray](https://bintray.com/net.sourceforge.cobertura/maven/cobertura/2.0.3/view#files/net.sourceforge.cobertura/cobertura/2.0.3) [mvn central](http://search.maven.org/#artifactdetails|net.sourceforge.cobertura|cobertura|2.0.3|jar))
+  - `net.sourceforge.cobertura:cobertura:2.1.1`: (It may be available on one of: [bintray](https://bintray.com/net.sourceforge.cobertura/maven/cobertura/2.1.1/view#files/net.sourceforge.cobertura/cobertura/2.1.1) [mvn central](http://search.maven.org/#artifactdetails|net.sourceforge.cobertura|cobertura|2.1.1|jar))
 
 
 ### compile dependencies
 
-  - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
-  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
-  - org.apache.ant:ant:1.9.7: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.9.7/view#files/org.apache.ant/ant/1.9.7) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.9.7|jar))
-  - javax.servlet.jsp:jsp-api:2.2: (It may be available on one of: [bintray](https://bintray.com/javax.servlet.jsp/maven/jsp-api/2.2/view#files/javax.servlet.jsp/jsp-api/2.2) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet.jsp|jsp-api|2.2|jar))
-  - javax.servlet:javax.servlet-api:3.1.0: (It may be available on one of: [bintray](https://bintray.com/javax.servlet/maven/javax.servlet-api/3.1.0/view#files/javax.servlet/javax.servlet-api/3.1.0) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet|javax.servlet-api|3.1.0|jar))
-  - com.mchange:c3p0:0.9.5.2: (It may be available on one of: [bintray](https://bintray.com/com.mchange/maven/c3p0/0.9.5.2/view#files/com.mchange/c3p0/0.9.5.2) [mvn central](http://search.maven.org/#artifactdetails|com.mchange|c3p0|0.9.5.2|jar))
-  - commons-validator:commons-validator:1.5.1: (It may be available on one of: [bintray](https://bintray.com/commons-validator/maven/commons-validator/1.5.1/view#files/commons-validator/commons-validator/1.5.1) [mvn central](http://search.maven.org/#artifactdetails|commons-validator|commons-validator|1.5.1|jar))
-  - org.apache.logging.log4j:log4j-slf4j-impl:2.7: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-slf4j-impl/2.7/view#files/org.apache.logging.log4j/log4j-slf4j-impl/2.7) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-slf4j-impl|2.7|jar))
-  - org.apache.logging.log4j:log4j-core:2.7: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-core/2.7/view#files/org.apache.logging.log4j/log4j-core/2.7) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-core|2.7|jar))
-  - io.dropwizard.metrics:metrics-core:3.1.2: (It may be available on one of: [bintray](https://bintray.com/io.dropwizard.metrics/maven/metrics-core/3.1.2/view#files/io.dropwizard.metrics/metrics-core/3.1.2) [mvn central](http://search.maven.org/#artifactdetails|io.dropwizard.metrics|metrics-core|3.1.2|jar))
-  - javax.mail:javax.mail-api:1.5.6: (It may be available on one of: [bintray](https://bintray.com/javax.mail/maven/javax.mail-api/1.5.6/view#files/javax.mail/javax.mail-api/1.5.6) [mvn central](http://search.maven.org/#artifactdetails|javax.mail|javax.mail-api|1.5.6|jar))
-  - com.github.stefanbirkner:system-rules:1.16.1: (It may be available on one of: [bintray](https://bintray.com/com.github.stefanbirkner/maven/system-rules/1.16.1/view#files/com.github.stefanbirkner/system-rules/1.16.1) [mvn central](http://search.maven.org/#artifactdetails|com.github.stefanbirkner|system-rules|1.16.1|jar))
+  - `synapticloop:templar:1.4.4`: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.4.4/view#files/synapticloop/templar/1.4.4) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.4.4|jar))
+  - `org.json:json:20180130`: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20180130/view#files/org.json/json/20180130) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20180130|jar))
+  - `org.apache.ant:ant:1.10.2`: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.10.2/view#files/org.apache.ant/ant/1.10.2) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.10.2|jar))
+  - `javax.servlet.jsp:jsp-api:2.2`: (It may be available on one of: [bintray](https://bintray.com/javax.servlet.jsp/maven/jsp-api/2.2/view#files/javax.servlet.jsp/jsp-api/2.2) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet.jsp|jsp-api|2.2|jar))
+  - `javax.servlet:javax.servlet-api:3.1.0`: (It may be available on one of: [bintray](https://bintray.com/javax.servlet/maven/javax.servlet-api/3.1.0/view#files/javax.servlet/javax.servlet-api/3.1.0) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet|javax.servlet-api|3.1.0|jar))
+  - `com.mchange:c3p0:0.9.5.2`: (It may be available on one of: [bintray](https://bintray.com/com.mchange/maven/c3p0/0.9.5.2/view#files/com.mchange/c3p0/0.9.5.2) [mvn central](http://search.maven.org/#artifactdetails|com.mchange|c3p0|0.9.5.2|jar))
+  - `commons-validator:commons-validator:1.6`: (It may be available on one of: [bintray](https://bintray.com/commons-validator/maven/commons-validator/1.6/view#files/commons-validator/commons-validator/1.6) [mvn central](http://search.maven.org/#artifactdetails|commons-validator|commons-validator|1.6|jar))
+  - `org.slf4j:slf4j-api:1.7.25`: (It may be available on one of: [bintray](https://bintray.com/org.slf4j/maven/slf4j-api/1.7.25/view#files/org.slf4j/slf4j-api/1.7.25) [mvn central](http://search.maven.org/#artifactdetails|org.slf4j|slf4j-api|1.7.25|jar))
+  - `org.apache.logging.log4j:log4j-slf4j-impl:2.10.0`: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-slf4j-impl/2.10.0/view#files/org.apache.logging.log4j/log4j-slf4j-impl/2.10.0) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-slf4j-impl|2.10.0|jar))
+  - `org.apache.logging.log4j:log4j-core:2.10.0`: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-core/2.10.0/view#files/org.apache.logging.log4j/log4j-core/2.10.0) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-core|2.10.0|jar))
+  - `io.dropwizard.metrics:metrics-core:3.1.2`: (It may be available on one of: [bintray](https://bintray.com/io.dropwizard.metrics/maven/metrics-core/3.1.2/view#files/io.dropwizard.metrics/metrics-core/3.1.2) [mvn central](http://search.maven.org/#artifactdetails|io.dropwizard.metrics|metrics-core|3.1.2|jar))
+  - `javax.mail:javax.mail-api:1.6.1`: (It may be available on one of: [bintray](https://bintray.com/javax.mail/maven/javax.mail-api/1.6.1/view#files/javax.mail/javax.mail-api/1.6.1) [mvn central](http://search.maven.org/#artifactdetails|javax.mail|javax.mail-api|1.6.1|jar))
+  - `com.github.stefanbirkner:system-rules:1.17.1`: (It may be available on one of: [bintray](https://bintray.com/com.github.stefanbirkner/maven/system-rules/1.17.1/view#files/com.github.stefanbirkner/system-rules/1.17.1) [mvn central](http://search.maven.org/#artifactdetails|com.github.stefanbirkner|system-rules|1.17.1|jar))
 
 
 ### runtime dependencies
 
-  - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
-  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
-  - com.mchange:c3p0:0.9.5.2: (It may be available on one of: [bintray](https://bintray.com/com.mchange/maven/c3p0/0.9.5.2/view#files/com.mchange/c3p0/0.9.5.2) [mvn central](http://search.maven.org/#artifactdetails|com.mchange|c3p0|0.9.5.2|jar))
-  - commons-validator:commons-validator:1.5.1: (It may be available on one of: [bintray](https://bintray.com/commons-validator/maven/commons-validator/1.5.1/view#files/commons-validator/commons-validator/1.5.1) [mvn central](http://search.maven.org/#artifactdetails|commons-validator|commons-validator|1.5.1|jar))
-  - org.slf4j:slf4j-api:1.7.13: (It may be available on one of: [bintray](https://bintray.com/org.slf4j/maven/slf4j-api/1.7.13/view#files/org.slf4j/slf4j-api/1.7.13) [mvn central](http://search.maven.org/#artifactdetails|org.slf4j|slf4j-api|1.7.13|jar))
-  - io.dropwizard.metrics:metrics-core:3.1.2: (It may be available on one of: [bintray](https://bintray.com/io.dropwizard.metrics/maven/metrics-core/3.1.2/view#files/io.dropwizard.metrics/metrics-core/3.1.2) [mvn central](http://search.maven.org/#artifactdetails|io.dropwizard.metrics|metrics-core|3.1.2|jar))
-  - javax.mail:javax.mail-api:1.5.6: (It may be available on one of: [bintray](https://bintray.com/javax.mail/maven/javax.mail-api/1.5.6/view#files/javax.mail/javax.mail-api/1.5.6) [mvn central](http://search.maven.org/#artifactdetails|javax.mail|javax.mail-api|1.5.6|jar))
+  - `synapticloop:templar:1.4.4`: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.4.4/view#files/synapticloop/templar/1.4.4) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.4.4|jar))
+  - `org.json:json:20180130`: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20180130/view#files/org.json/json/20180130) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20180130|jar))
+  - `com.mchange:c3p0:0.9.5.2`: (It may be available on one of: [bintray](https://bintray.com/com.mchange/maven/c3p0/0.9.5.2/view#files/com.mchange/c3p0/0.9.5.2) [mvn central](http://search.maven.org/#artifactdetails|com.mchange|c3p0|0.9.5.2|jar))
+  - `commons-validator:commons-validator:1.6`: (It may be available on one of: [bintray](https://bintray.com/commons-validator/maven/commons-validator/1.6/view#files/commons-validator/commons-validator/1.6) [mvn central](http://search.maven.org/#artifactdetails|commons-validator|commons-validator|1.6|jar))
+  - `org.slf4j:slf4j-api:1.7.25`: (It may be available on one of: [bintray](https://bintray.com/org.slf4j/maven/slf4j-api/1.7.25/view#files/org.slf4j/slf4j-api/1.7.25) [mvn central](http://search.maven.org/#artifactdetails|org.slf4j|slf4j-api|1.7.25|jar))
+  - `io.dropwizard.metrics:metrics-core:3.1.2`: (It may be available on one of: [bintray](https://bintray.com/io.dropwizard.metrics/maven/metrics-core/3.1.2/view#files/io.dropwizard.metrics/metrics-core/3.1.2) [mvn central](http://search.maven.org/#artifactdetails|io.dropwizard.metrics|metrics-core|3.1.2|jar))
+  - `javax.mail:javax.mail-api:1.6.1`: (It may be available on one of: [bintray](https://bintray.com/javax.mail/maven/javax.mail-api/1.6.1/view#files/javax.mail/javax.mail-api/1.6.1) [mvn central](http://search.maven.org/#artifactdetails|javax.mail|javax.mail-api|1.6.1|jar))
 
 
 ### shadowRuntime dependencies
 
-  - synapticloop:templar:1.3.0: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.3.0/view#files/synapticloop/templar/1.3.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.3.0|jar))
-  - org.json:json:20160212: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20160212/view#files/org.json/json/20160212) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20160212|jar))
-  - org.apache.ant:ant:1.9.7: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.9.7/view#files/org.apache.ant/ant/1.9.7) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.9.7|jar))
+  - `synapticloop:templar:1.4.4`: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.4.4/view#files/synapticloop/templar/1.4.4) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.4.4|jar))
+  - `org.json:json:20180130`: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20180130/view#files/org.json/json/20180130) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20180130|jar))
+  - `org.apache.ant:ant:1.10.2`: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.10.2/view#files/org.apache.ant/ant/1.10.2) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.10.2|jar))
 
 
 ### testCompile dependencies
 
-  - junit:junit:4.12: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar))
-  - org.mockito:mockito-all:1.10.19: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar))
-  - com.github.stefanbirkner:system-rules:1.16.1: (It may be available on one of: [bintray](https://bintray.com/com.github.stefanbirkner/maven/system-rules/1.16.1/view#files/com.github.stefanbirkner/system-rules/1.16.1) [mvn central](http://search.maven.org/#artifactdetails|com.github.stefanbirkner|system-rules|1.16.1|jar))
+  - `junit:junit:4.12`: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar))
+  - `org.mockito:mockito-all:1.10.19`: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar))
+  - `com.github.stefanbirkner:system-rules:1.16.1`: (It may be available on one of: [bintray](https://bintray.com/com.github.stefanbirkner/maven/system-rules/1.16.1/view#files/com.github.stefanbirkner/system-rules/1.16.1) [mvn central](http://search.maven.org/#artifactdetails|com.github.stefanbirkner|system-rules|1.16.1|jar))
 
 
 ### testRuntime dependencies
 
-  - junit:junit:4.12: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar))
-  - org.mockito:mockito-all:1.10.19: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar))
-  - com.github.stefanbirkner:system-rules:1.16.1: (It may be available on one of: [bintray](https://bintray.com/com.github.stefanbirkner/maven/system-rules/1.16.1/view#files/com.github.stefanbirkner/system-rules/1.16.1) [mvn central](http://search.maven.org/#artifactdetails|com.github.stefanbirkner|system-rules|1.16.1|jar))
+  - `junit:junit:4.12`: (It may be available on one of: [bintray](https://bintray.com/junit/maven/junit/4.12/view#files/junit/junit/4.12) [mvn central](http://search.maven.org/#artifactdetails|junit|junit|4.12|jar))
+  - `org.mockito:mockito-all:1.10.19`: (It may be available on one of: [bintray](https://bintray.com/org.mockito/maven/mockito-all/1.10.19/view#files/org.mockito/mockito-all/1.10.19) [mvn central](http://search.maven.org/#artifactdetails|org.mockito|mockito-all|1.10.19|jar))
+  - `com.github.stefanbirkner:system-rules:1.16.1`: (It may be available on one of: [bintray](https://bintray.com/com.github.stefanbirkner/maven/system-rules/1.16.1/view#files/com.github.stefanbirkner/system-rules/1.16.1) [mvn central](http://search.maven.org/#artifactdetails|com.github.stefanbirkner|system-rules|1.16.1|jar))
+  - `mysql:mysql-connector-java:6.0.6`: (It may be available on one of: [bintray](https://bintray.com/mysql/maven/mysql-connector-java/6.0.6/view#files/mysql/mysql-connector-java/6.0.6) [mvn central](http://search.maven.org/#artifactdetails|mysql|mysql-connector-java|6.0.6|jar))
 
 **NOTE:** You may need to download any dependencies of the above dependencies in turn (i.e. the transitive dependencies)
 
@@ -769,7 +771,7 @@ You will also need to download the following dependencies:
 ```
 The MIT License (MIT)
 
-Copyright (c) 2017 synapticloop
+Copyright (c) 2018 synapticloop
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
