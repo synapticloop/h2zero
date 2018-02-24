@@ -40,17 +40,20 @@ public class Options {
 		ALLOWABLE_GENERATORS.add(OPTION_REPORTS);
 	}
 
+	public static final String DATABASE_MYSQL = "mysql";
+	public static final String DATABASE_SQLITE3 = "sqlite3";
+
 	private static Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
 	static {
-		ALLOWABLE_DATABASES.add("mysql");
-		ALLOWABLE_DATABASES.add("sqlite3");
+		ALLOWABLE_DATABASES.add(DATABASE_MYSQL);
+		ALLOWABLE_DATABASES.add(DATABASE_SQLITE3);
 	}
 
 	/*
 	 * INSTANCE VARIABLES
 	 */
 	private boolean metrics = false;
-	private String database = "mysql";
+	private String database = DATABASE_MYSQL;
 	private String outputJava = "/src/main/java/";
 	private String outputSql = "/src/main/sql/";
 	private String outputWebapp = "/src/main/webapps/";
@@ -66,7 +69,7 @@ public class Options {
 		}
 
 		this.metrics = optionsJson.optBoolean("metrics", false);
-		this.database = optionsJson.optString("database", "mysql");
+		this.database = optionsJson.optString("database", DATABASE_MYSQL);
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "Generating for database type '" + database + "'.");
 
 		JSONArray generatorArray = optionsJson.optJSONArray("generators");
