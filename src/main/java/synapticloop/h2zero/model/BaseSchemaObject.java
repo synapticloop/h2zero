@@ -259,7 +259,9 @@ public abstract class BaseSchemaObject {
 
 			autoFinder.put(JSONKeyConstants.WHERE_CLAUSE, whereClauseBuilder.toString());
 			autoFinder.put(JSONKeyConstants.UNIQUE, unique);
-			autoFinder.put(JSONKeyConstants.WHERE_FIELDS, whereFieldsArray);
+			
+			// we do not put in where fields as we are searching on null, not on a particular value
+			// autoFinder.put(JSONKeyConstants.WHERE_FIELDS, whereFieldsArray);
 
 			Finder finder = new Finder(this, autoFinder);
 			finder.setIsAutoFinder(true);
@@ -268,6 +270,7 @@ public abstract class BaseSchemaObject {
 			throw new H2ZeroParseException("Could not generate the field null finder for '" + uniqueFinder + "'.", jsonex);
 		}
 	}
+
 	/**
 	 * Populate all of the questions that are being generated for a table.  A question is a simple query that returns one
 	 * and only one boolean true/false value
