@@ -29,7 +29,7 @@
 		{ "include": "./user_type.json" },
 		{ "include": "./user_title.json" },
 		{ "include": "./user.json" },
-		{ "include": "./pet.json" },
+		{ "include": "./pet.sqlite3.json" },
 		{ "include": "./user_pet.json" }
 	],
 }

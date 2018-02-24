@@ -10,7 +10,6 @@ import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -45,9 +44,9 @@ public class Pet extends ModelBase {
 	private Integer numAge = null;
 	private Float fltWeight = null;
 	private Date dtBirthday = null;
-	private Blob imgPhoto = null;
+	private String imgPhoto = null;
 
-	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
+	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, String imgPhoto) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
 		this.numAge = numAge;
@@ -83,7 +82,7 @@ public class Pet extends ModelBase {
 		ConnectionManager.setInt(preparedStatement, 3, numAge);
 		ConnectionManager.setFloat(preparedStatement, 4, fltWeight);
 		ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
-		ConnectionManager.setBlob(preparedStatement, 6, imgPhoto);
+		ConnectionManager.setClob(preparedStatement, 6, imgPhoto);
 		preparedStatement.executeUpdate();
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
 		if(resultSet.next()) {
@@ -101,7 +100,7 @@ public class Pet extends ModelBase {
 		ConnectionManager.setInt(preparedStatement, 2, numAge);
 		ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 		ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
-		ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
+		ConnectionManager.setClob(preparedStatement, 5, imgPhoto);
 		ResultSet resultSet = preparedStatement.executeQuery();
 		if(resultSet.next()) {
 			this.idPet = resultSet.getLong(1);
@@ -124,7 +123,7 @@ public class Pet extends ModelBase {
 			ConnectionManager.setInt(preparedStatement, 2, numAge);
 			ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 			ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
-			ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
+			ConnectionManager.setClob(preparedStatement, 5, imgPhoto);
 			// now set the primary key
 			preparedStatement.setLong(6, idPet);
 			preparedStatement.executeUpdate();
@@ -182,8 +181,8 @@ public class Pet extends ModelBase {
 	public void setFltWeight(Float fltWeight) { if(isDifferent(this.fltWeight, fltWeight)) { this.fltWeight = fltWeight;this.isDirty = true; }}
 	public Date getDtBirthday() { updateHitCount(5); return(this.dtBirthday); }
 	public void setDtBirthday(Date dtBirthday) { if(isDifferent(this.dtBirthday, dtBirthday)) { this.dtBirthday = dtBirthday;this.isDirty = true; }}
-	public Blob getImgPhoto() { updateHitCount(6); return(this.imgPhoto); }
-	public void setImgPhoto(Blob imgPhoto) { if(isDifferent(this.imgPhoto, imgPhoto)) { this.imgPhoto = imgPhoto;this.isDirty = true; }}
+	public String getImgPhoto() { updateHitCount(6); return(this.imgPhoto); }
+	public void setImgPhoto(String imgPhoto) { if(isDifferent(this.imgPhoto, imgPhoto)) { this.imgPhoto = imgPhoto;this.isDirty = true; }}
 
 	@Override
 	public String toString() {

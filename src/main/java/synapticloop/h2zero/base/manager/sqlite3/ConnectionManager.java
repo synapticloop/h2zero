@@ -32,7 +32,6 @@ import java.sql.Timestamp;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import synapticloop.h2zero.base.manager.BaseConnectionManager;
-import synapticloop.h2zero.base.sqlite3.SqliteBlob;
 
 public class ConnectionManager extends BaseConnectionManager {
 
@@ -136,7 +135,7 @@ public class ConnectionManager extends BaseConnectionManager {
 	}
 
 	public static Blob getNullableResultBlob(ResultSet resultSet, int index) throws SQLException {
-		return((Blob)returnPossibleNullObject(resultSet, new SqliteBlob(resultSet.getBytes(index))));
+		throw new SQLException("Unsupported opperation by this JDBC driver - sorry.");
 	}
 
 	public static Timestamp getNullableResultTimestamp(ResultSet resultSet, int index) throws SQLException {

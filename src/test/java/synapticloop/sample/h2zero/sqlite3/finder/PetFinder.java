@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
-import java.sql.Blob;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -427,7 +426,7 @@ public class PetFinder {
 			Integer numAge = ConnectionManager.getNullableResultInt(resultSet, 3);
 			Float fltWeight = ConnectionManager.getNullableResultFloat(resultSet, 4);
 			Date dtBirthday = ConnectionManager.getNullableResultDate(resultSet, 5);
-			Blob imgPhoto = ConnectionManager.getNullableResultBlob(resultSet, 6);
+			String imgPhoto = ConnectionManager.getNullableResultString(resultSet, 6);
 
 			Pet pet = new Pet(idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
 
@@ -461,7 +460,7 @@ public class PetFinder {
 					ConnectionManager.getNullableResultInt(resultSet, 3),
 					ConnectionManager.getNullableResultFloat(resultSet, 4),
 					ConnectionManager.getNullableResultDate(resultSet, 5),
-					ConnectionManager.getNullableResultBlob(resultSet, 6)));
+					ConnectionManager.getNullableResultString(resultSet, 6)));
 		}
 		return(arrayList);
 	}

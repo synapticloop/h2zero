@@ -76,7 +76,7 @@ create table pet (
 	num_age int not null,
 	flt_weight float(6,1) null,
 	dt_birthday date null,
-	img_photo blob null
+	img_photo clob null
 );
 
 
