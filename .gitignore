@@ -87,3 +87,4 @@ target/
 lib/
 libs/
 synapticloop/
+src/test/sqlite-db/*.sqlite3

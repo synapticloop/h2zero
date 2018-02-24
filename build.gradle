@@ -70,7 +70,7 @@ dependencies {
 	testRuntime 'org.mockito:mockito-all:1.10.19'
 	testRuntime 'com.github.stefanbirkner:system-rules:1.16.1'
 	testRuntime 'mysql:mysql-connector-java:6.0.6'
-	
+	testRuntime 'org.xerial:sqlite-jdbc:3.21.0.1'
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.mockito:mockito-all:1.10.19'
