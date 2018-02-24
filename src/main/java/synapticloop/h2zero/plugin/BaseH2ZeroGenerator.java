@@ -16,7 +16,6 @@ package synapticloop.h2zero.plugin;
  * this source code or binaries.
  */
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,13 +53,22 @@ public class BaseH2ZeroGenerator {
 	private File h2ZeroFile;
 	private File outFile;
 
+	/**
+	 * Instantiate the generator
+	 * 
+	 * @param h2ZeroFile The input file (is not parsed)
+	 * @param outFile The output directory
+	 * @param verbose whether to do verbose logging
+	 */
 	public BaseH2ZeroGenerator(File h2ZeroFile, File outFile, boolean verbose) {
 		this.h2ZeroFile = h2ZeroFile;
 		this.outFile = outFile;
 		this.verbose = verbose;
-
 	}
 
+	/**
+	 * Generate h2zero files and outputs
+	 */
 	public void generateH2zero() {
 		// otherwise we are good to go
 		H2ZeroParser h2zeroParser = null;
@@ -119,6 +127,12 @@ public class BaseH2ZeroGenerator {
 		logSummaryInformation(h2zeroParser);
 	}
 
+	/**
+	 * Everybody loves statistics (well at least we do) so lets see what we have
+	 * generated and output it
+	 * 
+	 * @param h2zeroParser The parser that was used for the generator
+	 */
 	private void logSummaryInformation(H2ZeroParser h2zeroParser) {
 		// now that we are done - print out the overview
 		if(null != h2zeroParser) {
