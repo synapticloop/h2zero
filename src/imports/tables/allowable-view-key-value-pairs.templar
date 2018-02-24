@@ -19,6 +19,14 @@
 			</td>
 		</tr>
 		<tr>
+			<td><strong>asClause</strong></td>
+			<td class="mandatory"><span>mandatory</span></td>
+			<td>any valid MySQL select clause</td>
+			<td>
+				Each view <strong>MUST</strong> have an asClause.
+			</td>
+		</tr>
+		<tr>
 			<td><strong>comments</strong></td>
 			<td class="optional"><span>optional</span></td>
 			<td>A JSON Array of strings</td>
