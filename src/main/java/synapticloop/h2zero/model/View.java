@@ -25,8 +25,9 @@ public class View extends BaseSchemaObject {
 
 	public View(JSONObject jsonObject, int defaultStatementCacheSize) throws H2ZeroParseException {
 		super(jsonObject, defaultStatementCacheSize);
-		this.name = JsonHelper.getStringValue(jsonObject, "name", null);
-		this.asClause = JsonHelper.getStringValue(jsonObject, "asClause", null);
+
+		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
+		this.asClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.AS_CLAUSE, null);
 
 		if(null == name) {
 			throw new H2ZeroParseException("The view '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
@@ -79,31 +80,22 @@ public class View extends BaseSchemaObject {
 					fields.add(baseField);
 					fieldLookup.put(name, baseField);
 
-				} catch (ClassNotFoundException cnfex) {
-					logFatalFieldParse(cnfex, cnfex.getCause().getMessage(), firstUpper);
-				} catch (SecurityException e) {
-					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
-				} catch (NoSuchMethodException e) {
-					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
-				} catch (IllegalArgumentException e) {
-					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
-				} catch (InstantiationException e) {
-					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
-				} catch (IllegalAccessException e) {
-					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
-				} catch (InvocationTargetException e) {
-					logFatalFieldParse(e, e.getCause().getMessage(), firstUpper);
+				} catch (ClassNotFoundException | SecurityException | NoSuchMethodException | 
+						IllegalArgumentException | InstantiationException | IllegalAccessException | 
+						InvocationTargetException ex) {
+
+					logFatalFieldParse(ex, ex.getCause().getMessage(), firstUpper);
 				}
 			}
 		}
 	}
 
-	public BaseField getField(String name) { return(fieldLookup.get(name)); }
+	@Override public BaseField getField(String name) { return(fieldLookup.get(name)); }
 	public String getAsClause() { return asClause; }
 	public List<BaseField> getFields() { return fields; }
 	public boolean getCacheable() { return cacheable; }
 	public boolean getCacheFindAll() { return cacheFindAll; }
 
-	public boolean getIsTable() { return(false); }
-	public boolean getIsView() { return(true); }
+	@Override public boolean getIsTable() { return(false); }
+	@Override public boolean getIsView() { return(true); }
 }

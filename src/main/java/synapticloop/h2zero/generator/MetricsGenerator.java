@@ -20,6 +20,7 @@ public class MetricsGenerator extends Generator {
 		super(database, options, outFile, verbose);
 	}
 
+	@Override
 	public void generate() throws RenderException, ParseException {
 		if(!options.getMetrics()) {
 			return;

@@ -30,6 +30,7 @@ import synapticloop.templar.utils.TemplarContext;
  *   <li>FindAll</li>
  *   <li>CountAll</li>
  * </ul>
+ * 
  * @author synapticloop
  *
  */

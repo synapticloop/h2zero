@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.validator.BaseValidator;
@@ -99,6 +100,8 @@ public class H2ZeroParser {
 
 	private int numWarn = 0;
 	private int numFatal = 0;
+
+	private static final String H2ZERO_KEY_INCLUDE = "include";
 
 	private static List<BaseValidator> validators = new ArrayList<BaseValidator>();
 	static {
@@ -296,24 +299,36 @@ public class H2ZeroParser {
 		return (stringBuilder.toString());
 	}
 
+	/**
+	 * Retrieve the contents of a file as a JSON object - with the file possibly 
+	 * having include statements.
+	 * 
+	 * @param file the file that needs to be parsed.
+	 * 
+	 * @return The parsed JSON Object
+	 * 
+	 * @throws H2ZeroParseException
+	 */
 	public JSONObject getJSONFileContents(File file) throws H2ZeroParseException {
 		JSONArray newTablesArray = new JSONArray();
 		JSONObject jsonObject = new JSONObject(getFileContents(file));
 		// now go through and get all of the imports
 		String absolutePath = file.getParentFile().getAbsolutePath();
-		JSONObject databaseObject = jsonObject.getJSONObject("database");
-		JSONArray tablesArray = databaseObject.getJSONArray("tables");
+		JSONObject databaseObject = jsonObject.getJSONObject(JSONKeyConstants.DATABASE);
+		JSONArray tablesArray = databaseObject.getJSONArray(JSONKeyConstants.TABLES);
 		int i = 0;
 		for (Object object : tablesArray) {
 			JSONObject tableObject = (JSONObject) object;
-			if(tableObject.has("include")) {
-				newTablesArray.put(i, new JSONObject(getFileContents(new File(absolutePath + "/" + tableObject.getString("include")))));
+			if(tableObject.has(H2ZERO_KEY_INCLUDE)) {
+				newTablesArray.put(i, new JSONObject(getFileContents(new File(absolutePath + "/" + tableObject.getString(H2ZERO_KEY_INCLUDE)))));
 			} else {
 				newTablesArray.put(tableObject);
 			}
 			i++;
 		}
-		JSONObject put = databaseObject.put("tables", newTablesArray);
+
+		databaseObject.put(JSONKeyConstants.TABLES, newTablesArray);
+
 		return jsonObject;
 	}
 

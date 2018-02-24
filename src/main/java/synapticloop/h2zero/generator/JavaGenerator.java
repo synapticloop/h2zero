@@ -38,8 +38,6 @@ public class JavaGenerator extends Generator {
 		}
 		generateTables(templarContext);
 		generateViews(templarContext);
-
-
 	}
 
 	private void generateTables(TemplarContext templarContext) throws ParseException, RenderException {
@@ -134,20 +132,24 @@ public class JavaGenerator extends Generator {
 		Iterator<View> viewsIterator = views.iterator();
 		while (viewsIterator.hasNext()) {
 			View view = viewsIterator.next();
+
 			templarContext.add("view", view);
 			// hack for finder taglibs for views - should be split out
 			templarContext.add("table", view);
 
-			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/view/" + view.getJavaClassName() + ".java";
+			String pathPrefix = outFile + options.getOutputJava() + database.getPackagePath();
+			String viewJavaClassName = view.getJavaClassName();
+
+			pathname = pathPrefix + "/view/" + viewJavaClassName + ".java";
 			renderToFile(templarContext, javaCreateViewModelParser, pathname);
 
-			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/finder/" + view.getJavaClassName() + "ViewFinder.java";
+			pathname = pathPrefix + "/finder/" + viewJavaClassName + "ViewFinder.java";
 			renderToFile(templarContext, javaCreateViewFinderParser, pathname);
 
-			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/counter/" + view.getJavaClassName() + "ViewCounter.java";
+			pathname = pathPrefix + "/counter/" + viewJavaClassName + "ViewCounter.java";
 			renderToFile(templarContext, javaCreateViewCounterParser, pathname);
 
-			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/question/" + view.getJavaClassName() + "ViewQuestion.java";
+			pathname = pathPrefix + "/question/" + viewJavaClassName + "ViewQuestion.java";
 			renderToFile(templarContext, javaCreateViewQuestionParser, pathname);
 
 			List<Finder> finders = view.getFinders();
@@ -157,7 +159,7 @@ public class JavaGenerator extends Generator {
 				Finder finder = finderIterator.next();
 				templarContext.add("finder", finder);
 				if(null != finder.getSelectClause()) {
-					pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
+					pathname = pathPrefix + "/bean/" + finder.getTagName() + "Bean.java";
 					renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
 				}
 			}
