@@ -86,3 +86,4 @@ target/
 .gradle
 lib/
 libs/
+synapticloop/

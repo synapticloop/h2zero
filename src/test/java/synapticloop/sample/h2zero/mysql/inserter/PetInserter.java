@@ -153,6 +153,32 @@ public class PetInserter {
 	}
 
 	/**
+	 * Insert a new Pet into the database a new connection will be retrieved 
+	 * from the pool, used and then closed. This is for fields which have a nullable allowed default
+	 * 
+	 * @param idPet  maps to id_pet
+	 * @param nmPet  maps to nm_pet
+	 * @param numAge  maps to num_age
+	 * 
+	 * @return the number of rows that were inserted, or -1 if an error occurred
+	 * 
+	 * @throws SQLException if there was an error in the SQL insert statement
+	 */
+	public static int insert(Long idPet, String nmPet, Integer numAge) throws SQLException {
+		int numResults = -1;
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			numResults = insert(connection, idPet, nmPet, numAge);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+		return(numResults);
+	}
+
+	/**
 	 * Silently (i.e. swallow any exceptions) Insert a new Pet into the 
 	 * database utilising the passed in connection. If an exception is thrown by the
 	 * method, the exception message will be logged as an 'error', if 'trace' logging
@@ -184,6 +210,35 @@ public class PetInserter {
 
 	/**
 	 * Silently (i.e. swallow any exceptions) Insert a new Pet into the 
+	 * database utilising the passed in connection. If an exception is thrown by the
+	 * method, the exception message will be logged as an 'error', if 'trace' logging
+	 * is enabled, the stack trace will be printed to the output stream.
+	 * 
+	 * This is only for Non-Nullable fields
+	 * 
+	 * @param connection the connection to use for the database, this __MUST__ be 
+	 *   closed by the calling function.
+	 * @param idPet  maps to id_pet
+	 * @param nmPet  maps to nm_pet
+	 * @param numAge  maps to num_age
+	 * 
+	 * @return the number of rows that were inserted, or -1 if an error occurred
+	 */
+	public static int insertSilent(Connection connection, Long idPet, String nmPet, Integer numAge) {
+		int numResults = -1;
+		try {
+			numResults = insert(connection, idPet, nmPet, numAge);
+		} catch (SQLException sqlex) {
+			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
+			if(LOGGER.isTraceEnabled()){
+				sqlex.printStackTrace();
+			}
+		}
+		return(numResults);
+	}
+
+	/**
+	 * Silently (i.e. swallow any exceptions) Insert a new Pet into the 
 	 * database, creating and closing a connection in the process. If an exception is thrown 
 	 * by the method, the exception message will be logged as an 'error', if 'trace' logging
 	 * is enabled, the stack trace will be printed to the output stream.
@@ -203,6 +258,37 @@ public class PetInserter {
 		try {
 			connection = ConnectionManager.getConnection();
 			numResults = insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
+		} catch (SQLException sqlex) {
+			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
+			if(LOGGER.isTraceEnabled()){
+				sqlex.printStackTrace();
+			}
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+		return(numResults);
+	}
+
+	/**
+	 * Silently (i.e. swallow any exceptions) Insert a new Pet into the 
+	 * database, creating and closing a connection in the process. If an exception is thrown 
+	 * by the method, the exception message will be logged as an 'error', if 'trace' logging
+	 * is enabled, the stack trace will be printed to the output stream.
+	 * 
+	 * This is for non-nullabel fields only
+	 * 
+	 * @param idPet  maps to id_pet
+	 * @param nmPet  maps to nm_pet
+	 * @param numAge  maps to num_age
+	 * 
+	 * @return the number of rows that were inserted, or -1 if an error occurred
+	 */
+	public static int insertSilent(Long idPet, String nmPet, Integer numAge) {
+		int numResults = -1;
+		Connection connection = null;
+		try {
+			connection = ConnectionManager.getConnection();
+			numResults = insert(connection, idPet, nmPet, numAge);
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){

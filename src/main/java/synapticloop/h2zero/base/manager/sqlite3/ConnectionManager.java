@@ -391,7 +391,7 @@ public class ConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
-	public static void setBlob(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+	public static void setBlobInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
 		if(null == inputStream) {
 			preparedStatement.setNull(parameterIndex, Types.BLOB);
 		} else {

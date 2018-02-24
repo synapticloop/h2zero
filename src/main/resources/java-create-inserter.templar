@@ -154,59 +154,62 @@ public class {table.javaClassName}Inserter {{{\n}
 		{\t}{\t}return(numResults);{\n}
 {\t}}{\n}{\n}
 
-	{if table.hasNullableFields}
-		{\t}/**{\n}
-		{\t} * Insert a new {table.javaClassName} into the database utilising the passed in connection {\n}
-		{\t} * with only the fields that are allowed to be not null.{\n}
-		{\t} * {\n}
-		{\t} * @param connection the connection to use for the database, this __MUST__ be {\n}
-		{\t} *   closed by the calling function.{\n}
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				INSERTER WITH DEFAULT VALUES FOR ONLY NON-NULLABLE FIELDS
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
-			{loop table.nonNullFields as field}
-				{if !field.nullable}
-					{\t} * @param {field.javaName} {if fn:notNull[field.comment]}{comment}{else} maps to {field.name}{endif}{\n}
+{if table.hasNullableFields}
+	{\t}/**{\n}
+	{\t} * Insert a new {table.javaClassName} into the database utilising the passed in connection {\n}
+	{\t} * with only the fields that are allowed to be not null.{\n}
+	{\t} * {\n}
+	{\t} * @param connection the connection to use for the database, this __MUST__ be {\n}
+	{\t} *   closed by the calling function.{\n}
+
+		{loop table.nonNullFields as field}
+			{if !field.nullable}
+				{\t} * @param {field.javaName} {if fn:notNull[field.comment]}{comment}{else} maps to {field.name}{endif}{\n}
+			{endif}
+		{endloop}
+
+	{\t} * {\n}
+	{\t} * @return the number of rows that were inserted, or -1 if an error occurred{\n}
+	{\t} * {\n}
+	{\t} * @throws SQLException if there was an error in the SQL insert statement{\n}
+	{\t} */{\n}
+	{\t}public static int insert(Connection connection, {loop table.nonNullFields as field}
+				{field.javaType} {field.javaName}
+				{if fieldStatus.last}{else}, {endif}
+			{endloop}) throws SQLException {{{\n}
+
+				{if options.metrics}
+					{\t}{\t}{table.javaFieldName}InserterAccess.inc();{\n}
+				{endif}
+
+			{\t}{\t}int numResults = -1;{\n}
+			{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+
+			{\t}{\t}try {{{\n}
+			{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);{\n}
+
+			{loop table.fields as field}
+				{if field.nullable}
+					{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, null);{\n}
+				{else}
+					{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 				{endif}
 			{endloop}
 
-		{\t} * {\n}
-		{\t} * @return the number of rows that were inserted, or -1 if an error occurred{\n}
-		{\t} * {\n}
-		{\t} * @throws SQLException if there was an error in the SQL insert statement{\n}
-		{\t} */{\n}
-		{\t}public static int insert(Connection connection, {loop table.nonNullFields as field}
-					{field.javaType} {field.javaName}
-					{if fieldStatus.last}{else}, {endif}
-				{endloop}) throws SQLException {{{\n}
+			{\t}{\t}{\t}numResults = preparedStatement.executeUpdate();{\n}
+			{\t}{\t}} catch (SQLException sqlex) {{{\n}
+			{\t}{\t}{\t}throw sqlex;{\n}
+			{\t}{\t}} finally {{{\n}
+			{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
+			{\t}{\t}}{\n}
+			{\t}{\t}return(numResults);{\n}
+	{\t}}{\n}{\n}
 
-					{if options.metrics}
-						{\t}{\t}{table.javaFieldName}InserterAccess.inc();{\n}
-					{endif}
-
-				{\t}{\t}int numResults = -1;{\n}
-				{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-
-				{\t}{\t}try {{{\n}
-				{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);{\n}
-
-				{loop table.fields as field}
-					{if field.nullable}
-						{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, null);{\n}
-					{else}
-						{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
-					{endif}
-				{endloop}
-
-				{\t}{\t}{\t}numResults = preparedStatement.executeUpdate();{\n}
-				{\t}{\t}} catch (SQLException sqlex) {{{\n}
-				{\t}{\t}{\t}throw sqlex;{\n}
-				{\t}{\t}} finally {{{\n}
-				{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
-				{\t}{\t}}{\n}
-				{\t}{\t}return(numResults);{\n}
-		{\t}}{\n}{\n}
-
-	{endif}
-
+{endif}
 
 
 {\t}/**{\n}
@@ -245,6 +248,45 @@ public class {table.javaClassName}Inserter {{{\n}
 		{\t}{\t}return(numResults);{\n}
 		{\t}}{\n}{\n}
 
+
+{if table.hasNullableFields}
+	{\t}/**{\n}
+	{\t} * Insert a new {table.javaClassName} into the database a new connection will be retrieved {\n}
+	{\t} * from the pool, used and then closed. This is for fields which have a nullable allowed default{\n}
+	{\t} * {\n}
+		{loop table.nonNullFields as field}
+			{\t} * @param {field.javaName} {if fn:notNull[field.comment]}{comment}{else} maps to {field.name}{endif}{\n}
+		{endloop}
+
+	{\t} * {\n}
+	{\t} * @return the number of rows that were inserted, or -1 if an error occurred{\n}
+	{\t} * {\n}
+	{\t} * @throws SQLException if there was an error in the SQL insert statement{\n}
+	{\t} */{\n}
+	{\t}public static int insert({loop table.nonNullFields as field}
+			{field.javaType} {field.javaName}
+			{if fieldStatus.last}{else}, {endif}
+		{endloop}) throws SQLException {{{\n}
+
+		{\t}{\t}int numResults = -1;{\n}
+
+		{\t}{\t}Connection connection = null;{\n}
+
+		{\t}{\t}try {{{\n}
+		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+		{\t}{\t}{\t}numResults = insert(connection, {loop table.nonNullFields as field}
+			{field.javaName}
+			{if fieldStatus.last}{else}, {endif}
+		{endloop});{\n}
+		{\t}{\t}} catch (SQLException sqlex) {{{\n}
+		{\t}{\t}{\t}throw sqlex;{\n}
+		{\t}{\t}} finally {{{\n}
+		{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+		{\t}{\t}}{\n}
+		{\t}{\t}return(numResults);{\n}
+		{\t}}{\n}{\n}
+{endif}
+
 	{\t}/**{\n}
 	{\t} * Silently (i.e. swallow any exceptions) Insert a new {table.javaClassName} into the {\n}
 	{\t} * database utilising the passed in connection. If an exception is thrown by the{\n}
@@ -282,6 +324,51 @@ public class {table.javaClassName}Inserter {{{\n}
 		{\t}{\t}return(numResults);{\n}
 
 	{\t}}{\n}{\n}
+
+
+{if table.hasNullableFields}
+	{\t}/**{\n}
+	{\t} * Silently (i.e. swallow any exceptions) Insert a new {table.javaClassName} into the {\n}
+	{\t} * database utilising the passed in connection. If an exception is thrown by the{\n}
+	{\t} * method, the exception message will be logged as an 'error', if 'trace' logging{\n}
+	{\t} * is enabled, the stack trace will be printed to the output stream.{\n}
+	{\t} * {\n}
+	{\t} * This is only for Non-Nullable fields{\n}
+	{\t} * {\n}
+	{\t} * @param connection the connection to use for the database, this __MUST__ be {\n}
+	{\t} *   closed by the calling function.{\n}
+
+	{loop table.nonNullFields as field}
+		{\t} * @param {field.javaName} {if fn:notNull[field.comment]}{comment}{else} maps to {field.name}{endif}{\n}
+	{endloop}
+
+	{\t} * {\n}
+	{\t} * @return the number of rows that were inserted, or -1 if an error occurred{\n}
+	{\t} */{\n}
+	{\t}public static int insertSilent(Connection connection, {loop table.nonNullFields as field}
+			{field.javaType} {field.javaName}
+			{if fieldStatus.last}{else}, {endif}
+		{endloop}) {{{\n}
+
+		{\t}{\t}int numResults = -1;{\n}
+
+		{\t}{\t}try {{{\n}
+		{\t}{\t}{\t}numResults = insert(connection, {loop table.nonNullFields as field}
+			{field.javaName}
+			{if fieldStatus.last}{else}, {endif}
+		{endloop});{\n}
+		{\t}{\t}} catch (SQLException sqlex) {{{\n}
+		{\t}{\t}{\t}LOGGER.error("SQLException caught, message was: {{}", sqlex.getMessage());{\n}
+		{\t}{\t}{\t}if(LOGGER.isTraceEnabled()){{{\n}
+		{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+		{\t}{\t}{\t}}{\n}
+		{\t}{\t}}{\n}
+		{\t}{\t}return(numResults);{\n}
+
+	{\t}}{\n}{\n}
+{endif}
+
+
 
 	{\t}/**{\n}
 	{\t} * Silently (i.e. swallow any exceptions) Insert a new {table.javaClassName} into the {\n}
@@ -323,6 +410,53 @@ public class {table.javaClassName}Inserter {{{\n}
 		{\t}{\t}return(numResults);{\n}
 
 	{\t}}{\n}{\n}
+
+
+
+{if table.hasNullableFields}
+	{\t}/**{\n}
+	{\t} * Silently (i.e. swallow any exceptions) Insert a new {table.javaClassName} into the {\n}
+	{\t} * database, creating and closing a connection in the process. If an exception is thrown {\n}
+	{\t} * by the method, the exception message will be logged as an 'error', if 'trace' logging{\n}
+	{\t} * is enabled, the stack trace will be printed to the output stream.{\n}
+	{\t} * {\n}
+	{\t} * This is for non-nullabel fields only{\n}
+	{\t} * {\n}
+
+	{loop table.nonNullFields as field}
+		{\t} * @param {field.javaName} {if fn:notNull[field.comment]}{comment}{else} maps to {field.name}{endif}{\n}
+	{endloop}
+
+	{\t} * {\n}
+	{\t} * @return the number of rows that were inserted, or -1 if an error occurred{\n}
+	{\t} */{\n}
+	{\t}public static int insertSilent({loop table.nonNullFields as field}
+			{field.javaType} {field.javaName}
+			{if fieldStatus.last}{else}, {endif}
+		{endloop}) {{{\n}
+
+		{\t}{\t}int numResults = -1;{\n}
+
+		{\t}{\t}Connection connection = null;{\n}
+
+		{\t}{\t}try {{{\n}
+		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+		{\t}{\t}{\t}numResults = insert(connection, {loop table.nonNullFields as field}
+			{field.javaName}
+			{if fieldStatus.last}{else}, {endif}
+		{endloop});{\n}
+		{\t}{\t}} catch (SQLException sqlex) {{{\n}
+		{\t}{\t}{\t}LOGGER.error("SQLException caught, message was: {{}", sqlex.getMessage());{\n}
+		{\t}{\t}{\t}if(LOGGER.isTraceEnabled()){{{\n}
+		{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+		{\t}{\t}{\t}}{\n}
+		{\t}{\t}} finally {{{\n}
+		{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+		{\t}{\t}}{\n}
+		{\t}{\t}return(numResults);{\n}
+
+	{\t}}{\n}{\n}
+{endif}
 
 {--
   Now for the fields which have clobs or blobs
