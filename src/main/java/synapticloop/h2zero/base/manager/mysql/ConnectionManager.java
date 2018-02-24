@@ -1,7 +1,7 @@
 package synapticloop.h2zero.base.manager.mysql;
 
 /*
- * Copyright (c) 2012-2017 synapticloop.
+ * Copyright (c) 2012-2018 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -41,62 +41,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import synapticloop.h2zero.base.manager.BaseConnectionManager;
 
-public class ConnectionManager {
-	private static ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+public class ConnectionManager extends BaseConnectionManager {
 
-	private ConnectionManager() {}
-
-	public static Connection getConnection() throws SQLException {
-		return(comboPooledDataSource.getConnection());
-	}
-
-	public static void closeAll(Connection connection) {
-		closeAll(null, null, connection);
-	}
-
-	public static void closeAll(Statement statement, Connection connection) {
-		closeAll(null, statement, connection);
-	}
-
-	public static void closeAll(ResultSet resultSet, Statement statement) {
-		closeAll(resultSet, statement, null);
-	}
-
-	public static void closeAll(Statement statement) {
-		closeAll(null, statement, null);
-	}
-
-	public static void closeAll(ResultSet resultSet, Statement statement, Connection connection) {
-		if(null != resultSet) {
-			try {
-				resultSet.close();
-			} catch (SQLException jssqlex) {
-				// do nothing
-			} finally {
-				resultSet = null;
-			}
-		}
-
-		if(null != statement) {
-			try {
-				statement.close();
-			} catch (SQLException jssqlex) {
-				// do nothing
-			} finally {
-				statement = null;
-			}
-		}
-
-		if(null != connection) {
-			try {
-				connection.close();
-			} catch (SQLException jssqlex) {
-				// do nothing
-			} finally {
-				connection = null;
-			}
-		}
-	}
 
 	/**
 	 * Set a BIGINT datatype to a prepared statement with the value of the passed

@@ -43,7 +43,7 @@ public class Options {
 	private static Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
 	static {
 		ALLOWABLE_DATABASES.add("mysql");
-		ALLOWABLE_DATABASES.add("sqlite");
+		ALLOWABLE_DATABASES.add("sqlite3");
 	}
 
 	/*
