@@ -56,6 +56,7 @@ public class DatabaseFieldTypeConfirm {
 		mysqlSet.add("boolean");
 		mysqlSet.add("date");
 		mysqlSet.add("datetime");
+		mysqlSet.add("time");
 		mysqlSet.add("dec");
 		mysqlSet.add("decimal");
 		mysqlSet.add("double");

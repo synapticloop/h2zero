@@ -22,7 +22,7 @@
 },
 "database": {
 	"schema": "sample",
-	"package": "synapticloop.sample.sqlite3.h2zero",
+	"package": "synapticloop.sample.h2zero.sqlite3",
 	"defaultStatementCacheSize": 1024,
 
 	"tables": [

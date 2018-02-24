@@ -24,7 +24,7 @@
 			This is an in-built tag for the find by primary key method on the user_type table
 		</description>
 		<name>UserTypeFindByPrimaryKey</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userType.FindByPrimaryKeyTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userType.FindByPrimaryKeyTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -57,7 +57,7 @@
 			generated tag for the find all
 		</description>
 		<name>UserTypeFindAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userType.FindAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userType.FindAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -82,7 +82,7 @@
 			This is an in-built tag for the countAll function for the user_type table
 		</description>
 		<name>UserTypeCountAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userType.CountAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userType.CountAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -114,7 +114,7 @@
 			This is an in-built tag for the find by primary key method on the user_title table
 		</description>
 		<name>UserTitleFindByPrimaryKey</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userTitle.FindByPrimaryKeyTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userTitle.FindByPrimaryKeyTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -147,7 +147,7 @@
 			generated tag for the find all
 		</description>
 		<name>UserTitleFindAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userTitle.FindAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userTitle.FindAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -177,7 +177,7 @@
 			Automatically generated tag that maps to the findIdUserTitleNmUserTitleOrdered finder
 		</description>
 		<name>UserTitleFindIdUserTitleNmUserTitleOrdered</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userTitle.FindIdUserTitleNmUserTitleOrderedTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userTitle.FindIdUserTitleNmUserTitleOrderedTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -202,7 +202,7 @@
 			Automatically generated tag that maps to the findAllOrdered finder
 		</description>
 		<name>UserTitleFindAllOrdered</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userTitle.FindAllOrderedTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userTitle.FindAllOrderedTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -227,7 +227,7 @@
 			This is an in-built tag for the countAll function for the user_title table
 		</description>
 		<name>UserTitleCountAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userTitle.CountAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userTitle.CountAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -259,7 +259,7 @@
 			This is an in-built tag for the find by primary key method on the user table
 		</description>
 		<name>UserFindByPrimaryKey</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByPrimaryKeyTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindByPrimaryKeyTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -292,7 +292,7 @@
 			generated tag for the find all
 		</description>
 		<name>UserFindAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -322,7 +322,7 @@
 			Automatically generated tag that maps to the findByNumAge finder
 		</description>
 		<name>UserFindByNumAge</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByNumAgeTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindByNumAgeTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -355,7 +355,7 @@
 			Automatically generated tag that maps to the findByFlIsAliveNumAge finder
 		</description>
 		<name>UserFindByFlIsAliveNumAge</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByFlIsAliveNumAgeTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindByFlIsAliveNumAgeTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -396,7 +396,7 @@
 			Automatically generated tag that maps to the findByNmUsername finder
 		</description>
 		<name>UserFindByNmUsername</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByNmUsernameTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindByNmUsernameTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -429,7 +429,7 @@
 			Automatically generated tag that maps to the findByTxtAddressEmail finder
 		</description>
 		<name>UserFindByTxtAddressEmail</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByTxtAddressEmailTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindByTxtAddressEmailTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -462,7 +462,7 @@
 			Automatically generated tag that maps to the findByTxtAddressEmailTxtPassword finder
 		</description>
 		<name>UserFindByTxtAddressEmailTxtPassword</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByTxtAddressEmailTxtPasswordTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindByTxtAddressEmailTxtPasswordTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -503,7 +503,7 @@
 			Automatically generated tag that maps to the findNmUserDtmSignup finder
 		</description>
 		<name>UserFindNmUserDtmSignup</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindNmUserDtmSignupTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindNmUserDtmSignupTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -528,7 +528,7 @@
 			Automatically generated tag that maps to the findGroupNumAge finder
 		</description>
 		<name>UserFindGroupNumAge</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindGroupNumAgeTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindGroupNumAgeTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -553,7 +553,7 @@
 			Automatically generated tag that maps to the findByNumAgeIn finder
 		</description>
 		<name>UserFindByNumAgeIn</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByNumAgeInTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindByNumAgeInTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -586,7 +586,7 @@
 			Automatically generated tag that maps to the findByNumAgeBetween finder
 		</description>
 		<name>UserFindByNumAgeBetween</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.FindByNumAgeBetweenTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.FindByNumAgeBetweenTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -627,7 +627,7 @@
 			This is an in-built tag for the countAll function for the user table
 		</description>
 		<name>UserCountAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.CountAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.CountAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -657,7 +657,7 @@
 			counter tag generated tag for the countNumberOfUsers
 		</description>
 		<name>UserCountNumberOfUsers</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.CountNumberOfUsersTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.CountNumberOfUsersTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -682,7 +682,7 @@
 			counter tag generated tag for the countNumberOfUsersOverAge
 		</description>
 		<name>UserCountNumberOfUsersOverAge</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.CountNumberOfUsersOverAgeTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.CountNumberOfUsersOverAgeTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -715,7 +715,7 @@
 			counter tag generated tag for the countNumberOfUsersBetweenAge
 		</description>
 		<name>UserCountNumberOfUsersBetweenAge</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.CountNumberOfUsersBetweenAgeTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.CountNumberOfUsersBetweenAgeTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -756,7 +756,7 @@
 			counter tag generated tag for the countUsersInAges
 		</description>
 		<name>UserCountUsersInAges</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.CountUsersInAgesTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.CountUsersInAgesTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -794,7 +794,7 @@
 			generated tag for the doWeHaveMoreThanTwentyUsers
 		</description>
 		<name>UserDoWeHaveMoreThanTwentyUsers</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.DoWeHaveMoreThanTwentyUsersTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.DoWeHaveMoreThanTwentyUsersTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -819,7 +819,7 @@
 			generated tag for the doesUserNameExist
 		</description>
 		<name>UserDoesUserNameExist</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.DoesUserNameExistTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.DoesUserNameExistTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -844,7 +844,7 @@
 			generated tag for the doWeHaveUsersBetweenAgeExclusive
 		</description>
 		<name>UserDoWeHaveUsersBetweenAgeExclusive</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.DoWeHaveUsersBetweenAgeExclusiveTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.DoWeHaveUsersBetweenAgeExclusiveTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -885,7 +885,7 @@
 			generated tag for the doWeHaveUsersInAges
 		</description>
 		<name>UserDoWeHaveUsersInAges</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.user.DoWeHaveUsersInAgesTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.user.DoWeHaveUsersInAgesTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -925,7 +925,7 @@
 			This is an in-built tag for the find by primary key method on the pet table
 		</description>
 		<name>PetFindByPrimaryKey</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.pet.FindByPrimaryKeyTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.pet.FindByPrimaryKeyTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -958,7 +958,7 @@
 			generated tag for the find all
 		</description>
 		<name>PetFindAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.pet.FindAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.pet.FindAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -983,7 +983,7 @@
 			This is an in-built tag for the countAll function for the pet table
 		</description>
 		<name>PetCountAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.pet.CountAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.pet.CountAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -1015,7 +1015,7 @@
 			This is an in-built tag for the find by primary key method on the user_pet table
 		</description>
 		<name>UserPetFindByPrimaryKey</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userPet.FindByPrimaryKeyTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userPet.FindByPrimaryKeyTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -1048,7 +1048,7 @@
 			generated tag for the find all
 		</description>
 		<name>UserPetFindAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userPet.FindAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userPet.FindAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>
@@ -1073,7 +1073,7 @@
 			This is an in-built tag for the countAll function for the user_pet table
 		</description>
 		<name>UserPetCountAll</name>
-		<tag-class>synapticloop.sample.h2zero.taglib.userPet.CountAllTag</tag-class>
+		<tag-class>synapticloop.sample.h2zero.sqlite3.taglib.userPet.CountAllTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>

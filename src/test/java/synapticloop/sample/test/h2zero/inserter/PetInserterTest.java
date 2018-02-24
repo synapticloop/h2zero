@@ -21,9 +21,9 @@ import org.junit.Test;
 
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
-import synapticloop.sample.h2zero.finder.PetFinder;
+import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 //import synapticloop.sample.h2zero.inserter.PetInserter;
-import synapticloop.sample.h2zero.model.Pet;
+import synapticloop.sample.h2zero.mysql.model.Pet;
 import synapticloop.sample.test.h2zero.utils.Helper;
 
 public class PetInserterTest {

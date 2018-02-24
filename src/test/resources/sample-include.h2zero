@@ -19,7 +19,7 @@
 },
 "database": {
 	"schema": "sample",
-	"package": "synapticloop.sample.h2zero",
+	"package": "synapticloop.sample.h2zero.mysql",
 	"defaultStatementCacheSize": 1024,
 
 	"tables": [
