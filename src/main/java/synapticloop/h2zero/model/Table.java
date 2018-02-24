@@ -81,6 +81,7 @@ public class Table extends BaseSchemaObject {
 
 	private boolean hasLargeObject = false;
 	private boolean hasForeignKey = false;
+	private boolean hasNullableFields = false;
 
 	// all fields that are not marked as secure
 	private List<BaseField> nonSecureFields = new ArrayList<BaseField>();
@@ -229,6 +230,11 @@ public class Table extends BaseSchemaObject {
 
 					if(!baseField.getNullable()) {
 						nonNullFields.add(baseField);
+					}
+
+					// test to see whether any of the fields can be nullable (for the inserters)
+					if(baseField.getNullable()) {
+						hasNullableFields = true;
 					}
 
 					if(!baseField.getPrimary()) {
@@ -535,6 +541,8 @@ public class Table extends BaseSchemaObject {
 	public boolean getHasNonNullConstructor() { return(nonNullFields.size() != fields.size()); }
 	public boolean getHasLargeObject() { return hasLargeObject; }
 	public boolean getHasQuestions() { return(!questions.isEmpty()); }
+
+	public boolean getHasNullableFields() { return(hasNullableFields); }
 
 	public boolean getIsConstant() { return(!constants.isEmpty()); }
 

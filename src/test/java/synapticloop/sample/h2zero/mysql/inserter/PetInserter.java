@@ -124,40 +124,6 @@ public class PetInserter {
 	}
 
 	/**
-	 * Insert a new Pet into the database utilising the passed in connection 
-	 * with only the fields that are allowed to be not null.
-	 * 
-	 * @param connection the connection to use for the database, this __MUST__ be 
-	 *   closed by the calling function.
-	 * @param idPet  maps to id_pet
-	 * @param nmPet  maps to nm_pet
-	 * @param numAge  maps to num_age
-	 * 
-	 * @return the number of rows that were inserted, or -1 if an error occurred
-	 * 
-	 * @throws SQLException if there was an error in the SQL insert statement
-	 */
-	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigint(preparedStatement, 1, idPet);
-			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
-			ConnectionManager.setInt(preparedStatement, 3, numAge);
-			ConnectionManager.setFloat(preparedStatement, 4, null);
-			ConnectionManager.setDate(preparedStatement, 5, null);
-			ConnectionManager.setBlobInputStream(preparedStatement, 6, null);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
-		}
-		return(numResults);
-	}
-
-	/**
 	 * Insert a new Pet into the database a new connection will be retrieved 
 	 * from the pool, used and then closed.
 	 * 
