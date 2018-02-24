@@ -1,5 +1,22 @@
 package synapticloop.h2zero.model;
 
+/*
+ * Copyright (c) 2012-2018 synapticloop.
+ * All rights reserved.
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENCE shipped with
+ * this source code or binaries.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * Licence for the specific language governing permissions and limitations
+ * under the Licence.
+ */
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -30,24 +47,25 @@ public class Table extends BaseSchemaObject {
 
 	private static List<String> ignoredKeys = new ArrayList<String>();
 	static {
-		ignoredKeys.add("comment");
-		ignoredKeys.add("cacheable");
-		ignoredKeys.add("cacheFindAll");
+		ignoredKeys.add(JSONKeyConstants.COMMENT);
+		ignoredKeys.add(JSONKeyConstants.CACHEABLE);
+		ignoredKeys.add(JSONKeyConstants.CACHE_FIND_ALL);
 	}
 
 	public static Set<String> ALLOWABLE_KEYS = new HashSet<String>();
 	static {
-		ALLOWABLE_KEYS.add("name");
-		ALLOWABLE_KEYS.add("comments");
-		ALLOWABLE_KEYS.add("fields");
-		ALLOWABLE_KEYS.add("constants");
-		ALLOWABLE_KEYS.add("fieldFinders");
-		ALLOWABLE_KEYS.add("finders");
-		ALLOWABLE_KEYS.add("questions");
-		ALLOWABLE_KEYS.add("updaters");
-		ALLOWABLE_KEYS.add("counters");
-		ALLOWABLE_KEYS.add("deleters");
-		ALLOWABLE_KEYS.add("inserters");
+		ALLOWABLE_KEYS.add(JSONKeyConstants.NAME);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.COMMENTS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELDS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.CONSTANTS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_FINDERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_NULL_FINDERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FINDERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.QUESTIONS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.UPDATERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.COUNTERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.DELETERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.INSERTERS);
 	}
 
 	private static Map<String, String> replacementKeys = new HashMap<String, String>();
@@ -127,6 +145,7 @@ public class Table extends BaseSchemaObject {
 	 * Populate all of the actions that can be performed on this table, including 
 	 *  <ul>
 	 *    <li>field finders</li>
+	 *    <li>field null finders</li>
 	 *    <li>finders</li>
 	 *    <li>updaters</li>
 	 *    <li>deleters</li>
@@ -140,6 +159,7 @@ public class Table extends BaseSchemaObject {
 	 */
 	public void populateActions() throws H2ZeroParseException {
 		populateFieldFinders(jsonObject);
+		populateFieldNullFinders(jsonObject);
 		populateFinders(jsonObject);
 		populateFieldUpdaters(jsonObject);
 		populateUpdaters(jsonObject);

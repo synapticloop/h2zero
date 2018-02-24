@@ -1,5 +1,22 @@
 package synapticloop.h2zero.model;
 
+/*
+ * Copyright (c) 2012-2018 synapticloop.
+ * All rights reserved.
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENCE shipped with
+ * this source code or binaries.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * Licence for the specific language governing permissions and limitations
+ * under the Licence.
+ */
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +38,13 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
+/**
+ * The base query object is the helper methods for all of the actions that can 
+ * occur on the models and schema objects - e.g. finders, updaters, counters, 
+ * questions, deleters, etc.
+ * 
+ * @author synapticloop
+ */
 public abstract class BaseQueryObject {
 	public static enum UsageType {
 		OPTIONAL,
