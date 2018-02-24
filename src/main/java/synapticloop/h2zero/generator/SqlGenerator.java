@@ -30,8 +30,6 @@ public class SqlGenerator extends Generator {
 			return;
 		}
 
-		Parser sqlCreateDatabaseParser = getParser("/sql-create-database.templar");
-
 		TemplarContext templarContext = null;
 		try {
 			templarContext = getDefaultTemplarContext();

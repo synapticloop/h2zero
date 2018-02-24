@@ -2,8 +2,6 @@
 --     with the use of synapticloop templar templating language
 --              (sql-create-database-sqlite3.templar)
 
--- the following will stop mysql from outputting 'notes' as warnings
-set sql_notes=0;
 drop database if exists sample;
 create database sample;
 
