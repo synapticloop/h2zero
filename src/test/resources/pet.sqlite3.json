@@ -9,7 +9,7 @@
 		{ "name": "num_age", "type": "int", "nullable": false },
 		{ "name": "flt_weight", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
 		{ "name": "dt_birthday", "type": "date", "nullable": true },
-		{ "name": "img_photo", "type": "clob", "nullable": true }
+		{ "name": "img_photo", "type": "varchar", "length": 256, "nullable": true }
 	],
 	"fieldFinders": [
 		{ "nm_pet,num_age": "single" }

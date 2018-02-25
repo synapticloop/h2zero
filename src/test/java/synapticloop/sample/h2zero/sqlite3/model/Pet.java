@@ -94,7 +94,7 @@ public class Pet extends ModelBase {
 		ConnectionManager.setInt(preparedStatement, 3, numAge);
 		ConnectionManager.setFloat(preparedStatement, 4, fltWeight);
 		ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
-		ConnectionManager.setClob(preparedStatement, 6, imgPhoto);
+		ConnectionManager.setVarchar(preparedStatement, 6, imgPhoto);
 		preparedStatement.executeUpdate();
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
 		if(resultSet.next()) {
@@ -112,7 +112,7 @@ public class Pet extends ModelBase {
 		ConnectionManager.setInt(preparedStatement, 2, numAge);
 		ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 		ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
-		ConnectionManager.setClob(preparedStatement, 5, imgPhoto);
+		ConnectionManager.setVarchar(preparedStatement, 5, imgPhoto);
 		ResultSet resultSet = preparedStatement.executeQuery();
 		if(resultSet.next()) {
 			this.idPet = resultSet.getLong(1);
@@ -135,7 +135,7 @@ public class Pet extends ModelBase {
 			ConnectionManager.setInt(preparedStatement, 2, numAge);
 			ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 			ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
-			ConnectionManager.setClob(preparedStatement, 5, imgPhoto);
+			ConnectionManager.setVarchar(preparedStatement, 5, imgPhoto);
 			// now set the primary key
 			preparedStatement.setLong(6, idPet);
 			preparedStatement.executeUpdate();
