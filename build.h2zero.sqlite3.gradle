@@ -1,0 +1,33 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		jcenter()
+		mavenLocal()
+		maven {
+			url "https://plugins.gradle.org/"
+		}
+	}
+
+	dependencies {
+		classpath 'synapticloop:h2zero:2.0.0'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'eclipse'
+}
+
+apply plugin: 'synapticloop.h2zero'
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	jcenter()
+}
+
+h2zero {
+	inFile = 'src/test/resources/sample-include-sqlite3.h2zero'
+	outDir = '.'
+	verbose = 'false'
+}

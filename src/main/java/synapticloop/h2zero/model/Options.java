@@ -41,6 +41,7 @@ public class Options {
 	public static final String OPTION_WEBAPP = "webapp";
 	public static final String OPTION_RESTFUL_SERVLET = "restfulservlet";
 	public static final String OPTION_REPORTS = "reports";
+	public static final String OPTION_DATABASE = "reports";
 
 	public static final String OPTION_OUTPUT = "output";
 
@@ -55,25 +56,20 @@ public class Options {
 		ALLOWABLE_GENERATORS.add(OPTION_REPORTS);
 	}
 
-	private static Set<String> ALLOWABLE_LOGGERS = new HashSet<String>();
-	static {
-		ALLOWABLE_LOGGERS.add("");
-		ALLOWABLE_LOGGERS.add("log4j");
-		ALLOWABLE_LOGGERS.add("slf4j");
-	}
+	public static final String DATABASE_MYSQL = "mysql";
+	public static final String DATABASE_SQLITE3 = "sqlite3";
 
 	private static Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
 	static {
-		ALLOWABLE_DATABASES.add("mysql");
-		ALLOWABLE_DATABASES.add("sqlite");
+		ALLOWABLE_DATABASES.add(DATABASE_MYSQL);
+		ALLOWABLE_DATABASES.add(DATABASE_SQLITE3);
 	}
 
 	/*
 	 * INSTANCE VARIABLES
 	 */
 	private boolean metrics = false;
-	private String logging = "";
-	private String database = "mysql";
+	private String database = DATABASE_MYSQL;
 	private String outputJava = "/src/main/java/";
 	private String outputSql = "/src/main/sql/";
 	private String outputWebapp = "/src/main/webapps/";
@@ -89,8 +85,7 @@ public class Options {
 		}
 
 		this.metrics = optionsJson.optBoolean("metrics", false);
-		this.logging = optionsJson.optString("logging", "");
-		this.database = optionsJson.optString("database", "mysql");
+		this.database = optionsJson.optString("database", DATABASE_MYSQL);
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "Generating for database type '" + database + "'.");
 
 		JSONArray generatorArray = optionsJson.optJSONArray("generators");
@@ -117,10 +112,6 @@ public class Options {
 		while (disabledIterator.hasNext()) {
 			String next = disabledIterator.next();
 			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ DISABLED ] Generator '" + next + "'");
-		}
-
-		if(!ALLOWABLE_LOGGERS.contains(this.getLogging())) {
-			throw new H2ZeroParseException("Unknown logging type of '" + this.logging + "'.");
 		}
 
 		updateValidators(optionsJson.optJSONObject("validators"));
@@ -201,9 +192,6 @@ public class Options {
 	public boolean hasGenerators() { return(!generators.isEmpty()); }
 	public boolean getMetrics() { return metrics; }
 	public void setMetrics(boolean metrics) { this.metrics = metrics; }
-	public String getLogging() { return logging; }
-	public void setLogging(String logging) { this.logging = logging; }
-	public boolean hasLogging() { return(!"".equals(this.logging)); }
 	public String getDatabase() { return database; }
 	public void setDatabase(String database) { this.database = database; }
 

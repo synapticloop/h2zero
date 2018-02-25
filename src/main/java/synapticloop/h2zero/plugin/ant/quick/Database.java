@@ -48,7 +48,6 @@ public class Database {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
 		stringBuilder.append("\"options\": {\n");
-		stringBuilder.append("\t\"logging\": \"log4j\",\n");
 
 		// now for the generators
 		stringBuilder.append("\t\"generators\": [ ");

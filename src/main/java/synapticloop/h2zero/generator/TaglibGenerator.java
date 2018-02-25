@@ -32,7 +32,6 @@ import synapticloop.templar.utils.TemplarContext;
  * </ul>
  * 
  * @author synapticloop
- *
  */
 public class TaglibGenerator extends Generator {
 
@@ -137,8 +136,8 @@ public class TaglibGenerator extends Generator {
 		}
 
 
-		// the finder tld
-		String pathname = outFile.getAbsolutePath() + options.getOutputWebapp() + "/WEB-INF/tld/" + database.getSchema() + ".tld";
+		// the finder tld - for each database type
+		String pathname = outFile.getAbsolutePath() + options.getOutputWebapp() + "/WEB-INF/tld/" + database.getSchema() + "." + options.getDatabase() +".tld";
 		renderToFile(templarContext, tldCreateLibraryParser, pathname);
 	}
 }

@@ -96,7 +96,7 @@
 	"counters": [
 		{
 			"name": "countNumberOfUsers",
-			"selectClause": "select count(*) from user",
+			"selectClause": "select count(*) from user"
 		},
 		{
 			"name": "countNumberOfUsersOverAge",

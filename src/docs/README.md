@@ -1,4 +1,10 @@
 
+# VERSION 2
+
+    This now only supports slf4j logging API and as such the 
+    "logging" key has been removed from the "options" JSON object
+
+
 This is a object relationship mapper for MySQL and Java.
 
 Whilst still a work in progress, database persistence is fully supported and running in production environments.

@@ -4,24 +4,24 @@ plugins {
 	id "maven"
 	id "maven-publish"
 
-	id "com.github.ben-manes.versions" version "0.13.0"
-	id "com.github.johnrengelman.shadow" version "1.2.4"
-	id "com.jfrog.bintray" version "1.7.3"
+	id "com.github.ben-manes.versions" version "0.17.0"
+	id "com.github.johnrengelman.shadow" version "2.0.2"
+	id "com.jfrog.bintray" version "1.8.0"
 
-	id 'com.gradle.plugin-publish' version '0.9.7'
+	id 'com.gradle.plugin-publish' version '0.9.10'
 	id 'co.riiid.gradle' version '0.4.2'
-	id 'net.saliman.cobertura' version '2.2.6'
+	id 'net.saliman.cobertura' version '2.5.4'
 
 	id 'synapticloop.copyrightr' version '1.1.2'
-	id 'synapticloop.documentr' version '2.6.1'
+	id 'synapticloop.documentr' version '2.9.0'
 }
 
 group = 'synapticloop'
 archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql, java and optionally jsp/servlets"""
-version = '1.4.14'
+version = '2.0.0'
 
-//tasks.withType(Javadoc).all { enabled = false }
+tasks.withType(Javadoc).all { enabled = false }
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -37,34 +37,40 @@ configurations {
 
 dependencies {
 	runtime 'synapticloop:templar:1.4.4'
-	runtime 'org.json:json:20160212'
+	runtime 'org.json:json:20180130'
 	runtime 'com.mchange:c3p0:0.9.5.2'
-	runtime 'commons-validator:commons-validator:1.5.1'
-	runtime 'org.apache.logging.log4j:log4j-core:2.4.1'
+	runtime 'commons-validator:commons-validator:1.6'
+	runtime 'org.slf4j:slf4j-api:1.7.25'
 	runtime 'io.dropwizard.metrics:metrics-core:3.1.2'
-	runtime 'javax.mail:javax.mail-api:1.5.6'
+	runtime 'javax.mail:javax.mail-api:1.6.1'
 
 	compile gradleApi()
 	compile 'synapticloop:templar:1.4.4'
-	compile 'org.json:json:20160212'
-	compile 'org.apache.ant:ant:1.9.7'
+	compile 'org.json:json:20180130'
+	compile 'org.apache.ant:ant:1.10.2'
 	compile 'javax.servlet.jsp:jsp-api:2.2'
 	compile 'javax.servlet:javax.servlet-api:3.1.0'
 	compile 'com.mchange:c3p0:0.9.5.2'
-	compile 'commons-validator:commons-validator:1.5.1'
-	compile 'org.apache.logging.log4j:log4j-core:2.7'
+	compile 'commons-validator:commons-validator:1.6'
+
+	compile 'org.slf4j:slf4j-api:1.7.25'
+	compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.10.0'
+	compile 'org.apache.logging.log4j:log4j-core:2.10.0'
+
 	compile 'io.dropwizard.metrics:metrics-core:3.1.2'
-	compile 'javax.mail:javax.mail-api:1.5.6'
-	compile 'com.github.stefanbirkner:system-rules:1.16.1'
+	compile 'javax.mail:javax.mail-api:1.6.1'
+	compile 'com.github.stefanbirkner:system-rules:1.17.1'
 
 	shadowRuntime 'synapticloop:templar:1.4.4'
-	shadowRuntime 'org.json:json:20160212'
-	shadowRuntime 'org.apache.ant:ant:1.9.7'
+	shadowRuntime 'org.json:json:20180130'
+	shadowRuntime 'org.apache.ant:ant:1.10.2'
 	
 
 	testRuntime 'junit:junit:4.12'
 	testRuntime 'org.mockito:mockito-all:1.10.19'
 	testRuntime 'com.github.stefanbirkner:system-rules:1.16.1'
+	testRuntime 'mysql:mysql-connector-java:6.0.6'
+	testRuntime 'org.xerial:sqlite-jdbc:3.21.0.1'
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.mockito:mockito-all:1.10.19'
@@ -80,6 +86,14 @@ jar {
 
 cobertura {
 	coverageFormats = [ 'html', 'xml']
+	coverageDirs = [
+		project.sourceSets.main.output.classesDir,
+		file("build/classes/test/")
+	]
+	coverageSourceDirs = [ 
+		project.sourceSets.main.java.srcDirs, 
+		file("src/test/java/")
+	]
 }
 
 test {
@@ -89,6 +103,19 @@ test {
 
 shadowJar {
 	configurations = [project.configurations.shadowRuntime]
+}
+
+dependencyUpdates.resolutionStrategy = {
+	componentSelection { rules ->
+		rules.all { ComponentSelection selection ->
+			boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm', 'b', 'dmr'].any { qualifier ->
+				selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+			}
+			if (rejected) {
+				selection.reject('Release candidate')
+			}
+		}
+	}
 }
 
 def javaApiUrl = 'http://docs.oracle.com/javase/1.7.0/docs/api/'

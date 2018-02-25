@@ -59,6 +59,9 @@ import synapticloop.h2zero.validator.field.FieldDefaultValueValidator;
 import synapticloop.h2zero.validator.field.FieldIgnoredKeysValidator;
 import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.field.FieldNotNullLengthValidator;
+import synapticloop.h2zero.validator.field.SQLite3FieldBlobValidator;
+import synapticloop.h2zero.validator.field.SQLite3FieldClobValidator;
+import synapticloop.h2zero.validator.field.SQLite3FieldPrimaryKeyValidator;
 import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
 import synapticloop.h2zero.validator.finder.FinderInQueryValidator;
 import synapticloop.h2zero.validator.finder.FinderNameValidator;
@@ -125,6 +128,10 @@ public class H2ZeroParser {
 		validators.add(new FieldNameDuplicateValidator());
 		validators.add(new FieldIgnoredKeysValidator());
 		validators.add(new FieldNotNullLengthValidator());
+
+		validators.add(new SQLite3FieldBlobValidator());
+		validators.add(new SQLite3FieldClobValidator());
+		validators.add(new SQLite3FieldPrimaryKeyValidator());
 
 
 		// Finder validators
@@ -223,7 +230,7 @@ public class H2ZeroParser {
 		this.options = new Options(jsonObject);
 
 		// now do the actual parsing
-		this.database = new Database(jsonObject);
+		this.database = new Database(options, jsonObject);
 
 		// now that we have parsed the file - go through and update the validator options
 

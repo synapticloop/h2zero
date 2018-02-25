@@ -30,8 +30,6 @@ public class SqlGenerator extends Generator {
 			return;
 		}
 
-		Parser sqlCreateDatabaseParser = getParser("/sql-create-database.templar");
-
 		TemplarContext templarContext = null;
 		try {
 			templarContext = getDefaultTemplarContext();
@@ -39,10 +37,14 @@ public class SqlGenerator extends Generator {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
 
-		SimpleLogger.logInfo(LoggerType.GENERATE_SQL, "Generating for database '" + database.getSchema() + "'.");
+		String databaseType = options.getDatabase();
+		Parser sqlCreateDatabaseTypeParser = getParser("/sql-create-database-" + databaseType+ ".templar");
+
+		SimpleLogger.logInfo(LoggerType.GENERATE_SQL, "Generating for database '" + database.getSchema() + "', of type '" + databaseType + ".");
+
 		// first up the database creation script
-		String pathname = outFile.getAbsolutePath() + options.getOutputSql() + "/create-database.sql";
-		renderToFile(templarContext, sqlCreateDatabaseParser, pathname);
+		String pathname = outFile.getAbsolutePath() + options.getOutputSql() + "/create-database-" + databaseType + ".sql";
+		renderToFile(templarContext, sqlCreateDatabaseTypeParser, pathname);
 	}
 
 }

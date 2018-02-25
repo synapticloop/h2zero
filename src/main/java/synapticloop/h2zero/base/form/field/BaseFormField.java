@@ -5,14 +5,15 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import synapticloop.h2zero.util.JsonHelper;
 
 public abstract class BaseFormField {
-	private static final Logger LOGGER = LogManager.getLogger(BaseFormField.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BaseFormField.class);
+
 
 	// the name of the field to that is bound - i.e. <input type="text" name="firstname" />
 	// the input attribute of 'name'
