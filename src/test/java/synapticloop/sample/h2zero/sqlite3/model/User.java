@@ -34,6 +34,20 @@ public class User extends ModelBase {
 	private static final String SQL_DELETE = "delete from user where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user where id_user_type = ? and fl_is_alive = ? and num_age = ? and nm_username = ? and txt_address_email = ? and txt_password = ? and dtm_signup = ?";
 
+
+// Static lookups for fields in the hit counter.
+	public static final int HIT_TOTAL = 0;
+	public static final int HIT_PRIMARY_KEY = 0;
+	public static final int HIT_ID_USER = 1;
+	public static final int HIT_ID_USER_TYPE = 2;
+	public static final int HIT_FL_IS_ALIVE = 3;
+	public static final int HIT_NUM_AGE = 4;
+	public static final int HIT_NM_USERNAME = 5;
+	public static final int HIT_TXT_ADDRESS_EMAIL = 6;
+	public static final int HIT_TXT_PASSWORD = 7;
+	public static final int HIT_DTM_SIGNUP = 8;
+
+
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_user", "id_user_type", "fl_is_alive", "num_age", "nm_username", "txt_address_email", "txt_password", "dtm_signup" };
 	// the number of read-hits for a particular field
@@ -79,7 +93,7 @@ public class User extends ModelBase {
 	@Override
 	public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot insert bean when primary key is not null.");
+			throw new H2ZeroPrimaryKeyException("Cannot insert user model when primary key is not null.");
 		}
 		// create this bean 
 		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);

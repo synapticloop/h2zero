@@ -34,6 +34,18 @@ public class Pet extends ModelBase {
 	private static final String SQL_DELETE = "delete from pet where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ? and img_photo = ?";
 
+
+// Static lookups for fields in the hit counter.
+	public static final int HIT_TOTAL = 0;
+	public static final int HIT_PRIMARY_KEY = 0;
+	public static final int HIT_ID_PET = 1;
+	public static final int HIT_NM_PET = 2;
+	public static final int HIT_NUM_AGE = 3;
+	public static final int HIT_FLT_WEIGHT = 4;
+	public static final int HIT_DT_BIRTHDAY = 5;
+	public static final int HIT_IMG_PHOTO = 6;
+
+
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_pet", "nm_pet", "num_age", "flt_weight", "dt_birthday", "img_photo" };
 	// the number of read-hits for a particular field
@@ -73,7 +85,7 @@ public class Pet extends ModelBase {
 	@Override
 	public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot insert bean when primary key is not null.");
+			throw new H2ZeroPrimaryKeyException("Cannot insert pet model when primary key is not null.");
 		}
 		// create this bean 
 		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);

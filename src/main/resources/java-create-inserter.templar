@@ -194,7 +194,12 @@ public class {table.javaClassName}Inserter {{{\n}
 
 			{loop table.fields as field}
 				{if field.nullable}
-					{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, null);{\n}
+					{if field.isLargeObject}
+						{\t}{\t}{\t}{field.javaType} {field.javaName}{field.javaType} = null;{\n}
+						{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName}{field.javaType});{\n}
+					{else}
+						{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, null);{\n}
+					{endif}
 				{else}
 					{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 				{endif}

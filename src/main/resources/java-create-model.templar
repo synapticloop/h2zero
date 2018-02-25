@@ -137,12 +137,19 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	}
 	{\t}private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from {table.name} where 
 	{loop table.fields as field}
-			{if !field.primary}
-				{field.name} = ?
-				{if !fieldStatus.last} and {endif}
-			{endif}
-		{endloop}";{\n}
+		{if !field.primary}
+			{field.name} = ?
+			{if !fieldStatus.last} and {endif}
+		{endif}
+	{endloop}";{\n}
 
+{\n}
+{\n}// Static lookups for fields in the hit counter.{\n}
+	{\t}public static final int HIT_TOTAL = 0;{\n}
+	{\t}public static final int HIT_PRIMARY_KEY = 0;{\n}
+	{loop table.fields as field}
+		{\t}public static final int HIT_{field.upperName} = {fieldStatus.index};{\n}
+	{endloop}{\n}
 	{\n}
 	{\t}// the list of fields for the hit - starting with 'TOTAL'{\n}
 	{\t}private static final String[] HIT_FIELDS = {{ "TOTAL", {loop table.fields as field}"{field.name}"{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
@@ -235,7 +242,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{endif}
 
 	{\t}{\t}if(primaryKeySet()) {{{\n}
-	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot insert bean when primary key is not null.");{\n}
+	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot insert {table.name} model when primary key is not null.");{\n}
 	{\t}{\t}}{\n}
 	{\t}{\t}// create this bean {\n}
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);{\n}
