@@ -28,7 +28,7 @@ public class UserTypeCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TYPE_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeCounter.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeCounter.class);
 
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from user_type";

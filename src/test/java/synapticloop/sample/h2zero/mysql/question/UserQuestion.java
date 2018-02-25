@@ -31,7 +31,7 @@ public class UserQuestion {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserQuestion.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(UserQuestion.class);
 
 
 

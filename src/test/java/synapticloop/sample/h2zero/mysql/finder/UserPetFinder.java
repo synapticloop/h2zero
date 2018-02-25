@@ -31,7 +31,7 @@ public class UserPetFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_PET_BINDER;
 
-private static final Logger LOGGER = LoggerFactory.getLogger(PetFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PetFinder.class);
 	private static final String SQL_SELECT_START = "select id_user_pet, id_user, id_pet from user_pet";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_pet = ?";
 
@@ -296,11 +296,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PetFinder.class);
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static UserPet uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
-		if(resultSet.first()) {
+		if(resultSet.next()) {
 			// we have a result
-			Long idUserPet = resultSet.getLong(1);
-			Long idUser = resultSet.getLong(2);
-			Long idPet = resultSet.getLong(3);
+			Long idUserPet = ConnectionManager.getNullableResultLong(resultSet, 1);
+			Long idUser = ConnectionManager.getNullableResultLong(resultSet, 2);
+			Long idPet = ConnectionManager.getNullableResultLong(resultSet, 3);
 
 			UserPet userPet = new UserPet(idUserPet, idUser, idPet);
 
@@ -329,9 +329,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(PetFinder.class);
 		List<UserPet> arrayList = new ArrayList<UserPet>();
 		while(resultSet.next()) {
 			arrayList.add(new UserPet(
-					resultSet.getLong(1),
-					resultSet.getLong(2),
-					resultSet.getLong(3)));
+					ConnectionManager.getNullableResultLong(resultSet, 1),
+					ConnectionManager.getNullableResultLong(resultSet, 2),
+					ConnectionManager.getNullableResultLong(resultSet, 3)));
 		}
 		return(arrayList);
 	}

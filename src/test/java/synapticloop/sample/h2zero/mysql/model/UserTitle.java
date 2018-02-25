@@ -72,11 +72,11 @@ public class UserTitle {
 		stringBuilder.append("{\n");
 		stringBuilder.append("  \"model\": {\n");
 		stringBuilder.append("    \"name\": \"UserTitle\",\n");
-		stringBuilder.append("    \"fields\": [\n");
-		stringBuilder.append("     { \"name\": \"idUserTitle\", \"value\": " + this.idUserTitle + " }, \n");
-		stringBuilder.append("     { \"name\": \"nmUserTitle\", \"value\": \"" + this.nmUserTitle + "\" }, \n");
-		stringBuilder.append("     { \"name\": \"numOrderBy\", \"value\": " + this.numOrderBy + " }\n");
-		stringBuilder.append("    ]\n");
+		stringBuilder.append("    \"fields\": {\n");
+		stringBuilder.append("     \"idUserTitle\": " + this.idUserTitle + " , \n");
+		stringBuilder.append("     \"nmUserTitle\": \"" + this.nmUserTitle + "\" , \n");
+		stringBuilder.append("     \"numOrderBy\": " + this.numOrderBy + " \n");
+		stringBuilder.append("    }\n");
 		stringBuilder.append("  }\n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());

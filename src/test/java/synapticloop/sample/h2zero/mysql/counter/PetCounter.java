@@ -28,7 +28,7 @@ public class PetCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PetCounter.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(PetCounter.class);
 
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from pet";

@@ -68,10 +68,10 @@ public class UserType {
 		stringBuilder.append("{\n");
 		stringBuilder.append("  \"model\": {\n");
 		stringBuilder.append("    \"name\": \"UserType\",\n");
-		stringBuilder.append("    \"fields\": [\n");
-		stringBuilder.append("     { \"name\": \"idUserType\", \"value\": " + this.idUserType + " }, \n");
-		stringBuilder.append("     { \"name\": \"nmUserType\", \"value\": \"" + this.nmUserType + "\" }\n");
-		stringBuilder.append("    ]\n");
+		stringBuilder.append("    \"fields\": {\n");
+		stringBuilder.append("     \"idUserType\": " + this.idUserType + " , \n");
+		stringBuilder.append("     \"nmUserType\": \"" + this.nmUserType + "\" \n");
+		stringBuilder.append("    }\n");
 		stringBuilder.append("  }\n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());

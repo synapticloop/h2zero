@@ -33,11 +33,11 @@ public class PetFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_BINDER;
 
-private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 	private static final String SQL_SELECT_START = "select id_pet, nm_pet, num_age, flt_weight, dt_birthday, img_photo from pet";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
 
-	private static final String SQL_FIND_BY_NM_PET_NUM_AGE = SQL_SELECT_START + " where nm_pet = ?num_age = ?, ";
+	private static final String SQL_FIND_BY_NM_PET_NUM_AGE = SQL_SELECT_START + " where nm_pet = ? and num_age = ?";
 
 	// now for the statement limit cache(s)
 	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
@@ -420,23 +420,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static Pet uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
-		if(resultSet.first()) {
+		if(resultSet.next()) {
 			// we have a result
-			Long idPet = resultSet.getLong(1);
-			String nmPet = resultSet.getString(2);
-			Integer numAge = resultSet.getInt(3);
-			Float fltWeight = resultSet.getFloat(4);
-			if(resultSet.wasNull()) {
-				fltWeight = null;
-			}
-			Date dtBirthday = resultSet.getDate(5);
-			if(resultSet.wasNull()) {
-				dtBirthday = null;
-			}
-			Blob imgPhoto = resultSet.getBlob(6);
-			if(resultSet.wasNull()) {
-				imgPhoto = null;
-			}
+			Long idPet = ConnectionManager.getNullableResultLong(resultSet, 1);
+			String nmPet = ConnectionManager.getNullableResultString(resultSet, 2);
+			Integer numAge = ConnectionManager.getNullableResultInt(resultSet, 3);
+			Float fltWeight = ConnectionManager.getNullableResultFloat(resultSet, 4);
+			Date dtBirthday = ConnectionManager.getNullableResultDate(resultSet, 5);
+			Blob imgPhoto = ConnectionManager.getNullableResultBlob(resultSet, 6);
 
 			Pet pet = new Pet(idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
 
@@ -465,9 +456,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
 		List<Pet> arrayList = new ArrayList<Pet>();
 		while(resultSet.next()) {
 			arrayList.add(new Pet(
-					resultSet.getLong(1),
-					resultSet.getString(2),
-					resultSet.getInt(3),
+					ConnectionManager.getNullableResultLong(resultSet, 1),
+					ConnectionManager.getNullableResultString(resultSet, 2),
+					ConnectionManager.getNullableResultInt(resultSet, 3),
 					ConnectionManager.getNullableResultFloat(resultSet, 4),
 					ConnectionManager.getNullableResultDate(resultSet, 5),
 					ConnectionManager.getNullableResultBlob(resultSet, 6)));

@@ -194,11 +194,11 @@ public class UserPet extends ModelBase {
 		stringBuilder.append("{\n");
 		stringBuilder.append("  \"model\": {\n");
 		stringBuilder.append("    \"name\": \"UserPet\",\n");
-		stringBuilder.append("    \"fields\": [\n");
-		stringBuilder.append("     { \"name\": \"idUserPet\", \"value\": " + this.idUserPet + " }, \n");
-		stringBuilder.append("     { \"name\": \"idUser\", \"value\": " + this.idUser + " }, \n");
-		stringBuilder.append("     { \"name\": \"idPet\", \"value\": " + this.idPet + " }\n");
-		stringBuilder.append("    ]\n");
+		stringBuilder.append("    \"fields\": {\n");
+		stringBuilder.append("     \"idUserPet\": " + this.idUserPet + " , \n");
+		stringBuilder.append("     \"idUser\": " + this.idUser + " , \n");
+		stringBuilder.append("     \"idPet\": " + this.idPet + " \n");
+		stringBuilder.append("    }\n");
 		stringBuilder.append("  }\n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
