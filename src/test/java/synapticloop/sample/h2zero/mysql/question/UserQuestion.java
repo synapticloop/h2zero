@@ -13,13 +13,6 @@ import java.sql.Timestamp;
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 
-<<<<<<< HEAD:src/test/java/synapticloop/sample/h2zero/mysql/question/UserQuestion.java
-=======
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
->>>>>>> master:src/test/java/synapticloop/sample/h2zero/question/UserQuestion.java
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

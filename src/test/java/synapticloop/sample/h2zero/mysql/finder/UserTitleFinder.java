@@ -15,13 +15,6 @@ import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
 
-<<<<<<< HEAD:src/test/java/synapticloop/sample/h2zero/mysql/finder/UserTitleFinder.java
-=======
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
->>>>>>> master:src/test/java/synapticloop/sample/h2zero/finder/UserTitleFinder.java
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,11 +32,7 @@ public class UserTitleFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
-<<<<<<< HEAD:src/test/java/synapticloop/sample/h2zero/mysql/finder/UserTitleFinder.java
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.class);
-=======
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleFinder.class);
->>>>>>> master:src/test/java/synapticloop/sample/h2zero/finder/UserTitleFinder.java
 	private static final String SQL_SELECT_START = "select id_user_title, nm_user_title, num_order_by from user_title";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_title = ?";
 
