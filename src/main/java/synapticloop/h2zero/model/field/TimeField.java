@@ -1,7 +1,8 @@
-package synapticloop.h2zero.base.exception;
+package synapticloop.h2zero.model.field;
 
 /*
- * Copyright (c) 2012-2018 synapticloop.
+ * Copyright (c) 2013-2018 synapticloop.
+ * 
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -17,11 +18,39 @@ package synapticloop.h2zero.base.exception;
  * under the Licence.
  */
 
-public class CacheNotRegisteredException extends Exception {
-	private static final long serialVersionUID = 5581379271273827272L;
 
-	public CacheNotRegisteredException(String message) {
-		super(message);
+import org.json.JSONObject;
+
+import synapticloop.h2zero.exception.H2ZeroParseException;
+
+public class TimeField extends BaseField {
+
+	public TimeField(JSONObject jsonObject) throws H2ZeroParseException {
+		super(jsonObject);
+	}
+
+	public TimeField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+		super(jsonObject, isInField);
+	}
+
+	@Override
+	public String getJavaType() {
+		return "Time";
+	}
+
+	@Override
+	public String getSqlJavaType() {
+		return "Time";
+	}
+
+	@Override
+	public String getSqlNullType() {
+		return "TIME";
+	}
+
+	@Override
+	public boolean getShouldEscape() {
+		return true;
 	}
 
 }

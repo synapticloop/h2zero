@@ -15,6 +15,13 @@ import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
 
+<<<<<<< HEAD:src/test/java/synapticloop/sample/h2zero/mysql/finder/UserTypeFinder.java
+=======
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+>>>>>>> master:src/test/java/synapticloop/sample/h2zero/finder/UserTypeFinder.java
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

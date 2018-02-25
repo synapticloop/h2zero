@@ -59,8 +59,9 @@ public class Updater extends BaseQueryObject {
 		}
 
 		// TODO - this needs both a set and where field...
-		// this is probably going to end up with the wrong generation as the same value is used for the set and where fields
-		// which the other base sql objects are not aware of...  This skips all of the aliases and in fields...
+		// this is probably going to end up with the wrong generation as the same value is used for the set and 
+		// where fields - which the other base SQL objects are not aware of...  This skips all of the aliases 
+		// and in fields...
 		try {
 			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 			for (int i = 0; i < whereFieldArray.length(); i++) {
@@ -81,7 +82,12 @@ public class Updater extends BaseQueryObject {
 				}
 
 				if(null == updateBaseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getType() + " '" + name + "'.");
+					throw new H2ZeroParseException(String.format("Could not look up where field '%s', for %s '%s.%s'.", 
+							whereFieldName,
+							this.getType(),
+							baseSchemaObject.getName(),
+							name
+							));
 				}
 
 //				BaseField updateBaseField = table.getWhereField(whereFieldName);

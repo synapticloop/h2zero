@@ -15,6 +15,13 @@ import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
 
+<<<<<<< HEAD:src/test/java/synapticloop/sample/h2zero/mysql/finder/UserPetFinder.java
+=======
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+>>>>>>> master:src/test/java/synapticloop/sample/h2zero/finder/UserPetFinder.java
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +38,11 @@ public class UserPetFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_PET_BINDER;
 
+<<<<<<< HEAD:src/test/java/synapticloop/sample/h2zero/mysql/finder/UserPetFinder.java
 	private static final Logger LOGGER = LoggerFactory.getLogger(PetFinder.class);
+=======
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserPetFinder.class);
+>>>>>>> master:src/test/java/synapticloop/sample/h2zero/finder/UserPetFinder.java
 	private static final String SQL_SELECT_START = "select id_user_pet, id_user, id_pet from user_pet";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_pet = ?";
 

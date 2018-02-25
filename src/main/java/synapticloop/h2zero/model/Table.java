@@ -48,24 +48,25 @@ public class Table extends BaseSchemaObject {
 
 	private static List<String> ignoredKeys = new ArrayList<String>();
 	static {
-		ignoredKeys.add("comment");
-		ignoredKeys.add("cacheable");
-		ignoredKeys.add("cacheFindAll");
+		ignoredKeys.add(JSONKeyConstants.COMMENT);
+		ignoredKeys.add(JSONKeyConstants.CACHEABLE);
+		ignoredKeys.add(JSONKeyConstants.CACHE_FIND_ALL);
 	}
 
 	public static Set<String> ALLOWABLE_KEYS = new HashSet<String>();
 	static {
-		ALLOWABLE_KEYS.add("name");
-		ALLOWABLE_KEYS.add("comments");
-		ALLOWABLE_KEYS.add("fields");
-		ALLOWABLE_KEYS.add("constants");
-		ALLOWABLE_KEYS.add("fieldFinders");
-		ALLOWABLE_KEYS.add("finders");
-		ALLOWABLE_KEYS.add("questions");
-		ALLOWABLE_KEYS.add("updaters");
-		ALLOWABLE_KEYS.add("counters");
-		ALLOWABLE_KEYS.add("deleters");
-		ALLOWABLE_KEYS.add("inserters");
+		ALLOWABLE_KEYS.add(JSONKeyConstants.NAME);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.COMMENTS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELDS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.CONSTANTS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_FINDERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_NULL_FINDERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FINDERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.QUESTIONS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.UPDATERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.COUNTERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.DELETERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.INSERTERS);
 	}
 
 	private static Map<String, String> replacementKeys = new HashMap<String, String>();
@@ -98,8 +99,6 @@ public class Table extends BaseSchemaObject {
 	private List<Inserter> inserters = new ArrayList<Inserter>(); // a list of all of the inserters
 	private List<Deleter> deleters = new ArrayList<Deleter>(); // a list of all of the deleters
 	private List<Constant> constants = new ArrayList<Constant>(); // a list of all of the constants
-	private List<Counter> counters = new ArrayList<Counter>(); // a list of all of the counters
-	private List<Question> questions = new ArrayList<Question>(); // a list of all of the questions
 
 	private final Options options;
 
@@ -154,6 +153,7 @@ public class Table extends BaseSchemaObject {
 	 * Populate all of the actions that can be performed on this table, including 
 	 *  <ul>
 	 *    <li>field finders</li>
+	 *    <li>field null finders</li>
 	 *    <li>finders</li>
 	 *    <li>updaters</li>
 	 *    <li>deleters</li>
@@ -167,6 +167,7 @@ public class Table extends BaseSchemaObject {
 	 */
 	public void populateActions() throws H2ZeroParseException {
 		populateFieldFinders(jsonObject);
+		populateFieldNullFinders(jsonObject);
 		populateFinders(jsonObject);
 		populateFieldUpdaters(jsonObject);
 		populateUpdaters(jsonObject);
@@ -457,64 +458,6 @@ public class Table extends BaseSchemaObject {
 		}
 	}
 
-	/**
-	 * Populate all of the counters that are being generated for a table.  A counter is a simple query that returns one
-	 * and only one integer value for the query which is assumed to be a count
-	 * 
-	 * @param jsonObject The jsonObject to parse for questions
-	 * @throws H2ZeroParseException if something went wrong with the parsing
-	 */
-	private void populateCounters(JSONObject jsonObject) throws H2ZeroParseException {
-		JSONArray counterJson = new JSONArray();
-		try {
-			counterJson = jsonObject.getJSONArray(JSONKeyConstants.COUNTERS);
-		} catch (JSONException ojjsonex) {
-			// do nothing - no counters is ok
-		}
-
-		for (int i = 0; i < counterJson.length(); i++) {
-			try {
-				JSONObject counterObject = counterJson.getJSONObject(i);
-				counters.add(new Counter(this, counterObject));
-			} catch (JSONException jsonex) {
-				throw new H2ZeroParseException("Could not parse counter JSON Array.", jsonex);
-			}
-		}
-	}
-
-	/**
-	 * Populate all of the questions that are being generated for a table.  A question is a simple query that returns one
-	 * and only one boolean true/false value
-	 * 
-	 * @param jsonObject The jsonObject to parse for questions
-	 * @throws H2ZeroParseException if something went wrong with the parsing
-	 */
-	private void populateQuestions(JSONObject jsonObject) throws H2ZeroParseException {
-		JSONArray questionJson = new JSONArray();
-		try {
-			questionJson = jsonObject.getJSONArray(JSONKeyConstants.QUESTIONS);
-		} catch (JSONException ojjsonex) {
-			// do nothing - no questions is ok
-		}
-
-		for (int i = 0; i < questionJson.length(); i++) {
-			try {
-				JSONObject questionObject = questionJson.getJSONObject(i);
-				questions.add(new Question(this, questionObject));
-			} catch (JSONException jsonex) {
-				throw new H2ZeroParseException("Could not parse questions JSON Array.", jsonex);
-			}
-		}
-	}
-
-	public boolean getHasQuestionInfields() {
-		for (Question question : questions) {
-			if(question.getHasInFields()) {
-				return(true);
-			}
-		}
-		return(false);
-	}
 
 
 
@@ -529,8 +472,6 @@ public class Table extends BaseSchemaObject {
 	public List<Inserter> getInserters() { return(inserters); }
 	public List<Deleter> getDeleters() { return(deleters); }
 	public List<Constant> getConstants() { return(constants); }
-	public List<Counter> getCounters() { return(counters); }
-	public List<Question> getQuestions() { return(questions); }
 
 	public List<BaseField> getNonNullFields() { return(nonNullFields); }
 	public List<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
@@ -540,7 +481,6 @@ public class Table extends BaseSchemaObject {
 	public String getJavaFieldName() { return(NamingHelper.getSecondUpper(name)); }
 	public boolean getHasNonNullConstructor() { return(nonNullFields.size() != fields.size()); }
 	public boolean getHasLargeObject() { return hasLargeObject; }
-	public boolean getHasQuestions() { return(!questions.isEmpty()); }
 
 	public boolean getHasNullableFields() { return(hasNullableFields); }
 

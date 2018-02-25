@@ -16,7 +16,6 @@ package synapticloop.h2zero.plugin;
  * this source code or binaries.
  */
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +38,7 @@ import synapticloop.h2zero.generator.UtilGenerator;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
+import synapticloop.h2zero.model.View;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.exception.RenderException;
@@ -53,13 +53,22 @@ public class BaseH2ZeroGenerator {
 	private File h2ZeroFile;
 	private File outFile;
 
+	/**
+	 * Instantiate the generator
+	 * 
+	 * @param h2ZeroFile The input file (is not parsed)
+	 * @param outFile The output directory
+	 * @param verbose whether to do verbose logging
+	 */
 	public BaseH2ZeroGenerator(File h2ZeroFile, File outFile, boolean verbose) {
 		this.h2ZeroFile = h2ZeroFile;
 		this.outFile = outFile;
 		this.verbose = verbose;
-
 	}
 
+	/**
+	 * Generate h2zero files and outputs
+	 */
 	public void generateH2zero() {
 		// otherwise we are good to go
 		H2ZeroParser h2zeroParser = null;
@@ -118,6 +127,12 @@ public class BaseH2ZeroGenerator {
 		logSummaryInformation(h2zeroParser);
 	}
 
+	/**
+	 * Everybody loves statistics (well at least we do) so lets see what we have
+	 * generated and output it
+	 * 
+	 * @param h2zeroParser The parser that was used for the generator
+	 */
 	private void logSummaryInformation(H2ZeroParser h2zeroParser) {
 		// now that we are done - print out the overview
 		if(null != h2zeroParser) {
@@ -167,6 +182,8 @@ public class BaseH2ZeroGenerator {
 		if(verbose) {
 			SimpleLogger.logDebug(LoggerType.PARSE, "Found database '" + h2zeroParser.getDatabase().getSchema() + "'.");
 			List<Table> tables = h2zeroParser.getDatabase().getTables();
+			List<View> views = h2zeroParser.getDatabase().getViews();
+
 			int maxTableNameLength = 0;
 
 			int maxFields = 0;
@@ -215,6 +232,19 @@ public class BaseH2ZeroGenerator {
 						String.format("%" + (Integer.toString(maxInserters)).length() + "s inserters, ", table.getInserters().size()) + 
 						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", table.getQuestions().size()) + 
 						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", table.getCounters().size()) + 
+						" ] ");
+			}
+
+			for (View view : views) {
+				SimpleLogger.logDebug(LoggerType.PARSE, "Found view " + String.format("%-" + maxTableNameLength + "s", view.getName()) + 
+						"  [ " + 
+						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", view.getFields().size()) + 
+						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", view.getFinders().size()) + 
+						String.format("- deleters, ") + 
+						String.format("- updaters, ") + 
+						String.format("- inserters, ") + 
+						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", view.getQuestions().size()) + 
+						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", view.getCounters().size()) + 
 						" ] ");
 			}
 		}

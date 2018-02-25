@@ -14,6 +14,13 @@ import java.util.List;
 
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 
+<<<<<<< HEAD:src/test/java/synapticloop/sample/h2zero/mysql/counter/UserCounter.java
+=======
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+>>>>>>> master:src/test/java/synapticloop/sample/h2zero/counter/UserCounter.java
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

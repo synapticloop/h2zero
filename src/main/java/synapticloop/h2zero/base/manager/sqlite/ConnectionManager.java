@@ -1,7 +1,7 @@
-package synapticloop.h2zero.base.manager.mysql;
+package synapticloop.h2zero.base.manager.sqlite;
 
 /*
- * Copyright (c) 2012-2018 synapticloop.
+ * Copyright (c) 2015-2018 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -34,7 +34,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 
@@ -206,24 +205,6 @@ public class ConnectionManager {
 			preparedStatement.setNull(parameterIndex, Types.TIMESTAMP);
 		} else {
 			preparedStatement.setTimestamp(parameterIndex, value);
-		}
-	}
-
-	/**
-	 * Set a TIME datatype to a prepared statement with the value of the passed
-	 * in time, or the correct SQL null type if null
-	 * 
-	 * @param preparedStatement The prepared statement
-	 * @param parameterIndex the index of the parameter
-	 * @param value the value to be set
-	 * 
-	 * @throws SQLException if something went horribly wrong
-	 */
-	public static void setTime(PreparedStatement preparedStatement, int parameterIndex, Time value) throws SQLException {
-		if(null == value) {
-			preparedStatement.setNull(parameterIndex, Types.TIME);
-		} else {
-			preparedStatement.setTime(parameterIndex, value);
 		}
 	}
 
@@ -572,6 +553,5 @@ public class ConnectionManager {
 	public static Date getNullableResultDate(ResultSet resultSet, int index) throws SQLException { return(resultSet.getDate(index)); }
 	public static Float getNullableResultFloat(ResultSet resultSet, int index) throws SQLException { return(resultSet.getFloat(index)); }
 	public static ComboPooledDataSource getComboPooledDataSource() { return comboPooledDataSource; }
->>>>>>> master
 
 }

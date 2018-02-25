@@ -28,6 +28,9 @@ public class JSONKeyConstants {
 
 	public static final String FINDERS = "finders";
 	public static final String FIELD_FINDERS = "fieldFinders";
+	public static final String FIELD_NULL_FINDERS = "fieldNullFinders";
+	public static final String FIND_BY = "findBy";
+	public static final String FIND_BY_NULL = "findByNull";
 
 	public static final String QUESTIONS = "questions";
 	public static final String COUNTERS = "counters";
@@ -93,6 +96,9 @@ public class JSONKeyConstants {
 	public static final String CHARSET = "charset";
 
 	public static final String SINGLE = "single";
+
+	public static final String CACHEABLE = "cacheable";
+	public static final String CACHE_FIND_ALL = "cacheFindAll";
 
 	// cache sizes for various things
 	public static final String FINDER_STATEMENT_CACHE_SIZE = "statementCacheSize";

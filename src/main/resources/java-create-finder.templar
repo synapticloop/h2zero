@@ -25,6 +25,7 @@ public class {table.javaClassName}Finder {{{\n}
 {import classpath:/snippet/global/java-binder-declaration.templar}
 
 {set "Finder" as classType}
+{set table.javaClassName as loggerClass}
 
 {import classpath:/snippet/global/java-logger-declaration.templar}
 

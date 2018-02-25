@@ -30,7 +30,7 @@ public class FindAllTag extends BaseVarTag {{{\n}
 	{\t}@SuppressWarnings("unused"){\n}
 	{\t}private static final String BINDER = Constants.{table.upperName}_BINDER;{\n}{\n}
 
-	{\t}{set "FindAllTag" as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
+{\t}{set "FindAllTag" as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
 
 	{\t}@Override{\n}
 	{\t}public int doStartTag() throws JspException {{{\n}

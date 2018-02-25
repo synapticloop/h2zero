@@ -38,6 +38,13 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
+/**
+ * The base query object is the helper methods for all of the actions that can 
+ * occur on the models and schema objects - e.g. finders, updaters, counters, 
+ * questions, deleters, etc.
+ * 
+ * @author synapticloop
+ */
 public abstract class BaseQueryObject {
 	public static enum UsageType {
 		OPTIONAL,
@@ -186,7 +193,12 @@ public abstract class BaseQueryObject {
 				}
 
 				if(null == baseField) {
-					throw new H2ZeroParseException("Could not look up where field '" + whereFieldName + "', for " + this.getType() + " '" + name + "'.");
+					throw new H2ZeroParseException(String.format("Could not look up where field '%s', for %s '%s.%s'.", 
+							whereFieldName,
+							this.getType(),
+							baseSchemaObject.getName(),
+							name
+							));
 				}
 
 				whereFields.add(baseField);

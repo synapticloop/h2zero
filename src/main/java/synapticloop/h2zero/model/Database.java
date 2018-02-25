@@ -36,7 +36,6 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
 
-
 public class Database {
 	public static final Map<String, Table> tableLookup = new HashMap<String, Table>();
 	private String schema = null;

@@ -1,4 +1,4 @@
-package synapticloop.h2zero.base.manager.mysql;
+package synapticloop.h2zero.base.manager;
 
 /*
  * Copyright (c) 2012-2018 synapticloop.
@@ -572,6 +572,5 @@ public class ConnectionManager {
 	public static Date getNullableResultDate(ResultSet resultSet, int index) throws SQLException { return(resultSet.getDate(index)); }
 	public static Float getNullableResultFloat(ResultSet resultSet, int index) throws SQLException { return(resultSet.getFloat(index)); }
 	public static ComboPooledDataSource getComboPooledDataSource() { return comboPooledDataSource; }
->>>>>>> master
 
 }

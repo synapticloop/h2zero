@@ -8,6 +8,13 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+<<<<<<< HEAD:src/test/java/synapticloop/sample/h2zero/mysql/taglib/userPet/FindAllTag.java
+=======
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+>>>>>>> master:src/test/java/synapticloop/sample/h2zero/taglib/userPet/FindAllTag.java
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
