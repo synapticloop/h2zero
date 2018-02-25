@@ -32,7 +32,7 @@ public class PetFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PetFinder.class);
 	private static final String SQL_SELECT_START = "select id_pet, nm_pet, num_age, flt_weight, dt_birthday, img_photo from pet";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
 

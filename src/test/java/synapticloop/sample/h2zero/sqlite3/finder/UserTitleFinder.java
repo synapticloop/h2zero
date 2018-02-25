@@ -32,7 +32,7 @@ public class UserTitleFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleFinder.class);
 	private static final String SQL_SELECT_START = "select id_user_title, nm_user_title, num_order_by from user_title";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_title = ?";
 

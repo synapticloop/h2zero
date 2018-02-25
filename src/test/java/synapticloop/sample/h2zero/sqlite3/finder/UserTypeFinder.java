@@ -8,17 +8,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
 
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import synapticloop.h2zero.util.LruCache;
-import synapticloop.sample.h2zero.sqlite3.model.UserType;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
+
+import synapticloop.sample.h2zero.sqlite3.model.UserType;
 
 public class UserTypeFinder {
 	// the binder is unused in code, but will generate compile problems if this 
@@ -27,9 +31,9 @@ public class UserTypeFinder {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TYPE_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PetFinder.class);
-	private static final String SQL_SELECT_START = "select id_pet, nm_pet, num_age, flt_weight, dt_birthday from pet";
-	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTypeFinder.class);
+	private static final String SQL_SELECT_START = "select id_user_type, nm_user_type from user_type";
+	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_type = ?";
 
 
 	// now for the statement limit cache(s)
