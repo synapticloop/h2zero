@@ -59,6 +59,7 @@ import synapticloop.h2zero.validator.field.FieldIgnoredKeysValidator;
 import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.field.FieldNotNullLengthValidator;
 import synapticloop.h2zero.validator.field.SQLite3FieldBlobValidator;
+import synapticloop.h2zero.validator.field.SQLite3FieldClobValidator;
 import synapticloop.h2zero.validator.field.SQLite3FieldPrimaryKeyValidator;
 import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
 import synapticloop.h2zero.validator.finder.FinderInQueryValidator;
@@ -126,6 +127,7 @@ public class H2ZeroParser {
 		validators.add(new FieldNotNullLengthValidator());
 
 		validators.add(new SQLite3FieldBlobValidator());
+		validators.add(new SQLite3FieldClobValidator());
 		validators.add(new SQLite3FieldPrimaryKeyValidator());
 
 
