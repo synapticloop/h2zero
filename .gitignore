@@ -86,5 +86,5 @@ target/
 .gradle
 lib/
 libs/
-synapticloop/
+/synapticloop/
 src/test/sqlite-db/*.sqlite3
