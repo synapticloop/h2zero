@@ -74,7 +74,7 @@ public class UserInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.getIn.setBigint(preparedStatement, 1, idUser);
+			ConnectionManager.setBigint(preparedStatement, 1, idUser);
 			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
 			ConnectionManager.setBoolean(preparedStatement, 3, flIsAlive);
 			ConnectionManager.setInt(preparedStatement, 4, numAge);

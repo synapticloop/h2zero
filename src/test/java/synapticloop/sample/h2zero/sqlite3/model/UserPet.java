@@ -5,7 +5,7 @@ package synapticloop.sample.h2zero.sqlite3.model;
 //                  (java-create-model.templar)
 
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import synapticloop.h2zero.base.model.ModelBase;
+import synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;

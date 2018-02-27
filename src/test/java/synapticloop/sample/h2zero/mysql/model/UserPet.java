@@ -5,7 +5,7 @@ package synapticloop.sample.h2zero.mysql.model;
 //                  (java-create-model.templar)
 
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import synapticloop.h2zero.base.model.ModelBase;
+import synapticloop.h2zero.base.model.mysql.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
