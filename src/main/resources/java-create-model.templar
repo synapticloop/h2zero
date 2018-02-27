@@ -5,7 +5,7 @@ package {database.package}.model;{\n}{\n}
 //                  (java-create-model.templar){\n}{\n}
 {if !table.isConstant}
 	import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
-	import synapticloop.h2zero.base.model.ModelBase;{\n}
+	import synapticloop.h2zero.base.model.{options.database}.ModelBase;{\n}
 	import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;{\n}
 	import java.lang.StringBuilder;{\n}
 	import java.sql.Connection;{\n}

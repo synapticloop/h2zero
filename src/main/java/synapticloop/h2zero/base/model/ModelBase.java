@@ -20,8 +20,11 @@ package synapticloop.h2zero.base.model;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
-import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import synapticloop.h2zero.base.manager.BaseConnectionManager;
 
 /**
  * This is the base class for all h2zero generated models and defines the required functionality for a working model.  
@@ -29,9 +32,21 @@ import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
  *
  */
 public abstract class ModelBase {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ModelBase.class);
+
 	protected boolean isDirty = false; // whether the model has changes to any of its fields or values
 
 	public abstract boolean primaryKeySet();
+
+	/**
+	 * Retrieve a connection from the appropriate connection manager, which is 
+	 * delegated to the sub-classes.
+	 * 
+	 * @return The connection to the database
+	 * 
+	 * @throws SQLException If there was an error with retrieving the connection
+	 */
+	protected abstract Connection getConnection() throws SQLException;
 
 	/**
 	 * Persist the model object to the database
@@ -51,7 +66,7 @@ public abstract class ModelBase {
 	public void insert() throws SQLException, H2ZeroPrimaryKeyException {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			insert(connection);
 			connection.close();
 		} finally {
@@ -73,7 +88,7 @@ public abstract class ModelBase {
 	public void insertSilent() {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			insert(connection);
 			connection.close();
 		} catch(H2ZeroPrimaryKeyException h2zpkex) {
@@ -113,20 +128,32 @@ public abstract class ModelBase {
 	 * All of the update methods
 	 * 
 	 */
+
+	/**
+	 * Update the model utilising the passed in connection, the caller must 
+	 * close the connection.
+	 * 
+	 * @param connection The connection to the database
+	 */
 	public abstract void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 
+	/**
+	 * Update the model utilising the passed in connection, the caller must 
+	 * close the connection.  If there are any exceptions thrown from subsequent
+	 * calls, these will be caught and swallowed.
+	 * 
+	 * @param connection The connection to the database
+	 */
 	public void updateSilent(Connection connection) {
 		try {
 			update(connection);
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 
 	public void update() throws SQLException, H2ZeroPrimaryKeyException {
-		Connection connection = ConnectionManager.getConnection();
+		Connection connection = getConnection();
 		update(connection);
 		connection.close();
 	}
@@ -134,13 +161,11 @@ public abstract class ModelBase {
 	public void updateSilent() {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			update(connection);
 			connection.close();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		} finally {
 			if(connection != null) {
 				try {
@@ -185,13 +210,11 @@ public abstract class ModelBase {
 	public void insertOrUpdate() throws H2ZeroPrimaryKeyException, SQLException {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			insertOrUpdate(connection);
 			connection.close();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			throw(h2zpkex);
-		} catch(SQLException sqlex) {
-			throw (sqlex);
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			throw(ex);
 		} finally {
 			if(connection != null) {
 				try {
@@ -218,10 +241,8 @@ public abstract class ModelBase {
 			} else {
 				update(connection);
 			}
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 
@@ -232,17 +253,15 @@ public abstract class ModelBase {
 	public void insertOrUpdateSilent() {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			if(!primaryKeySet()) {
 				insert(connection);
 			} else {
 				update(connection);
 			}
 			connection.close();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		} finally {
 			if(connection != null) {
 				try {
@@ -285,15 +304,13 @@ public abstract class ModelBase {
 	public void upsert() throws H2ZeroPrimaryKeyException, SQLException {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			upsert(connection);
 			connection.close();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			throw(h2zpkex);
-		} catch(SQLException sqlex) {
-			throw (sqlex);
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			throw(ex);
 		} finally {
-			ConnectionManager.closeAll(connection);
+			BaseConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -307,10 +324,8 @@ public abstract class ModelBase {
 	public void upsertSilent(Connection connection) {
 		try {
 			upsert(connection);
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 
@@ -323,10 +338,8 @@ public abstract class ModelBase {
 	public void upsertSilent() {
 		try {
 			upsert();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 
@@ -341,15 +354,13 @@ public abstract class ModelBase {
 	public void deleteSilent(Connection connection) {
 		try {
 			delete(connection);
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 
 	public void delete() throws SQLException, H2ZeroPrimaryKeyException {
-		Connection connection = ConnectionManager.getConnection();
+		Connection connection = getConnection();
 		delete(connection);
 		connection.close();
 	}
@@ -357,13 +368,11 @@ public abstract class ModelBase {
 	public void deleteSilent() {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			delete(connection);
 			connection.close();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		} finally {
 			if(connection != null) {
 				try {
@@ -389,17 +398,15 @@ public abstract class ModelBase {
 	public void ensureSilent(Connection connection) {
 		try {
 			ensure(connection);
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 
 	public void ensure() throws SQLException, H2ZeroPrimaryKeyException {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			ensure(connection);
 			connection.close();
 		} finally {
@@ -418,13 +425,11 @@ public abstract class ModelBase {
 	public void ensureSilent() {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			ensure(connection);
 			connection.close();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		} finally {
 			if(connection != null) {
 				try {
@@ -464,7 +469,7 @@ public abstract class ModelBase {
 	public void refresh() throws SQLException, H2ZeroPrimaryKeyException {
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = getConnection();
 			refresh(connection);
 			connection.close();
 		} finally {
@@ -483,22 +488,16 @@ public abstract class ModelBase {
 	public void refreshSilent() {
 		try {
 			refresh();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch (SQLException sqlex) {
-			// TODO Auto-generated catch block
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 
 	public void refreshSilent(Connection connection) {
 		try {
 			refresh(connection);
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch (SQLException sqlex) {
-			// TODO Auto-generated catch block
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
 
