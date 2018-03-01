@@ -38,6 +38,7 @@ public class ReportGenerator extends Generator {
 		if(!options.hasGenerator(Options.OPTION_REPORTS)) {
 			return;
 		}
+
 		TemplarContext templarContext = null;
 		try {
 			templarContext = getDefaultTemplarContext();
