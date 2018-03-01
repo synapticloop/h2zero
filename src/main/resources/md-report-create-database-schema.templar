@@ -37,11 +37,11 @@
 	{if table.isConstant}
 		This table is a **constant** table with the following values{\n}{\n}
 
-	| Name | Values |{\n}
-	--- | --- {\n}
+	| `constant` | {loop table.fields as field} `{field.name}` | {endloop}{\n}
+	--- | {loop table.fields as field} --- | {endloop} {\n}
 
 		{loop table.constants as constant}
-			| `{constant.name}` | {loop constant.sqlValues as sqlValue}`{sqlValue}`{if !sqlValueStatus.last}, {endif}{endloop} |{\n}
+			| `{table.javaClassName}.{constant.name}` | {loop constant.sqlValues as sqlValue}`{sqlValue}` | {endloop}{\n}
 		{endloop}
 		{\n}{\n}
 	{endif}

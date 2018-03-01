@@ -38,7 +38,7 @@ import synapticloop.h2zero.util.SimpleLogger;
 
 /**
  * The base schema object is either a table or view and contains common 
- * functionality between the two
+ * functionality between the two.
  * 
  * @author synapticloop
  */
@@ -68,17 +68,38 @@ public abstract class BaseSchemaObject {
 	protected BaseField primaryKeyField = null; // the field that is the primary key
 
 	protected Set<String> referencedFieldTypes = new HashSet<String>(); // this is a set of all of the referenced field types
-	private int defaultStatementCacheSize;
+	private int defaultStatementCacheSize;  // the default statement cache size
 
+	/**
+	 * Instantiate a base schema object (either a table or a view)
+	 *  
+	 * @param jsonObject The JSON object from which the details will be extracted
+	 * @param defaultStatementCacheSize The default size of the cache statements
+	 */
 	public BaseSchemaObject(JSONObject jsonObject, int defaultStatementCacheSize) {
 		this.jsonObject = jsonObject;
 		this.findAllStatementCacheSize = JsonHelper.getIntValue(jsonObject, JSONKeyConstants.FINDALL_STATEMENT_CACHE_SIZE, defaultStatementCacheSize);
 		this.defaultStatementCacheSize = defaultStatementCacheSize;
 	}
 
+	/**
+	 * Return whether this is a table base schema object
+	 * @return
+	 */
 	public abstract boolean getIsTable();
+
+	/**
+	 * Return whether this is a view base schema object
+	 * @return
+	 */
 	public abstract boolean getIsView();
 
+	/**
+	 * Populate finders from the short-hand "fieldFinders" JSON key
+	 * 
+	 * @param jsonObject The json object on which the field finders resides
+	 * @throws H2ZeroParseException If there was an error parsing the JSON
+	 */
 	@SuppressWarnings("rawtypes")
 	protected void populateFieldFinders(JSONObject jsonObject) throws H2ZeroParseException {
 		// now for the auto-generated finders
@@ -191,6 +212,7 @@ public abstract class BaseSchemaObject {
 		try {
 			StringBuilder fieldNameBuilder = new StringBuilder();
 			fieldNameBuilder.append("findBy");
+
 			StringBuilder whereClauseBuilder = new StringBuilder();
 			whereClauseBuilder.append("where ");
 
@@ -260,7 +282,7 @@ public abstract class BaseSchemaObject {
 
 			autoFinder.put(JSONKeyConstants.WHERE_CLAUSE, whereClauseBuilder.toString());
 			autoFinder.put(JSONKeyConstants.UNIQUE, unique);
-			
+
 			// we do not put in where fields as we are searching on null, not on a particular value
 			// autoFinder.put(JSONKeyConstants.WHERE_FIELDS, whereFieldsArray);
 
@@ -372,6 +394,10 @@ public abstract class BaseSchemaObject {
 	public int getFindAllStatementCacheSize() { return findAllStatementCacheSize; }
 	public int getDefaultStatementCacheSize() { return defaultStatementCacheSize; }
 
+	/**
+	 * Return whether this schema object has any questions on it
+	 * 
+	 * @return whether this schema object has any questions on it
+	 */
 	public boolean getHasQuestions() { return(!questions.isEmpty()); }
-
 }
