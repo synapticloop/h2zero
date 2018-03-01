@@ -1,8 +1,15 @@
-# Database Schema for '{database.schema}'{\n}
+# Database ({options.database}) Schema for '{database.schema}'{\n}
 {\n}
 
+## Tables{\n}{\n}
+
+
 {loop database.tables as table}
-	## `{table.name}`{\n}{\n}
+{\  }- `{table.name}`{if table.isConstant} (constant){endif}{\n}
+{endloop}{\n}{\n}
+
+{loop database.tables as table}
+	## Table `{table.name}`{\n}{\n}
 
 	{loop table.comments as comment}
 		> {comment}{\n}
@@ -48,12 +55,39 @@
 	`List<{table.javaClassName}> findAll(int offset, int limit)`{\n}{\n}
 	`List<{table.javaClassName}> findAll(Connection connection, int offset, int limit)`{\n}{\n}
 
+	> Find all `{table.name}` objects which silently swallow any exceptions{\n}{\n}
+
+	`List<{table.javaClassName}> findAllSilent()`{\n}{\n}
+	`List<{table.javaClassName}> findAllSilent(Connection connection)`{\n}{\n}
+	`List<{table.javaClassName}> findAllSilent(int offset, int limit)`{\n}{\n}
+	`List<{table.javaClassName}> findAllSilent(Connection connection, int offset, int limit)`{\n}{\n}
+
 	> Find a particular `{table.name}` object by the primary key{\n}{\n}
 	
 	`{table.javaClassName} findByPrimaryKey(Long idPrimaryKey)`{\n}{\n}
 	`{table.javaClassName} findByPrimaryKey(Connection connection, Long idPrimaryKey)`{\n}{\n}
 
+	> Find a particular `{table.name}` object by the primary key silently{\n}{\n}
+	
+	`{table.javaClassName} findByPrimaryKeySilent(Long idPrimaryKey)`{\n}{\n}
+	`{table.javaClassName} findByPrimaryKeySilent(Connection connection, Long idPrimaryKey)`{\n}{\n}
+
+
 	{loop table.finders as finder}
-		`{finder.name}`{\n}{\n}
+		{if finderStatus.first}
+			> These are the user-defined finders{\n}{\n}
+		{endif}
+
+		`{if fn:notNull[finder.selectClause]}
+			{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{else}
+			{if finder.unique}{table.javaClassName} {else}List<{table.javaClassName}> {endif}
+		{endif}
+
+		{finder.name}(
+			{loop finder.whereFields as whereField}
+				{whereField.javaType} {whereField.javaName}{if !whereFieldStatus.last}, {endif}
+			{endloop}
+			)`{\n}{\n}
 	{endloop}
 {endloop}

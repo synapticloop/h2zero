@@ -8,8 +8,6 @@ import java.sql.Date;{\n}
 import java.sql.Timestamp;{\n}
 {\n}
 
-{\n}{\n}
-
 public class {finder.tagName}Bean {{{\n}
 
 {loop finder.selectFields as selectField}

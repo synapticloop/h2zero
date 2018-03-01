@@ -31,6 +31,7 @@ repositories {
 	mavenCentral()
 	jcenter()
 }
+
 configurations {
 	shadowRuntime
 }
@@ -186,7 +187,6 @@ bintray {
 		repo = 'maven'
 		name = 'h2zero'
 	}
-
 }
 
 github {
@@ -217,10 +217,12 @@ pluginBundle {
 		}
 	}
 }
+
 copyrightr {
 	excludes [
 		"src/test/java/synapticloop/sample/h2zero/**/*.*"
 	]
 	dryRun = false
 }
+
 task(dist).dependsOn( [ 'cobertura', 'jar', 'javadoc' ] )
