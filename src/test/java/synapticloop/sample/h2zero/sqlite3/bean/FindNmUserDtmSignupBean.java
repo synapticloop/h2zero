@@ -7,8 +7,6 @@ package synapticloop.sample.h2zero.sqlite3.bean;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-
-
 public class FindNmUserDtmSignupBean {
 	private String nmUser = null;
 	private Timestamp dtmSignup = null;

@@ -7,8 +7,6 @@ package synapticloop.sample.h2zero.sqlite3.bean;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-
-
 public class FindIdUserTitleNmUserTitleOrderedBean {
 	private Long idUserTitle = null;
 	private String nmUserTitle = null;
