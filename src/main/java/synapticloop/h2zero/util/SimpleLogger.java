@@ -28,6 +28,7 @@ public class SimpleLogger {
 		MAIN,
 		OPTIONS,
 		OPTIONS_VALIDATOR,
+		EXTENSIONS,
 		GENERATORS,
 		GENERATE,
 		GENERATE_SQL,

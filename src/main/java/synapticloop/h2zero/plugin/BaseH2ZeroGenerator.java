@@ -39,6 +39,7 @@ import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.View;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.exception.RenderException;
@@ -86,10 +87,10 @@ public class BaseH2ZeroGenerator {
 			Database database = h2zeroParser.getDatabase();
 			numTables = database.getTables().size();
 
-			templarContext.add("database", database);
+			templarContext.add(JSONKeyConstants.DATABASE, database);
 
 			Options options = h2zeroParser.getOptions();
-			templarContext.add("options", options);
+			templarContext.add(JSONKeyConstants.OPTIONS, options);
 
 			if(!options.hasGenerators()) {
 				throw new BuildException("FATAL: You have not defined an 'options' section, and therefore no generators will be executed. Exiting...");

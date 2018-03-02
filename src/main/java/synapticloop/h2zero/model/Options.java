@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.H2ZeroParser;
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
@@ -78,17 +79,50 @@ public class Options {
 	private Set<String> generators = new HashSet<String>();
 
 	public Options(JSONObject jsonObject) throws H2ZeroParseException {
-		JSONObject optionsJson = jsonObject.optJSONObject("options");
+		JSONObject optionsJson = jsonObject.optJSONObject(JSONKeyConstants.OPTIONS);
 		if(null == optionsJson) {
 			// options are optional
 			return;
 		}
 
-		this.metrics = optionsJson.optBoolean("metrics", false);
-		this.database = optionsJson.optString("database", DATABASE_MYSQL);
+		this.metrics = optionsJson.optBoolean(JSONKeyConstants.METRICS, false);
+		this.database = optionsJson.optString(JSONKeyConstants.DATABASE, DATABASE_MYSQL);
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "Generating for database type '" + database + "'.");
 
-		JSONArray generatorArray = optionsJson.optJSONArray("generators");
+		parseGenerators(optionsJson);
+		parseExtensions(optionsJson);
+
+		// now we are going to update the output paths
+		JSONObject outputJson = optionsJson.optJSONObject(JSONKeyConstants.OUTPUT);
+		if(null != outputJson) {
+			outputJava = JsonHelper.getStringValue(outputJson, OPTION_JAVA, outputJava);
+			outputSql = JsonHelper.getStringValue(outputJson, OPTION_SQL, outputSql);
+			outputWebapp = JsonHelper.getStringValue(outputJson, OPTION_WEBAPP, outputWebapp);
+		}
+
+		// now ensure that there are slashes on both sides of the output directory
+		outputJava = convertToAbsolutePath(outputJava);
+		outputSql = convertToAbsolutePath(outputSql);
+		outputWebapp = convertToAbsolutePath(outputWebapp);
+	}
+
+	private void parseExtensions(JSONObject optionsJson) throws H2ZeroParseException {
+		JSONArray extensionArray = optionsJson.optJSONArray(JSONKeyConstants.EXTENSIONS);
+		if(null == extensionArray) {
+			SimpleLogger.logInfo(LoggerType.EXTENSIONS, "No extensions found, ignoring...");
+			return;
+		}
+
+		// at this point we have the array with all of the extensions
+		for (int i = 0; i < extensionArray.length(); i++) {
+			String extension = extensionArray.optString(i, null);
+			SimpleLogger.logInfo(LoggerType.EXTENSIONS, "Found an extension of '" + extension + "'.");
+			
+		}
+	}
+
+	private void parseGenerators(JSONObject optionsJson) throws H2ZeroParseException {
+		JSONArray generatorArray = optionsJson.optJSONArray(JSONKeyConstants.GENERATORS);
 		if(null == generatorArray) {
 			// add them all
 			SimpleLogger.logWarn(LoggerType.GENERATORS, "You have not defined any generators - so we are going to generate all");
@@ -98,6 +132,9 @@ public class Options {
 			enableGenerators(generatorArray);
 		}
 
+		// here we add all generators to the disabled generators, then when we 
+		// iterate over the generators and print whether they are enabled, we
+		// remove the enabled generator from the disabledGenerator list
 		Set<String> disabledGenerators = new HashSet<String>();
 		disabledGenerators.addAll(ALLOWABLE_GENERATORS);
 
@@ -114,20 +151,7 @@ public class Options {
 			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ DISABLED ] Generator '" + next + "'");
 		}
 
-		updateValidators(optionsJson.optJSONObject("validators"));
-
-		// now we are going to update the output paths
-		JSONObject outputJson = optionsJson.optJSONObject("output");
-		if(null != outputJson) {
-			outputJava = JsonHelper.getStringValue(outputJson, OPTION_JAVA, outputJava);
-			outputSql = JsonHelper.getStringValue(outputJson, OPTION_SQL, outputSql);
-			outputWebapp = JsonHelper.getStringValue(outputJson, OPTION_WEBAPP, outputWebapp);
-		}
-
-		// now ensure that there are slashes on both sides of the output directory
-		outputJava = convertToAbsolutePath(outputJava);
-		outputSql = convertToAbsolutePath(outputSql);
-		outputWebapp = convertToAbsolutePath(outputWebapp);
+		updateValidators(optionsJson.optJSONObject(JSONKeyConstants.VALIDATORS));
 	}
 
 	private String convertToAbsolutePath(String name) {
@@ -142,7 +166,7 @@ public class Options {
 		if(!name.endsWith("/")) {
 			stringBuilder.append("/");
 		}
-		
+
 		return(stringBuilder.toString());
 	}
 

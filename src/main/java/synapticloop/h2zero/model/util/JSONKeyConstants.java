@@ -96,6 +96,12 @@ public class JSONKeyConstants {
 	public static final String CHARSET = "charset";
 
 	public static final String SINGLE = "single";
+	public static final String OPTIONS = "options";
+	public static final String METRICS = "metrics";
+	public static final String GENERATORS = "generators";
+	public static final String EXTENSIONS = "extensions";
+	public static final String VALIDATORS = "validators";
+	public static final String OUTPUT = "output";
 
 	public static final String CACHEABLE = "cacheable";
 	public static final String CACHE_FIND_ALL = "cacheFindAll";

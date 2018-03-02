@@ -6,6 +6,10 @@
 
 	"generators": [ "java", "sql", "taglib", "reports" ],
 
+	"extensions": [ 
+		"synapticloop.h2zero.NanoHTTPDRestfulServlet"
+	],
+
 	"validators": {
 		"UpdaterNameValidator": {
 			"allowablePrefixes": "reset,"
