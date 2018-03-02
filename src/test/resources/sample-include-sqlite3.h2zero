@@ -7,7 +7,7 @@
 	"generators": [ "java", "sql", "taglib", "reports" ],
 
 	"extensions": [ 
-		"synapticloop.h2zero.NanoHTTPDRestfulServlet"
+		"synapticloop.h2zero.extension.BasicExtension"
 	],
 
 	"validators": {

@@ -66,7 +66,7 @@ public abstract class Extension {
 	 * 
 	 * @throws FunctionException if there was an error registering the new function
 	 */
-	protected TemplarContext getDefaultTemplarContext(JSONObject extensionOptions, Database database, Options options) throws FunctionException {
+	protected TemplarContext getDefaultTemplarContext(JSONObject extensionOptions, Database database, Options options) {
 		TemplarConfiguration templarConfiguration = new TemplarConfiguration();
 		templarConfiguration.setExplicitNewLines(true);
 		templarConfiguration.setExplicitTabs(true);
@@ -139,18 +139,38 @@ public abstract class Extension {
 	 */
 	public Map<String, Integer> getNumFilesHashMap() { return numFilesHashMap; }
 
+	/**
+	 * Log an info message to the console
+	 * 
+	 * @param message The message to log
+	 */
 	protected void logInfo(String message) {
 		SimpleLogger.logInfo(LoggerType.EXTENSIONS, this.getClass(), message);
 	}
 
+	/**
+	 * Log an error message to the console
+	 * 
+	 * @param message The message to log
+	 */
 	protected void logError(String message) {
 		SimpleLogger.logError(LoggerType.EXTENSIONS, this.getClass(), message);
 	}
 
+	/**
+	 * Log a debug message to the console
+	 * 
+	 * @param message The message to log
+	 */
 	protected void logDebug(String message) {
 		SimpleLogger.logDebug(LoggerType.EXTENSIONS, this.getClass(), message);
 	}
 
+	/**
+	 * Log a fatal message to the console
+	 * 
+	 * @param message The message to log
+	 */
 	protected void logFatal(String message) {
 		SimpleLogger.logFatal(LoggerType.EXTENSIONS, this.getClass(), message);
 	}
