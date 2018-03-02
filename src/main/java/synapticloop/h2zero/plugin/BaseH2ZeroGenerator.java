@@ -24,9 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.tools.ant.BuildException;
+import org.json.JSONObject;
 
 import synapticloop.h2zero.H2ZeroParser;
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.extension.Extension;
 import synapticloop.h2zero.generator.AdminPagesGenerator;
 import synapticloop.h2zero.generator.Generator;
 import synapticloop.h2zero.generator.JavaGenerator;
@@ -42,6 +44,7 @@ import synapticloop.h2zero.model.View;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
@@ -73,23 +76,28 @@ public class BaseH2ZeroGenerator {
 	public void generateH2zero() {
 		// otherwise we are good to go
 		H2ZeroParser h2zeroParser = null;
+		TemplarConfiguration templarConfiguration = null;
+		TemplarContext templarContext = null;
+		Database database = null;
+		Options options = null;
+
 		try {
 			h2zeroParser = new H2ZeroParser(h2ZeroFile);
 
 			logDatabaseInfo(h2zeroParser);
 
-			TemplarConfiguration templarConfiguration = new TemplarConfiguration();
+			templarConfiguration = new TemplarConfiguration();
 			templarConfiguration.setExplicitNewLines(true);
 			templarConfiguration.setExplicitTabs(true);
 
-			TemplarContext templarContext = new TemplarContext(templarConfiguration);
+			templarContext = new TemplarContext(templarConfiguration);
 
-			Database database = h2zeroParser.getDatabase();
+			database = h2zeroParser.getDatabase();
 			numTables = database.getTables().size();
 
 			templarContext.add(JSONKeyConstants.DATABASE, database);
 
-			Options options = h2zeroParser.getOptions();
+			options = h2zeroParser.getOptions();
 			templarContext.add(JSONKeyConstants.OPTIONS, options);
 
 			if(!options.hasGenerators()) {
@@ -113,7 +121,7 @@ public class BaseH2ZeroGenerator {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
 			throw new BuildException(h2zpex);
-		} catch (synapticloop.templar.exception.ParseException pex) {
+		} catch (ParseException pex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "  " + pex.getMessage());
@@ -123,6 +131,32 @@ public class BaseH2ZeroGenerator {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_RENDER, "  " + rex.getMessage());
 			throw new BuildException(rex);
+		}
+
+		// now for the extensions
+		if(!options.hasExtensions()) {
+			SimpleLogger.logInfo(LoggerType.EXTENSIONS, "No extensions found, rendering nothing.");
+		} else {
+			Map<Extension, JSONObject> extensions = options.getExtensions();
+			Iterator<Extension> iterator = extensions.keySet().iterator();
+			try {
+
+				while (iterator.hasNext()) {
+					Extension extension = (Extension) iterator.next();
+					extension.generate(extensions.get(extension), database, options, outFile, verbose);
+				}
+
+			} catch (RenderException rex) {
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.EXTENSION_RENDER, "RenderException: There was an error rendering the '" + h2ZeroFile.getName() + "'.");
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.EXTENSION_RENDER, "The message was:");
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.EXTENSION_RENDER, "  " + rex.getMessage());
+				throw new BuildException(rex);
+			} catch (ParseException pex) {
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.EXTENSION_PARSE, "ParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.EXTENSION_PARSE, "The message was:");
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.EXTENSION_PARSE, "  " + pex.getMessage());
+				throw new BuildException(pex);
+			}
 		}
 
 		logSummaryInformation(h2zeroParser);
@@ -158,8 +192,27 @@ public class BaseH2ZeroGenerator {
 				}
 			}
 
+			// now go through the extensions and get the summary information
+			Map<Extension, JSONObject> extensions = h2zeroParser.getOptions().getExtensions();
+			Iterator<Extension> extensionsIterator = extensions.keySet().iterator();
+			while (extensionsIterator.hasNext()) {
+				Extension extension = (Extension) extensionsIterator.next();
+				Map<String, Integer> extensionNumFilesHashMap = extension.getNumFilesHashMap();
+				Iterator<String> iterator = extensionNumFilesHashMap.keySet().iterator();
+				while (iterator.hasNext()) {
+					String key = iterator.next();
+					Integer extensionNumFiles = extensionNumFilesHashMap.get(key);
+					if(numFilesHashMap.containsKey(key)) {
+						numFilesHashMap.put(key, numFilesHashMap.get(key) + extensionNumFiles);
+					} else {
+						numFilesHashMap.put(key, extensionNumFiles);
+					}
+				}
+			}
+
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just generated code for %d tables!", numTables));
-			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just saved you typing %d files!  Messages [ warn: %d, fatal: %d ]", numFiles, h2zeroParser.getNumWarn(), h2zeroParser.getNumFatal()));
+			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just saved you typing %d files!  Messages [ warn: %3d, fatal: %3d ]", numFiles, h2zeroParser.getNumWarn(), h2zeroParser.getNumFatal()));
+
 			Iterator<String> iterator = numFilesHashMap.keySet().iterator();
 
 			while (iterator.hasNext()) {
@@ -169,8 +222,10 @@ public class BaseH2ZeroGenerator {
 				if(count == 1) {
 					multiple = "";
 				}
-				SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("     %d %s file%s", count, key, multiple));
+				SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("%8d %s file%s", count, key, multiple));
 			}
+			SimpleLogger.logInfo(LoggerType.SUMMARY, "--------");
+			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("%8d TOTAL", numFiles));
 		}
 	}
 

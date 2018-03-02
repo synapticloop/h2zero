@@ -29,6 +29,9 @@ public class SimpleLogger {
 		OPTIONS,
 		OPTIONS_VALIDATOR,
 		EXTENSIONS,
+		EXTENSION_LOAD,
+		EXTENSION_RENDER,
+		EXTENSION_PARSE,
 		GENERATORS,
 		GENERATE,
 		GENERATE_SQL,
@@ -49,6 +52,7 @@ public class SimpleLogger {
 		H2ZERO_GENERATE
 	}
 
+	// determine the maximum length of the enum types for output
 	private static int maxLength = 0;
 	static {
 		LoggerType[] values = LoggerType.values();
@@ -68,29 +72,104 @@ public class SimpleLogger {
 
 	private SimpleLogger() {}
 
+	/**
+	 * Log a debug message to the console
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param message The message to log
+	 */
 	public static void logDebug(LoggerType loggerType, String message) { log(DEBUG, loggerType, message); }
+
+	/**
+	 * Log a debug message to the console with the calling class which is output 
+	 * in square braces '[]'
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param clazz the calling class
+	 * @param message The message to log
+	 */
 	@SuppressWarnings("rawtypes")
 	public static void logDebug(LoggerType loggerType, Class clazz, String message) { log(DEBUG, loggerType, clazz, message); }
 
+	/**
+	 * Log an info message to the console
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param message The message to log
+	 */
 	public static void logInfo(LoggerType loggerType, String message) { log(INFO, loggerType, message); }
+
+	/**
+	 * Log an info message to the console with the calling class which is output 
+	 * in square braces '[]'
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param clazz the calling class
+	 * @param message The message to log
+	 */
 	@SuppressWarnings("rawtypes")
 	public static void logInfo(LoggerType loggerType, Class clazz, String message) { log(INFO, loggerType, clazz, message); }
 
+	/**
+	 * Log a warning message to the console
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param message The message to log
+	 */
 	public static void logWarn(LoggerType loggerType, String message) { log(WARN, loggerType, message); }
 	@SuppressWarnings("rawtypes")
+
+	/**
+	 * Log a warning message to the console
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param clazz the calling class
+	 * @param message The message to log
+	 */
 	public static void logWarn(LoggerType loggerType, Class clazz, String message) { log(WARN, loggerType, clazz, message); }
-	
+
+	/**
+	 * Log an error message to the console
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param message The message to log
+	 */
 	public static void logError(LoggerType loggerType, String message) { log(ERROR, loggerType, message); }
+
+	/**
+	 * Log an error message to the console with the calling class which is output 
+	 * in square braces '[]'
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param clazz the calling class
+	 * @param message The message to log
+	 */
 	@SuppressWarnings("rawtypes")
 	public static void logError(LoggerType loggerType, Class clazz, String message) { log(ERROR, loggerType, clazz, message); }
-	
+
+	/**
+	 * Log a fatal message to the console
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param message The message to log
+	 */
 	public static void logFatal(LoggerType loggerType, String message) { log(FATAL, loggerType, message); }
+
+	/**
+	 * Log a fatal message to the console with the calling class which is output 
+	 * in square braces '[]'
+	 * 
+	 * @param loggerType The type of the logger
+	 * @param clazz the calling class
+	 * @param message The message to log
+	 */
 	@SuppressWarnings("rawtypes")
 	public static void logFatal(LoggerType loggerType, Class clazz, String message) { log(FATAL, loggerType, clazz, message); }
 
 	private static void log(String type, LoggerType loggerType, String message) {
 		System.out.println(String.format("[ %" + maxLength + "s ] [ %s ] %s", loggerType.name(), type, message));
 	}
+
 	@SuppressWarnings("rawtypes")
 	private static void log(String type, LoggerType loggerType, Class clazz, String message) {
 		System.out.println(String.format("[ %" + maxLength + "s ] [ %s ] [ %s ] %s", loggerType.name(), type, clazz.getSimpleName(), message));

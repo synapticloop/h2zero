@@ -14,16 +14,19 @@
 		"UpdaterNameValidator": {
 			"allowablePrefixes": "reset,"
 		},
+
 		"FinderNameValidator": {
 			"allowablePrefixes": "find,calculate"
 		}
 	},
+
 	"output": {
 		"java": "src/test/java/",
 		"sql": "src/test/resources/",
 		"webapp": "src/test/resources/"
 	}
 },
+
 "database": {
 	"schema": "sample",
 	"package": "synapticloop.sample.h2zero.sqlite3",

@@ -1,7 +1,8 @@
-package synapticloop.h2zero.generator;
+package synapticloop.h2zero.extension;
 
 /*
- * Copyright (c) 2012-2018 synapticloop.
+ * Copyright (c) 2018 synapticloop.
+ * 
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -21,10 +22,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
-import synapticloop.h2zero.templar.function.FunctionRequiresImport;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.Parser;
@@ -34,40 +36,27 @@ import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
 
-public abstract class Generator {
-	private static final String FUNCTION_NAME_HAS_IMPORT = "requiresImport";
-	protected Database database;
-	protected Options options;
-	protected File outFile;
-
-	private boolean verbose = false;
-
+public abstract class Extension {
 	private Map<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
 
 	private int numFiles = 0;
 
-	/**
-	 * Constructor for the generator
-	 * 
-	 * @param database the database object that the generator will act on
-	 * @param options the options for the generator
-	 * @param outFile the base file to output the generated assets
-	 * @param verbose whether to output debugging
-	 */
-	public Generator(Database database, Options options, File outFile, boolean verbose) {
-		this.database = database;
-		this.options = options;
-		this.outFile = outFile;
-		this.verbose = verbose;
-	}
+	public Extension() {}
 
 	/**
-	 * Generate the output file from the inputs
+	 * Generate the output for this extension
 	 * 
-	 * @throws RenderException if there was an error rendering the file
-	 * @throws ParseException if there was an error parsing the templar template file
+	 * @param extensionOptions The JSONObject that contains any extensions that 
+	 * 		have been defined (or empty if not defined)
+	 * @param database The database which contains the tables
+	 * @param options The h2zero options
+	 * @param outFile The output directory
+	 * @param verbose Whether the user requested verbose output
+	 * 
+	 * @throws RenderException If there was an error templar rendering the extension
+	 * @throws ParseException If there was an error parsing the templar file
 	 */
-	public abstract void generate() throws RenderException, ParseException;
+	public abstract void generate(JSONObject extensionOptions, Database database, Options options, File outFile, boolean verbose) throws RenderException, ParseException;
 
 	/**
 	 * Get the default templar context, which contains the database and the 
@@ -77,7 +66,7 @@ public abstract class Generator {
 	 * 
 	 * @throws FunctionException if there was an error registering the new function
 	 */
-	protected TemplarContext getDefaultTemplarContext() throws FunctionException {
+	protected TemplarContext getDefaultTemplarContext(JSONObject extensionOptions, Database database, Options options) throws FunctionException {
 		TemplarConfiguration templarConfiguration = new TemplarConfiguration();
 		templarConfiguration.setExplicitNewLines(true);
 		templarConfiguration.setExplicitTabs(true);
@@ -85,11 +74,7 @@ public abstract class Generator {
 		TemplarContext templarContext = new TemplarContext(templarConfiguration);
 		templarContext.add(JSONKeyConstants.DATABASE, database);
 		templarContext.add(JSONKeyConstants.OPTIONS, options);
-
-		if(!templarContext.hasFunction(FUNCTION_NAME_HAS_IMPORT)) {
-			templarContext.addFunction(FUNCTION_NAME_HAS_IMPORT, new FunctionRequiresImport());
-			SimpleLogger.logInfo(LoggerType.FUNCTION_REGISTER, "Registered new Function '" + FUNCTION_NAME_HAS_IMPORT + "'.");
-		}
+		templarContext.add(JSONKeyConstants.EXTENSION_OPTIONS, extensionOptions);
 
 		return templarContext;
 	}
@@ -103,9 +88,9 @@ public abstract class Generator {
 	 * 
 	 * @throws ParseException if there was an error parsing the file
 	 */
-	protected Parser getParser(String templarTemplateFile) throws ParseException {
+	protected Parser getParser(String templarTemplateFile, boolean verbose) throws ParseException {
 		if(verbose) {
-			SimpleLogger.logDebug(LoggerType.TEMPLAR_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
+			SimpleLogger.logDebug(LoggerType.EXTENSION_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
 		}
 		return(new Parser(this.getClass().getResourceAsStream(templarTemplateFile)));
 	}
@@ -119,9 +104,9 @@ public abstract class Generator {
 	 * 
 	 * @throws RenderException if there was an error rendering the file
 	 */
-	protected void renderToFile(TemplarContext templarContext, Parser templarParser, String pathname) throws RenderException {
+	protected void renderToFile(TemplarContext templarContext, Parser templarParser, String pathname, boolean verbose) throws RenderException {
 		if(verbose) {
-			SimpleLogger.logDebug(LoggerType.TEMPLAR_RENDER, "Rendering to '" + pathname + "'");
+			SimpleLogger.logDebug(LoggerType.EXTENSION_RENDER, "Rendering to '" + pathname + "'");
 		}
 
 		numFiles++;
@@ -153,4 +138,20 @@ public abstract class Generator {
 	 * @return the map of extension:#files_generated
 	 */
 	public Map<String, Integer> getNumFilesHashMap() { return numFilesHashMap; }
+
+	protected void logInfo(String message) {
+		SimpleLogger.logInfo(LoggerType.EXTENSIONS, this.getClass(), message);
+	}
+
+	protected void logError(String message) {
+		SimpleLogger.logError(LoggerType.EXTENSIONS, this.getClass(), message);
+	}
+
+	protected void logDebug(String message) {
+		SimpleLogger.logDebug(LoggerType.EXTENSIONS, this.getClass(), message);
+	}
+
+	protected void logFatal(String message) {
+		SimpleLogger.logFatal(LoggerType.EXTENSIONS, this.getClass(), message);
+	}
 }

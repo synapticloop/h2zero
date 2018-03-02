@@ -97,6 +97,7 @@ public class JSONKeyConstants {
 
 	public static final String SINGLE = "single";
 	public static final String OPTIONS = "options";
+	public static final String EXTENSION_OPTIONS = "extensionOptions";
 	public static final String METRICS = "metrics";
 	public static final String GENERATORS = "generators";
 	public static final String EXTENSIONS = "extensions";

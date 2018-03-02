@@ -1,5 +1,7 @@
 package synapticloop.h2zero.model;
 
+import java.util.HashMap;
+
 /*
  * Copyright (c) 2012-2018 synapticloop.
  * All rights reserved.
@@ -19,6 +21,7 @@ package synapticloop.h2zero.model;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -26,6 +29,7 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.H2ZeroParser;
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.extension.Extension;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.SimpleLogger;
@@ -77,6 +81,7 @@ public class Options {
 	private String outputReports = "/build/reports/";
 
 	private Set<String> generators = new HashSet<String>();
+	private Map<Extension, JSONObject> extensions = new HashMap<Extension, JSONObject>();
 
 	public Options(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONObject optionsJson = jsonObject.optJSONObject(JSONKeyConstants.OPTIONS);
@@ -116,7 +121,24 @@ public class Options {
 		// at this point we have the array with all of the extensions
 		for (int i = 0; i < extensionArray.length(); i++) {
 			String extension = extensionArray.optString(i, null);
-			SimpleLogger.logInfo(LoggerType.EXTENSIONS, "Found an extension of '" + extension + "'.");
+			try {
+				Extension extensionClass = (Extension)Class.forName(extension).newInstance();
+				
+				// now look for the extension options
+				JSONObject extensionJSONObject = optionsJson.optJSONObject(extension);
+				if(null == extensionJSONObject) {
+					extensionJSONObject = new JSONObject();
+				}
+
+				SimpleLogger.logInfo(LoggerType.EXTENSIONS, "Adding extension '" + extension + "' with options '" + extensionJSONObject.toString() + "'.");
+				extensions.put(extensionClass, extensionJSONObject);
+
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+				ex.printStackTrace();
+				String message = "Could not instantiate the extension '" + extension + "', message was: " + ex.getMessage();
+				SimpleLogger.logFatal(LoggerType.EXTENSIONS, message);
+				throw new H2ZeroParseException(message, ex);
+			}
 			
 		}
 	}
@@ -212,6 +234,8 @@ public class Options {
 		}
 	}
 
+	public boolean hasExtensions() {return(!extensions.isEmpty()); }
+	public Map<Extension, JSONObject> getExtensions() { return(extensions); }
 	public boolean hasGenerator(String generator) { return(generators.contains(generator)); }
 	public boolean hasGenerators() { return(!generators.isEmpty()); }
 	public boolean getMetrics() { return metrics; }
