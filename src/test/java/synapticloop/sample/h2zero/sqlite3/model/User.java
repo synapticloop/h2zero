@@ -239,14 +239,14 @@ public class User extends ModelBase {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
 		stringBuilder.append("  \"type\": \"User\",\n");
-		stringBuilder.append("     \"idUser\": " + this.idUser + " , \n");
-		stringBuilder.append("     \"idUserType\": " + this.idUserType + " , \n");
-		stringBuilder.append("     \"flIsAlive\": " + this.flIsAlive + " , \n");
-		stringBuilder.append("     \"numAge\": " + this.numAge + " , \n");
-		stringBuilder.append("     \"nmUsername\": \"" + this.nmUsername + "\" , \n");
-		stringBuilder.append("     \"txtAddressEmail\": \"" + this.txtAddressEmail + "\" , \n");
-		stringBuilder.append("     \"txtPassword\": \"" + this.txtPassword + "\" , \n");
-		stringBuilder.append("     \"dtmSignup\": \"" + this.dtmSignup + "\" \n");
+		stringBuilder.append("  \"idUser\": " + this.idUser + " , \n");
+		stringBuilder.append("  \"idUserType\": " + this.idUserType + " , \n");
+		stringBuilder.append("  \"flIsAlive\": " + this.flIsAlive + " , \n");
+		stringBuilder.append("  \"numAge\": " + this.numAge + " , \n");
+		stringBuilder.append("  \"nmUsername\": \"" + this.nmUsername + "\" , \n");
+		stringBuilder.append("  \"txtAddressEmail\": \"" + this.txtAddressEmail + "\" , \n");
+		stringBuilder.append("  \"txtPassword\": \"" + this.txtPassword + "\" , \n");
+		stringBuilder.append("  \"dtmSignup\": \"" + this.dtmSignup + "\" \n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}

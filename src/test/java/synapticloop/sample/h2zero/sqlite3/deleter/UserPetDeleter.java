@@ -114,8 +114,7 @@ public class UserPetDeleter {
 	/**
 	 * Delete all of the rows in the table 'user_pet'.
 	 * 
-	 * This table has a foreign key relationship on it, consequently the truncate
-	 * method would have been faster, but would fail, hence the 'DELETE FROM' SQL
+	 * This database does not have the 'truncate' keywork hence the 'DELETE FROM' SQL
 	 * statement is used
 	 * 
 	 * 

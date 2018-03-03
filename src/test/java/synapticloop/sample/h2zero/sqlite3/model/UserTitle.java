@@ -71,9 +71,9 @@ public class UserTitle {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
 		stringBuilder.append("  \"type\": \"UserTitle\",\n");
-		stringBuilder.append("     \"idUserTitle\": " + this.idUserTitle + " , \n");
-		stringBuilder.append("     \"nmUserTitle\": \"" + this.nmUserTitle + "\" , \n");
-		stringBuilder.append("     \"numOrderBy\": " + this.numOrderBy + " \n");
+		stringBuilder.append("  \"idUserTitle\": " + this.idUserTitle + " , \n");
+		stringBuilder.append("  \"nmUserTitle\": \"" + this.nmUserTitle + "\" , \n");
+		stringBuilder.append("  \"numOrderBy\": " + this.numOrderBy + " \n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}

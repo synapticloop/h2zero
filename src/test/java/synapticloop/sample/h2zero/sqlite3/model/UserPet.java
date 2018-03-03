@@ -193,9 +193,9 @@ public class UserPet extends ModelBase {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
 		stringBuilder.append("  \"type\": \"UserPet\",\n");
-		stringBuilder.append("     \"idUserPet\": " + this.idUserPet + " , \n");
-		stringBuilder.append("     \"idUser\": " + this.idUser + " , \n");
-		stringBuilder.append("     \"idPet\": " + this.idPet + " \n");
+		stringBuilder.append("  \"idUserPet\": " + this.idUserPet + " , \n");
+		stringBuilder.append("  \"idUser\": " + this.idUser + " , \n");
+		stringBuilder.append("  \"idPet\": " + this.idPet + " \n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}

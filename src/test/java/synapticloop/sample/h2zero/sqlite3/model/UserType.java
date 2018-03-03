@@ -67,8 +67,8 @@ public class UserType {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
 		stringBuilder.append("  \"type\": \"UserType\",\n");
-		stringBuilder.append("     \"idUserType\": " + this.idUserType + " , \n");
-		stringBuilder.append("     \"nmUserType\": \"" + this.nmUserType + "\" \n");
+		stringBuilder.append("  \"idUserType\": " + this.idUserType + " , \n");
+		stringBuilder.append("  \"nmUserType\": \"" + this.nmUserType + "\" \n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}
