@@ -477,6 +477,7 @@ public class Table extends BaseSchemaObject {
 	public List<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
 	public BaseField getSetField(String name) { return(setFieldLookup.get(name)); }
 	public BaseField getWhereField(String name) { return(whereFieldLookup.get(name)); }
+	public BaseField getPrimaryKey() { return(primaryKeyField); }
 	public String getJavaClassName() { return(NamingHelper.getFirstUpper(name)); }
 	public String getJavaFieldName() { return(NamingHelper.getSecondUpper(name)); }
 	public boolean getHasNonNullConstructor() { return(nonNullFields.size() != fields.size()); }

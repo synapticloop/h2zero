@@ -1,6 +1,5 @@
 {
 "options": {
-	"logging": "slf4j",
 	"metrics": false,
 	"database": "sqlite3",
 
