@@ -49,6 +49,16 @@
 	working as it should...
 </p>
 
+<h4>Walking the tree</h4>
+
+<p>
+	Let's say you have a <code>pet</code> which has a foreign key relationship 
+	to a <code>user</code> (i.e. you may have multiple pets for each <code>user</code>).  
+	To get the the <code>user</code> from the <code>pet</code>, you can just
+	call <code>pet.getUser()</code> and we will automatically load the <code>user</code> 
+	from the database for you.
+</p>
+
 <h4>You have to have standards</h4>
 
 <p>
@@ -66,3 +76,11 @@
 	deleted) that the <em>'dead'</em> code is then flagged by the compiler.
 </p>
 
+<h4>Logging</h4>
+
+<p>
+	We aren't quite sure what your logging framework is going to be (we 
+	prefer log4j for historical reasons), so we leverage <code>slf4j</code>,
+	so that you can use whatever bridge you would like to your logging 
+	framework.
+</p>

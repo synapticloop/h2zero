@@ -1,7 +1,5 @@
 {{{\n}
 "options": {{{\n}
-{\t}"logging": "log4j",{\n}
-{\t}"statistics": false,{\n}
 {\t}"generators": [ "java", "sql", "taglib" ]{\n}
 },{\n}
 "database": {{{\n}

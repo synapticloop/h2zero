@@ -3,13 +3,14 @@
 </h3>
 
 <p>
-	Whilst everybody has their own database naming conventions, we recommend using snake_case as it is more readable 
-	- especially for people of foreign languages.
+	Whilst everybody has their own database naming conventions, we recommend 
+	using snake_case as it is more readable - especially for people of foreign 
+	languages.
 </p>
 
 <p>
 	The naming of the {import src/imports/links/fields.templar} echoes throughout 
-	the generated code and is a recommended way of keeping things consitent.  That 
+	the generated code and is a recommended way of keeping things consistent.  That 
 	being said, there are no reasons that camelCase naming conventions will not work, 
 	however this is untested.
 </p>
@@ -20,12 +21,37 @@
 	stead.
 </p>
 
+
 <h3>Important!</h3>
 
 <p>
-	Each table that is generated <strong>MUST</strong> contain a primary key
+	Each table that is generated <strong>MUST</strong> contain a primary key 
 	of type bigint.
 </p>
+
+<h4>Why?</h4>
+
+<p>
+	There is nothing worse than having a table which doesn't have a unique primary 
+	key, apart from one which is called <code>id</code>.  Plenty of times in the 
+	code we will be using multiple primary keys from all sort of tables, so we 
+	end up littering our code with <code>object.getId()</code>.  Rather than having 
+	to distinguish between the different <code>id</code> variables, we like to know 
+	what primary key it is referring to. (And with the 'extract to local variable 
+	shortcut in our IDE - it means that the variable is named appropriately).
+</p>
+
+<p>
+	<strong>For example:</strong>
+</p>
+
+<p>
+	<code>object.getIdPet()</code> will give us a completion of <code>Integer idPet = ...</code>, 
+	and we __ALWAYS__ know that this is a unique identifier to a <code>Pet</code> in the 
+	database, no matter where it comes from.
+</p>
+
+<h3>Suggestions for field names</h3>
 
 <table>
 	<thead>
@@ -70,6 +96,18 @@
 		<tr>
 			<td><strong><code>dbl_</code></strong></td>
 			<td>Double precision values</td>
+		</tr>
+		<tr>
+			<td><strong><code>tm_</code></strong></td>
+			<td>Time values</td>
+		</tr>
+		<tr>
+			<td><strong><code>dt_</code></strong></td>
+			<td>Date values</td>
+		</tr>
+		<tr>
+			<td><strong><code>ts_</code></strong></td>
+			<td>TimeStamp values</td>
 		</tr>
 	</tbody>
 </table>
