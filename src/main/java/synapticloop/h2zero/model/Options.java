@@ -84,6 +84,10 @@ public class Options {
 	private Map<Extension, JSONObject> extensions = new HashMap<Extension, JSONObject>();
 
 	public Options(JSONObject jsonObject) throws H2ZeroParseException {
+		if(null == jsonObject) {
+			throw new H2ZeroParseException("Somehow have a null h2zero JSON object");
+		}
+
 		JSONObject optionsJson = jsonObject.optJSONObject(JSONKeyConstants.OPTIONS);
 		if(null == optionsJson) {
 			// options are optional

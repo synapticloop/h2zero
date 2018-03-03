@@ -18,8 +18,5 @@ public class BasicExtension extends Extension {
 			throws RenderException, ParseException {
 		logInfo("Generation of an extension.");
 
-		TemplarContext templarContext = getDefaultTemplarContext(extensionOptions, database, options);
-
-
 	}
 }

@@ -2,14 +2,36 @@ package synapticloop.h2zero.model;
 
 import static org.junit.Assert.*;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.extension.Extension;
 
 public class OptionsTest {
 	private Options options;
+	public static String JSONExtensionString = "{\n" + 
+			"	\"options\": {\n" + 
+			"		\"extensions\": [\n" + 
+			"			\"synapticloop.h2zero.extension.BasicExtension\"\n" + 
+			"		],\n" + 
+			"\n" + 
+			"		\"synapticloop.h2zero.extension.BasicExtension\": {\n" + 
+			"			\"something\": \"else\",\n" + 
+			"			\"warning\": false\n" + 
+			"		}\n" + 
+			"	}\n" + 
+			"}";
+
+	public static String JSONMissingExtensionString = "{\n" + 
+			"	\"options\": {\n" + 
+			"		\"extensions\": [\n" + 
+			"			\"synapticloop.h2zero.extension.ThisIsAnExceptionDoesNotExistBasicExtension\"\n" + 
+			"		]\n" + 
+			"	}\n" + 
+			"}";
 
 	@Before
 	public void setup() {
@@ -49,5 +71,30 @@ public class OptionsTest {
 		assertEquals("/something/java/", options.getOutputJava());
 		assertEquals("/something/sql/", options.getOutputSql());
 		assertEquals("/something/webapp/", options.getOutputWebapp());
+	}
+
+	@Test
+	public void testExtension() throws JSONException, H2ZeroParseException {
+		options = new Options(new JSONObject(JSONExtensionString));
+		assertEquals(1, options.getExtensions().size());
+		assertTrue(options.hasExtensions());
+		Object[] extensionArray = options.getExtensions().keySet().toArray();
+		Extension extension = (Extension)extensionArray[0];
+		assertEquals("BasicExtension", extension.getClass().getSimpleName()); 
+	}
+
+	@Test(expected = H2ZeroParseException.class)
+	public void testMissingExtension() throws JSONException, H2ZeroParseException {
+		options = new Options(new JSONObject(JSONMissingExtensionString));
+	}
+
+	@Test(expected = H2ZeroParseException.class)
+	public void testNullOptions() throws H2ZeroParseException {
+		options = new Options(null);
+	}
+
+	@Test
+	public void testEmptyOptions() throws H2ZeroParseException {
+		options = new Options(new JSONObject());
 	}
 }
