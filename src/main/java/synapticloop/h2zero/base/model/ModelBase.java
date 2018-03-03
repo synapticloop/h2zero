@@ -68,7 +68,6 @@ public abstract class ModelBase {
 		try {
 			connection = getConnection();
 			insert(connection);
-			connection.close();
 		} finally {
 			if(connection != null) {
 				try {

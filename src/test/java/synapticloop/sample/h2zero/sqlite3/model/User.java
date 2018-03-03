@@ -238,9 +238,7 @@ public class User extends ModelBase {
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
-		stringBuilder.append("  \"model\": {\n");
-		stringBuilder.append("    \"name\": \"User\",\n");
-		stringBuilder.append("    \"fields\": {\n");
+		stringBuilder.append("  \"type\": \"User\",\n");
 		stringBuilder.append("     \"idUser\": " + this.idUser + " , \n");
 		stringBuilder.append("     \"idUserType\": " + this.idUserType + " , \n");
 		stringBuilder.append("     \"flIsAlive\": " + this.flIsAlive + " , \n");
@@ -249,8 +247,6 @@ public class User extends ModelBase {
 		stringBuilder.append("     \"txtAddressEmail\": \"" + this.txtAddressEmail + "\" , \n");
 		stringBuilder.append("     \"txtPassword\": \"" + this.txtPassword + "\" , \n");
 		stringBuilder.append("     \"dtmSignup\": \"" + this.dtmSignup + "\" \n");
-		stringBuilder.append("    }\n");
-		stringBuilder.append("  }\n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}

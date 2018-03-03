@@ -574,20 +574,16 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
 		{\t}{\t}stringBuilder.append("{{\n");{\n}
-		{\t}{\t}stringBuilder.append("  \"model\": {{\n");{\n}
-		{\t}{\t}stringBuilder.append("    \"name\": \"{table.javaClassName}\",\n");{\n}
-		{\t}{\t}stringBuilder.append("    \"fields\": {{\n");{\n}
+		{\t}{\t}stringBuilder.append("  \"type\": \"{table.javaClassName}\",\n");{\n}
 
 		{loop table.fields as field}
 			{if field.isSecure}
-				{\t}{\t}stringBuilder.append("     \"{field.javaName}\": \"<**secure**>\", \n");{\n}
+				{\t}{\t}stringBuilder.append("  \"{field.javaName}\": \"<**secure**>\", \n");{\n}
 			{else}
-				{\t}{\t}stringBuilder.append("     \"{field.javaName}\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} {if !fieldStatus.last}, {endif}\n");{\n}
+				{\t}{\t}stringBuilder.append("  \"{field.javaName}\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} {if !fieldStatus.last}, {endif}\n");{\n}
 			{endif}
 		{endloop}
 
-		{\t}{\t}stringBuilder.append("    }\n");{\n}
-		{\t}{\t}stringBuilder.append("  }\n");{\n}
 		{\t}{\t}stringBuilder.append("}\n");{\n}
 
 		{\t}{\t}return(stringBuilder.toString());{\n}

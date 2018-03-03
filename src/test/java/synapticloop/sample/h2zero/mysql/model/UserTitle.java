@@ -70,14 +70,10 @@ public class UserTitle {
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
-		stringBuilder.append("  \"model\": {\n");
-		stringBuilder.append("    \"name\": \"UserTitle\",\n");
-		stringBuilder.append("    \"fields\": {\n");
-		stringBuilder.append("     \"idUserTitle\": " + this.idUserTitle + " , \n");
-		stringBuilder.append("     \"nmUserTitle\": \"" + this.nmUserTitle + "\" , \n");
-		stringBuilder.append("     \"numOrderBy\": " + this.numOrderBy + " \n");
-		stringBuilder.append("    }\n");
-		stringBuilder.append("  }\n");
+		stringBuilder.append("  \"type\": \"UserTitle\",\n");
+		stringBuilder.append("  \"idUserTitle\": " + this.idUserTitle + " , \n");
+		stringBuilder.append("  \"nmUserTitle\": \"" + this.nmUserTitle + "\" , \n");
+		stringBuilder.append("  \"numOrderBy\": " + this.numOrderBy + " \n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}

@@ -213,17 +213,13 @@ public class Pet extends ModelBase {
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
-		stringBuilder.append("  \"model\": {\n");
-		stringBuilder.append("    \"name\": \"Pet\",\n");
-		stringBuilder.append("    \"fields\": {\n");
-		stringBuilder.append("     \"idPet\": " + this.idPet + " , \n");
-		stringBuilder.append("     \"nmPet\": \"" + this.nmPet + "\" , \n");
-		stringBuilder.append("     \"numAge\": " + this.numAge + " , \n");
-		stringBuilder.append("     \"fltWeight\": " + this.fltWeight + " , \n");
-		stringBuilder.append("     \"dtBirthday\": \"" + this.dtBirthday + "\" , \n");
-		stringBuilder.append("     \"imgPhoto\": \"" + this.imgPhoto + "\" \n");
-		stringBuilder.append("    }\n");
-		stringBuilder.append("  }\n");
+		stringBuilder.append("  \"type\": \"Pet\",\n");
+		stringBuilder.append("  \"idPet\": " + this.idPet + " , \n");
+		stringBuilder.append("  \"nmPet\": \"" + this.nmPet + "\" , \n");
+		stringBuilder.append("  \"numAge\": " + this.numAge + " , \n");
+		stringBuilder.append("  \"fltWeight\": " + this.fltWeight + " , \n");
+		stringBuilder.append("  \"dtBirthday\": \"" + this.dtBirthday + "\" , \n");
+		stringBuilder.append("  \"imgPhoto\": \"" + this.imgPhoto + "\" \n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}

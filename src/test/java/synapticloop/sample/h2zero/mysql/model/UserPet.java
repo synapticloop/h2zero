@@ -192,14 +192,10 @@ public class UserPet extends ModelBase {
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
-		stringBuilder.append("  \"model\": {\n");
-		stringBuilder.append("    \"name\": \"UserPet\",\n");
-		stringBuilder.append("    \"fields\": {\n");
-		stringBuilder.append("     \"idUserPet\": " + this.idUserPet + " , \n");
-		stringBuilder.append("     \"idUser\": " + this.idUser + " , \n");
-		stringBuilder.append("     \"idPet\": " + this.idPet + " \n");
-		stringBuilder.append("    }\n");
-		stringBuilder.append("  }\n");
+		stringBuilder.append("  \"type\": \"UserPet\",\n");
+		stringBuilder.append("  \"idUserPet\": " + this.idUserPet + " , \n");
+		stringBuilder.append("  \"idUser\": " + this.idUser + " , \n");
+		stringBuilder.append("  \"idPet\": " + this.idPet + " \n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}

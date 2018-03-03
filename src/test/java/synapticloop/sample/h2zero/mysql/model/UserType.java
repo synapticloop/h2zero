@@ -66,13 +66,9 @@ public class UserType {
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
-		stringBuilder.append("  \"model\": {\n");
-		stringBuilder.append("    \"name\": \"UserType\",\n");
-		stringBuilder.append("    \"fields\": {\n");
-		stringBuilder.append("     \"idUserType\": " + this.idUserType + " , \n");
-		stringBuilder.append("     \"nmUserType\": \"" + this.nmUserType + "\" \n");
-		stringBuilder.append("    }\n");
-		stringBuilder.append("  }\n");
+		stringBuilder.append("  \"type\": \"UserType\",\n");
+		stringBuilder.append("  \"idUserType\": " + this.idUserType + " , \n");
+		stringBuilder.append("  \"nmUserType\": \"" + this.nmUserType + "\" \n");
 		stringBuilder.append("}\n");
 		return(stringBuilder.toString());
 	}
