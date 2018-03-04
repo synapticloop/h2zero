@@ -72,9 +72,9 @@ public abstract class Extension {
 		templarConfiguration.setExplicitTabs(true);
 
 		TemplarContext templarContext = new TemplarContext(templarConfiguration);
-		templarContext.add(JSONKeyConstants.DATABASE, database);
-		templarContext.add(JSONKeyConstants.OPTIONS, options);
-		templarContext.add(JSONKeyConstants.EXTENSION_OPTIONS, extensionOptions);
+		templarContext.add(JSONKeyConstants.DATABASE, database);                    // key is "database"
+		templarContext.add(JSONKeyConstants.OPTIONS, options);                      // key is "options"
+		templarContext.add(JSONKeyConstants.EXTENSION_OPTIONS, extensionOptions);   // key is "extensionOptions"
 
 		return templarContext;
 	}
