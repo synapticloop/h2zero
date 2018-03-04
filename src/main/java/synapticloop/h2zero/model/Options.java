@@ -39,14 +39,12 @@ import synapticloop.h2zero.validator.BaseValidator;
 public class Options {
 
 	public static final String OPTION_CODE = "code";
-	public static final String OPTION_RESOURCE = "resource";
+	public static final String OPTION_RESOURCES = "resources";
 	public static final String OPTION_BUILD = "build";
 
-	@Deprecated public static final String OPTION_JAVA = "java";
-	@Deprecated public static final String OPTION_SQL = "sql";
-	@Deprecated public static final String OPTION_REPORTS = "reports";
-	@Deprecated public static final String OPTION_WEBAPP = "webapp";
-	@Deprecated public static final String OPTION_DATABASE = "database";
+	public static final String OPTION_JAVA = "java";
+	public static final String OPTION_SQL = "sql";
+	public static final String OPTION_REPORTS = "reports";
 
 	public static final String OPTION_OUTPUT = "output";
 
@@ -76,11 +74,6 @@ public class Options {
 	private String outputResource = "/src/main/resources/";
 	private String outputBuild = "/build/";
 
-	private String outputJava = "/src/main/java/";
-	private String outputSql = "/src/main/sql/";
-	private String outputWebapp = "/src/main/webapps/";
-	private String outputReports = "/build/reports/";
-
 	private Set<String> generators = new HashSet<String>();
 	private Map<Extension, JSONObject> extensions = new HashMap<Extension, JSONObject>();
 
@@ -105,21 +98,13 @@ public class Options {
 		// now we are going to update the output paths
 		JSONObject outputJson = optionsJson.optJSONObject(JSONKeyConstants.OUTPUT);
 		if(null != outputJson) {
-			outputJava = JsonHelper.getStringValue(outputJson, OPTION_JAVA, outputJava);
-			outputSql = JsonHelper.getStringValue(outputJson, OPTION_SQL, outputSql);
-			outputWebapp = JsonHelper.getStringValue(outputJson, OPTION_WEBAPP, outputWebapp);
-
 			outputCode = JsonHelper.getStringValue(outputJson, OPTION_CODE, outputCode);
-			outputResource = JsonHelper.getStringValue(outputJson, OPTION_RESOURCE, outputResource);
+			outputResource = JsonHelper.getStringValue(outputJson, OPTION_RESOURCES, outputResource);
 			outputBuild = JsonHelper.getStringValue(outputJson, OPTION_BUILD, outputBuild);
 
 		}
 
 		// now ensure that there are slashes on both sides of the output directory
-		outputJava = convertToAbsolutePath(outputJava);
-		outputSql = convertToAbsolutePath(outputSql);
-		outputWebapp = convertToAbsolutePath(outputWebapp);
-
 		outputCode = convertToAbsolutePath(outputCode);
 		outputResource = convertToAbsolutePath(outputResource);
 		outputBuild = convertToAbsolutePath(outputBuild);
@@ -259,15 +244,6 @@ public class Options {
 	public void setDatabase(String database) { this.database = database; }
 
 	public String getOutputCode() { return(outputCode); }
-	public String getOutputResource() { return(outputResource); }
+	public String getOutputResources() { return(outputResource); }
 	public String getOutputBuild() { return(outputBuild); }
-
-	@Deprecated
-	public String getOutputJava() { return(outputJava); }
-	@Deprecated
-	public String getOutputWebapp() { return(outputWebapp); }
-	@Deprecated
-	public String getOutputSql() { return(outputSql); }
-	@Deprecated
-	public String getOutputReports() { return(outputReports); }
 }

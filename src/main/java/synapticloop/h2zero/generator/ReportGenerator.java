@@ -51,7 +51,7 @@ public class ReportGenerator extends Generator {
 
 	private void generateDatabaseSchemaReport(TemplarContext templarContext) throws ParseException, RenderException {
 		Parser mdReportCreateDatabaseSchema = getParser("/md-report-create-database-schema.templar");
-		String pathname = outFile + options.getOutputReports() + "/report-database-" + database.getSchema() + "-" + options.getDatabase() + ".md";
+		String pathname = outFile + options.getOutputBuild() + "/reports/report-database-" + database.getSchema() + "-" + options.getDatabase() + ".md";
 		renderToFile(templarContext, mdReportCreateDatabaseSchema, pathname);
 	}
 

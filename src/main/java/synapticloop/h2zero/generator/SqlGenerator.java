@@ -43,7 +43,7 @@ public class SqlGenerator extends Generator {
 		SimpleLogger.logInfo(LoggerType.GENERATE_SQL, "Generating for database '" + database.getSchema() + "', of type '" + databaseType + ".");
 
 		// first up the database creation script
-		String pathname = outFile.getAbsolutePath() + options.getOutputSql() + "/create-database-" + databaseType + ".sql";
+		String pathname = outFile.getAbsolutePath() + options.getOutputResources() + "/create-database-" + databaseType + ".sql";
 		renderToFile(templarContext, sqlCreateDatabaseTypeParser, pathname);
 	}
 

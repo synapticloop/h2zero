@@ -32,7 +32,7 @@ public class UtilGenerator extends Generator {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
 
-		String pathname = outFile.getAbsolutePath() + options.getOutputJava() + "/" + database.getPackagePath() + "/util/DatabaseCheckerHelper.java";
+		String pathname = outFile.getAbsolutePath() + options.getOutputCode() + "/" + database.getPackagePath() + "/util/DatabaseCheckerHelper.java";
 		SimpleLogger.logInfo(LoggerType.GENERATE_JAVA_UTIL, "Generating for 'DatabaseCheckerHelper'.");
 		renderToFile(templarContext, javaCreateDatabaseCheckerHelperParser, pathname);
 	}

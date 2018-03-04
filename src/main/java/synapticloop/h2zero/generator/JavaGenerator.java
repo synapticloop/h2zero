@@ -80,7 +80,7 @@ public class JavaGenerator extends Generator {
 		// the taglibs
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
 
-		String pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/model/util/Constants.java";
+		String pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Constants.java";
 		renderToFile(templarContext, javaCreateConstantsParser, pathname);
 
 		// now for the tables
@@ -93,26 +93,26 @@ public class JavaGenerator extends Generator {
 			SimpleLogger.logInfo(LoggerType.GENERATE_JAVA, "Generating for table '" + table.getName() + "'.");
 
 			// the model
-			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
+			pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
 			renderToFile(templarContext, javaCreateModelParser, pathname);
 
 			// the finder
-			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
+			pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
 			renderToFile(templarContext, javaCreateFinderParser, pathname);
 
 			// the inserter
 			if(!table.getIsConstant()) {
-				pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
+				pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
 				renderToFile(templarContext, javaCreateInserterParser, pathname);
 			}
 
 			// the counters
-			pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
+			pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
 			renderToFile(templarContext, javaCreateCounterParser, pathname);
 
 			// the questions - but only if we have some
 			if(table.getHasQuestions()) {
-				pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/question/" + table.getJavaClassName() + "Question.java";
+				pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/question/" + table.getJavaClassName() + "Question.java";
 				renderToFile(templarContext, javaCreateQuestionParser, pathname);
 			}
 
@@ -125,18 +125,18 @@ public class JavaGenerator extends Generator {
 
 				// don't forget the beans for the selectClause finders
 				if(null != finder.getSelectClause()) {
-					pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
+					pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
 					renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
 				}
 			}
 
 			if(!table.getIsConstant()) {
 				// the updater
-				pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
+				pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
 				renderToFile(templarContext, javaCreateUpdaterParser, pathname);
 
 				// the deleter
-				pathname = outFile + options.getOutputJava() + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java";
+				pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java";
 				renderToFile(templarContext, javaCreateDeleterParser, pathname);
 			}
 		}
@@ -162,7 +162,7 @@ public class JavaGenerator extends Generator {
 			// hack for finder taglibs for views - should be split out
 			templarContext.add("table", view);
 
-			String pathPrefix = outFile + options.getOutputJava() + database.getPackagePath();
+			String pathPrefix = outFile + options.getOutputCode() + database.getPackagePath();
 			String viewJavaClassName = view.getJavaClassName();
 
 			pathname = pathPrefix + "/view/" + viewJavaClassName + ".java";

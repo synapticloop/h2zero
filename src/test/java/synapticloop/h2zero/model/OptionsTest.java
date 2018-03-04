@@ -42,17 +42,17 @@ public class OptionsTest {
 		JSONObject jsonObject = new JSONObject();
 		JSONObject optionsObject = new JSONObject();
 		JSONObject outputObject = new JSONObject();
-		outputObject.put(Options.OPTION_JAVA, "something/java");
-		outputObject.put(Options.OPTION_SQL, "something/sql");
-		outputObject.put(Options.OPTION_WEBAPP, "something/webapp");
+		outputObject.put(Options.OPTION_CODE, "something/java");
+		outputObject.put(Options.OPTION_RESOURCES, "something/resources");
+		outputObject.put(Options.OPTION_BUILD, "something/build");
 
 		optionsObject.put("output", outputObject);
 		jsonObject.put("options", optionsObject);
 
 		options = new Options(jsonObject);
-		assertEquals("/something/java/", options.getOutputJava());
-		assertEquals("/something/sql/", options.getOutputSql());
-		assertEquals("/something/webapp/", options.getOutputWebapp());
+		assertEquals("/something/java/", options.getOutputCode());
+		assertEquals("/something/resources/", options.getOutputResources());
+		assertEquals("/something/build/", options.getOutputBuild());
 	}
 
 	@Test
@@ -60,17 +60,17 @@ public class OptionsTest {
 		JSONObject jsonObject = new JSONObject();
 		JSONObject optionsObject = new JSONObject();
 		JSONObject outputObject = new JSONObject();
-		outputObject.put(Options.OPTION_JAVA, "/something/java");
-		outputObject.put(Options.OPTION_SQL, "something/sql/");
-		outputObject.put(Options.OPTION_WEBAPP, "/something/webapp/");
+		outputObject.put(Options.OPTION_CODE, "something/java");
+		outputObject.put(Options.OPTION_RESOURCES, "something/resources");
+		outputObject.put(Options.OPTION_BUILD, "something/build");
 
 		optionsObject.put("output", outputObject);
 		jsonObject.put("options", optionsObject);
 
 		options = new Options(jsonObject);
-		assertEquals("/something/java/", options.getOutputJava());
-		assertEquals("/something/sql/", options.getOutputSql());
-		assertEquals("/something/webapp/", options.getOutputWebapp());
+		assertEquals("/something/java/", options.getOutputCode());
+		assertEquals("/something/resources/", options.getOutputResources());
+		assertEquals("/something/build/", options.getOutputBuild());
 	}
 
 	@Test
