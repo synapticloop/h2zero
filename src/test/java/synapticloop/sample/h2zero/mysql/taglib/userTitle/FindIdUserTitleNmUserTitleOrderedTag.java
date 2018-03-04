@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 import synapticloop.sample.h2zero.mysql.model.UserTitle;
 import synapticloop.sample.h2zero.mysql.finder.UserTitleFinder;
-import synapticloop.h2zero.base.taglib.BaseVarTag;
+import synapticloop.h2zero.extension.taglib.BaseVarTag;
 
 
 @SuppressWarnings("serial")

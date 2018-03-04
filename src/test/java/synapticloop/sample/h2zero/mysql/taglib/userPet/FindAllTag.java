@@ -17,7 +17,7 @@ import synapticloop.sample.h2zero.mysql.model.UserPet;
 import synapticloop.sample.h2zero.mysql.finder.UserPetFinder;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
-import synapticloop.h2zero.base.taglib.BaseVarTag;
+import synapticloop.h2zero.extension.taglib.BaseVarTag;
 
 @SuppressWarnings("serial")
 public class FindAllTag extends BaseVarTag {

@@ -158,6 +158,7 @@ public class JavaGenerator extends Generator {
 			View view = viewsIterator.next();
 
 			templarContext.add("view", view);
+
 			// hack for finder taglibs for views - should be split out
 			templarContext.add("table", view);
 

@@ -39,7 +39,6 @@ import synapticloop.h2zero.validator.BaseValidator;
 public class Options {
 	public static final String OPTION_FORMBEANS = "formbeans";
 	public static final String OPTION_ADMINPAGES = "adminpages";
-	public static final String OPTION_TAGLIB = "taglib";
 	public static final String OPTION_JSP = "jsp";
 	public static final String OPTION_JAVA = "java";
 	public static final String OPTION_SQL = "sql";
@@ -55,7 +54,6 @@ public class Options {
 		ALLOWABLE_GENERATORS.add(OPTION_SQL);
 		ALLOWABLE_GENERATORS.add(OPTION_JAVA);
 		ALLOWABLE_GENERATORS.add(OPTION_JSP);
-		ALLOWABLE_GENERATORS.add(OPTION_TAGLIB);
 		ALLOWABLE_GENERATORS.add(OPTION_ADMINPAGES);
 		ALLOWABLE_GENERATORS.add(OPTION_FORMBEANS);
 		ALLOWABLE_GENERATORS.add(OPTION_REPORTS);

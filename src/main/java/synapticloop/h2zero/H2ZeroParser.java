@@ -336,6 +336,21 @@ public class H2ZeroParser {
 
 		databaseObject.put(JSONKeyConstants.TABLES, newTablesArray);
 
+		JSONArray newViewsArray = new JSONArray();
+		JSONArray viewsArray = databaseObject.getJSONArray(JSONKeyConstants.VIEWS);
+		int j = 0;
+		for (Object object : viewsArray) {
+			JSONObject viewObject = (JSONObject) object;
+			if(viewObject.has(H2ZERO_KEY_INCLUDE)) {
+				newViewsArray.put(j, new JSONObject(getFileContents(new File(absolutePath + "/" + viewObject.getString(H2ZERO_KEY_INCLUDE)))));
+			} else {
+				newViewsArray.put(viewObject);
+			}
+			j++;
+		}
+
+		databaseObject.put(JSONKeyConstants.VIEWS, newViewsArray);
+
 		return jsonObject;
 	}
 

@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import synapticloop.sample.h2zero.mysql.counter.PetCounter;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
-import synapticloop.h2zero.base.taglib.BaseVarTag;
+import synapticloop.h2zero.extension.taglib.BaseVarTag;
 
 @SuppressWarnings("serial")
 public class CountAllTag extends BaseVarTag {
