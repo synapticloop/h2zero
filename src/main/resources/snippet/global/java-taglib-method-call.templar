@@ -1,9 +1,0 @@
-{if baseQueryObject.hasWhereFieldAliases}
-	{loop baseQueryObject.whereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-	{endloop}
-{else}
-	{loop baseQueryObject.uniqueWhereFields as whereField}
-		{if !whereFieldStatus.first}, {endif}{whereField.javaName}{if whereField.isInField}List{endif}
-	{endloop}
-{endif}

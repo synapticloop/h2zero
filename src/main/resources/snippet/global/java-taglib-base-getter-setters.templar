@@ -1,6 +1,0 @@
-{\n}
-	{\t}public String getVar() {{ return var; }{\n}
-	{\t}public void setVar(String var) {{ this.var = var; }{\n}
-	{\t}public void setRemoveVar(boolean removeVar) {{ this.removeVar = removeVar; }{\n}
-	{\t}public boolean getRemoveVar() {{ return removeVar; }{\n}
-{\n}

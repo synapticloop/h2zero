@@ -1,8 +1,0 @@
-{\n}
-{\t}@Override{\n}
-{\t}public int doEndTag() throws JspException {{{\n}
-{\t}{\t}if(removeVar) {{{\n}
-{\t}{\t}{\t}pageContext.removeAttribute(var, PageContext.PAGE_SCOPE);{\n}
-{\t}{\t}}{\n}
-{\t}{\t}return(EVAL_PAGE);{\n}
-{\t}}{\n}
