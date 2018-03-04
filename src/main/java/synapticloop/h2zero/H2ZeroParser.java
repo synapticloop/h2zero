@@ -41,6 +41,7 @@ import synapticloop.h2zero.validator.BaseValidator;
 import synapticloop.h2zero.validator.ForeignKeyTableValidator;
 import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
 import synapticloop.h2zero.validator.UniqeAndIndexValidator;
+import synapticloop.h2zero.validator.UniqueTableViewNameValidator;
 import synapticloop.h2zero.validator.bean.Message;
 import synapticloop.h2zero.validator.constant.ConstantDeleterValidator;
 import synapticloop.h2zero.validator.constant.ConstantInserterValidator;
@@ -112,6 +113,7 @@ public class H2ZeroParser {
 		validators.add(new OptionsGeneratorsValidator());
 
 		// overall validators
+		validators.add(new UniqueTableViewNameValidator());
 		validators.add(new ForeignKeyTableValidator());
 		validators.add(new UniqeAndIndexValidator());
 
