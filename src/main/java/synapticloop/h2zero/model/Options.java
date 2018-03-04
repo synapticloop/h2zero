@@ -102,6 +102,18 @@ public class Options {
 			outputResource = JsonHelper.getStringValue(outputJson, OPTION_RESOURCES, outputResource);
 			outputBuild = JsonHelper.getStringValue(outputJson, OPTION_BUILD, outputBuild);
 
+			if(null != JsonHelper.getStringValue(outputJson, "java", null)) {
+				SimpleLogger.logFatal(LoggerType.OPTIONS, "The 'output' with key 'java' is no longer in use and has been ignored, use 'code' instead.");
+			}
+
+			if(null != JsonHelper.getStringValue(outputJson, "webapp", null)) {
+				SimpleLogger.logFatal(LoggerType.OPTIONS, "The 'output' with key 'webapp' is no longer in use and has been ignored, use 'resources' instead.");
+			}
+
+			if(null != JsonHelper.getStringValue(outputJson, "sql", null)) {
+				SimpleLogger.logFatal(LoggerType.OPTIONS, "The 'output' with key 'sql' is no longer in use and has been ignored, use 'resources' instead.");
+			}
+
 		}
 
 		// now ensure that there are slashes on both sides of the output directory

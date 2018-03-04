@@ -16,9 +16,9 @@
 	},
 
 	"output": {
-		"java": "src/test/java/",
-		"sql": "src/test/resources/",
-		"webapp": "src/test/resources/"
+		"code": "src/test/java/",
+		"resources": "src/test/resources/",
+		"build": "build/"
 	}
 },
 
