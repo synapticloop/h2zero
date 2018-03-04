@@ -27,10 +27,6 @@ repositories {
 	jcenter()
 }
 
-dependencies {
-	compile 'synapticloop:h2zero-extension-taglibs:1.0.0'
-}
-
 h2zero {
 	inFile = 'src/test/resources/sample-include.h2zero'
 	outDir = '.'
