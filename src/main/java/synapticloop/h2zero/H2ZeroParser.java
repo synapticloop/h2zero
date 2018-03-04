@@ -32,7 +32,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import synapticloop.h2zero.base.validator.ValidatorBase;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.extension.Extension;
 import synapticloop.h2zero.model.Database;
