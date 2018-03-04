@@ -37,15 +37,10 @@ import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.validator.BaseValidator;
 
 public class Options {
-	public static final String OPTION_FORMBEANS = "formbeans";
-	public static final String OPTION_ADMINPAGES = "adminpages";
-	public static final String OPTION_JSP = "jsp";
 	public static final String OPTION_JAVA = "java";
 	public static final String OPTION_SQL = "sql";
-	public static final String OPTION_WEBAPP = "webapp";
-	public static final String OPTION_RESTFUL_SERVLET = "restfulservlet";
 	public static final String OPTION_REPORTS = "reports";
-	public static final String OPTION_DATABASE = "reports";
+	public static final String OPTION_DATABASE = "database";
 
 	public static final String OPTION_OUTPUT = "output";
 
@@ -53,9 +48,6 @@ public class Options {
 	static {
 		ALLOWABLE_GENERATORS.add(OPTION_SQL);
 		ALLOWABLE_GENERATORS.add(OPTION_JAVA);
-		ALLOWABLE_GENERATORS.add(OPTION_JSP);
-		ALLOWABLE_GENERATORS.add(OPTION_ADMINPAGES);
-		ALLOWABLE_GENERATORS.add(OPTION_FORMBEANS);
 		ALLOWABLE_GENERATORS.add(OPTION_REPORTS);
 	}
 
@@ -73,6 +65,11 @@ public class Options {
 	 */
 	private boolean metrics = false;
 	private String database = DATABASE_MYSQL;
+	
+	private String outputCode = "/src/main/java/";
+	private String outputResource = "/src/main/resources/";
+	private String outputBuild = "/build/";
+
 	private String outputJava = "/src/main/java/";
 	private String outputSql = "/src/main/sql/";
 	private String outputWebapp = "/src/main/webapps/";
@@ -245,8 +242,16 @@ public class Options {
 	public String getDatabase() { return database; }
 	public void setDatabase(String database) { this.database = database; }
 
+	public String getOutputCode() { return(outputCode); }
+	public String getOutputResource() { return(outputResource); }
+	public String getOutputBuild() { return(outputBuild); }
+
+	@Deprecated
 	public String getOutputJava() { return(outputJava); }
+	@Deprecated
 	public String getOutputWebapp() { return(outputWebapp); }
+	@Deprecated
 	public String getOutputSql() { return(outputSql); }
+	@Deprecated
 	public String getOutputReports() { return(outputReports); }
 }
