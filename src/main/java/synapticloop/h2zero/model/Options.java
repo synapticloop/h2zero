@@ -37,10 +37,16 @@ import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.validator.BaseValidator;
 
 public class Options {
-	public static final String OPTION_JAVA = "java";
-	public static final String OPTION_SQL = "sql";
-	public static final String OPTION_REPORTS = "reports";
-	public static final String OPTION_DATABASE = "database";
+
+	public static final String OPTION_CODE = "code";
+	public static final String OPTION_RESOURCE = "resource";
+	public static final String OPTION_BUILD = "build";
+
+	@Deprecated public static final String OPTION_JAVA = "java";
+	@Deprecated public static final String OPTION_SQL = "sql";
+	@Deprecated public static final String OPTION_REPORTS = "reports";
+	@Deprecated public static final String OPTION_WEBAPP = "webapp";
+	@Deprecated public static final String OPTION_DATABASE = "database";
 
 	public static final String OPTION_OUTPUT = "output";
 
@@ -65,7 +71,7 @@ public class Options {
 	 */
 	private boolean metrics = false;
 	private String database = DATABASE_MYSQL;
-	
+
 	private String outputCode = "/src/main/java/";
 	private String outputResource = "/src/main/resources/";
 	private String outputBuild = "/build/";
@@ -102,12 +108,22 @@ public class Options {
 			outputJava = JsonHelper.getStringValue(outputJson, OPTION_JAVA, outputJava);
 			outputSql = JsonHelper.getStringValue(outputJson, OPTION_SQL, outputSql);
 			outputWebapp = JsonHelper.getStringValue(outputJson, OPTION_WEBAPP, outputWebapp);
+
+			outputCode = JsonHelper.getStringValue(outputJson, OPTION_CODE, outputCode);
+			outputResource = JsonHelper.getStringValue(outputJson, OPTION_RESOURCE, outputResource);
+			outputBuild = JsonHelper.getStringValue(outputJson, OPTION_BUILD, outputBuild);
+
 		}
 
 		// now ensure that there are slashes on both sides of the output directory
 		outputJava = convertToAbsolutePath(outputJava);
 		outputSql = convertToAbsolutePath(outputSql);
 		outputWebapp = convertToAbsolutePath(outputWebapp);
+
+		outputCode = convertToAbsolutePath(outputCode);
+		outputResource = convertToAbsolutePath(outputResource);
+		outputBuild = convertToAbsolutePath(outputBuild);
+
 	}
 
 	private void parseExtensions(JSONObject optionsJson) throws H2ZeroParseException {
@@ -122,7 +138,7 @@ public class Options {
 			String extension = extensionArray.optString(i, null);
 			try {
 				Extension extensionClass = (Extension)Class.forName(extension).newInstance();
-				
+
 				// now look for the extension options
 				JSONObject extensionJSONObject = optionsJson.optJSONObject(extension);
 				if(null == extensionJSONObject) {
@@ -138,7 +154,7 @@ public class Options {
 				SimpleLogger.logFatal(LoggerType.EXTENSIONS, message);
 				throw new H2ZeroParseException(message, ex);
 			}
-			
+
 		}
 	}
 
