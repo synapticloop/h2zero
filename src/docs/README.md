@@ -9,6 +9,10 @@ This is a object relationship mapper for MySQL and Java.
 
 Whilst still a work in progress, database persistence is fully supported and running in production environments.
 
+# Extensions
+
+Extensions for h2zero are now supported see [https://github.com/synapticloop/h2zero-extension-routemaster-restful](https://github.com/synapticloop/h2zero-extension-routemaster-restful)
+
 # Background
 
 There are so many object relational mappers (ORMs) out there that do what h2zero does.  It isn't special, it just provides a link between your database and generates your Java code to be able to use it.

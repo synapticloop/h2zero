@@ -20,35 +20,36 @@
  - [Table of Contents](#documentr_heading_0)
  - [h2zero](#documentr_heading_1)
  - [VERSION 2](#documentr_heading_2)
- - [Background](#documentr_heading_3)
- - [Requirements](#documentr_heading_4)
- - [Creating a h2zero configuration file](#documentr_heading_5)
- - [The CRUD operations (and some more)](#documentr_heading_6)
-   - [Create](#documentr_heading_7)
-   - [Read](#documentr_heading_8)
-   - [Update](#documentr_heading_9)
-   - [Delete](#documentr_heading_10)
-   - [and some more](#documentr_heading_11)
- - [The Little Things](#documentr_heading_12)
- - [h2Zero generation](#documentr_heading_13)
-   - [gradle plugin](#documentr_heading_14)
-   - [ant](#documentr_heading_15)
-   - [Command line generation](#documentr_heading_16)
- - [Building the Package](#documentr_heading_17)
-   - [*NIX/Mac OS X](#documentr_heading_18)
-   - [Windows](#documentr_heading_19)
- - [Logging - slf4j](#documentr_heading_20)
-   - [Log4j](#documentr_heading_21)
- - [Artefact Publishing - Github](#documentr_heading_26)
- - [All-In-One](#documentr_heading_27)
- - [Artefact Publishing - Bintray](#documentr_heading_28)
-   - [maven setup](#documentr_heading_29)
-   - [gradle setup](#documentr_heading_30)
- - [Artefact Publishing - gradle plugin portal](#documentr_heading_31)
-   - [Dependencies - Gradle](#documentr_heading_32)
-   - [Dependencies - Maven](#documentr_heading_33)
-   - [Dependencies - Downloads](#documentr_heading_34)
- - [License](#documentr_heading_41)
+ - [Extensions](#documentr_heading_3)
+ - [Background](#documentr_heading_4)
+ - [Requirements](#documentr_heading_5)
+ - [Creating a h2zero configuration file](#documentr_heading_6)
+ - [The CRUD operations (and some more)](#documentr_heading_7)
+   - [Create](#documentr_heading_8)
+   - [Read](#documentr_heading_9)
+   - [Update](#documentr_heading_10)
+   - [Delete](#documentr_heading_11)
+   - [and some more](#documentr_heading_12)
+ - [The Little Things](#documentr_heading_13)
+ - [h2Zero generation](#documentr_heading_14)
+   - [gradle plugin](#documentr_heading_15)
+   - [ant](#documentr_heading_16)
+   - [Command line generation](#documentr_heading_17)
+ - [Building the Package](#documentr_heading_18)
+   - [*NIX/Mac OS X](#documentr_heading_19)
+   - [Windows](#documentr_heading_20)
+ - [Logging - slf4j](#documentr_heading_21)
+   - [Log4j](#documentr_heading_22)
+ - [Artefact Publishing - Github](#documentr_heading_27)
+ - [All-In-One](#documentr_heading_28)
+ - [Artefact Publishing - Bintray](#documentr_heading_29)
+   - [maven setup](#documentr_heading_30)
+   - [gradle setup](#documentr_heading_31)
+ - [Artefact Publishing - gradle plugin portal](#documentr_heading_32)
+   - [Dependencies - Gradle](#documentr_heading_33)
+   - [Dependencies - Maven](#documentr_heading_34)
+   - [Dependencies - Downloads](#documentr_heading_35)
+ - [License](#documentr_heading_42)
 
 
 
@@ -83,6 +84,14 @@ Whilst still a work in progress, database persistence is fully supported and run
 
 <a name="documentr_heading_3"></a>
 
+# Extensions <sup><sup>[top](#documentr_top)</sup></sup>
+
+Extensions for h2zero are now supported see [https://github.com/synapticloop/h2zero-extension-routemaster-restful](https://github.com/synapticloop/h2zero-extension-routemaster-restful)
+
+
+
+<a name="documentr_heading_4"></a>
+
 # Background <sup><sup>[top](#documentr_top)</sup></sup>
 
 There are so many object relational mappers (ORMs) out there that do what h2zero does.  It isn't special, it just provides a link between your database and generates your Java code to be able to use it.
@@ -103,7 +112,7 @@ Your database, just the way that you designed it.
 
 
 
-<a name="documentr_heading_4"></a>
+<a name="documentr_heading_5"></a>
 
 # Requirements <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -114,7 +123,7 @@ Your database, just the way that you designed it.
 
 
 
-<a name="documentr_heading_5"></a>
+<a name="documentr_heading_6"></a>
 
 # Creating a h2zero configuration file <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -170,13 +179,13 @@ By default the h2zero file would look like the following:
 
 
 
-<a name="documentr_heading_6"></a>
+<a name="documentr_heading_7"></a>
 
 # The CRUD operations (and some more) <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
-<a name="documentr_heading_7"></a>
+<a name="documentr_heading_8"></a>
 
 ## Create  <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -184,7 +193,7 @@ Normal plain old java objects (POJO).  Just instantiate and insert (or insert si
 
 
 
-<a name="documentr_heading_8"></a>
+<a name="documentr_heading_9"></a>
 
 ## Read  <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -192,7 +201,7 @@ Finders, Finders and more Finders
 
 
 
-<a name="documentr_heading_9"></a>
+<a name="documentr_heading_10"></a>
 
 ## Update <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -200,7 +209,7 @@ Updaters
 
 
 
-<a name="documentr_heading_10"></a>
+<a name="documentr_heading_11"></a>
 
 ## Delete <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -208,7 +217,7 @@ Deleters
 
 
 
-<a name="documentr_heading_11"></a>
+<a name="documentr_heading_12"></a>
 
 ## and some more <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -231,7 +240,7 @@ This will generate the following files
 
 
 
-<a name="documentr_heading_12"></a>
+<a name="documentr_heading_13"></a>
 
 # The Little Things <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -248,13 +257,13 @@ This will generate the following files
 
 
 
-<a name="documentr_heading_13"></a>
+<a name="documentr_heading_14"></a>
 
 # h2Zero generation <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
-<a name="documentr_heading_14"></a>
+<a name="documentr_heading_15"></a>
 
 ## gradle plugin <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -274,7 +283,7 @@ h2zero {
 
 
 
-<a name="documentr_heading_15"></a>
+<a name="documentr_heading_16"></a>
 
 ## ant <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -299,7 +308,7 @@ task h2zero << {
 
 
 
-<a name="documentr_heading_16"></a>
+<a name="documentr_heading_17"></a>
 
 ## Command line generation <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -394,13 +403,13 @@ Exiting...
 
 
 
-<a name="documentr_heading_17"></a>
+<a name="documentr_heading_18"></a>
 
 # Building the Package <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
-<a name="documentr_heading_18"></a>
+<a name="documentr_heading_19"></a>
 
 ## *NIX/Mac OS X <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -411,7 +420,7 @@ From the root of the project, simply run
 
 
 
-<a name="documentr_heading_19"></a>
+<a name="documentr_heading_20"></a>
 
 ## Windows <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -424,7 +433,7 @@ Note that this may also run tests (if applicable see the Testing notes)
 
 
 
-<a name="documentr_heading_20"></a>
+<a name="documentr_heading_21"></a>
 
 # Logging - slf4j <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -432,7 +441,7 @@ slf4j is the logging framework used for this project.  In order to set up a logg
 
 
 
-<a name="documentr_heading_21"></a>
+<a name="documentr_heading_22"></a>
 
 ## Log4j <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -517,7 +526,7 @@ A sample `log4j2.xml` is below:
 
 
 
-<a name="documentr_heading_26"></a>
+<a name="documentr_heading_27"></a>
 
 # Artefact Publishing - Github <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -530,7 +539,7 @@ As such, this is not a repository, but a location to download files from.
 
 
 
-<a name="documentr_heading_27"></a>
+<a name="documentr_heading_28"></a>
 
 # All-In-One <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -546,7 +555,7 @@ For example:
 
 
 
-<a name="documentr_heading_28"></a>
+<a name="documentr_heading_29"></a>
 
 # Artefact Publishing - Bintray <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -556,7 +565,7 @@ This project publishes artefacts to [bintray](https://bintray.com/)
 
 
 
-<a name="documentr_heading_29"></a>
+<a name="documentr_heading_30"></a>
 
 ## maven setup <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -602,7 +611,7 @@ this comes from the jcenter bintray, to set up your repository:
 
 
 
-<a name="documentr_heading_30"></a>
+<a name="documentr_heading_31"></a>
 
 ## gradle setup <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -634,7 +643,7 @@ repositories {
 
 
 
-<a name="documentr_heading_31"></a>
+<a name="documentr_heading_32"></a>
 
 # Artefact Publishing - gradle plugin portal <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -644,7 +653,7 @@ This project publishes artefacts to [the gradle plugin portal](https://plugins.g
 
 
 
-<a name="documentr_heading_32"></a>
+<a name="documentr_heading_33"></a>
 
 ## Dependencies - Gradle <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -676,7 +685,7 @@ dependencies {
 
 
 
-<a name="documentr_heading_33"></a>
+<a name="documentr_heading_34"></a>
 
 ## Dependencies - Maven <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -695,7 +704,7 @@ dependencies {
 
 
 
-<a name="documentr_heading_34"></a>
+<a name="documentr_heading_35"></a>
 
 ## Dependencies - Downloads <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -763,7 +772,7 @@ You will also need to download the following dependencies:
 
 
 
-<a name="documentr_heading_41"></a>
+<a name="documentr_heading_42"></a>
 
 # License <sup><sup>[top](#documentr_top)</sup></sup>
 
