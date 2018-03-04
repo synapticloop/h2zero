@@ -20,6 +20,7 @@ package synapticloop.h2zero.extension;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -29,6 +30,7 @@ import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import synapticloop.h2zero.validator.BaseValidator;
 import synapticloop.templar.Parser;
 import synapticloop.templar.exception.FunctionException;
 import synapticloop.templar.exception.ParseException;
@@ -57,6 +59,14 @@ public abstract class Extension {
 	 * @throws ParseException If there was an error parsing the templar file
 	 */
 	public abstract void generate(JSONObject extensionOptions, Database database, Options options, File outFile, boolean verbose) throws RenderException, ParseException;
+
+	/**
+	 * Return a list of validators that you may want to run against the h2zero parsed
+	 * file
+	 * 
+	 * @return the list of validators (or empty if none);
+	 */
+	public abstract List<BaseValidator> getValidators();
 
 	/**
 	 * Get the default templar context, which contains the database and the 

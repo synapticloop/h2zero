@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import synapticloop.h2zero.base.validator.ValidatorBase;
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.extension.Extension;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
@@ -235,6 +238,15 @@ public class H2ZeroParser {
 		this.database = new Database(options, jsonObject);
 
 		// now that we have parsed the file - go through and update the validator options
+		Map<Extension, JSONObject> extensions = options.getExtensions();
+		Iterator<Extension> extensionIterator = extensions.keySet().iterator();
+		while (extensionIterator.hasNext()) {
+			Extension extension = (Extension) extensionIterator.next();
+			List<BaseValidator> extensionValidators = extension.getValidators();
+			if(null != extensionValidators) {
+				validators.addAll(extensionValidators);
+			}
+		}
 
 		// now go through and run the validators
 		boolean isValid = checkAndLogValidators();
