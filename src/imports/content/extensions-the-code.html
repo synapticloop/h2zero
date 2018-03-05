@@ -1,0 +1,97 @@
+<h3>Extensions - the code</h3>
+
+<p><strong>Starting with version 3</strong></p>
+
+<h4>Parts of the extension</h4>
+
+<p>Extensions have two code parts to them:</p>
+
+<ol>
+	<li>The <code>Extension</code>, and</li>
+	<li>The <code>Validators</code></li>
+</ol>
+
+<h4>The <code>Extension</code></h4>
+
+<p>
+	The extension must extend <code>synapticloop.h2zero.extension.Extension</code>, i.e.:
+</p>
+
+<p><code>public class BasicExtension extends Extension</code></p>
+
+<pre class="prettyprint lang-java">
+	<code>
+		{static src/code/BasicExtension.java}
+	</code>
+</pre>
+
+<p>
+	Looking through the above code, the built in features and functionality are as follows:
+</p>
+
+<ul>
+	<li>
+		<strong>Loggers</strong>: built in loggers to output messages in the standard format, 
+		and that automatically generate the statistics for the h2zero generation.
+		<ul>
+			<li><code>logInfo("Log an information method.");</code></li>
+			<li><code>logDebug("Log a debug message.");</code></li>
+			<li><code>logError("Log an error message.");</code></li>
+			<li><code>logFatal("Log a fatal message.");</code></li>		</ul>
+	</li>
+	<li>
+		<strong>The templar context</strong>: safely retrieve the templar context with 
+		objects already placed into it.
+		<ul>
+			<li><code>TemplarContext templarContext = getDefaultTemplarContext(extensionOptions, database, options);</code></li>
+		</ul>
+	</li>
+	<li>
+		<strong>The templar parser</strong>: safely retrieve the templar parser, from the
+		classpath.
+		<ul>
+			<li><code>Parser parser = getParser("/path-and-name-of-template.templar", verbose);</code></li>
+		</ul>
+	</li>
+	<li>
+		<strong>The templar renderer</strong>: safely render the file to the correct 
+		location.
+		<ul>
+			<li><code>renderToFile(templarContext, parser, "path/to/output/file.extension", verbose);</code></li>
+			<li>
+				There are three main output paths which can be retrieved from the h2zero options 
+				object - these may be over-ridden by the user.
+				<ul>
+					<li><code>String outputBuild = options.getOutputBuild();</code> this goes to the build directory - for reports and statistics (e.g. <code>build</code>)</li>
+					<li><code>String outputCode = options.getOutputCode();</code> this goes to the code directory (e.g.<code>src/main/java</code>)</li>
+					<li><code>String outputResources = options.getOutputResources();</code> this goes to the resources directory (e.g. <code>src/main/resources/</code>)</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+
+<h4>The <code>Validator</code></h4>
+
+<p>
+	Validators are not required, but, should the exists, will be run through the after the 
+	h2zero file has been parsed.  Each validator must extend <code>BaseValidator</code>, e.g.
+</p>
+
+<p><code>public class BasicValidator extends BaseValidator</code></p>
+
+<pre class="prettyprint lang-java">
+	<code>
+		{static src/code/BasicValidator.java}
+	</code>
+</pre>
+
+<p>
+	The validator has access to the database object which contains the tables 
+	and views, and the options object for configuration items. 
+</p>
+
+<p>
+	All of these items can be used to validate that the extension will work 
+	against the h2zero file.
+</p>

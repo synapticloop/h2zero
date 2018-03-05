@@ -1,0 +1,99 @@
+<!doctype html><html><head><title>h2zero by synapticloop</title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]--><link rel="stylesheet" href="assets/css/main.css" /><!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]--><script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script></head><body><div id="header"><h1 id="logo"><a href="http://synapticloop.github.io/">Synapticloop</a> :: <a href="index.html">h2zero</a></h1><nav id="nav"><ul><li><a href="#">Projects</a><ul><li><a href="https://synapticloop.github.io/h2zero/"><i class="icon fa-database"></i> h2zero</a></li><li><a href="https://github.com/synapticloop/backblaze-b2-java-api/"><i class="icon fa-puzzle-piece"></i> backblaze b2 java api</a></li><li><a href="https://synapticloop.github.io/templar/"><i class="icon fa-shield"></i> templar</a></li><li><a href="https://synapticloop.github.io/templar-gen/"><i class="icon fa-gears"></i> templar gen</a></li><li><a href="https://synapticloop.github.io/linode-api/"><i class="icon fa-puzzle-piece"></i> linode java api</a></li><li><a href="https://github.com/synapticloopltd/scaleway-java-api/"><i class="icon fa-puzzle-piece"></i> scaleway java api</a></li><li><a href="https://synapticloopltd.github.io/gradle-plugin-java-create/"><i class="icon fa-gears"></i> gradle plugin creator for java</a></li><li><a href="https://synapticloopltd.github.io/recipease/"><i class="icon fa-spoon"></i> recipease</a></li><li><a href="https://synapticloop.github.io/routemaster/"><i class="icon fa-bus"></i> routemaster</a></li></ul></li></ul></nav></div><section id="banner"><h2>Welcome to h2zero</h2><p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p></section><section id="main"><div class="container"><div class="row 200%"><div class="4u 12u$(medium)"><section id="sidebar"><section><h3>h2zero</h3><p>An Object Relationship Mapper (ORM) generator for Java, MySQL and optionally a J2EE container</p><hr /><ul><li><a href="index.html">Home</a></li><li><a href="quick-start.html">Quick Start</a></li><li><a href="what-do-you-need.html">What Do You Need</a></li><li><a href="the-little-things.html">The Little Things</a></li><li>Allowable JSON Keys Reference<ul><li><a href="allowable-keys-schema-objects.html">Schema Objects</a></li><li><a href="allowable-keys-sql-interactions.html">SQL Interactions</a></li></ul></li><li><a href="database-naming-conventions.html">Database Naming Conventions</a></li><li><a href="generated-code.html">Generated Code</a></li><li><a href="method-signatures.html">Method Signatures</a></li><li><a href="validators.html">Validators</a></li><li><a href="taglibs.html">Tag libraries</a></li><li><a href="clauses-and-fields.html">Clauses and Fields</a></li></ul><ul><li><a href="file-format.html">File Format</a></li><li><a href="options.html">Options</a></li><li><a href="database.html">Database</a></li><li><a href="tables.html">Tables</a><ul><li><a href="fields.html">Fields</a></li><li><a href="finders.html">Finders</a></li><li><a href="field-finders.html">Field Finders</a></li><li><a href="deleters.html">Deleters</a></li><li><a href="inserters.html">Inserters</a></li><li><a href="updaters.html">Updaters</a></li><li><a href="field-updaters.html">Field Updaters</a></li><li><a href="questions.html">Questions</a></li><li><a href="counters.html">Counters</a></li><li><a href="constants.html">Constants</a></li></ul></li><li><a href="views.html">Views</a><ul><li><a href="view-finders.html">Finders</a></li><li><a href="view-field-finders.html">Field Finders</a></li><li><a href="view-questions.html">Questions</a></li><li><a href="view-counters.html">Counters</a></li></ul></li></ul><ul><li>Extensions<ul><li><a href="extensions-overview.html">Overview</a></li><li><a href="extensions-the-code.html">The code</a></li><li><a href="extensions-registration-and-execution.html">Registration and execution</a></li></ul></ul></section><hr /><section><h3>View this project on github</h3><footer><ul class="actions"><li><a href="https://github.com/synapticloop/h2zero" class="button small alt">GitHub Project</a></li></ul></footer></section><hr /><section><h3>templar-gen</h3><p>This project is maintained by <a href="https://github.com/synapticloop">synapticloop</a> and these pages were generated with <a href="https://github.com/synapticloop/templar-gen/">synapticloop templar-gen</a></p></section></section></div><div class="8u$ 12u$(medium) important(medium)"><section id="content"><h3>Extensions - the code</h3><p><strong>Starting with version 3</strong></p><h4>Parts of the extension</h4><p>Extensions have two code parts to them:</p><ol><li>The <code>Extension</code>, and</li><li>The <code>Validators</code></li></ol><h4>The <code>Extension</code></h4><p>The extension must extend <code>synapticloop.h2zero.extension.Extension</code>, i.e.:</p><p><code>public class BasicExtension extends Extension</code></p><pre class="prettyprint lang-java"><code>package synapticloop.h2zero.extension;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONObject;
+
+import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.validator.BaseValidator;
+import synapticloop.h2zero.validator.BasicValidator;
+import synapticloop.templar.Parser;
+import synapticloop.templar.exception.ParseException;
+import synapticloop.templar.exception.RenderException;
+import synapticloop.templar.utils.TemplarContext;
+
+public class BasicExtension extends Extension {
+
+	@Override
+	public void generate(JSONObject extensionOptions, Database database, Options options, File outFile, boolean verbose)
+			throws RenderException, ParseException {
+
+		// logging
+		logInfo("Log an information method.");
+		logDebug("Log a debug message.");
+		logError("Log an error message.");
+		logFatal("Log a fatal message.");
+
+		// getting the context
+		TemplarContext templarContext = getDefaultTemplarContext(extensionOptions, database, options);
+
+		// getting the templar file
+		Parser parser = getParser("/path-and-name-of-template.templar", verbose);
+
+		// options as to which output directory is required
+		String outputBuild = options.getOutputBuild(); // goes to the build directory - for reports and statistics (e.g. build)
+		String outputCode = options.getOutputCode(); // goes to the code directory (e.g.src/main/java)
+		String outputResources = options.getOutputResources(); // goes to the resources directory (e.g. src/main/resources/)
+
+		// render out the file
+		renderToFile(templarContext, parser, "path/to/output/file.extension", verbose);
+	}
+
+	@Override
+	public List<BaseValidator> getValidators() {
+		List<BaseValidator> validators = new ArrayList<BaseValidator>();
+		validators.add(new BasicValidator());
+		return(validators);
+	}
+}
+</code></pre><p>Looking through the above code, the built in features and functionality are as follows:</p><ul><li><strong>Loggers</strong>: built in loggers to output messages in the standard format, and that automatically generate the statistics for the h2zero generation.<ul><li><code>logInfo("Log an information method.");</code></li><li><code>logDebug("Log a debug message.");</code></li><li><code>logError("Log an error message.");</code></li><li><code>logFatal("Log a fatal message.");</code></li></ul></li><li><strong>The templar context</strong>: safely retrieve the templar context with objects already placed into it.<ul><li><code>TemplarContext templarContext = getDefaultTemplarContext(extensionOptions, database, options);</code></li></ul></li><li><strong>The templar parser</strong>: safely retrieve the templar parser, from theclasspath.<ul><li><code>Parser parser = getParser("/path-and-name-of-template.templar", verbose);</code></li></ul></li><li><strong>The templar renderer</strong>: safely render the file to the correct location.<ul><li><code>renderToFile(templarContext, parser, "path/to/output/file.extension", verbose);</code></li><li>There are three main output paths which can be retrieved from the h2zero options object - these may be over-ridden by the user.<ul><li><code>String outputBuild = options.getOutputBuild();</code> this goes to the build directory - for reports and statistics (e.g. <code>build</code>)</li><li><code>String outputCode = options.getOutputCode();</code> this goes to the code directory (e.g.<code>src/main/java</code>)</li><li><code>String outputResources = options.getOutputResources();</code> this goes to the resources directory (e.g. <code>src/main/resources/</code>)</li></ul></li></ul></li></ul><h4>The <code>Validator</code></h4><p>Validators are not required, but, should the exists, will be run through the after the h2zero file has been parsed.  Each validator must extend <code>BaseValidator</code>, e.g.</p><p><code>public class BasicValidator extends BaseValidator</code></p><pre class="prettyprint lang-java"><code>package synapticloop.h2zero.validator;
+
+import java.util.List;
+
+import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.model.Table;
+import synapticloop.h2zero.model.View;
+
+public class BasicValidator extends BaseValidator {
+
+	@Override
+	public void validate(Database database, Options options) {
+		// messages
+		addInfoMessage("This is an informational message.");
+		addWarnMessage("This is a warning message.");
+		addFatalMessage("This is a fatal message, which will end the h2zero generation.");
+
+		// get and iterate over the tables
+		List&lt;Table&gt; tables = database.getTables();
+		for (Table table : tables) {
+			// do some validation
+			table.getName();
+		}
+
+		// get and iterate over the views
+		List&lt;View&gt; views = database.getViews();
+		for (View view : views) {
+			// do some validation
+			view.getName();
+		}
+	}
+}
+</code></pre><p>The validator has access to the database object which contains the tables and views, and the options object for configuration items. </p><p>All of these items can be used to validate that the extension will work against the h2zero file.</p></section></div></div></div></section><div id="footer"><div class="container"><div class="row 200% uniform"></div></div><div class="copyright">&copy; Synapticloop. All rights reserved.</div><div class="copyright">This page uses the <a href="https://pixelarity.com/gravity?ref=4951149295">Gravity</a> commercial template from <a href="https://pixelarity.com/?ref=4951149295">Pixelarity</a> which we thoroughly recommend.</div></div><script src="assets/js/jquery.min.js"></script><script src="assets/js/skel.min.js"></script><script src="assets/js/jquery.dropotron.min.js"></script><script src="assets/js/jquery.onvisible.min.js"></script><script src="assets/js/jquery.poptrox.min.js"></script><script src="assets/js/util.js"></script><!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]--><script src="assets/js/main.js"></script><script type="text/javascript">
+	var _paq = _paq || [];
+	_paq.push(['trackPageView']);
+	_paq.push(['enableLinkTracking']);
+	(function() {
+		var u="//piwik.synapticloop.com/";
+		_paq.push(['setTrackerUrl', u+'piwik.php']);
+		_paq.push(['setSiteId', 13]);
+		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+	})();
+</script>
+<noscript><p><img src="//piwik.synapticloop.com/piwik.php?idsite=13" style="border:0;" alt="" /></p></noscript>
+<script src="javascripts/prettify.js" type="text/javascript" ></script>
+</body></html>

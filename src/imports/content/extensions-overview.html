@@ -1,0 +1,105 @@
+<h3>Extensions - overview</h3>
+
+<p><strong>Starting with version 3</strong></p>
+
+<h4>Extensible model for generating new code</h4>
+
+<p>
+	We have pared down the artefacts that h2zero generates to the very basic 
+	java and SQL based files.  Through extensions, additional features and 
+	code generators can be enabled.
+</p>
+
+<h4>Parts of the extension</h4>
+
+<ol>
+	<li>The actual <strong>code</strong>, and</li>
+	<li>the <strong>configuration</strong></li>
+</ol>
+
+<p>
+	Once the code and configuration items are done, the extension then needs 
+	to be registered to run within the h2zero generation.
+</p>
+
+<h4>The <strong>code</strong></h4>
+
+<p>
+	The code is divided into two parts:
+</p>
+
+<ol>
+	<li>The <code>Extension</code>, and optionally</li>
+	<li>zero or more <code>Validator</code>s</li>
+</ol>
+
+<p>
+	The <code>Extension</code> generates the artefacts, taking the parsed  
+	h2zero models and outputting code into various places. It may generate 
+	more than one file of multiple file types.
+</p>
+
+<p>There is only ever one entry point for the code.</p>
+
+<p>
+	The <code>Validator</code> validates that the h2zero model objects have 
+	all of the required information so that the generation of the files will 
+	have the highest chance of success.  This is an optional component and 
+	there can be more that one <code>Validator</code> for each <code>extension</code>.
+</p>
+
+<h4>The <strong>configuration</strong></h4>
+
+<p>
+	The configuration for the extension, and passing in configuration items is 
+	held within the <code>h2zero</code> file.
+</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+{{{\n}
+"options": {{{\n}
+{\n}
+{\t}...{\n}
+{\n}
+{\t}"extensions": [{\n}
+{\t}{\t}"synapticloop.h2zero.extension.TaglibExtension"{\n}
+{\t}],{\n}
+{\n}
+{\t}"synapticloop.h2zero.extension.TaglibExtension": {{{\n}
+{\t}{\t}"string": "value",{\n}
+{\t}{\t}"isBoolean": true,{\n}
+{\t}{\t}"number": 23{\n}
+{\t}}{\n}
+{\n}
+{\t}...{\n}
+{\n}
+{\t}"output": {{{\n}
+{\t}{\t}"code": "src/test/java/",{\n}
+{\t}{\t}"resources": "src/test/resources/",{\n}
+{\t}{\t}"build": "build/"{\n}
+{\t}}{\n}
+},{\n}
+	</code>
+</pre>
+
+<p>
+	The extension is registered within the <code>options</code> JSON object within the 
+	JSON Array key of <code>extensions</code>.
+</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+{\t}"extensions": [{\n}
+{\t}{\t}"synapticloop.h2zero.extension.TaglibExtension"{\n}
+{\t}],{\n}
+	</code>
+</pre>
+
+<p>
+	For any options that are required to be passed through, the extension 
+	class then becomes the key for passing in the options.  I.e. an extension 
+	of <code>synapticloop.h2zero.extension.TaglibExtension</code> will look for 
+	a key of <code>synapticloop.h2zero.extension.TaglibExtension</code> within the 
+	<code>options</code> JSON object.
+</p>
