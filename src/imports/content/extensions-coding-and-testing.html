@@ -1,0 +1,140 @@
+<h3>Extensions - coding and testing</h3>
+
+<p><strong>Starting with version 3</strong></p>
+
+<h4>Coding the extension</h4>
+
+<p>
+	Coding the extension is a little more difficult than normal, the recommended 
+	way is to split out the building of the extension and the testing of the extension.  
+	To this aim, we will look at the <a href="https://github.com/synapticloop/h2zero-extension-taglibs">h2zero-extension-taglibs</a> 
+	project which generates tag libraries from the h2zero object model.
+</p>
+
+<p>
+	There are multiple parts to this:
+</p>
+
+<ol>
+	<li>The <code>build.gradle</code> file,</li>
+	<li>the <code>build.h2zero</code> file, and</li>
+	<li>the <code>.h2zero</code> file.</li>
+</ol>
+
+<h4>The <code>build.gradle</code> file</h4>
+
+<p>
+	This file will compile, test and package the extension for use.
+</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+{static ../h2zero-extension-taglibs/build.gradle}
+	</code>
+</pre>
+
+<p>
+	<strong>Notes:</strong>
+</p>
+
+<ul>
+	<li>within the <code>dependencies</code> section, the reference to <code>'synapticloop:h2zero:3.0.0'</code>, which is the minimum version to build against.</li>
+	<li>the <code>version = '1.0.0'</code> of the code - which is what we reference in the next part.</li>
+</ul>
+
+<p>
+	To build and test the extension, you will need to either publish this 
+	to a maven repository, or to maven local.  We use maven local to iterate 
+	through the development process, until we are ready to push the extension 
+	to the world.  Try:
+</p>
+
+<p>
+	<code>gradle build pTML</code>
+</p>
+
+<h4>The <code>build.h2zero.gradle</code> file</h4>
+
+<p>
+	This file is the test build file that generates the code, by default we 
+	generate to <code>src/test/java</code> - which is defined in the <code>sample.h2zero</code> 
+	file.
+</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+{static ../h2zero-extension-taglibs/build.h2zero.gradle}
+	</code>
+</pre>
+
+<p>
+	<strong>Notes:</strong>
+</p>
+
+<ul>
+	<li>within the <code>buildscript</code> <code>dependencies</code> section, the reference to <code>'synapticloop:h2zero-extension-taglibs:1.0.0'</code>, which will pick up the maven local reference</li>
+	<li>the <code>version = '1.0.0'</code> in the <code>buildscript</code> <code>dependencies</code> section, this needs to be updated, every time that the <code>build.gradle</code> version is updated</li>
+</ul>
+
+<p>
+	The command that we use is:
+</p>
+
+<p><code>gradle -b build.h2zero.gradle h2zero</code></p>
+
+<h4>The <code>sample.h2zero</code> file</h4>
+
+<p>
+	To test the generation of the code, we use a sample h2zero file as follows:
+</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+{static ../h2zero-extension-taglibs/src/test/resources/sample-include.h2zero}
+	</code>
+</pre>
+
+<p>Note the registration of the extension:</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+{\t}"extensions": [{\n}
+{\t}{\t}"synapticloop.h2zero.extension.TaglibExtension"{\n}
+{\t}],{\n}
+	</code>
+</pre>
+
+<p>and the output directories for testing</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+{\t}"output": {{{\n}
+{\t}{\t}"code": "src/test/java/",{\n}
+{\t}{\t}"resources": "src/test/resources/",{\n}
+{\t}{\t}"build": "build/"{\n}
+{\t}}{\n}
+	</code>
+</pre>
+
+<h4>Putting it all together</h4>
+
+<ol>
+	<li>Update the <code>version</code> number in the <code>build.gradle</code> file</li>
+	<li>run <code>gradle build pTML</code></li>
+	<li>Update the <code>version</code> number in the <code>build.h2zero.gradle</code> in the <code>dependencies</code> section</li>
+	<li>run <code>gradle -b build.h2zero.gradle h2zero</code></li>
+</ol>
+
+<p>
+	If you are just iterating over the development of the generated code - just run:
+</p>
+
+<p><code>gradle build pTML; gradle -b build.h2zero.gradle h2zero</code></p>
+
+<p>
+	to build the extension and generate the code.  If there is an error with the 
+	generated code, just delete the <code>src/test/java/*</code> contents and 
+	start again.
+</p>
+
+

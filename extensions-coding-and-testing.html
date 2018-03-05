@@ -1,0 +1,279 @@
+<!doctype html><html><head><title>h2zero by synapticloop</title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]--><link rel="stylesheet" href="assets/css/main.css" /><!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]--><script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script></head><body><div id="header"><h1 id="logo"><a href="http://synapticloop.github.io/">Synapticloop</a> :: <a href="index.html">h2zero</a></h1><nav id="nav"><ul><li><a href="#">Projects</a><ul><li><a href="https://synapticloop.github.io/h2zero/"><i class="icon fa-database"></i> h2zero</a></li><li><a href="https://github.com/synapticloop/backblaze-b2-java-api/"><i class="icon fa-puzzle-piece"></i> backblaze b2 java api</a></li><li><a href="https://synapticloop.github.io/templar/"><i class="icon fa-shield"></i> templar</a></li><li><a href="https://synapticloop.github.io/templar-gen/"><i class="icon fa-gears"></i> templar gen</a></li><li><a href="https://synapticloop.github.io/linode-api/"><i class="icon fa-puzzle-piece"></i> linode java api</a></li><li><a href="https://github.com/synapticloopltd/scaleway-java-api/"><i class="icon fa-puzzle-piece"></i> scaleway java api</a></li><li><a href="https://synapticloopltd.github.io/gradle-plugin-java-create/"><i class="icon fa-gears"></i> gradle plugin creator for java</a></li><li><a href="https://synapticloopltd.github.io/recipease/"><i class="icon fa-spoon"></i> recipease</a></li><li><a href="https://synapticloop.github.io/routemaster/"><i class="icon fa-bus"></i> routemaster</a></li></ul></li></ul></nav></div><section id="banner"><h2>Welcome to h2zero</h2><p>an easy to use object relationship mapper (ORM) code generator for Java and MySQL</p></section><section id="main"><div class="container"><div class="row 200%"><div class="4u 12u$(medium)"><section id="sidebar"><section><h3>h2zero</h3><p>An Object Relationship Mapper (ORM) generator for Java, MySQL and optionally a J2EE container</p><hr /><ul><li><a href="index.html">Home</a></li><li><a href="quick-start.html">Quick Start</a></li><li><a href="what-do-you-need.html">What Do You Need</a></li><li><a href="the-little-things.html">The Little Things</a></li><li>Allowable JSON Keys Reference<ul><li><a href="allowable-keys-schema-objects.html">Schema Objects</a></li><li><a href="allowable-keys-sql-interactions.html">SQL Interactions</a></li></ul></li><li><a href="database-naming-conventions.html">Database Naming Conventions</a></li><li><a href="generated-code.html">Generated Code</a></li><li><a href="method-signatures.html">Method Signatures</a></li><li><a href="validators.html">Validators</a></li><li><a href="taglibs.html">Tag libraries</a></li><li><a href="clauses-and-fields.html">Clauses and Fields</a></li></ul><ul><li><a href="file-format.html">File Format</a></li><li><a href="options.html">Options</a></li><li><a href="database.html">Database</a></li><li><a href="tables.html">Tables</a><ul><li><a href="fields.html">Fields</a></li><li><a href="finders.html">Finders</a></li><li><a href="field-finders.html">Field Finders</a></li><li><a href="deleters.html">Deleters</a></li><li><a href="inserters.html">Inserters</a></li><li><a href="updaters.html">Updaters</a></li><li><a href="field-updaters.html">Field Updaters</a></li><li><a href="questions.html">Questions</a></li><li><a href="counters.html">Counters</a></li><li><a href="constants.html">Constants</a></li></ul></li><li><a href="views.html">Views</a><ul><li><a href="view-finders.html">Finders</a></li><li><a href="view-field-finders.html">Field Finders</a></li><li><a href="view-questions.html">Questions</a></li><li><a href="view-counters.html">Counters</a></li></ul></li></ul><ul><li>Extensions<ul><li><a href="extensions-overview.html">Overview</a></li><li><a href="extensions-the-code.html">The code</a></li><li><a href="extensions-registration-and-execution.html">Registration and execution</a></li><li><a href="extensions-coding-and-testing.html">Coding and testing</a></li></ul></ul></section><hr /><section><h3>View this project on github</h3><footer><ul class="actions"><li><a href="https://github.com/synapticloop/h2zero" class="button small alt">GitHub Project</a></li></ul></footer></section><hr /><section><h3>templar-gen</h3><p>This project is maintained by <a href="https://github.com/synapticloop">synapticloop</a> and these pages were generated with <a href="https://github.com/synapticloop/templar-gen/">synapticloop templar-gen</a></p></section></section></div><div class="8u$ 12u$(medium) important(medium)"><section id="content"><h3>Extensions - coding and testing</h3><p><strong>Starting with version 3</strong></p><h4>Coding the extension</h4><p>Coding the extension is a little more difficult than normal, the recommended way is to split out the building of the extension and the testing of the extension.  To this aim, we will look at the <a href="https://github.com/synapticloop/h2zero-extension-taglibs">h2zero-extension-taglibs</a> project which generates tag libraries from the h2zero object model.</p><p>There are multiple parts to this:</p><ol><li>The <code>build.gradle</code> file,</li><li>the <code>build.h2zero</code> file, and</li><li>the <code>.h2zero</code> file.</li></ol><h4>The <code>build.gradle</code> file</h4><p>This file will compile, test and package the extension for use.</p><pre class="prettyprint lang-json"><code>plugins {
+	id 'java'
+	id 'eclipse'
+	id "maven"
+	id "maven-publish"
+
+	id "com.github.ben-manes.versions" version "0.17.0"
+	id "com.jfrog.bintray" version "1.8.0"
+
+	id 'com.gradle.plugin-publish' version '0.9.10'
+	id 'co.riiid.gradle' version '0.4.2'
+	id 'net.saliman.cobertura' version '2.5.4'
+
+	id 'synapticloop.copyrightr' version '1.1.2'
+	id 'synapticloop.documentr' version '2.9.0'
+}
+
+group = 'synapticloop'
+archivesBaseName = 'h2zero-extension-taglibs'
+description = """Taglib extension for h2zero"""
+version = '1.0.0'
+
+tasks.withType(Javadoc).all { enabled = false }
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	jcenter()
+}
+
+dependencies {
+	runtime 'synapticloop:h2zero:3.0.0'
+	runtime 'javax.servlet.jsp:jsp-api:2.2'
+	runtime 'javax.servlet:javax.servlet-api:3.1.0'
+
+	compile 'synapticloop:h2zero:3.0.0'
+	compile 'javax.servlet.jsp:jsp-api:2.2'
+	compile 'javax.servlet:javax.servlet-api:3.1.0'
+
+	testRuntime 'junit:junit:4.12'
+	testRuntime 'org.mockito:mockito-all:1.10.19'
+	testRuntime 'com.github.stefanbirkner:system-rules:1.16.1'
+	testRuntime 'mysql:mysql-connector-java:6.0.6'
+	testRuntime 'org.xerial:sqlite-jdbc:3.21.0.1'
+	testRuntime 'commons-io:commons-io:2.5'
+	testRuntime 'com.mashape.unirest:unirest-java:1.4.9'
+
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.mockito:mockito-all:1.10.19'
+	testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
+	testCompile 'commons-io:commons-io:2.5'
+	testCompile 'com.mashape.unirest:unirest-java:1.4.9'
+}
+
+configurations.all {
+	resolutionStrategy {
+		failOnVersionConflict()
+		force 'junit:junit:4.11',
+					'synapticloop:templar:1.4.4',
+					'org.slf4j:slf4j-api:1.7.25',
+					'org.json:json:20180130',
+					'commons-logging:commons-logging:1.2',
+					'commons-collections:commons-collections:3.2.2',
+					'com.github.stefanbirkner:system-rules:1.17.1',
+					'org.apache.httpcomponents:httpclient:4.5.2'
+	}
+}
+
+cobertura {
+	coverageFormats = [ 'html', 'xml']
+	coverageDirs = [
+		project.sourceSets.main.output.classesDir,
+		file("build/classes/test/")
+	]
+	coverageSourceDirs = [ 
+		project.sourceSets.main.java.srcDirs, 
+		file("src/test/java/")
+	]
+}
+
+test {
+	include '**/*Test.class'
+	maxParallelForks = 1
+}
+
+dependencyUpdates.resolutionStrategy = {
+	componentSelection { rules ->
+		rules.all { ComponentSelection selection ->
+			boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm', 'b', 'dmr'].any { qualifier ->
+				selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+			}
+			if (rejected) {
+				selection.reject('Release candidate')
+			}
+		}
+	}
+}
+
+def javaApiUrl = 'http://docs.oracle.com/javase/1.7.0/docs/api/'
+def groovyApiUrl = 'http://groovy.codehaus.org/gapi/'
+
+tasks.withType(Javadoc) {
+	options.links(javaApiUrl, groovyApiUrl)
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allSource
+	classifier = 'sources'
+}
+
+test.finalizedBy(project.tasks.cobertura)
+
+
+publishing {
+	publications {
+		Synapticloop(MavenPublication) {
+			from components.java
+			artifact sourcesJar
+			artifact javadocJar
+
+			groupId 'synapticloop'
+
+			artifactId 'h2zero-extension-taglibs'
+
+			pom.withXml {
+				configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each { dep ->
+					asNode().dependencies[0].dependency.find {
+						it.artifactId[0].text() == dep.moduleName &&
+								it.groupId[0].text() == dep.moduleGroup
+					}.scope[0].value = 'compile'
+				}
+			}
+		}
+	}
+}
+
+bintray {
+	user = System.getenv('BINTRAY_USER')
+	key = System.getenv('BINTRAY_PASSWORD')
+
+	publications = [ 'Synapticloop' ]
+
+	publish = true
+
+	pkg {
+		repo = 'maven'
+		name = 'h2zero-extension-taglibs'
+	}
+}
+
+github {
+	owner = group
+	repo = archivesBaseName
+	if(System.getenv('GITHUB_TOKEN')) {
+		token = System.getenv('GITHUB_TOKEN')
+	}
+	tagName = version
+	name = version
+	assets = [
+		'build/libs/' + archivesBaseName + '-' + version + '.jar',
+	]
+}
+
+copyrightr {
+	excludes [
+	]
+	dryRun = false
+}
+
+task(dist).dependsOn( [ 'cobertura', 'jar', 'javadoc' ] )
+</code></pre><p><strong>Notes:</strong></p><ul><li>within the <code>dependencies</code> section, the reference to <code>'synapticloop:h2zero:3.0.0'</code>, which is the minimum version to build against.</li><li>the <code>version = '1.0.0'</code> of the code - which is what we reference in the next part.</li></ul><p>To build and test the extension, you will need to either publish this to a maven repository, or to maven local.  We use maven local to iterate through the development process, until we are ready to push the extension to the world.  Try:</p><p><code>gradle build pTML</code></p><h4>The <code>build.h2zero.gradle</code> file</h4><p>This file is the test build file that generates the code, by default we generate to <code>src/test/java</code> - which is defined in the <code>sample.h2zero</code> file.</p><pre class="prettyprint lang-json"><code>buildscript {
+	repositories {
+		mavenCentral()
+		jcenter()
+		mavenLocal()
+		maven {
+			url "https://plugins.gradle.org/"
+		}
+	}
+
+	dependencies {
+		classpath 'synapticloop:h2zero-extension-taglibs:1.0.0'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'synapticloop.h2zero' version '3.0.0'
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	jcenter()
+}
+
+h2zero {
+	inFile = 'src/test/resources/sample-include.h2zero'
+	outDir = '.'
+	verbose = 'false'
+}
+</code></pre><p><strong>Notes:</strong></p><ul><li>within the <code>buildscript</code> <code>dependencies</code> section, the reference to <code>'synapticloop:h2zero-extension-taglibs:1.0.0'</code>, which will pick up the maven local reference</li><li>the <code>version = '1.0.0'</code> in the <code>buildscript</code> <code>dependencies</code> section, this needs to be updated, every time that the <code>build.gradle</code> version is updated</li></ul><p>The command that we use is:</p><p><code>gradle -b build.h2zero.gradle h2zero</code></p><h4>The <code>sample.h2zero</code> file</h4><p>To test the generation of the code, we use a sample h2zero file as follows:</p><pre class="prettyprint lang-json"><code>{
+"options": {
+	"database": "mysql",
+
+	"metrics": false,
+
+	"generators": [ "java", "sql" ],
+
+	"extensions": [
+		"synapticloop.h2zero.extension.TaglibExtension"
+	],
+
+	"validators": {
+		"UpdaterNameValidator": {
+			"allowablePrefixes": "reset,"
+		},
+		"FinderNameValidator": {
+			"allowablePrefixes": "find,calculate"
+		}
+	},
+
+	"output": {
+		"code": "src/test/java/",
+		"resources": "src/test/resources/",
+		"build": "build/"
+	}
+},
+
+"database": {
+	"schema": "sample",
+	"package": "synapticloop.sample.h2zero.mysql",
+	"defaultStatementCacheSize": 1024,
+
+	"tables": [
+		{ "include": "./user_type.json" },
+		{ "include": "./user_title.json" },
+		{ "include": "./user.json" },
+		{ "include": "./pet.json" },
+		{ "include": "./user_pet.json" }
+	],
+
+	"views": [
+		{ "include": "./view-pet.json" },
+	]
+}
+}
+</code></pre><p>Note the registration of the extension:</p><pre class="prettyprint lang-json"><code>	"extensions": [
+		"synapticloop.h2zero.extension.TaglibExtension"
+	],
+</code></pre><p>and the output directories for testing</p><pre class="prettyprint lang-json"><code>	"output": {
+		"code": "src/test/java/",
+		"resources": "src/test/resources/",
+		"build": "build/"
+	}
+</code></pre><h4>Putting it all together</h4><ol><li>Update the <code>version</code> number in the <code>build.gradle</code> file</li><li>run <code>gradle build pTML</code></li><li>Update the <code>version</code> number in the <code>build.h2zero.gradle</code> in the <code>dependencies</code> section</li><li>run <code>gradle -b build.h2zero.gradle h2zero</code></li></ol><p>If you are just iterating over the development of the generated code - just run:</p><p><code>gradle build pTML; gradle -b build.h2zero.gradle h2zero</code></p><p>to build the extension and generate the code.  If there is an error with the generated code, just delete the <code>src/test/java/*</code> contents and start again.</p></section></div></div></div></section><div id="footer"><div class="container"><div class="row 200% uniform"></div></div><div class="copyright">&copy; Synapticloop. All rights reserved.</div><div class="copyright">This page uses the <a href="https://pixelarity.com/gravity?ref=4951149295">Gravity</a> commercial template from <a href="https://pixelarity.com/?ref=4951149295">Pixelarity</a> which we thoroughly recommend.</div></div><script src="assets/js/jquery.min.js"></script><script src="assets/js/skel.min.js"></script><script src="assets/js/jquery.dropotron.min.js"></script><script src="assets/js/jquery.onvisible.min.js"></script><script src="assets/js/jquery.poptrox.min.js"></script><script src="assets/js/util.js"></script><!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]--><script src="assets/js/main.js"></script><script type="text/javascript">
+	var _paq = _paq || [];
+	_paq.push(['trackPageView']);
+	_paq.push(['enableLinkTracking']);
+	(function() {
+		var u="//piwik.synapticloop.com/";
+		_paq.push(['setTrackerUrl', u+'piwik.php']);
+		_paq.push(['setSiteId', 13]);
+		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+	})();
+</script>
+<noscript><p><img src="//piwik.synapticloop.com/piwik.php?idsite=13" style="border:0;" alt="" /></p></noscript>
+<script src="javascripts/prettify.js" type="text/javascript" ></script>
+</body></html>

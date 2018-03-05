@@ -1,0 +1,65 @@
+<h3>Extensions - registration and execution</h3>
+
+<p><strong>Starting with version 3</strong></p>
+
+<h4>Registering the extension</h4>
+
+<p>
+	In order for the extension to be invoke, it must be registered within the 
+	<code>build.gradle</code> file.  As h2zero is a plugin, this <strong>must</strong> 
+	be done within the <code>buildscript</code> section of the file thusly:
+</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+buildscript {{{\n}
+{\t}repositories {{{\n}
+{\t}{\t}mavenCentral(){\n}
+{\t}{\t}jcenter(){\n}
+{\t}{\t}mavenLocal(){\n}
+{\t}{\t}maven {{{\n}
+{\t}{\t}{\t}url "https://plugins.gradle.org/"{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+{\t}dependencies {{{\n}
+{\t}{\t}classpath 'synapticloop:h2zero-extension-taglibs:1.0.0'{\n}
+{\t}}{\n}
+}{\n}
+	</code>
+</pre>
+
+<p>
+	In the above example, the <code>synapticloop:h2zero-extension-taglibs:1.0.0</code> jar 
+	which contains the extension is registered for the plugin to use
+</p>
+
+<p>
+	Additionally, the h2zero plugin must be registered.
+</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+plugins {{{\n}
+{\t}id 'java'{\n}
+{\t}id 'eclipse'{\n}
+{\t}id 'synapticloop.h2zero' version '3.0.0'{\n}
+}{\n}
+	</code>
+</pre>
+
+<p>
+	If the plugin generates code which also has dependencies, then the plugin will 
+	also require that it is included in the <code>dependency</code> section of the 
+	<code>build.gradle</code> file.
+</p>
+
+<pre class="prettyprint lang-json">
+	<code>
+dependencies {{{\n}
+{\t}runtime 'synapticloop:h2zero-extension-taglibs:1.0.0'{\n}
+{\n}
+{\t}compile 'synapticloop:h2zero-extension-taglibs:1.0.0'{\n}
+}
+	</code>
+</pre>
