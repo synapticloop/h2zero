@@ -366,6 +366,10 @@ public class H2ZeroParser {
 			databaseObject.put(JSONKeyConstants.VIEWS, newViewsArray);
 		}
 
+		// at this point - we need to now get the keys that were missed on the h2zero file and make them 
+		// available to any extensions
+		// TODO
+
 		return jsonObject;
 	}
 
