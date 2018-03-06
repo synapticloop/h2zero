@@ -45,6 +45,7 @@ public class SimpleLogger {
 		VALIDATOR,
 		ANALYSER,
 		PARSE,
+		PARSE_ADDITIONAL,
 		SUMMARY,
 		REVENGE,
 		FUNCTION_REGISTER,

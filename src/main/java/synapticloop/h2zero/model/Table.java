@@ -39,6 +39,8 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.KeyHelper;
 import synapticloop.h2zero.util.NamingHelper;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 /**
  * The table encapsulates everything that is required for a single database table
@@ -102,6 +104,7 @@ public class Table extends BaseSchemaObject {
 
 	private final Options options;
 
+	private Map<String, Object> additionalKeys = new HashMap<String, Object>();
 
 	/**
 	 * Create a new Table object from the passed in jsonObject.
@@ -118,8 +121,13 @@ public class Table extends BaseSchemaObject {
 		this.options = options;
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
+		jsonObject.remove(JSONKeyConstants.NAME);
+
 		this.engine = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.ENGINE, engine);
+		jsonObject.remove(JSONKeyConstants.ENGINE);
+
 		this.charset = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.CHARSET, charset);
+		jsonObject.remove(JSONKeyConstants.CHARSET);
 
 		// maybe it is a comment array
 		JSONArray optJSONArray = jsonObject.optJSONArray(JSONKeyConstants.COMMENTS);
@@ -132,8 +140,10 @@ public class Table extends BaseSchemaObject {
 			}
 		}
 
+		jsonObject.remove(JSONKeyConstants.COMMENTS);
+
 		if(null == name) {
-			throw new H2ZeroParseException("The table 'name' attribute cannot be null.");
+			throw new H2ZeroParseException(String.format("The table '%s' attribute cannot be null.", JSONKeyConstants.NAME));
 		}
 
 		for (String key : ignoredKeys) {
@@ -142,11 +152,10 @@ public class Table extends BaseSchemaObject {
 			}
 		}
 
-		// now we are going to go through and determine all of the 
+		// now we are going to go through and determine all of the missing keys
 		KeyHelper.findMissingKeys(this, jsonObject, ALLOWABLE_KEYS);
 		// now for the fields
 		populateFields(jsonObject);
-
 	}
 
 	/**
@@ -178,6 +187,15 @@ public class Table extends BaseSchemaObject {
 		populateQuestions(jsonObject);
 
 		populateReferencedFieldTypes();
+
+		Iterator<String> keys = jsonObject.keys();
+		while (keys.hasNext()) {
+			String key = (String) keys.next();
+
+			Object keyObject = jsonObject.get(key);
+			additionalKeys.put(key, keyObject);
+			SimpleLogger.logInfo(LoggerType.PARSE_ADDITIONAL, this.getClass(), String.format("Found an additional JSONObject keyed on '%s', with value: %s", key, keyObject.toString()));
+		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -278,6 +296,8 @@ public class Table extends BaseSchemaObject {
 					logFatalFieldParse(ex, ex.getMessage(), firstUpper);
 				}
 			}
+
+			jsonObject.remove(JSONKeyConstants.FIELDS);
 		}
 
 		// now figure out if there is a foreign key relationship
@@ -292,6 +312,8 @@ public class Table extends BaseSchemaObject {
 				}
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.FIELDS);
 	}
 
 	private void populateUpdaters(JSONObject jsonObject) throws H2ZeroParseException {
@@ -319,6 +341,8 @@ public class Table extends BaseSchemaObject {
 				throw new H2ZeroParseException("Could not parse updaters.", jsonex);
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.UPDATERS);
 	}
 
 	private void generateAutomaticUpdater(String updaterFieldName, boolean unique) throws H2ZeroParseException {
@@ -402,6 +426,8 @@ public class Table extends BaseSchemaObject {
 				}
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.FIELD_UPDATERS);
 	}
 
 	private void populateDeleters(JSONObject jsonObject) throws H2ZeroParseException {
@@ -420,6 +446,8 @@ public class Table extends BaseSchemaObject {
 				throw new H2ZeroParseException("Could not parse deleters.", jsonex);
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.DELETERS);
 	}
 
 	private void populateInserters(JSONObject jsonObject) throws H2ZeroParseException {
@@ -438,6 +466,8 @@ public class Table extends BaseSchemaObject {
 				throw new H2ZeroParseException("Could not parse inserters.", jsonex);
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.INSERTERS);
 	}
 
 	private void populateConstants(JSONObject jsonObject) throws H2ZeroParseException {
@@ -456,6 +486,8 @@ public class Table extends BaseSchemaObject {
 				throw new H2ZeroParseException("Could not parse constants.", jsonex);
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.CONSTANTS);
 	}
 
 

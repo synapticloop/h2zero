@@ -132,6 +132,8 @@ public abstract class BaseSchemaObject {
 				}
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.FIELD_FINDERS);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -166,6 +168,8 @@ public abstract class BaseSchemaObject {
 				}
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.FIELD_NULL_FINDERS);
 	}
 
 	protected void populateFinders(JSONObject jsonObject) throws H2ZeroParseException {
@@ -202,6 +206,8 @@ public abstract class BaseSchemaObject {
 				throw new H2ZeroParseException("Could not parse finder.", jsonex);
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.FINDERS);
 	}
 
 	private void generateAutomaticFinder(String uniqueFinder, boolean unique) throws H2ZeroParseException {
@@ -317,6 +323,8 @@ public abstract class BaseSchemaObject {
 				throw new H2ZeroParseException("Could not parse questions JSON Array.", jsonex);
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.QUESTIONS);
 	}
 
 	public boolean getHasQuestionInfields() {
@@ -351,6 +359,8 @@ public abstract class BaseSchemaObject {
 				throw new H2ZeroParseException("Could not parse counter JSON Array.", jsonex);
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.COUNTERS);
 	}
 
 	protected void logFatalFieldParse(Exception exception, String message, String firstUpper) throws H2ZeroParseException {

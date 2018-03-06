@@ -36,5 +36,9 @@
 		{ "include": "./pet.json" },
 		{ "include": "./user_pet.json" }
 	],
+	
+	"forms": {
+		"a": "b"
+	}
 }
 }

@@ -121,6 +121,7 @@ public class Options {
 		outputResource = convertToAbsolutePath(outputResource);
 		outputBuild = convertToAbsolutePath(outputBuild);
 
+		jsonObject.remove(JSONKeyConstants.OPTIONS);
 	}
 
 	private void parseExtensions(JSONObject optionsJson) throws H2ZeroParseException {

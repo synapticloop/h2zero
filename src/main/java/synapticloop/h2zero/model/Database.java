@@ -35,7 +35,15 @@ import synapticloop.h2zero.model.form.Form;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
+/**
+ * This is the database model which contains all of the tables, and views.  
+ * It also holds any additional JSONObjects that other extensions may wish 
+ * to use for their configuration.
+ *
+ */
 public class Database {
 	public static final Map<String, Table> tableLookup = new HashMap<String, Table>();
 	private String schema = null;
@@ -47,6 +55,8 @@ public class Database {
 
 	private Set<String> tableNames = new HashSet<String>();
 	private int defaultStatementCacheSize = 1024;
+
+	private Map<String, Object> additionalKeys = new HashMap<String, Object>();
 
 	/**
 	 * Parse and create a new database object from the passed in JSON object
@@ -61,20 +71,24 @@ public class Database {
 		try {
 			databaseJson = jsonObject.getJSONObject(JSONKeyConstants.DATABASE);
 		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("The json file must have a key of '" + JSONKeyConstants.DATABASE + "'.", ojjsonex);
+			throw new H2ZeroParseException(String.format("The json file must have a key of '%s'.", JSONKeyConstants.DATABASE), ojjsonex);
 		}
 
 		this.schema = JsonHelper.getStringValue(databaseJson, JSONKeyConstants.SCHEMA, null);
+		databaseJson.remove(JSONKeyConstants.SCHEMA);
+
 		this.packageName = JsonHelper.getStringValue(databaseJson, JSONKeyConstants.PACKAGE, null);
+		databaseJson.remove(JSONKeyConstants.PACKAGE);
 
 		this.defaultStatementCacheSize = JsonHelper.getIntValue(databaseJson, JSONKeyConstants.DEFAULT_STATEMENT_CACHE_SIZE, 1024);
+		databaseJson.remove(JSONKeyConstants.DEFAULT_STATEMENT_CACHE_SIZE);
 
 		if(null == schema) {
-			throw new H2ZeroParseException("You must have a key and value of '" + JSONKeyConstants.SCHEMA + "'.");
+			throw new H2ZeroParseException(String.format("You must have a key and value of '%s'.", JSONKeyConstants.SCHEMA));
 		}
 
 		if(null == this.packageName) {
-			throw new H2ZeroParseException("You must have a key and value of '" + JSONKeyConstants.PACKAGE + "'.");
+			throw new H2ZeroParseException(String.format("You must have a key and value of '%s'.", JSONKeyConstants.PACKAGE));
 		}
 
 		// now that we have the database set up, now it is time for the tables
@@ -99,24 +113,19 @@ public class Database {
 
 		// we need to now go through and populate the finders/updaters/deleters just
 		// in case we have a forward lookup
+		for (Table table : tables) {
+			String tableName = table.getName();
 
-		for (int i = 0; i < tableJson.length(); i++) {
-			try {
-				JSONObject tableObject = tableJson.getJSONObject(i);
-				String tableName = tableObject.getString(JSONKeyConstants.NAME);
+			table.populateActions();
 
-				if(tableNames.contains(tableName)) {
-					throw new H2ZeroParseException("Duplicate table name of '" + tableName + "' found, exiting...");
-				}
-
-				tableNames.add(tableName);
-
-				Table table = tableLookup.get(tableName);
-				table.populateActions();
-			} catch (JSONException jsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.TABLES + "' array.", jsonex);
+			if(tableNames.contains(tableName)) {
+				throw new H2ZeroParseException("Duplicate table name of '" + tableName + "' found, exiting...");
 			}
+
+			tableNames.add(tableName);
 		}
+
+		databaseJson.remove(JSONKeyConstants.TABLES);
 
 		// now that we have the database set up, now it is time for the views
 		JSONArray viewJson = new JSONArray();
@@ -134,23 +143,18 @@ public class Database {
 				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.VIEWS + "' array.", jsonex);
 			}
 		}
+		databaseJson.remove(JSONKeyConstants.VIEWS);
 
-		// now that we have the database set up, now it is time for the forms
-		JSONArray formJson = new JSONArray();
-		try {
-			formJson = databaseJson.getJSONArray(JSONKeyConstants.FORMS);
-		} catch (JSONException ojjsonex) {
-			// no problemo here - no forms
+		Iterator<String> keys = databaseJson.keys();
+		while (keys.hasNext()) {
+			String key = (String) keys.next();
+
+			Object keyObject = databaseJson.get(key);
+			additionalKeys.put(key, keyObject);
+			SimpleLogger.logInfo(LoggerType.PARSE_ADDITIONAL, this.getClass(), String.format("Found an additional JSONObject keyed on '%s', with value: %s", key, keyObject.toString()));
 		}
 
-		for (int i = 0; i < formJson.length(); i++) {
-			try {
-				JSONObject formObject = formJson.getJSONObject(i);
-				forms.add(new Form(this, formObject));
-			} catch (JSONException jsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.FORMS + "' array.", jsonex);
-			}
-		}
+		jsonObject.remove(JSONKeyConstants.DATABASE);
 	}
 
 	/**
@@ -195,6 +199,23 @@ public class Database {
 
 	public String getPackagePath() { return(NamingHelper.convertToPath(packageName)); }
 	public static Table getTableLookup(String tableName) { return(tableLookup.get(tableName)); }
+
+	/**
+	 * Retrieve an additional key that is not mapped by the default h2zero 
+	 * processor, this will be one of the JSON types, e.g. JSONArray, JSONObject, 
+	 * String, etc.  The calling code will need to confirm the type.
+	 * 
+	 * @param key The key to look for
+	 * 
+	 * @return the object if it exists on the h2zero map
+	 */
+	public Object getJSONObjectForKey(String key) {
+		if(additionalKeys.containsKey(key)) {
+			return(additionalKeys.get(key));
+		} else {
+			return(null);
+		}
+	}
 
 	public int getMaxNumFields() {
 		int maxNumField = 0;
