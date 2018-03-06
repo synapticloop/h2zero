@@ -85,8 +85,7 @@ public class Inserter extends BaseQueryObject {
 		}
 	}
 
-	public String getType() {
-		return("Inserter");
-	}
+	@Override
+	public String getType() { return("Inserter"); }
 
 }

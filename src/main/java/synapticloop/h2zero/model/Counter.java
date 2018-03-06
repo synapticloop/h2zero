@@ -33,7 +33,6 @@ public class Counter extends BaseQueryObject {
 	 * 
 	 * @throws H2ZeroParseException - if something went wrong with the parsing 
 	 */
-
 	public Counter(BaseSchemaObject tableOrView, JSONObject counterObject) throws H2ZeroParseException {
 		super(tableOrView, counterObject);
 
@@ -49,6 +48,7 @@ public class Counter extends BaseQueryObject {
 		populateWhereFields(counterObject);
 	}
 
+	@Override
 	public String getType() {
 		return("Counter");
 	}
