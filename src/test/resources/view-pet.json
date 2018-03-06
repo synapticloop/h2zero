@@ -1,0 +1,12 @@
+{
+	"name": "user_user_type",
+	"comments": [
+		"a view on users and pets"
+	],
+	"asClause": " select u.nm_user, ut.nm_user_type from user u, user_type ut where u.id_user_type = ut.id_user_type",
+	
+	"fields": [
+		{ "name": "nm_user", "type": "varchar", "length": "64", "nullable": false },
+		{ "name": "nm_user_type", "type": "varchar", "length": "64", "nullable": false }
+	]
+}

@@ -1141,4 +1141,94 @@
 
 
 
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	  The tag library definitions for the user_user_type table
+
+	  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<tag>
+		<description>
+			This is an in-built tag for the find by primary key method on the user_user_type table
+		</description>
+		<name>UserUserTypeFindByPrimaryKey</name>
+		<tag-class>synapticloop.sample.h2zero.mysql.taglib.userUserType.FindByPrimaryKeyTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>
+				The variable to bind the results to
+			</description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				The primary key
+			</description>
+			<name>primaryKey</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Whether to remove the var at the end of the tag
+			</description>
+			<name>removeVar</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
+			generated tag for the find all
+		</description>
+		<name>UserUserTypeFindAll</name>
+		<tag-class>synapticloop.sample.h2zero.mysql.taglib.userUserType.FindAllTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>
+				The variable to bind the results to
+			</description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Whether to remove the var at the end of the tag
+			</description>
+			<name>removeVar</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
+			This is an in-built tag for the countAll function for the user_user_type table
+		</description>
+		<name>UserUserTypeCountAll</name>
+		<tag-class>synapticloop.sample.h2zero.mysql.taglib.userUserType.CountAllTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>
+				The variable to bind the results to
+			</description>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>
+				Whether to remove the var at the end of the tag
+			</description>
+			<name>removeVar</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+
+
+
 </taglib>

@@ -36,7 +36,11 @@
 		{ "include": "./pet.json" },
 		{ "include": "./user_pet.json" }
 	],
-	
+
+	"views": [
+		{ "include": "./view-pet.json" },
+	],
+
 	"forms": {
 		"a": "b"
 	}

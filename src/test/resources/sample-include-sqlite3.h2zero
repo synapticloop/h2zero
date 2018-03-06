@@ -3,7 +3,7 @@
 	"metrics": false,
 	"database": "sqlite3",
 
-	"generators": [ "java", "sql", "taglib", "reports" ],
+	"generators": [ "java", "sql", "reports" ],
 
 	"validators": {
 		"UpdaterNameValidator": {
@@ -33,6 +33,11 @@
 		{ "include": "./user.json" },
 		{ "include": "./pet.sqlite3.json" },
 		{ "include": "./user_pet.json" }
+	],
+
+
+	"views": [
+		{ "include": "./view-pet.json" },
 	],
 }
 }

@@ -51,5 +51,11 @@ public class Constants {
 	public static final String USER_PET_ID_PET = "idPet";
 
 
+	public static final String USER_USER_TYPE_BINDER = "USER_USER_TYPE";
+
+	// Field constants for the user_user_type table
+	public static final String USER_USER_TYPE_NM_USER = "nmUser";
+	public static final String USER_USER_TYPE_NM_USER_TYPE = "nmUserType";
+
 
 }
