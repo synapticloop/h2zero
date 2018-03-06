@@ -31,7 +31,6 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
-import synapticloop.h2zero.model.form.Form;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.util.JsonHelper;
 import synapticloop.h2zero.util.NamingHelper;
@@ -51,7 +50,6 @@ public class Database {
 
 	private List<Table> tables = new ArrayList<Table>();
 	private List<View> views = new ArrayList<View>();
-	private List<Form> forms = new ArrayList<Form>();
 
 	private Set<String> tableNames = new HashSet<String>();
 	private int defaultStatementCacheSize = 1024;
@@ -74,6 +72,7 @@ public class Database {
 			throw new H2ZeroParseException(String.format("The json file must have a key of '%s'.", JSONKeyConstants.DATABASE), ojjsonex);
 		}
 
+		// get the generic information from the json object
 		this.schema = JsonHelper.getStringValue(databaseJson, JSONKeyConstants.SCHEMA, null);
 		databaseJson.remove(JSONKeyConstants.SCHEMA);
 
@@ -83,6 +82,7 @@ public class Database {
 		this.defaultStatementCacheSize = JsonHelper.getIntValue(databaseJson, JSONKeyConstants.DEFAULT_STATEMENT_CACHE_SIZE, 1024);
 		databaseJson.remove(JSONKeyConstants.DEFAULT_STATEMENT_CACHE_SIZE);
 
+		// do some checking on the values, fail if not available
 		if(null == schema) {
 			throw new H2ZeroParseException(String.format("You must have a key and value of '%s'.", JSONKeyConstants.SCHEMA));
 		}
@@ -125,6 +125,7 @@ public class Database {
 			tableNames.add(tableName);
 		}
 
+		// remove the key from the object, so we can determine what is left over
 		databaseJson.remove(JSONKeyConstants.TABLES);
 
 		// now that we have the database set up, now it is time for the views
@@ -145,6 +146,7 @@ public class Database {
 		}
 		databaseJson.remove(JSONKeyConstants.VIEWS);
 
+		// go through and add all remaining keys to the additional keys object
 		Iterator<String> keys = databaseJson.keys();
 		while (keys.hasNext()) {
 			String key = (String) keys.next();
@@ -163,22 +165,27 @@ public class Database {
 	 * @return the schema name
 	 */
 	public String getSchema() { return(this.schema); }
-	public String getPackage() { return(this.packageName); }
-	public List<Table> getTables() { return(tables); }
-	public List<View> getViews() { return(views); }
-	public List<Form> getForms() { return(forms); }
 
-	public BaseField getField(String fieldName) {
-		Iterator<Table> iterator = tables.iterator();
-		while (iterator.hasNext()) {
-			Table table = iterator.next();
-			BaseField baseField = table.getField(fieldName);
-			if(null != baseField) {
-				return(baseField);
-			}
-		}
-		return(null);
-	}
+	/**
+	 * Get the base package that the code will be generated under
+	 * 
+	 * @return ths jave package that the code will be generated under
+	 */
+	public String getPackage() { return(this.packageName); }
+
+	/**
+	 * Get the tables that are going to be generated
+	 * 
+	 * @return the tables that are going to be generated
+	 */
+	public List<Table> getTables() { return(tables); }
+
+	/**
+	 * Get the views that are going to be generated
+	 * 
+	 * @return the views that are going to be generated
+	 */
+	public List<View> getViews() { return(views); }
 
 	/**
 	 * Get a field from a specific table
@@ -197,7 +204,21 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Get the package path (i.e. synapticloop.h2zero.model will return synapticloop/h2zero/model) - this is 
+	 * the java output path for the package
+	 * 
+	 * @return The path for the java package
+	 */
 	public String getPackagePath() { return(NamingHelper.convertToPath(packageName)); }
+
+	/**
+	 * Get the table keyed on the name, or null if it doesn't exist
+	 * 
+	 * @param tableName the name of the table to return
+	 * 
+	 * @return The table keyed on name
+	 */
 	public static Table getTableLookup(String tableName) { return(tableLookup.get(tableName)); }
 
 	/**
@@ -217,6 +238,11 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Get the maximum number of fields for all of the defined tables
+	 * 
+	 * @return the maximum number of fields that a table has
+	 */
 	public int getMaxNumFields() {
 		int maxNumField = 0;
 		for (Table table : tables) {
