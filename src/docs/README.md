@@ -1,3 +1,14 @@
+# VERSION 3
+
+    This release is a pared down version of h2zero, with un-finished 
+    generators being removed and some placed into extensions
+
+The following generators have been removed from h2zero
+
+ - taglibs (see [https://github.com/synapticloop/h2zero-extension-taglibs](https://github.com/synapticloop/h2zero-extension-taglibs) for more details
+ - forms
+ - adminpages
+ - servlets
 
 # VERSION 2
 

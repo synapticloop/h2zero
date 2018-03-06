@@ -226,7 +226,8 @@ public class BaseH2ZeroGenerator {
 	}
 
 	/**
-	 * Log the database information
+	 * Log the database information, which includes all of the tables and the number of fields, questions, 
+	 * counters, finders, deleters etc.
 	 * 
 	 * @param h2zeroParser the h2zero parser
 	 */

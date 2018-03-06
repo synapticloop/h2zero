@@ -2,7 +2,7 @@
 
 > See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
 
-[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-2.2.1-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
+[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-3.0.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -19,37 +19,38 @@
 
  - [Table of Contents](#documentr_heading_0)
  - [h2zero](#documentr_heading_1)
- - [VERSION 2](#documentr_heading_2)
- - [Extensions](#documentr_heading_3)
- - [Background](#documentr_heading_4)
- - [Requirements](#documentr_heading_5)
- - [Creating a h2zero configuration file](#documentr_heading_6)
- - [The CRUD operations (and some more)](#documentr_heading_7)
-   - [Create](#documentr_heading_8)
-   - [Read](#documentr_heading_9)
-   - [Update](#documentr_heading_10)
-   - [Delete](#documentr_heading_11)
-   - [and some more](#documentr_heading_12)
- - [The Little Things](#documentr_heading_13)
- - [h2Zero generation](#documentr_heading_14)
-   - [gradle plugin](#documentr_heading_15)
-   - [ant](#documentr_heading_16)
-   - [Command line generation](#documentr_heading_17)
- - [Building the Package](#documentr_heading_18)
-   - [*NIX/Mac OS X](#documentr_heading_19)
-   - [Windows](#documentr_heading_20)
- - [Logging - slf4j](#documentr_heading_21)
-   - [Log4j](#documentr_heading_22)
- - [Artefact Publishing - Github](#documentr_heading_27)
- - [All-In-One](#documentr_heading_28)
- - [Artefact Publishing - Bintray](#documentr_heading_29)
-   - [maven setup](#documentr_heading_30)
-   - [gradle setup](#documentr_heading_31)
- - [Artefact Publishing - gradle plugin portal](#documentr_heading_32)
-   - [Dependencies - Gradle](#documentr_heading_33)
-   - [Dependencies - Maven](#documentr_heading_34)
-   - [Dependencies - Downloads](#documentr_heading_35)
- - [License](#documentr_heading_42)
+ - [VERSION 3](#documentr_heading_2)
+ - [VERSION 2](#documentr_heading_3)
+ - [Extensions](#documentr_heading_4)
+ - [Background](#documentr_heading_5)
+ - [Requirements](#documentr_heading_6)
+ - [Creating a h2zero configuration file](#documentr_heading_7)
+ - [The CRUD operations (and some more)](#documentr_heading_8)
+   - [Create](#documentr_heading_9)
+   - [Read](#documentr_heading_10)
+   - [Update](#documentr_heading_11)
+   - [Delete](#documentr_heading_12)
+   - [and some more](#documentr_heading_13)
+ - [The Little Things](#documentr_heading_14)
+ - [h2Zero generation](#documentr_heading_15)
+   - [gradle plugin](#documentr_heading_16)
+   - [ant](#documentr_heading_17)
+   - [Command line generation](#documentr_heading_18)
+ - [Building the Package](#documentr_heading_19)
+   - [*NIX/Mac OS X](#documentr_heading_20)
+   - [Windows](#documentr_heading_21)
+ - [Logging - slf4j](#documentr_heading_22)
+   - [Log4j](#documentr_heading_23)
+ - [Artefact Publishing - Github](#documentr_heading_28)
+ - [All-In-One](#documentr_heading_29)
+ - [Artefact Publishing - Bintray](#documentr_heading_30)
+   - [maven setup](#documentr_heading_31)
+   - [gradle setup](#documentr_heading_32)
+ - [Artefact Publishing - gradle plugin portal](#documentr_heading_33)
+   - [Dependencies - Gradle](#documentr_heading_34)
+   - [Dependencies - Maven](#documentr_heading_35)
+   - [Dependencies - Downloads](#documentr_heading_36)
+ - [License](#documentr_heading_43)
 
 
 
@@ -62,13 +63,28 @@
 
 
 
-> lightweight ORM generator for mysql, java and optionally jsp/servlets
-
+> lightweight ORM generator for mysql/sqlite, java with extensions for taglibs and routemaster
 
 
 
 
 <a name="documentr_heading_2"></a>
+
+# VERSION 3 <sup><sup>[top](#documentr_top)</sup></sup>
+
+    This release is a pared down version of h2zero, with un-finished 
+    generators being removed and some placed into extensions
+
+The following generators have been removed from h2zero
+
+ - taglibs (see [https://github.com/synapticloop/h2zero-extension-taglibs](https://github.com/synapticloop/h2zero-extension-taglibs) for more details
+ - forms
+ - adminpages
+ - servlets
+
+
+
+<a name="documentr_heading_3"></a>
 
 # VERSION 2 <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -82,7 +98,7 @@ Whilst still a work in progress, database persistence is fully supported and run
 
 
 
-<a name="documentr_heading_3"></a>
+<a name="documentr_heading_4"></a>
 
 # Extensions <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -90,7 +106,7 @@ Extensions for h2zero are now supported see [https://github.com/synapticloop/h2z
 
 
 
-<a name="documentr_heading_4"></a>
+<a name="documentr_heading_5"></a>
 
 # Background <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -112,7 +128,7 @@ Your database, just the way that you designed it.
 
 
 
-<a name="documentr_heading_5"></a>
+<a name="documentr_heading_6"></a>
 
 # Requirements <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -123,7 +139,7 @@ Your database, just the way that you designed it.
 
 
 
-<a name="documentr_heading_6"></a>
+<a name="documentr_heading_7"></a>
 
 # Creating a h2zero configuration file <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -179,13 +195,13 @@ By default the h2zero file would look like the following:
 
 
 
-<a name="documentr_heading_7"></a>
+<a name="documentr_heading_8"></a>
 
 # The CRUD operations (and some more) <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
-<a name="documentr_heading_8"></a>
+<a name="documentr_heading_9"></a>
 
 ## Create  <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -193,7 +209,7 @@ Normal plain old java objects (POJO).  Just instantiate and insert (or insert si
 
 
 
-<a name="documentr_heading_9"></a>
+<a name="documentr_heading_10"></a>
 
 ## Read  <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -201,7 +217,7 @@ Finders, Finders and more Finders
 
 
 
-<a name="documentr_heading_10"></a>
+<a name="documentr_heading_11"></a>
 
 ## Update <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -209,7 +225,7 @@ Updaters
 
 
 
-<a name="documentr_heading_11"></a>
+<a name="documentr_heading_12"></a>
 
 ## Delete <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -217,7 +233,7 @@ Deleters
 
 
 
-<a name="documentr_heading_12"></a>
+<a name="documentr_heading_13"></a>
 
 ## and some more <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -240,7 +256,7 @@ This will generate the following files
 
 
 
-<a name="documentr_heading_13"></a>
+<a name="documentr_heading_14"></a>
 
 # The Little Things <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -257,13 +273,13 @@ This will generate the following files
 
 
 
-<a name="documentr_heading_14"></a>
+<a name="documentr_heading_15"></a>
 
 # h2Zero generation <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
-<a name="documentr_heading_15"></a>
+<a name="documentr_heading_16"></a>
 
 ## gradle plugin <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -283,7 +299,7 @@ h2zero {
 
 
 
-<a name="documentr_heading_16"></a>
+<a name="documentr_heading_17"></a>
 
 ## ant <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -308,7 +324,7 @@ task h2zero << {
 
 
 
-<a name="documentr_heading_17"></a>
+<a name="documentr_heading_18"></a>
 
 ## Command line generation <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -403,13 +419,13 @@ Exiting...
 
 
 
-<a name="documentr_heading_18"></a>
+<a name="documentr_heading_19"></a>
 
 # Building the Package <sup><sup>[top](#documentr_top)</sup></sup>
 
 
 
-<a name="documentr_heading_19"></a>
+<a name="documentr_heading_20"></a>
 
 ## *NIX/Mac OS X <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -420,7 +436,7 @@ From the root of the project, simply run
 
 
 
-<a name="documentr_heading_20"></a>
+<a name="documentr_heading_21"></a>
 
 ## Windows <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -433,7 +449,7 @@ Note that this may also run tests (if applicable see the Testing notes)
 
 
 
-<a name="documentr_heading_21"></a>
+<a name="documentr_heading_22"></a>
 
 # Logging - slf4j <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -441,7 +457,7 @@ slf4j is the logging framework used for this project.  In order to set up a logg
 
 
 
-<a name="documentr_heading_22"></a>
+<a name="documentr_heading_23"></a>
 
 ## Log4j <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -526,7 +542,7 @@ A sample `log4j2.xml` is below:
 
 
 
-<a name="documentr_heading_27"></a>
+<a name="documentr_heading_28"></a>
 
 # Artefact Publishing - Github <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -539,7 +555,7 @@ As such, this is not a repository, but a location to download files from.
 
 
 
-<a name="documentr_heading_28"></a>
+<a name="documentr_heading_29"></a>
 
 # All-In-One <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -549,13 +565,13 @@ This should appear in the artefact repository along with the compiled code, as a
 
 For example:
 
-`h2zero-2.2.1.jar -> h2zero-2.2.1-all.jar`
+`h2zero-3.0.0.jar -> h2zero-3.0.0-all.jar`
 
 
 
 
 
-<a name="documentr_heading_29"></a>
+<a name="documentr_heading_30"></a>
 
 # Artefact Publishing - Bintray <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -565,7 +581,7 @@ This project publishes artefacts to [bintray](https://bintray.com/)
 
 
 
-<a name="documentr_heading_30"></a>
+<a name="documentr_heading_31"></a>
 
 ## maven setup <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -611,7 +627,7 @@ this comes from the jcenter bintray, to set up your repository:
 
 
 
-<a name="documentr_heading_31"></a>
+<a name="documentr_heading_32"></a>
 
 ## gradle setup <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -643,7 +659,7 @@ repositories {
 
 
 
-<a name="documentr_heading_32"></a>
+<a name="documentr_heading_33"></a>
 
 # Artefact Publishing - gradle plugin portal <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -653,7 +669,7 @@ This project publishes artefacts to [the gradle plugin portal](https://plugins.g
 
 
 
-<a name="documentr_heading_33"></a>
+<a name="documentr_heading_34"></a>
 
 ## Dependencies - Gradle <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -661,9 +677,9 @@ This project publishes artefacts to [the gradle plugin portal](https://plugins.g
 
 ```
 dependencies {
-	runtime(group: 'synapticloop', name: 'h2zero', version: '2.2.1', ext: 'jar')
+	runtime(group: 'synapticloop', name: 'h2zero', version: '3.0.0', ext: 'jar')
 
-	compile(group: 'synapticloop', name: 'h2zero', version: '2.2.1', ext: 'jar')
+	compile(group: 'synapticloop', name: 'h2zero', version: '3.0.0', ext: 'jar')
 }
 ```
 
@@ -675,9 +691,9 @@ or, more simply for versions of gradle greater than 2.1
 
 ```
 dependencies {
-	runtime 'synapticloop:h2zero:2.2.1'
+	runtime 'synapticloop:h2zero:3.0.0'
 
-	compile 'synapticloop:h2zero:2.2.1'
+	compile 'synapticloop:h2zero:3.0.0'
 }
 ```
 
@@ -685,7 +701,7 @@ dependencies {
 
 
 
-<a name="documentr_heading_34"></a>
+<a name="documentr_heading_35"></a>
 
 ## Dependencies - Maven <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -695,7 +711,7 @@ dependencies {
 <dependency>
 	<groupId>synapticloop</groupId>
 	<artifactId>h2zero</artifactId>
-	<version>2.2.1</version>
+	<version>3.0.0</version>
 	<type>jar</type>
 </dependency>
 ```
@@ -704,7 +720,7 @@ dependencies {
 
 
 
-<a name="documentr_heading_35"></a>
+<a name="documentr_heading_36"></a>
 
 ## Dependencies - Downloads <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -723,10 +739,9 @@ You will also need to download the following dependencies:
   - `synapticloop:templar:1.4.4`: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/templar/1.4.4/view#files/synapticloop/templar/1.4.4) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|templar|1.4.4|jar))
   - `org.json:json:20180130`: (It may be available on one of: [bintray](https://bintray.com/org.json/maven/json/20180130/view#files/org.json/json/20180130) [mvn central](http://search.maven.org/#artifactdetails|org.json|json|20180130|jar))
   - `org.apache.ant:ant:1.10.2`: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.10.2/view#files/org.apache.ant/ant/1.10.2) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.10.2|jar))
-  - `javax.servlet.jsp:jsp-api:2.2`: (It may be available on one of: [bintray](https://bintray.com/javax.servlet.jsp/maven/jsp-api/2.2/view#files/javax.servlet.jsp/jsp-api/2.2) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet.jsp|jsp-api|2.2|jar))
-  - `javax.servlet:javax.servlet-api:3.1.0`: (It may be available on one of: [bintray](https://bintray.com/javax.servlet/maven/javax.servlet-api/3.1.0/view#files/javax.servlet/javax.servlet-api/3.1.0) [mvn central](http://search.maven.org/#artifactdetails|javax.servlet|javax.servlet-api|3.1.0|jar))
   - `com.mchange:c3p0:0.9.5.2`: (It may be available on one of: [bintray](https://bintray.com/com.mchange/maven/c3p0/0.9.5.2/view#files/com.mchange/c3p0/0.9.5.2) [mvn central](http://search.maven.org/#artifactdetails|com.mchange|c3p0|0.9.5.2|jar))
   - `commons-validator:commons-validator:1.6`: (It may be available on one of: [bintray](https://bintray.com/commons-validator/maven/commons-validator/1.6/view#files/commons-validator/commons-validator/1.6) [mvn central](http://search.maven.org/#artifactdetails|commons-validator|commons-validator|1.6|jar))
+  - `synapticloop:h2zero-extension-taglibs:1.0.0`: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/h2zero-extension-taglibs/1.0.0/view#files/synapticloop/h2zero-extension-taglibs/1.0.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|h2zero-extension-taglibs|1.0.0|jar))
   - `org.slf4j:slf4j-api:1.7.25`: (It may be available on one of: [bintray](https://bintray.com/org.slf4j/maven/slf4j-api/1.7.25/view#files/org.slf4j/slf4j-api/1.7.25) [mvn central](http://search.maven.org/#artifactdetails|org.slf4j|slf4j-api|1.7.25|jar))
   - `org.apache.logging.log4j:log4j-slf4j-impl:2.10.0`: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-slf4j-impl/2.10.0/view#files/org.apache.logging.log4j/log4j-slf4j-impl/2.10.0) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-slf4j-impl|2.10.0|jar))
   - `org.apache.logging.log4j:log4j-core:2.10.0`: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-core/2.10.0/view#files/org.apache.logging.log4j/log4j-core/2.10.0) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-core|2.10.0|jar))
@@ -744,6 +759,7 @@ You will also need to download the following dependencies:
   - `org.slf4j:slf4j-api:1.7.25`: (It may be available on one of: [bintray](https://bintray.com/org.slf4j/maven/slf4j-api/1.7.25/view#files/org.slf4j/slf4j-api/1.7.25) [mvn central](http://search.maven.org/#artifactdetails|org.slf4j|slf4j-api|1.7.25|jar))
   - `io.dropwizard.metrics:metrics-core:3.1.2`: (It may be available on one of: [bintray](https://bintray.com/io.dropwizard.metrics/maven/metrics-core/3.1.2/view#files/io.dropwizard.metrics/metrics-core/3.1.2) [mvn central](http://search.maven.org/#artifactdetails|io.dropwizard.metrics|metrics-core|3.1.2|jar))
   - `javax.mail:javax.mail-api:1.6.1`: (It may be available on one of: [bintray](https://bintray.com/javax.mail/maven/javax.mail-api/1.6.1/view#files/javax.mail/javax.mail-api/1.6.1) [mvn central](http://search.maven.org/#artifactdetails|javax.mail|javax.mail-api|1.6.1|jar))
+  - `synapticloop:h2zero-extension-taglibs:1.0.0`: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/h2zero-extension-taglibs/1.0.0/view#files/synapticloop/h2zero-extension-taglibs/1.0.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|h2zero-extension-taglibs|1.0.0|jar))
 
 
 ### shadowRuntime dependencies
@@ -772,7 +788,7 @@ You will also need to download the following dependencies:
 
 
 
-<a name="documentr_heading_42"></a>
+<a name="documentr_heading_43"></a>
 
 # License <sup><sup>[top](#documentr_top)</sup></sup>
 
