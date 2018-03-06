@@ -2,7 +2,7 @@
 
 > See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
 
-[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-3.0.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
+[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-3.1.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -565,7 +565,7 @@ This should appear in the artefact repository along with the compiled code, as a
 
 For example:
 
-`h2zero-3.0.0.jar -> h2zero-3.0.0-all.jar`
+`h2zero-3.1.0.jar -> h2zero-3.1.0-all.jar`
 
 
 
@@ -677,9 +677,9 @@ This project publishes artefacts to [the gradle plugin portal](https://plugins.g
 
 ```
 dependencies {
-	runtime(group: 'synapticloop', name: 'h2zero', version: '3.0.0', ext: 'jar')
+	runtime(group: 'synapticloop', name: 'h2zero', version: '3.1.0', ext: 'jar')
 
-	compile(group: 'synapticloop', name: 'h2zero', version: '3.0.0', ext: 'jar')
+	compile(group: 'synapticloop', name: 'h2zero', version: '3.1.0', ext: 'jar')
 }
 ```
 
@@ -691,9 +691,9 @@ or, more simply for versions of gradle greater than 2.1
 
 ```
 dependencies {
-	runtime 'synapticloop:h2zero:3.0.0'
+	runtime 'synapticloop:h2zero:3.1.0'
 
-	compile 'synapticloop:h2zero:3.0.0'
+	compile 'synapticloop:h2zero:3.1.0'
 }
 ```
 
@@ -711,7 +711,7 @@ dependencies {
 <dependency>
 	<groupId>synapticloop</groupId>
 	<artifactId>h2zero</artifactId>
-	<version>3.0.0</version>
+	<version>3.1.0</version>
 	<type>jar</type>
 </dependency>
 ```
@@ -741,7 +741,6 @@ You will also need to download the following dependencies:
   - `org.apache.ant:ant:1.10.2`: (It may be available on one of: [bintray](https://bintray.com/org.apache.ant/maven/ant/1.10.2/view#files/org.apache.ant/ant/1.10.2) [mvn central](http://search.maven.org/#artifactdetails|org.apache.ant|ant|1.10.2|jar))
   - `com.mchange:c3p0:0.9.5.2`: (It may be available on one of: [bintray](https://bintray.com/com.mchange/maven/c3p0/0.9.5.2/view#files/com.mchange/c3p0/0.9.5.2) [mvn central](http://search.maven.org/#artifactdetails|com.mchange|c3p0|0.9.5.2|jar))
   - `commons-validator:commons-validator:1.6`: (It may be available on one of: [bintray](https://bintray.com/commons-validator/maven/commons-validator/1.6/view#files/commons-validator/commons-validator/1.6) [mvn central](http://search.maven.org/#artifactdetails|commons-validator|commons-validator|1.6|jar))
-  - `synapticloop:h2zero-extension-taglibs:1.0.0`: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/h2zero-extension-taglibs/1.0.0/view#files/synapticloop/h2zero-extension-taglibs/1.0.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|h2zero-extension-taglibs|1.0.0|jar))
   - `org.slf4j:slf4j-api:1.7.25`: (It may be available on one of: [bintray](https://bintray.com/org.slf4j/maven/slf4j-api/1.7.25/view#files/org.slf4j/slf4j-api/1.7.25) [mvn central](http://search.maven.org/#artifactdetails|org.slf4j|slf4j-api|1.7.25|jar))
   - `org.apache.logging.log4j:log4j-slf4j-impl:2.10.0`: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-slf4j-impl/2.10.0/view#files/org.apache.logging.log4j/log4j-slf4j-impl/2.10.0) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-slf4j-impl|2.10.0|jar))
   - `org.apache.logging.log4j:log4j-core:2.10.0`: (It may be available on one of: [bintray](https://bintray.com/org.apache.logging.log4j/maven/log4j-core/2.10.0/view#files/org.apache.logging.log4j/log4j-core/2.10.0) [mvn central](http://search.maven.org/#artifactdetails|org.apache.logging.log4j|log4j-core|2.10.0|jar))
@@ -759,7 +758,6 @@ You will also need to download the following dependencies:
   - `org.slf4j:slf4j-api:1.7.25`: (It may be available on one of: [bintray](https://bintray.com/org.slf4j/maven/slf4j-api/1.7.25/view#files/org.slf4j/slf4j-api/1.7.25) [mvn central](http://search.maven.org/#artifactdetails|org.slf4j|slf4j-api|1.7.25|jar))
   - `io.dropwizard.metrics:metrics-core:3.1.2`: (It may be available on one of: [bintray](https://bintray.com/io.dropwizard.metrics/maven/metrics-core/3.1.2/view#files/io.dropwizard.metrics/metrics-core/3.1.2) [mvn central](http://search.maven.org/#artifactdetails|io.dropwizard.metrics|metrics-core|3.1.2|jar))
   - `javax.mail:javax.mail-api:1.6.1`: (It may be available on one of: [bintray](https://bintray.com/javax.mail/maven/javax.mail-api/1.6.1/view#files/javax.mail/javax.mail-api/1.6.1) [mvn central](http://search.maven.org/#artifactdetails|javax.mail|javax.mail-api|1.6.1|jar))
-  - `synapticloop:h2zero-extension-taglibs:1.0.0`: (It may be available on one of: [bintray](https://bintray.com/synapticloop/maven/h2zero-extension-taglibs/1.0.0/view#files/synapticloop/h2zero-extension-taglibs/1.0.0) [mvn central](http://search.maven.org/#artifactdetails|synapticloop|h2zero-extension-taglibs|1.0.0|jar))
 
 
 ### shadowRuntime dependencies
