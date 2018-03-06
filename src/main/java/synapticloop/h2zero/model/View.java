@@ -44,7 +44,10 @@ public class View extends BaseSchemaObject {
 		super(jsonObject, defaultStatementCacheSize);
 
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
+		jsonObject.remove(JSONKeyConstants.NAME);
+
 		this.asClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.AS_CLAUSE, null);
+		jsonObject.remove(JSONKeyConstants.NAME);
 
 		if(null == name) {
 			throw new H2ZeroParseException("The view '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
@@ -54,8 +57,11 @@ public class View extends BaseSchemaObject {
 			throw new H2ZeroParseException("The view '" + JSONKeyConstants.AS_CLAUSE + "' attribute cannot be null.");
 		}
 
-		this.cacheable = JsonHelper.getBooleanValue(jsonObject, "cacheable", false);
-		this.cacheFindAll = JsonHelper.getBooleanValue(jsonObject, "cacheFindAll", false);
+		this.cacheable = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.CACHEABLE, false);
+		jsonObject.remove(JSONKeyConstants.CACHEABLE);
+
+		this.cacheFindAll = JsonHelper.getBooleanValue(jsonObject, JSONKeyConstants.CACHE_FIND_ALL, false);
+		jsonObject.remove(JSONKeyConstants.CACHE_FIND_ALL);
 
 		populateFields(jsonObject);
 		populateFieldFinders(jsonObject);
@@ -105,6 +111,8 @@ public class View extends BaseSchemaObject {
 				}
 			}
 		}
+
+		jsonObject.remove(JSONKeyConstants.FIELDS);
 	}
 
 	@Override public BaseField getField(String name) { return(fieldLookup.get(name)); }
