@@ -2,7 +2,7 @@
 
 > See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
 
-[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-3.1.0-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
+[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-3.1.1-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
 
 > **This project requires JVM version of at least 1.7**
 
@@ -565,7 +565,7 @@ This should appear in the artefact repository along with the compiled code, as a
 
 For example:
 
-`h2zero-3.1.0.jar -> h2zero-3.1.0-all.jar`
+`h2zero-3.1.1.jar -> h2zero-3.1.1-all.jar`
 
 
 
@@ -677,9 +677,9 @@ This project publishes artefacts to [the gradle plugin portal](https://plugins.g
 
 ```
 dependencies {
-	runtime(group: 'synapticloop', name: 'h2zero', version: '3.1.0', ext: 'jar')
+	runtime(group: 'synapticloop', name: 'h2zero', version: '3.1.1', ext: 'jar')
 
-	compile(group: 'synapticloop', name: 'h2zero', version: '3.1.0', ext: 'jar')
+	compile(group: 'synapticloop', name: 'h2zero', version: '3.1.1', ext: 'jar')
 }
 ```
 
@@ -691,9 +691,9 @@ or, more simply for versions of gradle greater than 2.1
 
 ```
 dependencies {
-	runtime 'synapticloop:h2zero:3.1.0'
+	runtime 'synapticloop:h2zero:3.1.1'
 
-	compile 'synapticloop:h2zero:3.1.0'
+	compile 'synapticloop:h2zero:3.1.1'
 }
 ```
 
@@ -711,7 +711,7 @@ dependencies {
 <dependency>
 	<groupId>synapticloop</groupId>
 	<artifactId>h2zero</artifactId>
-	<version>3.1.0</version>
+	<version>3.1.1</version>
 	<type>jar</type>
 </dependency>
 ```
