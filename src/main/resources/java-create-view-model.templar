@@ -6,8 +6,11 @@ package {database.package}.view;{\n}{\n}
 
 import synapticloop.h2zero.base.view.ViewBase;{\n}
 
-{if fn:requiresImport[view, "Date"]}import java.sql.Date;{\n}{endif}
-{if fn:requiresImport[view, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
+{if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
+{if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
+{if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
+{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
+{if fn:requiresImport[table, "Time"]}import java.sql.Time;{\n}{endif}
 import {database.package}.model.util.Constants;{\n}
 
 {\n}{\n}
