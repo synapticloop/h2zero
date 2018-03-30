@@ -34,6 +34,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 
@@ -222,6 +223,14 @@ public abstract class BaseConnectionManager {
 			preparedStatement.setNull(parameterIndex, Types.DATE);
 		} else {
 			preparedStatement.setDate(parameterIndex, value);
+		}
+	}
+
+	public static void setTime(PreparedStatement preparedStatement, int parameterIndex, Time value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.TIME);
+		} else {
+			preparedStatement.setTime(parameterIndex, value);
 		}
 	}
 
@@ -550,6 +559,10 @@ public abstract class BaseConnectionManager {
 
 	public static Timestamp getNullableResultTimestamp(ResultSet resultSet, int index) throws SQLException {
 		return((Timestamp)returnPossibleNullObject(resultSet, resultSet.getTimestamp(index)));
+	}
+
+	public static Time getNullableResultTimes(ResultSet resultSet, int index) throws SQLException {
+		return((Time)returnPossibleNullObject(resultSet, resultSet.getTime(index)));
 	}
 
 	public static Date getNullableResultDate(ResultSet resultSet, int index) throws SQLException {
