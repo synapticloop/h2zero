@@ -20,6 +20,7 @@ package synapticloop.h2zero.model;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,24 @@ public class View extends BaseSchemaObject {
 		jsonObject.remove(JSONKeyConstants.NAME);
 
 		this.asClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.AS_CLAUSE, null);
-		jsonObject.remove(JSONKeyConstants.NAME);
+		
+		if(null == asClause) {
+			// we also allow an array - so we can concatenate it together
+			JSONArray asClauseArray = jsonObject.optJSONArray(JSONKeyConstants.AS_CLAUSE);
+			if(null != asClauseArray) {
+				StringBuilder stringBuilder = new StringBuilder();
+				
+				Iterator<Object> iterator = asClauseArray.iterator();
+				while (iterator.hasNext()) {
+					String snippet = (String) iterator.next();
+					stringBuilder.append(snippet);
+					stringBuilder.append(" ");
+				}
+				this.asClause = stringBuilder.toString();
+			}
+		}
+
+		jsonObject.remove(JSONKeyConstants.AS_CLAUSE);
 
 		if(null == name) {
 			throw new H2ZeroParseException("The view '" + JSONKeyConstants.NAME + "' attribute cannot be null.");
