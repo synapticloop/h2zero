@@ -32,22 +32,27 @@ public class ClobField extends BaseField {
 		super(jsonObject, isInField);
 	}
 
+	@Override
 	public String getJavaType() {
 		return "String";
 	}
 
+	@Override
 	public String getSqlJavaType() {
 		return("String");
 	}
 
+	@Override
 	public String getSqlNullType() {
 		return("CLOB");
 	}
 
+	@Override
 	public boolean getShouldEscape() {
 		return true;
 	}
 
+	@Override
 	public boolean getIsLargeObject() {
 		return(true);
 	}

@@ -37,14 +37,17 @@ public class BoolField extends BaseField {
 		return("Boolean");
 	}
 
+	@Override
 	public String getSqlJavaType() {
 		return("Boolean");
 	}
 
+	@Override
 	public String getSqlNullType() {
 		return("BOOL");
 	}
 
+	@Override
 	public boolean getShouldEscape() {
 		return false;
 	}

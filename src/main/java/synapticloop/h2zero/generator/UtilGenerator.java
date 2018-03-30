@@ -18,6 +18,7 @@ public class UtilGenerator extends Generator {
 		super(database, options, outFile, verbose);
 	}
 
+	@Override
 	public void generate() throws RenderException, ParseException {
 		if(!options.hasGenerator(Options.OPTION_JAVA)) {
 			return;

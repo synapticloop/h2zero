@@ -33,18 +33,22 @@ public class DecimalField extends BaseField {
 		super(jsonObject, isInField);
 	}
 
+	@Override
 	public String getJavaType() {
 		return("Float");
 	}
 
+	@Override
 	public String getSqlJavaType() {
 		return("Float");
 	}
 
+	@Override
 	public String getSqlNullType() {
 		return("DECIMAL");
 	}
 
+	@Override
 	public String getLengthFormat() {
 		StringBuilder stringBuilder = new StringBuilder();
 		if(length != 0) {
@@ -57,6 +61,7 @@ public class DecimalField extends BaseField {
 		return(stringBuilder.toString());
 	}
 
+	@Override
 	public boolean getShouldEscape() {
 		return false;
 	}

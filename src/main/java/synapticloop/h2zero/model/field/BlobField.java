@@ -32,22 +32,27 @@ public class BlobField extends BaseField {
 		super(jsonObject, isInField);
 	}
 
+	@Override
 	public String getJavaType() {
 		return "Blob";
 	}
 
+	@Override
 	public String getSqlJavaType() {
 		return("Blob");
 	}
 
+	@Override
 	public String getSqlNullType() {
 		return("BLOB");
 	}
 
+	@Override
 	public boolean getShouldEscape() {
 		return true;
 	}
 
+	@Override
 	public boolean getIsLargeObject() {
 		return(true);
 	}

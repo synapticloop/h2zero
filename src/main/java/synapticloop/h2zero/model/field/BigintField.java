@@ -32,18 +32,22 @@ public class BigintField extends BaseField {
 		super(jsonObject, isInField);
 	}
 
+	@Override
 	public String getJavaType() {
 		return "Long";
 	}
 
+	@Override
 	public String getSqlJavaType() {
 		return("Long");
 	}
 
+	@Override
 	public String getSqlNullType() {
 		return("BIGINT");
 	}
 
+	@Override
 	public boolean getShouldEscape() {
 		return false;
 	}

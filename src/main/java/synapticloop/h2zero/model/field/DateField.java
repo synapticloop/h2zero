@@ -31,18 +31,22 @@ public class DateField extends BaseField {
 		super(jsonObject, isInField);
 	}
 
+	@Override
 	public String getJavaType() {
 		return("Date");
 	}
 
+	@Override
 	public String getSqlJavaType() {
 		return("Date");
 	}
 
+	@Override
 	public String getSqlNullType() {
 		return("DATE");
 	}
 
+	@Override
 	public boolean getShouldEscape() {
 		return true;
 	}

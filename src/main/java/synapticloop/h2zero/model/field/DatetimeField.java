@@ -33,18 +33,22 @@ public class DatetimeField extends BaseField {
 		super(jsonObject, isInField);
 	}
 
+	@Override
 	public String getJavaType() {
 		return("Timestamp");
 	}
 
+	@Override
 	public String getSqlJavaType() {
 		return("Timestamp");
 	}
 
+	@Override
 	public String getSqlNullType() {
 		return("TIMESTAMP");
 	}
 
+	@Override
 	public boolean getShouldEscape() {
 		return true;
 	}

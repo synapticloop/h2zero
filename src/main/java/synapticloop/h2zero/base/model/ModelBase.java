@@ -151,6 +151,13 @@ public abstract class ModelBase {
 		}
 	}
 
+	/**
+	 * Update the model, this will automatically get a connection and then close it
+	 * once completed.
+	 * 
+	 * @throws SQLException If there was an error with the updating of the model
+	 * @throws H2ZeroPrimaryKeyException If the primary key is not set
+	 */
 	public void update() throws SQLException, H2ZeroPrimaryKeyException {
 		Connection connection = getConnection();
 		update(connection);

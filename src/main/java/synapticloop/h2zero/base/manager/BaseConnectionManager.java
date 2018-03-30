@@ -43,10 +43,26 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public abstract class BaseConnectionManager {
 	protected static ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 
+	/**
+	 * Get a connection to the database from the combo pooled datasource
+	 * 
+	 * @return the connection from the underlying database
+	 * 
+	 * @throws SQLException If there was an error getting the connection
+	 */
 	public static Connection getConnection() throws SQLException {
 		return(comboPooledDataSource.getConnection());
 	}
 
+	/**
+	 * Read a file and return it as a string. If the file cannot be found, or there was an error
+	 * reading the file, then null will be returned.
+	 *  
+	 * @param fileName The filename to read
+	 * @param writerArg the writer
+	 * 
+	 * @return The file contents as a string
+	 */
 	public static String clobReader(String fileName, Writer writerArg) {
 		String clobData = null;
 
@@ -72,7 +88,7 @@ public abstract class BaseConnectionManager {
 				try {
 					br.close();
 				} catch (IOException ex) {
-					// TODO Auto-generated catch block
+					// not much we can do - do nothing
 					ex.printStackTrace();
 				} finally {
 					br = null;
@@ -84,22 +100,52 @@ public abstract class BaseConnectionManager {
 		return clobData;
 	}
 
+	/**
+	 * Close resources safely - i.e. without throwing any exceptions
+	 * 
+	 * @param connection The connection to be closed safely
+	 */
 	public static void closeAll(Connection connection) {
 		closeAll(null, null, connection);
 	}
 
+	/**
+	 * Close resources safely - i.e. without throwing any exceptions
+	 * 
+	 * @param statement The statement to close safely
+	 * @param connection The connection to close safely
+	 */
 	public static void closeAll(Statement statement, Connection connection) {
 		closeAll(null, statement, connection);
 	}
 
+	/**
+	 * Close resources safely - i.e. without throwing any exceptions
+	 * 
+	 * @param resultSet The result set to close safely
+	 * @param statement The statement to close safely
+	 */
 	public static void closeAll(ResultSet resultSet, Statement statement) {
 		closeAll(resultSet, statement, null);
 	}
 
+	/**
+	 * Close resources safely - i.e. without throwing any exceptions
+	 * 
+	 * @param statement The statement to close safely
+	 */
 	public static void closeAll(Statement statement) {
 		closeAll(null, statement, null);
 	}
 
+	/**
+	 * Close resources safely - i.e. without throwing any exceptions.  If any of 
+	 * the passed in parameters are null, no actions will be made on them.
+	 * 
+	 * @param resultSet The result set to close safely
+	 * @param statement The statement to close safely
+	 * @param connection The connection to close safely
+	 */
 	public static void closeAll(ResultSet resultSet, Statement statement, Connection connection) {
 		if(null != resultSet) {
 			try {
@@ -206,7 +252,7 @@ public abstract class BaseConnectionManager {
 
 	/**
 	 * Set a DATETIME datatype to a prepared statement with the value of the passed
-	 * in timestamp or the correct SQL null type if null
+	 * in datetime or the correct SQL null type if null
 	 * 
 	 * @param preparedStatement The prepared statement
 	 * @param parameterIndex the index of the parameter
@@ -218,6 +264,16 @@ public abstract class BaseConnectionManager {
 		setTimestamp(preparedStatement, parameterIndex, value);
 	}
 
+	/**
+	 * Set a DATE datatype to a prepared statement with the value of the passed
+	 * in date or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
 	public static void setDate(PreparedStatement preparedStatement, int parameterIndex, Date value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.DATE);
@@ -226,6 +282,16 @@ public abstract class BaseConnectionManager {
 		}
 	}
 
+	/**
+	 * Set a TIME datatype to a prepared statement with the value of the passed
+	 * in time or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
 	public static void setTime(PreparedStatement preparedStatement, int parameterIndex, Time value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.TIME);
@@ -479,6 +545,16 @@ public abstract class BaseConnectionManager {
 		}
 	}
 
+	/**
+	 * Set a Longtext datatype to a prepared statement with the value of the passed in Reader, or the correct 
+	 * SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param inputStream the input stream to read from
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
 	public static void setLongtext(PreparedStatement preparedStatement, int parameterIndex, Reader reader) throws SQLException {
 		if(null == reader) {
 			preparedStatement.setNull(parameterIndex, Types.LONGVARCHAR);
@@ -487,6 +563,16 @@ public abstract class BaseConnectionManager {
 		}
 	}
 
+	/**
+	 * Set a Longtext datatype to a prepared statement with the value of the passed in InputStream, or the correct 
+	 * SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param inputStream the input stream to read from
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
 	public static void setLongtext(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
 		setLongtext(preparedStatement, parameterIndex, new InputStreamReader(inputStream));
 	}
@@ -531,7 +617,7 @@ public abstract class BaseConnectionManager {
 
 	/**
 	 * Get a Boolean result from the resultSet as a value or null.  In the case where the resulting value is null, this will 
-	 * be set to 0 (zero) by the jdbc driver.  Consequently the resultSet is checked to see whether it was null.  If so, 
+	 * be set to 0 (zero) by the JDBC driver.  Consequently the resultSet is checked to see whether it was null.  If so, 
 	 * null is returned, else the actual value
 	 * 
 	 * @param resultSet The resultSet to get the value from
@@ -556,7 +642,6 @@ public abstract class BaseConnectionManager {
 		return((String)returnPossibleNullObject(resultSet, resultSet.getString(index)));
 	}
 
-
 	public static Timestamp getNullableResultTimestamp(ResultSet resultSet, int index) throws SQLException {
 		return((Timestamp)returnPossibleNullObject(resultSet, resultSet.getTimestamp(index)));
 	}
@@ -573,5 +658,10 @@ public abstract class BaseConnectionManager {
 		return((Float)returnPossibleNullObject(resultSet, resultSet.getFloat(index)));
 	}
 
+	/**
+	 * Get the underlying combo pooled result set
+	 * 
+	 * @return The underlying combo pooled result set
+	 */
 	public static ComboPooledDataSource getComboPooledDataSource() { return comboPooledDataSource; }
 }

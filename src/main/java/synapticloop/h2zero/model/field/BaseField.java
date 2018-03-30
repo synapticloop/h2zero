@@ -330,19 +330,14 @@ public abstract class BaseField {
 			forName = Class.forName(this.getClass().getPackage().getName() + "." + firstUpper + "Field");
 			constructor = forName.getConstructor(JSONObject.class);
 			baseField = (BaseField)constructor.newInstance(jsonObjectConstructor);
-		} catch (NoSuchMethodException ex) {
-			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
-		} catch (SecurityException ex) {
-			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
-		} catch (ClassNotFoundException ex) {
-			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
-		} catch (InstantiationException ex) {
-			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
-		} catch (IllegalAccessException ex) {
-			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
-		} catch (IllegalArgumentException ex) {
-			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
-		} catch (InvocationTargetException ex) {
+		} catch (NoSuchMethodException | 
+				SecurityException | 
+				ClassNotFoundException | 
+				InstantiationException | 
+				IllegalAccessException | 
+				IllegalArgumentException | 
+				InvocationTargetException ex) {
+
 			throw new H2ZeroParseException(COULD_NOT_CREATE_BASE_FIELD_COPY, ex);
 		}
 
