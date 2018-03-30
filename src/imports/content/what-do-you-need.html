@@ -1,6 +1,18 @@
 <h3>What do you need...</h3>
 
-<h4>I need to find something...</h4>
+<p>
+	Whatever you need to do on the database, there is something for you
+</p>
+
+<ul>
+	<li><a href="#find">Find something...</a> (or a subset of things)</li>
+	<li><a href="#count">Count something...</a> (or a subset of things - i.e. return a number from a query)</li>
+	<li><a href="#question">Question something...</a> (i.e. return a boolean yes or no from a query)</li>
+	<li><a href="#delete">Delete something...</a> (or a subset of things)</li>
+	<li><a href="#update">Update something...</a> (or a subset of things)</li>
+</ul>
+
+<h4><a id="find">I need to find something...</a></h4>
 
 <dl>
 	<dt><strong>Find everything...</strong></dt>
@@ -26,12 +38,20 @@ pre}
 <p>
 	the second will generate a where clause with two parameters, namely: <code>field_one</code> and <code>field_two</code> (e.g. <code>select * from table where field_one = ? and field_two = ?</code>)
 </p>
+
+<dl>
+	<dt><code>multiple</code></dt>
+	<dd>This designation tells h2zero that <strong>one or more</strong> rows will be returned</dd>
+	<dt><code>unique</code> (you may also use <code>single</code>)</dt>
+	<dd>This designation tells h2zero that only <strong>one</strong> row will be returned</dd>
+</dl>
+
 <dl>
 	<dt><strong>Find a sub-set of fields</strong></dt>
 	<dd>In the <code>.json</code> file you can use a <code>selectClauseFinder</code> which will return a <code>selectClauseBean</code></dd>
 </dl>
 
-<h4>I need to count something...</h4>
+<h4><a id="count">I need to count something...</a></h4>
 
 <p><em><strong>Remember:</strong> counters always return a single <code>integer</code> value...</em></p>
 
@@ -42,7 +62,7 @@ pre}
 	<dd>In the <code>.json</code> file you can use a <code>counter</code> with a <code>whereClause</code></dd>
 </dl>
 
-<h4>I need to question something...</h4>
+<h4><a id="question">I need to question something...</a></h4>
 
 <p><em><strong>Remember:</strong> questions always return a single <code>boolean</code> value...</em></p>
 
@@ -51,7 +71,7 @@ pre}
 	<dd>In the <code>.json</code> file you can use an <code>question</code></dd>
 </dl>
 
-<h4>I need to delete something...</h4>
+<h4><a id="delete">I need to delete something...</a></h4>
 
 <dl>
 	<dt><strong>Delete all...</strong></dt>
@@ -62,7 +82,7 @@ pre}
 	<dd>In the <code>.json</code> file you can use a <code>deleter</code> with a <code>whereClause</code></dd>
 </dl>
 
-<h4>I need to update something...</h4>
+<h4><a id="update">I need to update something...</a></h4>
 
 <dl>
 	<dt><strong>Update all rows that match a query</strong></dt>
