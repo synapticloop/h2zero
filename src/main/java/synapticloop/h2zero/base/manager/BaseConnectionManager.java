@@ -561,7 +561,7 @@ public abstract class BaseConnectionManager {
 		return((Timestamp)returnPossibleNullObject(resultSet, resultSet.getTimestamp(index)));
 	}
 
-	public static Time getNullableResultTimes(ResultSet resultSet, int index) throws SQLException {
+	public static Time getNullableResultTime(ResultSet resultSet, int index) throws SQLException {
 		return((Time)returnPossibleNullObject(resultSet, resultSet.getTime(index)));
 	}
 
