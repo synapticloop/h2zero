@@ -78,12 +78,9 @@ dependencies {
 configurations.all {
 	resolutionStrategy {
 		failOnVersionConflict()
-		force 'junit:junit:4.11',
-					'org.json:json:20180130',
-					'org.slf4j:slf4j-api:1.7.25',
+		force 'org.slf4j:slf4j-api:1.7.26',
 					'commons-logging:commons-logging:1.2',
-					'commons-collections:commons-collections:3.2.2',
-					'com.github.stefanbirkner:system-rules:1.17.1'
+					'commons-collections:commons-collections:3.2.2'
 	}
 }
 
