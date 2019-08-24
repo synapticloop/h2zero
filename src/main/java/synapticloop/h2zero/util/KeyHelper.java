@@ -9,7 +9,7 @@ import synapticloop.h2zero.model.BaseSchemaObject;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 /*
- * Copyright (c) 2012-2018 synapticloop.
+ * Copyright (c) 2012-2019 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and

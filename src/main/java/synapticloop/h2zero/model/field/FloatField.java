@@ -1,7 +1,7 @@
 package synapticloop.h2zero.model.field;
 
 /*
- * Copyright (c) 2013-2018 synapticloop.
+ * Copyright (c) 2013-2019 synapticloop.
  * 
  * All rights reserved.
  *

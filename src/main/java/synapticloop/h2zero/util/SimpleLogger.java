@@ -1,7 +1,7 @@
 package synapticloop.h2zero.util;
 
 /*
- * Copyright (c) 2012-2018 synapticloop.
+ * Copyright (c) 2012-2019 synapticloop.
  * 
  * All rights reserved.
  *
