@@ -95,6 +95,7 @@ jar {
 	}
 }
 
+/*
 cobertura {
 	coverageFormats = [ 'html', 'xml']
 	coverageDirs = [
@@ -106,7 +107,7 @@ cobertura {
 		file("src/test/java/")
 	]
 }
-
+*/
 test {
 	include '**/*Test.class'
 	maxParallelForks = 1
