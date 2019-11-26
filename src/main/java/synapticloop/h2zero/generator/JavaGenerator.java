@@ -68,6 +68,7 @@ public class JavaGenerator extends Generator {
 
 		// The model
 		Parser javaCreateModelParser = getParser("/java-create-model.templar");
+		Parser javaCreateModelHitcountsParser = getParser("/java-create-model-hitcounts.templar");
 
 		// The table actions
 		Parser javaCreateFinderParser = getParser("/java-create-finder.templar");
@@ -77,11 +78,16 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
 		Parser javaCreateDeleterParser = getParser("/java-create-deleter.templar");
 
-		// the taglibs
+		// the select clause bean
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
 
 		String pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Constants.java";
 		renderToFile(templarContext, javaCreateConstantsParser, pathname);
+
+		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Statistics.java";
+		renderToFile(templarContext, javaCreateModelHitcountsParser, pathname);
+
+		
 
 		// now for the tables
 		List<Table> tables = database.getTables();

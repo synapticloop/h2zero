@@ -594,4 +594,24 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}public String getJsonString() {{{\n}
 	{\t}{\t}return(toJsonString());{\n}
 	{\t}}{\n}
+
+	{-- This is the hitcount --}
+	{\n}
+		{\t}public static String getHitCountJson() {{{\n}
+		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
+
+		{\t}{\t}stringBuilder.append("{{\n");{\n}
+		{\t}{\t}stringBuilder.append("  \"type\": \"{table.javaClassName}\",\n");{\n}
+
+		{\t}{\t}stringBuilder.append("  \"total\": " + HIT_COUNTS[0] + ", \n");{\n}
+		{loop table.fields as field}
+			{\t}{\t}stringBuilder.append("  \"{field.javaName}\": " + HIT_COUNTS[{fn:+[field.fieldIndex, '1']}] + "{if !fieldStatus.last}, {endif}\n");{\n}
+		{endloop}
+
+		{\t}{\t}stringBuilder.append("}\n");{\n}
+
+		{\t}{\t}return(stringBuilder.toString());{\n}
+		{\t}}{\n}
+		{\n}
+
 }
