@@ -18,7 +18,6 @@ package synapticloop.h2zero;
  * under the Licence.
  */
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

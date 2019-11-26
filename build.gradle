@@ -10,7 +10,6 @@ plugins {
 
 	id 'com.gradle.plugin-publish' version '0.10.1'
 	id 'co.riiid.gradle' version '0.4.2'
-	id 'net.saliman.cobertura' version '2.5.4'
 
 	id 'synapticloop.copyrightr' version '1.3.1'
 	id 'synapticloop.documentr' version '3.0.0'
@@ -19,7 +18,7 @@ plugins {
 group = 'synapticloop'
 archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql/sqlite, java with extensions for taglibs and routemaster"""
-version = '4.0.0'
+version = '4.0.1'
 
 tasks.withType(Javadoc).all { enabled = false }
 
@@ -34,6 +33,10 @@ repositories {
 	maven {
 		name = "GitHubPackages"
 		url 'https://maven.pkg.github.com/'
+		credentials {
+			username System.getenv('GITHUB_PUBLISH_USER')
+			password System.getenv('GITHUB_TOKEN')
+		}
 	}
 }
 
@@ -49,6 +52,7 @@ dependencies {
 	implementation 'org.slf4j:slf4j-api:1.7.25'
 	implementation 'io.dropwizard.metrics:metrics-core:4.1.1'
 	implementation 'javax.mail:javax.mail-api:1.6.2'
+	implementation 'org.apache.ant:ant:1.10.6'
 
 	compileOnly gradleApi()
 	compileOnly 'synapticloop:templar:1.5.0'
@@ -56,7 +60,6 @@ dependencies {
 	compileOnly 'org.apache.ant:ant:1.10.6'
 	compileOnly 'com.mchange:c3p0:0.9.5.4'
 	compileOnly 'commons-validator:commons-validator:1.6'
-
 	compileOnly 'org.slf4j:slf4j-api:1.7.25'
 	compileOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.12.1'
 	compileOnly 'org.apache.logging.log4j:log4j-core:2.12.1'
@@ -94,8 +97,10 @@ configurations.all {
 
 jar {
 	manifest {
-		attributes("Main-Class": "synapticloop.h2zero.Main",
-				"Implementation-Version": version)
+		attributes(
+			"Main-Class": "synapticloop.h2zero.Main",
+				"Implementation-Version": version
+		)
 	}
 }
 
@@ -139,7 +144,6 @@ task sourcesJar(type: Jar) {
 }
 
 build.finalizedBy(project.tasks.shadowJar)
-test.finalizedBy(project.tasks.cobertura)
 
 
 publishing {
