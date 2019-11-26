@@ -449,6 +449,66 @@ public abstract class ModelBase {
 		}
 	}
 
+	/**
+	 * Hydrate any fields that are not automatically populated.  By default, this does
+	 * nothing unless over-written in the child classes
+	 * 
+	 * @param connection The connection to use
+	 * 
+	 * @throws SQLException
+	 * @throws H2ZeroPrimaryKeyException
+	 */
+	protected void hydrate(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+		// do nothing
+	}
+
+	protected void hydrateSilent(Connection connection) {
+		try {
+			ensure(connection);
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
+		}
+	}
+
+	protected void hydrate() throws SQLException, H2ZeroPrimaryKeyException {
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			ensure(connection);
+			connection.close();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
+
+	protected void hydrateSilent() {
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			ensure(connection);
+			connection.close();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			LOGGER.error(ex.getMessage(), ex);
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqlex) {
+					// do nothing
+				} finally {
+					connection = null;
+				}
+			}
+		}
+	}
 	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 

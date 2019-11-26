@@ -150,7 +150,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{field.name}
 	{if !fieldStatus.last}, {endif}
 {endloop}
- from {table.name}";{\n}
+ from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
 
 {\n}// Static lookups for fields in the hit counter.{\n}
 	{\t}public static final int HIT_TOTAL = 0;{\n}
@@ -416,6 +416,24 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}}{\n}
 	{\n}
 
+	{set fn:length[table.nonPopulateFields] as nonPopulateFieldsLength}
+	{if !fn:=[nonPopulateFieldsLength, '0']}
+
+		{\t}@Override{\n}
+		{\t}protected void hydrate(Connection connection) throws H2ZeroPrimaryKeyException {{{\n}
+		{if options.metrics}
+			{\t}{\t}{table.javaFieldName}Access.inc();{\n}
+			{\t}{\t}{table.javaFieldName}Refresh.inc();{\n}
+		{endif}
+		{\t}{\t}if(!primaryKeySet()) {{{\n}
+		{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot hydrate bean when primary key is null.");{\n}
+		{\t}{\t}}{\n}
+
+		{\t}}{\n}
+		{\n}
+
+	{endif}
+
 
 	{\t}public static String[] getHitFields() {{ return(HIT_FIELDS); }{\n}
 	{\t}public static int[] getHitCounts() {{ return(HIT_COUNTS); }{\n}{\n}
@@ -530,6 +548,13 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 			{if !table.isConstant}
 				updateHitCount({fn:+[field.fieldIndex, '1']}); 
+			{endif}
+
+			{--
+				We need to check for hydration
+			}
+			{if !field.populate}
+			if(!isHydrated) {{ hydrateSilent(); this.isHydrated = true; } 
 			{endif}
 
 			return(this.{field.javaName}); 
