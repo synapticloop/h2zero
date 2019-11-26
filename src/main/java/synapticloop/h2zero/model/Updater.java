@@ -29,15 +29,15 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
 public class Updater extends BaseQueryObject {
 	private boolean isAutoUpdater = false;
 
-	public Updater(Table table, JSONObject jsonObject) throws H2ZeroParseException {
-		super(table, jsonObject);
+	public Updater(Table table, JSONObject updaterObject) throws H2ZeroParseException {
+		super(table, updaterObject);
 
 		allowableJsonKeys.put(JSONKeyConstants.SET_CLAUSE, UsageType.MANDATORY);
 		allowableJsonKeys.put(JSONKeyConstants.SET_FIELDS, UsageType.OPTIONAL);
 
 		// now for the set fields
 		try {
-			JSONArray setFieldArray = jsonObject.getJSONArray(JSONKeyConstants.SET_FIELDS);
+			JSONArray setFieldArray = updaterObject.getJSONArray(JSONKeyConstants.SET_FIELDS);
 			for (int i = 0; i < setFieldArray.length(); i++) {
 				String setFieldName = setFieldArray.getString(i);
 				BaseField baseField = table.getField(setFieldName);
@@ -62,8 +62,12 @@ public class Updater extends BaseQueryObject {
 		// this is probably going to end up with the wrong generation as the same value is used for the set and 
 		// where fields - which the other base SQL objects are not aware of...  This skips all of the aliases 
 		// and in fields...
+		if(null != whereClause) {
+			populateWhereFields(updaterObject);
+		}
+		/*
 		try {
-			JSONArray whereFieldArray = jsonObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
+			JSONArray whereFieldArray = updaterObject.getJSONArray(JSONKeyConstants.WHERE_FIELDS);
 			for (int i = 0; i < whereFieldArray.length(); i++) {
 				BaseField updateBaseField = null;
 
@@ -99,7 +103,7 @@ public class Updater extends BaseQueryObject {
 			}
 		} catch (JSONException ojjsonex) {
 			// do nothing
-		}
+		}*/
 	}
 
 	@Override

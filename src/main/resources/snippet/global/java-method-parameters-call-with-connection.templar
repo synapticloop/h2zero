@@ -1,3 +1,7 @@
+{loop baseQueryObject.updateFields as setField}	
+	, {setField.javaName}{if setField.isInField}List{endif}
+{endloop}
+
 {if baseQueryObject.hasWhereFieldAliases}
 	{loop baseQueryObject.whereFields as whereField}
 		, {whereField.javaName}{if whereField.isInField}List{endif}

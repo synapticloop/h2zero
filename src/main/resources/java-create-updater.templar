@@ -51,15 +51,15 @@ public class {table.javaClassName}Updater {{{\n}
 				THE UPDATER STATEMENTS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 {loop table.updaters as updater}
+	{set updater as baseQueryObject}
 	{set fn:length[updater.updateFields] as updateFieldsLength}
 
-	{\t}public static int {updater.name}(Connection connection{if fn:>[updateFieldsLength, '0']}, {endif}
+	{\t}public static int {updater.name}(Connection connection
 	{--
 		Now for the set and where fields
 	}
 
-		{import classpath:/snippet/updater/method-parameters.templar}
-
+		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
 	) throws SQLException {{{\n}
 
 			{if options.metrics}
@@ -72,8 +72,14 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{updater.staticName});{\n}
 
 	{loop updater.updateFields as updateField}
+		{set updateFieldStatus.index as updateFieldsIndex}
 		{\t}{\t}{\t}ConnectionManager.set{updateField.upperType}(preparedStatement, {updateFieldStatus.index}, {updateField.javaName});{\n}
 	{endloop}
+
+	{loop updater.whereFields as whereField}
+		{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {fn:+[whereFieldStatus.index, updateFieldsIndex]}, {whereField.javaName});{\n}
+	{endloop}
+
 	{\n}
 
 	{\t}{\t}{\t}numRowsUpdated = preparedStatement.executeUpdate();{\n}
@@ -89,7 +95,7 @@ public class {table.javaClassName}Updater {{{\n}
 
 	{\t}public static int {updater.name}(
 
-		{import classpath:/snippet/updater/method-parameters.templar}
+		{import classpath:/snippet/global/java-method-parameters.templar}
 
 	) throws SQLException {{{\n}
 
@@ -99,7 +105,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, '0']}, {endif}
 
-		{import classpath:/snippet/updater/method-parameters-call.templar}
+		{import classpath:/snippet/global/java-method-parameters-call.templar}
 
 	);{\n}
 	{\t}{\t}} catch(SQLException sqlex) {{{\n}
@@ -113,7 +119,7 @@ public class {table.javaClassName}Updater {{{\n}
 
 	{\t}public static int {updater.name}Silent(
 
-		{import classpath:/snippet/updater/method-parameters.templar}
+		{import classpath:/snippet/global/java-method-parameters.templar}
 
 	) {{{\n}
 	{\t}{\t}int numRowsUpdated = -1;{\n}
@@ -122,7 +128,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
 	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, '0']}, {endif}
 
-		{import classpath:/snippet/updater/method-parameters-call.templar}
+		{import classpath:/snippet/global/java-method-parameters-call.templar}
 
 	);{\n}
 	{\t}{\t}} catch (SQLException sqlex) {{{\n}
