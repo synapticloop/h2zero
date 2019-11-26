@@ -65,6 +65,9 @@ public abstract class BaseSchemaObject {
 
 	protected List<BaseField> fields = new ArrayList<BaseField>();  // a list of all of the fields on this table
 
+	protected List<BaseField> populateFields = new ArrayList<BaseField>();  // a list of all of the fields on this table
+	protected List<BaseField> nonPopulateFields = new ArrayList<BaseField>();  // a list of all of the fields on this table
+
 	protected BaseField primaryKeyField = null; // the field that is the primary key
 
 	protected Set<String> referencedFieldTypes = new HashSet<String>(); // this is a set of all of the referenced field types
@@ -403,6 +406,9 @@ public abstract class BaseSchemaObject {
 
 	public int getFindAllStatementCacheSize() { return findAllStatementCacheSize; }
 	public int getDefaultStatementCacheSize() { return defaultStatementCacheSize; }
+
+	public List<BaseField> getPopulateFields() { return(populateFields); }
+	public List<BaseField> getNonPopulateFields() { return(nonPopulateFields); }
 
 	/**
 	 * Return whether this schema object has any questions on it

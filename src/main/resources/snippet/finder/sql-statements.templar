@@ -9,6 +9,12 @@
 {endloop}
  from {tableOrView.name}";{\n}
 
+{\t}private static final String SQL_SELECT_START_ALT = "select 
+{loop tableOrView.populateFields as field}
+	{field.name}
+	{if !fieldStatus.last}, {endif}
+{endloop}
+ from {tableOrView.name}";{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				THE FINDER FIELDS

@@ -120,6 +120,11 @@ public class View extends BaseSchemaObject {
 
 					fields.add(baseField);
 					fieldLookup.put(name, baseField);
+					if(baseField.getPopulate()) {
+						populateFields.add(baseField);
+					} else {
+						nonPopulateFields.add(baseField);
+					}
 
 				} catch (ClassNotFoundException | SecurityException | NoSuchMethodException | 
 						IllegalArgumentException | InstantiationException | IllegalAccessException | 
@@ -134,6 +139,7 @@ public class View extends BaseSchemaObject {
 	}
 
 	@Override public BaseField getField(String name) { return(fieldLookup.get(name)); }
+
 	public String getAsClause() { return asClause; }
 	public List<BaseField> getFields() { return fields; }
 	public boolean getCacheable() { return cacheable; }

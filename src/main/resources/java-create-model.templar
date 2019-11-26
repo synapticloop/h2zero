@@ -143,8 +143,15 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{if !fieldStatus.last} and {endif}
 		{endif}
 	{endloop}";{\n}
-
 {\n}
+
+{\t}private static final String SQL_SELECT_HYDRATE = "select 
+{loop table.nonPopulateFields as field}
+	{field.name}
+	{if !fieldStatus.last}, {endif}
+{endloop}
+ from {table.name}";{\n}
+
 {\n}// Static lookups for fields in the hit counter.{\n}
 	{\t}public static final int HIT_TOTAL = 0;{\n}
 	{\t}public static final int HIT_PRIMARY_KEY = 0;{\n}
@@ -156,8 +163,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}private static final String[] HIT_FIELDS = {{ "TOTAL", {loop table.fields as field}"{field.name}"{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
 	{\t}// the number of read-hits for a particular field{\n}
 	{\t}private static int[] HIT_COUNTS = {{ 0, {loop table.fields as field}0{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
+	{set fn:length[table.nonPopulateFields] as nonPopulateFieldsLength}
+	{\t}private boolean isHydrated = {if fn:=[nonPopulateFieldsLength, '0']}true{else}false{endif};{\n}
 {endif}{-- end of !if.isConstant}
-
+{\n}
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					LIST ALL OF THE JAVA FIELDS
 	}
