@@ -405,8 +405,11 @@
 {\t}private static {tableOrView.javaClassName} uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
 {\t}{\t}if(resultSet.next()) {{{\n}
 {\t}{\t}{\t}// we have a result{\n}
-{loop tableOrView.fields as field}
+{loop tableOrView.populateFields as field}
 	{\t}{\t}{\t}{field.javaType} {field.javaName} = ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index});{\n}
+{endloop}
+{loop tableOrView.nonPopulateFields as field}
+	{\t}{\t}{\t}{field.javaType} {field.javaName} = null;{\n}
 {endloop}
 {\n}
 {\t}{\t}{\t}{tableOrView.javaClassName} {tableOrView.javaFieldName} = new {tableOrView.javaClassName}({loop tableOrView.fields as field}
@@ -442,7 +445,7 @@
 
 {\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
 
-{loop tableOrView.fields as field}
+{loop tableOrView.populateFields as field}
 		{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
 	{if !fieldStatus.last},{\n}{endif}
 {endloop}

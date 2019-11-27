@@ -9,7 +9,6 @@ package {database.package}.finder;{\n}{\n}
 
 {import classpath:/snippet/global/finder-imports.templar}
 
-import {database.package}.view.{view.javaClassName};{\n}
 {\n}
 
 public class {view.javaClassName}ViewFinder {{{\n}
