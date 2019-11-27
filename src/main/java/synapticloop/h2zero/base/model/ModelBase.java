@@ -464,7 +464,7 @@ public abstract class ModelBase {
 
 	protected void hydrateSilent(Connection connection) {
 		try {
-			ensure(connection);
+			hydrate(connection);
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);
 		}
@@ -474,7 +474,7 @@ public abstract class ModelBase {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			ensure(connection);
+			hydrate(connection);
 			connection.close();
 		} finally {
 			if(connection != null) {
@@ -493,7 +493,7 @@ public abstract class ModelBase {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			ensure(connection);
+			hydrate(connection);
 			connection.close();
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);

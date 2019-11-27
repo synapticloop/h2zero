@@ -391,15 +391,42 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{set fn:length[table.nonPopulateFields] as nonPopulateFieldsLength}
 	{if !fn:=[nonPopulateFieldsLength, '0']}
 
+		{loop table.fields as field}
+			{if field.primary}
+				{set field.name as primaryFieldName}
+				{set field.javaName as primaryFieldJavaName}
+			{endif}
+		{endloop}
+
 		{\t}@Override{\n}
-		{\t}protected void hydrate(Connection connection) throws H2ZeroPrimaryKeyException {{{\n}
+		{\t}protected void hydrate(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 		{\t}{\t}if(!primaryKeySet()) {{{\n}
 		{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot hydrate bean when primary key is null.");{\n}
 		{\t}{\t}}{\n}
+		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+		{\t}{\t}ResultSet resultSet = null;{\n}
 
-		{\t}}{\n}
+		{\t}{\t}try {{{\n}
+		{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_SELECT_HYDRATE);{\n}
+		{\t}{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
+		{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
+
+		{\t}{\t}{\t}if(!resultSet.next()) {{{\n}
+		{\t}{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Could not find result with primary key of: " + getPrimaryKey());{\n}
+		{\t}{\t}{\t}}{\n}
+
+		{loop table.nonPopulateFields as field}
+			{\t}{\t}{\t}this.{field.javaName} = ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index});{\n}
+		{endloop}
+
+		{\t}{\t}} catch (SQLException sqlex) {{{\n}
+		{\t}{\t}{\t}throw sqlex;{\n}
+		{\t}{\t}} finally {{{\n}
+		{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
+		{\t}{\t}}{\n}
 		{\n}
+		{\t}}{\n}
 
 	{endif}
 
