@@ -45,12 +45,6 @@ import {database.package}.model.util.Constants;{\n}
 
 {\n}{\n}
 
-{if options.metrics}
-import synapticloop.h2zero.base.manager.MetricsManager;{\n}
-import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
-{\n}{\n}
-{endif}
-
 public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endif}{{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}
 {\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
@@ -246,10 +240,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\t}@Override{\n}
 	{\t}public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
-	{if options.metrics}
-		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-		{\t}{\t}{table.javaFieldName}Insert.inc();{\n}
-	{endif}
 
 	{\t}{\t}if(primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot insert {table.name} model when primary key is not null.");{\n}
@@ -288,11 +278,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}@Override{\n}
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
-	{if options.metrics}
-		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-		{\t}{\t}{table.javaFieldName}Ensure.inc();{\n}
-	{endif}
-
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);{\n}
 
 	{loop table.nonPrimaryFields as field}
@@ -322,11 +307,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\t}@Override{\n}
 	{\t}public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
-
-	{if options.metrics}
-		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-		{\t}{\t}{table.javaFieldName}Update.inc();{\n}
-	{endif}
 
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");{\n}
@@ -362,11 +342,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}@Override{\n}
 	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{{{\n}
 
-	{if options.metrics}
-		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-		{\t}{\t}{table.javaFieldName}Delete.inc();{\n}
-	{endif}
-
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");{\n}
 	{\t}{\t}}{\n}
@@ -384,10 +359,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{\t}@Override{\n}
 	{\t}public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {{{\n}
-	{if options.metrics}
-		{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-		{\t}{\t}{table.javaFieldName}Refresh.inc();{\n}
-	{endif}
+
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");{\n}
 	{\t}{\t}}{\n}
@@ -421,10 +393,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 		{\t}@Override{\n}
 		{\t}protected void hydrate(Connection connection) throws H2ZeroPrimaryKeyException {{{\n}
-		{if options.metrics}
-			{\t}{\t}{table.javaFieldName}Access.inc();{\n}
-			{\t}{\t}{table.javaFieldName}Refresh.inc();{\n}
-		{endif}
+
 		{\t}{\t}if(!primaryKeySet()) {{{\n}
 		{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot hydrate bean when primary key is null.");{\n}
 		{\t}{\t}}{\n}
@@ -453,15 +422,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 			{\t}public {field.foreignKeyTableLookup.javaClassName} get{field.secondaryJavaName}() {{{\n}
 			{if !field.foreignKeyTableLookup.isConstant}
 				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
-				{if options.metrics}
-					{\t}{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterMiss.inc();{\n}
-				{endif}
-				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
 
-				{if options.metrics}
-					{\t}{\t}} else {{{\n}
-					{\t}{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
-				{endif}
+				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
 
 				{\t}{\t}}{\n}
 
@@ -472,10 +434,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 					At this point the foreign table is constant so it was already looked up
 					at construction time
 				}
-
-				{if options.metrics}
-					{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
-				{endif}
 
 				{\t}{\t}return({field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName}));{\n}
 			{endif}
@@ -500,10 +458,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{if field.primary}
 		{\t}public {field.javaType} getPrimaryKey() {{ 
 
-			{if options.metrics}
-				{table.javaFieldName}{field.javaAccessorName}GetterHit.inc();
-			{endif}
-
 			{if !table.isConstant}
 				updateHitCount({fn:+[field.fieldIndex, '1']}); 
 			{endif}
@@ -527,12 +481,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 							{endif}
 						{endif}
 
-						{if options.metrics}
-							{table.javaFieldName}{field.javaAccessorName}SetterHit.inc();
-					} else {{
-							{table.javaFieldName}{field.javaAccessorName}SetterMiss.inc();
-						{endif}
-
 					}
 				}{\n}
 			{endif}
@@ -541,10 +489,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 
 	{loop table.fields as field}
 		{\t}public {field.javaType} get{field.javaAccessorName}() {{ 
-
-			{if options.metrics}
-				{table.javaFieldName}{field.javaAccessorName}GetterHit.inc();
-			{endif}
 
 			{if !table.isConstant}
 				updateHitCount({fn:+[field.fieldIndex, '1']}); 
@@ -570,12 +514,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 						{if !field.foreignKeyTableLookup.isConstant}
 							this.{field.secondaryJavaName} = null;
 						{endif}
-					{endif}
-
-					{if options.metrics}
-						{table.javaFieldName}{field.javaAccessorName}SetterHit.inc();
-				} else {{
-						{table.javaFieldName}{field.javaAccessorName}SetterMiss.inc();
 					{endif}
 
 				}
@@ -635,11 +573,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
 		{\t}{\t}stringBuilder.append("{{\n");{\n}
-		{\t}{\t}stringBuilder.append("  \"type\": \"{table.javaClassName}\",\n");{\n}
+		{\t}{\t}stringBuilder.append("  \"type\": \"{table.name}\",\n");{\n}
 
 		{\t}{\t}stringBuilder.append("  \"total\": " + HIT_COUNTS[0] + ", \n");{\n}
 		{loop table.fields as field}
-			{\t}{\t}stringBuilder.append("  \"{field.javaName}\": " + HIT_COUNTS[{fn:+[field.fieldIndex, '1']}] + "{if !fieldStatus.last}, {endif}\n");{\n}
+			{\t}{\t}stringBuilder.append("  \"{field.name}\": " + HIT_COUNTS[{fn:+[field.fieldIndex, '1']}] + "{if !fieldStatus.last}, {endif}\n");{\n}
 		{endloop}
 
 		{\t}{\t}stringBuilder.append("}\n");{\n}

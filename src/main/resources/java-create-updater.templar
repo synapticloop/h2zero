@@ -21,12 +21,6 @@ import {database.package}.finder.{table.javaClassName}Finder;{\n}
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
-{if options.metrics}
-import synapticloop.h2zero.base.manager.MetricsManager;{\n}
-import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
-{\n}{\n}
-{endif}
-
 public class {table.javaClassName}Updater {{{\n}
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				THE UPDATER STRINGS FIELDS
@@ -61,10 +55,6 @@ public class {table.javaClassName}Updater {{{\n}
 
 		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
 	) throws SQLException {{{\n}
-
-			{if options.metrics}
-{\t}{\t}{table.javaFieldName}UpdaterAccess.inc();{\n}
-			{endif}
 
 	{\t}{\t}int numRowsUpdated = -1;{\n}
 	{\t}{\t}PreparedStatement preparedStatement = null;{\n}

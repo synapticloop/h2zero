@@ -216,10 +216,6 @@
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 
 		) throws H2ZeroFinderException, SQLException {{{\n}
-			{if options.metrics}
-{\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
-{\n}
-			{endif}
 
 {\t}{\t}return({finder.name}(connection
 								{import classpath:/snippet/finder/method-parameters-call-with-connection.templar}
@@ -243,11 +239,6 @@
 				{import classpath:/snippet/finder/method-parameters-limit-offset.templar}
 			) throws H2ZeroFinderException, SQLException {{{\n}
 
-			{if options.metrics}
-{\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
-		{\n}
-			{endif}
-
 		{\t}{\t}return({finder.name}(null
 								{import classpath:/snippet/finder/method-parameters-call-with-connection-limit-offset.templar}
 		));{\n}
@@ -266,11 +257,6 @@
 			{finder.name}(
 				{import classpath:/snippet/finder/method-parameters.templar}
 			) throws H2ZeroFinderException, SQLException {{{\n}
-
-			{if options.metrics}
-{\t}{\t}{table.javaFieldName}FinderAccess.inc();{\n}
-		{\n}
-			{endif}
 
 		{\t}{\t}return({finder.name}(null
 								{import classpath:/snippet/finder/method-parameters-call-with-connection.templar}

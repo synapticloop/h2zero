@@ -67,7 +67,6 @@ public class Options {
 	/*
 	 * INSTANCE VARIABLES
 	 */
-	private boolean metrics = false;
 	private String database = DATABASE_MYSQL;
 
 	private String outputCode = "/src/main/java/";
@@ -88,7 +87,6 @@ public class Options {
 			return;
 		}
 
-		this.metrics = optionsJson.optBoolean(JSONKeyConstants.METRICS, false);
 		this.database = optionsJson.optString(JSONKeyConstants.DATABASE, DATABASE_MYSQL);
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "Generating for database type '" + database + "'.");
 
@@ -251,8 +249,6 @@ public class Options {
 	public Map<Extension, JSONObject> getExtensions() { return(extensions); }
 	public boolean hasGenerator(String generator) { return(generators.contains(generator)); }
 	public boolean hasGenerators() { return(!generators.isEmpty()); }
-	public boolean getMetrics() { return metrics; }
-	public void setMetrics(boolean metrics) { this.metrics = metrics; }
 	public String getDatabase() { return database; }
 	public void setDatabase(String database) { this.database = database; }
 

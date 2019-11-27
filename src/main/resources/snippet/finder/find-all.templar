@@ -28,10 +28,6 @@
 
 {\t}public static List<{tableOrView.javaClassName}> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {{{\n}
 
-			{if options.metrics}
-{\t}{\t}{tableOrView.javaFieldName}FinderAccess.inc();{\n}
-			{endif}
-
 {\t}{\t}boolean hasConnection = (null != connection);{\n}
 {\t}{\t}String statement = null;{\n}
 
