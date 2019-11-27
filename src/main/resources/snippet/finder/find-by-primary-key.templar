@@ -15,9 +15,6 @@
 
 {\t}public static {tableOrView.javaClassName} findByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws H2ZeroFinderException {{{\n}
 
-			{if options.metrics}
-{\t}{\t}{tableOrView.javaFieldName}FinderAccess.inc();{\n}
-			{endif}
 
 {\t}{\t}{tableOrView.javaClassName} {tableOrView.javaFieldName} = null;{\n}
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}

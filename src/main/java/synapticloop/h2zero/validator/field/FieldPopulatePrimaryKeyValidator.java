@@ -1,4 +1,4 @@
-package synapticloop.h2zero.validator.finder;
+package synapticloop.h2zero.validator.field;
 
 /*
  * Copyright (c) 2012-2019 synapticloop.
@@ -21,28 +21,24 @@ package synapticloop.h2zero.validator.finder;
 import java.util.List;
 
 import synapticloop.h2zero.model.Database;
-import synapticloop.h2zero.model.Finder;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
-import synapticloop.h2zero.model.util.JSONKeyConstants;
+import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.validator.BaseValidator;
 
-public class FinderSelectClauseFromValidator extends BaseValidator {
+public class FieldPopulatePrimaryKeyValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {
-
 		List<Table> tables = database.getTables();
 		for (Table table : tables) {
-			List<Finder> finders = table.getFinders();
-			for (Finder finder : finders) {
-				String selectClause = finder.getSelectClause();
-				if(null != selectClause && !selectClause.toLowerCase().contains("from")) {
+			List<BaseField> fields = table.getFields();
+			for (BaseField baseField : fields) {
+				if(baseField.getPrimary() && !baseField.getPopulate()) {
 					isValid = false;
-					addFatalMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a " + JSONKeyConstants.SELECT_CLAUSE + " that does not contain a 'from' keyword.");
+					addFatalMessage("The primary key field '" + table.getName() + "." + baseField.getName() + "' has an attribute: \"populate\" with a value of 'false' . It __MUST_ALWAYS__ be 'true'");
 				}
 			}
 		}
 	}
-
 }

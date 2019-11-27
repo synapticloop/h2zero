@@ -273,6 +273,13 @@ public class Table extends BaseSchemaObject {
 						nonSecureFields.add(baseField);
 					}
 
+					// this is whether the fields are populated by default
+					if(baseField.getPopulate()) {
+						populateFields.add(baseField);
+					} else {
+						nonPopulateFields.add(baseField);
+					}
+
 					fieldLookup.put(fieldName, baseField);
 					inFieldLookup.put(fieldName, inBaseField);
 

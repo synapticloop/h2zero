@@ -30,12 +30,6 @@ import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
-{if options.metrics}
-import synapticloop.h2zero.base.manager.MetricsManager;{\n}
-import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
-{\n}{\n}
-{endif}
-
 /**{\n}
 {if !fn:=[fn:length[table.comments], "0"]}
 	{loop table.comments as comment}
@@ -131,10 +125,6 @@ public class {table.javaClassName}Inserter {{{\n}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}) throws SQLException {{{\n}
 
-			{if options.metrics}
-				{\t}{\t}{table.javaFieldName}InserterAccess.inc();{\n}
-			{endif}
-
 		{\t}{\t}int numResults = -1;{\n}
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 
@@ -181,10 +171,6 @@ public class {table.javaClassName}Inserter {{{\n}
 				{field.javaType} {field.javaName}
 				{if fieldStatus.last}{else}, {endif}
 			{endloop}) throws SQLException {{{\n}
-
-				{if options.metrics}
-					{\t}{\t}{table.javaFieldName}InserterAccess.inc();{\n}
-				{endif}
 
 			{\t}{\t}int numResults = -1;{\n}
 			{\t}{\t}PreparedStatement preparedStatement = null;{\n}
@@ -476,10 +462,6 @@ public class {table.javaClassName}Inserter {{{\n}
 				{if fieldStatus.last}{else}, {endif}
 			{endloop}) throws SQLException {{{\n}
 
-			{if options.metrics}
-				{\t}{\t}{table.javaFieldName}InserterAccess.inc();{\n}
-			{endif}
-
 			{\t}{\t}int numResults = -1;{\n}
 			{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 			{\t}{\t}try {{{\n}
@@ -601,10 +583,6 @@ public class {table.javaClassName}Inserter {{{\n}
 			{endloop}
 			) throws SQLException {{{\n}
 
-			{if options.metrics}
-				{\t}{\t}{table.javaFieldName}InserterAccess.inc();{\n}
-			{endif}
-
 		{\t}{\t}int numResults = -1;{\n}
 		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 		{\t}{\t}try {{{\n}
@@ -666,10 +644,6 @@ public class {table.javaClassName}Inserter {{{\n}
 					{endif}
 				{endloop}
 				) throws SQLException {{{\n}
-
-			{if options.metrics}
-				{\t}{\t}{table.javaFieldName}InserterAccess.inc();{\n}
-			{endif}
 
 			{\t}{\t}int numResults = 0;{\n}
 			{\t}{\t}PreparedStatement preparedStatement = null;{\n}

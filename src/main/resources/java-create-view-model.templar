@@ -85,15 +85,8 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 			{\t}public {field.foreignKeyTableLookup.javaClassName} get{field.secondaryJavaName}() {{{\n}
 			{if !field.foreignKeyTableLookup.isConstant}
 				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
-				{if options.metrics}
-					{\t}{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterMiss.inc();{\n}
-				{endif}
-				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
 
-				{if options.metrics}
-					{\t}{\t}} else {{{\n}
-					{\t}{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
-				{endif}
+				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
 
 				{\t}{\t}}{\n}
 
@@ -104,10 +97,6 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 					At this point the foreign table is constant so it was already looked up
 					at construction time
 				}
-
-				{if options.metrics}
-					{\t}{\t}{table.javaFieldName}{field.foreignKeyTableLookup.javaClassName}GetterHit.inc();{\n}
-				{endif}
 
 				{\t}{\t}return({field.foreignKeyTableLookup.javaClassName}.ALL_LOOKUP.get(this.{field.javaName}));{\n}
 			{endif}

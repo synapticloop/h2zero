@@ -9,14 +9,7 @@ package {database.package}.finder;{\n}{\n}
 
 {import classpath:/snippet/global/finder-imports.templar}
 
-import {database.package}.view.{view.javaClassName};{\n}
 {\n}
-
-{if options.metrics}
-import synapticloop.h2zero.base.manager.MetricsManager;{\n}
-import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
-{\n}{\n}
-{endif}
 
 public class {view.javaClassName}ViewFinder {{{\n}
 

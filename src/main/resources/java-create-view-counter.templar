@@ -22,12 +22,6 @@ import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
-{if options.metrics}
-	import synapticloop.h2zero.base.manager.MetricsManager;{\n}
-	import static {database.package}.metrics.{table.javaClassName}Metrics.*;{\n}
-	{\n}{\n}
-{endif}
-
 public class {table.javaClassName}ViewCounter {{{\n}
 
 	{set view as baseSchemaObject}
@@ -80,10 +74,6 @@ public class {table.javaClassName}ViewCounter {{{\n}
 {\t} */{\n}
 
 {\t}public static int countAll(Connection connection) throws SQLException {{{\n}
-
-			{if options.metrics}
-{\t}{\t}{table.javaFieldName}CounterAccess.inc();{\n}
-			{endif}
 
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\t}{\t}ResultSet resultSet = null;{\n}
@@ -213,10 +203,6 @@ public class {table.javaClassName}ViewCounter {{{\n}
 	{\t}public static int {counter.name}(Connection connection
 		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
 	) throws SQLException {{{\n}
-
-			{if options.metrics}
-{\t}{\t}{table.javaFieldName}CounterAccess.inc();{\n}
-			{endif}
 
 	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
 	{\t}{\t}ResultSet resultSet = null;{\n}

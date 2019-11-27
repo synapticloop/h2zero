@@ -15,9 +15,6 @@ import java.lang.StringBuilder;{\n}
 
 {\n}
 public class Statistics {{{\n}
-	{\t}// The binder variables below are used to show up compilation errors where{\n}
-	{\t}// it has been removed from the generation.{\n}{\n}
-
 	{\t}public static final String getHitCountJson() {{{\n}
 	{\t}{\t}StringBuilder stringBuilder = new StringBuilder("[");{\n}
 	{loop database.tables as table}
