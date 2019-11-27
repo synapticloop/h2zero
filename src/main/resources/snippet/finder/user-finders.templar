@@ -443,13 +443,41 @@
 {\t}{\t}List<{tableOrView.javaClassName}> arrayList = new ArrayList<{tableOrView.javaClassName}>();{\n}
 {\t}{\t}while(resultSet.next()) {{{\n}
 
-{\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
+{set fn:length[table.nonPopulateFields] as nonPopulateFieldsLength}
+{if fn:=[nonPopulateFieldsLength, '0']}
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		At this point we are looking at just a normal table that gets hydrated fully
+	}
 
-{loop tableOrView.populateFields as field}
-		{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
-	{if !fieldStatus.last},{\n}{endif}
-{endloop}
-));{\n}
+	{\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
+
+	{loop tableOrView.fields as field}
+			{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
+		{if !fieldStatus.last},{\n}{endif}
+	{endloop}
+	));{\n}
+{else}
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		we have some fields that won't be hydrated
+
+	}
+
+	{loop tableOrView.fields as field}
+			{if field.populate}
+				{\t}{\t}{\t}{field.javaType} {field.javaName} = ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index});{\n}
+			{else}
+				{\t}{\t}{\t}{field.javaType} {field.javaName} = null;{\n}
+			{endif}
+	{endloop}
+	{\t}{\t}{\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
+
+	{loop tableOrView.fields as field}
+		{\t}{\t}{\t}{\t}{\t}{field.javaName}{if !fieldStatus.last},{endif}{\n}
+	{endloop}
+	{\t}{\t}{\t}{\t}{\t}));{\n}
+
+{endif}
+
 
 {\t}{\t}}{\n}
 {\t}{\t}return(arrayList);{\n}
