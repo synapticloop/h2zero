@@ -81,7 +81,7 @@ public class H2ZeroTask extends DefaultTask {
 			return(false);
 		}
 
-		h2ZeroFile = new File(inFile);
+		h2ZeroFile = new File(getProject().getProjectDir().getAbsolutePath() + "/" + inFile);
 		if(!h2ZeroFile.exists()|| !h2ZeroFile.canRead()) {
 			String message = "h2zero file 'h2ZeroFile': '" + inFile + "' does not exist, or is not readable, exiting...";
 			if(null != getProject()) {
@@ -92,7 +92,7 @@ public class H2ZeroTask extends DefaultTask {
 			return(false);
 		}
 
-		outFile = new File(outDir);
+		outFile = new File(getProject().getProjectDir().getAbsolutePath() + "/" + outDir);
 		if(!outFile.exists() || !outFile.isDirectory()) {
 			String message = "'outDir': '" + outDir + "' does not exists or is not a directory, exiting...";
 			if(null != getProject()) {

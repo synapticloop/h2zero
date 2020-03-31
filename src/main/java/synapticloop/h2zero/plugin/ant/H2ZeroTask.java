@@ -79,7 +79,7 @@ public class H2ZeroTask extends Task {
 			return(false);
 		}
 
-		SimpleLogger.logInfo(LoggerType.OPTIONS, "Parameters are correct");
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "Parameters are correct, or are they");
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tIn file: " + inFile);
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tOut dir: " + outDir);
 
