@@ -1,7 +1,7 @@
 package synapticloop.h2zero.validator.bean;
 
 /*
- * Copyright (c) 2013-2019 synapticloop.
+ * Copyright (c) 2013-2020 synapticloop.
  * 
  * All rights reserved.
  *

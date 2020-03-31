@@ -1,7 +1,7 @@
 package synapticloop.h2zero.model.field.validator;
 
 /*
- * Copyright (c) 2012-2019 synapticloop.
+ * Copyright (c) 2012-2020 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
