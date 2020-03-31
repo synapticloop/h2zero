@@ -1,7 +1,7 @@
 package synapticloop.h2zero.plugin;
 
 /*
- * Copyright (c) 2016-2018 Synapticloop.
+ * Copyright (c) 2016-2019 synapticloop.
  * 
  * All rights reserved.
  * 
