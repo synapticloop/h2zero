@@ -1,13 +1,5 @@
 package synapticloop.h2zero.util;
 
-import java.util.Iterator;
-import java.util.Set;
-
-import org.json.JSONObject;
-
-import synapticloop.h2zero.model.BaseSchemaObject;
-import synapticloop.h2zero.util.SimpleLogger.LoggerType;
-
 /*
  * Copyright (c) 2012-2020 synapticloop.
  * All rights reserved.
@@ -24,6 +16,14 @@ import synapticloop.h2zero.util.SimpleLogger.LoggerType;
  * Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
+
+import java.util.Iterator;
+import java.util.Set;
+
+import org.json.JSONObject;
+
+import synapticloop.h2zero.model.BaseSchemaObject;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 public class KeyHelper {
 
