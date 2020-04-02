@@ -80,7 +80,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		And the static HashMap lookup
 	}
 
-	{\t}public static final Map<Long, {table.javaClassName}> ALL_LOOKUP = new HashMap<Long, {table.javaClassName}>();{\n}
+	{\t}public static final Map<Long, {table.javaClassName}> ALL_LOOKUP = new HashMap<>();{\n}
 	{\t}static{{{\n}
 		{loop table.constants as constant}
 			{\t}{\t}ALL_LOOKUP.put({constant.primaryKeyValue}, {table.javaClassName}.{constant.name});{\n}

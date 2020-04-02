@@ -27,6 +27,13 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 
+/**
+ * Used when the table is a constant - i.e. no need to go to the database to 
+ * determine what the values are.
+ * 
+ * @author synapticloop
+ *
+ */
 public class Constant {
 	private List<Object> values = new ArrayList<Object>();
 	private List<Object> sqlValues = new ArrayList<Object>();
@@ -61,7 +68,7 @@ public class Constant {
 					}
 				} else {
 					sqlValues.add(object);
-					String stringified = "new " + table.getFields().get(i).getJavaType() + "(" + object + ")";
+					String stringified = table.getFields().get(i).getJavaType() + ".valueOf(" + object + ")";
 					values.add(stringified);
 					if(i == 0) {
 						this.primaryKeyValue = stringified;

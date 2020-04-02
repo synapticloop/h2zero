@@ -68,7 +68,7 @@ public class JavaGenerator extends Generator {
 
 		// The model
 		Parser javaCreateModelParser = getParser("/java-create-model.templar");
-		Parser javaCreateModelHitcountsParser = getParser("/java-create-model-hitcounts.templar");
+		Parser javaCreateModelStatisticsParser = getParser("/java-create-model-statistics.templar");
 
 		// The table actions
 		Parser javaCreateFinderParser = getParser("/java-create-finder.templar");
@@ -85,7 +85,7 @@ public class JavaGenerator extends Generator {
 		renderToFile(templarContext, javaCreateConstantsParser, pathname);
 
 		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Statistics.java";
-		renderToFile(templarContext, javaCreateModelHitcountsParser, pathname);
+		renderToFile(templarContext, javaCreateModelStatisticsParser, pathname);
 
 		
 
