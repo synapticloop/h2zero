@@ -12,7 +12,9 @@ public class Constants {{{\n}
 	{\t}// it has been removed from the generation.{\n}{\n}
 
 	{loop database.tables as table}
-		{\t}public static final String {table.upperName}_BINDER = "{table.upperName}";{\n}
+		{if !table.isConstant}
+			{\t}public static final String {table.upperName}_BINDER = "{table.upperName}";{\n}
+		{endif}
 	{endloop}
 {\n}
 
