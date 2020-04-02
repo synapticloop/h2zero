@@ -111,7 +111,7 @@ public class H2ZeroParser {
 
 	private static final String H2ZERO_KEY_INCLUDE = "include";
 
-	private static List<BaseValidator> validators = new ArrayList<BaseValidator>();
+	private static List<BaseValidator> validators = new ArrayList<>();
 	static {
 		// options
 		validators.add(new OptionsGeneratorsValidator());
@@ -199,10 +199,10 @@ public class H2ZeroParser {
 		validators.add(new ConstantUpdaterValidator());
 	}
 
-	private static Map<String, BaseValidator> validator_map = new HashMap<String, BaseValidator>();
+	private static Map<String, BaseValidator> validatorMap = new HashMap<>();
 	static {
 		for (BaseValidator validator : validators) {
-			validator_map.put(validator.getClass().getSimpleName(), validator);
+			validatorMap.put(validator.getClass().getSimpleName(), validator);
 		}
 	}
 
@@ -244,7 +244,7 @@ public class H2ZeroParser {
 		Map<Extension, JSONObject> extensions = options.getExtensions();
 		Iterator<Extension> extensionIterator = extensions.keySet().iterator();
 		while (extensionIterator.hasNext()) {
-			Extension extension = (Extension) extensionIterator.next();
+			Extension extension = extensionIterator.next();
 			List<BaseValidator> extensionValidators = extension.getValidators();
 			if(null != extensionValidators) {
 				validators.addAll(extensionValidators);
@@ -408,5 +408,5 @@ public class H2ZeroParser {
 	 * 
 	 * @return The validator
 	 */
-	public static BaseValidator getValidatorByName(String name) { return(validator_map.get(name)); }
+	public static BaseValidator getValidatorByName(String name) { return(validatorMap.get(name)); }
 }

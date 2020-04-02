@@ -30,19 +30,22 @@ import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 public class Main {
-
 	private static final String USAGE_TXT = "/usage.txt";
+
+	private static final String CLI_OPTION_GENERATE = "generate";
+	private static final String CLI_OPTION_REVENGE = "revenge";
+	private static final String CLI_OPTION_QUICK = "quick";
 
 	private static final int CLI_GENERATE = 0;
 	private static final int CLI_REVENGE = 1;
 	private static final int CLI_QUICK = 2;
 
-	private static final Map<String, Integer> COMMAND_LINE_OPTIONS = new HashMap<String, Integer>();
+	private static final Map<String, Integer> COMMAND_LINE_OPTIONS = new HashMap<>();
 
 	static {
-		COMMAND_LINE_OPTIONS.put("generate", CLI_GENERATE);
-		COMMAND_LINE_OPTIONS.put("revenge", CLI_REVENGE);
-		COMMAND_LINE_OPTIONS.put("quick", CLI_QUICK);
+		COMMAND_LINE_OPTIONS.put(CLI_OPTION_GENERATE, CLI_GENERATE);
+		COMMAND_LINE_OPTIONS.put(CLI_OPTION_REVENGE, CLI_REVENGE);
+		COMMAND_LINE_OPTIONS.put(CLI_OPTION_QUICK, CLI_QUICK);
 	}
 
 	private static final int GENERATE_VERBOSE = 0;
@@ -53,7 +56,7 @@ public class Main {
 	private static final String PARAMETER_IN = "-in";
 	private static final String PARAMETER_OUT = "-out";
 
-	private static final Map<String, Integer> GENERATE_COMMAND_LINE_OPTIONS = new HashMap<String, Integer>();
+	private static final Map<String, Integer> GENERATE_COMMAND_LINE_OPTIONS = new HashMap<>();
 	static {
 		GENERATE_COMMAND_LINE_OPTIONS.put(PARAMETER_VERBOSE, GENERATE_VERBOSE);
 		GENERATE_COMMAND_LINE_OPTIONS.put(PARAMETER_IN, GENERATE_IN);

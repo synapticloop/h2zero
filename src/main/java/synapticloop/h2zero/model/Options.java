@@ -1,7 +1,5 @@
 package synapticloop.h2zero.model;
 
-import java.util.HashMap;
-
 /*
  * Copyright (c) 2012-2020 synapticloop.
  * All rights reserved.
@@ -18,6 +16,9 @@ import java.util.HashMap;
  * Licence for the specific language governing permissions and limitations
  * under the Licence.
  */
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -133,7 +134,7 @@ public class Options {
 		for (int i = 0; i < extensionArray.length(); i++) {
 			String extension = extensionArray.optString(i, null);
 			try {
-				Extension extensionClass = (Extension)Class.forName(extension).newInstance();
+				Extension extensionClass = (Extension)Class.forName(extension).getDeclaredConstructor().newInstance();
 
 				// now look for the extension options
 				JSONObject extensionJSONObject = optionsJson.optJSONObject(extension);
@@ -144,7 +145,8 @@ public class Options {
 				SimpleLogger.logInfo(LoggerType.EXTENSIONS, "Adding extension '" + extension + "' with options '" + extensionJSONObject.toString() + "'.");
 				extensions.put(extensionClass, extensionJSONObject);
 
-			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | 
+					IllegalArgumentException | InvocationTargetException | SecurityException ex) {
 				ex.printStackTrace();
 				String message = "Could not instantiate the extension '" + extension + "', message was: " + ex.getMessage();
 				SimpleLogger.logFatal(LoggerType.EXTENSIONS, message);

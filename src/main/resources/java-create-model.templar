@@ -146,7 +146,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 {endloop}
  from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
 
-{\n}// Static lookups for fields in the hit counter.{\n}
+	{\n}// Static lookups for fields in the hit counter.{\n}
 	{\t}public static final int HIT_TOTAL = 0;{\n}
 	{\t}public static final int HIT_PRIMARY_KEY = 0;{\n}
 	{loop table.fields as field}
@@ -431,10 +431,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{endif}
 
 
+{endif}{-- end of !isconstant table }
+
 	{\t}public static String[] getHitFields() {{ return(HIT_FIELDS); }{\n}
 	{\t}public static int[] getHitCounts() {{ return(HIT_COUNTS); }{\n}{\n}
 
-{endif}{-- end of !isconstant table }
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					SETTERS AND GETTERS
