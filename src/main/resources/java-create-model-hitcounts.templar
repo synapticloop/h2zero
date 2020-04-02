@@ -18,9 +18,11 @@ public class Statistics {{{\n}
 	{\t}public static final String getHitCountJson() {{{\n}
 	{\t}{\t}StringBuilder stringBuilder = new StringBuilder("[");{\n}
 	{loop database.tables as table}
-		{\t}{\t}stringBuilder.append({table.javaClassName}.getHitCountJson());{\n}
-		{if !tableStatus.last}
-			{\t}{\t}stringBuilder.append(", ");{\n}
+		{if !table.isConstant}
+			{\t}{\t}stringBuilder.append({table.javaClassName}.getHitCountJson());{\n}
+			{if !tableStatus.last}
+				{\t}{\t}stringBuilder.append(", ");{\n}
+			{endif}
 		{endif}
 	{endloop}
 	{\t}{\t}stringBuilder.append("]");{\n}
