@@ -62,6 +62,7 @@ import synapticloop.h2zero.validator.field.FieldDefaultValueValidator;
 import synapticloop.h2zero.validator.field.FieldIgnoredKeysValidator;
 import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.field.FieldNotNullLengthValidator;
+import synapticloop.h2zero.validator.field.FieldPopulateForeignKeyValidator;
 import synapticloop.h2zero.validator.field.FieldPopulatePrimaryKeyValidator;
 import synapticloop.h2zero.validator.field.SQLite3FieldBlobValidator;
 import synapticloop.h2zero.validator.field.SQLite3FieldClobValidator;
@@ -132,6 +133,7 @@ public class H2ZeroParser {
 		// field validators
 		validators.add(new FieldDefaultValueValidator());
 		validators.add(new FieldPopulatePrimaryKeyValidator());
+		validators.add(new FieldPopulateForeignKeyValidator());
 		validators.add(new FieldNameDuplicateValidator());
 		validators.add(new FieldIgnoredKeysValidator());
 		validators.add(new FieldNotNullLengthValidator());
@@ -219,6 +221,10 @@ public class H2ZeroParser {
 			}
 		}
 	}
+	
+	private static final List<String> FATAL_MESSAGES = new ArrayList<>();
+
+	public H2ZeroParser() {};
 
 	/**
 	 * Parse a .h2zero file
@@ -226,7 +232,7 @@ public class H2ZeroParser {
 	 * @param file The file to be parsed
 	 * @throws H2ZeroParseException if there was an error parsing the file
 	 */
-	public H2ZeroParser(File file) throws H2ZeroParseException {
+	public void parse(File file) throws H2ZeroParseException {
 		JSONObject jsonObject = null;
 		try {
 			jsonObject = getJSONFileContents(file);
@@ -255,7 +261,7 @@ public class H2ZeroParser {
 		boolean isValid = checkAndLogValidators();
 
 		if(!isValid) {
-			throw new H2ZeroParseException("Validators found FATAL warnings, exiting...");
+			throw new H2ZeroParseException("Validators found the following FATAL warnings: (Exiting...)");
 		}
 	}
 
@@ -279,7 +285,9 @@ public class H2ZeroParser {
 				} else if(message.getType().equals(SimpleLogger.WARN)){
 					SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
 				} else if(message.getType().equals(SimpleLogger.FATAL)){
-					SimpleLogger.logFatal(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
+					String fatalMessage = String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent());
+					FATAL_MESSAGES.add(fatalMessage);
+					SimpleLogger.logFatal(LoggerType.VALIDATOR, fatalMessage);
 				}
 			}
 		}
@@ -400,6 +408,8 @@ public class H2ZeroParser {
 	 * @return the number of fatal messages in generation
 	 */
 	public int getNumFatal() { return(numFatal); }
+	
+	public List<String> getFatalMessages() { return(FATAL_MESSAGES); }
 
 	/**
 	 * Retrieve a validator by name from the lookup cache (or null if it can not be found)

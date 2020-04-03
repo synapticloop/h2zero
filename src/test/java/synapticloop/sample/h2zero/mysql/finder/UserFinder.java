@@ -35,7 +35,7 @@ public class UserFinder {
 	private static final String BINDER = Constants.USER_BINDER;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserFinder.class);
-	private static final String SQL_SELECT_START = "select id_user, id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, dtm_signup from user";
+	private static final String SQL_SELECT_START = "select id_user, id_user_type, fl_is_alive, nm_username, txt_address_email, txt_password from user";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user = ?";
 
 	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + " where num_age = ?";
@@ -1158,11 +1158,11 @@ public class UserFinder {
 			Long idUser = ConnectionManager.getNullableResultLong(resultSet, 1);
 			Long idUserType = ConnectionManager.getNullableResultLong(resultSet, 2);
 			Boolean flIsAlive = ConnectionManager.getNullableResultBoolean(resultSet, 3);
-			Integer numAge = ConnectionManager.getNullableResultInt(resultSet, 4);
-			String nmUsername = ConnectionManager.getNullableResultString(resultSet, 5);
-			String txtAddressEmail = ConnectionManager.getNullableResultString(resultSet, 6);
-			String txtPassword = ConnectionManager.getNullableResultString(resultSet, 7);
-			Timestamp dtmSignup = ConnectionManager.getNullableResultTimestamp(resultSet, 8);
+			String nmUsername = ConnectionManager.getNullableResultString(resultSet, 4);
+			String txtAddressEmail = ConnectionManager.getNullableResultString(resultSet, 5);
+			String txtPassword = ConnectionManager.getNullableResultString(resultSet, 6);
+			Integer numAge = null;
+			Timestamp dtmSignup = null;
 
 			User user = new User(idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup);
 
@@ -1190,15 +1190,24 @@ public class UserFinder {
 	private static List<User> list(ResultSet resultSet) throws SQLException {
 		List<User> arrayList = new ArrayList<User>();
 		while(resultSet.next()) {
-			arrayList.add(new User(
-					ConnectionManager.getNullableResultLong(resultSet, 1),
-					ConnectionManager.getNullableResultLong(resultSet, 2),
-					ConnectionManager.getNullableResultBoolean(resultSet, 3),
-					ConnectionManager.getNullableResultInt(resultSet, 4),
-					ConnectionManager.getNullableResultString(resultSet, 5),
-					ConnectionManager.getNullableResultString(resultSet, 6),
-					ConnectionManager.getNullableResultString(resultSet, 7),
-					ConnectionManager.getNullableResultTimestamp(resultSet, 8)));
+			Long idUser = ConnectionManager.getNullableResultLong(resultSet, 1);
+			Long idUserType = ConnectionManager.getNullableResultLong(resultSet, 2);
+			Boolean flIsAlive = ConnectionManager.getNullableResultBoolean(resultSet, 3);
+			String nmUsername = ConnectionManager.getNullableResultString(resultSet, 4);
+			String txtAddressEmail = ConnectionManager.getNullableResultString(resultSet, 5);
+			String txtPassword = ConnectionManager.getNullableResultString(resultSet, 6);
+			Integer numAge = null;
+			Timestamp dtmSignup = null;
+					arrayList.add(new User(
+					idUser,
+					idUserType,
+					flIsAlive,
+					numAge,
+					nmUsername,
+					txtAddressEmail,
+					txtPassword,
+					dtmSignup
+					));
 		}
 		return(arrayList);
 	}

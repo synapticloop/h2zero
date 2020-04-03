@@ -35,7 +35,6 @@ public class UserPet extends ModelBase {
 	private static final String SQL_DELETE = "delete from user_pet where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user_pet where id_user = ? and id_pet = ?";
 
-	private static final String SQL_SELECT_HYDRATE = "select  from user_pet where " + PRIMARY_KEY_FIELD + " = ?";
 
 // Static lookups for fields in the hit counter.
 	public static final int HIT_TOTAL = 0;
@@ -49,7 +48,6 @@ public class UserPet extends ModelBase {
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_user_pet", "id_user", "id_pet" };
 	// the number of read-hits for a particular field
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0 };
-	private boolean isHydrated = true;
 
 	private User User = null;
 	private Pet Pet = null;

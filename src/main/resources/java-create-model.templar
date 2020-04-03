@@ -139,12 +139,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{endloop}";{\n}
 {\n}
 
-{\t}private static final String SQL_SELECT_HYDRATE = "select 
-{loop table.nonPopulateFields as field}
-	{field.name}
-	{if !fieldStatus.last}, {endif}
-{endloop}
- from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
+{if table.shouldHydrate}
+	{\t}private static final String SQL_SELECT_HYDRATE = "select 
+	{loop table.nonPopulateFields as field}
+		{field.name}
+		{if !fieldStatus.last}, {endif}
+	{endloop}
+	 from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
+{endif}{-- end of check whether we should hydrate some of the fields }
 
 {\n}// Static lookups for fields in the hit counter.{\n}
 	{\t}public static final int HIT_TOTAL = 0;{\n}
@@ -158,7 +160,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}// the number of read-hits for a particular field{\n}
 	{\t}private static int[] HIT_COUNTS = {{ 0, {loop table.fields as field}0{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
 	{set fn:length[table.nonPopulateFields] as nonPopulateFieldsLength}
-	{\t}private boolean isHydrated = {if fn:=[nonPopulateFieldsLength, '0']}true{else}false{endif};{\n}
+
+	{if table.shouldHydrate}
+		{\t}private boolean isHydrated = {if fn:=[nonPopulateFieldsLength, '0']}true{else}false{endif};{\n}
+	{endif}{-- end of check whether we should hydrate some of the fields }
+
 {endif}{-- end of !if.isConstant}
 {\n}
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -423,11 +429,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
 		{\t}{\t}{\t}throw sqlex;{\n}
 		{\t}{\t}} finally {{{\n}
+		{\t}{\t}this.isHydrated = true;
 		{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 		{\t}{\t}}{\n}
-		{\n}
 		{\t}}{\n}
-
+		{\t}
 	{endif}
 
 

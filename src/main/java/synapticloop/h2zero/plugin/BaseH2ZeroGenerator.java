@@ -72,14 +72,14 @@ public class BaseH2ZeroGenerator {
 	 */
 	public void generateH2zero() {
 		// otherwise we are good to go
-		H2ZeroParser h2zeroParser = null;
+		H2ZeroParser h2zeroParser = new H2ZeroParser();
 		TemplarConfiguration templarConfiguration = null;
 		TemplarContext templarContext = null;
 		Database database = null;
 		Options options = null;
 
 		try {
-			h2zeroParser = new H2ZeroParser(h2ZeroFile);
+			h2zeroParser.parse(h2ZeroFile);
 
 			logDatabaseInfo(h2zeroParser);
 
@@ -114,6 +114,10 @@ public class BaseH2ZeroGenerator {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
+			List<String> fatalMessages = h2zeroParser.getFatalMessages();
+			for (String fatalMessage : fatalMessages) {
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + fatalMessage);
+			}
 			throw new BuildException(h2zpex);
 		} catch (ParseException pex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");

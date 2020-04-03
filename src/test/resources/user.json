@@ -4,11 +4,11 @@
 		{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },
 		{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user_type.id_user_type" },
 		{ "name": "fl_is_alive", "type": "boolean", "nullable": true, "default": "'0'", "index": true },
-		{ "name": "num_age", "type": "int", "nullable": false },
+		{ "name": "num_age", "type": "int", "nullable": false, "populate": false },
 		{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false, "unique": true },
 		{ "name": "txt_address_email", "type": "varchar", "length": "256", "minLength": 6, "nullable": false, "unique": true },
 		{ "name": "txt_password", "type": "varchar", "length": "32", "minLength": 8, "nullable": false, "unique": false },
-		{ "name": "dtm_signup", "type": "datetime", "nullable": true }
+		{ "name": "dtm_signup", "type": "datetime", "nullable": true, "populate": false }
 	],
 
 	"fieldFinders": [

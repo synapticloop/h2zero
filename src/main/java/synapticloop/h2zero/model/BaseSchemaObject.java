@@ -410,6 +410,7 @@ public abstract class BaseSchemaObject {
 	public List<BaseField> getPopulateFields() { return(populateFields); }
 	public List<BaseField> getNonPopulateFields() { return(nonPopulateFields); }
 
+	public boolean getShouldHydrate() { return(nonPopulateFields.size() != 0); }
 	/**
 	 * Return whether this schema object has any questions on it
 	 * 

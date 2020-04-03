@@ -308,6 +308,8 @@ public abstract class BaseField {
 	public int getFieldIndex() { return(this.fieldIndex); }
 	public void setFieldIndex(int fieldIndex) { this.fieldIndex = fieldIndex; }
 
+	public boolean getIsForeignKey() {return(getForeignKeyField() != null); }
+
 	public List<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
 

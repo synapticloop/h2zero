@@ -34,7 +34,7 @@ public class User extends ModelBase {
 	private static final String SQL_DELETE = "delete from user where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user where id_user_type = ? and fl_is_alive = ? and num_age = ? and nm_username = ? and txt_address_email = ? and txt_password = ? and dtm_signup = ?";
 
-	private static final String SQL_SELECT_HYDRATE = "select  from user where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_SELECT_HYDRATE = "select num_age, dtm_signup from user where " + PRIMARY_KEY_FIELD + " = ?";
 
 // Static lookups for fields in the hit counter.
 	public static final int HIT_TOTAL = 0;
@@ -53,7 +53,7 @@ public class User extends ModelBase {
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_user", "id_user_type", "fl_is_alive", "num_age", "nm_username", "txt_address_email", "txt_password", "dtm_signup" };
 	// the number of read-hits for a particular field
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-	private boolean isHydrated = true;
+	private boolean isHydrated = false;
 
 
 	private Long idUser = null;
@@ -188,7 +188,29 @@ public class User extends ModelBase {
 		this.dtmSignup = user.getDtmSignup();
 	}
 
-	public static String[] getHitFields() { return(HIT_FIELDS); }
+	@Override
+	protected void hydrate(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+		if(!primaryKeySet()) {
+			throw new H2ZeroPrimaryKeyException("Cannot hydrate bean when primary key is null.");
+		}
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_SELECT_HYDRATE);
+			preparedStatement.setLong(1, idUser);
+			resultSet = preparedStatement.executeQuery();
+			if(!resultSet.next()) {
+				throw new H2ZeroPrimaryKeyException("Could not find result with primary key of: " + getPrimaryKey());
+			}
+			this.numAge = ConnectionManager.getNullableResultInt(resultSet, 1);
+			this.dtmSignup = ConnectionManager.getNullableResultTimestamp(resultSet, 2);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+		this.isHydrated = true;			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+	}
+		public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
 	public UserType getUserType() {
@@ -212,7 +234,7 @@ public class User extends ModelBase {
 	public void setIdUserType(Long idUserType) { if(isDifferent(this.idUserType, idUserType)) { this.idUserType = idUserType;this.isDirty = true; }}
 	public Boolean getFlIsAlive() { updateHitCount(3); return(this.flIsAlive); }
 	public void setFlIsAlive(Boolean flIsAlive) { if(isDifferent(this.flIsAlive, flIsAlive)) { this.flIsAlive = flIsAlive;this.isDirty = true; }}
-	public Integer getNumAge() { updateHitCount(4); return(this.numAge); }
+	public Integer getNumAge() { updateHitCount(4); if(!isHydrated) { hydrateSilent(); this.isHydrated = true; } return(this.numAge); }
 	public void setNumAge(Integer numAge) { if(isDifferent(this.numAge, numAge)) { this.numAge = numAge;this.isDirty = true; }}
 	public String getNmUsername() { updateHitCount(5); return(this.nmUsername); }
 	public void setNmUsername(String nmUsername) { if(isDifferent(this.nmUsername, nmUsername)) { this.nmUsername = nmUsername;this.isDirty = true; }}
@@ -220,7 +242,7 @@ public class User extends ModelBase {
 	public void setTxtAddressEmail(String txtAddressEmail) { if(isDifferent(this.txtAddressEmail, txtAddressEmail)) { this.txtAddressEmail = txtAddressEmail;this.isDirty = true; }}
 	public String getTxtPassword() { updateHitCount(7); return(this.txtPassword); }
 	public void setTxtPassword(String txtPassword) { if(isDifferent(this.txtPassword, txtPassword)) { this.txtPassword = txtPassword;this.isDirty = true; }}
-	public Timestamp getDtmSignup() { updateHitCount(8); return(this.dtmSignup); }
+	public Timestamp getDtmSignup() { updateHitCount(8); if(!isHydrated) { hydrateSilent(); this.isHydrated = true; } return(this.dtmSignup); }
 	public void setDtmSignup(Timestamp dtmSignup) { if(isDifferent(this.dtmSignup, dtmSignup)) { this.dtmSignup = dtmSignup;this.isDirty = true; }}
 
 	@Override
