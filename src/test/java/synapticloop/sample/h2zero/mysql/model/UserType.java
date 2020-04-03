@@ -18,25 +18,26 @@ public class UserType {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TYPE_BINDER;
 
-	public static final UserType NORMAL = new UserType(new Long(1), "normal");
-	public static final UserType SPECIAL = new UserType(new Long(2), "special");
-	public static final UserType ADMIN = new UserType(new Long(3), "admin");
-	public static final UserType SUPER_ADMIN = new UserType(new Long(4), "super admin");
+	public static final UserType NORMAL = new UserType(Long.valueOf(1), "normal");
+	public static final UserType SPECIAL = new UserType(Long.valueOf(2), "special");
+	public static final UserType ADMIN = new UserType(Long.valueOf(3), "admin");
+	public static final UserType SUPER_ADMIN = new UserType(Long.valueOf(4), "super admin");
 
 	public static final UserType[] ALL =  {
 		UserType.NORMAL, UserType.SPECIAL, UserType.ADMIN, UserType.SUPER_ADMIN
 	};
 
-	public static final Map<Long, UserType> ALL_LOOKUP = new HashMap<Long, UserType>();
+	public static final Map<Long, UserType> ALL_LOOKUP = new HashMap<>();
 	static{
-		ALL_LOOKUP.put(new Long(1), UserType.NORMAL);
-		ALL_LOOKUP.put(new Long(2), UserType.SPECIAL);
-		ALL_LOOKUP.put(new Long(3), UserType.ADMIN);
-		ALL_LOOKUP.put(new Long(4), UserType.SUPER_ADMIN);
+		ALL_LOOKUP.put(Long.valueOf(1), UserType.NORMAL);
+		ALL_LOOKUP.put(Long.valueOf(2), UserType.SPECIAL);
+		ALL_LOOKUP.put(Long.valueOf(3), UserType.ADMIN);
+		ALL_LOOKUP.put(Long.valueOf(4), UserType.SUPER_ADMIN);
 
 	};
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_type";
+
 
 
 	private Long idUserType = null;

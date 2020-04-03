@@ -35,6 +35,7 @@ public class Pet extends ModelBase {
 	private static final String SQL_DELETE = "delete from pet where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ? and img_photo = ?";
 
+	private static final String SQL_SELECT_HYDRATE = "select  from pet where " + PRIMARY_KEY_FIELD + " = ?";
 
 // Static lookups for fields in the hit counter.
 	public static final int HIT_TOTAL = 0;
@@ -51,6 +52,8 @@ public class Pet extends ModelBase {
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_pet", "nm_pet", "num_age", "flt_weight", "dt_birthday", "img_photo" };
 	// the number of read-hits for a particular field
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0 };
+	private boolean isHydrated = true;
+
 
 	private Long idPet = null;
 	private String nmPet = null;
@@ -227,4 +230,20 @@ public class Pet extends ModelBase {
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	public static String getHitCountJson() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("{\n");
+		stringBuilder.append("  \"type\": \"pet\",\n");
+		stringBuilder.append("  \"total\": " + HIT_COUNTS[0] + ", \n");
+		stringBuilder.append("  \"id_pet\": " + HIT_COUNTS[1] + ", \n");
+		stringBuilder.append("  \"nm_pet\": " + HIT_COUNTS[2] + ", \n");
+		stringBuilder.append("  \"num_age\": " + HIT_COUNTS[3] + ", \n");
+		stringBuilder.append("  \"flt_weight\": " + HIT_COUNTS[4] + ", \n");
+		stringBuilder.append("  \"dt_birthday\": " + HIT_COUNTS[5] + ", \n");
+		stringBuilder.append("  \"img_photo\": " + HIT_COUNTS[6] + "\n");
+		stringBuilder.append("}\n");
+		return(stringBuilder.toString());
+	}
+
 }

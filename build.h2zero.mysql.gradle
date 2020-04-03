@@ -9,7 +9,7 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'synapticloop:h2zero:4.1.5'
+		classpath 'synapticloop:h2zero:4.1.10'
 //		classpath 'synapticloop:h2zero-extension-taglibs:1.0.0'
 	}
 }

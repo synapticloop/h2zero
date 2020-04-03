@@ -34,6 +34,7 @@ public class User extends ModelBase {
 	private static final String SQL_DELETE = "delete from user where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user where id_user_type = ? and fl_is_alive = ? and num_age = ? and nm_username = ? and txt_address_email = ? and txt_password = ? and dtm_signup = ?";
 
+	private static final String SQL_SELECT_HYDRATE = "select  from user where " + PRIMARY_KEY_FIELD + " = ?";
 
 // Static lookups for fields in the hit counter.
 	public static final int HIT_TOTAL = 0;
@@ -52,6 +53,8 @@ public class User extends ModelBase {
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_user", "id_user_type", "fl_is_alive", "num_age", "nm_username", "txt_address_email", "txt_password", "dtm_signup" };
 	// the number of read-hits for a particular field
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private boolean isHydrated = true;
+
 
 	private Long idUser = null;
 	private Long idUserType = null;
@@ -254,4 +257,22 @@ public class User extends ModelBase {
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	public static String getHitCountJson() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("{\n");
+		stringBuilder.append("  \"type\": \"user\",\n");
+		stringBuilder.append("  \"total\": " + HIT_COUNTS[0] + ", \n");
+		stringBuilder.append("  \"id_user\": " + HIT_COUNTS[1] + ", \n");
+		stringBuilder.append("  \"id_user_type\": " + HIT_COUNTS[2] + ", \n");
+		stringBuilder.append("  \"fl_is_alive\": " + HIT_COUNTS[3] + ", \n");
+		stringBuilder.append("  \"num_age\": " + HIT_COUNTS[4] + ", \n");
+		stringBuilder.append("  \"nm_username\": " + HIT_COUNTS[5] + ", \n");
+		stringBuilder.append("  \"txt_address_email\": " + HIT_COUNTS[6] + ", \n");
+		stringBuilder.append("  \"txt_password\": " + HIT_COUNTS[7] + ", \n");
+		stringBuilder.append("  \"dtm_signup\": " + HIT_COUNTS[8] + "\n");
+		stringBuilder.append("}\n");
+		return(stringBuilder.toString());
+	}
+
 }

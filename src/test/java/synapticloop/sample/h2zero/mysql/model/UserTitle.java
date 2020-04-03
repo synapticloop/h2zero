@@ -18,25 +18,26 @@ public class UserTitle {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
-	public static final UserTitle MR = new UserTitle(new Long(1), "Mr.", new Integer(1));
-	public static final UserTitle MRS = new UserTitle(new Long(2), "Mrs.", new Integer(2));
-	public static final UserTitle MISS = new UserTitle(new Long(3), "Miss", new Integer(3));
-	public static final UserTitle DR = new UserTitle(new Long(4), "Dr.", new Integer(4));
+	public static final UserTitle MR = new UserTitle(Long.valueOf(1), "Mr.", Integer.valueOf(1));
+	public static final UserTitle MRS = new UserTitle(Long.valueOf(2), "Mrs.", Integer.valueOf(2));
+	public static final UserTitle MISS = new UserTitle(Long.valueOf(3), "Miss", Integer.valueOf(3));
+	public static final UserTitle DR = new UserTitle(Long.valueOf(4), "Dr.", Integer.valueOf(4));
 
 	public static final UserTitle[] ALL =  {
 		UserTitle.MR, UserTitle.MRS, UserTitle.MISS, UserTitle.DR
 	};
 
-	public static final Map<Long, UserTitle> ALL_LOOKUP = new HashMap<Long, UserTitle>();
+	public static final Map<Long, UserTitle> ALL_LOOKUP = new HashMap<>();
 	static{
-		ALL_LOOKUP.put(new Long(1), UserTitle.MR);
-		ALL_LOOKUP.put(new Long(2), UserTitle.MRS);
-		ALL_LOOKUP.put(new Long(3), UserTitle.MISS);
-		ALL_LOOKUP.put(new Long(4), UserTitle.DR);
+		ALL_LOOKUP.put(Long.valueOf(1), UserTitle.MR);
+		ALL_LOOKUP.put(Long.valueOf(2), UserTitle.MRS);
+		ALL_LOOKUP.put(Long.valueOf(3), UserTitle.MISS);
+		ALL_LOOKUP.put(Long.valueOf(4), UserTitle.DR);
 
 	};
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_title";
+
 
 
 	private Long idUserTitle = null;

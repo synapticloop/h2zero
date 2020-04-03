@@ -24,7 +24,6 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import synapticloop.sample.h2zero.mysql.view.UserUserType;
 
-import synapticloop.sample.h2zero.mysql.view.UserUserType;
 
 public class UserUserTypeViewFinder {
 	// the binder is unused in code, but will generate compile problems if this 
