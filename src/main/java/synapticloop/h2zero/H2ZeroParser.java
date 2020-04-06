@@ -96,6 +96,7 @@ import synapticloop.h2zero.validator.updater.UpdaterNameValidator;
 import synapticloop.h2zero.validator.updater.UpdaterQueryParameterNameValidator;
 import synapticloop.h2zero.validator.updater.UpdaterSetClauseValidator;
 import synapticloop.h2zero.validator.updater.UpdaterWhereClauseValidator;
+import synapticloop.h2zero.validator.view.ViewAsClauseValidator;
 
 /**
  * This is the parser for the h2zero generator
@@ -129,6 +130,8 @@ public class H2ZeroParser {
 		validators.add(new TablePrimaryKeyTypeValidator());
 		validators.add(new TableIgnoredKeysValidator());
 
+		// view validators
+		validators.add(new ViewAsClauseValidator());
 
 		// field validators
 		validators.add(new FieldDefaultValueValidator());
