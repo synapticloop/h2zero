@@ -17,7 +17,6 @@ package synapticloop.h2zero.base.validator;
  * under the Licence.
  */
 
-import synapticloop.h2zero.model.field.BaseField;
 
 public class VarcharValidator extends TextValidator {
 

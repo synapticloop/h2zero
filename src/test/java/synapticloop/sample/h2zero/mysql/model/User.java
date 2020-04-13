@@ -248,7 +248,8 @@ public class User extends ModelBase {
 
 	@Override
 	public ValidationBean validate() {
-		return(null);
+		ValidationBean validationBean = new ValidationBean();
+		return(validationBean);
 	}
 
 

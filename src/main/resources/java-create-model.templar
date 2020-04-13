@@ -561,7 +561,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 	{\t}@Override{\n}
 	{\t}public ValidationBean validate() {{{\n}
-	{\t}{\t}return(null);{\n}
+	{\t}{\t}ValidationBean validationBean = new ValidationBean();{\n}
+	{loop table.nonPrimaryFields as field}
+		{\t}{\t}validationBean.addValidationFieldBean(new {field.javaSqlType}Validator({field.name}, {field.javaName}, field.nullable, field.minLength, {field.length}).validate());{\n}
+	{endloop}
+	{\t}{\t}{\n}
+	{\t}{\t}{\n}
+	{\t}{\t}{\n}
+	{\t}{\t}{\n}
+	{\t}{\t}{\n}
+	{\t}{\t}{\n}
+	{\t}{\t}return(validationBean);{\n}
 	{\t}}{\n}
 	{\n}
 {endif}

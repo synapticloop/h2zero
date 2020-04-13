@@ -5,6 +5,7 @@ import org.json.JSONObject;
 public class ValidationFieldBean {
 	private String fieldName = null;
 	private String fieldValue = null;
+
 	private boolean isOverLength = false;
 	private boolean isUnderLength = false;
 	private boolean isIncorrectNullability = false;
@@ -24,20 +25,45 @@ public class ValidationFieldBean {
 		if(isIncorrectNullability) { this.isValid = false; }
 	}
 
+	public ValidationFieldBean(String fieldName, String fieldValue) {
+		this.fieldName = fieldName;
+		this.fieldValue = fieldValue;
+	}
+
 	public String getFieldName() { return(fieldName); }
 	public String getFieldValue() { return(fieldValue); }
-	public boolean getIsOverLength() { return(isOverLength); }
-	public boolean getIsUnderLength() { return(isUnderLength); }
-	public boolean getIsIncorrectNullability() { return(isIncorrectNullability); }
 
+	public boolean getIsOverLength() { return(isOverLength); }
+	public void setIsOverLength(boolean isOverLength) { 
+		this.isOverLength = isOverLength;
+		if(isOverLength) {
+			this.isValid = false;
+		}
+	}
+
+	public boolean getIsUnderLength() { return(isUnderLength); }
+	public void setIsUnderLength(boolean isUnderLength) {
+		this.isUnderLength = isUnderLength; 
+		if(isUnderLength) {
+			this.isValid = false;
+		}
+	}
+
+	public boolean getIsIncorrectNullability() { return(isIncorrectNullability); }
+	public void setIsIncorrectNullability(boolean isIncorrectNullability) {
+		this.isIncorrectNullability = isIncorrectNullability;
+		if(isIncorrectNullability) {
+			this.isValid = false;
+		}
+	}
+
+	public boolean getIsIncorrectForeignKey() { return(isIncorrectForeignKey);}
 	public void setIsIncorrectForeignKey(boolean isIncorrectForeignKey) { 
 		this.isIncorrectForeignKey = isIncorrectForeignKey;
 		if(isIncorrectForeignKey) {
 			this.isValid = false;
 		}
 	}
-
-	public boolean getIsIncorrectForeignKey() { return(isIncorrectForeignKey);}
 
 	public boolean getIsValid() { return(this.isValid); }
 
@@ -46,10 +72,15 @@ public class ValidationFieldBean {
 
 		validationObject.put("fieldName", fieldName);
 		validationObject.put("fieldValue", fieldValue);
+		
+		validationObject.put("isLengthError", (isUnderLength && isOverLength));
+
 		validationObject.put("isOverLength", isOverLength);
 		validationObject.put("isUnderLength", isUnderLength);
+		
 		validationObject.put("isIncorrectNullability", isIncorrectNullability);
 		validationObject.put("isIncorrectForeignKey", isIncorrectForeignKey);
+		
 		validationObject.put("isValid", !(isOverLength && isUnderLength && isIncorrectNullability && isIncorrectForeignKey));
 
 		return(validationObject);
