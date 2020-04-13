@@ -24,8 +24,8 @@ import synapticloop.h2zero.model.field.BaseField;
 public abstract class ValidatorBase {
 	private boolean isValid = false;
 
-	private String nmField = null;
-	private String value = null;
+	protected String nmField = null;
+	protected String value = null;
 	private int minLength = 0;
 	private int maxLength = Integer.MAX_VALUE;
 	private boolean allowNull = false;
@@ -35,7 +35,9 @@ public abstract class ValidatorBase {
 	private boolean hasLengthError = false;
 	private boolean hasGenericError = false;
 
-	public ValidatorBase(String nmField, String value, int minLength, int maxLength, boolean allowNull) {
+	private boolean shouldValidateLength = false;
+
+	public ValidatorBase(String nmField, String value, int minLength, int maxLength, boolean allowNull, boolean shouldValidateLength) {
 		this.nmField = nmField;
 
 		this.value = value.trim();
@@ -46,6 +48,8 @@ public abstract class ValidatorBase {
 		this.minLength = minLength;
 		this.maxLength = maxLength;
 		this.allowNull = allowNull;
+
+		this.shouldValidateLength = shouldValidateLength;
 	}
 
 	public ValidationFieldBean validate() {
@@ -64,13 +68,15 @@ public abstract class ValidatorBase {
 			return(validationFieldBean);
 		}
 
-		// at this point the value will not be null, time to check the length
-		if(value.length() < minLength) {
-			validationFieldBean.setIsUnderLength(true);
-		}
-
-		if(value.length() > maxLength) {
-			validationFieldBean.setIsOverLength(true);
+		if(shouldValidateLength) {
+			// at this point the value will not be null, time to check the length
+			if(value.length() < minLength) {
+				validationFieldBean.setIsUnderLength(true);
+			}
+	
+			if(value.length() > maxLength) {
+				validationFieldBean.setIsOverLength(true);
+			}
 		}
 
 		return(validationFieldBean);

@@ -11,6 +11,8 @@ public class ValidationFieldBean {
 	private boolean isIncorrectNullability = false;
 	private boolean isIncorrectForeignKey = false;
 
+	private boolean isIncorrectFormat = false;
+
 	private boolean isValid = true;
 
 	public ValidationFieldBean(String fieldName, String fieldValue, boolean isOverLength, boolean isUnderLength, boolean isIncorrectNullability) {
@@ -64,6 +66,15 @@ public class ValidationFieldBean {
 			this.isValid = false;
 		}
 	}
+	
+	public boolean getIsIncorrectFormat() { return(isIncorrectFormat);}
+	public void setIsIncorrectFormat(boolean isIncorrectFormat) { 
+		this.isIncorrectFormat = isIncorrectFormat;
+		if(isIncorrectFormat) {
+			this.isValid = false;
+		}
+	}
+
 
 	public boolean getIsValid() { return(this.isValid); }
 

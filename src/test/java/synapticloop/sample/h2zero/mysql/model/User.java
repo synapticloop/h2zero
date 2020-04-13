@@ -5,8 +5,11 @@ package synapticloop.sample.h2zero.mysql.model;
 //                  (java-create-model.templar)
 
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import synapticloop.h2zero.base.model.mysql.ModelBase;
 import synapticloop.h2zero.base.validator.bean.ValidationBean;
+import synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
+import synapticloop.sample.h2zero.mysql.question.UserTypeQuestion;
+import synapticloop.h2zero.base.validator.*;
+import synapticloop.h2zero.base.model.mysql.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
@@ -249,6 +252,21 @@ public class User extends ModelBase {
 	@Override
 	public ValidationBean validate() {
 		ValidationBean validationBean = new ValidationBean();
+		ValidationFieldBean idUserTypeValidationFieldBean = new BigintValidator("id_user_type", idUserType.toString(), 0, 0, false).validate();
+		idUserTypeValidationFieldBean.setIsIncorrectForeignKey(!UserTypeQuestion.internalDoesPrimaryKeyExist(idUserType));
+		validationBean.addValidationFieldBean(idUserTypeValidationFieldBean);
+		validationBean.addValidationFieldBean(new BooleanValidator("fl_is_alive", flIsAlive.toString(), 0, 0, true).validate());
+		validationBean.addValidationFieldBean(new IntValidator("num_age", numAge.toString(), 0, 0, false).validate());
+		validationBean.addValidationFieldBean(new VarcharValidator("nm_username", nmUsername.toString(), 0, 64, false).validate());
+		validationBean.addValidationFieldBean(new VarcharValidator("txt_address_email", txtAddressEmail.toString(), 6, 256, false).validate());
+		validationBean.addValidationFieldBean(new VarcharValidator("txt_password", txtPassword.toString(), 8, 32, false).validate());
+		validationBean.addValidationFieldBean(new DatetimeValidator("dtm_signup", dtmSignup.toString(), 0, 0, true).validate());
+		
+		
+		
+		
+		
+		
 		return(validationBean);
 	}
 

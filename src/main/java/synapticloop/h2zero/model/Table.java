@@ -87,24 +87,26 @@ public class Table extends BaseSchemaObject {
 	private boolean hasNullableFields = false;
 
 	// all fields that are not marked as secure
-	private List<BaseField> nonSecureFields = new ArrayList<BaseField>();
+	private List<BaseField> nonSecureFields = new ArrayList<>();
 	// all fields that are marked as secure
-	private List<BaseField> secureFields = new ArrayList<BaseField>();
+	private List<BaseField> secureFields = new ArrayList<>();
 
-	private Map<String, BaseField> setFieldLookup = new HashMap<String, BaseField>();
-	private Map<String, BaseField> whereFieldLookup = new HashMap<String, BaseField>();
+	private List<BaseField> foreignKeys = new ArrayList<>();
 
-	private List<BaseField> nonNullFields = new ArrayList<BaseField>();
-	private List<BaseField> nonPrimaryFields = new ArrayList<BaseField>();
+	private Map<String, BaseField> setFieldLookup = new HashMap<>();
+	private Map<String, BaseField> whereFieldLookup = new HashMap<>();
 
-	private List<Updater> updaters = new ArrayList<Updater>(); // a list of all of the updaters
-	private List<Inserter> inserters = new ArrayList<Inserter>(); // a list of all of the inserters
-	private List<Deleter> deleters = new ArrayList<Deleter>(); // a list of all of the deleters
-	private List<Constant> constants = new ArrayList<Constant>(); // a list of all of the constants
+	private List<BaseField> nonNullFields = new ArrayList<>();
+	private List<BaseField> nonPrimaryFields = new ArrayList<>();
+
+	private List<Updater> updaters = new ArrayList<>(); // a list of all of the updaters
+	private List<Inserter> inserters = new ArrayList<>(); // a list of all of the inserters
+	private List<Deleter> deleters = new ArrayList<>(); // a list of all of the deleters
+	private List<Constant> constants = new ArrayList<>(); // a list of all of the constants
 
 	private final Options options;
 
-	private Map<String, Object> additionalKeys = new HashMap<String, Object>();
+	private Map<String, Object> additionalKeys = new HashMap<>();
 
 	/**
 	 * Create a new Table object from the passed in jsonObject.
@@ -317,6 +319,8 @@ public class Table extends BaseSchemaObject {
 				if(!FieldLookupHelper.hasTableField(foreignKeyTable, foreignKeyField)) {
 					throw new H2ZeroParseException(String.format("Field '%s' on table '%s' is trying to reference a foreign key of '%s.%s' which has not been defined yet.", baseField.getName(), name, foreignKeyTable, foreignKeyField));
 				}
+
+				foreignKeys.add(baseField);
 			}
 		}
 
@@ -512,6 +516,7 @@ public class Table extends BaseSchemaObject {
 	public List<Deleter> getDeleters() { return(deleters); }
 	public List<Constant> getConstants() { return(constants); }
 
+	public List<BaseField> getForeignKeys() { return(foreignKeys); }
 	public List<BaseField> getNonNullFields() { return(nonNullFields); }
 	public List<BaseField> getNonPrimaryFields() { return(nonPrimaryFields); }
 	public BaseField getSetField(String name) { return(setFieldLookup.get(name)); }

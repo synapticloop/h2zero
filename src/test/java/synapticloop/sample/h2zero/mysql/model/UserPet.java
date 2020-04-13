@@ -5,8 +5,12 @@ package synapticloop.sample.h2zero.mysql.model;
 //                  (java-create-model.templar)
 
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import synapticloop.h2zero.base.model.mysql.ModelBase;
 import synapticloop.h2zero.base.validator.bean.ValidationBean;
+import synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
+import synapticloop.sample.h2zero.mysql.question.UserQuestion;
+import synapticloop.sample.h2zero.mysql.question.PetQuestion;
+import synapticloop.h2zero.base.validator.*;
+import synapticloop.h2zero.base.model.mysql.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
@@ -184,6 +188,18 @@ public class UserPet extends ModelBase {
 	@Override
 	public ValidationBean validate() {
 		ValidationBean validationBean = new ValidationBean();
+		ValidationFieldBean idUserValidationFieldBean = new BigintValidator("id_user", idUser.toString(), 0, 0, false).validate();
+		idUserValidationFieldBean.setIsIncorrectForeignKey(!UserQuestion.internalDoesPrimaryKeyExist(idUser));
+		validationBean.addValidationFieldBean(idUserValidationFieldBean);
+		ValidationFieldBean idPetValidationFieldBean = new BigintValidator("id_pet", idPet.toString(), 0, 0, false).validate();
+		idPetValidationFieldBean.setIsIncorrectForeignKey(!PetQuestion.internalDoesPrimaryKeyExist(idPet));
+		validationBean.addValidationFieldBean(idPetValidationFieldBean);
+		
+		
+		
+		
+		
+		
 		return(validationBean);
 	}
 

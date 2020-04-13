@@ -7,6 +7,17 @@ package {database.package}.model;{\n}{\n}
 {if !table.isConstant}
 	import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 	import synapticloop.h2zero.base.validator.bean.ValidationBean;{\n}
+
+	{if table.hasForeignKey}
+		import synapticloop.h2zero.base.validator.bean.ValidationFieldBean;{\n}
+
+		{loop table.foreignKeys as foreignKey}
+			import {database.package}.question.{foreignKey.foreignKeyTableLookup.javaClassName}Question;{\n}
+		{endloop}
+
+	{endif}
+
+	import synapticloop.h2zero.base.validator.*;{\n}
 	import synapticloop.h2zero.base.model.{options.database}.ModelBase;{\n}
 	import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;{\n}
 	import java.lang.StringBuilder;{\n}
@@ -563,7 +574,13 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}public ValidationBean validate() {{{\n}
 	{\t}{\t}ValidationBean validationBean = new ValidationBean();{\n}
 	{loop table.nonPrimaryFields as field}
-		{\t}{\t}validationBean.addValidationFieldBean(new {field.javaSqlType}Validator({field.name}, {field.javaName}, field.nullable, field.minLength, {field.length}).validate());{\n}
+		{if field.isForeignKey}
+			{\t}{\t}ValidationFieldBean {field.javaName}ValidationFieldBean = new {field.upperType}Validator("{field.name}", {field.javaName}.toString(), {field.minLength}, {field.maxLength}, {field.nullable}).validate();{\n}
+			{\t}{\t}{field.javaName}ValidationFieldBean.setIsIncorrectForeignKey(!{field.foreignKeyTableLookup.javaClassName}Question.internalDoesPrimaryKeyExist({field.javaName}));{\n}
+			{\t}{\t}validationBean.addValidationFieldBean({field.javaName}ValidationFieldBean);{\n}
+		{else}
+			{\t}{\t}validationBean.addValidationFieldBean(new {field.upperType}Validator("{field.name}", {field.javaName}.toString(), {field.minLength}, {field.maxLength}, {field.nullable}).validate());{\n}
+		{endif}
 	{endloop}
 	{\t}{\t}{\n}
 	{\t}{\t}{\n}

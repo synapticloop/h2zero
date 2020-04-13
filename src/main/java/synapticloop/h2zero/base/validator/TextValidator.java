@@ -17,14 +17,9 @@ package synapticloop.h2zero.base.validator;
  * under the Licence.
  */
 
-import synapticloop.h2zero.model.field.BaseField;
-
 public class TextValidator extends ValidatorBase {
 
 	public TextValidator(String nmField, String value, int minLength, int maxLength, boolean allowNull) {
-		super(nmField, value, minLength, maxLength, allowNull);
+		super(nmField, value, minLength, maxLength, allowNull, true);
 	}
-
-
-	
 }
