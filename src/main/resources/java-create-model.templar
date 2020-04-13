@@ -577,17 +577,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 		{if field.isForeignKey}
 			{\t}{\t}ValidationFieldBean {field.javaName}ValidationFieldBean = new {field.upperType}Validator("{field.name}", {field.javaName}.toString(), {field.minLength}, {field.maxLength}, {field.nullable}).validate();{\n}
 			{\t}{\t}{field.javaName}ValidationFieldBean.setIsIncorrectForeignKey(!{field.foreignKeyTableLookup.javaClassName}Question.internalDoesPrimaryKeyExist({field.javaName}));{\n}
-			{\t}{\t}validationBean.addValidationFieldBean({field.javaName}ValidationFieldBean);{\n}
+			{\t}{\t}validationBean.addValidationFieldBean({field.javaName}ValidationFieldBean);{\n}{\n}
 		{else}
 			{\t}{\t}validationBean.addValidationFieldBean(new {field.upperType}Validator("{field.name}", {field.javaName}.toString(), {field.minLength}, {field.maxLength}, {field.nullable}).validate());{\n}
 		{endif}
 	{endloop}
-	{\t}{\t}{\n}
-	{\t}{\t}{\n}
-	{\t}{\t}{\n}
-	{\t}{\t}{\n}
-	{\t}{\t}{\n}
-	{\t}{\t}{\n}
 	{\t}{\t}return(validationBean);{\n}
 	{\t}}{\n}
 	{\n}
