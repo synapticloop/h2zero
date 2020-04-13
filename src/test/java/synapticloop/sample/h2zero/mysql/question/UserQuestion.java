@@ -31,9 +31,11 @@ public class UserQuestion {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_BINDER;
 
-		private static final Logger LOGGER = LoggerFactory.getLogger(UserQuestion.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserQuestion.class);
 
 
+	// this is an internal SQL question select statement used by the validator
+	private static final String SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST = "SELECT (COUNT(*) = 1) WHERE id_user = ?";
 
 	private static final String SQL_DO_WE_HAVE_MORE_THAN_TWENTY_USERS = "select count(*) > 20 from user";
 	private static final String SQL_DOES_USER_NAME_EXIST = "select count(*) > 0 from user";
@@ -41,7 +43,46 @@ public class UserQuestion {
 	private static final String SQL_DO_WE_HAVE_USERS_IN_AGES = "select count(*) > 0 from user" + " where num_age in (...)";
 
 	private static Map<String, String> doWeHaveUsersInAges_statement_cache = new HashMap<String, String>();
+
+	/** Private to deter instantiation */
 	private UserQuestion() {}
+
+	/**
+	 * An internal method to check whether a specific primary key exists, 
+	 * generated as part of the validation methods
+	 * 
+	 * @param idUser The primary key for this model
+	 * 
+	 * @return whether the primary key exists
+	 */
+	public static boolean internalDoesPrimaryKeyExist(Long idUser) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		boolean answer = false;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
+			ConnectionManager.setBigint(preparedStatement, 1, idUser);
+
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				answer = resultSet.getBoolean(1);
+			}
+		} catch (SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException internalDoesPrimaryKeyExist(): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+		}
+		return(answer);
+	}
 
 	public static boolean doWeHaveMoreThanTwentyUsers(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = null;

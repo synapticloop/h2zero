@@ -239,7 +239,7 @@ public class BaseH2ZeroGenerator {
 			List<Table> tables = h2zeroParser.getDatabase().getTables();
 			List<View> views = h2zeroParser.getDatabase().getViews();
 
-			int maxTableNameLength = 0;
+			int maxViewNameLength = 0;
 
 			int maxFields = 0;
 			int maxFinders = 0;
@@ -250,9 +250,9 @@ public class BaseH2ZeroGenerator {
 			int maxCounters = 0;
 
 			for (Table table : tables) {
-				int tableLength = table.getName().length();
-				if(tableLength > maxTableNameLength) {
-					maxTableNameLength = tableLength;
+				int tableNameLength = table.getName().length();
+				if(tableNameLength > maxViewNameLength) {
+					maxViewNameLength = tableNameLength;
 				}
 
 				int fieldsSize = table.getFields().size();
@@ -278,7 +278,7 @@ public class BaseH2ZeroGenerator {
 			}
 
 			for (Table table : tables) {
-				SimpleLogger.logDebug(LoggerType.PARSE, "Found table " + String.format("%-" + maxTableNameLength + "s", table.getName()) + 
+				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'table' " + String.format("%-" + maxViewNameLength + "s", table.getName()) + 
 						" [ " + 
 						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", table.getFields().size()) + 
 						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", table.getFinders().size()) + 
@@ -291,7 +291,26 @@ public class BaseH2ZeroGenerator {
 			}
 
 			for (View view : views) {
-				SimpleLogger.logDebug(LoggerType.PARSE, "Found view " + String.format("%-" + maxTableNameLength + "s", view.getName()) + 
+				int viewNameLength = view.getName().length();
+				if(viewNameLength > maxViewNameLength) {
+					maxViewNameLength = viewNameLength;
+				}
+
+				int fieldsSize = view.getFields().size();
+				if(fieldsSize > maxFields) { maxFields = fieldsSize; }
+
+				int findersSize = view.getFinders().size();
+				if(findersSize > maxFinders) { maxFinders = findersSize; }
+
+				int questionsSize = view.getQuestions().size();
+				if(questionsSize > maxQuestions) { maxQuestions = questionsSize; }
+
+				int countersSize = view.getCounters().size();
+				if(countersSize > maxCounters) { maxCounters = countersSize; }
+			}
+
+			for (View view : views) {
+				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'view' " + String.format("%-" + maxViewNameLength + "s", view.getName()) + 
 						"  [ " + 
 						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", view.getFields().size()) + 
 						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", view.getFinders().size()) + 

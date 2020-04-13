@@ -21,8 +21,8 @@ import synapticloop.h2zero.model.field.BaseField;
 
 public class VarcharValidator extends TextValidator {
 
-	public VarcharValidator(BaseField baseField) {
-		super(baseField);
+	public VarcharValidator(String nmField, String value, int minLength, int maxLength, boolean allowNull) {
+		super(nmField, value, minLength, maxLength, allowNull);
 	}
 
 }

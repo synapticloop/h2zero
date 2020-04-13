@@ -6,6 +6,7 @@ package synapticloop.sample.h2zero.mysql.model;
 
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.base.model.mysql.ModelBase;
+import synapticloop.h2zero.base.validator.bean.ValidationBean;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
@@ -197,6 +198,12 @@ public class Pet extends ModelBase {
 	public void setDtBirthday(Date dtBirthday) { if(isDifferent(this.dtBirthday, dtBirthday)) { this.dtBirthday = dtBirthday;this.isDirty = true; }}
 	public Blob getImgPhoto() { updateHitCount(6); return(this.imgPhoto); }
 	public void setImgPhoto(Blob imgPhoto) { if(isDifferent(this.imgPhoto, imgPhoto)) { this.imgPhoto = imgPhoto;this.isDirty = true; }}
+
+	@Override
+	public ValidationBean validate() {
+		return(null);
+	}
+
 
 	@Override
 	public String toString() {

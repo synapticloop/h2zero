@@ -20,8 +20,14 @@ import java.util.List;{\n}
 public class {table.javaClassName}Question {{{\n}
 	{set table as baseSchemaObject}
 	{import classpath:/snippet/global/java-binder-declaration.templar}
-	{\t}{set "Question" as classType}{set baseSchemaObject.javaClassName as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
-	{\n}
+	{set "Question" as classType}{set baseSchemaObject.javaClassName as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				THE INTERNAL QUESTION FOR WHETHER A PRIMARY KEY EXISTS
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{\t}// this is an internal SQL question select statement used by the validator{\n}
+{\t}private static final String SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST = "SELECT (COUNT(*) = 1) WHERE {baseSchemaObject.primaryKey.name} = ?";{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				THE QUESTION FINDERS FOR THE SELECT CLAUSES AND NORMAL CLAUSES
@@ -43,8 +49,48 @@ public class {table.javaClassName}Question {{{\n}
 		{\t}private static Map<String, String> {question.name}_statement_cache = new HashMap<String, String>();{\n}
 	{endif}
 {endloop}
+{\n}
+{\t}/** Private to deter instantiation */{\n}
+{\t}private {table.javaClassName}Question() {{}{\n}
+{\n}
+{\t}/**{\n}
+{\t} * An internal method to check whether a specific primary key exists, {\n}
+{\t} * generated as part of the validation methods{\n}
+{\t} * {\n}
+{\t} * @param {baseSchemaObject.primaryKey.javaName} The primary key for this model{\n}
+{\t} * {\n}
+{\t} * @return whether the primary key exists{\n}
+{\t} */{\n}
+{\t}public static boolean internalDoesPrimaryKeyExist({baseSchemaObject.primaryKey.javaType} {baseSchemaObject.primaryKey.javaName}) {{{\n}
+{\t}{\t}Connection connection = null;{\n}
+{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+{\t}{\t}ResultSet resultSet = null;{\n}
+{\n}
+{\t}{\t}boolean answer = false;{\n}
+{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);{\n}
+{\t}{\t}{\t}ConnectionManager.set{baseSchemaObject.primaryKey.getUpperType}(preparedStatement, 1, {baseSchemaObject.primaryKey.javaName});{\n}
+{\n}
+{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
+{\t}{\t}{\t}if(resultSet.next()) {{{\n}
+{\t}{\t}{\t}{\t}answer = resultSet.getBoolean(1);{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}} catch (SQLException sqlex) {{{\n}
+{\t}{\t}{\t}if(LOGGER.isWarnEnabled()) {{{\n}
+{\t}{\t}{\t}{\t}LOGGER.warn("SQLException internalDoesPrimaryKeyExist(): " + sqlex.getMessage());{\n}
+{\t}{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
+{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
+{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
+{\t}{\t}}{\n}
+{\t}{\t}return(answer);{\n}
+{\t}}{\n}
+{\n}
 
-{\t}private {table.javaClassName}Question() {{}{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				AND THE SELECT CLAUSE QUESTIONS

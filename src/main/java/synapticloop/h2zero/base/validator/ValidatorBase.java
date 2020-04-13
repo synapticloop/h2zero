@@ -1,5 +1,7 @@
 package synapticloop.h2zero.base.validator;
 
+import synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
+
 /*
  * Copyright (c) 2013-2020 synapticloop.
  * All rights reserved.
@@ -20,29 +22,57 @@ package synapticloop.h2zero.base.validator;
 import synapticloop.h2zero.model.field.BaseField;
 
 public abstract class ValidatorBase {
-	protected BaseField baseField = null;
 	private boolean isValid = false;
+	
+	private String nmField = null;
+	private String value = null;
+	private int minLength = 0;
+	private int maxLength = Integer.MAX_VALUE;
+	private boolean allowNull = false;
 
 	private boolean hasNullableError = false;
 	private boolean hasConfirmError = false;
 	private boolean hasLengthError = false;
 	private boolean hasGenericError = false;
 
-	public ValidatorBase(BaseField baseField) {
-		this.baseField = baseField;
+	public ValidatorBase(String nmField, String value, int minLength, int maxLength, boolean allowNull) {
+		this.nmField = nmField;
+		this.value = value;
+		this.minLength = minLength;
+		this.maxLength = maxLength;
+		this.allowNull = allowNull;
 	}
 
-	public void validateDefault(String value, String valueConfirm) {
-		if(null == value && !baseField.getNullable()) {
-			isValid = false;
+	public ValidationFieldBean validate() {
+		// first thing is to determine whether it is null
+		if(null == value) {
+			if(allowNull) {
+				this.isValid = true;
+				return;
+			} else {
+				// it is not null - but could be an empty string - which may be the equivalent of null
+				
+			}
+		}
+		if(!allowNull && null == value) {
+			this.isValid = false;
 			return;
 		}
-
-		if(baseField.getRequiresConfirm()) {
-			hasConfirmError = value.equals(valueConfirm);
-		}
-
+		
+		
+		
 	}
+//	public void validateDefault(String value, String valueConfirm) {
+//		if(null == value && !baseField.getNullable()) {
+//			isValid = false;
+//			return;
+//		}
+//
+//		if(baseField.getRequiresConfirm()) {
+//			hasConfirmError = value.equals(valueConfirm);
+//		}
+//
+//	}
 
 	public boolean getIsValid() { return(isValid); }
 	public void setIsValid(boolean isValid) { this.isValid = isValid; }

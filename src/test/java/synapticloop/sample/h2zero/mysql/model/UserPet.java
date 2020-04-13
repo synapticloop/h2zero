@@ -6,6 +6,7 @@ package synapticloop.sample.h2zero.mysql.model;
 
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.base.model.mysql.ModelBase;
+import synapticloop.h2zero.base.validator.bean.ValidationBean;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
@@ -179,6 +180,13 @@ public class UserPet extends ModelBase {
 	public void setIdUser(Long idUser) { if(isDifferent(this.idUser, idUser)) { this.idUser = idUser;this.isDirty = true; this.User = null;}}
 	public Long getIdPet() { updateHitCount(3); return(this.idPet); }
 	public void setIdPet(Long idPet) { if(isDifferent(this.idPet, idPet)) { this.idPet = idPet;this.isDirty = true; this.Pet = null;}}
+
+	@Override
+	public ValidationBean validate() {
+		ValidationBean validationBean = new ValidationBean();
+		return(validationBean);
+	}
+
 
 	@Override
 	public String toString() {

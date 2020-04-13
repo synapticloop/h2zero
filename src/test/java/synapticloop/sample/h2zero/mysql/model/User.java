@@ -6,6 +6,7 @@ package synapticloop.sample.h2zero.mysql.model;
 
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.h2zero.base.model.mysql.ModelBase;
+import synapticloop.h2zero.base.validator.bean.ValidationBean;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
@@ -244,6 +245,12 @@ public class User extends ModelBase {
 	public void setTxtPassword(String txtPassword) { if(isDifferent(this.txtPassword, txtPassword)) { this.txtPassword = txtPassword;this.isDirty = true; }}
 	public Timestamp getDtmSignup() { updateHitCount(8); if(!isHydrated) { hydrateSilent(); this.isHydrated = true; } return(this.dtmSignup); }
 	public void setDtmSignup(Timestamp dtmSignup) { if(isDifferent(this.dtmSignup, dtmSignup)) { this.dtmSignup = dtmSignup;this.isDirty = true; }}
+
+	@Override
+	public ValidationBean validate() {
+		return(null);
+	}
+
 
 	@Override
 	public String toString() {

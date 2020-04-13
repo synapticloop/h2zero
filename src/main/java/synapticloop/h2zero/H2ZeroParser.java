@@ -81,6 +81,7 @@ import synapticloop.h2zero.validator.finder.FinderWhereFieldAliasValidator;
 import synapticloop.h2zero.validator.inserter.InserterKeyValidator;
 import synapticloop.h2zero.validator.inserter.InserterNameValidator;
 import synapticloop.h2zero.validator.inserter.InserterQueryParameterNameValidator;
+import synapticloop.h2zero.validator.question.QuestionInternalNameValidator;
 import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.question.QuestionKeyValidator;
 import synapticloop.h2zero.validator.question.QuestionNameValidator;
@@ -108,6 +109,7 @@ public class H2ZeroParser {
 	private Database database = null;
 	private Options options = null;
 
+	private int numInfo = 0;
 	private int numWarn = 0;
 	private int numFatal = 0;
 
@@ -193,6 +195,7 @@ public class H2ZeroParser {
 		validators.add(new QuestionSelectClauseValidator());
 		validators.add(new QuestionSelectFieldsValidator());
 		validators.add(new QuestionJsonUniqueKeyExistsValidator());
+		validators.add(new QuestionInternalNameValidator());
 		validators.add(new QuestionKeyValidator());
 		validators.add(new QuestionNameValidator());
 
@@ -278,6 +281,7 @@ public class H2ZeroParser {
 				isValid = false;
 			}
 
+			numInfo += validator.getNumInfo();
 			numWarn += validator.getNumWarn();
 			numFatal += validator.getNumFatal();
 
@@ -294,6 +298,8 @@ public class H2ZeroParser {
 				}
 			}
 		}
+
+		SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] +-----------> [ info: %d, warn: %d, fatal: %d ]", "Validation statistics: ", numInfo, numWarn, numFatal));
 		return isValid;
 	}
 

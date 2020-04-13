@@ -21,8 +21,8 @@ import synapticloop.h2zero.model.field.BaseField;
 
 public class TextValidator extends ValidatorBase {
 
-	public TextValidator(BaseField baseField) {
-		super(baseField);
+	public TextValidator(String nmField, String value, int minLength, int maxLength, boolean allowNull) {
+		super(nmField, value, minLength, maxLength, allowNull);
 	}
 
 

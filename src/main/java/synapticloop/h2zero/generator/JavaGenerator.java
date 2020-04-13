@@ -116,11 +116,9 @@ public class JavaGenerator extends Generator {
 			pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
 			renderToFile(templarContext, javaCreateCounterParser, pathname);
 
-			// the questions - but only if we have some
-			if(table.getHasQuestions()) {
-				pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/question/" + table.getJavaClassName() + "Question.java";
-				renderToFile(templarContext, javaCreateQuestionParser, pathname);
-			}
+			// the questions - we always have an internal question
+			pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/question/" + table.getJavaClassName() + "Question.java";
+			renderToFile(templarContext, javaCreateQuestionParser, pathname);
 
 			List<Finder> finders = table.getFinders();
 			Iterator<Finder> finderIterator = finders.iterator();

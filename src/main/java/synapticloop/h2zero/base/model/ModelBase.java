@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import synapticloop.h2zero.base.manager.BaseConnectionManager;
+import synapticloop.h2zero.base.validator.bean.ValidationBean;
 
 /**
  * This is the base class for all h2zero generated models and defines the required functionality for a working model.  
@@ -36,7 +37,19 @@ public abstract class ModelBase {
 
 	protected boolean isDirty = false; // whether the model has changes to any of its fields or values
 
+	/**
+	 * Whether the primary key is set for this bean
+	 * 
+	 * @return whether the primary key is set
+	 */
 	public abstract boolean primaryKeySet();
+
+	/**
+	 * Whether the bean is valid for insertion
+	 * 
+	 * @return a validation bean 
+	 */
+	public abstract ValidationBean validate();
 
 	/**
 	 * Retrieve a connection from the appropriate connection manager, which is 
@@ -164,6 +177,10 @@ public abstract class ModelBase {
 		connection.close();
 	}
 
+	/**
+	 * Update the model silently, i.e. swallow any exceptions
+	 * 
+	 */
 	public void updateSilent() {
 		Connection connection = null;
 		try {
@@ -188,7 +205,7 @@ public abstract class ModelBase {
 	/*
 	 * All of the insert or update methods
 	 */
-	
+
 	/**
 	 * @see #upsert(Connection connection)
 	 * 
@@ -392,7 +409,7 @@ public abstract class ModelBase {
 		}
 	}
 
-	
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
 	 * All of the ensure methods
@@ -509,7 +526,7 @@ public abstract class ModelBase {
 			}
 		}
 	}
-	
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
 	 * All of the refresh methods
