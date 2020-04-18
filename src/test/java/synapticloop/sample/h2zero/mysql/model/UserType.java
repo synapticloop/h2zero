@@ -11,10 +11,11 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 
-public class UserType {
+public class UserType  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -71,40 +72,18 @@ public class UserType {
 	}
 
 	public JSONObject toJSON() {
-		String nullString = null;
-
 		JSONObject jsonObject = new JSONObject();
+
 		jsonObject.put("type", "UserType");
-		if(null == this.idUserType) {
-			jsonObject.put("idUserType", nullString);
-		} else {
-			jsonObject.put("idUserType", this.idUserType);
-		}
-		if(null == this.nmUserType) {
-			jsonObject.put("nmUserType", nullString);
-		} else {
-			jsonObject.put("nmUserType", this.nmUserType);
-		}
+
+		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserType", this.getIdUserType());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "nmUserType", this.getNmUserType());
 		return(jsonObject);
 	}
 
 
 	public String toJsonString() {
-		String nullString = null;
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "UserType");
-		if(null == this.idUserType) {
-			jsonObject.put("idUserType", nullString);
-		} else {
-			jsonObject.put("idUserType", this.idUserType);
-		}
-		if(null == this.nmUserType) {
-			jsonObject.put("nmUserType", nullString);
-		} else {
-			jsonObject.put("nmUserType", this.nmUserType);
-		}
-		return(jsonObject.toString());
+		return(toJSON().toString());
 	}
 
 	public String getJsonString() {

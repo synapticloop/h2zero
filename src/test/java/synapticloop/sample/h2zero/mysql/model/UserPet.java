@@ -18,10 +18,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import java.sql.SQLException;
 
 import org.json.JSONObject;
 
+import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import synapticloop.sample.h2zero.mysql.finder.UserPetFinder;
@@ -218,50 +219,19 @@ public class UserPet extends ModelBase {
 	}
 
 	public JSONObject toJSON() {
-		String nullString = null;
-
 		JSONObject jsonObject = new JSONObject();
+
 		jsonObject.put("type", "UserPet");
-		if(null == this.idUserPet) {
-			jsonObject.put("idUserPet", nullString);
-		} else {
-			jsonObject.put("idUserPet", this.idUserPet);
-		}
-		if(null == this.idUser) {
-			jsonObject.put("idUser", nullString);
-		} else {
-			jsonObject.put("idUser", this.idUser);
-		}
-		if(null == this.idPet) {
-			jsonObject.put("idPet", nullString);
-		} else {
-			jsonObject.put("idPet", this.idPet);
-		}
+
+		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserPet", this.getIdUserPet());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "idUser", this.getIdUser());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "idPet", this.getIdPet());
 		return(jsonObject);
 	}
 
 
 	public String toJsonString() {
-		String nullString = null;
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "UserPet");
-		if(null == this.idUserPet) {
-			jsonObject.put("idUserPet", nullString);
-		} else {
-			jsonObject.put("idUserPet", this.idUserPet);
-		}
-		if(null == this.idUser) {
-			jsonObject.put("idUser", nullString);
-		} else {
-			jsonObject.put("idUser", this.idUser);
-		}
-		if(null == this.idPet) {
-			jsonObject.put("idPet", nullString);
-		} else {
-			jsonObject.put("idPet", this.idPet);
-		}
-		return(jsonObject.toString());
+		return(toJSON().toString());
 	}
 
 	public String getJsonString() {

@@ -11,10 +11,11 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 
-public class UserTitle {
+public class UserTitle  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -75,50 +76,19 @@ public class UserTitle {
 	}
 
 	public JSONObject toJSON() {
-		String nullString = null;
-
 		JSONObject jsonObject = new JSONObject();
+
 		jsonObject.put("type", "UserTitle");
-		if(null == this.idUserTitle) {
-			jsonObject.put("idUserTitle", nullString);
-		} else {
-			jsonObject.put("idUserTitle", this.idUserTitle);
-		}
-		if(null == this.nmUserTitle) {
-			jsonObject.put("nmUserTitle", nullString);
-		} else {
-			jsonObject.put("nmUserTitle", this.nmUserTitle);
-		}
-		if(null == this.numOrderBy) {
-			jsonObject.put("numOrderBy", nullString);
-		} else {
-			jsonObject.put("numOrderBy", this.numOrderBy);
-		}
+
+		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserTitle", this.getIdUserTitle());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "nmUserTitle", this.getNmUserTitle());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "numOrderBy", this.getNumOrderBy());
 		return(jsonObject);
 	}
 
 
 	public String toJsonString() {
-		String nullString = null;
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "UserTitle");
-		if(null == this.idUserTitle) {
-			jsonObject.put("idUserTitle", nullString);
-		} else {
-			jsonObject.put("idUserTitle", this.idUserTitle);
-		}
-		if(null == this.nmUserTitle) {
-			jsonObject.put("nmUserTitle", nullString);
-		} else {
-			jsonObject.put("nmUserTitle", this.nmUserTitle);
-		}
-		if(null == this.numOrderBy) {
-			jsonObject.put("numOrderBy", nullString);
-		} else {
-			jsonObject.put("numOrderBy", this.numOrderBy);
-		}
-		return(jsonObject.toString());
+		return(toJSON().toString());
 	}
 
 	public String getJsonString() {

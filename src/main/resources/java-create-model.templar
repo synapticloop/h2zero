@@ -31,16 +31,17 @@ package {database.package}.model;{\n}{\n}
 	import java.sql.Statement;{\n}
 	import java.sql.PreparedStatement;{\n}
 	import java.sql.SQLException;{\n}
-	{\n}
 {else}
 	import java.util.HashMap;{\n}{\n}
 	import java.util.Map;{\n}{\n}
+
 {endif}
 
 {\n}
 import org.json.JSONObject;{\n}
 {\n}
 
+import synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
 import {database.package}.model.util.Constants;{\n}
 
 {if !table.isConstant}
@@ -62,7 +63,7 @@ import {database.package}.model.util.Constants;{\n}
 
 {\n}{\n}
 
-public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endif}{{{\n}
+public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif} {{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}
 {\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
 {\t}// removing dead code{\n}
@@ -615,19 +616,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\t}{\t}return(toJSON());{\n}
 	{\t}}{\n}
 
-	{-- Now we need the toJsonString Method--}
+	{-- Now we need the toJson Method--}
 	{\n}
 	{\t}public JSONObject toJSON() {{{\n}
-	{\t}{\t}String nullString = null;{\n}{\n}
-	
 	{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
+	{\n}
 	{\t}{\t}jsonObject.put("type", "{table.javaClassName}");{\n}
+	{\n}
 	{loop table.fields as field}
-		{\t}{\t}if(null == this.{field.javaName}) {{{\n}
-		{\t}{\t}{\t}jsonObject.put("{field.javaName}", nullString);{\n}
-		{\t}{\t}} else {{{\n}
-		{\t}{\t}{\t}jsonObject.put("{field.javaName}", this.{field.javaName});{\n}
-		{\t}{\t}}{\n}
+		{if !field.isSecure}
+			{\t}{\t}ModelBaseHelper.addtoJSONObject(jsonObject, "{field.javaName}", this.get{field.javaAccessorName}());{\n}
+		{endif}
 	{endloop}
 	{\t}{\t}return(jsonObject);{\n}
 	{\t}}{\n}
@@ -637,18 +636,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{-- Now we need the toJsonString Method--}
 	{\n}
 	{\t}public String toJsonString() {{{\n}
-	{\t}{\t}String nullString = null;{\n}{\n}
-
-	{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
-	{\t}{\t}jsonObject.put("type", "{table.javaClassName}");{\n}
-	{loop table.fields as field}
-		{\t}{\t}if(null == this.{field.javaName}) {{{\n}
-		{\t}{\t}{\t}jsonObject.put("{field.javaName}", nullString);{\n}
-		{\t}{\t}} else {{{\n}
-		{\t}{\t}{\t}jsonObject.put("{field.javaName}", this.{field.javaName});{\n}
-		{\t}{\t}}{\n}
-	{endloop}
-	{\t}{\t}return(jsonObject.toString());{\n}
+	{\t}{\t}return(toJSON().toString());{\n}
 	{\t}}{\n}
 	{\n}
 

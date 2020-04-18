@@ -293,12 +293,12 @@ public class PetFinder {
 	 * @param nmPet
 	 * @param numAge
 	 * 
-	 * @return the unique result of Pet found
+	 * @return the list of Pet results found
 	 * 
 	 * @throws H2ZeroFinderException if no results could be found
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
-	public static Pet findByNmPetNumAge(Connection connection, String nmPet, Integer numAge, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<Pet> findByNmPetNumAge(Connection connection, String nmPet, Integer numAge, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
@@ -328,7 +328,7 @@ public class PetFinder {
 
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Pet result = null;
+		List<Pet> results = null;
 		try {
 			if(!hasConnection) {
 				connection = ConnectionManager.getConnection();
@@ -338,12 +338,9 @@ public class PetFinder {
 			ConnectionManager.setInt(preparedStatement, 2, numAge);
 
 			resultSet = preparedStatement.executeQuery();
-			result = uniqueResult(resultSet);
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			results = list(resultSet);
 		} catch (SQLException sqlex) {
 			throw sqlex;
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[nmPet:" + nmPet + "], " + "[numAge:" + numAge + "].");
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -353,26 +350,26 @@ public class PetFinder {
 		}
 
 
-		if(null == result) {
+		if(null == results) {
 			throw new H2ZeroFinderException("Could not find result.");
 		}
-		return(result);
+		return(results);
 	}
 
-	public static Pet findByNmPetNumAge(Connection connection, String nmPet, Integer numAge) throws H2ZeroFinderException, SQLException {
+	public static List<Pet> findByNmPetNumAge(Connection connection, String nmPet, Integer numAge) throws H2ZeroFinderException, SQLException {
 		return(findByNmPetNumAge(connection, nmPet, numAge, null, null));
 	}
 
-	public static Pet findByNmPetNumAge(String nmPet, Integer numAge, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<Pet> findByNmPetNumAge(String nmPet, Integer numAge, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		return(findByNmPetNumAge(null, nmPet, numAge, limit, offset));
 	}
 
-	public static Pet findByNmPetNumAge(String nmPet, Integer numAge) throws H2ZeroFinderException, SQLException {
+	public static List<Pet> findByNmPetNumAge(String nmPet, Integer numAge) throws H2ZeroFinderException, SQLException {
 		return(findByNmPetNumAge(null, nmPet, numAge, null, null));
 	}
 
 // silent connection, params..., limit, offset
-	public static Pet findByNmPetNumAgeSilent(Connection connection, String nmPet, Integer numAge, Integer limit, Integer offset) {
+	public static List<Pet> findByNmPetNumAgeSilent(Connection connection, String nmPet, Integer numAge, Integer limit, Integer offset) {
 		try {
 			return(findByNmPetNumAge(connection, nmPet, numAge, limit, offset));
 		} catch(H2ZeroFinderException h2zfex) {
@@ -382,7 +379,7 @@ public class PetFinder {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(null);
+			return(new ArrayList<Pet>());
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException findByNmPetNumAgeSilent(connection: " + connection + ", " + nmPet + ", " + numAge + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
@@ -390,21 +387,21 @@ public class PetFinder {
 					sqlex.printStackTrace();
 				}
 			}
-			return(null);
+			return(new ArrayList<Pet>());
 		}
 	}
 
 // silent connection, params...
-	public static Pet findByNmPetNumAgeSilent(Connection connection, String nmPet, Integer numAge) {
+	public static List<Pet> findByNmPetNumAgeSilent(Connection connection, String nmPet, Integer numAge) {
 		return(findByNmPetNumAgeSilent(connection, nmPet, numAge, null, null));
 	}
 
 // silent params..., limit, offset
-	public static Pet findByNmPetNumAgeSilent(String nmPet, Integer numAge, Integer limit, Integer offset) {
+	public static List<Pet> findByNmPetNumAgeSilent(String nmPet, Integer numAge, Integer limit, Integer offset) {
 		return(findByNmPetNumAgeSilent(null , nmPet, numAge, limit, offset));
 	}
 
-	public static Pet findByNmPetNumAgeSilent(String nmPet, Integer numAge) {
+	public static List<Pet> findByNmPetNumAgeSilent(String nmPet, Integer numAge) {
 		return(findByNmPetNumAgeSilent(null, nmPet, numAge, null, null));
 	}
 

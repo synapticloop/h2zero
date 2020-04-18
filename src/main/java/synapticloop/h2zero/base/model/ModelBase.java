@@ -20,6 +20,7 @@ package synapticloop.h2zero.base.model;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -602,5 +603,9 @@ public abstract class ModelBase {
 				return(!from.equals(to));
 			}
 		}
+	}
+	
+	protected void addtoJSONObject(JSONObject jsonObject, String key, Object object) {
+		jsonObject.put(key, object);
 	}
 }

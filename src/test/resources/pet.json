@@ -12,6 +12,6 @@
 		{ "name": "img_photo", "type": "blob", "nullable": true }
 	],
 	"fieldFinders": [
-		{ "nm_pet,num_age": "single" }
+		{ "nm_pet,num_age": "multiple" }
 	]
 }

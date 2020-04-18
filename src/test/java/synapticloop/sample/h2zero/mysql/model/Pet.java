@@ -17,10 +17,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import java.sql.SQLException;
 
 import org.json.JSONObject;
 
+import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import synapticloop.sample.h2zero.mysql.finder.PetFinder;
@@ -233,80 +234,22 @@ public class Pet extends ModelBase {
 	}
 
 	public JSONObject toJSON() {
-		String nullString = null;
-
 		JSONObject jsonObject = new JSONObject();
+
 		jsonObject.put("type", "Pet");
-		if(null == this.idPet) {
-			jsonObject.put("idPet", nullString);
-		} else {
-			jsonObject.put("idPet", this.idPet);
-		}
-		if(null == this.nmPet) {
-			jsonObject.put("nmPet", nullString);
-		} else {
-			jsonObject.put("nmPet", this.nmPet);
-		}
-		if(null == this.numAge) {
-			jsonObject.put("numAge", nullString);
-		} else {
-			jsonObject.put("numAge", this.numAge);
-		}
-		if(null == this.fltWeight) {
-			jsonObject.put("fltWeight", nullString);
-		} else {
-			jsonObject.put("fltWeight", this.fltWeight);
-		}
-		if(null == this.dtBirthday) {
-			jsonObject.put("dtBirthday", nullString);
-		} else {
-			jsonObject.put("dtBirthday", this.dtBirthday);
-		}
-		if(null == this.imgPhoto) {
-			jsonObject.put("imgPhoto", nullString);
-		} else {
-			jsonObject.put("imgPhoto", this.imgPhoto);
-		}
+
+		ModelBaseHelper.addtoJSONObject(jsonObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "nmPet", this.getNmPet());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "numAge", this.getNumAge());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "fltWeight", this.getFltWeight());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "dtBirthday", this.getDtBirthday());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "imgPhoto", this.getImgPhoto());
 		return(jsonObject);
 	}
 
 
 	public String toJsonString() {
-		String nullString = null;
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "Pet");
-		if(null == this.idPet) {
-			jsonObject.put("idPet", nullString);
-		} else {
-			jsonObject.put("idPet", this.idPet);
-		}
-		if(null == this.nmPet) {
-			jsonObject.put("nmPet", nullString);
-		} else {
-			jsonObject.put("nmPet", this.nmPet);
-		}
-		if(null == this.numAge) {
-			jsonObject.put("numAge", nullString);
-		} else {
-			jsonObject.put("numAge", this.numAge);
-		}
-		if(null == this.fltWeight) {
-			jsonObject.put("fltWeight", nullString);
-		} else {
-			jsonObject.put("fltWeight", this.fltWeight);
-		}
-		if(null == this.dtBirthday) {
-			jsonObject.put("dtBirthday", nullString);
-		} else {
-			jsonObject.put("dtBirthday", this.dtBirthday);
-		}
-		if(null == this.imgPhoto) {
-			jsonObject.put("imgPhoto", nullString);
-		} else {
-			jsonObject.put("imgPhoto", this.imgPhoto);
-		}
-		return(jsonObject.toString());
+		return(toJSON().toString());
 	}
 
 	public String getJsonString() {

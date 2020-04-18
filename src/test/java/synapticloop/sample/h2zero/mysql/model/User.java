@@ -18,10 +18,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import java.sql.SQLException;
 
 import org.json.JSONObject;
 
+import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import synapticloop.sample.h2zero.mysql.finder.UserFinder;
@@ -280,7 +281,7 @@ public class User extends ModelBase {
 		stringBuilder.append("  Field[numAge:" + this.numAge + "]\n");
 		stringBuilder.append("  Field[nmUsername:" + this.nmUsername + "]\n");
 		stringBuilder.append("  Field[txtAddressEmail:" + this.txtAddressEmail + "]\n");
-		stringBuilder.append("  Field[txtPassword:" + this.txtPassword + "]\n");
+		stringBuilder.append("  Field[txtPassword:<**secure**>]\n");
 		stringBuilder.append("  Field[dtmSignup:" + this.dtmSignup + "]\n");
 		return(stringBuilder.toString());
 	}
@@ -289,100 +290,23 @@ public class User extends ModelBase {
 	}
 
 	public JSONObject toJSON() {
-		String nullString = null;
-
 		JSONObject jsonObject = new JSONObject();
+
 		jsonObject.put("type", "User");
-		if(null == this.idUser) {
-			jsonObject.put("idUser", nullString);
-		} else {
-			jsonObject.put("idUser", this.idUser);
-		}
-		if(null == this.idUserType) {
-			jsonObject.put("idUserType", nullString);
-		} else {
-			jsonObject.put("idUserType", this.idUserType);
-		}
-		if(null == this.flIsAlive) {
-			jsonObject.put("flIsAlive", nullString);
-		} else {
-			jsonObject.put("flIsAlive", this.flIsAlive);
-		}
-		if(null == this.numAge) {
-			jsonObject.put("numAge", nullString);
-		} else {
-			jsonObject.put("numAge", this.numAge);
-		}
-		if(null == this.nmUsername) {
-			jsonObject.put("nmUsername", nullString);
-		} else {
-			jsonObject.put("nmUsername", this.nmUsername);
-		}
-		if(null == this.txtAddressEmail) {
-			jsonObject.put("txtAddressEmail", nullString);
-		} else {
-			jsonObject.put("txtAddressEmail", this.txtAddressEmail);
-		}
-		if(null == this.txtPassword) {
-			jsonObject.put("txtPassword", nullString);
-		} else {
-			jsonObject.put("txtPassword", this.txtPassword);
-		}
-		if(null == this.dtmSignup) {
-			jsonObject.put("dtmSignup", nullString);
-		} else {
-			jsonObject.put("dtmSignup", this.dtmSignup);
-		}
+
+		ModelBaseHelper.addtoJSONObject(jsonObject, "idUser", this.getIdUser());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserType", this.getIdUserType());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "flIsAlive", this.getFlIsAlive());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "numAge", this.getNumAge());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "nmUsername", this.getNmUsername());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "txtAddressEmail", this.getTxtAddressEmail());
+		ModelBaseHelper.addtoJSONObject(jsonObject, "dtmSignup", this.getDtmSignup());
 		return(jsonObject);
 	}
 
 
 	public String toJsonString() {
-		String nullString = null;
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "User");
-		if(null == this.idUser) {
-			jsonObject.put("idUser", nullString);
-		} else {
-			jsonObject.put("idUser", this.idUser);
-		}
-		if(null == this.idUserType) {
-			jsonObject.put("idUserType", nullString);
-		} else {
-			jsonObject.put("idUserType", this.idUserType);
-		}
-		if(null == this.flIsAlive) {
-			jsonObject.put("flIsAlive", nullString);
-		} else {
-			jsonObject.put("flIsAlive", this.flIsAlive);
-		}
-		if(null == this.numAge) {
-			jsonObject.put("numAge", nullString);
-		} else {
-			jsonObject.put("numAge", this.numAge);
-		}
-		if(null == this.nmUsername) {
-			jsonObject.put("nmUsername", nullString);
-		} else {
-			jsonObject.put("nmUsername", this.nmUsername);
-		}
-		if(null == this.txtAddressEmail) {
-			jsonObject.put("txtAddressEmail", nullString);
-		} else {
-			jsonObject.put("txtAddressEmail", this.txtAddressEmail);
-		}
-		if(null == this.txtPassword) {
-			jsonObject.put("txtPassword", nullString);
-		} else {
-			jsonObject.put("txtPassword", this.txtPassword);
-		}
-		if(null == this.dtmSignup) {
-			jsonObject.put("dtmSignup", nullString);
-		} else {
-			jsonObject.put("dtmSignup", this.dtmSignup);
-		}
-		return(jsonObject.toString());
+		return(toJSON().toString());
 	}
 
 	public String getJsonString() {
