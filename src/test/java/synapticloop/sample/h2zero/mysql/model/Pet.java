@@ -18,6 +18,9 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
+import org.json.JSONObject;
+
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import synapticloop.sample.h2zero.mysql.finder.PetFinder;
@@ -203,17 +206,12 @@ public class Pet extends ModelBase {
 	@Override
 	public ValidationBean validate() {
 		ValidationBean validationBean = new ValidationBean();
+
 		validationBean.addValidationFieldBean(new VarcharValidator("nm_pet", nmPet.toString(), 0, 64, false).validate());
 		validationBean.addValidationFieldBean(new IntValidator("num_age", numAge.toString(), 0, 0, false).validate());
 		validationBean.addValidationFieldBean(new FloatValidator("flt_weight", fltWeight.toString(), 0, 6, true).validate());
 		validationBean.addValidationFieldBean(new DateValidator("dt_birthday", dtBirthday.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new BlobValidator("img_photo", imgPhoto.toString(), 0, 0, true).validate());
-		
-		
-		
-		
-		
-		
 		return(validationBean);
 	}
 
@@ -232,17 +230,39 @@ public class Pet extends ModelBase {
 	}
 
 	public String toJsonString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"type\": \"Pet\",\n");
-		stringBuilder.append("  \"idPet\": " + this.idPet + " , \n");
-		stringBuilder.append("  \"nmPet\": \"" + this.nmPet + "\" , \n");
-		stringBuilder.append("  \"numAge\": " + this.numAge + " , \n");
-		stringBuilder.append("  \"fltWeight\": " + this.fltWeight + " , \n");
-		stringBuilder.append("  \"dtBirthday\": \"" + this.dtBirthday + "\" , \n");
-		stringBuilder.append("  \"imgPhoto\": \"" + this.imgPhoto + "\" \n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "Pet");
+		if(null == this.idPet) {
+			jsonObject.putOpt("idPet", null);
+		} else {
+			jsonObject.put("idPet", this.idPet.toString());
+		}
+		if(null == this.nmPet) {
+			jsonObject.putOpt("nmPet", null);
+		} else {
+			jsonObject.put("nmPet", this.nmPet.toString());
+		}
+		if(null == this.numAge) {
+			jsonObject.putOpt("numAge", null);
+		} else {
+			jsonObject.put("numAge", this.numAge.toString());
+		}
+		if(null == this.fltWeight) {
+			jsonObject.putOpt("fltWeight", null);
+		} else {
+			jsonObject.put("fltWeight", this.fltWeight.toString());
+		}
+		if(null == this.dtBirthday) {
+			jsonObject.putOpt("dtBirthday", null);
+		} else {
+			jsonObject.put("dtBirthday", this.dtBirthday.toString());
+		}
+		if(null == this.imgPhoto) {
+			jsonObject.putOpt("imgPhoto", null);
+		} else {
+			jsonObject.put("imgPhoto", this.imgPhoto.toString());
+		}
+		return(jsonObject.toString());
 	}
 
 	public String getJsonString() {
@@ -250,18 +270,16 @@ public class Pet extends ModelBase {
 	}
 
 	public static String getHitCountJson() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"type\": \"pet\",\n");
-		stringBuilder.append("  \"total\": " + HIT_COUNTS[0] + ", \n");
-		stringBuilder.append("  \"id_pet\": " + HIT_COUNTS[1] + ", \n");
-		stringBuilder.append("  \"nm_pet\": " + HIT_COUNTS[2] + ", \n");
-		stringBuilder.append("  \"num_age\": " + HIT_COUNTS[3] + ", \n");
-		stringBuilder.append("  \"flt_weight\": " + HIT_COUNTS[4] + ", \n");
-		stringBuilder.append("  \"dt_birthday\": " + HIT_COUNTS[5] + ", \n");
-		stringBuilder.append("  \"img_photo\": " + HIT_COUNTS[6] + "\n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "Pet");
+		jsonObject.put("total", HIT_COUNTS[0]);
+		jsonObject.put("idPet", HIT_COUNTS[1]);
+		jsonObject.put("nmPet", HIT_COUNTS[2]);
+		jsonObject.put("numAge", HIT_COUNTS[3]);
+		jsonObject.put("fltWeight", HIT_COUNTS[4]);
+		jsonObject.put("dtBirthday", HIT_COUNTS[5]);
+		jsonObject.put("imgPhoto", HIT_COUNTS[6]);
+		return(jsonObject.toString());
 	}
 
 }

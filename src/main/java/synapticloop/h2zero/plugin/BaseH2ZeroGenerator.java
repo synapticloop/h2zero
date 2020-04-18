@@ -195,6 +195,7 @@ public class BaseH2ZeroGenerator {
 			Iterator<Extension> extensionsIterator = extensions.keySet().iterator();
 			while (extensionsIterator.hasNext()) {
 				Extension extension = (Extension) extensionsIterator.next();
+				numFiles += extension.getNumFiles();
 				Map<String, Integer> extensionNumFilesHashMap = extension.getNumFilesHashMap();
 				Iterator<String> iterator = extensionNumFilesHashMap.keySet().iterator();
 				while (iterator.hasNext()) {

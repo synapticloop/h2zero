@@ -8,6 +8,9 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+
+import org.json.JSONObject;
+
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 
@@ -65,13 +68,19 @@ public class UserType {
 	}
 
 	public String toJsonString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"type\": \"UserType\",\n");
-		stringBuilder.append("  \"idUserType\": " + this.idUserType + " , \n");
-		stringBuilder.append("  \"nmUserType\": \"" + this.nmUserType + "\" \n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "UserType");
+		if(null == this.idUserType) {
+			jsonObject.putOpt("idUserType", null);
+		} else {
+			jsonObject.put("idUserType", this.idUserType.toString());
+		}
+		if(null == this.nmUserType) {
+			jsonObject.putOpt("nmUserType", null);
+		} else {
+			jsonObject.put("nmUserType", this.nmUserType.toString());
+		}
+		return(jsonObject.toString());
 	}
 
 	public String getJsonString() {

@@ -19,6 +19,9 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
+import org.json.JSONObject;
+
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import synapticloop.sample.h2zero.mysql.finder.UserPetFinder;
@@ -188,18 +191,15 @@ public class UserPet extends ModelBase {
 	@Override
 	public ValidationBean validate() {
 		ValidationBean validationBean = new ValidationBean();
+
 		ValidationFieldBean idUserValidationFieldBean = new BigintValidator("id_user", idUser.toString(), 0, 0, false).validate();
 		idUserValidationFieldBean.setIsIncorrectForeignKey(!UserQuestion.internalDoesPrimaryKeyExist(idUser));
 		validationBean.addValidationFieldBean(idUserValidationFieldBean);
+
 		ValidationFieldBean idPetValidationFieldBean = new BigintValidator("id_pet", idPet.toString(), 0, 0, false).validate();
 		idPetValidationFieldBean.setIsIncorrectForeignKey(!PetQuestion.internalDoesPrimaryKeyExist(idPet));
 		validationBean.addValidationFieldBean(idPetValidationFieldBean);
-		
-		
-		
-		
-		
-		
+
 		return(validationBean);
 	}
 
@@ -215,14 +215,24 @@ public class UserPet extends ModelBase {
 	}
 
 	public String toJsonString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"type\": \"UserPet\",\n");
-		stringBuilder.append("  \"idUserPet\": " + this.idUserPet + " , \n");
-		stringBuilder.append("  \"idUser\": " + this.idUser + " , \n");
-		stringBuilder.append("  \"idPet\": " + this.idPet + " \n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "UserPet");
+		if(null == this.idUserPet) {
+			jsonObject.putOpt("idUserPet", null);
+		} else {
+			jsonObject.put("idUserPet", this.idUserPet.toString());
+		}
+		if(null == this.idUser) {
+			jsonObject.putOpt("idUser", null);
+		} else {
+			jsonObject.put("idUser", this.idUser.toString());
+		}
+		if(null == this.idPet) {
+			jsonObject.putOpt("idPet", null);
+		} else {
+			jsonObject.put("idPet", this.idPet.toString());
+		}
+		return(jsonObject.toString());
 	}
 
 	public String getJsonString() {
@@ -230,15 +240,13 @@ public class UserPet extends ModelBase {
 	}
 
 	public static String getHitCountJson() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"type\": \"user_pet\",\n");
-		stringBuilder.append("  \"total\": " + HIT_COUNTS[0] + ", \n");
-		stringBuilder.append("  \"id_user_pet\": " + HIT_COUNTS[1] + ", \n");
-		stringBuilder.append("  \"id_user\": " + HIT_COUNTS[2] + ", \n");
-		stringBuilder.append("  \"id_pet\": " + HIT_COUNTS[3] + "\n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "UserPet");
+		jsonObject.put("total", HIT_COUNTS[0]);
+		jsonObject.put("idUserPet", HIT_COUNTS[1]);
+		jsonObject.put("idUser", HIT_COUNTS[2]);
+		jsonObject.put("idPet", HIT_COUNTS[3]);
+		return(jsonObject.toString());
 	}
 
 }

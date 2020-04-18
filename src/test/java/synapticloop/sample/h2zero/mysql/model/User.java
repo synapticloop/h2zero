@@ -19,6 +19,9 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
+import org.json.JSONObject;
+
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import synapticloop.sample.h2zero.mysql.finder.UserFinder;
@@ -252,21 +255,17 @@ public class User extends ModelBase {
 	@Override
 	public ValidationBean validate() {
 		ValidationBean validationBean = new ValidationBean();
+
 		ValidationFieldBean idUserTypeValidationFieldBean = new BigintValidator("id_user_type", idUserType.toString(), 0, 0, false).validate();
 		idUserTypeValidationFieldBean.setIsIncorrectForeignKey(!UserTypeQuestion.internalDoesPrimaryKeyExist(idUserType));
 		validationBean.addValidationFieldBean(idUserTypeValidationFieldBean);
+
 		validationBean.addValidationFieldBean(new BooleanValidator("fl_is_alive", flIsAlive.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new IntValidator("num_age", numAge.toString(), 0, 0, false).validate());
 		validationBean.addValidationFieldBean(new VarcharValidator("nm_username", nmUsername.toString(), 0, 64, false).validate());
 		validationBean.addValidationFieldBean(new VarcharValidator("txt_address_email", txtAddressEmail.toString(), 6, 256, false).validate());
 		validationBean.addValidationFieldBean(new VarcharValidator("txt_password", txtPassword.toString(), 8, 32, false).validate());
 		validationBean.addValidationFieldBean(new DatetimeValidator("dtm_signup", dtmSignup.toString(), 0, 0, true).validate());
-		
-		
-		
-		
-		
-		
 		return(validationBean);
 	}
 
@@ -287,19 +286,49 @@ public class User extends ModelBase {
 	}
 
 	public String toJsonString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"type\": \"User\",\n");
-		stringBuilder.append("  \"idUser\": " + this.idUser + " , \n");
-		stringBuilder.append("  \"idUserType\": " + this.idUserType + " , \n");
-		stringBuilder.append("  \"flIsAlive\": " + this.flIsAlive + " , \n");
-		stringBuilder.append("  \"numAge\": " + this.numAge + " , \n");
-		stringBuilder.append("  \"nmUsername\": \"" + this.nmUsername + "\" , \n");
-		stringBuilder.append("  \"txtAddressEmail\": \"" + this.txtAddressEmail + "\" , \n");
-		stringBuilder.append("  \"txtPassword\": \"" + this.txtPassword + "\" , \n");
-		stringBuilder.append("  \"dtmSignup\": \"" + this.dtmSignup + "\" \n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "User");
+		if(null == this.idUser) {
+			jsonObject.putOpt("idUser", null);
+		} else {
+			jsonObject.put("idUser", this.idUser.toString());
+		}
+		if(null == this.idUserType) {
+			jsonObject.putOpt("idUserType", null);
+		} else {
+			jsonObject.put("idUserType", this.idUserType.toString());
+		}
+		if(null == this.flIsAlive) {
+			jsonObject.putOpt("flIsAlive", null);
+		} else {
+			jsonObject.put("flIsAlive", this.flIsAlive.toString());
+		}
+		if(null == this.numAge) {
+			jsonObject.putOpt("numAge", null);
+		} else {
+			jsonObject.put("numAge", this.numAge.toString());
+		}
+		if(null == this.nmUsername) {
+			jsonObject.putOpt("nmUsername", null);
+		} else {
+			jsonObject.put("nmUsername", this.nmUsername.toString());
+		}
+		if(null == this.txtAddressEmail) {
+			jsonObject.putOpt("txtAddressEmail", null);
+		} else {
+			jsonObject.put("txtAddressEmail", this.txtAddressEmail.toString());
+		}
+		if(null == this.txtPassword) {
+			jsonObject.putOpt("txtPassword", null);
+		} else {
+			jsonObject.put("txtPassword", this.txtPassword.toString());
+		}
+		if(null == this.dtmSignup) {
+			jsonObject.putOpt("dtmSignup", null);
+		} else {
+			jsonObject.put("dtmSignup", this.dtmSignup.toString());
+		}
+		return(jsonObject.toString());
 	}
 
 	public String getJsonString() {
@@ -307,20 +336,18 @@ public class User extends ModelBase {
 	}
 
 	public static String getHitCountJson() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"type\": \"user\",\n");
-		stringBuilder.append("  \"total\": " + HIT_COUNTS[0] + ", \n");
-		stringBuilder.append("  \"id_user\": " + HIT_COUNTS[1] + ", \n");
-		stringBuilder.append("  \"id_user_type\": " + HIT_COUNTS[2] + ", \n");
-		stringBuilder.append("  \"fl_is_alive\": " + HIT_COUNTS[3] + ", \n");
-		stringBuilder.append("  \"num_age\": " + HIT_COUNTS[4] + ", \n");
-		stringBuilder.append("  \"nm_username\": " + HIT_COUNTS[5] + ", \n");
-		stringBuilder.append("  \"txt_address_email\": " + HIT_COUNTS[6] + ", \n");
-		stringBuilder.append("  \"txt_password\": " + HIT_COUNTS[7] + ", \n");
-		stringBuilder.append("  \"dtm_signup\": " + HIT_COUNTS[8] + "\n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "User");
+		jsonObject.put("total", HIT_COUNTS[0]);
+		jsonObject.put("idUser", HIT_COUNTS[1]);
+		jsonObject.put("idUserType", HIT_COUNTS[2]);
+		jsonObject.put("flIsAlive", HIT_COUNTS[3]);
+		jsonObject.put("numAge", HIT_COUNTS[4]);
+		jsonObject.put("nmUsername", HIT_COUNTS[5]);
+		jsonObject.put("txtAddressEmail", HIT_COUNTS[6]);
+		jsonObject.put("txtPassword", HIT_COUNTS[7]);
+		jsonObject.put("dtmSignup", HIT_COUNTS[8]);
+		return(jsonObject.toString());
 	}
 
 }

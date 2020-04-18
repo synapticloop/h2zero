@@ -8,6 +8,9 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+
+import org.json.JSONObject;
+
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 
@@ -69,14 +72,24 @@ public class UserTitle {
 	}
 
 	public String toJsonString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"type\": \"UserTitle\",\n");
-		stringBuilder.append("  \"idUserTitle\": " + this.idUserTitle + " , \n");
-		stringBuilder.append("  \"nmUserTitle\": \"" + this.nmUserTitle + "\" , \n");
-		stringBuilder.append("  \"numOrderBy\": " + this.numOrderBy + " \n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "UserTitle");
+		if(null == this.idUserTitle) {
+			jsonObject.putOpt("idUserTitle", null);
+		} else {
+			jsonObject.put("idUserTitle", this.idUserTitle.toString());
+		}
+		if(null == this.nmUserTitle) {
+			jsonObject.putOpt("nmUserTitle", null);
+		} else {
+			jsonObject.put("nmUserTitle", this.nmUserTitle.toString());
+		}
+		if(null == this.numOrderBy) {
+			jsonObject.putOpt("numOrderBy", null);
+		} else {
+			jsonObject.put("numOrderBy", this.numOrderBy.toString());
+		}
+		return(jsonObject.toString());
 	}
 
 	public String getJsonString() {

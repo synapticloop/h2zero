@@ -37,6 +37,10 @@ package {database.package}.model;{\n}{\n}
 	import java.util.Map;{\n}{\n}
 {endif}
 
+{\n}
+import org.json.JSONObject;{\n}
+{\n}
+
 import {database.package}.model.util.Constants;{\n}
 
 {if !table.isConstant}
@@ -572,7 +576,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{\n}
 	{\t}@Override{\n}
 	{\t}public ValidationBean validate() {{{\n}
-	{\t}{\t}ValidationBean validationBean = new ValidationBean();{\n}
+	{\t}{\t}ValidationBean validationBean = new ValidationBean();{\n}{\n}
 	{loop table.nonPrimaryFields as field}
 		{if field.isForeignKey}
 			{\t}{\t}ValidationFieldBean {field.javaName}ValidationFieldBean = new {field.upperType}Validator("{field.name}", {field.javaName}.toString(), {field.minLength}, {field.maxLength}, {field.nullable}).validate();{\n}
@@ -609,22 +613,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{-- Now we need the toJsonString Method--}
 	{\n}
 		{\t}public String toJsonString() {{{\n}
-		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
-		{\t}{\t}stringBuilder.append("{{\n");{\n}
-		{\t}{\t}stringBuilder.append("  \"type\": \"{table.javaClassName}\",\n");{\n}
-
+		{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
+		{\t}{\t}jsonObject.put("type", "{table.javaClassName}");{\n}
 		{loop table.fields as field}
-			{if field.isSecure}
-				{\t}{\t}stringBuilder.append("  \"{field.javaName}\": \"<**secure**>\", \n");{\n}
-			{else}
-				{\t}{\t}stringBuilder.append("  \"{field.javaName}\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} {if !fieldStatus.last}, {endif}\n");{\n}
-			{endif}
+			{\t}{\t}if(null == this.{field.javaName}) {{{\n}
+			{\t}{\t}{\t}jsonObject.putOpt("{field.javaName}", null);{\n}
+			{\t}{\t}} else {{{\n}
+			{\t}{\t}{\t}jsonObject.put("{field.javaName}", this.{field.javaName}.toString());{\n}
+			{\t}{\t}}{\n}
 		{endloop}
-
-		{\t}{\t}stringBuilder.append("}\n");{\n}
-
-		{\t}{\t}return(stringBuilder.toString());{\n}
+		{\t}{\t}return(jsonObject.toString());{\n}
 		{\t}}{\n}
 		{\n}
 
@@ -637,19 +636,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase {endi
 	{-- This is the hitcount --}
 	{\n}
 		{\t}public static String getHitCountJson() {{{\n}
-		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
-		{\t}{\t}stringBuilder.append("{{\n");{\n}
-		{\t}{\t}stringBuilder.append("  \"type\": \"{table.name}\",\n");{\n}
-
-		{\t}{\t}stringBuilder.append("  \"total\": " + HIT_COUNTS[0] + ", \n");{\n}
+		{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
+		{\t}{\t}jsonObject.put("type", "{table.javaClassName}");{\n}
+		{\t}{\t}jsonObject.put("total", HIT_COUNTS[0]);{\n}
 		{loop table.fields as field}
-			{\t}{\t}stringBuilder.append("  \"{field.name}\": " + HIT_COUNTS[{fn:+[field.fieldIndex, '1']}] + "{if !fieldStatus.last}, {endif}\n");{\n}
+		{\t}{\t}jsonObject.put("{field.javaName}", HIT_COUNTS[{fn:+[field.fieldIndex, '1']}]);{\n}
 		{endloop}
-
-		{\t}{\t}stringBuilder.append("}\n");{\n}
-
-		{\t}{\t}return(stringBuilder.toString());{\n}
+		{\t}{\t}return(jsonObject.toString());{\n}
 		{\t}}{\n}
 		{\n}
 {endif}
