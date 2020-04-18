@@ -213,24 +213,53 @@ public class UserPet extends ModelBase {
 		stringBuilder.append("  Field[idPet:" + this.idPet + "]\n");
 		return(stringBuilder.toString());
 	}
+	public JSONObject getToJSON() {
+		return(toJSON());
+	}
 
-	public String toJsonString() {
+	public JSONObject toJSON() {
+		String nullString = null;
+
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "UserPet");
 		if(null == this.idUserPet) {
-			jsonObject.putOpt("idUserPet", null);
+			jsonObject.put("idUserPet", nullString);
 		} else {
-			jsonObject.put("idUserPet", this.idUserPet.toString());
+			jsonObject.put("idUserPet", this.idUserPet);
 		}
 		if(null == this.idUser) {
-			jsonObject.putOpt("idUser", null);
+			jsonObject.put("idUser", nullString);
 		} else {
-			jsonObject.put("idUser", this.idUser.toString());
+			jsonObject.put("idUser", this.idUser);
 		}
 		if(null == this.idPet) {
-			jsonObject.putOpt("idPet", null);
+			jsonObject.put("idPet", nullString);
 		} else {
-			jsonObject.put("idPet", this.idPet.toString());
+			jsonObject.put("idPet", this.idPet);
+		}
+		return(jsonObject);
+	}
+
+
+	public String toJsonString() {
+		String nullString = null;
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "UserPet");
+		if(null == this.idUserPet) {
+			jsonObject.put("idUserPet", nullString);
+		} else {
+			jsonObject.put("idUserPet", this.idUserPet);
+		}
+		if(null == this.idUser) {
+			jsonObject.put("idUser", nullString);
+		} else {
+			jsonObject.put("idUser", this.idUser);
+		}
+		if(null == this.idPet) {
+			jsonObject.put("idPet", nullString);
+		} else {
+			jsonObject.put("idPet", this.idPet);
 		}
 		return(jsonObject.toString());
 	}

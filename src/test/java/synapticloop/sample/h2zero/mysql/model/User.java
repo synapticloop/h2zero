@@ -284,49 +284,103 @@ public class User extends ModelBase {
 		stringBuilder.append("  Field[dtmSignup:" + this.dtmSignup + "]\n");
 		return(stringBuilder.toString());
 	}
+	public JSONObject getToJSON() {
+		return(toJSON());
+	}
 
-	public String toJsonString() {
+	public JSONObject toJSON() {
+		String nullString = null;
+
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "User");
 		if(null == this.idUser) {
-			jsonObject.putOpt("idUser", null);
+			jsonObject.put("idUser", nullString);
 		} else {
-			jsonObject.put("idUser", this.idUser.toString());
+			jsonObject.put("idUser", this.idUser);
 		}
 		if(null == this.idUserType) {
-			jsonObject.putOpt("idUserType", null);
+			jsonObject.put("idUserType", nullString);
 		} else {
-			jsonObject.put("idUserType", this.idUserType.toString());
+			jsonObject.put("idUserType", this.idUserType);
 		}
 		if(null == this.flIsAlive) {
-			jsonObject.putOpt("flIsAlive", null);
+			jsonObject.put("flIsAlive", nullString);
 		} else {
-			jsonObject.put("flIsAlive", this.flIsAlive.toString());
+			jsonObject.put("flIsAlive", this.flIsAlive);
 		}
 		if(null == this.numAge) {
-			jsonObject.putOpt("numAge", null);
+			jsonObject.put("numAge", nullString);
 		} else {
-			jsonObject.put("numAge", this.numAge.toString());
+			jsonObject.put("numAge", this.numAge);
 		}
 		if(null == this.nmUsername) {
-			jsonObject.putOpt("nmUsername", null);
+			jsonObject.put("nmUsername", nullString);
 		} else {
-			jsonObject.put("nmUsername", this.nmUsername.toString());
+			jsonObject.put("nmUsername", this.nmUsername);
 		}
 		if(null == this.txtAddressEmail) {
-			jsonObject.putOpt("txtAddressEmail", null);
+			jsonObject.put("txtAddressEmail", nullString);
 		} else {
-			jsonObject.put("txtAddressEmail", this.txtAddressEmail.toString());
+			jsonObject.put("txtAddressEmail", this.txtAddressEmail);
 		}
 		if(null == this.txtPassword) {
-			jsonObject.putOpt("txtPassword", null);
+			jsonObject.put("txtPassword", nullString);
 		} else {
-			jsonObject.put("txtPassword", this.txtPassword.toString());
+			jsonObject.put("txtPassword", this.txtPassword);
 		}
 		if(null == this.dtmSignup) {
-			jsonObject.putOpt("dtmSignup", null);
+			jsonObject.put("dtmSignup", nullString);
 		} else {
-			jsonObject.put("dtmSignup", this.dtmSignup.toString());
+			jsonObject.put("dtmSignup", this.dtmSignup);
+		}
+		return(jsonObject);
+	}
+
+
+	public String toJsonString() {
+		String nullString = null;
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "User");
+		if(null == this.idUser) {
+			jsonObject.put("idUser", nullString);
+		} else {
+			jsonObject.put("idUser", this.idUser);
+		}
+		if(null == this.idUserType) {
+			jsonObject.put("idUserType", nullString);
+		} else {
+			jsonObject.put("idUserType", this.idUserType);
+		}
+		if(null == this.flIsAlive) {
+			jsonObject.put("flIsAlive", nullString);
+		} else {
+			jsonObject.put("flIsAlive", this.flIsAlive);
+		}
+		if(null == this.numAge) {
+			jsonObject.put("numAge", nullString);
+		} else {
+			jsonObject.put("numAge", this.numAge);
+		}
+		if(null == this.nmUsername) {
+			jsonObject.put("nmUsername", nullString);
+		} else {
+			jsonObject.put("nmUsername", this.nmUsername);
+		}
+		if(null == this.txtAddressEmail) {
+			jsonObject.put("txtAddressEmail", nullString);
+		} else {
+			jsonObject.put("txtAddressEmail", this.txtAddressEmail);
+		}
+		if(null == this.txtPassword) {
+			jsonObject.put("txtPassword", nullString);
+		} else {
+			jsonObject.put("txtPassword", this.txtPassword);
+		}
+		if(null == this.dtmSignup) {
+			jsonObject.put("dtmSignup", nullString);
+		} else {
+			jsonObject.put("dtmSignup", this.dtmSignup);
 		}
 		return(jsonObject.toString());
 	}

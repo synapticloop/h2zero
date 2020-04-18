@@ -70,24 +70,53 @@ public class UserTitle {
 		stringBuilder.append("  Field[numOrderBy:" + this.numOrderBy + "]\n");
 		return(stringBuilder.toString());
 	}
+	public JSONObject getToJSON() {
+		return(toJSON());
+	}
 
-	public String toJsonString() {
+	public JSONObject toJSON() {
+		String nullString = null;
+
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "UserTitle");
 		if(null == this.idUserTitle) {
-			jsonObject.putOpt("idUserTitle", null);
+			jsonObject.put("idUserTitle", nullString);
 		} else {
-			jsonObject.put("idUserTitle", this.idUserTitle.toString());
+			jsonObject.put("idUserTitle", this.idUserTitle);
 		}
 		if(null == this.nmUserTitle) {
-			jsonObject.putOpt("nmUserTitle", null);
+			jsonObject.put("nmUserTitle", nullString);
 		} else {
-			jsonObject.put("nmUserTitle", this.nmUserTitle.toString());
+			jsonObject.put("nmUserTitle", this.nmUserTitle);
 		}
 		if(null == this.numOrderBy) {
-			jsonObject.putOpt("numOrderBy", null);
+			jsonObject.put("numOrderBy", nullString);
 		} else {
-			jsonObject.put("numOrderBy", this.numOrderBy.toString());
+			jsonObject.put("numOrderBy", this.numOrderBy);
+		}
+		return(jsonObject);
+	}
+
+
+	public String toJsonString() {
+		String nullString = null;
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "UserTitle");
+		if(null == this.idUserTitle) {
+			jsonObject.put("idUserTitle", nullString);
+		} else {
+			jsonObject.put("idUserTitle", this.idUserTitle);
+		}
+		if(null == this.nmUserTitle) {
+			jsonObject.put("nmUserTitle", nullString);
+		} else {
+			jsonObject.put("nmUserTitle", this.nmUserTitle);
+		}
+		if(null == this.numOrderBy) {
+			jsonObject.put("numOrderBy", nullString);
+		} else {
+			jsonObject.put("numOrderBy", this.numOrderBy);
 		}
 		return(jsonObject.toString());
 	}

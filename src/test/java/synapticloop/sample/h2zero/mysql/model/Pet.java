@@ -228,39 +228,83 @@ public class Pet extends ModelBase {
 		stringBuilder.append("  Field[imgPhoto:" + this.imgPhoto + "]\n");
 		return(stringBuilder.toString());
 	}
+	public JSONObject getToJSON() {
+		return(toJSON());
+	}
 
-	public String toJsonString() {
+	public JSONObject toJSON() {
+		String nullString = null;
+
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "Pet");
 		if(null == this.idPet) {
-			jsonObject.putOpt("idPet", null);
+			jsonObject.put("idPet", nullString);
 		} else {
-			jsonObject.put("idPet", this.idPet.toString());
+			jsonObject.put("idPet", this.idPet);
 		}
 		if(null == this.nmPet) {
-			jsonObject.putOpt("nmPet", null);
+			jsonObject.put("nmPet", nullString);
 		} else {
-			jsonObject.put("nmPet", this.nmPet.toString());
+			jsonObject.put("nmPet", this.nmPet);
 		}
 		if(null == this.numAge) {
-			jsonObject.putOpt("numAge", null);
+			jsonObject.put("numAge", nullString);
 		} else {
-			jsonObject.put("numAge", this.numAge.toString());
+			jsonObject.put("numAge", this.numAge);
 		}
 		if(null == this.fltWeight) {
-			jsonObject.putOpt("fltWeight", null);
+			jsonObject.put("fltWeight", nullString);
 		} else {
-			jsonObject.put("fltWeight", this.fltWeight.toString());
+			jsonObject.put("fltWeight", this.fltWeight);
 		}
 		if(null == this.dtBirthday) {
-			jsonObject.putOpt("dtBirthday", null);
+			jsonObject.put("dtBirthday", nullString);
 		} else {
-			jsonObject.put("dtBirthday", this.dtBirthday.toString());
+			jsonObject.put("dtBirthday", this.dtBirthday);
 		}
 		if(null == this.imgPhoto) {
-			jsonObject.putOpt("imgPhoto", null);
+			jsonObject.put("imgPhoto", nullString);
 		} else {
-			jsonObject.put("imgPhoto", this.imgPhoto.toString());
+			jsonObject.put("imgPhoto", this.imgPhoto);
+		}
+		return(jsonObject);
+	}
+
+
+	public String toJsonString() {
+		String nullString = null;
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "Pet");
+		if(null == this.idPet) {
+			jsonObject.put("idPet", nullString);
+		} else {
+			jsonObject.put("idPet", this.idPet);
+		}
+		if(null == this.nmPet) {
+			jsonObject.put("nmPet", nullString);
+		} else {
+			jsonObject.put("nmPet", this.nmPet);
+		}
+		if(null == this.numAge) {
+			jsonObject.put("numAge", nullString);
+		} else {
+			jsonObject.put("numAge", this.numAge);
+		}
+		if(null == this.fltWeight) {
+			jsonObject.put("fltWeight", nullString);
+		} else {
+			jsonObject.put("fltWeight", this.fltWeight);
+		}
+		if(null == this.dtBirthday) {
+			jsonObject.put("dtBirthday", nullString);
+		} else {
+			jsonObject.put("dtBirthday", this.dtBirthday);
+		}
+		if(null == this.imgPhoto) {
+			jsonObject.put("imgPhoto", nullString);
+		} else {
+			jsonObject.put("imgPhoto", this.imgPhoto);
 		}
 		return(jsonObject.toString());
 	}

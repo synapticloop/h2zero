@@ -66,19 +66,43 @@ public class UserType {
 		stringBuilder.append("  Field[nmUserType:" + this.nmUserType + "]\n");
 		return(stringBuilder.toString());
 	}
+	public JSONObject getToJSON() {
+		return(toJSON());
+	}
 
-	public String toJsonString() {
+	public JSONObject toJSON() {
+		String nullString = null;
+
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "UserType");
 		if(null == this.idUserType) {
-			jsonObject.putOpt("idUserType", null);
+			jsonObject.put("idUserType", nullString);
 		} else {
-			jsonObject.put("idUserType", this.idUserType.toString());
+			jsonObject.put("idUserType", this.idUserType);
 		}
 		if(null == this.nmUserType) {
-			jsonObject.putOpt("nmUserType", null);
+			jsonObject.put("nmUserType", nullString);
 		} else {
-			jsonObject.put("nmUserType", this.nmUserType.toString());
+			jsonObject.put("nmUserType", this.nmUserType);
+		}
+		return(jsonObject);
+	}
+
+
+	public String toJsonString() {
+		String nullString = null;
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("type", "UserType");
+		if(null == this.idUserType) {
+			jsonObject.put("idUserType", nullString);
+		} else {
+			jsonObject.put("idUserType", this.idUserType);
+		}
+		if(null == this.nmUserType) {
+			jsonObject.put("nmUserType", nullString);
+		} else {
+			jsonObject.put("nmUserType", this.nmUserType);
 		}
 		return(jsonObject.toString());
 	}
