@@ -168,7 +168,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 {\n}// Static lookups for fields in the hit counter.{\n}
 	{\t}public static final int HIT_TOTAL = 0;{\n}
-	{\t}public static final int HIT_PRIMARY_KEY = 0;{\n}
 	{loop table.fields as field}
 		{\t}public static final int HIT_{field.upperName} = {fieldStatus.index};{\n}
 	{endloop}{\n}
@@ -447,7 +446,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
 		{\t}{\t}{\t}throw sqlex;{\n}
 		{\t}{\t}} finally {{{\n}
-		{\t}{\t}this.isHydrated = true;
+		{\t}{\t}this.isHydrated = true;{\n}
 		{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 		{\t}{\t}}{\n}
 		{\t}}{\n}

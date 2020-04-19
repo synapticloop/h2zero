@@ -188,7 +188,7 @@
 		{\t}{\t}}{\n}
 		{\n}
 		{\n}
-		{\t}{\t}if(null == result{if !finder.unique}s{endif}) {{{\n}
+		{\t}{\t}if(null == result{if !finder.unique}s || results.size() == 0{endif}) {{{\n}
 		{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find result.");{\n}
 		{\t}{\t}}{\n}
 		{\t}{\t}return(result{if !finder.unique}s{endif});{\n}

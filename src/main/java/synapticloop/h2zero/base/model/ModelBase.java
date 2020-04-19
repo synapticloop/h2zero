@@ -608,4 +608,14 @@ public abstract class ModelBase {
 	protected void addtoJSONObject(JSONObject jsonObject, String key, Object object) {
 		jsonObject.put(key, object);
 	}
+
+	public JSONObject getToJSON() {
+		return(toJSON());
+	}
+
+	public abstract JSONObject toJSON();
+
+	public abstract String toJsonString();
+
+	public abstract String getJsonString();
 }
