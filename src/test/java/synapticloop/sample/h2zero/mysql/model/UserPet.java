@@ -18,7 +18,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.SQLException;
 
 import org.json.JSONObject;
 
@@ -39,7 +38,7 @@ public class UserPet extends ModelBase {
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_pet";
 
-	private static final String SQL_INSERT = "insert into user_pet values (?, ?, ?)";
+	private static final String SQL_INSERT = "insert into user_pet (id_user, id_pet) values (?, ?)";
 	private static final String SQL_UPDATE = "update user_pet set id_user = ?, id_pet = ? where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_DELETE = "delete from user_pet where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user_pet where id_user = ? and id_pet = ?";
@@ -47,7 +46,6 @@ public class UserPet extends ModelBase {
 
 // Static lookups for fields in the hit counter.
 	public static final int HIT_TOTAL = 0;
-	public static final int HIT_PRIMARY_KEY = 0;
 	public static final int HIT_ID_USER_PET = 1;
 	public static final int HIT_ID_USER = 2;
 	public static final int HIT_ID_PET = 3;
@@ -84,9 +82,8 @@ public class UserPet extends ModelBase {
 		}
 		// create this bean 
 		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setBigint(preparedStatement, 1, idUserPet);
-		ConnectionManager.setBigint(preparedStatement, 2, idUser);
-		ConnectionManager.setBigint(preparedStatement, 3, idPet);
+		ConnectionManager.setBigint(preparedStatement, 1, idUser);
+		ConnectionManager.setBigint(preparedStatement, 2, idPet);
 		preparedStatement.executeUpdate();
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
 		if(resultSet.next()) {

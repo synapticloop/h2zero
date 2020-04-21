@@ -18,7 +18,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.SQLException;
 
 import org.json.JSONObject;
 
@@ -37,7 +36,7 @@ public class User extends ModelBase {
 
 	public static final String PRIMARY_KEY_FIELD = "id_user";
 
-	private static final String SQL_INSERT = "insert into user values (?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String SQL_INSERT = "insert into user (id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, dtm_signup) values (?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "update user set id_user_type = ?, fl_is_alive = ?, num_age = ?, nm_username = ?, txt_address_email = ?, txt_password = ?, dtm_signup = ? where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_DELETE = "delete from user where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user where id_user_type = ? and fl_is_alive = ? and num_age = ? and nm_username = ? and txt_address_email = ? and txt_password = ? and dtm_signup = ?";
@@ -46,7 +45,6 @@ public class User extends ModelBase {
 
 // Static lookups for fields in the hit counter.
 	public static final int HIT_TOTAL = 0;
-	public static final int HIT_PRIMARY_KEY = 0;
 	public static final int HIT_ID_USER = 1;
 	public static final int HIT_ID_USER_TYPE = 2;
 	public static final int HIT_FL_IS_ALIVE = 3;
@@ -108,14 +106,13 @@ public class User extends ModelBase {
 		}
 		// create this bean 
 		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setBigint(preparedStatement, 1, idUser);
-		ConnectionManager.setBigint(preparedStatement, 2, idUserType);
-		ConnectionManager.setBoolean(preparedStatement, 3, flIsAlive);
-		ConnectionManager.setInt(preparedStatement, 4, numAge);
-		ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
-		ConnectionManager.setVarchar(preparedStatement, 6, txtAddressEmail);
-		ConnectionManager.setVarchar(preparedStatement, 7, txtPassword);
-		ConnectionManager.setDatetime(preparedStatement, 8, dtmSignup);
+		ConnectionManager.setBigint(preparedStatement, 1, idUserType);
+		ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
+		ConnectionManager.setInt(preparedStatement, 3, numAge);
+		ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+		ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
+		ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
+		ConnectionManager.setDatetime(preparedStatement, 7, dtmSignup);
 		preparedStatement.executeUpdate();
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
 		if(resultSet.next()) {
@@ -215,7 +212,8 @@ public class User extends ModelBase {
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-		this.isHydrated = true;			ConnectionManager.closeAll(resultSet, preparedStatement);
+		this.isHydrated = true;
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 		public static String[] getHitFields() { return(HIT_FIELDS); }

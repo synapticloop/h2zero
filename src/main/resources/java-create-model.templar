@@ -119,12 +119,18 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 					SQL insert
 	}
 
-	{\t}private static final String SQL_INSERT = "insert into {table.name} values (
+	{\t}private static final String SQL_INSERT = "insert into {table.name} (
+
+		{loop table.nonPrimaryFields as field}
+			{field.name}
+			{if !fieldStatus.last}, {endif}
+		{endloop}
+		) values (
 
 	{-- now loop through all of the fields }
-	{loop table.fields as field}
+	{loop table.nonPrimaryFields as field}
 		?
-		{if fieldStatus.last}{else}, {endif}
+		{if !fieldStatus.last}, {endif}
 
 	{endloop})";{\n}
 
@@ -270,7 +276,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}{\t}// create this bean {\n}
 	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);{\n}
 
-	{loop table.fields as field}
+	{loop table.nonPrimaryFields as field}
 		{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 	{endloop}
 

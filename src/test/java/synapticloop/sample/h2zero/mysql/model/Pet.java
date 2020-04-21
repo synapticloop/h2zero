@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.SQLException;
 
 import org.json.JSONObject;
 
@@ -36,7 +35,7 @@ public class Pet extends ModelBase {
 
 	public static final String PRIMARY_KEY_FIELD = "id_pet";
 
-	private static final String SQL_INSERT = "insert into pet values (?, ?, ?, ?, ?, ?)";
+	private static final String SQL_INSERT = "insert into pet (nm_pet, num_age, flt_weight, dt_birthday, img_photo) values (?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "update pet set nm_pet = ?, num_age = ?, flt_weight = ?, dt_birthday = ?, img_photo = ? where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_DELETE = "delete from pet where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ? and img_photo = ?";
@@ -44,7 +43,6 @@ public class Pet extends ModelBase {
 
 // Static lookups for fields in the hit counter.
 	public static final int HIT_TOTAL = 0;
-	public static final int HIT_PRIMARY_KEY = 0;
 	public static final int HIT_ID_PET = 1;
 	public static final int HIT_NM_PET = 2;
 	public static final int HIT_NUM_AGE = 3;
@@ -97,12 +95,11 @@ public class Pet extends ModelBase {
 		}
 		// create this bean 
 		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setBigint(preparedStatement, 1, idPet);
-		ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
-		ConnectionManager.setInt(preparedStatement, 3, numAge);
-		ConnectionManager.setFloat(preparedStatement, 4, fltWeight);
-		ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
-		ConnectionManager.setBlob(preparedStatement, 6, imgPhoto);
+		ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
+		ConnectionManager.setInt(preparedStatement, 2, numAge);
+		ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
+		ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+		ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 		preparedStatement.executeUpdate();
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
 		if(resultSet.next()) {
