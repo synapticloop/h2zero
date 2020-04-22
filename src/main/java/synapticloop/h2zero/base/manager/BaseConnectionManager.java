@@ -197,6 +197,20 @@ public abstract class BaseConnectionManager {
 	}
 
 	/**
+	 * Set a BIGSERIAL datatype to a prepared statement with the value of the passed
+	 * in Long, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setBigserial(PreparedStatement preparedStatement, int parameterIndex, Long value) throws SQLException {
+		setBigint(preparedStatement, parameterIndex, value);
+	}
+
+	/**
 	 * Set a VARCHAR datatype to a prepared statement with the value of the passed
 	 * in String, or the correct SQL null type if null
 	 * 
@@ -248,6 +262,52 @@ public abstract class BaseConnectionManager {
 		} else {
 			preparedStatement.setInt(parameterIndex, value);
 		}
+	}
+
+	/**
+	 * Set a SMALLINT datatype to a prepared statement with the value of the passed
+	 * in Integer, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setSmallint(PreparedStatement preparedStatement, int parameterIndex, Integer value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.SMALLINT);
+		} else {
+			preparedStatement.setInt(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a SMALLSERIAL datatype to a prepared statement with the value of the passed
+	 * in Integer, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setSmallserial(PreparedStatement preparedStatement, int parameterIndex, Integer value) throws SQLException {
+		setSmallint(preparedStatement, parameterIndex, value);
+	}
+
+	/**
+	 * Set a SERIAL datatype to a prepared statement with the value of the passed
+	 * in Integer, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setSerial(PreparedStatement preparedStatement, int parameterIndex, Integer value) throws SQLException {
+		setInt(preparedStatement, parameterIndex, value);
 	}
 
 	/**
@@ -362,6 +422,20 @@ public abstract class BaseConnectionManager {
 		} else {
 			preparedStatement.setFloat(parameterIndex, value);
 		}
+	}
+
+	/**
+	 * Set a NUMERIC datatype to a prepared statement with the value of the passed
+	 * in float, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setNumeric(PreparedStatement preparedStatement, int parameterIndex, Float value) throws SQLException {
+		setFloat(preparedStatement, parameterIndex, value);
 	}
 
 	/**

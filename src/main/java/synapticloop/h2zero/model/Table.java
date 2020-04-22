@@ -230,7 +230,7 @@ public class Table extends BaseSchemaObject {
 				String database = options.getDatabase();
 
 				if(!DatabaseFieldTypeConfirm.getIsValidFieldTypeForDatabase(database, type)) {
-					throw new H2ZeroParseException(String.format("Type %s'' value found for field '%s' is not valid for database '%s'", type, fieldName, database));
+					throw new H2ZeroParseException(String.format("Type '%s' value found for field '%s' is not valid for database '%s'", type, fieldName, database));
 				}
 
 			} catch (JSONException jsonex) {

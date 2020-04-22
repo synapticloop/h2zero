@@ -64,6 +64,7 @@ import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
 import synapticloop.h2zero.validator.field.FieldNotNullLengthValidator;
 import synapticloop.h2zero.validator.field.FieldPopulateForeignKeyValidator;
 import synapticloop.h2zero.validator.field.FieldPopulatePrimaryKeyValidator;
+import synapticloop.h2zero.validator.field.FieldPrimaryKeyTypeValidator;
 import synapticloop.h2zero.validator.field.SQLite3FieldBlobValidator;
 import synapticloop.h2zero.validator.field.SQLite3FieldClobValidator;
 import synapticloop.h2zero.validator.field.SQLite3FieldPrimaryKeyValidator;
@@ -81,6 +82,8 @@ import synapticloop.h2zero.validator.finder.FinderWhereFieldAliasValidator;
 import synapticloop.h2zero.validator.inserter.InserterKeyValidator;
 import synapticloop.h2zero.validator.inserter.InserterNameValidator;
 import synapticloop.h2zero.validator.inserter.InserterQueryParameterNameValidator;
+import synapticloop.h2zero.validator.options.OptionsDatabaseDefaultValidator;
+import synapticloop.h2zero.validator.options.OptionsDatabaseTypeValidator;
 import synapticloop.h2zero.validator.question.QuestionInternalNameValidator;
 import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidator;
 import synapticloop.h2zero.validator.question.QuestionKeyValidator;
@@ -119,6 +122,8 @@ public class H2ZeroParser {
 	static {
 		// options
 		validators.add(new OptionsGeneratorsValidator());
+		validators.add(new OptionsDatabaseDefaultValidator());
+		validators.add(new OptionsDatabaseTypeValidator());
 
 		// overall validators
 		validators.add(new UniqueTableViewNameValidator());
@@ -142,6 +147,7 @@ public class H2ZeroParser {
 		validators.add(new FieldNameDuplicateValidator());
 		validators.add(new FieldIgnoredKeysValidator());
 		validators.add(new FieldNotNullLengthValidator());
+		validators.add(new FieldPrimaryKeyTypeValidator());
 
 		validators.add(new SQLite3FieldBlobValidator());
 		validators.add(new SQLite3FieldClobValidator());
@@ -205,6 +211,7 @@ public class H2ZeroParser {
 		validators.add(new ConstantDeleterValidator());
 		validators.add(new ConstantInserterValidator());
 		validators.add(new ConstantUpdaterValidator());
+
 	}
 
 	private static Map<String, BaseValidator> validatorMap = new HashMap<>();

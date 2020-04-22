@@ -44,7 +44,7 @@ import synapticloop.h2zero.util.SimpleLogger.LoggerType;
  *
  */
 public class Database {
-	public static final Map<String, Table> tableLookup = new HashMap<String, Table>();
+	public static final Map<String, Table> tableLookup = new HashMap<>();
 	private String schema = null;
 	private String packageName = null;
 

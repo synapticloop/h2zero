@@ -1,0 +1,34 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		jcenter()
+		mavenLocal()
+		maven {
+			url "https://plugins.gradle.org/"
+		}
+	}
+
+	dependencies {
+		classpath 'synapticloop:h2zero:4.2.7'
+//		classpath 'synapticloop:h2zero-extension-taglibs:1.0.0'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'eclipse'
+}
+
+apply plugin: 'synapticloop.h2zero'
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	jcenter()
+}
+
+h2zero {
+	inFile = 'src/test/resources/sample-include-cockroach.h2zero'
+	outDir = '.'
+	verbose = 'false'
+}

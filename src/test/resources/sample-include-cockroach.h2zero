@@ -1,0 +1,44 @@
+{
+"options": {
+	"database": "cockroach",
+	"metrics": false,
+
+	"generators": [ "java", "sql", "reports" ],
+
+	"validators": {
+		"UpdaterNameValidator": {
+			"allowablePrefixes": "reset,"
+		},
+		"FinderNameValidator": {
+			"allowablePrefixes": "find,calculate"
+		}
+	},
+
+	"output": {
+		"code": "src/test/java/",
+		"resources": "src/test/resources/",
+		"build": "build/"
+	}
+},
+"database": {
+	"schema": "sample",
+	"package": "synapticloop.sample.h2zero.cockroach",
+	"defaultStatementCacheSize": 1024,
+
+	"tables": [
+		{ "include": "./user_type.json" },
+		{ "include": "./user_title.json" },
+		{ "include": "./user_user.json" },
+		{ "include": "./pet.cockroach.json" },
+		{ "include": "./user_user_pet.json" }
+	],
+
+	"views": [
+		{ "include": "./view-pet.cockroach.json" },
+	],
+
+	"forms": {
+		"a": "b"
+	}
+}
+}

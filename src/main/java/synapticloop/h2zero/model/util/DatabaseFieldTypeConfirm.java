@@ -21,6 +21,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import synapticloop.h2zero.exception.H2ZeroParseException;
+
 public class DatabaseFieldTypeConfirm {
 	public static final Map<String, Set<String>> FIELD_VALIDATION_LOOKUP = new HashMap<String, Set<String>>();
 	static {
@@ -70,9 +72,38 @@ public class DatabaseFieldTypeConfirm {
 		mysqlSet.add("varchar");
 
 		FIELD_VALIDATION_LOOKUP.put("mysql", mysqlSet);
+
+		Set<String> cockroachSet = new HashSet<String>();
+		cockroachSet.add("serial");
+		cockroachSet.add("bigserial");
+		cockroachSet.add("smallserial");
+		cockroachSet.add("bigint");
+		cockroachSet.add("blob");
+		cockroachSet.add("bool");
+		cockroachSet.add("boolean");
+		cockroachSet.add("date");
+		cockroachSet.add("time");
+		cockroachSet.add("dec");
+		cockroachSet.add("decimal");
+		cockroachSet.add("double");
+		cockroachSet.add("numeric");
+		cockroachSet.add("int");
+		cockroachSet.add("longtext");
+		cockroachSet.add("mediumblob");
+		cockroachSet.add("mediumtext");
+		cockroachSet.add("timestamp");
+		cockroachSet.add("tinyint");
+		cockroachSet.add("varchar");
+
+		FIELD_VALIDATION_LOOKUP.put("cockroach", cockroachSet);
+		FIELD_VALIDATION_LOOKUP.put("postgresql", cockroachSet);
+
 	}
 
 	public static boolean getIsValidFieldTypeForDatabase(String database, String fieldType) {
+		if(null == FIELD_VALIDATION_LOOKUP.get(database)) {
+			return(false);
+		}
 		return(FIELD_VALIDATION_LOOKUP.get(database).contains(fieldType));
 	}
 }

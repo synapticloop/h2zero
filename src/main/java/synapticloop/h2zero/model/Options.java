@@ -58,17 +58,22 @@ public class Options {
 
 	public static final String DATABASE_MYSQL = "mysql";
 	public static final String DATABASE_SQLITE3 = "sqlite3";
+	public static final String DATABASE_COCKROACH = "cockroach";
+	public static final String DATABASE_POSTGRESQL = "postgresql";
 
 	private static Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
 	static {
 		ALLOWABLE_DATABASES.add(DATABASE_MYSQL);
 		ALLOWABLE_DATABASES.add(DATABASE_SQLITE3);
+		ALLOWABLE_DATABASES.add(DATABASE_COCKROACH);
+		ALLOWABLE_DATABASES.add(DATABASE_POSTGRESQL);
 	}
 
 	/*
 	 * INSTANCE VARIABLES
 	 */
 	private String database = DATABASE_MYSQL;
+	private boolean isDefault = true;
 
 	private String outputCode = "/src/main/java/";
 	private String outputResource = "/src/main/resources/";
@@ -86,6 +91,10 @@ public class Options {
 		if(null == optionsJson) {
 			// options are optional
 			return;
+		}
+
+		if(null == optionsJson.optString(JSONKeyConstants.DATABASE, null)) {
+			isDefault = true;
 		}
 
 		this.database = optionsJson.optString(JSONKeyConstants.DATABASE, DATABASE_MYSQL);
@@ -257,4 +266,6 @@ public class Options {
 	public String getOutputCode() { return(outputCode); }
 	public String getOutputResources() { return(outputResource); }
 	public String getOutputBuild() { return(outputBuild); }
+	public boolean getIsAllowableDatabase() { return(ALLOWABLE_DATABASES.contains(getDatabase())); }
+	public boolean getIsDefault() { return(this.isDefault); }
 }
