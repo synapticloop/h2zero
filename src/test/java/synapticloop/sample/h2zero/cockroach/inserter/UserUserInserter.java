@@ -22,7 +22,7 @@ import synapticloop.sample.h2zero.cockroach.model.util.Constants;
  * table.  The fields that are available are as follows:
  * 
  * <ul>
- *  <li><code>id_user_user</code> (bigserial)  <strong>NOT</strong> nullable  (PRIMARY)</li>
+ *  <li><code>id_user_user</code> (bigint)  <strong>NOT</strong> nullable  (PRIMARY)</li>
  *  <li><code>id_user_type</code> (bigint)  <strong>NOT</strong> nullable </li>
  *  <li><code>fl_is_alive</code> (boolean)  nullable </li>
  *  <li><code>num_age</code> (int)  <strong>NOT</strong> nullable </li>
@@ -74,7 +74,7 @@ public class UserUserInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigserial(preparedStatement, 1, idUserUser);
+			ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
 			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
 			ConnectionManager.setBoolean(preparedStatement, 3, flIsAlive);
 			ConnectionManager.setInt(preparedStatement, 4, numAge);
@@ -113,7 +113,7 @@ public class UserUserInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigserial(preparedStatement, 1, idUserUser);
+			ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
 			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
 			ConnectionManager.setBoolean(preparedStatement, 3, null);
 			ConnectionManager.setInt(preparedStatement, 4, numAge);

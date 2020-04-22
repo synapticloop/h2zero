@@ -59,7 +59,7 @@ public class PetQuestion {
 		try {
 			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
-			ConnectionManager.setBigserial(preparedStatement, 1, idPet);
+			ConnectionManager.setBigint(preparedStatement, 1, idPet);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {

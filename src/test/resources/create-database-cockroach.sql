@@ -19,7 +19,7 @@ use sample;
 --
 drop table if exists user_type;
 create table user_type (
-	id_user_type bigserial not null,
+	id_user_type bigint not null,
 	nm_user_type varchar(32) not null,
 	primary key(id_user_type)
 );
@@ -41,7 +41,7 @@ insert into user_type values(4, 'super admin');
 --
 drop table if exists user_title;
 create table user_title (
-	id_user_title bigserial not null,
+	id_user_title bigint not null,
 	nm_user_title varchar(32) not null,
 	num_order_by int not null,
 	primary key(id_user_title)
@@ -59,7 +59,7 @@ insert into user_title values(4, 'Dr.', 4);
 
 drop table if exists user_user;
 create table user_user (
-	id_user_user bigserial not null,
+	id_user_user bigint not null,
 	id_user_type bigint not null,
 	fl_is_alive boolean null default '0',
 	num_age int not null,
@@ -79,7 +79,7 @@ create table user_user (
 --
 drop table if exists pet;
 create table pet (
-	id_pet bigserial not null,
+	id_pet bigint not null,
 	nm_pet varchar(64) not null,
 	num_age int not null,
 	flt_weight numeric(6,1) null,
@@ -91,7 +91,7 @@ create table pet (
 -- show any warnings that are applicable
 drop table if exists user_user_pet;
 create table user_user_pet (
-	id_user_user_pet bigserial not null,
+	id_user_user_pet bigint not null,
 	id_user_user bigint not null,
 	id_pet bigint not null,
 	primary key(id_user_user_pet),
@@ -99,6 +99,23 @@ create table user_user_pet (
 	index (id_pet),
 	foreign key (id_user_user) references user_user (id_user_user),
 	foreign key (id_pet) references pet (id_pet)
+);
+
+-- show any warnings that are applicable
+drop table if exists all_types;
+create table all_types (
+	id_all_types bigserial not null,
+	num_smallint smallint null,
+	num_integer integer null,
+	num_bigint bigint null,
+	num_decimal decimal null,
+	num_numeric numeric null,
+	flt_real real null,
+	dbl_real double precision null,
+	num_serial serial not null,
+	num_smallserial smallserial not null,
+	num_bigserial bigserial not null,
+	primary key(id_all_types)
 );
 
 -- show any warnings that are applicable

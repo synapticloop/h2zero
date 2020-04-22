@@ -26,7 +26,7 @@ import synapticloop.sample.h2zero.cockroach.model.util.Constants;
  * table.  The fields that are available are as follows:
  * 
  * <ul>
- *  <li><code>id_pet</code> (bigserial)  <strong>NOT</strong> nullable  (PRIMARY)</li>
+ *  <li><code>id_pet</code> (bigint)  <strong>NOT</strong> nullable  (PRIMARY)</li>
  *  <li><code>nm_pet</code> (varchar)  <strong>NOT</strong> nullable </li>
  *  <li><code>num_age</code> (int)  <strong>NOT</strong> nullable </li>
  *  <li><code>flt_weight</code> (numeric)  nullable </li>
@@ -74,7 +74,7 @@ public class PetInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigserial(preparedStatement, 1, idPet);
+			ConnectionManager.setBigint(preparedStatement, 1, idPet);
 			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
 			ConnectionManager.setInt(preparedStatement, 3, numAge);
 			ConnectionManager.setNumeric(preparedStatement, 4, fltWeight);
@@ -108,7 +108,7 @@ public class PetInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigserial(preparedStatement, 1, idPet);
+			ConnectionManager.setBigint(preparedStatement, 1, idPet);
 			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
 			ConnectionManager.setInt(preparedStatement, 3, numAge);
 			ConnectionManager.setNumeric(preparedStatement, 4, null);
@@ -306,7 +306,7 @@ public class PetInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigserial(preparedStatement, 1, idPet);
+			ConnectionManager.setBigint(preparedStatement, 1, idPet);
 			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
 			ConnectionManager.setInt(preparedStatement, 3, numAge);
 			ConnectionManager.setNumeric(preparedStatement, 4, fltWeight);

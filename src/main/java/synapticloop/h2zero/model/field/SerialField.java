@@ -18,43 +18,30 @@ package synapticloop.h2zero.model.field;
  * under the Licence.
  */
 
-
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
-public class RealField extends BaseField {
+public class SerialField extends BaseField {
 
-	public RealField(JSONObject jsonObject) throws H2ZeroParseException {
+	public SerialField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public RealField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public SerialField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
 	public String getJavaType() {
-		return("Double");
+		return "Integer";
 	}
 
 	public String getSqlJavaType() {
-		return("Double");
+		return("Int");
 	}
 
 	public String getSqlNullType() {
-		return("REAL");
-	}
-
-	public String getLengthFormat() {
-		StringBuilder stringBuilder = new StringBuilder();
-		if(length != 0) {
-			stringBuilder.append("(");
-			stringBuilder.append(length);
-			stringBuilder.append(",");
-			stringBuilder.append(decimalLength);
-			stringBuilder.append(")");
-		}
-		return(stringBuilder.toString());
+		return("INTEGER");
 	}
 
 	public boolean getShouldEscape() {

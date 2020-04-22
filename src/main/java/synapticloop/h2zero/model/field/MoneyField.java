@@ -23,26 +23,26 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
-public class RealField extends BaseField {
+public class MoneyField extends BaseField {
 
-	public RealField(JSONObject jsonObject) throws H2ZeroParseException {
+	public MoneyField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public RealField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public MoneyField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
 	public String getJavaType() {
-		return("Double");
+		return("Float");
 	}
 
 	public String getSqlJavaType() {
-		return("Double");
+		return("Float");
 	}
 
 	public String getSqlNullType() {
-		return("REAL");
+		return("FLOAT");
 	}
 
 	public String getLengthFormat() {

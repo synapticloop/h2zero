@@ -1,0 +1,16 @@
+{
+	"name": "all_types",
+	"fields": [
+		{ "name": "id_all_types", "type": "bigserial", "nullable": false, "primary": true },
+		{ "name": "num_smallint", "type": "smallint", "nullable": true },
+		{ "name": "num_integer", "type": "integer", "nullable": true },
+		{ "name": "num_bigint", "type": "bigint", "nullable": true },
+		{ "name": "num_decimal", "type": "decimal", "nullable": true },
+		{ "name": "num_numeric", "type": "numeric", "nullable": true },
+		{ "name": "flt_real", "type": "real", "nullable": true },
+		{ "name": "dbl_real", "type": "double", "nullable": true },
+		{ "name": "num_serial", "type": "serial", "nullable": false },
+		{ "name": "num_smallserial", "type": "smallserial", "nullable": false },
+		{ "name": "num_bigserial", "type": "bigserial", "nullable": false }
+	]
+}

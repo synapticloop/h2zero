@@ -35,12 +35,12 @@ public class DecimalField extends BaseField {
 
 	@Override
 	public String getJavaType() {
-		return("Float");
+		return("Double");
 	}
 
 	@Override
 	public String getSqlJavaType() {
-		return("Float");
+		return("Double");
 	}
 
 	@Override

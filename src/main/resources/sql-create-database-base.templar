@@ -31,7 +31,7 @@ use {database.schema};{\n}{\n}
 
 	{set fn:length[table.fields] as fieldsLength}
 	{loop table.fields as field}
-		{\t}{field.name} {field.type}{field.lengthFormat}
+		{\t}{field.name} {field.type}{if fn:=[field.type, "double"]} precision{endif}{field.lengthFormat}
 		{if !field.nullable} not{endif} null
 		{if field.unique} unique{endif}
 		{if fn:notNull[field.default]} default {field.default}{endif}
@@ -76,7 +76,6 @@ use {database.schema};{\n}{\n}
 
 {\n}
 	);{\n}{\n}
-	-- show any warnings that are applicable{\n}
 
 	{if table.isConstant}
 		-- The {table.name} table is defined as being constant{\n}

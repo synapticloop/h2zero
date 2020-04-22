@@ -21,33 +21,33 @@ import synapticloop.sample.h2zero.cockroach.model.util.Constants;
 
 import java.util.List;
 
-public class UserUserPetQuestion {
+public class AllTypesQuestion {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
 	@SuppressWarnings("unused")
-	private static final String BINDER = Constants.USER_USER_PET_BINDER;
+	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserUserPetQuestion.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AllTypesQuestion.class);
 
 
 	// this is an internal SQL question select statement used by the validator
-	private static final String SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST = "SELECT (COUNT(*) = 1) WHERE id_user_user_pet = ?";
+	private static final String SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST = "SELECT (COUNT(*) = 1) WHERE id_all_types = ?";
 
 
 
 	/** Private to deter instantiation */
-	private UserUserPetQuestion() {}
+	private AllTypesQuestion() {}
 
 	/**
 	 * An internal method to check whether a specific primary key exists, 
 	 * generated as part of the validation methods
 	 * 
-	 * @param idUserUserPet The primary key for this model
+	 * @param idAllTypes The primary key for this model
 	 * 
 	 * @return whether the primary key exists
 	 */
-	public static boolean internalDoesPrimaryKeyExist(Long idUserUserPet) {
+	public static boolean internalDoesPrimaryKeyExist(Long idAllTypes) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -57,7 +57,7 @@ public class UserUserPetQuestion {
 		try {
 			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
-			ConnectionManager.setBigint(preparedStatement, 1, idUserUserPet);
+			ConnectionManager.setBigserial(preparedStatement, 1, idAllTypes);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {

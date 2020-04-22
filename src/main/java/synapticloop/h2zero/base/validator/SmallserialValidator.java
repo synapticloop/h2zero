@@ -1,8 +1,10 @@
-package synapticloop.h2zero.model.field;
+package synapticloop.h2zero.base.validator;
+
+import synapticloop.h2zero.base.validator.bean.ValidationBean;
+import synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 
 /*
  * Copyright (c) 2013-2020 synapticloop.
- * 
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -18,34 +20,10 @@ package synapticloop.h2zero.model.field;
  * under the Licence.
  */
 
-import org.json.JSONObject;
 
-import synapticloop.h2zero.exception.H2ZeroParseException;
+public class SmallserialValidator extends ValidatorBase {
 
-public class SmallintField extends BaseField {
-
-	public SmallintField(JSONObject jsonObject) throws H2ZeroParseException {
-		super(jsonObject);
+	public SmallserialValidator(String nmField, String value, int minLength, int maxLength, boolean allowNull) {
+		super(nmField, value, minLength, maxLength, allowNull, false);
 	}
-
-	public SmallintField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
-		super(jsonObject, isInField);
-	}
-
-	public String getJavaType() {
-		return "Short";
-	}
-
-	public String getSqlJavaType() {
-		return("Short");
-	}
-
-	public String getSqlNullType() {
-		return("SMALLINT");
-	}
-
-	public boolean getShouldEscape() {
-		return false;
-	}
-
 }

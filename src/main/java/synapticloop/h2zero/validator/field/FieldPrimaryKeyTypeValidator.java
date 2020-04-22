@@ -42,6 +42,7 @@ public class FieldPrimaryKeyTypeValidator extends BaseValidator {
 							!type.equalsIgnoreCase(BaseField.PRIMARY_KEY_POSTGRESQL_SERIAL) ||
 							!type.equalsIgnoreCase(BaseField.PRIMARY_KEY_POSTGRESQL_SMALLSERIAL)) {
 						addWarnMessage("The primary key field '" + table.getName() + "." + baseField.getName() + "' has a type: of '" + type + "', it should be one of '" + BaseField.PRIMARY_KEY_POSTGRESQL_BIGSERIAL+ "', '" + BaseField.PRIMARY_KEY_POSTGRESQL_SERIAL+ "', or '" + BaseField.PRIMARY_KEY_POSTGRESQL_SMALLSERIAL+ "'.  This has been updated.");
+					} else {
 						boolean setPostgreSQLType = baseField.setPostgreSQLType(type);
 						if(!setPostgreSQLType) {
 							addFatalMessage("The primary key field '" + table.getName() + "." + baseField.getName() + "' has a type: of '" + type + "', This could not be mapped to a 'serial' type");

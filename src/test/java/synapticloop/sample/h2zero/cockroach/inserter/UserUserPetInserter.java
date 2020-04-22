@@ -21,7 +21,7 @@ import synapticloop.sample.h2zero.cockroach.model.util.Constants;
  * table.  The fields that are available are as follows:
  * 
  * <ul>
- *  <li><code>id_user_user_pet</code> (bigserial)  <strong>NOT</strong> nullable  (PRIMARY)</li>
+ *  <li><code>id_user_user_pet</code> (bigint)  <strong>NOT</strong> nullable  (PRIMARY)</li>
  *  <li><code>id_user_user</code> (bigint)  <strong>NOT</strong> nullable </li>
  *  <li><code>id_pet</code> (bigint)  <strong>NOT</strong> nullable </li>
  * </ul>
@@ -63,7 +63,7 @@ public class UserUserPetInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigserial(preparedStatement, 1, idUserUserPet);
+			ConnectionManager.setBigint(preparedStatement, 1, idUserUserPet);
 			ConnectionManager.setBigint(preparedStatement, 2, idUserUser);
 			ConnectionManager.setBigint(preparedStatement, 3, idPet);
 			numResults = preparedStatement.executeUpdate();

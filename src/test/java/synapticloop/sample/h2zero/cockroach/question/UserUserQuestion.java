@@ -65,7 +65,7 @@ public class UserUserQuestion {
 		try {
 			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
-			ConnectionManager.setBigserial(preparedStatement, 1, idUserUser);
+			ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {

@@ -265,7 +265,7 @@ public abstract class BaseConnectionManager {
 	}
 
 	/**
-	 * Set a SMALLINT datatype to a prepared statement with the value of the passed
+	 * Set a INTEGER datatype to a prepared statement with the value of the passed
 	 * in Integer, or the correct SQL null type if null
 	 * 
 	 * @param preparedStatement The prepared statement
@@ -274,7 +274,21 @@ public abstract class BaseConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
-	public static void setSmallint(PreparedStatement preparedStatement, int parameterIndex, Integer value) throws SQLException {
+	public static void setInteger(PreparedStatement preparedStatement, int parameterIndex, Integer value) throws SQLException {
+		setInt(preparedStatement, parameterIndex, value);
+	}
+
+	/**
+	 * Set a SMALLINT datatype to a prepared statement with the value of the passed
+	 * in Short, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setSmallint(PreparedStatement preparedStatement, int parameterIndex, Short value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.SMALLINT);
 		} else {
@@ -292,7 +306,7 @@ public abstract class BaseConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
-	public static void setSmallserial(PreparedStatement preparedStatement, int parameterIndex, Integer value) throws SQLException {
+	public static void setSmallserial(PreparedStatement preparedStatement, int parameterIndex, Short value) throws SQLException {
 		setSmallint(preparedStatement, parameterIndex, value);
 	}
 
@@ -488,6 +502,42 @@ public abstract class BaseConnectionManager {
 	public static void setDouble(PreparedStatement preparedStatement, int parameterIndex, Double value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.DOUBLE);
+		} else {
+			preparedStatement.setDouble(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a DECIMAL datatype to a prepared statement with the value of the passed 
+	 * in double, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setDecimal(PreparedStatement preparedStatement, int parameterIndex, Double value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.DECIMAL);
+		} else {
+			preparedStatement.setDouble(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a REAL datatype to a prepared statement with the value of the passed 
+	 * in double, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setReal(PreparedStatement preparedStatement, int parameterIndex, Double value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.REAL);
 		} else {
 			preparedStatement.setDouble(parameterIndex, value);
 		}
@@ -732,6 +782,15 @@ public abstract class BaseConnectionManager {
 		return((Float)returnPossibleNullObject(resultSet, resultSet.getFloat(index)));
 	}
 
+	public static Double getNullableResultDouble(ResultSet resultSet, int index) throws SQLException { 
+		return((Double)returnPossibleNullObject(resultSet, resultSet.getDouble(index)));
+	}
+
+	public static Short getNullableResultShort(ResultSet resultSet, int index) throws SQLException { 
+		return((Short)returnPossibleNullObject(resultSet, resultSet.getShort(index)));
+	}
+
+	
 	/**
 	 * Get the underlying combo pooled result set
 	 * 

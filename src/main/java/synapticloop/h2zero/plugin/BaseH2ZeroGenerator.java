@@ -133,7 +133,7 @@ public class BaseH2ZeroGenerator {
 
 		// now for the extensions
 		if(!options.hasExtensions()) {
-			SimpleLogger.logInfo(LoggerType.EXTENSIONS, "No extensions found, rendering nothing.");
+			SimpleLogger.logInfo(LoggerType.EXTENSIONS, "No extensions found, extending nothing, rendering nothing.");
 		} else {
 			Map<Extension, JSONObject> extensions = options.getExtensions();
 			Iterator<Extension> iterator = extensions.keySet().iterator();

@@ -77,6 +77,7 @@ public class DatabaseFieldTypeConfirm {
 		cockroachSet.add("serial");
 		cockroachSet.add("bigserial");
 		cockroachSet.add("smallserial");
+		cockroachSet.add("smallint");
 		cockroachSet.add("bigint");
 		cockroachSet.add("blob");
 		cockroachSet.add("bool");
@@ -86,8 +87,10 @@ public class DatabaseFieldTypeConfirm {
 		cockroachSet.add("dec");
 		cockroachSet.add("decimal");
 		cockroachSet.add("double");
+		cockroachSet.add("real");
 		cockroachSet.add("numeric");
 		cockroachSet.add("int");
+		cockroachSet.add("integer");
 		cockroachSet.add("longtext");
 		cockroachSet.add("mediumblob");
 		cockroachSet.add("mediumtext");
@@ -98,6 +101,7 @@ public class DatabaseFieldTypeConfirm {
 		FIELD_VALIDATION_LOOKUP.put("cockroach", cockroachSet);
 		FIELD_VALIDATION_LOOKUP.put("postgresql", cockroachSet);
 
+		// postgres only cockroachSet.add("money");
 	}
 
 	public static boolean getIsValidFieldTypeForDatabase(String database, String fieldType) {

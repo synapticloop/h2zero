@@ -1,7 +1,8 @@
-package synapticloop.h2zero.validator.table;
+package synapticloop.h2zero.validator.field;
 
 /*
- * Copyright (c) 2013-2020 synapticloop.
+ * Copyright (c) 2012-2020 synapticloop.
+ * 
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -25,18 +26,27 @@ import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.validator.BaseValidator;
 
-public class TablePrimaryKeyTypeValidator extends BaseValidator {
+public class FieldSerialNonPrimaryKeyValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {
+		if(options.getDatabase().compareToIgnoreCase(Options.DATABASE_MYSQL) == 0 ||
+				options.getDatabase().compareToIgnoreCase(Options.DATABASE_SQLITE3) == 0) {
+			// all good here
+			return;
+		}
+
 		List<Table> tables = database.getTables();
 		for (Table table : tables) {
 			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
-				if(baseField.getPrimary() && 
-						baseField.getType().compareToIgnoreCase("bigint") != 0 &&
-						baseField.getType().compareToIgnoreCase("bigserial") != 0) {
-					addFatalMessage("Primary key '" + table.getName() + "." + baseField.getName() + "' __MUST__ be of SQL type 'bigint'.");
+				String type = baseField.getType();
+				if(!baseField.getPrimary() && 
+						(type.equalsIgnoreCase(BaseField.PRIMARY_KEY_POSTGRESQL_BIGSERIAL) ||
+						type.equalsIgnoreCase(BaseField.PRIMARY_KEY_POSTGRESQL_SERIAL) ||
+						type.equalsIgnoreCase(BaseField.PRIMARY_KEY_POSTGRESQL_SMALLSERIAL))) {
+
+					addWarnMessage("The field '" + table.getName() + "." + baseField.getName() + "' is set as a '" + type + "' but it is not a primary key, there may be interesting results...");
 				}
 			}
 		}

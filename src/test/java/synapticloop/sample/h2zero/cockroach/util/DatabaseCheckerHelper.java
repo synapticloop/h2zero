@@ -27,12 +27,13 @@ public class DatabaseCheckerHelper {
 	private Set<String> allTables = new HashSet<String>();
 	private Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();
 
-	private static final String[] ALL_TABLE_NAMES = { "user_type", "user_title", "user_user", "pet", "user_user_pet" };
+	private static final String[] ALL_TABLE_NAMES = { "user_type", "user_title", "user_user", "pet", "user_user_pet", "all_types" };
 	private static final String[] ALL_TABLE_FIELD_NAMES = { "user_type.id_user_type", "user_type.nm_user_type", 
 			"user_title.id_user_title", "user_title.nm_user_title", "user_title.num_order_by", 
 			"user_user.id_user_user", "user_user.id_user_type", "user_user.fl_is_alive", "user_user.num_age", "user_user.nm_username", "user_user.txt_address_email", "user_user.txt_password", "user_user.ts_signup", 
 			"pet.id_pet", "pet.nm_pet", "pet.num_age", "pet.flt_weight", "pet.dt_birthday", "pet.img_photo", 
-			"user_user_pet.id_user_user_pet", "user_user_pet.id_user_user", "user_user_pet.id_pet"
+			"user_user_pet.id_user_user_pet", "user_user_pet.id_user_user", "user_user_pet.id_pet", 
+			"all_types.id_all_types", "all_types.num_smallint", "all_types.num_integer", "all_types.num_bigint", "all_types.num_decimal", "all_types.num_numeric", "all_types.flt_real", "all_types.dbl_real", "all_types.num_serial", "all_types.num_smallserial", "all_types.num_bigserial"
 			 };
 
 	private void initialiseDataStructures() {
