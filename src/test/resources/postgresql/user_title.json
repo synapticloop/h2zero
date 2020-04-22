@@ -1,0 +1,35 @@
+{
+	"name": "user_title",
+	"comments": [
+		"This is the user title table, which is a constant-generated table for some ",
+		"of the user titles.  This enables quick and easy lookups from within the code",
+		"for values that do not change."
+	],
+	"fields": [
+		{ "name": "id_user_title", "type": "bigint", "nullable": false, "primary": true },
+		{ "name": "nm_user_title", "type": "varchar", "length": "32", "nullable": false },
+		{ "name": "num_order_by", "type": "int", "nullable": false }
+	],
+	"constants": [
+		{ "name": "MR", "values": [ 1, "Mr.", 1 ] },
+		{ "name": "MRS", "values": [ 2, "Mrs.", 2 ] },
+		{ "name": "MISS", "values": [ 3, "Miss", 3 ] },
+		{ "name": "DR", "values": [ 4, "Dr.", 4 ] }
+	],
+	"finders": [
+		{
+			"name": "findIdUserTitleNmUserTitleOrdered",
+			"selectClause": "select id_user_title, nm_user_title from user_title order by num_order_by",
+			"selectFields": [
+				{ "name": "id_user_title", "type": "bigint" },
+				{ "name": "nm_user_title", "type": "varchar" }
+			],
+			"unique": false
+		},
+		{
+			"name": "findAllOrdered",
+			"orderBy": "num_order_by",
+			"unique": false
+		}
+	]
+}

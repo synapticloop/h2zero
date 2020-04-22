@@ -28,7 +28,7 @@ repositories {
 }
 
 h2zero {
-	inFile = 'src/test/resources/sample-include-postgresql.h2zero'
+	inFile = 'src/test/resources/postgresql/sample-include-postgresql.h2zero'
 	outDir = '.'
 	verbose = 'false'
 }
