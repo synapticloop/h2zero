@@ -12,6 +12,7 @@ import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.sql.Date;
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -60,11 +61,11 @@ public class Pet extends ModelBase {
 	private Long idPet = null;
 	private String nmPet = null;
 	private Integer numAge = null;
-	private Float fltWeight = null;
+	private BigDecimal fltWeight = null;
 	private Date dtBirthday = null;
 	private Blob imgPhoto = null;
 
-	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
+	public Pet(Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, Blob imgPhoto) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
 		this.numAge = numAge;
@@ -194,8 +195,8 @@ public class Pet extends ModelBase {
 	public void setNmPet(String nmPet) { if(isDifferent(this.nmPet, nmPet)) { this.nmPet = nmPet;this.isDirty = true; }}
 	public Integer getNumAge() { updateHitCount(3); return(this.numAge); }
 	public void setNumAge(Integer numAge) { if(isDifferent(this.numAge, numAge)) { this.numAge = numAge;this.isDirty = true; }}
-	public Float getFltWeight() { updateHitCount(4); return(this.fltWeight); }
-	public void setFltWeight(Float fltWeight) { if(isDifferent(this.fltWeight, fltWeight)) { this.fltWeight = fltWeight;this.isDirty = true; }}
+	public BigDecimal getFltWeight() { updateHitCount(4); return(this.fltWeight); }
+	public void setFltWeight(BigDecimal fltWeight) { if(isDifferent(this.fltWeight, fltWeight)) { this.fltWeight = fltWeight;this.isDirty = true; }}
 	public Date getDtBirthday() { updateHitCount(5); return(this.dtBirthday); }
 	public void setDtBirthday(Date dtBirthday) { if(isDifferent(this.dtBirthday, dtBirthday)) { this.dtBirthday = dtBirthday;this.isDirty = true; }}
 	public Blob getImgPhoto() { updateHitCount(6); return(this.imgPhoto); }

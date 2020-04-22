@@ -35,12 +35,12 @@ public class DecField extends BaseField {
 
 	@Override
 	public String getJavaType() {
-		return("Float");
+		return("BigDecimal");
 	}
 
 	@Override
 	public String getSqlJavaType() {
-		return("Float");
+		return("BigDecimal");
 	}
 
 	@Override

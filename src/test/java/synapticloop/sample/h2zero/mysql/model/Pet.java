@@ -12,6 +12,7 @@ import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.sql.Date;
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;

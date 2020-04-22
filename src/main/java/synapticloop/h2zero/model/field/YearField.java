@@ -18,50 +18,32 @@ package synapticloop.h2zero.model.field;
  * under the Licence.
  */
 
-
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
-public class DecimalField extends BaseField {
+public class YearField extends BaseField {
 
-	public DecimalField(JSONObject jsonObject) throws H2ZeroParseException {
+	public YearField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public DecimalField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public YearField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
-	@Override
 	public String getJavaType() {
-		return("BigDecimal");
+		return "Integer";
 	}
 
-	@Override
 	public String getSqlJavaType() {
-		return("BigDecimal");
+		return("Int");
 	}
 
-	@Override
 	public String getSqlNullType() {
-		return("DECIMAL");
+		return("YEAR");
 	}
 
-	@Override
-	public String getLengthFormat() {
-		StringBuilder stringBuilder = new StringBuilder();
-		if(length != 0) {
-			stringBuilder.append("(");
-			stringBuilder.append(length);
-			stringBuilder.append(",");
-			stringBuilder.append(decimalLength);
-			stringBuilder.append(")");
-		}
-		return(stringBuilder.toString());
-	}
-
-	@Override
 	public boolean getShouldEscape() {
 		return false;
 	}

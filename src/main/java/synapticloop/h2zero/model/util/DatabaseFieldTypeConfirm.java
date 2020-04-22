@@ -21,8 +21,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import synapticloop.h2zero.exception.H2ZeroParseException;
-
 public class DatabaseFieldTypeConfirm {
 	public static final Map<String, Set<String>> FIELD_VALIDATION_LOOKUP = new HashMap<String, Set<String>>();
 	static {
@@ -53,24 +51,38 @@ public class DatabaseFieldTypeConfirm {
 
 		Set<String> mysqlSet = new HashSet<String>();
 		mysqlSet.add("bigint");
+		mysqlSet.add("binary");
 		mysqlSet.add("blob");
 		mysqlSet.add("bool");
 		mysqlSet.add("boolean");
+		mysqlSet.add("char");
 		mysqlSet.add("date");
 		mysqlSet.add("datetime");
-		mysqlSet.add("time");
 		mysqlSet.add("dec");
 		mysqlSet.add("decimal");
 		mysqlSet.add("double");
 		mysqlSet.add("float");
 		mysqlSet.add("int");
+		mysqlSet.add("integer");
 		mysqlSet.add("longtext");
 		mysqlSet.add("mediumblob");
+		mysqlSet.add("mediumint");
 		mysqlSet.add("mediumtext");
+		mysqlSet.add("numeric");
+		mysqlSet.add("smallint");
+		mysqlSet.add("text");
+		mysqlSet.add("time");
 		mysqlSet.add("timestamp");
 		mysqlSet.add("tinyint");
+		mysqlSet.add("tinytext");
+		mysqlSet.add("varbinary");
 		mysqlSet.add("varchar");
+		mysqlSet.add("year");
 
+		// mysqlSet.add("bit");
+		// mysqlSet.add("enum");
+		// mysqlSet.add("set");
+		// add in spatial sets
 		FIELD_VALIDATION_LOOKUP.put("mysql", mysqlSet);
 
 		Set<String> cockroachSet = new HashSet<String>();
@@ -99,9 +111,13 @@ public class DatabaseFieldTypeConfirm {
 		cockroachSet.add("varchar");
 
 		FIELD_VALIDATION_LOOKUP.put("cockroach", cockroachSet);
-		FIELD_VALIDATION_LOOKUP.put("postgresql", cockroachSet);
+		
+		Set<String> postgresqlSet = new HashSet<String>();
+		postgresqlSet.addAll(cockroachSet);
+		postgresqlSet.add("money");
+		FIELD_VALIDATION_LOOKUP.put("postgresql", postgresqlSet);
 
-		// postgres only cockroachSet.add("money");
+		
 	}
 
 	public static boolean getIsValidFieldTypeForDatabase(String database, String fieldType) {

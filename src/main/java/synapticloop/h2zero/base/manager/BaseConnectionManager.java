@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
@@ -229,6 +230,60 @@ public abstract class BaseConnectionManager {
 	}
 
 	/**
+	 * Set a CHAR datatype to a prepared statement with the value of the passed
+	 * in String, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setChar(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.CHAR);
+		} else {
+			preparedStatement.setString(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a BINARY datatype to a prepared statement with the value of the passed
+	 * in String, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setBinary(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.BINARY);
+		} else {
+			preparedStatement.setString(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a VARBINARY datatype to a prepared statement with the value of the passed
+	 * in String, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setVarbinary(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.VARBINARY);
+		} else {
+			preparedStatement.setString(parameterIndex, value);
+		}
+	}
+
+	/**
 	 * Set a VARCHAR datatype to a prepared statement with the value of the passed
 	 * in String, or the correct SQL null type if null
 	 * 
@@ -265,6 +320,24 @@ public abstract class BaseConnectionManager {
 	}
 
 	/**
+	 * Set a MEDIUMINT datatype to a prepared statement with the value of the passed
+	 * in Integer, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setMediumint(PreparedStatement preparedStatement, int parameterIndex, Integer value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.INTEGER);
+		} else {
+			preparedStatement.setInt(parameterIndex, value);
+		}
+	}
+
+	/**
 	 * Set a INTEGER datatype to a prepared statement with the value of the passed
 	 * in Integer, or the correct SQL null type if null
 	 * 
@@ -291,6 +364,24 @@ public abstract class BaseConnectionManager {
 	public static void setSmallint(PreparedStatement preparedStatement, int parameterIndex, Short value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.SMALLINT);
+		} else {
+			preparedStatement.setInt(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a YEAR datatype to a prepared statement with the value of the passed
+	 * in Integer, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setYear(PreparedStatement preparedStatement, int parameterIndex, Integer value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.INTEGER);
 		} else {
 			preparedStatement.setInt(parameterIndex, value);
 		}
@@ -407,6 +498,42 @@ public abstract class BaseConnectionManager {
 	}
 
 	/**
+	 * Set a TEXT datatype to a prepared statement with the value of the 
+	 * passed in mediumtext, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setText(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.LONGVARCHAR);
+		} else {
+			preparedStatement.setString(parameterIndex, value);
+		}
+	}
+
+	/**
+	 * Set a TINYTEXT datatype to a prepared statement with the value of the 
+	 * passed in string, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setTinytext(PreparedStatement preparedStatement, int parameterIndex, String value) throws SQLException {
+		if(null == value) {
+			preparedStatement.setNull(parameterIndex, Types.VARCHAR);
+		} else {
+			preparedStatement.setString(parameterIndex, value);
+		}
+	}
+
+	/**
 	 * Set a LONGTEXT datatype to a prepared statement with the value of the 
 	 * passed in longtext, or the correct SQL null type if null
 	 * 
@@ -440,7 +567,7 @@ public abstract class BaseConnectionManager {
 
 	/**
 	 * Set a NUMERIC datatype to a prepared statement with the value of the passed
-	 * in float, or the correct SQL null type if null
+	 * in BigDecimal, or the correct SQL null type if null
 	 * 
 	 * @param preparedStatement The prepared statement
 	 * @param parameterIndex the index of the parameter
@@ -448,8 +575,8 @@ public abstract class BaseConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
-	public static void setNumeric(PreparedStatement preparedStatement, int parameterIndex, Float value) throws SQLException {
-		setFloat(preparedStatement, parameterIndex, value);
+	public static void setNumeric(PreparedStatement preparedStatement, int parameterIndex, BigDecimal value) throws SQLException {
+		setDecimal(preparedStatement, parameterIndex, value);
 	}
 
 	/**
@@ -482,11 +609,22 @@ public abstract class BaseConnectionManager {
 	 * @throws SQLException if something went horribly wrong
 	 */
 	public static void setBoolean(PreparedStatement preparedStatement, int parameterIndex, Boolean value) throws SQLException {
-		if(null == value) {
-			preparedStatement.setNull(parameterIndex, Types.TINYINT);
-		} else {
-			preparedStatement.setBoolean(parameterIndex, value);
-		}
+		setTinyint(preparedStatement, parameterIndex, value);
+	}
+
+	/**
+	 * Set a BOOL (or in sthis case conversion to a TINYINT) datatype to a 
+	 * prepared statement with the value of the passed in boolean, or the correct 
+	 * SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setBool(PreparedStatement preparedStatement, int parameterIndex, Boolean value) throws SQLException {
+		setTinyint(preparedStatement, parameterIndex, value);
 	}
 
 	/**
@@ -517,12 +655,26 @@ public abstract class BaseConnectionManager {
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */
-	public static void setDecimal(PreparedStatement preparedStatement, int parameterIndex, Double value) throws SQLException {
+	public static void setDecimal(PreparedStatement preparedStatement, int parameterIndex, BigDecimal value) throws SQLException {
 		if(null == value) {
 			preparedStatement.setNull(parameterIndex, Types.DECIMAL);
 		} else {
-			preparedStatement.setDouble(parameterIndex, value);
+			preparedStatement.setBigDecimal(parameterIndex, value);
 		}
+	}
+
+	/**
+	 * Set a DEC datatype to a prepared statement with the value of the passed 
+	 * in double, or the correct SQL null type if null
+	 * 
+	 * @param preparedStatement The prepared statement
+	 * @param parameterIndex the index of the parameter
+	 * @param value the value to be set
+	 * 
+	 * @throws SQLException if something went horribly wrong
+	 */
+	public static void setDec(PreparedStatement preparedStatement, int parameterIndex, BigDecimal value) throws SQLException {
+		setDecimal(preparedStatement, parameterIndex, value);
 	}
 
 	/**
@@ -788,6 +940,10 @@ public abstract class BaseConnectionManager {
 
 	public static Short getNullableResultShort(ResultSet resultSet, int index) throws SQLException { 
 		return((Short)returnPossibleNullObject(resultSet, resultSet.getShort(index)));
+	}
+
+	public static BigDecimal getNullableResultBigDecimal(ResultSet resultSet, int index) throws SQLException { 
+		return((BigDecimal)returnPossibleNullObject(resultSet, resultSet.getBigDecimal(index)));
 	}
 
 	

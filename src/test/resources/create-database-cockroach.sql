@@ -24,7 +24,6 @@ create table user_type (
 	primary key(id_user_type)
 );
 
--- show any warnings that are applicable
 -- The user_type table is defined as being constant
 -- insert the values
 
@@ -47,7 +46,6 @@ create table user_title (
 	primary key(id_user_title)
 );
 
--- show any warnings that are applicable
 -- The user_title table is defined as being constant
 -- insert the values
 
@@ -73,7 +71,6 @@ create table user_user (
 	foreign key (id_user_type) references user_type (id_user_type)
 );
 
--- show any warnings that are applicable
 --
 -- This model maps to the pet table in the database
 --
@@ -88,7 +85,6 @@ create table pet (
 	primary key(id_pet)
 );
 
--- show any warnings that are applicable
 drop table if exists user_user_pet;
 create table user_user_pet (
 	id_user_user_pet bigint not null,
@@ -101,7 +97,6 @@ create table user_user_pet (
 	foreign key (id_pet) references pet (id_pet)
 );
 
--- show any warnings that are applicable
 drop table if exists all_types;
 create table all_types (
 	id_all_types bigserial not null,
@@ -118,7 +113,6 @@ create table all_types (
 	primary key(id_all_types)
 );
 
--- show any warnings that are applicable
 drop view if exists user_user_type;
 
 create view user_user_type as  select uu.nm_username, ut.nm_user_type from user_user uu, user_type ut where uu.id_user_type = ut.id_user_type;

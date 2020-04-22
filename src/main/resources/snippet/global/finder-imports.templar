@@ -9,6 +9,8 @@ import java.sql.SQLException;{\n}
 {if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
 {if fn:requiresImport[table, "Time"]}import java.sql.Time;{\n}{endif}
 
+import java.math.BigDecimal;{\n}
+
 import java.util.List;{\n}
 import java.util.ArrayList;{\n}
 {\n}

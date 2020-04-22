@@ -7,6 +7,7 @@ package synapticloop.sample.h2zero.mysql.model.util;
 import synapticloop.sample.h2zero.mysql.model.User;
 import synapticloop.sample.h2zero.mysql.model.Pet;
 import synapticloop.sample.h2zero.mysql.model.UserPet;
+import synapticloop.sample.h2zero.mysql.model.AllTypes;
 
 import java.lang.StringBuilder;
 
@@ -18,6 +19,8 @@ public class Statistics {
 		stringBuilder.append(Pet.getHitCountJson());
 		stringBuilder.append(", ");
 		stringBuilder.append(UserPet.getHitCountJson());
+		stringBuilder.append(", ");
+		stringBuilder.append(AllTypes.getHitCountJson());
 		stringBuilder.append("]");
 		return(stringBuilder.toString());
 	}

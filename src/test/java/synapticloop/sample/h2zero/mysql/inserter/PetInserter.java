@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Blob;
 

@@ -7,6 +7,7 @@ package synapticloop.sample.h2zero.mysql.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.math.BigDecimal;
 
 
 import org.slf4j.Logger;

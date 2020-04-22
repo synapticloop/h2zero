@@ -129,6 +129,45 @@ create table user_pet (
 -- show any warnings that are applicable
 show warnings;
 
+drop table if exists all_types;
+show warnings;
+
+create table all_types (
+	id_all_types bigint not null auto_increment,
+	test_bigint bigint null,
+	test_blob blob null,
+	test_bool bool null,
+	test_char char null,
+	test_boolean boolean null,
+	test_binary binary null,
+	test_varbinary varbinary null,
+	test_date date null,
+	test_datetime datetime null,
+	test_dec dec null,
+	test_decimal decimal null,
+	test_double double null,
+	test_float float null,
+	test_int int null,
+	test_integer integer null,
+	test_longtext longtext null,
+	test_mediumblob mediumblob null,
+	test_mediumint mediumint null,
+	test_mediumtext mediumtext null,
+	test_numeric numeric null,
+	test_smallint smallint null,
+	test_time time null,
+	test_text text null,
+	test_timestamp timestamp null,
+	test_tinyint tinyint null,
+	test_tinytext tinytext null,
+	test_varchar varchar null,
+	test_year year null,
+	primary key(id_all_types)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
 drop view if exists user_user_type;
 
 show warnings;

@@ -14,6 +14,7 @@ import synapticloop.h2zero.base.model.mysql.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;

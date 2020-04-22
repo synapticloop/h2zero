@@ -1,7 +1,7 @@
 package synapticloop.h2zero.model.field;
 
 /*
- * Copyright (c) 2013-2020 synapticloop.
+ * Copyright (c) 2012-2020 synapticloop.
  * 
  * All rights reserved.
  *
@@ -18,52 +18,43 @@ package synapticloop.h2zero.model.field;
  * under the Licence.
  */
 
-
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
-public class DecimalField extends BaseField {
+public class VarbinaryField extends BaseField {
 
-	public DecimalField(JSONObject jsonObject) throws H2ZeroParseException {
+	public VarbinaryField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public DecimalField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public VarbinaryField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
 	@Override
 	public String getJavaType() {
-		return("BigDecimal");
+		return "String";
 	}
 
 	@Override
 	public String getSqlJavaType() {
-		return("BigDecimal");
+		return("String");
 	}
 
 	@Override
 	public String getSqlNullType() {
-		return("DECIMAL");
-	}
-
-	@Override
-	public String getLengthFormat() {
-		StringBuilder stringBuilder = new StringBuilder();
-		if(length != 0) {
-			stringBuilder.append("(");
-			stringBuilder.append(length);
-			stringBuilder.append(",");
-			stringBuilder.append(decimalLength);
-			stringBuilder.append(")");
-		}
-		return(stringBuilder.toString());
+		return("VARBINARY");
 	}
 
 	@Override
 	public boolean getShouldEscape() {
-		return false;
+		return true;
+	}
+
+	@Override
+	public boolean getIsLargeObject() {
+		return(true);
 	}
 
 }

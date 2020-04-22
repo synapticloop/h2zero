@@ -22,11 +22,12 @@ package {database.package}.model;{\n}{\n}
 	import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;{\n}
 	import java.lang.StringBuilder;{\n}
 	import java.sql.Connection;{\n}
-{if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
-{if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
-{if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
-{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
-{if fn:requiresImport[table, "Time"]}import java.sql.Time;{\n}{endif}
+	{if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
+	import java.math.BigDecimal;{\n}
+	{if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
+	{if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
+	{if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
+	{if fn:requiresImport[table, "Time"]}import java.sql.Time;{\n}{endif}
 	import java.sql.ResultSet;{\n}
 	import java.sql.Statement;{\n}
 	import java.sql.PreparedStatement;{\n}

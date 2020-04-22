@@ -19,12 +19,11 @@ use sample;
 --
 drop table if exists user_type;
 create table user_type (
-	id_user_type bigserial not null,
+	id_user_type bigint not null,
 	nm_user_type varchar(32) not null,
 	primary key(id_user_type)
 );
 
--- show any warnings that are applicable
 -- The user_type table is defined as being constant
 -- insert the values
 
@@ -41,13 +40,12 @@ insert into user_type values(4, 'super admin');
 --
 drop table if exists user_title;
 create table user_title (
-	id_user_title bigserial not null,
+	id_user_title bigint not null,
 	nm_user_title varchar(32) not null,
 	num_order_by int not null,
 	primary key(id_user_title)
 );
 
--- show any warnings that are applicable
 -- The user_title table is defined as being constant
 -- insert the values
 
@@ -59,7 +57,7 @@ insert into user_title values(4, 'Dr.', 4);
 
 drop table if exists user_user;
 create table user_user (
-	id_user_user bigserial not null,
+	id_user_user bigint not null,
 	id_user_type bigint not null,
 	fl_is_alive boolean null default '0',
 	num_age int not null,
@@ -73,13 +71,12 @@ create table user_user (
 	foreign key (id_user_type) references user_type (id_user_type)
 );
 
--- show any warnings that are applicable
 --
 -- This model maps to the pet table in the database
 --
 drop table if exists pet;
 create table pet (
-	id_pet bigserial not null,
+	id_pet bigint not null,
 	nm_pet varchar(64) not null,
 	num_age int not null,
 	flt_weight numeric(6,1) null,
@@ -88,10 +85,9 @@ create table pet (
 	primary key(id_pet)
 );
 
--- show any warnings that are applicable
 drop table if exists user_user_pet;
 create table user_user_pet (
-	id_user_user_pet bigserial not null,
+	id_user_user_pet bigint not null,
 	id_user_user bigint not null,
 	id_pet bigint not null,
 	primary key(id_user_user_pet),
@@ -101,7 +97,6 @@ create table user_user_pet (
 	foreign key (id_pet) references pet (id_pet)
 );
 
--- show any warnings that are applicable
 drop view if exists user_user_type;
 
 create view user_user_type as  select uu.nm_username, ut.nm_user_type from user_user uu, user_type ut where uu.id_user_type = ut.id_user_type;

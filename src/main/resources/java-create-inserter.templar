@@ -16,6 +16,7 @@ package {database.package}.inserter;{\n}{\n}
 import java.sql.Connection;{\n}
 import java.sql.PreparedStatement;{\n}
 import java.sql.SQLException;{\n}
+import java.math.BigDecimal;{\n}
 
 {if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
 {if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}

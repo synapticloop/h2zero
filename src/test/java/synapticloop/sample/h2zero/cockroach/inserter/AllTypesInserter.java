@@ -7,6 +7,7 @@ package synapticloop.sample.h2zero.cockroach.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.math.BigDecimal;
 
 
 import org.slf4j.Logger;
@@ -74,7 +75,7 @@ public class AllTypesInserter {
 	 * 
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
-	public static int insert(Connection connection, Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, Double numDecimal, Float numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) throws SQLException {
+	public static int insert(Connection connection, Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) throws SQLException {
 		int numResults = -1;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -159,7 +160,7 @@ public class AllTypesInserter {
 	 * 
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
-	public static int insert(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, Double numDecimal, Float numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) throws SQLException {
+	public static int insert(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) throws SQLException {
 		int numResults = -1;
 		Connection connection = null;
 		try {
@@ -222,7 +223,7 @@ public class AllTypesInserter {
 	 * 
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
-	public static int insertSilent(Connection connection, Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, Double numDecimal, Float numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
+	public static int insertSilent(Connection connection, Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		int numResults = -1;
 		try {
 			numResults = insert(connection, idAllTypes, numSmallint, numInteger, numBigint, numDecimal, numNumeric, fltReal, dblReal, numSerial, numSmallserial, numBigserial);
@@ -285,7 +286,7 @@ public class AllTypesInserter {
 	 * 
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
-	public static int insertSilent(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, Double numDecimal, Float numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
+	public static int insertSilent(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		int numResults = -1;
 		Connection connection = null;
 		try {

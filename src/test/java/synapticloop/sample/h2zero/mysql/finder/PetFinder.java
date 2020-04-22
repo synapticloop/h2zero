@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Blob;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 

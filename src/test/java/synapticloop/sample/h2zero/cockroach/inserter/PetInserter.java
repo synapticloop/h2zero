@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Blob;
 
@@ -69,7 +70,7 @@ public class PetInserter {
 	 * 
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
-	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) throws SQLException {
+	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, Blob imgPhoto) throws SQLException {
 		int numResults = -1;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -139,7 +140,7 @@ public class PetInserter {
 	 * 
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
-	public static int insert(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) throws SQLException {
+	public static int insert(Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, Blob imgPhoto) throws SQLException {
 		int numResults = -1;
 		Connection connection = null;
 		try {
@@ -196,7 +197,7 @@ public class PetInserter {
 	 * 
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
-	public static int insertSilent(Connection connection, Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
+	public static int insertSilent(Connection connection, Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, Blob imgPhoto) {
 		int numResults = -1;
 		try {
 			numResults = insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
@@ -253,7 +254,7 @@ public class PetInserter {
 	 * 
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
-	public static int insertSilent(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
+	public static int insertSilent(Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, Blob imgPhoto) {
 		int numResults = -1;
 		Connection connection = null;
 		try {
@@ -301,7 +302,7 @@ public class PetInserter {
 		return(numResults);
 	}
 
-	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, InputStream imgPhoto) throws SQLException {
+	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, InputStream imgPhoto) throws SQLException {
 		int numResults = -1;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -321,7 +322,7 @@ public class PetInserter {
 		return(numResults);
 	}
 
-	public static int insert(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, InputStream imgPhoto) throws SQLException {
+	public static int insert(Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, InputStream imgPhoto) throws SQLException {
 		int numResults = -1;
 		Connection connection = null;
 		try {
@@ -335,7 +336,7 @@ public class PetInserter {
 		return(numResults);
 	}
 
-	public static int insertSilent(Connection connection, Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, InputStream imgPhoto) {
+	public static int insertSilent(Connection connection, Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, InputStream imgPhoto) {
 		int numResults = -1;
 		try {
 			numResults = insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
@@ -348,7 +349,7 @@ public class PetInserter {
 		return(numResults);
 	}
 
-	public static int insertSilent(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, InputStream imgPhoto) {
+	public static int insertSilent(Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, InputStream imgPhoto) {
 		int numResults = 0;
 		Connection connection = null;
 		try {

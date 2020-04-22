@@ -18,52 +18,37 @@ package synapticloop.h2zero.model.field;
  * under the Licence.
  */
 
-
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
-public class DecimalField extends BaseField {
+public class TinytextField extends BaseField {
 
-	public DecimalField(JSONObject jsonObject) throws H2ZeroParseException {
+	public TinytextField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public DecimalField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public TinytextField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
-	@Override
 	public String getJavaType() {
-		return("BigDecimal");
+		return "String";
 	}
 
-	@Override
 	public String getSqlJavaType() {
-		return("BigDecimal");
+		return("String");
 	}
 
-	@Override
 	public String getSqlNullType() {
-		return("DECIMAL");
+		return("TINYTEXT");
 	}
 
-	@Override
-	public String getLengthFormat() {
-		StringBuilder stringBuilder = new StringBuilder();
-		if(length != 0) {
-			stringBuilder.append("(");
-			stringBuilder.append(length);
-			stringBuilder.append(",");
-			stringBuilder.append(decimalLength);
-			stringBuilder.append(")");
-		}
-		return(stringBuilder.toString());
-	}
-
-	@Override
 	public boolean getShouldEscape() {
-		return false;
+		return true;
 	}
 
+	public boolean getIsLargeObject() {
+		return(true);
+	}
 }

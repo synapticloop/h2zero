@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class UserUserTypeViewFinder {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserUserTypeViewFinder.class);
 	private static final String SQL_SELECT_START = "select nm_user, nm_user_type from user_user_type";
-	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_pet = ?";
+	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
 
 	// now for the statement limit cache(s)
@@ -46,36 +47,36 @@ public class UserUserTypeViewFinder {
 	 * Find a UserUserType by its primary key
 	 * 
 	 * @param connection the connection item
-	 * @param idUserPet the primary key
+	 * @param idAllTypes the primary key
 	 * 
 	 * @return the unique result or throw an exception if one couldn't be found
 	 * 
 	 * @throws H2ZeroFinderException if one couldn't be found
 	 */
-	public static UserUserType findByPrimaryKey(Connection connection, Long idUserPet) throws H2ZeroFinderException {
+	public static UserUserType findByPrimaryKey(Connection connection, Long idAllTypes) throws H2ZeroFinderException {
 		UserUserType userUserType = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
-		if(null == idUserPet) {
-			throw new H2ZeroFinderException("Could not find result as the primary key field [idUserPet] was null.");
+		if(null == idAllTypes) {
+			throw new H2ZeroFinderException("Could not find result as the primary key field [idAllTypes] was null.");
 		}
 
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_FIND_BY_PRIMARY_KEY);
-			preparedStatement.setLong(1, idUserPet);
+			preparedStatement.setLong(1, idAllTypes);
 			resultSet = preparedStatement.executeQuery();
 			userUserType = uniqueResult(resultSet);
 		} catch (SQLException sqlex) {
 			throw new H2ZeroFinderException(sqlex);
 		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idUserPet:" + idUserPet + "].");
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idAllTypes:" + idAllTypes + "].");
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 
 		if(null == userUserType) {
-			throw new H2ZeroFinderException("Could not find result the parameters were [idUserPet:" + idUserPet + "].");
+			throw new H2ZeroFinderException("Could not find result the parameters were [idAllTypes:" + idAllTypes + "].");
 		}
 		return(userUserType);
 	}
@@ -83,33 +84,33 @@ public class UserUserTypeViewFinder {
 	/**
 	 * Find a UserUserType by its primary key
 	 * 
-	 * @param idUserPet the primary key
+	 * @param idAllTypes the primary key
 	 * 
 	 * @return the unique result or throw an exception if one coudn't be found.
 	 * 
 	 * @throws H2ZeroFinderException if one couldn't be found
 	 */
-	public static UserUserType findByPrimaryKey(Long idUserPet) throws H2ZeroFinderException {
+	public static UserUserType findByPrimaryKey(Long idAllTypes) throws H2ZeroFinderException {
 		UserUserType userUserType = null;
 		Connection connection = null;
 
-		if(null == idUserPet) {
-			throw new H2ZeroFinderException("Could not find result as the primary key field [idUserPet] was null.");
+		if(null == idAllTypes) {
+			throw new H2ZeroFinderException("Could not find result as the primary key field [idAllTypes] was null.");
 		}
 
 		try {
 			connection = ConnectionManager.getConnection();
-			userUserType = findByPrimaryKey(connection, idUserPet);
+			userUserType = findByPrimaryKey(connection, idAllTypes);
 		} catch (SQLException sqlex) {
 			throw new H2ZeroFinderException(sqlex);
 		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idUserPet:" + idUserPet + "].");
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idAllTypes:" + idAllTypes + "].");
 		} finally {
 			ConnectionManager.closeAll(connection);
 		}
 
 		if(null == userUserType) {
-			throw new H2ZeroFinderException("Could not find result the parameters were [idUserPet:" + idUserPet + "].");
+			throw new H2ZeroFinderException("Could not find result the parameters were [idAllTypes:" + idAllTypes + "].");
 		}
 		return(userUserType);
 	}
@@ -119,17 +120,17 @@ public class UserUserTypeViewFinder {
 	 * I.e. Do not throw an exception on error.
 	 * 
 	 * @param connection the connection item
-	 * @param idUserPet the primary key
+	 * @param idAllTypes the primary key
 	 * 
 	 * @return the unique result or null if it couldn't be found
 	 * 
 	 */
-	public static UserUserType findByPrimaryKeySilent(Connection connection, Long idUserPet) {
+	public static UserUserType findByPrimaryKeySilent(Connection connection, Long idAllTypes) {
 		try {
-			return(findByPrimaryKey(connection, idUserPet));
+			return(findByPrimaryKey(connection, idAllTypes));
 		} catch(H2ZeroFinderException h2zfex){
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("H2ZeroFinderException findByPrimaryKeySilent(" + idUserPet + "): " + h2zfex.getMessage());
+				LOGGER.warn("H2ZeroFinderException findByPrimaryKeySilent(" + idAllTypes + "): " + h2zfex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
 					h2zfex.printStackTrace();
 				}
@@ -142,17 +143,17 @@ public class UserUserTypeViewFinder {
 	 * Find a UserUserType by its primary key and silently fail.
 	 * I.e. Do not throw an exception on error.
 	 * 
-	 * @param idUserPet the primary key
+	 * @param idAllTypes the primary key
 	 * 
 	 * @return the unique result or null if it couldn't be found
 	 * 
 	 */
-	public static UserUserType findByPrimaryKeySilent(Long idUserPet) {
+	public static UserUserType findByPrimaryKeySilent(Long idAllTypes) {
 		try {
-			return(findByPrimaryKey(idUserPet));
+			return(findByPrimaryKey(idAllTypes));
 		} catch(H2ZeroFinderException h2zfex){
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("H2ZeroFinderException findByPrimaryKeySilent(" + idUserPet + "): " + h2zfex.getMessage());
+				LOGGER.warn("H2ZeroFinderException findByPrimaryKeySilent(" + idAllTypes + "): " + h2zfex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
 					h2zfex.printStackTrace();
 				}

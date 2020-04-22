@@ -34,11 +34,11 @@ public class NumericField extends BaseField {
 	}
 
 	public String getJavaType() {
-		return("Float");
+		return("BigDecimal");
 	}
 
 	public String getSqlJavaType() {
-		return("Float");
+		return("BigDecimal");
 	}
 
 	public String getSqlNullType() {

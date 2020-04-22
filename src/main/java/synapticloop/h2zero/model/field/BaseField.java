@@ -42,7 +42,7 @@ public abstract class BaseField {
 	public static final String PRIMARY_KEY_POSTGRESQL_BIGSERIAL = "bigserial";
 	public static final String PRIMARY_KEY_POSTGRESQL_SERIAL = "serial";
 	public static final String PRIMARY_KEY_POSTGRESQL_SMALLSERIAL = "smallserial";
-	
+
 	public static final Map<String, String> PRIMARY_KEY_POSTGRESQL_REPLACE = new HashMap<>();
 	static {
 		PRIMARY_KEY_POSTGRESQL_REPLACE.put("bigint", PRIMARY_KEY_POSTGRESQL_BIGSERIAL);

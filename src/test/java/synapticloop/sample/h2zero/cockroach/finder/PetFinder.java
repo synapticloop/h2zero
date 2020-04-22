@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.Blob;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -422,7 +423,7 @@ public class PetFinder {
 			Long idPet = ConnectionManager.getNullableResultLong(resultSet, 1);
 			String nmPet = ConnectionManager.getNullableResultString(resultSet, 2);
 			Integer numAge = ConnectionManager.getNullableResultInt(resultSet, 3);
-			Float fltWeight = ConnectionManager.getNullableResultFloat(resultSet, 4);
+			BigDecimal fltWeight = ConnectionManager.getNullableResultBigDecimal(resultSet, 4);
 			Date dtBirthday = ConnectionManager.getNullableResultDate(resultSet, 5);
 			Blob imgPhoto = ConnectionManager.getNullableResultBlob(resultSet, 6);
 
@@ -456,7 +457,7 @@ public class PetFinder {
 					ConnectionManager.getNullableResultLong(resultSet, 1),
 					ConnectionManager.getNullableResultString(resultSet, 2),
 					ConnectionManager.getNullableResultInt(resultSet, 3),
-					ConnectionManager.getNullableResultFloat(resultSet, 4),
+					ConnectionManager.getNullableResultBigDecimal(resultSet, 4),
 					ConnectionManager.getNullableResultDate(resultSet, 5),
 					ConnectionManager.getNullableResultBlob(resultSet, 6)));
 		}

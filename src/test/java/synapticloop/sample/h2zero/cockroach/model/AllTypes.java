@@ -11,6 +11,7 @@ import synapticloop.h2zero.base.model.cockroach.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -64,15 +65,15 @@ public class AllTypes extends ModelBase {
 	private Short numSmallint = null;
 	private Integer numInteger = null;
 	private Long numBigint = null;
-	private Double numDecimal = null;
-	private Float numNumeric = null;
+	private BigDecimal numDecimal = null;
+	private BigDecimal numNumeric = null;
 	private Double fltReal = null;
 	private Double dblReal = null;
 	private Integer numSerial = null;
 	private Short numSmallserial = null;
 	private Long numBigserial = null;
 
-	public AllTypes(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, Double numDecimal, Float numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
+	public AllTypes(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		this.idAllTypes = idAllTypes;
 		this.numSmallint = numSmallint;
 		this.numInteger = numInteger;
@@ -234,10 +235,10 @@ public class AllTypes extends ModelBase {
 	public void setNumInteger(Integer numInteger) { if(isDifferent(this.numInteger, numInteger)) { this.numInteger = numInteger;this.isDirty = true; }}
 	public Long getNumBigint() { updateHitCount(4); return(this.numBigint); }
 	public void setNumBigint(Long numBigint) { if(isDifferent(this.numBigint, numBigint)) { this.numBigint = numBigint;this.isDirty = true; }}
-	public Double getNumDecimal() { updateHitCount(5); return(this.numDecimal); }
-	public void setNumDecimal(Double numDecimal) { if(isDifferent(this.numDecimal, numDecimal)) { this.numDecimal = numDecimal;this.isDirty = true; }}
-	public Float getNumNumeric() { updateHitCount(6); return(this.numNumeric); }
-	public void setNumNumeric(Float numNumeric) { if(isDifferent(this.numNumeric, numNumeric)) { this.numNumeric = numNumeric;this.isDirty = true; }}
+	public BigDecimal getNumDecimal() { updateHitCount(5); return(this.numDecimal); }
+	public void setNumDecimal(BigDecimal numDecimal) { if(isDifferent(this.numDecimal, numDecimal)) { this.numDecimal = numDecimal;this.isDirty = true; }}
+	public BigDecimal getNumNumeric() { updateHitCount(6); return(this.numNumeric); }
+	public void setNumNumeric(BigDecimal numNumeric) { if(isDifferent(this.numNumeric, numNumeric)) { this.numNumeric = numNumeric;this.isDirty = true; }}
 	public Double getFltReal() { updateHitCount(7); return(this.fltReal); }
 	public void setFltReal(Double fltReal) { if(isDifferent(this.fltReal, fltReal)) { this.fltReal = fltReal;this.isDirty = true; }}
 	public Double getDblReal() { updateHitCount(8); return(this.dblReal); }
