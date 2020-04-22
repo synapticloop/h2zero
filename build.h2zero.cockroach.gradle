@@ -28,7 +28,7 @@ repositories {
 }
 
 h2zero {
-	inFile = 'src/test/resources/sample-include-cockroach.h2zero'
+	inFile = 'src/test/resources/cockroach/sample-include-cockroach.h2zero'
 	outDir = '.'
 	verbose = 'false'
 }

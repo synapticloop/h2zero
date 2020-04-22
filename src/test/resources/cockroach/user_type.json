@@ -1,0 +1,18 @@
+{
+	"name": "user_type",
+	"comments": [
+		"This is the user type table, which is a constant-generated table for all",
+		"of the user types.  This enables quick and easy lookups from within the code",
+		"for values that do not change."
+	],
+	"fields": [
+		{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },
+		{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false }
+	],
+	"constants": [
+		{ "name": "NORMAL", "values": [ 1, "normal" ] },
+		{ "name": "SPECIAL", "values": [ 2, "special" ] },
+		{ "name": "ADMIN", "values": [ 3, "admin" ] },
+		{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }
+	]
+}
