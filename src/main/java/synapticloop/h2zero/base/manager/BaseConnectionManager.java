@@ -265,6 +265,22 @@ public abstract class BaseConnectionManager {
 		}
 	}
 
+	public static void setBinaryInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.BINARY);
+		} else {
+			preparedStatement.setBinaryStream(parameterIndex, inputStream);
+		}
+	}
+
+	public static void setVarbinaryInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.BINARY);
+		} else {
+			preparedStatement.setBinaryStream(parameterIndex, inputStream);
+		}
+	}
+
 	/**
 	 * Set a VARBINARY datatype to a prepared statement with the value of the passed
 	 * in String, or the correct SQL null type if null
@@ -785,6 +801,14 @@ public abstract class BaseConnectionManager {
 		}
 	}
 
+	public static void setMediumblobInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setBlob(parameterIndex, inputStream);
+		}
+	}
+
 	/**
 	 * Set a BLOB datatype to a prepared statement with the value of the passed in Blob, or the correct SQL null type 
 	 * if null
@@ -836,6 +860,38 @@ public abstract class BaseConnectionManager {
 			preparedStatement.setNull(parameterIndex, Types.LONGVARCHAR);
 		} else {
 			preparedStatement.setClob(parameterIndex, reader);
+		}
+	}
+
+	public static void setLongtextInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setAsciiStream(parameterIndex, inputStream);
+		}
+	}
+
+	public static void setTinytextInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setAsciiStream(parameterIndex, inputStream);
+		}
+	}
+
+	public static void setTextInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setAsciiStream(parameterIndex, inputStream);
+		}
+	}
+
+	public static void setMediumtextInputStream(PreparedStatement preparedStatement, int parameterIndex, InputStream inputStream) throws SQLException {
+		if(null == inputStream) {
+			preparedStatement.setNull(parameterIndex, Types.BLOB);
+		} else {
+			preparedStatement.setAsciiStream(parameterIndex, inputStream);
 		}
 	}
 
