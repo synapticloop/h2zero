@@ -8,5 +8,14 @@
 	"fields": [
 		{ "name": "nm_user", "type": "varchar", "length": "64", "nullable": false },
 		{ "name": "nm_user_type", "type": "varchar", "length": "64", "nullable": false }
+	],
+	"finders": [
+		{
+			"name": "findByNmUser",
+			"whereClause": "where nm_user = ?",
+			"whereFields": [
+				"nm_user"
+			]
+		}
 	]
 }

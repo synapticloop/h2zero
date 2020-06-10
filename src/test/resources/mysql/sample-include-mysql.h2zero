@@ -29,6 +29,7 @@
 		{ "include": "./user_type.json" },
 		{ "include": "./user_title.json" },
 		{ "include": "./user.json" },
+		{ "include": "./pet_type.json" },
 		{ "include": "./pet.json" },
 		{ "include": "./user_pet.json" },
 		{ "include": "./all_types.mysql.json" }

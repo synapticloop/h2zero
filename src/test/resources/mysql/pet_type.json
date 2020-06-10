@@ -1,0 +1,19 @@
+{
+	"name": "pet_type",
+	"comments": [
+		"This model maps to the pet type table in the database"
+	],
+	"fields": [
+		{ "name": "id_pet_type", "type": "bigint", "nullable": false, "primary": true },
+		{ "name": "nm_pet_type", "type": "varchar", "length": "64", "nullable": false, "unique": true},
+		{ "name": "txt_desc_pet_type", "type": "varchar", "length": "64", "nullable": false }
+	],
+	"upserters": [
+		{
+			"name": "upsertByNmPetType",
+			"whereFields": [
+				"nm_pet_type"
+			]
+		}
+	]
+}

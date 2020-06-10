@@ -5,6 +5,7 @@ package synapticloop.sample.h2zero.mysql.model.util;
 //            (java-create-model-statistics.templar)
 
 import synapticloop.sample.h2zero.mysql.model.User;
+import synapticloop.sample.h2zero.mysql.model.PetType;
 import synapticloop.sample.h2zero.mysql.model.Pet;
 import synapticloop.sample.h2zero.mysql.model.UserPet;
 import synapticloop.sample.h2zero.mysql.model.AllTypes;
@@ -15,6 +16,8 @@ public class Statistics {
 	public static final String getHitCountJson() {
 		StringBuilder stringBuilder = new StringBuilder("[");
 		stringBuilder.append(User.getHitCountJson());
+		stringBuilder.append(", ");
+		stringBuilder.append(PetType.getHitCountJson());
 		stringBuilder.append(", ");
 		stringBuilder.append(Pet.getHitCountJson());
 		stringBuilder.append(", ");

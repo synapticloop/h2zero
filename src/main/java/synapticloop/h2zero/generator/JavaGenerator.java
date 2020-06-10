@@ -77,6 +77,7 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateQuestionParser = getParser("/java-create-question.templar");
 		Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
 		Parser javaCreateDeleterParser = getParser("/java-create-deleter.templar");
+		Parser javaCreateUpserterParser = getParser("/java-create-upserter.templar");
 
 		// the select clause bean
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
@@ -87,7 +88,7 @@ public class JavaGenerator extends Generator {
 		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Statistics.java";
 		renderToFile(templarContext, javaCreateModelStatisticsParser, pathname);
 
-		
+
 
 		// now for the tables
 		List<Table> tables = database.getTables();
@@ -106,11 +107,16 @@ public class JavaGenerator extends Generator {
 			pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
 			renderToFile(templarContext, javaCreateFinderParser, pathname);
 
-			// the inserter
 			if(!table.getIsConstant()) {
+				// the inserter
 				pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
 				renderToFile(templarContext, javaCreateInserterParser, pathname);
+
+				// the upserter
+				pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/upserter/" + table.getJavaClassName() + "Upserter.java";
+				renderToFile(templarContext, javaCreateUpserterParser, pathname);
 			}
+
 
 			// the counters
 			pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";

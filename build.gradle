@@ -21,7 +21,7 @@ plugins {
 group = 'synapticloop'
 archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql/sqlite, java with extensions for taglibs and routemaster"""
-version = '4.3.0'
+version = '4.4.1'
 
 tasks.withType(Javadoc).all { enabled = false }
 

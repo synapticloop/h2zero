@@ -27,10 +27,11 @@ public class DatabaseCheckerHelper {
 	private Set<String> allTables = new HashSet<String>();
 	private Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();
 
-	private static final String[] ALL_TABLE_NAMES = { "user_type", "user_title", "user", "pet", "user_pet", "all_types" };
+	private static final String[] ALL_TABLE_NAMES = { "user_type", "user_title", "user", "pet_type", "pet", "user_pet", "all_types" };
 	private static final String[] ALL_TABLE_FIELD_NAMES = { "user_type.id_user_type", "user_type.nm_user_type", 
 			"user_title.id_user_title", "user_title.nm_user_title", "user_title.num_order_by", 
 			"user.id_user", "user.id_user_type", "user.fl_is_alive", "user.num_age", "user.nm_username", "user.txt_address_email", "user.txt_password", "user.dtm_signup", 
+			"pet_type.id_pet_type", "pet_type.nm_pet_type", "pet_type.txt_desc_pet_type", 
 			"pet.id_pet", "pet.nm_pet", "pet.num_age", "pet.flt_weight", "pet.dt_birthday", "pet.img_photo", 
 			"user_pet.id_user_pet", "user_pet.id_user", "user_pet.id_pet", 
 			"all_types.id_all_types", "all_types.test_bigint", "all_types.test_blob", "all_types.test_bool", "all_types.test_char", "all_types.test_boolean", "all_types.test_binary", "all_types.test_varbinary", "all_types.test_date", "all_types.test_datetime", "all_types.test_dec", "all_types.test_decimal", "all_types.test_double", "all_types.test_float", "all_types.test_int", "all_types.test_integer", "all_types.test_longtext", "all_types.test_mediumblob", "all_types.test_mediumint", "all_types.test_mediumtext", "all_types.test_numeric", "all_types.test_smallint", "all_types.test_time", "all_types.test_text", "all_types.test_timestamp", "all_types.test_tinyint", "all_types.test_tinytext", "all_types.test_varchar", "all_types.test_year"

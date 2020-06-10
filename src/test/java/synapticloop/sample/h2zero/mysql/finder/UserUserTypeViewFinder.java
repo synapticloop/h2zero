@@ -37,9 +37,11 @@ public class UserUserTypeViewFinder {
 	private static final String SQL_SELECT_START = "select nm_user, nm_user_type from user_user_type";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
+	private static final String SQL_FIND_BY_NM_USER = SQL_SELECT_START + " where nm_user = ?";
 
 	// now for the statement limit cache(s)
 	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
+	private static LruCache<String, String> findByNmUser_limit_statement_cache = new LruCache<String, String>(1024);
 
 	private UserUserTypeViewFinder() {}
 
@@ -284,6 +286,121 @@ public class UserUserTypeViewFinder {
 
 	public static List<UserUserType> findAllSilent() {
 		return(findAllSilent(null, null, null));
+	}
+
+	/**
+	 * findByNmUser
+	 * @param nmUser
+	 * 
+	 * @return the list of UserUserType results found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static List<UserUserType> findByNmUser(Connection connection, String nmUser, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByNmUser_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_NM_USER);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+			}
+
+			if(null != offset) {
+				stringBuilder.append(" offset ");
+				stringBuilder.append(offset);
+			}
+
+			statement = stringBuilder.toString();
+			findByNmUser_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByNmUser_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<UserUserType> results = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setVarchar(preparedStatement, 1, nmUser);
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == results || results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<UserUserType> findByNmUser(Connection connection, String nmUser) throws H2ZeroFinderException, SQLException {
+		return(findByNmUser(connection, nmUser, null, null));
+	}
+
+	public static List<UserUserType> findByNmUser(String nmUser, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByNmUser(null, nmUser, limit, offset));
+	}
+
+	public static List<UserUserType> findByNmUser(String nmUser) throws H2ZeroFinderException, SQLException {
+		return(findByNmUser(null, nmUser, null, null));
+	}
+
+// silent connection, params..., limit, offset
+	public static List<UserUserType> findByNmUserSilent(Connection connection, String nmUser, Integer limit, Integer offset) {
+		try {
+			return(findByNmUser(connection, nmUser, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByNmUserSilent(connection: " + connection + ", " + nmUser + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<UserUserType>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByNmUserSilent(connection: " + connection + ", " + nmUser + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<UserUserType>());
+		}
+	}
+
+// silent connection, params...
+	public static List<UserUserType> findByNmUserSilent(Connection connection, String nmUser) {
+		return(findByNmUserSilent(connection, nmUser, null, null));
+	}
+
+// silent params..., limit, offset
+	public static List<UserUserType> findByNmUserSilent(String nmUser, Integer limit, Integer offset) {
+		return(findByNmUserSilent(null , nmUser, limit, offset));
+	}
+
+	public static List<UserUserType> findByNmUserSilent(String nmUser) {
+		return(findByNmUserSilent(null, nmUser, null, null));
 	}
 
 	/**

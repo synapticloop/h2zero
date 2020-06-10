@@ -94,6 +94,23 @@ create table user (
 show warnings;
 
 --
+-- This model maps to the pet type table in the database
+--
+drop table if exists pet_type;
+show warnings;
+
+create table pet_type (
+	id_pet_type bigint not null auto_increment,
+	nm_pet_type varchar(64) not null,
+	txt_desc_pet_type varchar(64) not null,
+	primary key(id_pet_type),
+	unique index (nm_pet_type)
+) engine=innodb default charset=UTF8;
+
+-- show any warnings that are applicable
+show warnings;
+
+--
 -- This model maps to the pet table in the database
 --
 drop table if exists pet;

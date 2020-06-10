@@ -141,6 +141,8 @@ public class View extends BaseSchemaObject {
 	public boolean getCacheable() { return cacheable; }
 	public boolean getCacheFindAll() { return cacheFindAll; }
 
+	public boolean getIsConstant() { return(false); }
+
 	@Override public boolean getIsTable() { return(false); }
 	@Override public boolean getIsView() { return(true); }
 }
