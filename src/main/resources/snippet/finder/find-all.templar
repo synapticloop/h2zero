@@ -42,12 +42,12 @@
 {\t}{\t}{\t}if(null != limit) {{{\n}
 {\t}{\t}{\t}{\t}stringBuilder.append(" limit ");{\n}
 {\t}{\t}{\t}{\t}stringBuilder.append(limit);{\n}
+{\t}{\t}{\t}{\t}if(null != offset) {{{\n}
+{\t}{\t}{\t}{\t}{\t}stringBuilder.append(" offset ");{\n}
+{\t}{\t}{\t}{\t}{\t}stringBuilder.append(offset);{\n}
+{\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}}{\n}
 {\n}
-{\t}{\t}{\t}if(null != offset) {{{\n}
-{\t}{\t}{\t}{\t}stringBuilder.append(" offset ");{\n}
-{\t}{\t}{\t}{\t}stringBuilder.append(offset);{\n}
-{\t}{\t}{\t}}{\n}
 {\n}
 {\t}{\t}{\t}statement = stringBuilder.toString();{\n}
 {\t}{\t}{\t}findAll_limit_statement_cache.put(cacheKey, statement);{\n}
