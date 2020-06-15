@@ -205,12 +205,12 @@ public class UserUserTypeViewFinder {
 			if(null != limit) {
 				stringBuilder.append(" limit ");
 				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
 			}
 
-			if(null != offset) {
-				stringBuilder.append(" offset ");
-				stringBuilder.append(offset);
-			}
 
 			statement = stringBuilder.toString();
 			findAll_limit_statement_cache.put(cacheKey, statement);
@@ -312,11 +312,10 @@ public class UserUserTypeViewFinder {
 			if(null != limit) {
 				stringBuilder.append(" limit ");
 				stringBuilder.append(limit);
-			}
-
-			if(null != offset) {
-				stringBuilder.append(" offset ");
-				stringBuilder.append(offset);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
 			}
 
 			statement = stringBuilder.toString();
