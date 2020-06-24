@@ -465,7 +465,7 @@ public class Table extends BaseSchemaObject {
 			}
 		}
 
-		jsonObject.remove(JSONKeyConstants.DELETERS);
+		jsonObject.remove(JSONKeyConstants.FIELD_DELETERS);
 	}
 
 	private void populateDeleters(JSONObject jsonObject) throws H2ZeroParseException {
