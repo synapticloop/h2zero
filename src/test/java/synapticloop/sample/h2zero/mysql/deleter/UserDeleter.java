@@ -32,6 +32,9 @@ public class UserDeleter {
 	private static final String SQL_DELETE_START = "delete from user ";
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_user = ?";
 
+	// static fields generated from the user input
+	private static final String SQL_DELETE_BY_NUM_AGE = SQL_DELETE_START + " where num_age = ?";
+	private static final String SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE = SQL_DELETE_START + " where fl_is_alive = ? and id_user_type = ?";
 
 	private UserDeleter() {}
 
@@ -172,4 +175,89 @@ public class UserDeleter {
 		return(numResults);
 	}
 
+	public static int deleteByNumAge(Connection connection,  Integer numAge) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_NUM_AGE);
+		ConnectionManager.setInt(preparedStatement, 1, numAge);
+
+		int numResults = preparedStatement.executeUpdate();
+		ConnectionManager.closeAll(preparedStatement);
+		return(numResults);
+	}
+
+	public static int deleteByFlIsAliveIdUserType(Connection connection,  Boolean flIsAlive,Long idUserType) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE);
+		ConnectionManager.setBoolean(preparedStatement, 1, flIsAlive);
+		ConnectionManager.setBigint(preparedStatement, 2, idUserType);
+
+		int numResults = preparedStatement.executeUpdate();
+		ConnectionManager.closeAll(preparedStatement);
+		return(numResults);
+	}
+
+	public static int deleteByNumAge(Integer numAge) {
+		Connection connection;
+		try {
+			connection = ConnectionManager.getConnection();
+			int numRowsDeleted = deleteByNumAge(connection, numAge);
+			ConnectionManager.closeAll(connection);
+			return(numRowsDeleted);
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByNumAge, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
+	public static int deleteByNumAgeSilent(Integer numAge) {
+		Connection connection;
+		try {
+			connection = ConnectionManager.getConnection();
+			int numRowsDeleted = deleteByNumAge(connection, numAge);
+			ConnectionManager.closeAll(connection);
+			return(numRowsDeleted);
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByNumAge, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
+
+	public static int deleteByNumAgeSilent(Connection connection, Integer numAge) {
+		try {
+			return(deleteByNumAge(connection, numAge));
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByNumAge, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
+	public static int deleteByFlIsAliveIdUserType(Boolean flIsAlive,Long idUserType) {
+		Connection connection;
+		try {
+			connection = ConnectionManager.getConnection();
+			int numRowsDeleted = deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType);
+			ConnectionManager.closeAll(connection);
+			return(numRowsDeleted);
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
+	public static int deleteByFlIsAliveIdUserTypeSilent(Boolean flIsAlive,Long idUserType) {
+		Connection connection;
+		try {
+			connection = ConnectionManager.getConnection();
+			int numRowsDeleted = deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType);
+			ConnectionManager.closeAll(connection);
+			return(numRowsDeleted);
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
+
+	public static int deleteByFlIsAliveIdUserTypeSilent(Connection connection, Boolean flIsAlive, Long idUserType) {
+		try {
+			return(deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType));
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
 }

@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
 public class Deleter extends BaseQueryObject {
+	private boolean isAutoDeleter = false;
 
 	public Deleter(Table table, JSONObject jsonObject) throws H2ZeroParseException {
 		super(table, jsonObject);
@@ -32,4 +33,8 @@ public class Deleter extends BaseQueryObject {
 
 	@Override
 	public String getType() { return("Deleter"); }
+
+	public boolean getIsAutoDeleter() { return isAutoDeleter; }
+	public void setIsAutoDeleter(boolean isAutoDeleter) { this.isAutoDeleter = isAutoDeleter; }
+
 }

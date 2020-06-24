@@ -65,6 +65,11 @@
 		}
 	],
 
+	"fieldDeleters": [
+		"num_age",
+		"fl_is_alive,id_user_type"
+	],
+
 	"questions": [
 		{
 			"name": "doWeHaveMoreThanTwentyUsers",

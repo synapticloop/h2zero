@@ -110,7 +110,7 @@ public abstract class BaseSchemaObject {
 		try {
 			finderJson = jsonObject.getJSONArray(JSONKeyConstants.FIELD_FINDERS);
 		} catch (JSONException ojjsonex) {
-			// do nothing - no finders is ok
+			// do nothing - no field finders is ok
 			return;
 		}
 
@@ -253,6 +253,7 @@ public abstract class BaseSchemaObject {
 		}
 	}
 
+	
 	/**
 	 * Generate the automatic finder (i.e. the shortcut finder) for finding results
 	 * where the field is null
@@ -302,6 +303,7 @@ public abstract class BaseSchemaObject {
 			throw new H2ZeroParseException("Could not generate the field null finder for '" + uniqueFinder + "'.", jsonex);
 		}
 	}
+
 
 	/**
 	 * Populate all of the questions that are being generated for a table.  A question is a simple query that returns one
