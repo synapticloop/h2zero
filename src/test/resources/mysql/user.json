@@ -70,6 +70,16 @@
 		"fl_is_alive,id_user_type"
 	],
 
+	"deleters": [
+		{
+			"name": "deleteByNumAgeTest",
+			"whereClause": "where num_age = ?",
+			"whereFields": [
+				"num_age"
+			]
+		}
+	],
+
 	"questions": [
 		{
 			"name": "doWeHaveMoreThanTwentyUsers",

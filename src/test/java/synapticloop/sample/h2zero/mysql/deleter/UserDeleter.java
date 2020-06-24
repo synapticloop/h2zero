@@ -35,6 +35,7 @@ public class UserDeleter {
 	// static fields generated from the user input
 	private static final String SQL_DELETE_BY_NUM_AGE = SQL_DELETE_START + " where num_age = ?";
 	private static final String SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE = SQL_DELETE_START + " where fl_is_alive = ? and id_user_type = ?";
+	private static final String SQL_DELETE_BY_NUM_AGE_TEST = SQL_DELETE_START + " where num_age = ?";
 
 	private UserDeleter() {}
 
@@ -194,6 +195,15 @@ public class UserDeleter {
 		return(numResults);
 	}
 
+	public static int deleteByNumAgeTest(Connection connection,  Integer numAge) throws SQLException {
+		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_NUM_AGE_TEST);
+		ConnectionManager.setInt(preparedStatement, 1, numAge);
+
+		int numResults = preparedStatement.executeUpdate();
+		ConnectionManager.closeAll(preparedStatement);
+		return(numResults);
+	}
+
 	public static int deleteByNumAge(Integer numAge) {
 		Connection connection;
 		try {
@@ -257,6 +267,39 @@ public class UserDeleter {
 			return(deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType));
 		} catch (SQLException sqlex) {
 			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
+	public static int deleteByNumAgeTest(Integer numAge) {
+		Connection connection;
+		try {
+			connection = ConnectionManager.getConnection();
+			int numRowsDeleted = deleteByNumAgeTest(connection, numAge);
+			ConnectionManager.closeAll(connection);
+			return(numRowsDeleted);
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
+	public static int deleteByNumAgeTestSilent(Integer numAge) {
+		Connection connection;
+		try {
+			connection = ConnectionManager.getConnection();
+			int numRowsDeleted = deleteByNumAgeTest(connection, numAge);
+			ConnectionManager.closeAll(connection);
+			return(numRowsDeleted);
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occured.", sqlex);
+			return(-1);
+		}
+	}
+
+	public static int deleteByNumAgeTestSilent(Connection connection, Integer numAge) {
+		try {
+			return(deleteByNumAgeTest(connection, numAge));
+		} catch (SQLException sqlex) {
+			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occured.", sqlex);
 			return(-1);
 		}
 	}

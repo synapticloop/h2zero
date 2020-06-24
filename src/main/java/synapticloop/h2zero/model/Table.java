@@ -69,6 +69,7 @@ public class Table extends BaseSchemaObject {
 		ALLOWABLE_KEYS.add(JSONKeyConstants.UPSERTERS);
 		ALLOWABLE_KEYS.add(JSONKeyConstants.COUNTERS);
 		ALLOWABLE_KEYS.add(JSONKeyConstants.DELETERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_DELETERS);
 		ALLOWABLE_KEYS.add(JSONKeyConstants.INSERTERS);
 	}
 
