@@ -38,6 +38,7 @@ import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
 
+@Deprecated
 public abstract class H2ZeroExtension {
 	private Map<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
 

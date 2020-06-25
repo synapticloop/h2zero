@@ -21,13 +21,12 @@ package synapticloop.h2zero.model;
 import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
-import synapticloop.h2zero.model.util.JSONKeyConstants;
-import synapticloop.h2zero.util.JsonHelper;
 
 public class Upserter extends BaseQueryObject {
+	private static final String MODEL_TYPE = "Upserter";
 
 	/**
-	 * Create an umodel object
+	 * Create an upserter object
 	 * 
 	 * @param baseSchemaObject The base schema object to attach to
 	 * @param upserterObject The JSON object that encapsulates the upserter
@@ -41,5 +40,5 @@ public class Upserter extends BaseQueryObject {
 	}
 
 	@Override
-	public String getType() { return("Upserter"); }
+	public String getType() { return MODEL_TYPE; }
 }
