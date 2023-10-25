@@ -367,7 +367,7 @@ public class UserFinder {
 		}
 
 
-		if(null == results || results.size() == 0) {
+		if(results.size() == 0) {
 			throw new H2ZeroFinderException("Could not find result.");
 		}
 		return(results);
@@ -483,7 +483,7 @@ public class UserFinder {
 		}
 
 
-		if(null == results || results.size() == 0) {
+		if(results.size() == 0) {
 			throw new H2ZeroFinderException("Could not find result.");
 		}
 		return(results);
@@ -964,7 +964,7 @@ public class UserFinder {
 		}
 
 
-		if(null == results || results.size() == 0) {
+		if(results.size() == 0) {
 			throw new H2ZeroFinderException("Could not find result.");
 		}
 		return(results);
@@ -1080,7 +1080,7 @@ public class UserFinder {
 		}
 
 
-		if(null == results || results.size() == 0) {
+		if(results.size() == 0) {
 			throw new H2ZeroFinderException("Could not find result.");
 		}
 		return(results);

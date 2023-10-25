@@ -5,11 +5,10 @@ plugins {
 
     id "com.github.ben-manes.versions" version "0.49.0"
 
-//    id 'com.gradle.plugin-publish' version '0.11.0'
+    id 'com.gradle.plugin-publish' version '1.2.1'
 //    id 'co.riiid.gradle' version '0.4.2'
 
     id 'synapticloop.copyrightr' version '1.3.1'
-//    id 'synapticloop.documentr' version '3.1.0'
 
 }
 
@@ -87,13 +86,6 @@ test {
     maxParallelForks = 1
 }
 
-//shadowJar {
-//    configurations = [project.configurations.shadowRuntime]
-//}
-//
-//build.finalizedBy(project.tasks.shadowJar)
-
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -106,20 +98,23 @@ publishing {
     }
 }
 
-//pluginBundle {
-//
-//    website = 'https://github.com/synapticloop/h2zero'
-//    vcsUrl = 'https://github.com/synapticloop/h2zero'
-//    description = 'lightweight ORM generator for mysql, java and optionally jsp/servlets - this utilises the templar templating language'
-//    tags = ['h2zero', 'ORM', 'generator']
-//
-//    plugins {
-//        h2zeroPlugin {
-//            id = 'synapticloop.h2zero'
-//            displayName = 'Synapticloop Gradle h2zero plugin'
-//        }
-//    }
-//}
+/*
+ * The Gradle Plugin Publisher
+ */
+gradlePlugin {
+    website = 'https://github.com/synapticloop/h2zero'
+    vcsUrl = 'https://github.com/synapticloop/h2zero'
+
+    plugins {
+        h2zeroPlugin {
+            id = 'synapticloop.h2zero'
+            implementationClass = 'synapticloop.h2zero.plugin.gradle.H2ZeroPlugin'
+            displayName = 'Synapticloop Gradle h2zero plugin'
+            description = 'lightweight ORM Java code generator for SQL databases: mysql, sqlite3, postgresql, and cockroach - this utilises the templar templating language'
+            tags = ['h2zero', 'ORM', 'generator']
+        }
+    }
+}
 
 copyrightr {
     dryRun = false
@@ -140,15 +135,3 @@ copyrightr {
 
     failOnMissing = false
 }
-//
-//documentr {
-//    // where to generate the README file
-//    directory = '.'
-//
-//    // wnether to be verbose and output more
-//    verbose = 'true'
-//
-//    // extension - can be either md or adoc
-//    extension = 'md' // this is the default
-//// 	extension = 'adoc' // perhaps you want asciidoc?
-//}
