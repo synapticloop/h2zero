@@ -28,16 +28,17 @@
 	"defaultStatementCacheSize": 1024,
 
 	"tables": [
+		{ "include": "./all_types.sqlite3.json" },
 		{ "include": "./user_type.json" },
 		{ "include": "./user_title.json" },
 		{ "include": "./user.json" },
-		{ "include": "./pet.sqlite3.json" },
+		{ "include": "./pet.json" },
 		{ "include": "./user_pet.json" }
 	],
 
 
 	"views": [
-		{ "include": "./view-pet.json" },
+		{ "include": "./view_pet.json" },
 	],
 }
 }

@@ -2,6 +2,27 @@
 --     with the use of synapticloop templar templating language
 --              (sql-create-database-sqlite3.templar)
 
+drop table if exists all_types;
+create table all_types (
+	id_all_types INTEGER not null PRIMARY KEY AUTOINCREMENT,
+	test_bigint bigint null,
+	test_boolean boolean null,
+	test_date date null,
+	test_datetime datetime null,
+	test_double double null,
+	test_float float null,
+	test_int int null,
+	test_integer integer null,
+	test_mediumint mediumint null,
+	test_numeric numeric null,
+	test_smallint smallint null,
+	test_text text null,
+	test_tinyint tinyint null,
+	test_varchar varchar null
+);
+
+
+
 --
 -- This is the user type table, which is a constant-generated table for all
 -- of the user types.  This enables quick and easy lookups from within the code
@@ -75,8 +96,7 @@ create table pet (
 	nm_pet varchar(64) not null,
 	num_age int not null,
 	flt_weight float(6,1) null,
-	dt_birthday date null,
-	img_photo varchar(256) null
+	dt_birthday date null
 );
 
 
@@ -93,4 +113,6 @@ create table user_pet (
 create index user_pet_id_user_idx on user_pet(id_user);
 create index user_pet_id_pet_idx on user_pet(id_pet);
 
+
+drop view if exists user_user_type;create view user_user_type as  select u.nm_user, ut.nm_user_type from user u, user_type ut where u.id_user_type = ut.id_user_type;
 

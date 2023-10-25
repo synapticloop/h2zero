@@ -237,7 +237,15 @@ public class Table extends BaseSchemaObject {
 				String database = options.getDatabase();
 
 				if(!DatabaseFieldTypeConfirm.getIsValidFieldTypeForDatabase(database, type)) {
-					throw new H2ZeroParseException(String.format("Type '%s' value found for field '%s' is not valid for database '%s'", type, fieldName, database));
+					String separator = "";
+					StringBuilder stringBuilder = new StringBuilder();
+					for (String allowable : DatabaseFieldTypeConfirm.FIELD_VALIDATION_LOOKUP.get(database)) {
+						stringBuilder.append(separator);
+						stringBuilder.append(allowable);
+						separator = ", ";
+					}
+
+					throw new H2ZeroParseException(String.format("Type '%s' value found for field '%s' is not valid for database '%s', valid values are: %s", type, fieldName, database, stringBuilder.toString()));
 				}
 
 			} catch (JSONException jsonex) {

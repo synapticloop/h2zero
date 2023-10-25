@@ -6,10 +6,13 @@ buildscript {
 		maven {
 			url "https://plugins.gradle.org/"
 		}
+		maven {
+			url "https://jitpack.io/"
+		}
 	}
 
 	dependencies {
-		classpath 'synapticloop:h2zero:4.5.4'
+		classpath 'synapticloop:h2zero:5.0.0'
 	}
 }
 
@@ -27,7 +30,7 @@ repositories {
 }
 
 h2zero {
-	inFile = 'src/test/resources/sample-include-sqlite3.h2zero'
+	inFile = 'src/test/resources/sqlite/sample-include-sqlite3.h2zero'
 	outDir = '.'
 	verbose = 'false'
 }
