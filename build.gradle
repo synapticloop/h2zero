@@ -1,244 +1,156 @@
 plugins {
-	id 'java'
-	id 'eclipse'
-	id "maven"
-	id "maven-publish"
+    id 'java'
+    id 'eclipse'
+    id "maven-publish"
 
-	id "com.github.ben-manes.versions" version "0.27.0"
-	id "com.github.johnrengelman.shadow" version "5.2.0"
-	id "com.jfrog.bintray" version "1.8.4"
+    id "com.github.ben-manes.versions" version "0.49.0"
 
-	id 'com.gradle.plugin-publish' version '0.11.0'
-	id 'co.riiid.gradle' version '0.4.2'
+//    id 'com.gradle.plugin-publish' version '0.11.0'
+//    id 'co.riiid.gradle' version '0.4.2'
 
-	id 'synapticloop.copyrightr' version '1.3.1'
-	id 'synapticloop.documentr' version '3.1.0'
-
-	id "org.sonarqube" version "2.7"
+    id 'synapticloop.copyrightr' version '1.3.1'
+//    id 'synapticloop.documentr' version '3.1.0'
 
 }
 
 group = 'synapticloop'
 archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql/sqlite, java with extensions for taglibs and routemaster"""
-version = '4.5.4'
+version = '5.0.0'
 
 tasks.withType(Javadoc).all { enabled = false }
 
-sourceCompatibility = 1.9
-targetCompatibility = 1.9
-
-repositories {
-	mavenLocal()
-	mavenCentral()
-	jcenter()
-
-	maven {
-		name = "GitHubPackages"
-		url 'https://maven.pkg.github.com/'
-		credentials {
-			username System.getenv('GITHUB_PUBLISH_USER')
-			password System.getenv('GITHUB_TOKEN')
-		}
-	}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
-configurations {
-	shadowRuntime
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+
 }
 
 dependencies {
-	compile 'synapticloop:templar:1.5.0'
-	compile 'org.json:json:20180130'
-	compile 'com.mchange:c3p0:0.9.5.4'
-	compile 'commons-validator:commons-validator:1.6'
-	compile 'org.slf4j:slf4j-api:1.7.25'
-	compile 'javax.mail:javax.mail-api:1.6.2'
-	compile 'org.apache.ant:ant:1.10.6'
+    implementation 'com.github.synapticloop:templar:1.5.5'
+    implementation 'org.json:json:20231013'
+    implementation 'com.mchange:c3p0:0.9.5.5'
+    implementation 'commons-validator:commons-validator:1.7'
+    implementation 'org.slf4j:slf4j-api:1.7.26'
+    implementation 'javax.mail:javax.mail-api:1.6.2'
+    implementation 'org.apache.ant:ant:1.10.14'
 
-	compileOnly gradleApi()
-	compileOnly 'synapticloop:templar:1.5.0'
-	compileOnly 'org.json:json:20180130'
-	compileOnly 'org.apache.ant:ant:1.10.6'
-	compileOnly 'com.mchange:c3p0:0.9.5.4'
-	compileOnly 'commons-validator:commons-validator:1.6'
-	compileOnly 'org.slf4j:slf4j-api:1.7.25'
-	compileOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.12.1'
-	compileOnly 'org.apache.logging.log4j:log4j-core:2.12.1'
+    compileOnly gradleApi()
+////    compileOnly 'synapticloop:templar:1.5.0'
+//    compileOnly 'org.json:json:20180130'
+//    compileOnly 'org.apache.ant:ant:1.10.6'
+//    compileOnly 'com.mchange:c3p0:0.9.5.4'
+//    compileOnly 'commons-validator:commons-validator:1.6'
+//    compileOnly 'org.slf4j:slf4j-api:1.7.25'
+//    compileOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.12.1'
+//    compileOnly 'org.apache.logging.log4j:log4j-core:2.12.1'
+//
+//    compileOnly 'javax.mail:javax.mail-api:1.6.2'
+//    compileOnly 'com.github.stefanbirkner:system-rules:1.17.1'
 
-	compileOnly 'javax.mail:javax.mail-api:1.6.2'
-	compileOnly 'com.github.stefanbirkner:system-rules:1.17.1'
+//    testRuntimeOnly 'junit:junit:4.12'
+//    testRuntimeOnly 'org.mockito:mockito-all:1.10.19'
+//    testRuntimeOnly 'com.github.stefanbirkner:system-rules:1.16.1'
+//    testRuntimeOnly 'mysql:mysql-connector-java:8.0.33'
+//    testRuntimeOnly 'org.xerial:sqlite-jdbc:3.28.0'
 
-	shadowRuntime 'synapticloop:templar:1.5.0'
-	shadowRuntime 'org.json:json:20180130'
-	shadowRuntime 'org.apache.ant:ant:1.10.6'
-
-	testRuntimeOnly 'junit:junit:4.12'
-	testRuntimeOnly 'org.mockito:mockito-all:1.10.19'
-	testRuntimeOnly 'com.github.stefanbirkner:system-rules:1.16.1'
-	testRuntimeOnly 'mysql:mysql-connector-java:6.0.6'
-	testRuntimeOnly 'org.xerial:sqlite-jdbc:3.28.0'
-
-	testCompileOnly 'junit:junit:4.12'
-	testCompileOnly 'org.mockito:mockito-all:1.10.19'
-	testCompileOnly 'com.github.stefanbirkner:system-rules:1.16.1'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:5.6.0'
+    testImplementation 'com.github.stefanbirkner:system-rules:1.17.1'
 }
 
 configurations.all {
-	resolutionStrategy {
-		failOnVersionConflict()
-		force 'junit:junit:4.11',
-					'org.json:json:20180130',
-					'org.slf4j:slf4j-api:1.7.26',
-					'commons-logging:commons-logging:1.2',
-					'commons-collections:commons-collections:3.2.2',
-					'com.github.stefanbirkner:system-rules:1.17.1'
-	}
+    resolutionStrategy {
+        failOnVersionConflict()
+        force 'junit:junit:4.13.2'
+    }
 }
 
 jar {
-	manifest {
-		attributes(
-			"Main-Class": "synapticloop.h2zero.Main",
-				"Implementation-Version": version
-		)
-	}
+    manifest {
+        attributes(
+                "Main-Class": "synapticloop.h2zero.Main",
+                "Implementation-Version": version
+        )
+    }
 }
 
 test {
-	include '**/*Test.class'
-	maxParallelForks = 1
+    include '**/*Test.class'
+    maxParallelForks = 1
 }
 
-shadowJar {
-	configurations = [project.configurations.shadowRuntime]
-}
-
-def javaApiUrl = 'http://docs.oracle.com/javase/1.7.0/docs/api/'
-def groovyApiUrl = 'http://groovy.codehaus.org/gapi/'
-
-tasks.withType(Javadoc) {
-	options.links(javaApiUrl, groovyApiUrl)
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-	classifier = 'javadoc'
-	from 'build/docs/javadoc'
-}
-
-task sourcesJar(type: Jar) {
-	from sourceSets.main.allSource
-	classifier = 'sources'
-}
-
-build.finalizedBy(project.tasks.shadowJar)
+//shadowJar {
+//    configurations = [project.configurations.shadowRuntime]
+//}
+//
+//build.finalizedBy(project.tasks.shadowJar)
 
 
 publishing {
-	publications {
-		Synapticloop(MavenPublication) {
-			from components.java
-			artifact sourcesJar
-			artifact javadocJar
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'synapticloop'
+            artifactId 'h2zero'
+            version version
 
-			groupId 'synapticloop'
-
-			artifactId 'h2zero'
-
-			pom.withXml {
-				configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each { dep ->
-					asNode().dependencies[0].dependency.find {
-						it.artifactId[0].text() == dep.moduleName &&
-								it.groupId[0].text() == dep.moduleGroup
-					}.scope[0].value = 'compile'
-				}
-			}
-		}
-	}
-
-	repositories {
-		maven {
-			url "https://maven.pkg.github.com/synapticloop/h2zero"
-
-			credentials {
-				username System.getenv('GITHUB_PUBLISH_USER')
-				password System.getenv('GITHUB_PUBLISH_TOKEN')
-			}
-		}
-	}
+            from components.java
+        }
+    }
 }
 
-bintray {
-	user = System.getenv('BINTRAY_USER')
-	key = System.getenv('BINTRAY_PASSWORD')
-
-	publications = [ 'Synapticloop' ]
-
-	publish = true
-
-	pkg {
-		repo = 'maven'
-		name = 'h2zero'
-	}
-}
-
-github {
-	owner = group
-	repo = archivesBaseName
-	if(System.getenv('GITHUB_TOKEN')) {
-		token = System.getenv('GITHUB_TOKEN')
-	}
-	tagName = version
-	name = version
-	assets = [
-		'build/libs/' + archivesBaseName + '-' + version + '.jar',
-		'build/libs/' + archivesBaseName + '-' + version + '-all.jar'
-	]
-}
-
-pluginBundle {
-
-	website = 'https://github.com/synapticloop/h2zero'
-	vcsUrl = 'https://github.com/synapticloop/h2zero'
-	description = 'lightweight ORM generator for mysql, java and optionally jsp/servlets - this utilises the templar templating language'
-	tags = [ 'h2zero', 'ORM', 'generator' ]
-
-	plugins {
-		h2zeroPlugin {
-			id = 'synapticloop.h2zero'
-			displayName = 'Synapticloop Gradle h2zero plugin'
-		}
-	}
-}
+//pluginBundle {
+//
+//    website = 'https://github.com/synapticloop/h2zero'
+//    vcsUrl = 'https://github.com/synapticloop/h2zero'
+//    description = 'lightweight ORM generator for mysql, java and optionally jsp/servlets - this utilises the templar templating language'
+//    tags = ['h2zero', 'ORM', 'generator']
+//
+//    plugins {
+//        h2zeroPlugin {
+//            id = 'synapticloop.h2zero'
+//            displayName = 'Synapticloop Gradle h2zero plugin'
+//        }
+//    }
+//}
 
 copyrightr {
-	dryRun = false
-	copyrightHolder = "synapticloop"
-	includes = [ 
-		"src/**/*.java",
-		"src/**/*.groovy"
-	]
+    dryRun = false
+    copyrightHolder = "synapticloop"
+    includes = [
+            "src/**/*.java",
+            "src/**/*.groovy"
+    ]
 
-	excludes = [ 
-		"src/test/java/**/*.java", 
-		"**/*.class"
-	]
+    excludes = [
+            "src/test/java/**/*.java",
+            "**/*.class"
+    ]
 
-	onlyReplaceFirst = true
+    onlyReplaceFirst = true
 
-	yearSeparator = " - "
+    yearSeparator = " - "
 
-	failOnMissing = false
+    failOnMissing = false
 }
-
-documentr {
-	// where to generate the README file
-	directory = '.'
-
-	// wnether to be verbose and output more
-	verbose = 'true'
-
-	// extension - can be either md or adoc
-	extension = 'md' // this is the default
-// 	extension = 'adoc' // perhaps you want asciidoc?
-}
+//
+//documentr {
+//    // where to generate the README file
+//    directory = '.'
+//
+//    // wnether to be verbose and output more
+//    verbose = 'true'
+//
+//    // extension - can be either md or adoc
+//    extension = 'md' // this is the default
+//// 	extension = 'adoc' // perhaps you want asciidoc?
+//}

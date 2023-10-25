@@ -1,7 +1,7 @@
 	package synapticloop.h2zero;
 
 /*
- * Copyright (c) 2012-2020 synapticloop.
+ * Copyright (c) 2012-2023 synapticloop.
  * 
  * All rights reserved.
  *
@@ -134,8 +134,7 @@ public class Main {
 			case GENERATE_IN:
 				i++;
 				try {
-					String argValue = args[i];
-					inFile = argValue;
+					inFile = args[i];
 				} catch(ArrayIndexOutOfBoundsException aioobex) {
 					usageAndExit("Found an argument of '" + arg + "', but no value for the option");
 				}
@@ -143,8 +142,7 @@ public class Main {
 			case GENERATE_OUT:
 				i++;
 				try {
-					String argValue = args[i];
-					outDir = argValue;
+					outDir = args[i];
 				} catch(ArrayIndexOutOfBoundsException aioobex) {
 					usageAndExit("Found an argument of '" + arg + "', but no value for the option");
 				}

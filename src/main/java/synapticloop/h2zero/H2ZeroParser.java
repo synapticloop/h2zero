@@ -1,7 +1,7 @@
 package synapticloop.h2zero;
 
 /*
- * Copyright (c) 2013-2020 synapticloop.
+ * Copyright (c) 2013-2023 synapticloop.
  * 
  * All rights reserved.
  *
@@ -24,7 +24,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -119,7 +118,7 @@ public class H2ZeroParser {
 
 	private static final String H2ZERO_KEY_INCLUDE = "include";
 
-	private static List<BaseValidator> validators = new ArrayList<>();
+	private static final List<BaseValidator> validators = new ArrayList<>();
 	static {
 		// options
 		validators.add(new OptionsGeneratorsValidator());
@@ -216,7 +215,7 @@ public class H2ZeroParser {
 
 	}
 
-	private static Map<String, BaseValidator> validatorMap = new HashMap<>();
+	private static final Map<String, BaseValidator> validatorMap = new HashMap<>();
 	static {
 		for (BaseValidator validator : validators) {
 			validatorMap.put(validator.getClass().getSimpleName(), validator);
@@ -263,11 +262,10 @@ public class H2ZeroParser {
 
 		// now that we have parsed the file - go through and update the validator options
 		Map<Extension, JSONObject> extensions = options.getExtensions();
-		Iterator<Extension> extensionIterator = extensions.keySet().iterator();
-		while (extensionIterator.hasNext()) {
-			Extension extension = extensionIterator.next();
+
+		for (Extension extension : extensions.keySet()) {
 			List<BaseValidator> extensionValidators = extension.getValidators();
-			if(null != extensionValidators) {
+			if (null != extensionValidators) {
 				validators.addAll(extensionValidators);
 			}
 		}
@@ -296,14 +294,16 @@ public class H2ZeroParser {
 
 			List<Message> messages = validator.getFormattedMessages();
 			for (Message message: messages) {
-				if(message.getType().equals(SimpleLogger.INFO)) {
-					SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
-				} else if(message.getType().equals(SimpleLogger.WARN)){
-					SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
-				} else if(message.getType().equals(SimpleLogger.FATAL)){
-					String fatalMessage = String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent());
-					FATAL_MESSAGES.add(fatalMessage);
-					SimpleLogger.logFatal(LoggerType.VALIDATOR, fatalMessage);
+				switch (message.getType()) {
+					case SimpleLogger.INFO ->
+							SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
+					case SimpleLogger.WARN ->
+							SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
+					case SimpleLogger.FATAL -> {
+						String fatalMessage = String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent());
+						FATAL_MESSAGES.add(fatalMessage);
+						SimpleLogger.logFatal(LoggerType.VALIDATOR, fatalMessage);
+					}
 				}
 			}
 		}
@@ -327,24 +327,15 @@ public class H2ZeroParser {
 		}
 
 		StringBuilder stringBuilder = new StringBuilder();
-		BufferedReader bufferedReader = null;
 
 		String line = null;
-		try {
-			bufferedReader = new BufferedReader(new FileReader(file));
-			while((line = bufferedReader.readLine()) != null) {
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+			while ((line = bufferedReader.readLine()) != null) {
 				stringBuilder.append(line);
 				stringBuilder.append("\n");
 			}
 		} catch (IOException ioex) {
 			throw new H2ZeroParseException("There was a problem reading the file '" + file.getAbsolutePath() + "'.", ioex);
-		} finally {
-			if(null != bufferedReader) {
-				try {
-					bufferedReader.close();
-				} catch (IOException ignored) {
-				}
-			}
 		}
 		return (stringBuilder.toString());
 	}
@@ -357,7 +348,7 @@ public class H2ZeroParser {
 	 * 
 	 * @return The parsed JSON Object
 	 * 
-	 * @throws H2ZeroParseException
+	 * @throws H2ZeroParseException if the h2zero file could not be parsed
 	 */
 	public JSONObject getJSONFileContents(File file) throws H2ZeroParseException {
 		JSONArray newTablesArray = new JSONArray();

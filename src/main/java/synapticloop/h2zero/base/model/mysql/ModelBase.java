@@ -1,7 +1,7 @@
 package synapticloop.h2zero.base.model.mysql;
 
 /*
- * Copyright (c) 2018 - 2020 synapticloop.
+ * Copyright (c) 2018 - 2023 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and

@@ -1,7 +1,7 @@
 package synapticloop.h2zero.base.manager.sqlite3;
 
 /*
- * Copyright (c) 2012-2020 synapticloop.
+ * Copyright (c) 2012-2023 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and

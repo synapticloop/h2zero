@@ -16,7 +16,7 @@ public class H2ZeroTaskTest {
 
 	@Before
 	public void before() {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 	}
 
 	@Before
