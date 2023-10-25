@@ -1,0 +1,14 @@
+{
+	"name": "author_status",
+	"fields": [
+		{ "name": "id_author_status", "type": "bigint", "nullable": false, "primary": true },
+		{ "name": "txt_author_status", "type": "varchar", "length": 256, "nullable": false, "unique": true },
+		{ "name": "txt_desc_author_status", "type": "varchar", "length": 256, "nullable": false, "unique": true }
+	],
+	"constants": [
+		{ "name": "WAITING", "values": [ 1, "WAITING", "Waiting for the number of followers for the author to be hit" ] },
+		{ "name": "TO_BE_EVALUATED", "values": [ 2, "TO_BE_EVALUATED", "Author is waiting to be evaluated." ] },
+		{ "name": "IGNORED", "values": [ 3, "IGNORED", "Author is being ignored." ] },
+		{ "name": "FOLLOWED", "values": [ 4, "FOLLOWED", "Author is followed." ] }
+	]
+},

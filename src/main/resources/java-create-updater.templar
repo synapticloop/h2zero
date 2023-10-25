@@ -47,6 +47,7 @@ public class {table.javaClassName}Updater {{{\n}
 {loop table.updaters as updater}
 	{set updater as baseQueryObject}
 	{set fn:length[updater.updateFields] as updateFieldsLength}
+	{set fn:length[updater.whereFields] as whereFieldsLength}
 
 	{\t}public static int {updater.name}(Connection connection
 	{--
@@ -61,6 +62,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{updater.staticName});{\n}
 
+	{set '0' as updateFieldsIndex}
 	{loop updater.updateFields as updateField}
 		{set updateFieldStatus.index as updateFieldsIndex}
 		{\t}{\t}{\t}ConnectionManager.set{updateField.upperType}(preparedStatement, {updateFieldStatus.index}, {updateField.javaName});{\n}
@@ -93,7 +95,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}Connection connection = null;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, '0']}, {endif}
+	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[fn:+[updateFieldsLength, whereFieldsLength], '0']}, {endif}
 
 		{import classpath:/snippet/global/java-method-parameters-call.templar}
 
@@ -116,7 +118,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}Connection connection = null;{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[updateFieldsLength, '0']}, {endif}
+	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[fn:+[updateFieldsLength, whereFieldsLength], '0']}, {endif}
 
 		{import classpath:/snippet/global/java-method-parameters-call.templar}
 

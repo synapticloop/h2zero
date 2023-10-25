@@ -1,0 +1,133 @@
+{
+	"name": "author",
+	"charset": "utf8mb4",
+	"fields": [
+		{ "name": "id_author", "type": "bigint", "nullable": false, "primary": true },
+		{ "name": "id_author_status", "type": "bigint", "nullable": true, "foreignKey": "author_status.id_author_status" },
+		{ "name": "txt_id_author", "type": "varchar", "length": 256, "nullable": false, "unique": true },
+		{ "name": "nm_author", "type": "varchar", "length": 256, "nullable": false, "unique": false },
+		{ "name": "nm_username", "type": "varchar", "length": 256, "nullable": false, "unique": false },
+		{ "name": "txt_bio", "type": "varchar", "length": 512, "nullable": false, "unique": false },
+		{ "name": "txt_url_cache_image", "type": "varchar", "length": 512, "nullable": false, "unique": false },
+
+		{ "name": "num_following", "type": "bigint", "nullable": true },
+		{ "name": "num_followers", "type": "bigint", "nullable": true },
+
+		{ "name": "dtm_started_following", "type": "datetime", "nullable": true },
+
+		{ "name": "fl_is_updating", "type": "boolean", "nullable": true, "default": "'0'" },
+		{ "name": "fl_author_is_following_user", "type": "boolean", "nullable": true, "default": "'0'" },
+		{ "name": "fl_author_is_followed_by_user", "type": "boolean", "nullable": true, "default": "'0'" }
+	],
+	"fieldFinders": [
+		{ "txt_id_author": "unique" },
+		{ "id_author_status": "multiple" },
+		{ "fl_is_updating": "multiple" }
+	],
+	"finders": [
+		{
+			"name": "findAllToBeEvaluated",
+			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ? ",
+			"whereFields": [
+				"dtm_started_following"
+			],
+			"unique": false
+		},
+		{
+			"name": "findFirstToBeEvaluated",
+			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc limit 1",
+			"whereFields": [
+				"dtm_started_following"
+			],
+			"unique": true
+		},
+		{
+			"name": "findLimitedToBeEvaluated",
+			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following",
+			"whereFields": [
+				"dtm_started_following"
+			],
+			"unique": false
+		}
+	],
+	"updaters": [
+		{
+			"name": "resetAuthorsToBeFollowed",
+			"setClause": "set id_author_status = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')",
+			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following",
+			"whereFields": [
+				"dtm_started_following"
+			]
+		},
+		{
+			"name": "setFlIsUpdating",
+			"setClause": "set fl_is_updating = ?",
+			"setFields": [
+				"fl_is_updating"
+			]
+		},
+		{
+			"name": "setFlIsUpdatingWhereFlAuthorIsFollowedByUser",
+			"setClause": "set fl_is_updating = ?",
+			"setFields": [
+				"fl_is_updating"
+			],
+			"whereClause": "where fl_author_is_followed_by_user = 1"
+		},
+		{
+			"name": "setFlAuthorIsFollowedByUserWhereFlIsUpdating",
+			"setClause": "set fl_author_is_followed_by_user = ?, fl_is_updating = 1",
+			"setFields": [
+				"fl_author_is_followed_by_user"
+			],
+			"whereClause": "fl_is_updating = 1"
+		},
+		{
+			"name": "setFlIsUpdatingWhereFlAuthorIsFollowingUser",
+			"setClause": "set fl_is_updating = ?",
+			"setFields": [
+				"fl_is_updating"
+			],
+			"whereClause": "where fl_author_is_following_user = 1"
+		},
+		{
+			"name": "setFlAuthorIsFollowingUserWhereFlIsUpdating",
+			"setClause": "set fl_author_is_following_user = ?, fl_is_updating = 1",
+			"setFields": [
+				"fl_author_is_following_user"
+			],
+			"whereClause": "fl_is_updating = 1"
+		},
+		{
+			"name": "updateFlIsFollowing",
+			"setClause": "set fl_is = ?",
+			"setFields": [
+				"fl_is_updating"
+			]
+		},
+		{
+			"name": "updateAllToBeEvaluatedToFollowed",
+			"setClause": "set id_status_author = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')",
+			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ?",
+			"whereFields": [
+				"dtm_started_following"
+			]
+		}
+	],
+	"counters": [
+		{
+			"name": "countAllToBeEvaluated",
+			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? ",
+			"whereFields": [
+				"dtm_started_following"
+			]
+		},
+		{
+			"name": "countByStatus",
+			"whereClause": "where id_author_status = ?",
+			"whereFields": [
+				"id_author_status"
+			]
+		}
+	]
+},

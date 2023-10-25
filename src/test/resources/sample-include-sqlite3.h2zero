@@ -28,17 +28,19 @@
 	"defaultStatementCacheSize": 1024,
 
 	"tables": [
-		{ "include": "./all_types.sqlite3.json" },
-		{ "include": "./user_type.json" },
-		{ "include": "./user_title.json" },
-		{ "include": "./user.json" },
-		{ "include": "./pet.json" },
-		{ "include": "./user_pet.json" }
+		{ "include": "./sqlite/all_types.sqlite3.json" },
+		{ "include": "./sqlite/author_status.json" },
+		{ "include": "./sqlite/author.json" },
+		{ "include": "./sqlite/user_type.json" },
+		{ "include": "./sqlite/user_title.json" },
+		{ "include": "./sqlite/user.json" },
+		{ "include": "./sqlite/pet.json" },
+		{ "include": "./sqlite/user_pet.json" }
 	],
 
 
 	"views": [
-		{ "include": "./view_pet.json" },
+		{ "include": "./sqlite/view_pet.json" },
 	],
 }
 }

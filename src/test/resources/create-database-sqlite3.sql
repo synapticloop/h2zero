@@ -23,6 +23,47 @@ create table all_types (
 
 
 
+drop table if exists author_status;
+create table author_status (
+	id_author_status INTEGER not null PRIMARY KEY AUTOINCREMENT,
+	txt_author_status varchar(256) not null,
+	txt_desc_author_status varchar(256) not null
+);
+
+create unique index author_status_txt_author_status_idx_unq on author_status(txt_author_status);
+create unique index author_status_txt_desc_author_status_idx_unq on author_status(txt_desc_author_status);
+
+
+-- The author_status table is defined as being constant
+-- insert the values
+
+insert into author_status values(1, 'WAITING', 'Waiting for the number of followers for the author to be hit');
+insert into author_status values(2, 'TO_BE_EVALUATED', 'Author is waiting to be evaluated.');
+insert into author_status values(3, 'IGNORED', 'Author is being ignored.');
+insert into author_status values(4, 'FOLLOWED', 'Author is followed.');
+
+
+drop table if exists author;
+create table author (
+	id_author INTEGER not null PRIMARY KEY AUTOINCREMENT,
+	id_author_status bigint null,
+	txt_id_author varchar(256) not null,
+	nm_author varchar(256) not null,
+	nm_username varchar(256) not null,
+	txt_bio varchar(512) not null,
+	txt_url_cache_image varchar(512) not null,
+	num_following bigint null,
+	num_followers bigint null,
+	dtm_started_following datetime null,
+	fl_is_updating boolean null default '0',
+	fl_author_is_following_user boolean null default '0',
+	fl_author_is_followed_by_user boolean null default '0',
+	foreign key (id_author_status) references author_status (id_author_status)
+);
+
+create unique index author_txt_id_author_idx_unq on author(txt_id_author);
+
+
 --
 -- This is the user type table, which is a constant-generated table for all
 -- of the user types.  This enables quick and easy lookups from within the code

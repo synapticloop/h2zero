@@ -9,6 +9,8 @@ public class Constants {
 	// it has been removed from the generation.
 
 	public static final String ALL_TYPES_BINDER = "ALL_TYPES";
+	public static final String AUTHOR_STATUS_BINDER = "AUTHOR_STATUS";
+	public static final String AUTHOR_BINDER = "AUTHOR";
 	public static final String USER_TYPE_BINDER = "USER_TYPE";
 	public static final String USER_TITLE_BINDER = "USER_TITLE";
 	public static final String USER_BINDER = "USER";
@@ -31,6 +33,28 @@ public class Constants {
 	public static final String ALL_TYPES_TEST_TEXT = "testText";
 	public static final String ALL_TYPES_TEST_TINYINT = "testTinyint";
 	public static final String ALL_TYPES_TEST_VARCHAR = "testVarchar";
+
+
+	// Field constants for the author_status table
+	public static final String AUTHOR_STATUS_ID_AUTHOR_STATUS = "idAuthorStatus";
+	public static final String AUTHOR_STATUS_TXT_AUTHOR_STATUS = "txtAuthorStatus";
+	public static final String AUTHOR_STATUS_TXT_DESC_AUTHOR_STATUS = "txtDescAuthorStatus";
+
+
+	// Field constants for the author table
+	public static final String AUTHOR_ID_AUTHOR = "idAuthor";
+	public static final String AUTHOR_ID_AUTHOR_STATUS = "idAuthorStatus";
+	public static final String AUTHOR_TXT_ID_AUTHOR = "txtIdAuthor";
+	public static final String AUTHOR_NM_AUTHOR = "nmAuthor";
+	public static final String AUTHOR_NM_USERNAME = "nmUsername";
+	public static final String AUTHOR_TXT_BIO = "txtBio";
+	public static final String AUTHOR_TXT_URL_CACHE_IMAGE = "txtUrlCacheImage";
+	public static final String AUTHOR_NUM_FOLLOWING = "numFollowing";
+	public static final String AUTHOR_NUM_FOLLOWERS = "numFollowers";
+	public static final String AUTHOR_DTM_STARTED_FOLLOWING = "dtmStartedFollowing";
+	public static final String AUTHOR_FL_IS_UPDATING = "flIsUpdating";
+	public static final String AUTHOR_FL_AUTHOR_IS_FOLLOWING_USER = "flAuthorIsFollowingUser";
+	public static final String AUTHOR_FL_AUTHOR_IS_FOLLOWED_BY_USER = "flAuthorIsFollowedByUser";
 
 
 	// Field constants for the user_type table

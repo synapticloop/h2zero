@@ -30,7 +30,7 @@ repositories {
 }
 
 h2zero {
-	inFile = 'src/test/resources/sqlite/sample-include-sqlite3.h2zero'
+	inFile = 'src/test/resources/sample-include-sqlite3.h2zero'
 	outDir = '.'
 	verbose = 'false'
 }

@@ -27,8 +27,10 @@ public class DatabaseCheckerHelper {
 	private Set<String> allTables = new HashSet<String>();
 	private Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();
 
-	private static final String[] ALL_TABLE_NAMES = { "all_types", "user_type", "user_title", "user", "pet", "user_pet" };
+	private static final String[] ALL_TABLE_NAMES = { "all_types", "author_status", "author", "user_type", "user_title", "user", "pet", "user_pet" };
 	private static final String[] ALL_TABLE_FIELD_NAMES = { "all_types.id_all_types", "all_types.test_bigint", "all_types.test_boolean", "all_types.test_date", "all_types.test_datetime", "all_types.test_double", "all_types.test_float", "all_types.test_int", "all_types.test_integer", "all_types.test_mediumint", "all_types.test_numeric", "all_types.test_smallint", "all_types.test_text", "all_types.test_tinyint", "all_types.test_varchar", 
+			"author_status.id_author_status", "author_status.txt_author_status", "author_status.txt_desc_author_status", 
+			"author.id_author", "author.id_author_status", "author.txt_id_author", "author.nm_author", "author.nm_username", "author.txt_bio", "author.txt_url_cache_image", "author.num_following", "author.num_followers", "author.dtm_started_following", "author.fl_is_updating", "author.fl_author_is_following_user", "author.fl_author_is_followed_by_user", 
 			"user_type.id_user_type", "user_type.nm_user_type", 
 			"user_title.id_user_title", "user_title.nm_user_title", "user_title.num_order_by", 
 			"user.id_user", "user.id_user_type", "user.fl_is_alive", "user.num_age", "user.nm_username", "user.txt_address_email", "user.txt_password", "user.dtm_signup", 

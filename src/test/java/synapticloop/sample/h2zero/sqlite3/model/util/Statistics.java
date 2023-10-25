@@ -5,6 +5,7 @@ package synapticloop.sample.h2zero.sqlite3.model.util;
 //            (java-create-model-statistics.templar)
 
 import synapticloop.sample.h2zero.sqlite3.model.AllTypes;
+import synapticloop.sample.h2zero.sqlite3.model.Author;
 import synapticloop.sample.h2zero.sqlite3.model.User;
 import synapticloop.sample.h2zero.sqlite3.model.Pet;
 import synapticloop.sample.h2zero.sqlite3.model.UserPet;
@@ -15,6 +16,8 @@ public class Statistics {
 	public static final String getHitCountJson() {
 		StringBuilder stringBuilder = new StringBuilder("[");
 		stringBuilder.append(AllTypes.getHitCountJson());
+		stringBuilder.append(", ");
+		stringBuilder.append(Author.getHitCountJson());
 		stringBuilder.append(", ");
 		stringBuilder.append(User.getHitCountJson());
 		stringBuilder.append(", ");
