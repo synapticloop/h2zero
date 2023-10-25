@@ -7,7 +7,6 @@ import org.junit.Test;
 
 public class NamingHelperTest {
 	private static final String THIS_VARIABLE_NAME = "this_variable_name";
-	private NamingHelper namingHelper = null;
 
 	@Before
 	public void setup() {

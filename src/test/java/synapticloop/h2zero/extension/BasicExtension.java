@@ -3,6 +3,7 @@ package synapticloop.h2zero.extension;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -16,6 +17,7 @@ import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
 
 public class BasicExtension extends Extension {
+
 
 	@Override
 	public void generate(JSONObject extensionOptions, Database database, Options options, File outFile, boolean verbose)
@@ -40,6 +42,18 @@ public class BasicExtension extends Extension {
 
 		// render out the file
 		renderToFile(templarContext, parser, "path/to/output/file.extension", verbose);
+	}
+
+	@Override
+	public List<String> getRequiredOutputOptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, String> getDefaultOutputOptions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

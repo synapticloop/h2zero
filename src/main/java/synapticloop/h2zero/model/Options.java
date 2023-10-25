@@ -81,6 +81,7 @@ public class Options {
 
 	private Set<String> generators = new HashSet<String>();
 	private Map<Extension, JSONObject> extensions = new HashMap<Extension, JSONObject>();
+	private Map<String, String> extensionOptions = new HashMap<String, String>();
 
 	public Options(JSONObject jsonObject) throws H2ZeroParseException {
 		if(null == jsonObject) {
@@ -121,8 +122,10 @@ public class Options {
 			if(null != JsonHelper.getStringValue(outputJson, "sql", null)) {
 				SimpleLogger.logFatal(LoggerType.OPTIONS, "The 'output' with key 'sql' is no longer in use and has been ignored, use 'resources' instead.");
 			}
-
 		}
+
+		// now we need to go through the extension options
+		// TODO
 
 		// now ensure that there are slashes on both sides of the output directory
 		outputCode = convertToAbsolutePath(outputCode);

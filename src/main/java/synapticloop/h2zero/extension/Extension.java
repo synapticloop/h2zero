@@ -46,6 +46,23 @@ public abstract class Extension {
 	public Extension() {}
 
 	/**
+	 * Return a list of all of the options that are required for generating this 
+	 * code.
+	 * 
+	 * @return A list of all of the required options that this extension needs 
+	 * to generate code for
+	 */
+	public abstract List<String> getRequiredOutputOptions();
+
+	/**
+	 * Return a map of all of the options that have default values, and the values 
+	 * that they are set to
+	 *  
+	 * @return a map of the option name, and the default value that it is set to
+	 */
+	public abstract Map<String, String> getDefaultOutputOptions();
+
+	/**
 	 * Generate the output for this extension
 	 * 
 	 * @param extensionOptions The JSONObject that contains any extensions that 

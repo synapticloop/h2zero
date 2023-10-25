@@ -19,7 +19,8 @@ package synapticloop.h2zero.util;
  */
 
 /**
- * A super simple logger - so that the package can be as light-weight as possible
+ * A super simple logger - so that the package can be as light-weight as 
+ * possible - this was integrated explicitly for h2zero
  * 
  * @author synapticloop
  */

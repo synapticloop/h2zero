@@ -49,7 +49,9 @@ public class NamingHelper {
 	}
 
 	/**
-	 * Convert the second part of a variable name to uppercase, examples:
+	 * this_variable_name -> thisVariableName; Convert the second part of a 
+	 * variable name to uppercase, examples:
+	 * 
 	 * <ul>
 	 *   <li>thisVariableName -&gt; thisVariableName</li>
 	 *   <li>ThisVariableName -&gt; thisVariableName</li>
