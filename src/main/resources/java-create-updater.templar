@@ -49,6 +49,15 @@ public class {table.javaClassName}Updater {{{\n}
 	{set fn:length[updater.updateFields] as updateFieldsLength}
 	{set fn:length[updater.whereFields] as whereFieldsLength}
 
+	{\t}/**{\n}
+	{\t} * This is the updater for '{updater.name}' and will throw a SQLException on error{\n}
+	{\t} * See the '{updater.name}Silent' method for a non-throwing method.{\n}
+	{\t} * {\n}
+	{\t} * @param connection the connection to the database{\n}
+	{\t} * {\n}
+	{\t} * @return The number of rows that were updated{\n}
+	{\t} * @throws SQLException if there was an error in the statement or database connection{\n}
+	{\t} */ {\n}
 	{\t}public static int {updater.name}(Connection connection
 	{--
 		Now for the set and where fields
@@ -57,10 +66,7 @@ public class {table.javaClassName}Updater {{{\n}
 		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
 	) throws SQLException {{{\n}
 
-	{\t}{\t}int numRowsUpdated = -1;{\n}
-	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{updater.staticName});{\n}
+	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_{updater.staticName})) {{{\n}
 
 	{set '0' as updateFieldsIndex}
 	{loop updater.updateFields as updateField}
@@ -74,14 +80,9 @@ public class {table.javaClassName}Updater {{{\n}
 
 	{\n}
 
-	{\t}{\t}{\t}numRowsUpdated = preparedStatement.executeUpdate();{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}throw sqlex;{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
+	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
 	{\t}{\t}}{\n}
 
-	{\t}{\t}return(numRowsUpdated);{\n}
 	{\t}}{\n}
 {\n}
 
@@ -92,18 +93,12 @@ public class {table.javaClassName}Updater {{{\n}
 	) throws SQLException {{{\n}
 
 	{\t}{\t}int numRowsUpdated = -1;{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[fn:+[updateFieldsLength, whereFieldsLength], '0']}, {endif}
 
 		{import classpath:/snippet/global/java-method-parameters-call.templar}
 
 	);{\n}
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}throw sqlex;{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
 	{\t}{\t}}{\n}
 	{\t}{\t}return(numRowsUpdated);{\n}
 	{\t}}{\n}
@@ -115,9 +110,7 @@ public class {table.javaClassName}Updater {{{\n}
 
 	) {{{\n}
 	{\t}{\t}int numRowsUpdated = -1;{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 	{\t}{\t}{\t}numRowsUpdated = {updater.name}(connection{if fn:>[fn:+[updateFieldsLength, whereFieldsLength], '0']}, {endif}
 
 		{import classpath:/snippet/global/java-method-parameters-call.templar}
@@ -126,8 +119,6 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t}{\t}} catch (SQLException sqlex) {{{\n}
 	{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
 	{\t}{\t}}{\n}
 	{\t}{\t}return(numRowsUpdated);{\n}
 	{\t}}{\n}

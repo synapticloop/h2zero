@@ -36,362 +36,290 @@ public class AuthorUpdater {
 
 	private AuthorUpdater() {}
 
+	/**
+	 * This is the updater for 'resetAuthorsToBeFollowed' and will throw a SQLException on error
+	 * See the ''resetAuthorsToBeFollowedSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
 	public static int resetAuthorsToBeFollowed(Connection connection, Timestamp dtmStartedFollowing) throws SQLException {
-		int numRowsUpdated = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_RESET_AUTHORS_TO_BE_FOLLOWED);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_RESET_AUTHORS_TO_BE_FOLLOWED)) {
 			ConnectionManager.setDatetime(preparedStatement, 1, dtmStartedFollowing);
 
-			numRowsUpdated = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numRowsUpdated);
 	}
 
 	public static int resetAuthorsToBeFollowed(Timestamp dtmStartedFollowing) throws SQLException {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = resetAuthorsToBeFollowed(connection, dtmStartedFollowing);
-		} catch(SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
 	public static int resetAuthorsToBeFollowedSilent(Timestamp dtmStartedFollowing) {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = resetAuthorsToBeFollowed(connection, dtmStartedFollowing);
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
+	/**
+	 * This is the updater for 'setFlIsUpdating' and will throw a SQLException on error
+	 * See the ''setFlIsUpdatingSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
 	public static int setFlIsUpdating(Connection connection, Boolean flIsUpdatingSet) throws SQLException {
-		int numRowsUpdated = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_SET_FL_IS_UPDATING);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SET_FL_IS_UPDATING)) {
 			ConnectionManager.setBoolean(preparedStatement, 1, flIsUpdatingSet);
 
-			numRowsUpdated = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numRowsUpdated);
 	}
 
 	public static int setFlIsUpdating(Boolean flIsUpdatingSet) throws SQLException {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlIsUpdating(connection, flIsUpdatingSet);
-		} catch(SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
 	public static int setFlIsUpdatingSilent(Boolean flIsUpdatingSet) {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlIsUpdating(connection, flIsUpdatingSet);
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
+	/**
+	 * This is the updater for 'setFlIsUpdatingWhereFlAuthorIsFollowedByUser' and will throw a SQLException on error
+	 * See the ''setFlIsUpdatingWhereFlAuthorIsFollowedByUserSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
 	public static int setFlIsUpdatingWhereFlAuthorIsFollowedByUser(Connection connection, Boolean flIsUpdatingSet) throws SQLException {
-		int numRowsUpdated = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_SET_FL_IS_UPDATING_WHERE_FL_AUTHOR_IS_FOLLOWED_BY_USER);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SET_FL_IS_UPDATING_WHERE_FL_AUTHOR_IS_FOLLOWED_BY_USER)) {
 			ConnectionManager.setBoolean(preparedStatement, 1, flIsUpdatingSet);
 
-			numRowsUpdated = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numRowsUpdated);
 	}
 
 	public static int setFlIsUpdatingWhereFlAuthorIsFollowedByUser(Boolean flIsUpdatingSet) throws SQLException {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlIsUpdatingWhereFlAuthorIsFollowedByUser(connection, flIsUpdatingSet);
-		} catch(SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
 	public static int setFlIsUpdatingWhereFlAuthorIsFollowedByUserSilent(Boolean flIsUpdatingSet) {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlIsUpdatingWhereFlAuthorIsFollowedByUser(connection, flIsUpdatingSet);
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
+	/**
+	 * This is the updater for 'setFlAuthorIsFollowedByUserWhereFlIsUpdating' and will throw a SQLException on error
+	 * See the ''setFlAuthorIsFollowedByUserWhereFlIsUpdatingSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
 	public static int setFlAuthorIsFollowedByUserWhereFlIsUpdating(Connection connection, Boolean flAuthorIsFollowedByUserSet) throws SQLException {
-		int numRowsUpdated = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_SET_FL_AUTHOR_IS_FOLLOWED_BY_USER_WHERE_FL_IS_UPDATING);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SET_FL_AUTHOR_IS_FOLLOWED_BY_USER_WHERE_FL_IS_UPDATING)) {
 			ConnectionManager.setBoolean(preparedStatement, 1, flAuthorIsFollowedByUserSet);
 
-			numRowsUpdated = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numRowsUpdated);
 	}
 
 	public static int setFlAuthorIsFollowedByUserWhereFlIsUpdating(Boolean flAuthorIsFollowedByUserSet) throws SQLException {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlAuthorIsFollowedByUserWhereFlIsUpdating(connection, flAuthorIsFollowedByUserSet);
-		} catch(SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
 	public static int setFlAuthorIsFollowedByUserWhereFlIsUpdatingSilent(Boolean flAuthorIsFollowedByUserSet) {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlAuthorIsFollowedByUserWhereFlIsUpdating(connection, flAuthorIsFollowedByUserSet);
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
+	/**
+	 * This is the updater for 'setFlIsUpdatingWhereFlAuthorIsFollowingUser' and will throw a SQLException on error
+	 * See the ''setFlIsUpdatingWhereFlAuthorIsFollowingUserSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
 	public static int setFlIsUpdatingWhereFlAuthorIsFollowingUser(Connection connection, Boolean flIsUpdatingSet) throws SQLException {
-		int numRowsUpdated = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_SET_FL_IS_UPDATING_WHERE_FL_AUTHOR_IS_FOLLOWING_USER);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SET_FL_IS_UPDATING_WHERE_FL_AUTHOR_IS_FOLLOWING_USER)) {
 			ConnectionManager.setBoolean(preparedStatement, 1, flIsUpdatingSet);
 
-			numRowsUpdated = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numRowsUpdated);
 	}
 
 	public static int setFlIsUpdatingWhereFlAuthorIsFollowingUser(Boolean flIsUpdatingSet) throws SQLException {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlIsUpdatingWhereFlAuthorIsFollowingUser(connection, flIsUpdatingSet);
-		} catch(SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
 	public static int setFlIsUpdatingWhereFlAuthorIsFollowingUserSilent(Boolean flIsUpdatingSet) {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlIsUpdatingWhereFlAuthorIsFollowingUser(connection, flIsUpdatingSet);
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
+	/**
+	 * This is the updater for 'setFlAuthorIsFollowingUserWhereFlIsUpdating' and will throw a SQLException on error
+	 * See the ''setFlAuthorIsFollowingUserWhereFlIsUpdatingSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
 	public static int setFlAuthorIsFollowingUserWhereFlIsUpdating(Connection connection, Boolean flAuthorIsFollowingUserSet) throws SQLException {
-		int numRowsUpdated = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_SET_FL_AUTHOR_IS_FOLLOWING_USER_WHERE_FL_IS_UPDATING);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SET_FL_AUTHOR_IS_FOLLOWING_USER_WHERE_FL_IS_UPDATING)) {
 			ConnectionManager.setBoolean(preparedStatement, 1, flAuthorIsFollowingUserSet);
 
-			numRowsUpdated = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numRowsUpdated);
 	}
 
 	public static int setFlAuthorIsFollowingUserWhereFlIsUpdating(Boolean flAuthorIsFollowingUserSet) throws SQLException {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlAuthorIsFollowingUserWhereFlIsUpdating(connection, flAuthorIsFollowingUserSet);
-		} catch(SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
 	public static int setFlAuthorIsFollowingUserWhereFlIsUpdatingSilent(Boolean flAuthorIsFollowingUserSet) {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = setFlAuthorIsFollowingUserWhereFlIsUpdating(connection, flAuthorIsFollowingUserSet);
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
+	/**
+	 * This is the updater for 'updateFlIsFollowing' and will throw a SQLException on error
+	 * See the ''updateFlIsFollowingSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
 	public static int updateFlIsFollowing(Connection connection, Boolean flIsUpdatingSet) throws SQLException {
-		int numRowsUpdated = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_UPDATE_FL_IS_FOLLOWING);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_FL_IS_FOLLOWING)) {
 			ConnectionManager.setBoolean(preparedStatement, 1, flIsUpdatingSet);
 
-			numRowsUpdated = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numRowsUpdated);
 	}
 
 	public static int updateFlIsFollowing(Boolean flIsUpdatingSet) throws SQLException {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = updateFlIsFollowing(connection, flIsUpdatingSet);
-		} catch(SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
 	public static int updateFlIsFollowingSilent(Boolean flIsUpdatingSet) {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = updateFlIsFollowing(connection, flIsUpdatingSet);
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
+	/**
+	 * This is the updater for 'updateAllToBeEvaluatedToFollowed' and will throw a SQLException on error
+	 * See the ''updateAllToBeEvaluatedToFollowedSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
 	public static int updateAllToBeEvaluatedToFollowed(Connection connection, Timestamp dtmStartedFollowing) throws SQLException {
-		int numRowsUpdated = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_UPDATE_ALL_TO_BE_EVALUATED_TO_FOLLOWED);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ALL_TO_BE_EVALUATED_TO_FOLLOWED)) {
 			ConnectionManager.setDatetime(preparedStatement, 1, dtmStartedFollowing);
 
-			numRowsUpdated = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numRowsUpdated);
 	}
 
 	public static int updateAllToBeEvaluatedToFollowed(Timestamp dtmStartedFollowing) throws SQLException {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = updateAllToBeEvaluatedToFollowed(connection, dtmStartedFollowing);
-		} catch(SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
 
 	public static int updateAllToBeEvaluatedToFollowedSilent(Timestamp dtmStartedFollowing) {
 		int numRowsUpdated = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			numRowsUpdated = updateAllToBeEvaluatedToFollowed(connection, dtmStartedFollowing);
 		} catch (SQLException sqlex) {
 			sqlex.printStackTrace();
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 		return(numRowsUpdated);
 	}
