@@ -121,7 +121,7 @@
 		}
 	],
 	"fieldCounters": [
-		{"fl_is_updating":  "multiple" }
+		"fl_is_updating,num_followers"
 	],
 	"counters": [
 		{
@@ -139,4 +139,4 @@
 			]
 		}
 	]
-},
+}

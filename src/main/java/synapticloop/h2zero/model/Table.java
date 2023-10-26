@@ -59,18 +59,30 @@ public class Table extends BaseSchemaObject {
 
   static {
     ALLOWABLE_KEYS.add(JSONKeyConstants.NAME);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.COMMENTS);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.FIELDS);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.CONSTANTS);
+
+    ALLOWABLE_KEYS.add(JSONKeyConstants.FINDERS);
     ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_FINDERS);
     ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_NULL_FINDERS);
-    ALLOWABLE_KEYS.add(JSONKeyConstants.FINDERS);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.QUESTIONS);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.UPDATERS);
+    ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_UPDATERS);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.UPSERTERS);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.COUNTERS);
+    ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_COUNTERS);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.DELETERS);
     ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_DELETERS);
+
     ALLOWABLE_KEYS.add(JSONKeyConstants.INSERTERS);
   }
 
@@ -186,14 +198,22 @@ public class Table extends BaseSchemaObject {
     populateFieldFinders(jsonObject);
     populateFieldNullFinders(jsonObject);
     populateFinders(jsonObject);
+
     populateFieldUpdaters(jsonObject);
     populateUpdaters(jsonObject);
+
     populateFieldDeleters(jsonObject);
     populateDeleters(jsonObject);
+
     populateInserters(jsonObject);
+
     populateUpserters(jsonObject);
+
     populateConstants(jsonObject);
+
+    populateFieldCounters(jsonObject);
     populateCounters(jsonObject);
+
     populateQuestions(jsonObject);
 
     populateReferencedFieldTypes();
@@ -253,73 +273,71 @@ public class Table extends BaseSchemaObject {
         throw new H2ZeroParseException(String.format("Could not parse the '%s' array.", JSONKeyConstants.FIELDS), jsonex);
       }
 
-      if (null != type) {
-        String firstUpper = NamingHelper.getFirstUpper(type);
-        try {
-          Class forName = Class.forName("synapticloop.h2zero.model.field." + firstUpper + "Field");
-          Constructor constructor = forName.getConstructor(JSONObject.class, boolean.class);
+      String firstUpper = NamingHelper.getFirstUpper(type);
+      try {
+        Class forName = Class.forName("synapticloop.h2zero.model.field." + firstUpper + "Field");
+        Constructor constructor = forName.getConstructor(JSONObject.class, boolean.class);
 
-          BaseField inBaseField = (BaseField) constructor.newInstance(fieldObject, true);
+        BaseField inBaseField = (BaseField) constructor.newInstance(fieldObject, true);
 
-          constructor = forName.getConstructor(JSONObject.class);
-          BaseField baseField = (BaseField) constructor.newInstance(fieldObject);
-          baseField.setFieldIndex(i);
+        constructor = forName.getConstructor(JSONObject.class);
+        BaseField baseField = (BaseField) constructor.newInstance(fieldObject);
+        baseField.setFieldIndex(i);
 
-          if (!baseField.getNullable()) {
-            nonNullFields.add(baseField);
-          }
-
-          // test to see whether any of the fields can be nullable (for the inserters)
-          if (baseField.getNullable()) {
-            hasNullableFields = true;
-          }
-
-          if (!baseField.getPrimary()) {
-            nonPrimaryFields.add(baseField);
-          } else {
-            this.primaryKeyField = baseField;
-          }
-
-          if (baseField.getIsLargeObject()) {
-            hasLargeObject = true;
-          }
-
-          fields.add(baseField);
-          if (baseField.getIsSecure()) {
-            secureFields.add(baseField);
-          } else {
-            nonSecureFields.add(baseField);
-          }
-
-          // this is whether the fields are populated by default
-          if (baseField.getPopulate()) {
-            populateFields.add(baseField);
-          } else {
-            nonPopulateFields.add(baseField);
-          }
-
-          fieldLookup.put(fieldName, baseField);
-          inFieldLookup.put(fieldName, inBaseField);
-
-          BaseField setBaseField = (BaseField) constructor.newInstance(fieldObject);
-          setBaseField.suffixJavaName("Set");
-          BaseField whereBaseField = (BaseField) constructor.newInstance(fieldObject);
-          whereBaseField.suffixJavaName("Where");
-
-          setFieldLookup.put(fieldName, setBaseField);
-          whereFieldLookup.put(fieldName, whereBaseField);
-
-          // add it to the cache - for later lookups
-          FieldLookupHelper.addToTableFieldCache(this.name, fieldName);
-
-        } catch (ClassNotFoundException |
-                 InstantiationException |
-                 IllegalAccessException |
-                 IllegalArgumentException |
-                 InvocationTargetException |
-                 NoSuchMethodException | SecurityException ex) {
-          logFatalFieldParse(ex, ex.getMessage(), firstUpper);
+        if (!baseField.getNullable()) {
+          nonNullFields.add(baseField);
         }
+
+        // test to see whether any of the fields can be nullable (for the inserters)
+        if (baseField.getNullable()) {
+          hasNullableFields = true;
+        }
+
+        if (!baseField.getPrimary()) {
+          nonPrimaryFields.add(baseField);
+        } else {
+          this.primaryKeyField = baseField;
+        }
+
+        if (baseField.getIsLargeObject()) {
+          hasLargeObject = true;
+        }
+
+        fields.add(baseField);
+        if (baseField.getIsSecure()) {
+          secureFields.add(baseField);
+        } else {
+          nonSecureFields.add(baseField);
+        }
+
+        // this is whether the fields are populated by default
+        if (baseField.getPopulate()) {
+          populateFields.add(baseField);
+        } else {
+          nonPopulateFields.add(baseField);
+        }
+
+        fieldLookup.put(fieldName, baseField);
+        inFieldLookup.put(fieldName, inBaseField);
+
+        BaseField setBaseField = (BaseField) constructor.newInstance(fieldObject);
+        setBaseField.suffixJavaName("Set");
+        BaseField whereBaseField = (BaseField) constructor.newInstance(fieldObject);
+        whereBaseField.suffixJavaName("Where");
+
+        setFieldLookup.put(fieldName, setBaseField);
+        whereFieldLookup.put(fieldName, whereBaseField);
+
+        // add it to the cache - for later lookups
+        FieldLookupHelper.addToTableFieldCache(this.name, fieldName);
+
+      } catch (ClassNotFoundException |
+               InstantiationException |
+               IllegalAccessException |
+               IllegalArgumentException |
+               InvocationTargetException |
+               NoSuchMethodException | SecurityException ex) {
+        logFatalFieldParse(ex, ex.getMessage(), firstUpper);
       }
 
       jsonObject.remove(JSONKeyConstants.FIELDS);
@@ -344,16 +362,16 @@ public class Table extends BaseSchemaObject {
   }
 
   private void populateUpdaters(JSONObject jsonObject) throws H2ZeroParseException {
-    JSONArray updaterJson = new JSONArray();
-    try {
-      updaterJson = jsonObject.getJSONArray(JSONKeyConstants.UPDATERS);
-    } catch (JSONException ojjsonex) {
-      // do nothing - no updaters are ok
+    // now go through and addUpdaters  - there are no multiple updaters - as this is not a finder
+    for (String updater : autoGeneratedUpdaters) {
+      generateAutomaticUpdater(updater);
     }
 
-    // now go through and addUpdaters  - there are no multiple updaters - as this is not a finder
-    for (String uniqueUpdater : autoGeneratedUniqueUpdaters) {
-      generateAutomaticUpdater(uniqueUpdater);
+    JSONArray updaterJson = new JSONArray();
+    updaterJson = jsonObject.optJSONArray(JSONKeyConstants.UPDATERS);
+    if (null == updaterJson) {
+      // no updates is ok
+      return;
     }
 
     for (int i = 0; i < updaterJson.length(); i++) {
@@ -367,6 +385,13 @@ public class Table extends BaseSchemaObject {
 
     jsonObject.remove(JSONKeyConstants.UPDATERS);
   }
+
+  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+   *
+   * The following methods are on the Table class, rather than the view class,
+   * as you cannot update/delete/insert into a view - but you can on a table
+   *
+   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
   /**
    * Automatic updaters will update __ALL__ rows in the database and there is no where clause
@@ -395,7 +420,7 @@ public class Table extends BaseSchemaObject {
             .append(updaterFieldName)
             .append(" = ? ");
 
-        if(i != 0) {
+        if (i != 0) {
           setClauseBuilder.append(", ");
         }
 
@@ -430,7 +455,7 @@ public class Table extends BaseSchemaObject {
       String fieldUpdaterName = null;
       try {
         fieldUpdaterName = updaterJson.getString(i);
-        autoGeneratedUniqueUpdaters.add(fieldUpdaterName);
+        autoGeneratedUpdaters.add(fieldUpdaterName);
       } catch (JSONException ex) {
         throw new H2ZeroParseException("Found a '" + JSONKeyConstants.FIELD_UPDATERS + "' element on the '" + this.name + "' table, however the value at index '" + i + "' is not a String.");
       }

@@ -34,6 +34,7 @@ public class AuthorCounter {
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from author";
 
+	private static final String SQL_COUNT_ALL_BY_FL_IS_UPDATING_NUM_FOLLOWERS = "select count(*) from author " + " where fl_is_updating = ? and num_followers = ?";
 	private static final String SQL_COUNT_ALL_TO_BE_EVALUATED = "select count(*) from author " + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? ";
 	private static final String SQL_COUNT_BY_STATUS = "select count(*) from author " + " where id_author_status = ?";
 
@@ -53,13 +54,12 @@ public class AuthorCounter {
 	public static int countAll(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_COUNT_ALL);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
@@ -73,7 +73,7 @@ public class AuthorCounter {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 
-		return(count);
+		return(-1);
 	}
 
 	/**
@@ -84,10 +84,8 @@ public class AuthorCounter {
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
 	public static int countAll() throws SQLException {
-		Connection connection = null;
 
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			return(countAll(connection));
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
@@ -97,8 +95,6 @@ public class AuthorCounter {
 				}
 			}
 			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -145,6 +141,68 @@ public class AuthorCounter {
 			}
 			return(-1);
 		}
+	}
+
+	public static int countAllByFlIsUpdatingNumFollowers(Connection connection, Boolean flIsUpdating, Long numFollowers) throws SQLException {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		int count = -1;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_COUNT_ALL_BY_FL_IS_UPDATING_NUM_FOLLOWERS);
+			ConnectionManager.setBoolean(preparedStatement, 1, flIsUpdating);
+			ConnectionManager.setBigint(preparedStatement, 2, numFollowers);
+
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				count = resultSet.getInt(1);
+			}
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+		return(count);
+	}
+
+	public static int countAllByFlIsUpdatingNumFollowers(Boolean flIsUpdating, Long numFollowers) throws SQLException {
+		Connection connection = null;
+
+		try {
+			connection = ConnectionManager.getConnection();
+			return(countAllByFlIsUpdatingNumFollowers(connection, flIsUpdating, numFollowers));
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			ConnectionManager.closeAll(connection);
+		}
+	}
+
+	public static int countAllByFlIsUpdatingNumFollowersSilent(Connection connection, Boolean flIsUpdating, Long numFollowers) {
+		try {
+			return(countAllByFlIsUpdatingNumFollowers(connection, flIsUpdating, numFollowers));
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException countAllByFlIsUpdatingNumFollowersSilent(" + flIsUpdating + ", " + numFollowers + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+		}
+		return(-1);
+	}
+
+	public static int countAllByFlIsUpdatingNumFollowersSilent(Boolean flIsUpdating, Long numFollowers) {
+		try {
+			return(countAllByFlIsUpdatingNumFollowers(flIsUpdating, numFollowers));
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException countAllByFlIsUpdatingNumFollowersSilent(" + flIsUpdating + ", " + numFollowers + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+		}
+		return(-1);
 	}
 
 	public static int countAllToBeEvaluated(Connection connection, Timestamp dtmStartedFollowing) throws SQLException {
