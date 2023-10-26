@@ -114,6 +114,9 @@
 			]
 		}
 	],
+	"fieldCounters": [
+		{"fl_is_updating":  "multiple" }
+	],
 	"counters": [
 		{
 			"name": "countAllToBeEvaluated",

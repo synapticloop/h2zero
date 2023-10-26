@@ -7,7 +7,7 @@
 
 	"validators": {
 		"UpdaterNameValidator": {
-			"allowablePrefixes": "reset,"
+			"allowablePrefixes": "reset,set,update"
 		},
 
 		"FinderNameValidator": {

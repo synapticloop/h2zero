@@ -17,6 +17,9 @@ archivesBaseName = 'h2zero'
 description = """lightweight ORM generator for mysql/sqlite, java with extensions for taglibs and routemaster"""
 version = '5.0.0'
 
+allprojects {
+    tasks.withType(Javadoc).all { enabled = false }
+}
 repositories {
     mavenLocal()
     mavenCentral()
