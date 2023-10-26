@@ -1,27 +1,25 @@
 plugins {
-    id 'java'
-    id 'eclipse'
+    id "java"
+    id "eclipse"
     id "maven-publish"
 
     id "com.github.ben-manes.versions" version "0.49.0"
 
-    id 'com.gradle.plugin-publish' version '1.2.1'
-//    id 'co.riiid.gradle' version '0.4.2'
+    id "com.gradle.plugin-publish" version "1.2.1"
 
-    id 'synapticloop.copyrightr' version '1.3.1'
+    id "synapticloop.copyrightr" version "1.3.1"
 
 }
 
-group = 'synapticloop'
-archivesBaseName = 'h2zero'
-description = """lightweight ORM generator for mysql/sqlite, java with extensions for taglibs and routemaster"""
-version = '5.0.0'
+version = "5.0.0"
+
+tasks.withType(Javadoc).all { enabled = false }
 
 repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        url 'https://jitpack.io'
+        url "https://jitpack.io"
     }
 
 }
@@ -33,42 +31,25 @@ java {
 }
 
 dependencies {
-    implementation 'com.github.synapticloop:templar:1.5.5'
-    implementation 'org.json:json:20231013'
-    implementation 'com.mchange:c3p0:0.9.5.5'
-    implementation 'commons-validator:commons-validator:1.7'
-    implementation 'org.slf4j:slf4j-api:1.7.26'
-    implementation 'javax.mail:javax.mail-api:1.6.2'
-    implementation 'org.apache.ant:ant:1.10.14'
+    implementation "com.github.synapticloop:templar:1.5.5"
+    implementation "org.json:json:20231013"
+    implementation "com.mchange:c3p0:0.9.5.5"
+    implementation "commons-validator:commons-validator:1.7"
+    implementation "org.slf4j:slf4j-api:1.7.26"
+    implementation "javax.mail:javax.mail-api:1.6.2"
+    implementation "org.apache.ant:ant:1.10.14"
 
     compileOnly gradleApi()
-////    compileOnly 'synapticloop:templar:1.5.0'
-//    compileOnly 'org.json:json:20180130'
-//    compileOnly 'org.apache.ant:ant:1.10.6'
-//    compileOnly 'com.mchange:c3p0:0.9.5.4'
-//    compileOnly 'commons-validator:commons-validator:1.6'
-//    compileOnly 'org.slf4j:slf4j-api:1.7.25'
-//    compileOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.12.1'
-//    compileOnly 'org.apache.logging.log4j:log4j-core:2.12.1'
-//
-//    compileOnly 'javax.mail:javax.mail-api:1.6.2'
-//    compileOnly 'com.github.stefanbirkner:system-rules:1.17.1'
 
-//    testRuntimeOnly 'junit:junit:4.12'
-//    testRuntimeOnly 'org.mockito:mockito-all:1.10.19'
-//    testRuntimeOnly 'com.github.stefanbirkner:system-rules:1.16.1'
-//    testRuntimeOnly 'mysql:mysql-connector-java:8.0.33'
-//    testRuntimeOnly 'org.xerial:sqlite-jdbc:3.28.0'
-
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.6.0'
-    testImplementation 'com.github.stefanbirkner:system-rules:1.17.1'
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.mockito:mockito-core:5.6.0"
+    testImplementation "com.github.stefanbirkner:system-rules:1.17.1"
 }
 
 configurations.all {
     resolutionStrategy {
         failOnVersionConflict()
-        force 'junit:junit:4.13.2'
+        force "junit:junit:4.13.2"
     }
 }
 
@@ -82,15 +63,15 @@ jar {
 }
 
 test {
-    include '**/*Test.class'
+    include "**/*Test.class"
     maxParallelForks = 1
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId 'synapticloop'
-            artifactId archivesBaseName
+            groupId "synapticloop"
+            artifactId "h2zero"
             version version
 
             from components.java
@@ -102,16 +83,16 @@ publishing {
  * The Gradle Plugin Publisher
  */
 gradlePlugin {
-    website = 'https://github.com/synapticloop/h2zero'
-    vcsUrl = 'https://github.com/synapticloop/h2zero'
+    website = "https://github.com/synapticloop/h2zero"
+    vcsUrl = "https://github.com/synapticloop/h2zero"
 
     plugins {
         h2zeroPlugin {
-            id = 'synapticloop.h2zero'
-            implementationClass = 'synapticloop.h2zero.plugin.gradle.H2ZeroPlugin'
-            displayName = 'Synapticloop Gradle h2zero plugin'
-            description = 'lightweight ORM Java code generator for SQL databases: mysql, sqlite3, postgresql, and cockroach - this utilises the templar templating language'
-            tags = ['h2zero', 'ORM', 'generator']
+            id = "synapticloop.h2zero"
+            implementationClass = "synapticloop.h2zero.plugin.gradle.H2ZeroPlugin"
+            displayName = "Synapticloop Gradle h2zero plugin"
+            description = "lightweight ORM Java code generator for SQL databases: mysql, sqlite3, postgresql, and cockroach - this utilises the templar templating language"
+            tags = ["h2zero", "ORM", "generator"]
         }
     }
 }
