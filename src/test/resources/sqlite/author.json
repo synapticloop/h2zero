@@ -67,7 +67,7 @@
 		},
 		{
 			"name": "setFlIsUpdating",
-			"setClause": "set fl_is_updating = ?",
+			"setClause": "fl_is_updating = ?",
 			"setFields": [
 				"fl_is_updating"
 			]

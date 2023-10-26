@@ -12,6 +12,8 @@ import synapticloop.h2zero.base.view.ViewBase;{\n}
 {if fn:requiresImport[table, "Timestamp"]}import java.sql.Timestamp;{\n}{endif}
 {if fn:requiresImport[table, "Time"]}import java.sql.Time;{\n}{endif}
 import {database.package}.model.util.Constants;{\n}
+import org.json.JSONObject;{\n}
+import synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
 
 {\n}{\n}
 
@@ -119,40 +121,55 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 
 	{-- Now we need the toString Method--}
 	{\n}
-		{\t}@Override{\n}
-		{\t}public String toString() {{{\n}
-		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
+	{\t}@Override{\n}
+{--    --}{\t}public String toString() {{{\n}
+{--    --}{\t}{\t}return(new StringBuilder(){\n}
+{--    --}{\t}{\t}{\t}.append("Model: '{table.javaClassName}'\n"){\n}
+{loop table.fields as field}
+	{if field.isSecure}
+{--    --}{\t}{\t}{\t}.append("  Field: '{field.javaName}:<**secure**>'\n"){\n}
+	{else}
+{--    --}{\t}{\t}{\t}.append("  Field: '{field.javaName}:").append(this.{field.javaName}).append("'\n"){\n}
+	{endif}
+	{if fieldStatus.last}{\t}{\t}{\t}.toString());{\n}{endif}
+{endloop}
 
-		{\t}{\t}stringBuilder.append("Model[{view.javaClassName}]\n");{\n}
-		{loop view.fields as field}
-			{\t}{\t}stringBuilder.append("  Field[{field.javaName}:" + this.{field.javaName} + "]\n");{\n}
-		{endloop}
+{--    --}{\t}}{\n}
 
-		{\t}{\t}return(stringBuilder.toString());{\n}
-		{\t}}{\n}
 
 
 	{-- Now we need the toJsonString Method--}
 	{\n}
 		{\t}public String toJsonString() {{{\n}
-		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
-
-		{\t}{\t}stringBuilder.append("{{\n");{\n}
-		{\t}{\t}stringBuilder.append("  \"model\": {{\n");{\n}
-		{\t}{\t}stringBuilder.append("    \"name\": \"{view.javaClassName}\",\n");{\n}
-		{\t}{\t}stringBuilder.append("    \"fields\": [\n");{\n}
-
-		{loop view.fields as field}
-			{\t}{\t}stringBuilder.append("     {{ \"name\": \"{field.javaName}\", \"value\": {if field.shouldEscape}\"{endif}" + this.{field.javaName} + "{if field.shouldEscape}\"{endif} }{if !fieldStatus.last}, {endif}\n");{\n}
-		{endloop}
-
-		{\t}{\t}stringBuilder.append("    ]\n");{\n}
-		{\t}{\t}stringBuilder.append("  }\n");{\n}
-		{\t}{\t}stringBuilder.append("}\n");{\n}
-
-		{\t}{\t}return(stringBuilder.toString());{\n}
+		{\t}{\t}return(toJSON().toString());{\n}
 		{\t}}{\n}
 		{\n}
+
+	{-- and the getJSONString - for chaining --}
+	{\t}public JSONObject getToJSON() {{{\n}
+	{\t}{\t}return(toJSON());{\n}
+	{\t}}{\n}
+
+	{-- Now we need the toJson Method--}
+	{\n}
+	{\t}public JSONObject toJSON() {{{\n}
+	{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
+	{\n}
+	{\t}{\t}jsonObject.put("type", "view");{\n}
+	{\t}{\t}jsonObject.put("name", "{table.javaClassName}");{\n}
+	{\t}{\t}JSONObject fieldsObject = new JSONObject();{\n}
+	{\n}
+	{loop table.fields as field}
+		{if !field.isSecure}
+			{\t}{\t}ModelBaseHelper.addtoJSONObject(fieldsObject, "{field.javaName}", this.get{field.javaAccessorName}());{\n}
+		{endif}
+	{endloop}
+{\n}
+	{\t}{\t}jsonObject.put("fields", fieldsObject);{\n}{\n}
+
+	{\t}{\t}return(jsonObject);{\n}
+	{\t}}{\n}
+	{\n}
 
 	{-- and the getJSONString - for chaining --}
 	{\t}public String getJsonString() {{{\n}

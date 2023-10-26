@@ -62,9 +62,11 @@ public class UserType  {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[UserType]\n");
-		stringBuilder.append("  Field[idUserType:" + this.idUserType + "]\n");
-		stringBuilder.append("  Field[nmUserType:" + this.nmUserType + "]\n");
+		stringBuilder
+			.append("Model: 'UserType'\n")
+			.append("  Field: 'idUserType:").append(this.idUserType).append("'\n")
+			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -74,10 +76,15 @@ public class UserType  {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "UserType");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "UserType");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserType", this.getIdUserType());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "nmUserType", this.getNmUserType());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserType", this.getIdUserType());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

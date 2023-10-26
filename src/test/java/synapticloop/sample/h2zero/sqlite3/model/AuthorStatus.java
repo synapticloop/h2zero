@@ -65,10 +65,12 @@ public class AuthorStatus  {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[AuthorStatus]\n");
-		stringBuilder.append("  Field[idAuthorStatus:" + this.idAuthorStatus + "]\n");
-		stringBuilder.append("  Field[txtAuthorStatus:" + this.txtAuthorStatus + "]\n");
-		stringBuilder.append("  Field[txtDescAuthorStatus:" + this.txtDescAuthorStatus + "]\n");
+		stringBuilder
+			.append("Model: 'AuthorStatus'\n")
+			.append("  Field: 'idAuthorStatus:").append(this.idAuthorStatus).append("'\n")
+			.append("  Field: 'txtAuthorStatus:").append(this.txtAuthorStatus).append("'\n")
+			.append("  Field: 'txtDescAuthorStatus:").append(this.txtDescAuthorStatus).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -78,11 +80,16 @@ public class AuthorStatus  {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "AuthorStatus");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "AuthorStatus");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idAuthorStatus", this.getIdAuthorStatus());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "txtAuthorStatus", this.getTxtAuthorStatus());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "txtDescAuthorStatus", this.getTxtDescAuthorStatus());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAuthorStatus", this.getIdAuthorStatus());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtAuthorStatus", this.getTxtAuthorStatus());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtDescAuthorStatus", this.getTxtDescAuthorStatus());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

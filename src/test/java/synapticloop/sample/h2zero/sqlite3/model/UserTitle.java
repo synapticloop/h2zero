@@ -65,10 +65,12 @@ public class UserTitle  {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[UserTitle]\n");
-		stringBuilder.append("  Field[idUserTitle:" + this.idUserTitle + "]\n");
-		stringBuilder.append("  Field[nmUserTitle:" + this.nmUserTitle + "]\n");
-		stringBuilder.append("  Field[numOrderBy:" + this.numOrderBy + "]\n");
+		stringBuilder
+			.append("Model: 'UserTitle'\n")
+			.append("  Field: 'idUserTitle:").append(this.idUserTitle).append("'\n")
+			.append("  Field: 'nmUserTitle:").append(this.nmUserTitle).append("'\n")
+			.append("  Field: 'numOrderBy:").append(this.numOrderBy).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -78,11 +80,16 @@ public class UserTitle  {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "UserTitle");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "UserTitle");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserTitle", this.getIdUserTitle());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "nmUserTitle", this.getNmUserTitle());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numOrderBy", this.getNumOrderBy());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserTitle", this.getIdUserTitle());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUserTitle", this.getNmUserTitle());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numOrderBy", this.getNumOrderBy());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

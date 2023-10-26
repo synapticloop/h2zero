@@ -317,22 +317,24 @@ public class AllTypes extends ModelBase {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[AllTypes]\n");
-		stringBuilder.append("  Field[idAllTypes:" + this.idAllTypes + "]\n");
-		stringBuilder.append("  Field[testBigint:" + this.testBigint + "]\n");
-		stringBuilder.append("  Field[testBoolean:" + this.testBoolean + "]\n");
-		stringBuilder.append("  Field[testDate:" + this.testDate + "]\n");
-		stringBuilder.append("  Field[testDatetime:" + this.testDatetime + "]\n");
-		stringBuilder.append("  Field[testDouble:" + this.testDouble + "]\n");
-		stringBuilder.append("  Field[testFloat:" + this.testFloat + "]\n");
-		stringBuilder.append("  Field[testInt:" + this.testInt + "]\n");
-		stringBuilder.append("  Field[testInteger:" + this.testInteger + "]\n");
-		stringBuilder.append("  Field[testMediumint:" + this.testMediumint + "]\n");
-		stringBuilder.append("  Field[testNumeric:" + this.testNumeric + "]\n");
-		stringBuilder.append("  Field[testSmallint:" + this.testSmallint + "]\n");
-		stringBuilder.append("  Field[testText:" + this.testText + "]\n");
-		stringBuilder.append("  Field[testTinyint:" + this.testTinyint + "]\n");
-		stringBuilder.append("  Field[testVarchar:" + this.testVarchar + "]\n");
+		stringBuilder
+			.append("Model: 'AllTypes'\n")
+			.append("  Field: 'idAllTypes:").append(this.idAllTypes).append("'\n")
+			.append("  Field: 'testBigint:").append(this.testBigint).append("'\n")
+			.append("  Field: 'testBoolean:").append(this.testBoolean).append("'\n")
+			.append("  Field: 'testDate:").append(this.testDate).append("'\n")
+			.append("  Field: 'testDatetime:").append(this.testDatetime).append("'\n")
+			.append("  Field: 'testDouble:").append(this.testDouble).append("'\n")
+			.append("  Field: 'testFloat:").append(this.testFloat).append("'\n")
+			.append("  Field: 'testInt:").append(this.testInt).append("'\n")
+			.append("  Field: 'testInteger:").append(this.testInteger).append("'\n")
+			.append("  Field: 'testMediumint:").append(this.testMediumint).append("'\n")
+			.append("  Field: 'testNumeric:").append(this.testNumeric).append("'\n")
+			.append("  Field: 'testSmallint:").append(this.testSmallint).append("'\n")
+			.append("  Field: 'testText:").append(this.testText).append("'\n")
+			.append("  Field: 'testTinyint:").append(this.testTinyint).append("'\n")
+			.append("  Field: 'testVarchar:").append(this.testVarchar).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -342,23 +344,28 @@ public class AllTypes extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "AllTypes");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "AllTypes");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idAllTypes", this.getIdAllTypes());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testBigint", this.getTestBigint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testBoolean", this.getTestBoolean());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testDate", this.getTestDate());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testDatetime", this.getTestDatetime());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testDouble", this.getTestDouble());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testFloat", this.getTestFloat());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testInt", this.getTestInt());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testInteger", this.getTestInteger());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testMediumint", this.getTestMediumint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testNumeric", this.getTestNumeric());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testSmallint", this.getTestSmallint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testText", this.getTestText());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testTinyint", this.getTestTinyint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testVarchar", this.getTestVarchar());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAllTypes", this.getIdAllTypes());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBigint", this.getTestBigint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBoolean", this.getTestBoolean());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDate", this.getTestDate());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDatetime", this.getTestDatetime());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDouble", this.getTestDouble());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testFloat", this.getTestFloat());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testInt", this.getTestInt());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testInteger", this.getTestInteger());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testMediumint", this.getTestMediumint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testNumeric", this.getTestNumeric());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testSmallint", this.getTestSmallint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testText", this.getTestText());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testTinyint", this.getTestTinyint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testVarchar", this.getTestVarchar());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 
