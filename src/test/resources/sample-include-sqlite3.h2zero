@@ -3,11 +3,15 @@
 	"metrics": false,
 	"database": "sqlite3",
 
-	"generators": [ "java", "sql", "reports" ],
+	"generators": [
+	    "java",
+	    "sql",
+	    "reports"
+	],
 
 	"validators": {
 		"UpdaterNameValidator": {
-			"allowablePrefixes": "reset,"
+			"allowablePrefixes": "reset,set,update"
 		},
 
 		"FinderNameValidator": {

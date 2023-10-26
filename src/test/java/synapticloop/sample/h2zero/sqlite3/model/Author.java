@@ -306,20 +306,22 @@ public class Author extends ModelBase {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[Author]\n");
-		stringBuilder.append("  Field[idAuthor:" + this.idAuthor + "]\n");
-		stringBuilder.append("  Field[idAuthorStatus:" + this.idAuthorStatus + "]\n");
-		stringBuilder.append("  Field[txtIdAuthor:" + this.txtIdAuthor + "]\n");
-		stringBuilder.append("  Field[nmAuthor:" + this.nmAuthor + "]\n");
-		stringBuilder.append("  Field[nmUsername:" + this.nmUsername + "]\n");
-		stringBuilder.append("  Field[txtBio:" + this.txtBio + "]\n");
-		stringBuilder.append("  Field[txtUrlCacheImage:" + this.txtUrlCacheImage + "]\n");
-		stringBuilder.append("  Field[numFollowing:" + this.numFollowing + "]\n");
-		stringBuilder.append("  Field[numFollowers:" + this.numFollowers + "]\n");
-		stringBuilder.append("  Field[dtmStartedFollowing:" + this.dtmStartedFollowing + "]\n");
-		stringBuilder.append("  Field[flIsUpdating:" + this.flIsUpdating + "]\n");
-		stringBuilder.append("  Field[flAuthorIsFollowingUser:" + this.flAuthorIsFollowingUser + "]\n");
-		stringBuilder.append("  Field[flAuthorIsFollowedByUser:" + this.flAuthorIsFollowedByUser + "]\n");
+		stringBuilder
+			.append("Model: 'Author'\n")
+			.append("  Field: 'idAuthor:").append(this.idAuthor).append("'\n")
+			.append("  Field: 'idAuthorStatus:").append(this.idAuthorStatus).append("'\n")
+			.append("  Field: 'txtIdAuthor:").append(this.txtIdAuthor).append("'\n")
+			.append("  Field: 'nmAuthor:").append(this.nmAuthor).append("'\n")
+			.append("  Field: 'nmUsername:").append(this.nmUsername).append("'\n")
+			.append("  Field: 'txtBio:").append(this.txtBio).append("'\n")
+			.append("  Field: 'txtUrlCacheImage:").append(this.txtUrlCacheImage).append("'\n")
+			.append("  Field: 'numFollowing:").append(this.numFollowing).append("'\n")
+			.append("  Field: 'numFollowers:").append(this.numFollowers).append("'\n")
+			.append("  Field: 'dtmStartedFollowing:").append(this.dtmStartedFollowing).append("'\n")
+			.append("  Field: 'flIsUpdating:").append(this.flIsUpdating).append("'\n")
+			.append("  Field: 'flAuthorIsFollowingUser:").append(this.flAuthorIsFollowingUser).append("'\n")
+			.append("  Field: 'flAuthorIsFollowedByUser:").append(this.flAuthorIsFollowedByUser).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -329,21 +331,26 @@ public class Author extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "Author");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "Author");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idAuthor", this.getIdAuthor());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idAuthorStatus", this.getIdAuthorStatus());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "txtIdAuthor", this.getTxtIdAuthor());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "nmAuthor", this.getNmAuthor());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "nmUsername", this.getNmUsername());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "txtBio", this.getTxtBio());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "txtUrlCacheImage", this.getTxtUrlCacheImage());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numFollowing", this.getNumFollowing());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numFollowers", this.getNumFollowers());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "dtmStartedFollowing", this.getDtmStartedFollowing());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "flIsUpdating", this.getFlIsUpdating());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "flAuthorIsFollowingUser", this.getFlAuthorIsFollowingUser());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "flAuthorIsFollowedByUser", this.getFlAuthorIsFollowedByUser());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAuthor", this.getIdAuthor());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAuthorStatus", this.getIdAuthorStatus());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtIdAuthor", this.getTxtIdAuthor());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmAuthor", this.getNmAuthor());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtBio", this.getTxtBio());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtUrlCacheImage", this.getTxtUrlCacheImage());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numFollowing", this.getNumFollowing());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numFollowers", this.getNumFollowers());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "dtmStartedFollowing", this.getDtmStartedFollowing());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "flIsUpdating", this.getFlIsUpdating());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "flAuthorIsFollowingUser", this.getFlAuthorIsFollowingUser());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "flAuthorIsFollowedByUser", this.getFlAuthorIsFollowedByUser());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

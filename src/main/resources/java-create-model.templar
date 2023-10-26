@@ -607,13 +607,15 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}public String toString() {{{\n}
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
-		{\t}{\t}stringBuilder.append("Model[{table.javaClassName}]\n");{\n}
+		{\t}{\t}stringBuilder{\n}
+		{\t}{\t}{\t}.append("Model: '{table.javaClassName}'\n"){\n}
 		{loop table.fields as field}
 			{if field.isSecure}
-				{\t}{\t}stringBuilder.append("  Field[{field.javaName}:<**secure**>]\n");{\n}
+				{\t}{\t}{\t}.append("  Field: '{field.javaName}:<**secure**>'\n"){\n}
 			{else}
-				{\t}{\t}stringBuilder.append("  Field[{field.javaName}:" + this.{field.javaName} + "]\n");{\n}
+				{\t}{\t}{\t}.append("  Field: '{field.javaName}:").append(this.{field.javaName}).append("'\n"){\n}
 			{endif}
+			{if fieldStatus.last}{\t}{\t}{\t};{\n}{endif}
 		{endloop}
 
 		{\t}{\t}return(stringBuilder.toString());{\n}
@@ -630,13 +632,18 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}public JSONObject toJSON() {{{\n}
 	{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
 	{\n}
-	{\t}{\t}jsonObject.put("type", "{table.javaClassName}");{\n}
+	{\t}{\t}jsonObject.put("type", "table");{\n}
+	{\t}{\t}jsonObject.put("name", "{table.javaClassName}");{\n}
+	{\t}{\t}JSONObject fieldsObject = new JSONObject();{\n}
 	{\n}
 	{loop table.fields as field}
 		{if !field.isSecure}
-			{\t}{\t}ModelBaseHelper.addtoJSONObject(jsonObject, "{field.javaName}", this.get{field.javaAccessorName}());{\n}
+			{\t}{\t}ModelBaseHelper.addtoJSONObject(fieldsObject, "{field.javaName}", this.get{field.javaAccessorName}());{\n}
 		{endif}
 	{endloop}
+{\n}
+	{\t}{\t}jsonObject.put("fields", fieldsObject);{\n}{\n}
+
 	{\t}{\t}return(jsonObject);{\n}
 	{\t}}{\n}
 	{\n}

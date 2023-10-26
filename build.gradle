@@ -16,6 +16,9 @@ group = 'synapticloop'
 
 tasks.withType(Javadoc).all { enabled = false }
 
+allprojects {
+    tasks.withType(Javadoc).all { enabled = false }
+}
 repositories {
     mavenLocal()
     mavenCentral()

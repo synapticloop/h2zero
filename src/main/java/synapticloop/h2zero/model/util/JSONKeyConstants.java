@@ -34,6 +34,7 @@ public class JSONKeyConstants {
 
 	public static final String QUESTIONS = "questions";
 	public static final String COUNTERS = "counters";
+	public static final String FIELD_COUNTERS = "fieldCounters";
 
 	public static final String DELETERS = "deleters";
 	public static final String FIELD_DELETERS = "fieldDeleters";

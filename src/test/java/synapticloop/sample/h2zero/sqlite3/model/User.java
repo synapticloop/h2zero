@@ -276,15 +276,17 @@ public class User extends ModelBase {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[User]\n");
-		stringBuilder.append("  Field[idUser:" + this.idUser + "]\n");
-		stringBuilder.append("  Field[idUserType:" + this.idUserType + "]\n");
-		stringBuilder.append("  Field[flIsAlive:" + this.flIsAlive + "]\n");
-		stringBuilder.append("  Field[numAge:" + this.numAge + "]\n");
-		stringBuilder.append("  Field[nmUsername:" + this.nmUsername + "]\n");
-		stringBuilder.append("  Field[txtAddressEmail:" + this.txtAddressEmail + "]\n");
-		stringBuilder.append("  Field[txtPassword:<**secure**>]\n");
-		stringBuilder.append("  Field[dtmSignup:" + this.dtmSignup + "]\n");
+		stringBuilder
+			.append("Model: 'User'\n")
+			.append("  Field: 'idUser:").append(this.idUser).append("'\n")
+			.append("  Field: 'idUserType:").append(this.idUserType).append("'\n")
+			.append("  Field: 'flIsAlive:").append(this.flIsAlive).append("'\n")
+			.append("  Field: 'numAge:").append(this.numAge).append("'\n")
+			.append("  Field: 'nmUsername:").append(this.nmUsername).append("'\n")
+			.append("  Field: 'txtAddressEmail:").append(this.txtAddressEmail).append("'\n")
+			.append("  Field: 'txtPassword:<**secure**>'\n")
+			.append("  Field: 'dtmSignup:").append(this.dtmSignup).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -294,15 +296,20 @@ public class User extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "User");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "User");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUser", this.getIdUser());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserType", this.getIdUserType());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "flIsAlive", this.getFlIsAlive());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numAge", this.getNumAge());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "nmUsername", this.getNmUsername());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "txtAddressEmail", this.getTxtAddressEmail());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "dtmSignup", this.getDtmSignup());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUser", this.getIdUser());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserType", this.getIdUserType());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "flIsAlive", this.getFlIsAlive());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numAge", this.getNumAge());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtAddressEmail", this.getTxtAddressEmail());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "dtmSignup", this.getDtmSignup());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

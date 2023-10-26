@@ -22,7 +22,8 @@
 	"fieldFinders": [
 		{ "txt_id_author": "unique" },
 		{ "id_author_status": "multiple" },
-		{ "fl_is_updating": "multiple" }
+		{ "fl_is_updating": "multiple" },
+		{ "txt_id_author, id_author_status": "multiple" }
 	],
 	"finders": [
 		{
@@ -50,6 +51,11 @@
 			"unique": false
 		}
 	],
+	"fieldUpdaters": [
+		"num_followers",
+		"id_author",
+		"id_author,num_followers"
+	],
 	"updaters": [
 		{
 			"name": "resetAuthorsToBeFollowed",
@@ -61,7 +67,7 @@
 		},
 		{
 			"name": "setFlIsUpdating",
-			"setClause": "set fl_is_updating = ?",
+			"setClause": "fl_is_updating = ?",
 			"setFields": [
 				"fl_is_updating"
 			]
@@ -114,6 +120,9 @@
 			]
 		}
 	],
+	"fieldCounters": [
+		"fl_is_updating,num_followers"
+	],
 	"counters": [
 		{
 			"name": "countAllToBeEvaluated",
@@ -130,4 +139,4 @@
 			]
 		}
 	]
-},
+}

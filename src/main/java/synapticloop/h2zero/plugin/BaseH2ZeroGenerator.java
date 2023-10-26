@@ -314,10 +314,10 @@ public class BaseH2ZeroGenerator {
 				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'view' " + String.format("%-" + maxViewNameLength + "s", view.getName()) + 
 						"  [ " + 
 						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", view.getFields().size()) + 
-						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", view.getFinders().size()) + 
-						String.format("- deleters, ") + 
-						String.format("- updaters, ") + 
-						String.format("- inserters, ") + 
+						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", view.getFinders().size()) +
+						"- deleters, " +
+						"- updaters, " +
+						"- inserters, " +
 						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", view.getQuestions().size()) + 
 						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", view.getCounters().size()) + 
 						" ] ");

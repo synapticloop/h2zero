@@ -39,6 +39,7 @@ public class AuthorFinder {
 
 	private static final String SQL_FIND_BY_ID_AUTHOR_STATUS = SQL_SELECT_START + " where id_author_status = ?";
 	private static final String SQL_FIND_BY_FL_IS_UPDATING = SQL_SELECT_START + " where fl_is_updating = ?";
+	private static final String SQL_FIND_BY_TXT_ID_AUTHOR_ID_AUTHOR_STATUS = SQL_SELECT_START + " where txt_id_author = ? and id_author_status = ?";
 	private static final String SQL_FIND_BY_TXT_ID_AUTHOR = SQL_SELECT_START + " where txt_id_author = ?";
 	private static final String SQL_FIND_ALL_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ? ";
 	private static final String SQL_FIND_FIRST_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc limit 1";
@@ -48,6 +49,7 @@ public class AuthorFinder {
 	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
 	private static LruCache<String, String> findByIdAuthorStatus_limit_statement_cache = new LruCache<String, String>(1024);
 	private static LruCache<String, String> findByFlIsUpdating_limit_statement_cache = new LruCache<String, String>(1024);
+	private static LruCache<String, String> findByTxtIdAuthorIdAuthorStatus_limit_statement_cache = new LruCache<String, String>(1024);
 	private static LruCache<String, String> findByTxtIdAuthor_limit_statement_cache = new LruCache<String, String>(1024);
 	private static LruCache<String, String> findAllToBeEvaluated_limit_statement_cache = new LruCache<String, String>(1024);
 	private static LruCache<String, String> findFirstToBeEvaluated_limit_statement_cache = new LruCache<String, String>(1024);
@@ -524,6 +526,122 @@ public class AuthorFinder {
 
 	public static List<Author> findByFlIsUpdatingSilent(Boolean flIsUpdating) {
 		return(findByFlIsUpdatingSilent(null, flIsUpdating, null, null));
+	}
+
+	/**
+	 * findByTxtIdAuthorIdAuthorStatus
+	 * @param txtIdAuthor
+	 * @param idAuthorStatus
+	 * 
+	 * @return the list of Author results found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static List<Author> findByTxtIdAuthorIdAuthorStatus(Connection connection, String txtIdAuthor, Long idAuthorStatus, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTxtIdAuthorIdAuthorStatus_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TXT_ID_AUTHOR_ID_AUTHOR_STATUS);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTxtIdAuthorIdAuthorStatus_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTxtIdAuthorIdAuthorStatus_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Author> results = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setVarchar(preparedStatement, 1, txtIdAuthor);
+			ConnectionManager.setBigint(preparedStatement, 2, idAuthorStatus);
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<Author> findByTxtIdAuthorIdAuthorStatus(Connection connection, String txtIdAuthor, Long idAuthorStatus) throws H2ZeroFinderException, SQLException {
+		return(findByTxtIdAuthorIdAuthorStatus(connection, txtIdAuthor, idAuthorStatus, null, null));
+	}
+
+	public static List<Author> findByTxtIdAuthorIdAuthorStatus(String txtIdAuthor, Long idAuthorStatus, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTxtIdAuthorIdAuthorStatus(null, txtIdAuthor, idAuthorStatus, limit, offset));
+	}
+
+	public static List<Author> findByTxtIdAuthorIdAuthorStatus(String txtIdAuthor, Long idAuthorStatus) throws H2ZeroFinderException, SQLException {
+		return(findByTxtIdAuthorIdAuthorStatus(null, txtIdAuthor, idAuthorStatus, null, null));
+	}
+
+// silent connection, params..., limit, offset
+	public static List<Author> findByTxtIdAuthorIdAuthorStatusSilent(Connection connection, String txtIdAuthor, Long idAuthorStatus, Integer limit, Integer offset) {
+		try {
+			return(findByTxtIdAuthorIdAuthorStatus(connection, txtIdAuthor, idAuthorStatus, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTxtIdAuthorIdAuthorStatusSilent(connection: " + connection + ", " + txtIdAuthor + ", " + idAuthorStatus + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<Author>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTxtIdAuthorIdAuthorStatusSilent(connection: " + connection + ", " + txtIdAuthor + ", " + idAuthorStatus + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<Author>());
+		}
+	}
+
+// silent connection, params...
+	public static List<Author> findByTxtIdAuthorIdAuthorStatusSilent(Connection connection, String txtIdAuthor, Long idAuthorStatus) {
+		return(findByTxtIdAuthorIdAuthorStatusSilent(connection, txtIdAuthor, idAuthorStatus, null, null));
+	}
+
+// silent params..., limit, offset
+	public static List<Author> findByTxtIdAuthorIdAuthorStatusSilent(String txtIdAuthor, Long idAuthorStatus, Integer limit, Integer offset) {
+		return(findByTxtIdAuthorIdAuthorStatusSilent(null , txtIdAuthor, idAuthorStatus, limit, offset));
+	}
+
+	public static List<Author> findByTxtIdAuthorIdAuthorStatusSilent(String txtIdAuthor, Long idAuthorStatus) {
+		return(findByTxtIdAuthorIdAuthorStatusSilent(null, txtIdAuthor, idAuthorStatus, null, null));
 	}
 
 	/**

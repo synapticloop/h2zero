@@ -159,7 +159,6 @@ public class Options {
 
 			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | 
 					IllegalArgumentException | InvocationTargetException | SecurityException ex) {
-				ex.printStackTrace();
 				String message = "Could not instantiate the extension '" + extension + "', message was: " + ex.getMessage();
 				SimpleLogger.logFatal(LoggerType.EXTENSIONS, message);
 				throw new H2ZeroParseException(message, ex);

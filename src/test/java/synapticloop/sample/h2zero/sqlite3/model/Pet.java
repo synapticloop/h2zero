@@ -209,12 +209,14 @@ public class Pet extends ModelBase {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[Pet]\n");
-		stringBuilder.append("  Field[idPet:" + this.idPet + "]\n");
-		stringBuilder.append("  Field[nmPet:" + this.nmPet + "]\n");
-		stringBuilder.append("  Field[numAge:" + this.numAge + "]\n");
-		stringBuilder.append("  Field[fltWeight:" + this.fltWeight + "]\n");
-		stringBuilder.append("  Field[dtBirthday:" + this.dtBirthday + "]\n");
+		stringBuilder
+			.append("Model: 'Pet'\n")
+			.append("  Field: 'idPet:").append(this.idPet).append("'\n")
+			.append("  Field: 'nmPet:").append(this.nmPet).append("'\n")
+			.append("  Field: 'numAge:").append(this.numAge).append("'\n")
+			.append("  Field: 'fltWeight:").append(this.fltWeight).append("'\n")
+			.append("  Field: 'dtBirthday:").append(this.dtBirthday).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -224,13 +226,18 @@ public class Pet extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "Pet");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "Pet");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idPet", this.getIdPet());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "nmPet", this.getNmPet());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numAge", this.getNumAge());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "fltWeight", this.getFltWeight());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "dtBirthday", this.getDtBirthday());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmPet", this.getNmPet());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numAge", this.getNumAge());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "fltWeight", this.getFltWeight());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "dtBirthday", this.getDtBirthday());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

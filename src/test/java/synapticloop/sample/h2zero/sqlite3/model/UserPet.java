@@ -209,10 +209,12 @@ public class UserPet extends ModelBase {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[UserPet]\n");
-		stringBuilder.append("  Field[idUserPet:" + this.idUserPet + "]\n");
-		stringBuilder.append("  Field[idUser:" + this.idUser + "]\n");
-		stringBuilder.append("  Field[idPet:" + this.idPet + "]\n");
+		stringBuilder
+			.append("Model: 'UserPet'\n")
+			.append("  Field: 'idUserPet:").append(this.idUserPet).append("'\n")
+			.append("  Field: 'idUser:").append(this.idUser).append("'\n")
+			.append("  Field: 'idPet:").append(this.idPet).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -222,11 +224,16 @@ public class UserPet extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "UserPet");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "UserPet");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserPet", this.getIdUserPet());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUser", this.getIdUser());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserPet", this.getIdUserPet());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUser", this.getIdUser());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idPet", this.getIdPet());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

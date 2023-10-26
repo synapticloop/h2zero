@@ -8,7 +8,7 @@
 {set fn:length[baseQueryObject.uniqueWhereFields] as whereFieldsLength}
 
 {loop baseQueryObject.updateFields as setField}	
-	{if setField.isInField}List<{whereField.javaType}>{else}{setField.javaType}{endif} {setField.javaName}{if setField.isInField}List{endif}{if fn:>[whereFieldsLength, '0']}, {endif}
+	{if !setFieldStatus.first}, {endif}{if setField.isInField}List<{setField.javaType}>{else}{setField.javaType}{endif} {setField.javaName}{if setField.isInField}List{endif}
 {endloop}
 
 {if baseQueryObject.hasWhereFieldAliases}
