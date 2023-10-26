@@ -489,7 +489,7 @@ public class UserTitleFinder {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			preparedStatement = connection.prepareStatement(SQL_FIND_ID_USER_TITLE_NM_USER_TITLE_ORDERED);
+			preparedStatement = connection.prepareStatement(statement);
 
 			resultSet = preparedStatement.executeQuery();
 			List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> results = listFindIdUserTitleNmUserTitleOrderedBean(resultSet);

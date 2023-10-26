@@ -1241,7 +1241,7 @@ public class UserFinder {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			preparedStatement = connection.prepareStatement(SQL_FIND_NM_USER_DTM_SIGNUP);
+			preparedStatement = connection.prepareStatement(statement);
 
 			resultSet = preparedStatement.executeQuery();
 			List<UserFindNmUserDtmSignupBean> results = listFindNmUserDtmSignupBean(resultSet);
@@ -1346,7 +1346,7 @@ public class UserFinder {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			preparedStatement = connection.prepareStatement(SQL_FIND_GROUP_NUM_AGE);
+			preparedStatement = connection.prepareStatement(statement);
 
 			resultSet = preparedStatement.executeQuery();
 			List<UserFindGroupNumAgeBean> results = listFindGroupNumAgeBean(resultSet);

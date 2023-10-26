@@ -121,7 +121,7 @@
 				{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement(preparedStatementTemp);{\n}
 			{\t}{\t}{\t}}{\n}
 		{else}
-			{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_{finder.staticName});{\n}
+			{\t}{\t}{\t}preparedStatement = connection.prepareStatement(statement);{\n}
 		{endif}
 
 
