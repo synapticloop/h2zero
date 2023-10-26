@@ -67,7 +67,11 @@ public abstract class BaseField {
 		Iterator<String> iterator = ALLOWABLE_UPDATE_DELETE_ACTIONS.iterator();
 		while (iterator.hasNext()) {
 			String value = iterator.next();
-			stringBuilder.append("'" + value + "'");
+			stringBuilder
+					.append("'")
+					.append(value)
+					.append("'");
+
 			if(iterator.hasNext()) {
 				stringBuilder.append(", ");
 			}
