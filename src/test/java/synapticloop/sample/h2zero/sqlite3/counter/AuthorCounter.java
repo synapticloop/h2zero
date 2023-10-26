@@ -146,7 +146,6 @@ public class AuthorCounter {
 	public static int countAllByFlIsUpdatingNumFollowers(Connection connection, Boolean flIsUpdating, Long numFollowers) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_COUNT_ALL_BY_FL_IS_UPDATING_NUM_FOLLOWERS);
 			ConnectionManager.setBoolean(preparedStatement, 1, flIsUpdating);
@@ -154,26 +153,17 @@ public class AuthorCounter {
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
-		} catch (SQLException sqlex) {
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		return(count);
+		return(-1);
 	}
 
 	public static int countAllByFlIsUpdatingNumFollowers(Boolean flIsUpdating, Long numFollowers) throws SQLException {
-		Connection connection = null;
-
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()){
 			return(countAllByFlIsUpdatingNumFollowers(connection, flIsUpdating, numFollowers));
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -208,33 +198,23 @@ public class AuthorCounter {
 	public static int countAllToBeEvaluated(Connection connection, Timestamp dtmStartedFollowing) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_COUNT_ALL_TO_BE_EVALUATED);
 			ConnectionManager.setDatetime(preparedStatement, 1, dtmStartedFollowing);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
-		} catch (SQLException sqlex) {
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		return(count);
+		return(-1);
 	}
 
 	public static int countAllToBeEvaluated(Timestamp dtmStartedFollowing) throws SQLException {
-		Connection connection = null;
-
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()){
 			return(countAllToBeEvaluated(connection, dtmStartedFollowing));
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -269,33 +249,23 @@ public class AuthorCounter {
 	public static int countByStatus(Connection connection, Long idAuthorStatus) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_COUNT_BY_STATUS);
 			ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
-		} catch (SQLException sqlex) {
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		return(count);
+		return(-1);
 	}
 
 	public static int countByStatus(Long idAuthorStatus) throws SQLException {
-		Connection connection = null;
-
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()){
 			return(countByStatus(connection, idAuthorStatus));
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 
