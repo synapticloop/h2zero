@@ -22,7 +22,8 @@
 	"fieldFinders": [
 		{ "txt_id_author": "unique" },
 		{ "id_author_status": "multiple" },
-		{ "fl_is_updating": "multiple" }
+		{ "fl_is_updating": "multiple" },
+		{ "txt_id_author, id_author_status": "multiple" }
 	],
 	"finders": [
 		{
@@ -49,6 +50,11 @@
 			],
 			"unique": false
 		}
+	],
+	"fieldUpdaters": [
+		"num_followers",
+		"id_author",
+		"id_author,num_followers"
 	],
 	"updaters": [
 		{

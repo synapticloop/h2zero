@@ -3,10 +3,10 @@
  It checks whether the baseQueryObject has an alias, and if so, goes through all of the
  where fields, not just the unique ones.
 
- This method has the Connection object as the first paramter
+ This method has the Connection object as the first parameter
  --}
 {loop baseQueryObject.updateFields as setField}	
-	, {if setField.isInField}List<{whereField.javaType}>{else}{setField.javaType}{endif} {setField.javaName}{if setField.isInField}List{endif}
+	, {if setField.isInField}List<{setField.javaType}>{else}{setField.javaType}{endif} {setField.javaName}{if setField.isInField}List{endif}
 {endloop}
 
 {if baseQueryObject.hasWhereFieldAliases}

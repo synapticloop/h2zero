@@ -31,6 +31,9 @@ public class AuthorUpdater {
 	private static final String SQL_UPDATE_START = "update author ";
 
 	// static fields generated from the user input
+	private static final String SQL_UPDATE_NUM_FOLLOWERS = SQL_UPDATE_START + " set num_followers = ? ";
+	private static final String SQL_UPDATE_ID_AUTHOR = SQL_UPDATE_START + " set id_author = ? ";
+	private static final String SQL_UPDATE_ID_AUTHOR_NUM_FOLLOWERS = SQL_UPDATE_START + " set id_author,num_followers = ? id_author,num_followers = ? , ";
 	private static final String SQL_RESET_AUTHORS_TO_BE_FOLLOWED = SQL_UPDATE_START + " set id_author_status = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')" + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following";
 	private static final String SQL_SET_FL_IS_UPDATING = SQL_UPDATE_START + " set fl_is_updating = ?";
 	private static final String SQL_SET_FL_IS_UPDATING_WHERE_FL_AUTHOR_IS_FOLLOWED_BY_USER = SQL_UPDATE_START + " set fl_is_updating = ?" + " where fl_author_is_followed_by_user = 1";
@@ -41,6 +44,175 @@ public class AuthorUpdater {
 	private static final String SQL_UPDATE_ALL_TO_BE_EVALUATED_TO_FOLLOWED = SQL_UPDATE_START + " set id_status_author = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')" + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ?";
 
 	private AuthorUpdater() {}
+
+	/**
+	 * This is the updater for 'updateNumFollowers' and will throw a SQLException on error
+	 * See the 'updateNumFollowersSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * @param numFollowersSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
+	public static int updateNumFollowers(Connection connection, Long numFollowersSet) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_NUM_FOLLOWERS)) {
+			ConnectionManager.setBigint(preparedStatement, 1, numFollowersSet);
+
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * This is the updater for 'updateNumFollowers' and will throw a SQLException on error
+	 * See the 'updateNumFollowersSilent' method for a non-throwing method.
+	 * 
+	 * @param numFollowersSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated or -1 on error
+	 */ 
+	public static int updateNumFollowers(Long numFollowersSet) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(updateNumFollowers(connection, numFollowersSet));
+		}
+	}
+
+	/**
+	 * This is the updater for 'updateNumFollowers' and will silently swallow any 
+	 * SQLException on error and return a -1 as the number of rows updated.
+	 * See the 'updateNumFollowers' method for a throwing method.
+	 * 
+	 * @param numFollowersSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated or -1 on error
+	 */ 
+	public static int updateNumFollowersSilent(Long numFollowersSet) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(updateNumFollowers(connection, numFollowersSet));
+		} catch (SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException updateNumFollowersSilent(): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(-1);
+		}
+	}
+
+	/**
+	 * This is the updater for 'updateIdAuthor' and will throw a SQLException on error
+	 * See the 'updateIdAuthorSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * @param idAuthorSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
+	public static int updateIdAuthor(Connection connection, Long idAuthorSet) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ID_AUTHOR)) {
+			ConnectionManager.setBigint(preparedStatement, 1, idAuthorSet);
+
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * This is the updater for 'updateIdAuthor' and will throw a SQLException on error
+	 * See the 'updateIdAuthorSilent' method for a non-throwing method.
+	 * 
+	 * @param idAuthorSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated or -1 on error
+	 */ 
+	public static int updateIdAuthor(Long idAuthorSet) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(updateIdAuthor(connection, idAuthorSet));
+		}
+	}
+
+	/**
+	 * This is the updater for 'updateIdAuthor' and will silently swallow any 
+	 * SQLException on error and return a -1 as the number of rows updated.
+	 * See the 'updateIdAuthor' method for a throwing method.
+	 * 
+	 * @param idAuthorSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated or -1 on error
+	 */ 
+	public static int updateIdAuthorSilent(Long idAuthorSet) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(updateIdAuthor(connection, idAuthorSet));
+		} catch (SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException updateIdAuthorSilent(): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(-1);
+		}
+	}
+
+	/**
+	 * This is the updater for 'updateIdAuthorNumFollowers' and will throw a SQLException on error
+	 * See the 'updateIdAuthorNumFollowersSilent' method for a non-throwing method.
+	 * 
+	 * @param connection the connection to the database
+	 * @param idAuthorSet the field to set as a Long
+	 * @param numFollowersSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated
+	 * @throws SQLException if there was an error in the statement or database connection
+	 */ 
+	public static int updateIdAuthorNumFollowers(Connection connection, Long idAuthorSet, Long numFollowersSet) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ID_AUTHOR_NUM_FOLLOWERS)) {
+			ConnectionManager.setBigint(preparedStatement, 1, idAuthorSet);
+			ConnectionManager.setBigint(preparedStatement, 2, numFollowersSet);
+
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * This is the updater for 'updateIdAuthorNumFollowers' and will throw a SQLException on error
+	 * See the 'updateIdAuthorNumFollowersSilent' method for a non-throwing method.
+	 * 
+	 * @param idAuthorSet the field to set as a Long
+	 * @param numFollowersSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated or -1 on error
+	 */ 
+	public static int updateIdAuthorNumFollowers(Long idAuthorSet, Long numFollowersSet) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(updateIdAuthorNumFollowers(connection, idAuthorSet, numFollowersSet));
+		}
+	}
+
+	/**
+	 * This is the updater for 'updateIdAuthorNumFollowers' and will silently swallow any 
+	 * SQLException on error and return a -1 as the number of rows updated.
+	 * See the 'updateIdAuthorNumFollowers' method for a throwing method.
+	 * 
+	 * @param idAuthorSet the field to set as a Long
+	 * @param numFollowersSet the field to set as a Long
+	 * 
+	 * @return The number of rows that were updated or -1 on error
+	 */ 
+	public static int updateIdAuthorNumFollowersSilent(Long idAuthorSet, Long numFollowersSet) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(updateIdAuthorNumFollowers(connection, idAuthorSet, numFollowersSet));
+		} catch (SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException updateIdAuthorNumFollowersSilent(): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(-1);
+		}
+	}
 
 	/**
 	 * This is the updater for 'resetAuthorsToBeFollowed' and will throw a SQLException on error
