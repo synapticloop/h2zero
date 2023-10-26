@@ -34,7 +34,7 @@ public class AllTypes extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
-	public static final String PRIMARY_KEY_FIELD = "id_all_types";
+	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = "insert into all_types (test_bigint, test_boolean, test_date, test_datetime, test_double, test_float, test_int, test_integer, test_mediumint, test_numeric, test_smallint, test_text, test_tinyint, test_varchar) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "update all_types set test_bigint = ?, test_boolean = ?, test_date = ?, test_datetime = ?, test_double = ?, test_float = ?, test_int = ?, test_integer = ?, test_mediumint = ?, test_numeric = ?, test_smallint = ?, test_text = ?, test_tinyint = ?, test_varchar = ? where " + PRIMARY_KEY_FIELD + " = ?";
@@ -67,21 +67,21 @@ public class AllTypes extends ModelBase {
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
-	private Long idAllTypes = null;
-	private Long testBigint = null;
-	private Boolean testBoolean = null;
-	private Date testDate = null;
-	private Timestamp testDatetime = null;
-	private Double testDouble = null;
-	private Float testFloat = null;
-	private Integer testInt = null;
-	private Integer testInteger = null;
-	private Integer testMediumint = null;
-	private BigDecimal testNumeric = null;
-	private Short testSmallint = null;
-	private String testText = null;
-	private Boolean testTinyint = null;
-	private String testVarchar = null;
+	private Long idAllTypes = null; // maps to the id_all_types field
+	private Long testBigint = null; // maps to the test_bigint field
+	private Boolean testBoolean = null; // maps to the test_boolean field
+	private Date testDate = null; // maps to the test_date field
+	private Timestamp testDatetime = null; // maps to the test_datetime field
+	private Double testDouble = null; // maps to the test_double field
+	private Float testFloat = null; // maps to the test_float field
+	private Integer testInt = null; // maps to the test_int field
+	private Integer testInteger = null; // maps to the test_integer field
+	private Integer testMediumint = null; // maps to the test_mediumint field
+	private BigDecimal testNumeric = null; // maps to the test_numeric field
+	private Short testSmallint = null; // maps to the test_smallint field
+	private String testText = null; // maps to the test_text field
+	private Boolean testTinyint = null; // maps to the test_tinyint field
+	private String testVarchar = null; // maps to the test_varchar field
 
 	public AllTypes(Long idAllTypes, Long testBigint, Boolean testBoolean, Date testDate, Timestamp testDatetime, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, Integer testMediumint, BigDecimal testNumeric, Short testSmallint, String testText, Boolean testTinyint, String testVarchar) {
 		this.idAllTypes = idAllTypes;
@@ -257,6 +257,9 @@ public class AllTypes extends ModelBase {
 
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { updateHitCount(1); return(this.idAllTypes); }

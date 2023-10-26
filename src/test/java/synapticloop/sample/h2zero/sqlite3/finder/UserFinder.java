@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
 
 
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-import synapticloop.sample.h2zero.sqlite3.bean.FindNmUserDtmSignupBean;
-import synapticloop.sample.h2zero.sqlite3.bean.FindGroupNumAgeBean;
+import synapticloop.sample.h2zero.sqlite3.bean.UserFindNmUserDtmSignupBean;
+import synapticloop.sample.h2zero.sqlite3.bean.UserFindGroupNumAgeBean;
 
 import synapticloop.sample.h2zero.sqlite3.model.User;
 
@@ -1207,7 +1207,7 @@ public class UserFinder {
 	}
 
 // SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignup(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		if(!hasConnection) {
 			connection = ConnectionManager.getConnection();
@@ -1244,7 +1244,7 @@ public class UserFinder {
 			preparedStatement = connection.prepareStatement(SQL_FIND_NM_USER_DTM_SIGNUP);
 
 			resultSet = preparedStatement.executeQuery();
-			List<FindNmUserDtmSignupBean> results = listFindNmUserDtmSignupBean(resultSet);
+			List<UserFindNmUserDtmSignupBean> results = listFindNmUserDtmSignupBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
 			throw sqlex;
@@ -1259,22 +1259,22 @@ public class UserFinder {
 	}
 
 // SELECTBEAN - PARAMS..., LIMIT, OFFSET 
-	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignup(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		return(findNmUserDtmSignup(null, limit, offset));
 	}
 
 // SELECTBEAN - CONNECTION, PARAMS...
-	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException {
+	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException {
 		return(findNmUserDtmSignup(null, null, null));
 	}
 
 // SELECTBEAN - PARAMS...
-	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {
+	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {
 		return(findNmUserDtmSignup(null, null, null));
 	}
 
 // SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Connection connection, Integer limit, Integer offset) {
+	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findNmUserDtmSignup(connection, limit, offset));
 		} catch(H2ZeroFinderException h2zfex) {
@@ -1284,7 +1284,7 @@ public class UserFinder {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(new ArrayList<FindNmUserDtmSignupBean>());
+			return(new ArrayList<UserFindNmUserDtmSignupBean>());
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException findNmUserDtmSignupSilent(connection: " + connection  + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
@@ -1292,27 +1292,27 @@ public class UserFinder {
 					sqlex.printStackTrace();
 				}
 			}
-			return(new ArrayList<FindNmUserDtmSignupBean>());
+			return(new ArrayList<UserFindNmUserDtmSignupBean>());
 		}
 	}
 
 // CONNECTION, PARAMS...
-	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Connection connection) {
+	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Connection connection) {
 		return(findNmUserDtmSignupSilent(connection, null, null));
 	}
 
 // PARAMS..., LIMIT, OFFSET
-	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Integer limit, Integer offset) {
+	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Integer limit, Integer offset) {
 		return(findNmUserDtmSignupSilent(null, limit, offset));
 	}
 
 // PARAMS...
-	public static List<FindNmUserDtmSignupBean> findNmUserDtmSignupSilent() {
+	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent() {
 		return(findNmUserDtmSignupSilent(null, null, null));
 	}
 
 // SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<FindGroupNumAgeBean> findGroupNumAge(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<UserFindGroupNumAgeBean> findGroupNumAge(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		if(!hasConnection) {
 			connection = ConnectionManager.getConnection();
@@ -1349,7 +1349,7 @@ public class UserFinder {
 			preparedStatement = connection.prepareStatement(SQL_FIND_GROUP_NUM_AGE);
 
 			resultSet = preparedStatement.executeQuery();
-			List<FindGroupNumAgeBean> results = listFindGroupNumAgeBean(resultSet);
+			List<UserFindGroupNumAgeBean> results = listFindGroupNumAgeBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
 			throw sqlex;
@@ -1364,22 +1364,22 @@ public class UserFinder {
 	}
 
 // SELECTBEAN - PARAMS..., LIMIT, OFFSET 
-	public static List<FindGroupNumAgeBean> findGroupNumAge(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<UserFindGroupNumAgeBean> findGroupNumAge(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		return(findGroupNumAge(null, limit, offset));
 	}
 
 // SELECTBEAN - CONNECTION, PARAMS...
-	public static List<FindGroupNumAgeBean> findGroupNumAge(Connection connection) throws H2ZeroFinderException, SQLException {
+	public static List<UserFindGroupNumAgeBean> findGroupNumAge(Connection connection) throws H2ZeroFinderException, SQLException {
 		return(findGroupNumAge(null, null, null));
 	}
 
 // SELECTBEAN - PARAMS...
-	public static List<FindGroupNumAgeBean> findGroupNumAge() throws H2ZeroFinderException, SQLException {
+	public static List<UserFindGroupNumAgeBean> findGroupNumAge() throws H2ZeroFinderException, SQLException {
 		return(findGroupNumAge(null, null, null));
 	}
 
 // SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<FindGroupNumAgeBean> findGroupNumAgeSilent(Connection connection, Integer limit, Integer offset) {
+	public static List<UserFindGroupNumAgeBean> findGroupNumAgeSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findGroupNumAge(connection, limit, offset));
 		} catch(H2ZeroFinderException h2zfex) {
@@ -1389,7 +1389,7 @@ public class UserFinder {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(new ArrayList<FindGroupNumAgeBean>());
+			return(new ArrayList<UserFindGroupNumAgeBean>());
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException findGroupNumAgeSilent(connection: " + connection  + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
@@ -1397,39 +1397,39 @@ public class UserFinder {
 					sqlex.printStackTrace();
 				}
 			}
-			return(new ArrayList<FindGroupNumAgeBean>());
+			return(new ArrayList<UserFindGroupNumAgeBean>());
 		}
 	}
 
 // CONNECTION, PARAMS...
-	public static List<FindGroupNumAgeBean> findGroupNumAgeSilent(Connection connection) {
+	public static List<UserFindGroupNumAgeBean> findGroupNumAgeSilent(Connection connection) {
 		return(findGroupNumAgeSilent(connection, null, null));
 	}
 
 // PARAMS..., LIMIT, OFFSET
-	public static List<FindGroupNumAgeBean> findGroupNumAgeSilent(Integer limit, Integer offset) {
+	public static List<UserFindGroupNumAgeBean> findGroupNumAgeSilent(Integer limit, Integer offset) {
 		return(findGroupNumAgeSilent(null, limit, offset));
 	}
 
 // PARAMS...
-	public static List<FindGroupNumAgeBean> findGroupNumAgeSilent() {
+	public static List<UserFindGroupNumAgeBean> findGroupNumAgeSilent() {
 		return(findGroupNumAgeSilent(null, null, null));
 	}
 
 	/**
-	 * Return the results as a list of FindNmUserDtmSignupBeans, this will be empty if
+	 * Return the results as a list of UserFindNmUserDtmSignupBeans, this will be empty if
 	 * none are found.
 	 * 
-	 * @param resultSet the results as a list of FindNmUserDtmSignupBean
+	 * @param resultSet the results as a list of UserFindNmUserDtmSignupBean
 	 * 
 	 * @return the list of results
 	 * 
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
-	private static List<FindNmUserDtmSignupBean> listFindNmUserDtmSignupBean(ResultSet resultSet) throws SQLException {
-		List<FindNmUserDtmSignupBean> arrayList = new ArrayList<FindNmUserDtmSignupBean>();
+	private static List<UserFindNmUserDtmSignupBean> listFindNmUserDtmSignupBean(ResultSet resultSet) throws SQLException {
+		List<UserFindNmUserDtmSignupBean> arrayList = new ArrayList<UserFindNmUserDtmSignupBean>();
 		while(resultSet.next()) {
-			arrayList.add(new FindNmUserDtmSignupBean(
+			arrayList.add(new UserFindNmUserDtmSignupBean(
 					resultSet.getString(1),
 					resultSet.getTimestamp(2)));
 		}
@@ -1437,19 +1437,19 @@ public class UserFinder {
 	}
 
 	/**
-	 * Return the results as a list of FindGroupNumAgeBeans, this will be empty if
+	 * Return the results as a list of UserFindGroupNumAgeBeans, this will be empty if
 	 * none are found.
 	 * 
-	 * @param resultSet the results as a list of FindGroupNumAgeBean
+	 * @param resultSet the results as a list of UserFindGroupNumAgeBean
 	 * 
 	 * @return the list of results
 	 * 
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
-	private static List<FindGroupNumAgeBean> listFindGroupNumAgeBean(ResultSet resultSet) throws SQLException {
-		List<FindGroupNumAgeBean> arrayList = new ArrayList<FindGroupNumAgeBean>();
+	private static List<UserFindGroupNumAgeBean> listFindGroupNumAgeBean(ResultSet resultSet) throws SQLException {
+		List<UserFindGroupNumAgeBean> arrayList = new ArrayList<UserFindGroupNumAgeBean>();
 		while(resultSet.next()) {
-			arrayList.add(new FindGroupNumAgeBean(
+			arrayList.add(new UserFindGroupNumAgeBean(
 					resultSet.getInt(1),
 					resultSet.getInt(2)));
 		}

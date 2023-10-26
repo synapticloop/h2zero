@@ -35,7 +35,7 @@ public class User extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_BINDER;
 
-	public static final String PRIMARY_KEY_FIELD = "id_user";
+	public static final String PRIMARY_KEY_FIELD = "id_user";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = "insert into user (id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, dtm_signup) values (?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "update user set id_user_type = ?, fl_is_alive = ?, num_age = ?, nm_username = ?, txt_address_email = ?, txt_password = ?, dtm_signup = ? where " + PRIMARY_KEY_FIELD + " = ?";
@@ -63,14 +63,14 @@ public class User extends ModelBase {
 	private boolean isHydrated = false;
 
 
-	private Long idUser = null;
-	private Long idUserType = null;
-	private Boolean flIsAlive = null;
-	private Integer numAge = null;
-	private String nmUsername = null;
-	private String txtAddressEmail = null;
-	private String txtPassword = null;
-	private Timestamp dtmSignup = null;
+	private Long idUser = null; // maps to the id_user field
+	private Long idUserType = null; // maps to the id_user_type field
+	private Boolean flIsAlive = null; // maps to the fl_is_alive field
+	private Integer numAge = null; // maps to the num_age field
+	private String nmUsername = null; // maps to the nm_username field
+	private String txtAddressEmail = null; // maps to the txt_address_email field
+	private String txtPassword = null; // maps to the txt_password field
+	private Timestamp dtmSignup = null; // maps to the dtm_signup field
 
 	public User(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
 		this.idUser = idUser;
@@ -231,6 +231,9 @@ public class User extends ModelBase {
 
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { updateHitCount(1); return(this.idUser); }

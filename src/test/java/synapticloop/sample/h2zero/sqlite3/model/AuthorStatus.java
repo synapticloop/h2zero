@@ -40,13 +40,13 @@ public class AuthorStatus  {
 
 	};
 
-	public static final String PRIMARY_KEY_FIELD = "id_author_status";
+	public static final String PRIMARY_KEY_FIELD = "id_author_status";  // the primary key - a convenience field
 
 
 
-	private Long idAuthorStatus = null;
-	private String txtAuthorStatus = null;
-	private String txtDescAuthorStatus = null;
+	private Long idAuthorStatus = null; // maps to the id_author_status field
+	private String txtAuthorStatus = null; // maps to the txt_author_status field
+	private String txtDescAuthorStatus = null; // maps to the txt_desc_author_status field
 
 	public AuthorStatus(Long idAuthorStatus, String txtAuthorStatus, String txtDescAuthorStatus) {
 		this.idAuthorStatus = idAuthorStatus;
@@ -55,6 +55,9 @@ public class AuthorStatus  {
 	}
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { return(this.idAuthorStatus); }

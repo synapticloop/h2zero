@@ -12,7 +12,7 @@
 		}
 		// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET{\n}
 		{\t}public static 
-		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}(Connection connection
 
 			{import classpath:/snippet/finder/method-parameters-with-connection-limit-offset.templar}
@@ -148,13 +148,13 @@
 			{\n}
 			{if finder.unique}
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}{finder.tagName}Bean result = unique{finder.tagName}BeanResult(resultSet);{\n}
+				{\t}{\t}{\t}{table.javaClassName}{finder.tagName}Bean result = unique{finder.tagName}BeanResult(resultSet);{\n}
 				{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 				{\t}{\t}{\t}return(result);{\n}
 			{else}
 
 				{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-				{\t}{\t}{\t}List<{finder.tagName}Bean> results = list{finder.tagName}Bean(resultSet);{\n}
+				{\t}{\t}{\t}List<{table.javaClassName}{finder.tagName}Bean> results = list{finder.tagName}Bean(resultSet);{\n}
 
 				{\t}{\t}{\t}return(results);{\n}
 			{endif}
@@ -191,7 +191,7 @@
 
 
 		{\t}public static 
-		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}(
 
 			{import classpath:/snippet/finder/method-parameters-limit-offset.templar}
@@ -208,7 +208,7 @@
 		// SELECTBEAN - CONNECTION, PARAMS...{\n}
 
 		{\t}public static 
-		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}(Connection connection
 
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
@@ -225,7 +225,7 @@
 		// SELECTBEAN - PARAMS...{\n}
 
 		{\t}public static 
-		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}(
 
 			{import classpath:/snippet/finder/method-parameters.templar}
@@ -249,7 +249,7 @@
 
 // SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET{\n}
 		{\t}public static 
-		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}Silent(Connection connection
 			{import classpath:/snippet/finder/method-parameters-with-connection-limit-offset.templar}
 		) {{{\n}
@@ -276,7 +276,7 @@
 		{if finder.unique}
 			{\t}{\t}{\t}return(null);{\n}
 		{else}
-			{\t}{\t}{\t}return(new ArrayList<{finder.tagName}Bean>());{\n}
+			{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}{finder.tagName}Bean>());{\n}
 		{endif}
 
 		{\t}{\t}} catch(SQLException sqlex) {{{\n}
@@ -297,7 +297,7 @@
 		{if finder.unique}
 			{\t}{\t}{\t}return(null);{\n}
 		{else}
-			{\t}{\t}{\t}return(new ArrayList<{finder.tagName}Bean>());{\n}
+			{\t}{\t}{\t}return(new ArrayList<{table.javaClassName}{finder.tagName}Bean>());{\n}
 		{endif}
 
 		{\t}{\t}}{\n}
@@ -308,7 +308,7 @@
 		// CONNECTION, PARAMS...{\n}
 
 		{\t}public static 
-		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}Silent(Connection connection
 			{import classpath:/snippet/finder/method-parameters-with-connection.templar}
 		) {{{\n}
@@ -323,7 +323,7 @@
 		// PARAMS..., LIMIT, OFFSET{\n}
 
 		{\t}public static 
-		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}Silent(
 			{import classpath:/snippet/finder/method-parameters-limit-offset.templar}
 		) {{{\n}
@@ -338,7 +338,7 @@
 		// PARAMS...{\n}
 
 		{\t}public static 
-		{if finder.unique}{finder.tagName}Bean {else}List<{finder.tagName}Bean> {endif}
+		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}Silent(
 			{import classpath:/snippet/finder/method-parameters.templar}
 		) {{{\n}
@@ -369,17 +369,17 @@
 			{\t} * {\n}
 			{\t} * @param resultSet The result set of the query{\n}
 			{\t} * {\n}
-			{\t} * @return The {finder.tagName}Beans that represents this result{\n}
+			{\t} * @return The {table.javaClassName}{finder.tagName}Beans that represents this result{\n}
 			{\t} * {\n}
 			{\t} * @throws H2ZeroFinderException if no results were found{\n}
 			{\t} * @throws SQLException if there was a problem retrieving the results{\n}
 			{\t} */{\n}
 
-			{\t}private static {finder.tagName}Bean unique{finder.tagName}BeanResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
+			{\t}private static {table.javaClassName}{finder.tagName}Bean unique{finder.tagName}BeanResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
 			{\t}{\t}if(resultSet.first()) {{{\n}
 			{\t}{\t}{\t}// we have a result{\n}
 
-			{\t}{\t}{\t}return(new {finder.tagName}Bean({\n}
+			{\t}{\t}{\t}return(new {table.javaClassName}{finder.tagName}Bean({\n}
 			{loop finder.selectFields as selectField}
 				{\t}{\t}{\t}{\t}{\t}resultSet.get{selectField.sqlJavaType}({selectFieldStatus.index})
 				{if !selectFieldStatus.last},{\n}{endif}
@@ -396,21 +396,21 @@
 		{else}
 
 			{\t}/**{\n}
-			{\t} * Return the results as a list of {finder.tagName}Beans, this will be empty if{\n}
+			{\t} * Return the results as a list of {table.javaClassName}{finder.tagName}Beans, this will be empty if{\n}
 			{\t} * none are found.{\n}
 			{\t} * {\n}
-			{\t} * @param resultSet the results as a list of {finder.tagName}Bean{\n}
+			{\t} * @param resultSet the results as a list of {table.javaClassName}{finder.tagName}Bean{\n}
 			{\t} * {\n}
 			{\t} * @return the list of results{\n}
 			{\t} * {\n}
 			{\t} * @throws SQLException if there was a problem retrieving the results{\n}
 			{\t} */{\n}
 
-			{\t}private static List<{finder.tagName}Bean> list{finder.tagName}Bean(ResultSet resultSet) throws SQLException {{{\n}
-			{\t}{\t}List<{finder.tagName}Bean> arrayList = new ArrayList<{finder.tagName}Bean>();{\n}
+			{\t}private static List<{table.javaClassName}{finder.tagName}Bean> list{finder.tagName}Bean(ResultSet resultSet) throws SQLException {{{\n}
+			{\t}{\t}List<{table.javaClassName}{finder.tagName}Bean> arrayList = new ArrayList<{table.javaClassName}{finder.tagName}Bean>();{\n}
 			{\t}{\t}while(resultSet.next()) {{{\n}
 
-			{\t}{\t}{\t}arrayList.add(new {finder.tagName}Bean({\n}
+			{\t}{\t}{\t}arrayList.add(new {table.javaClassName}{finder.tagName}Bean({\n}
 
 			{loop finder.selectFields as selectField}
 				{\t}{\t}{\t}{\t}{\t}resultSet.get{selectField.sqlJavaType}({selectFieldStatus.index})

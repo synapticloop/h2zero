@@ -135,7 +135,7 @@ public class JavaGenerator extends Generator {
 
 				// don't forget the beans for the selectClause finders
 				if(null != finder.getSelectClause()) {
-					pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/bean/" + finder.getTagName() + "Bean.java";
+					pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/bean/" + table.getJavaClassName() + finder.getTagName() + "Bean.java";
 					renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
 				}
 			}

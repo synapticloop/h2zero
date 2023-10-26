@@ -37,7 +37,7 @@ public class UserPet extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_PET_BINDER;
 
-	public static final String PRIMARY_KEY_FIELD = "id_user_pet";
+	public static final String PRIMARY_KEY_FIELD = "id_user_pet";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = "insert into user_pet (id_user, id_pet) values (?, ?)";
 	private static final String SQL_UPDATE = "update user_pet set id_user = ?, id_pet = ? where " + PRIMARY_KEY_FIELD + " = ?";
@@ -57,12 +57,12 @@ public class UserPet extends ModelBase {
 	// the number of read-hits for a particular field
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0 };
 
-	private User User = null;
-	private Pet Pet = null;
+	private User User = null; // maps to the id_user field
+	private Pet Pet = null; // maps to the id_pet field
 
-	private Long idUserPet = null;
-	private Long idUser = null;
-	private Long idPet = null;
+	private Long idUserPet = null; // maps to the id_user_pet field
+	private Long idUser = null; // maps to the id_user field
+	private Long idPet = null; // maps to the id_pet field
 
 	public UserPet(Long idUserPet, Long idUser, Long idPet) {
 		this.idUserPet = idUserPet;
@@ -176,6 +176,9 @@ public class UserPet extends ModelBase {
 
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { updateHitCount(1); return(this.idUserPet); }

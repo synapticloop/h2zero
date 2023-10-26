@@ -25,7 +25,7 @@ import {database.package}.model.util.Constants;{\n}
 
 {loop table.finders as finder}
 	{if fn:notNull[finder.selectClause]}
-		import {database.package}.bean.{finder.tagName}Bean;{\n}
+		import {database.package}.bean.{table.javaClassName}{finder.tagName}Bean;{\n}
 	{endif}
 {endloop}
 {\n}

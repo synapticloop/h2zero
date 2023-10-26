@@ -21,6 +21,12 @@ public class Constants {{{\n}
 	{loop table.fields as field}
 		{\t}public static final String {table.upperName}_{field.upperName} = "{field.javaName}";{\n}
 	{endloop}{\n}{\n}
+
+	{loop table.finders as finder}
+		{if fn:notNull[finder.selectClause]}
+			{\t}public static final String {table.upperName}_{finder.name}_BINDER = "{table.upperName}_{finder.name}";{\n}
+		{endif}
+	{endloop}
 {endloop}
 
 {loop database.views as view}

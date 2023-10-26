@@ -40,12 +40,12 @@ public class UserType  {
 
 	};
 
-	public static final String PRIMARY_KEY_FIELD = "id_user_type";
+	public static final String PRIMARY_KEY_FIELD = "id_user_type";  // the primary key - a convenience field
 
 
 
-	private Long idUserType = null;
-	private String nmUserType = null;
+	private Long idUserType = null; // maps to the id_user_type field
+	private String nmUserType = null; // maps to the nm_user_type field
 
 	public UserType(Long idUserType, String nmUserType) {
 		this.idUserType = idUserType;
@@ -53,6 +53,9 @@ public class UserType  {
 	}
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { return(this.idUserType); }

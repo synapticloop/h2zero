@@ -40,13 +40,13 @@ public class UserTitle  {
 
 	};
 
-	public static final String PRIMARY_KEY_FIELD = "id_user_title";
+	public static final String PRIMARY_KEY_FIELD = "id_user_title";  // the primary key - a convenience field
 
 
 
-	private Long idUserTitle = null;
-	private String nmUserTitle = null;
-	private Integer numOrderBy = null;
+	private Long idUserTitle = null; // maps to the id_user_title field
+	private String nmUserTitle = null; // maps to the nm_user_title field
+	private Integer numOrderBy = null; // maps to the num_order_by field
 
 	public UserTitle(Long idUserTitle, String nmUserTitle, Integer numOrderBy) {
 		this.idUserTitle = idUserTitle;
@@ -55,6 +55,9 @@ public class UserTitle  {
 	}
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { return(this.idUserTitle); }

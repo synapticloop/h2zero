@@ -111,7 +111,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 	{loop table.fields as field}
 		{if field.primary}
-			{\t}public static final String PRIMARY_KEY_FIELD = "{field.name}";{\n}{\n}
+			{\t}public static final String PRIMARY_KEY_FIELD = "{field.name}";  // the primary key - a convenience field{\n}{\n}
 		{endif}
 	{endloop}
 
@@ -198,7 +198,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{loop table.fields as field}
 		{if fn:notNull[field.foreignKeyTable]}
 			{if !field.foreignKeyTableLookup.isConstant}
-				{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null;{\n}
+				{\t}private {field.foreignKeyTableLookup.javaClassName} {field.secondaryJavaName} = null; // maps to the {field.name} field{\n}
 			{endif}
 		{endif}
 		{if fieldStatus.last}
@@ -207,7 +207,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{endloop}
 
 	{loop table.fields as field}
-		{\t}private {field.javaType} {field.javaName} = null;{\n}
+		{\t}private {field.javaType} {field.javaName} = null; // maps to the {field.name} field{\n}
 	{endloop}
 	{\n}
 
@@ -508,6 +508,9 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 	{\t}/*{\n}
 	{\t} * Boring ol' getters and setters {\n}
+	{\t} * {\n}
+	{\t} * On setting any of these fields - the 'isDirty' flag will be set{\n}
+	{\t} * {\n}
 	{\t} */{\n}
 	{\n}
 

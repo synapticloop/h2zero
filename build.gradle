@@ -12,6 +12,7 @@ plugins {
 }
 
 version = "5.0.0"
+group = 'synapticloop'
 
 tasks.withType(Javadoc).all { enabled = false }
 

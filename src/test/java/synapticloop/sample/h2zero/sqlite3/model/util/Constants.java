@@ -68,6 +68,7 @@ public class Constants {
 	public static final String USER_TITLE_NUM_ORDER_BY = "numOrderBy";
 
 
+	public static final String USER_TITLE_findIdUserTitleNmUserTitleOrdered_BINDER = "USER_TITLE_findIdUserTitleNmUserTitleOrdered";
 	// Field constants for the user table
 	public static final String USER_ID_USER = "idUser";
 	public static final String USER_ID_USER_TYPE = "idUserType";
@@ -79,6 +80,8 @@ public class Constants {
 	public static final String USER_DTM_SIGNUP = "dtmSignup";
 
 
+	public static final String USER_findNmUserDtmSignup_BINDER = "USER_findNmUserDtmSignup";
+	public static final String USER_findGroupNumAge_BINDER = "USER_findGroupNumAge";
 	// Field constants for the pet table
 	public static final String PET_ID_PET = "idPet";
 	public static final String PET_NM_PET = "nmPet";

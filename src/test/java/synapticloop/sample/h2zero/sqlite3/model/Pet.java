@@ -33,7 +33,7 @@ public class Pet extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_BINDER;
 
-	public static final String PRIMARY_KEY_FIELD = "id_pet";
+	public static final String PRIMARY_KEY_FIELD = "id_pet";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = "insert into pet (nm_pet, num_age, flt_weight, dt_birthday) values (?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "update pet set nm_pet = ?, num_age = ?, flt_weight = ?, dt_birthday = ? where " + PRIMARY_KEY_FIELD + " = ?";
@@ -56,11 +56,11 @@ public class Pet extends ModelBase {
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0 };
 
 
-	private Long idPet = null;
-	private String nmPet = null;
-	private Integer numAge = null;
-	private Float fltWeight = null;
-	private Date dtBirthday = null;
+	private Long idPet = null; // maps to the id_pet field
+	private String nmPet = null; // maps to the nm_pet field
+	private Integer numAge = null; // maps to the num_age field
+	private Float fltWeight = null; // maps to the flt_weight field
+	private Date dtBirthday = null; // maps to the dt_birthday field
 
 	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday) {
 		this.idPet = idPet;
@@ -176,6 +176,9 @@ public class Pet extends ModelBase {
 
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { updateHitCount(1); return(this.idPet); }

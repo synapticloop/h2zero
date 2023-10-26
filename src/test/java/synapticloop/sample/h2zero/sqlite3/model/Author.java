@@ -35,7 +35,7 @@ public class Author extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.AUTHOR_BINDER;
 
-	public static final String PRIMARY_KEY_FIELD = "id_author";
+	public static final String PRIMARY_KEY_FIELD = "id_author";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = "insert into author (id_author_status, txt_id_author, nm_author, nm_username, txt_bio, txt_url_cache_image, num_following, num_followers, dtm_started_following, fl_is_updating, fl_author_is_following_user, fl_author_is_followed_by_user) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "update author set id_author_status = ?, txt_id_author = ?, nm_author = ?, nm_username = ?, txt_bio = ?, txt_url_cache_image = ?, num_following = ?, num_followers = ?, dtm_started_following = ?, fl_is_updating = ?, fl_author_is_following_user = ?, fl_author_is_followed_by_user = ? where " + PRIMARY_KEY_FIELD + " = ?";
@@ -66,19 +66,19 @@ public class Author extends ModelBase {
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
-	private Long idAuthor = null;
-	private Long idAuthorStatus = null;
-	private String txtIdAuthor = null;
-	private String nmAuthor = null;
-	private String nmUsername = null;
-	private String txtBio = null;
-	private String txtUrlCacheImage = null;
-	private Long numFollowing = null;
-	private Long numFollowers = null;
-	private Timestamp dtmStartedFollowing = null;
-	private Boolean flIsUpdating = null;
-	private Boolean flAuthorIsFollowingUser = null;
-	private Boolean flAuthorIsFollowedByUser = null;
+	private Long idAuthor = null; // maps to the id_author field
+	private Long idAuthorStatus = null; // maps to the id_author_status field
+	private String txtIdAuthor = null; // maps to the txt_id_author field
+	private String nmAuthor = null; // maps to the nm_author field
+	private String nmUsername = null; // maps to the nm_username field
+	private String txtBio = null; // maps to the txt_bio field
+	private String txtUrlCacheImage = null; // maps to the txt_url_cache_image field
+	private Long numFollowing = null; // maps to the num_following field
+	private Long numFollowers = null; // maps to the num_followers field
+	private Timestamp dtmStartedFollowing = null; // maps to the dtm_started_following field
+	private Boolean flIsUpdating = null; // maps to the fl_is_updating field
+	private Boolean flAuthorIsFollowingUser = null; // maps to the fl_author_is_following_user field
+	private Boolean flAuthorIsFollowedByUser = null; // maps to the fl_author_is_followed_by_user field
 
 	public Author(Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) {
 		this.idAuthor = idAuthor;
@@ -246,6 +246,9 @@ public class Author extends ModelBase {
 
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { updateHitCount(1); return(this.idAuthor); }

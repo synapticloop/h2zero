@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-import synapticloop.sample.h2zero.sqlite3.bean.FindIdUserTitleNmUserTitleOrderedBean;
+import synapticloop.sample.h2zero.sqlite3.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
 
 import synapticloop.sample.h2zero.sqlite3.model.UserTitle;
 
@@ -455,7 +455,7 @@ public class UserTitleFinder {
 	}
 
 // SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		if(!hasConnection) {
 			connection = ConnectionManager.getConnection();
@@ -492,7 +492,7 @@ public class UserTitleFinder {
 			preparedStatement = connection.prepareStatement(SQL_FIND_ID_USER_TITLE_NM_USER_TITLE_ORDERED);
 
 			resultSet = preparedStatement.executeQuery();
-			List<FindIdUserTitleNmUserTitleOrderedBean> results = listFindIdUserTitleNmUserTitleOrderedBean(resultSet);
+			List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> results = listFindIdUserTitleNmUserTitleOrderedBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
 			throw sqlex;
@@ -507,22 +507,22 @@ public class UserTitleFinder {
 	}
 
 // SELECTBEAN - PARAMS..., LIMIT, OFFSET 
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		return(findIdUserTitleNmUserTitleOrdered(null, limit, offset));
 	}
 
 // SELECTBEAN - CONNECTION, PARAMS...
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Connection connection) throws H2ZeroFinderException, SQLException {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Connection connection) throws H2ZeroFinderException, SQLException {
 		return(findIdUserTitleNmUserTitleOrdered(null, null, null));
 	}
 
 // SELECTBEAN - PARAMS...
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered() throws H2ZeroFinderException, SQLException {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered() throws H2ZeroFinderException, SQLException {
 		return(findIdUserTitleNmUserTitleOrdered(null, null, null));
 	}
 
 // SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Connection connection, Integer limit, Integer offset) {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findIdUserTitleNmUserTitleOrdered(connection, limit, offset));
 		} catch(H2ZeroFinderException h2zfex) {
@@ -532,7 +532,7 @@ public class UserTitleFinder {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(new ArrayList<FindIdUserTitleNmUserTitleOrderedBean>());
+			return(new ArrayList<UserTitleFindIdUserTitleNmUserTitleOrderedBean>());
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException findIdUserTitleNmUserTitleOrderedSilent(connection: " + connection  + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
@@ -540,39 +540,39 @@ public class UserTitleFinder {
 					sqlex.printStackTrace();
 				}
 			}
-			return(new ArrayList<FindIdUserTitleNmUserTitleOrderedBean>());
+			return(new ArrayList<UserTitleFindIdUserTitleNmUserTitleOrderedBean>());
 		}
 	}
 
 // CONNECTION, PARAMS...
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Connection connection) {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Connection connection) {
 		return(findIdUserTitleNmUserTitleOrderedSilent(connection, null, null));
 	}
 
 // PARAMS..., LIMIT, OFFSET
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Integer limit, Integer offset) {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Integer limit, Integer offset) {
 		return(findIdUserTitleNmUserTitleOrderedSilent(null, limit, offset));
 	}
 
 // PARAMS...
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent() {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent() {
 		return(findIdUserTitleNmUserTitleOrderedSilent(null, null, null));
 	}
 
 	/**
-	 * Return the results as a list of FindIdUserTitleNmUserTitleOrderedBeans, this will be empty if
+	 * Return the results as a list of UserTitleFindIdUserTitleNmUserTitleOrderedBeans, this will be empty if
 	 * none are found.
 	 * 
-	 * @param resultSet the results as a list of FindIdUserTitleNmUserTitleOrderedBean
+	 * @param resultSet the results as a list of UserTitleFindIdUserTitleNmUserTitleOrderedBean
 	 * 
 	 * @return the list of results
 	 * 
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
-	private static List<FindIdUserTitleNmUserTitleOrderedBean> listFindIdUserTitleNmUserTitleOrderedBean(ResultSet resultSet) throws SQLException {
-		List<FindIdUserTitleNmUserTitleOrderedBean> arrayList = new ArrayList<FindIdUserTitleNmUserTitleOrderedBean>();
+	private static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> listFindIdUserTitleNmUserTitleOrderedBean(ResultSet resultSet) throws SQLException {
+		List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> arrayList = new ArrayList<UserTitleFindIdUserTitleNmUserTitleOrderedBean>();
 		while(resultSet.next()) {
-			arrayList.add(new FindIdUserTitleNmUserTitleOrderedBean(
+			arrayList.add(new UserTitleFindIdUserTitleNmUserTitleOrderedBean(
 					resultSet.getLong(1),
 					resultSet.getString(2)));
 		}

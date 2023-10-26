@@ -6,17 +6,32 @@ package {database.package}.bean;{\n}{\n}
 
 import java.sql.Date;{\n}
 import java.sql.Timestamp;{\n}
+import {database.package}.model.util.Constants;{\n}
 {\n}
 
-public class {finder.tagName}Bean {{{\n}
+/**{\n}
+ * This is the generated bean for the selectClause finder from{\n}
+ * <p>{\n}
+ * table name: {table.name}{\n}
+ * <p>{\n}
+ * finder name: {finder.name}{\n}
+ * <p>{\n}
+ * and is returned either as a single object, or a list of objects{\n}
+ */{\n}
+public class {table.javaClassName}{finder.tagName}Bean {{{\n}
+{\t}// the binder is unused in code, but will generate compile problems if this {\n}
+{\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
+{\t}// removing dead code{\n}
+{\t}@SuppressWarnings("unused"){\n}
+{\t}private static final String BINDER = Constants.{table.upperName}_{finder.name}_BINDER;{\n}{\n}
 
 {loop finder.selectFields as selectField}
-	{\t}private {selectField.javaType} {selectField.javaName} = null;{\n}
+	{\t}private {selectField.javaType} {selectField.javaName} = null; // maps to {selectField.name}{\n}
 {endloop}
 
 	{\n}
 
-	{\t}public {finder.tagName}Bean(
+	{\t}public {table.javaClassName}{finder.tagName}Bean(
 		{loop finder.selectFields as selectField}
 			{selectField.javaType} {selectField.javaName}
 			{if selectFieldStatus.last}{else}, {endif}
