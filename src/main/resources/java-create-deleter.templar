@@ -61,7 +61,7 @@ public class {table.javaClassName}Deleter {{{\n}
 	{if fn:notNull[deleter.whereClause]} + " {deleter.whereClause}"{endif};{\n}
 {endloop}
 {\n}
-
+{\t}// We don't allow instantiation{\n}
 {\t}private {table.javaClassName}Deleter() {{}{\n}{\n}
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				DELETE BY PRIMARY KEY

@@ -60,20 +60,12 @@ public class UserPetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idUserPet, Long idUser, Long idPet) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idUserPet);
 			ConnectionManager.setBigint(preparedStatement, 2, idUser);
 			ConnectionManager.setBigint(preparedStatement, 3, idPet);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -89,17 +81,9 @@ public class UserPetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idUserPet, Long idUser, Long idPet) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idUserPet, idUser, idPet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idUserPet, idUser, idPet));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -117,16 +101,15 @@ public class UserPetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idUserPet, Long idUser, Long idPet) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idUserPet, idUser, idPet);
+			return(insert(connection, idUserPet, idUser, idPet));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -142,20 +125,15 @@ public class UserPetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idUserPet, Long idUser, Long idPet) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idUserPet, idUser, idPet);
+		try (Connection connection = ConnectionManager.getConnection()){
+			return(insert(connection, idUserPet, idUser, idPet));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 }

@@ -33,6 +33,7 @@ public class PetDeleter {
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_pet = ?";
 
 
+	// We don't allow instantiation
 	private PetDeleter() {}
 
  	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

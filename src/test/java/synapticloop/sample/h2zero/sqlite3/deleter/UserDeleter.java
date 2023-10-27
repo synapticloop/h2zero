@@ -37,6 +37,7 @@ public class UserDeleter {
 	private static final String SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE = SQL_DELETE_START + " where fl_is_alive = ? and id_user_type = ?";
 	private static final String SQL_DELETE_BY_NUM_AGE_TEST = SQL_DELETE_START + " where num_age = ?";
 
+	// We don't allow instantiation
 	private UserDeleter() {}
 
  	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

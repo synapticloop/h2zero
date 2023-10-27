@@ -71,10 +71,7 @@ public class UserInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idUser);
 			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
 			ConnectionManager.setBoolean(preparedStatement, 3, flIsAlive);
@@ -83,13 +80,8 @@ public class UserInserter {
 			ConnectionManager.setVarchar(preparedStatement, 6, txtAddressEmail);
 			ConnectionManager.setVarchar(preparedStatement, 7, txtPassword);
 			ConnectionManager.setDatetime(preparedStatement, 8, dtmSignup);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -110,10 +102,7 @@ public class UserInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idUser);
 			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
 			ConnectionManager.setBoolean(preparedStatement, 3, null);
@@ -122,13 +111,8 @@ public class UserInserter {
 			ConnectionManager.setVarchar(preparedStatement, 6, txtAddressEmail);
 			ConnectionManager.setVarchar(preparedStatement, 7, txtPassword);
 			ConnectionManager.setDatetime(preparedStatement, 8, null);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -149,17 +133,9 @@ public class UserInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -178,17 +154,9 @@ public class UserInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -211,16 +179,15 @@ public class UserInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup);
+			return(insert(connection, idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -243,16 +210,15 @@ public class UserInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword);
+			return(insert(connection, idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -273,20 +239,15 @@ public class UserInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup);
+		try (Connection connection = ConnectionManager.getConnection()){
+			return(insert(connection, idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -295,7 +256,7 @@ public class UserInserter {
 	 * by the method, the exception message will be logged as an 'error', if 'trace' logging
 	 * is enabled, the stack trace will be printed to the output stream.
 	 * 
-	 * This is for non-nullabel fields only
+	 * This is for non-nullable fields only
 	 * 
 	 * @param idUser  maps to id_user
 	 * @param idUserType  maps to id_user_type
@@ -307,20 +268,15 @@ public class UserInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 }

@@ -81,10 +81,7 @@ public class AuthorInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idAuthor);
 			ConnectionManager.setBigint(preparedStatement, 2, idAuthorStatus);
 			ConnectionManager.setVarchar(preparedStatement, 3, txtIdAuthor);
@@ -98,13 +95,8 @@ public class AuthorInserter {
 			ConnectionManager.setBoolean(preparedStatement, 11, flIsUpdating);
 			ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowingUser);
 			ConnectionManager.setBoolean(preparedStatement, 13, flAuthorIsFollowedByUser);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -125,10 +117,7 @@ public class AuthorInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idAuthor);
 			ConnectionManager.setBigint(preparedStatement, 2, null);
 			ConnectionManager.setVarchar(preparedStatement, 3, txtIdAuthor);
@@ -142,13 +131,8 @@ public class AuthorInserter {
 			ConnectionManager.setBoolean(preparedStatement, 11, null);
 			ConnectionManager.setBoolean(preparedStatement, 12, null);
 			ConnectionManager.setBoolean(preparedStatement, 13, null);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -174,17 +158,9 @@ public class AuthorInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -203,17 +179,9 @@ public class AuthorInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -241,16 +209,15 @@ public class AuthorInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser);
+			return(insert(connection, idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -273,16 +240,15 @@ public class AuthorInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage);
+			return(insert(connection, idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -308,20 +274,15 @@ public class AuthorInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser);
+		try (Connection connection = ConnectionManager.getConnection()){
+			return(insert(connection, idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -330,7 +291,7 @@ public class AuthorInserter {
 	 * by the method, the exception message will be logged as an 'error', if 'trace' logging
 	 * is enabled, the stack trace will be printed to the output stream.
 	 * 
-	 * This is for non-nullabel fields only
+	 * This is for non-nullable fields only
 	 * 
 	 * @param idAuthor  maps to id_author
 	 * @param txtIdAuthor  maps to txt_id_author
@@ -342,20 +303,15 @@ public class AuthorInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 }

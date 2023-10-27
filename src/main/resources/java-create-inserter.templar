@@ -126,23 +126,14 @@ public class {table.javaClassName}Inserter {{{\n}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}) throws SQLException {{{\n}
 
-		{\t}{\t}int numResults = -1;{\n}
-		{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-
-		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);{\n}
+		{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {{{\n}
 
 		{loop table.fields as field}
 			{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 		{endloop}
 
-		{\t}{\t}{\t}numResults = preparedStatement.executeUpdate();{\n}
-		{\t}{\t}} catch (SQLException sqlex) {{{\n}
-		{\t}{\t}{\t}throw sqlex;{\n}
-		{\t}{\t}} finally {{{\n}
-		{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
+		{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
 		{\t}{\t}}{\n}
-		{\t}{\t}return(numResults);{\n}
 {\t}}{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -173,11 +164,7 @@ public class {table.javaClassName}Inserter {{{\n}
 				{if fieldStatus.last}{else}, {endif}
 			{endloop}) throws SQLException {{{\n}
 
-			{\t}{\t}int numResults = -1;{\n}
-			{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-
-			{\t}{\t}try {{{\n}
-			{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);{\n}
+			{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {{{\n}
 
 			{loop table.fields as field}
 				{if field.nullable}
@@ -192,13 +179,8 @@ public class {table.javaClassName}Inserter {{{\n}
 				{endif}
 			{endloop}
 
-			{\t}{\t}{\t}numResults = preparedStatement.executeUpdate();{\n}
-			{\t}{\t}} catch (SQLException sqlex) {{{\n}
-			{\t}{\t}{\t}throw sqlex;{\n}
-			{\t}{\t}} finally {{{\n}
-			{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
+			{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
 			{\t}{\t}}{\n}
-			{\t}{\t}return(numResults);{\n}
 	{\t}}{\n}{\n}
 
 {endif}
@@ -222,22 +204,12 @@ public class {table.javaClassName}Inserter {{{\n}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}) throws SQLException {{{\n}
 
-		{\t}{\t}int numResults = -1;{\n}
-
-		{\t}{\t}Connection connection = null;{\n}
-
-		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-		{\t}{\t}{\t}numResults = insert(connection, {loop table.fields as field}
+		{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+		{\t}{\t}{\t}return(insert(connection, {loop table.fields as field}
 			{field.javaName}
 			{if fieldStatus.last}{else}, {endif}
-		{endloop});{\n}
-		{\t}{\t}} catch (SQLException sqlex) {{{\n}
-		{\t}{\t}{\t}throw sqlex;{\n}
-		{\t}{\t}} finally {{{\n}
-		{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+		{endloop}));{\n}
 		{\t}{\t}}{\n}
-		{\t}{\t}return(numResults);{\n}
 		{\t}}{\n}{\n}
 
 
@@ -260,22 +232,12 @@ public class {table.javaClassName}Inserter {{{\n}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}) throws SQLException {{{\n}
 
-		{\t}{\t}int numResults = -1;{\n}
-
-		{\t}{\t}Connection connection = null;{\n}
-
-		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-		{\t}{\t}{\t}numResults = insert(connection, {loop table.nonNullFields as field}
+		{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+		{\t}{\t}{\t}return(insert(connection, {loop table.nonNullFields as field}
 			{field.javaName}
 			{if fieldStatus.last}{else}, {endif}
-		{endloop});{\n}
-		{\t}{\t}} catch (SQLException sqlex) {{{\n}
-		{\t}{\t}{\t}throw sqlex;{\n}
-		{\t}{\t}} finally {{{\n}
-		{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+		{endloop}));{\n}
 		{\t}{\t}}{\n}
-		{\t}{\t}return(numResults);{\n}
 		{\t}}{\n}{\n}
 {endif}
 
@@ -300,20 +262,18 @@ public class {table.javaClassName}Inserter {{{\n}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}) {{{\n}
 
-		{\t}{\t}int numResults = -1;{\n}
-
 		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}numResults = insert(connection, {loop table.fields as field}
+		{\t}{\t}{\t}return(insert(connection, {loop table.fields as field}
 			{field.javaName}
 			{if fieldStatus.last}{else}, {endif}
-		{endloop});{\n}
+		{endloop}));{\n}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
 		{\t}{\t}{\t}LOGGER.error("SQLException caught, message was: {{}", sqlex.getMessage());{\n}
 		{\t}{\t}{\t}if(LOGGER.isTraceEnabled()){{{\n}
 		{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 		{\t}{\t}{\t}}{\n}
+		{\t}{\t}{\t}return(-1);{\n}
 		{\t}{\t}}{\n}
-		{\t}{\t}return(numResults);{\n}
 
 	{\t}}{\n}{\n}
 
@@ -342,20 +302,18 @@ public class {table.javaClassName}Inserter {{{\n}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}) {{{\n}
 
-		{\t}{\t}int numResults = -1;{\n}
-
 		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}numResults = insert(connection, {loop table.nonNullFields as field}
+		{\t}{\t}{\t}return(insert(connection, {loop table.nonNullFields as field}
 			{field.javaName}
 			{if fieldStatus.last}{else}, {endif}
-		{endloop});{\n}
+		{endloop}));{\n}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
 		{\t}{\t}{\t}LOGGER.error("SQLException caught, message was: {{}", sqlex.getMessage());{\n}
 		{\t}{\t}{\t}if(LOGGER.isTraceEnabled()){{{\n}
 		{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 		{\t}{\t}{\t}}{\n}
+		{\t}{\t}{\t}return(-1);{\n}
 		{\t}{\t}}{\n}
-		{\t}{\t}return(numResults);{\n}
 
 	{\t}}{\n}{\n}
 {endif}
@@ -381,25 +339,18 @@ public class {table.javaClassName}Inserter {{{\n}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}) {{{\n}
 
-		{\t}{\t}int numResults = -1;{\n}
-
-		{\t}{\t}Connection connection = null;{\n}
-
-		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-		{\t}{\t}{\t}numResults = insert(connection, {loop table.fields as field}
+		{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
+		{\t}{\t}{\t}return(insert(connection, {loop table.fields as field}
 			{field.javaName}
 			{if fieldStatus.last}{else}, {endif}
-		{endloop});{\n}
+		{endloop}));{\n}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
 		{\t}{\t}{\t}LOGGER.error("SQLException caught, message was: {{}", sqlex.getMessage());{\n}
 		{\t}{\t}{\t}if(LOGGER.isTraceEnabled()){{{\n}
 		{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 		{\t}{\t}{\t}}{\n}
-		{\t}{\t}} finally {{{\n}
-		{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+		{\t}{\t}{\t}return(-1);{\n}
 		{\t}{\t}}{\n}
-		{\t}{\t}return(numResults);{\n}
 
 	{\t}}{\n}{\n}
 
@@ -412,7 +363,7 @@ public class {table.javaClassName}Inserter {{{\n}
 	{\t} * by the method, the exception message will be logged as an 'error', if 'trace' logging{\n}
 	{\t} * is enabled, the stack trace will be printed to the output stream.{\n}
 	{\t} * {\n}
-	{\t} * This is for non-nullabel fields only{\n}
+	{\t} * This is for non-nullable fields only{\n}
 	{\t} * {\n}
 
 	{loop table.nonNullFields as field}
@@ -427,25 +378,18 @@ public class {table.javaClassName}Inserter {{{\n}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}) {{{\n}
 
-		{\t}{\t}int numResults = -1;{\n}
-
-		{\t}{\t}Connection connection = null;{\n}
-
-		{\t}{\t}try {{{\n}
-		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-		{\t}{\t}{\t}numResults = insert(connection, {loop table.nonNullFields as field}
+		{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+		{\t}{\t}{\t}return(insert(connection, {loop table.nonNullFields as field}
 			{field.javaName}
 			{if fieldStatus.last}{else}, {endif}
-		{endloop});{\n}
+		{endloop}));{\n}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
 		{\t}{\t}{\t}LOGGER.error("SQLException caught, message was: {{}", sqlex.getMessage());{\n}
 		{\t}{\t}{\t}if(LOGGER.isTraceEnabled()){{{\n}
 		{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
 		{\t}{\t}{\t}}{\n}
-		{\t}{\t}} finally {{{\n}
-		{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+		{\t}{\t}{\t}return(-1);{\n}
 		{\t}{\t}}{\n}
-		{\t}{\t}return(numResults);{\n}
 
 	{\t}}{\n}{\n}
 {endif}
