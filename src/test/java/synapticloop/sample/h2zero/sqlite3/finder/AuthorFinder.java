@@ -41,19 +41,23 @@ public class AuthorFinder {
 	private static final String SQL_FIND_BY_FL_IS_UPDATING = SQL_SELECT_START + " where fl_is_updating = ?";
 	private static final String SQL_FIND_BY_TXT_ID_AUTHOR_ID_AUTHOR_STATUS = SQL_SELECT_START + " where txt_id_author = ? and id_author_status = ?";
 	private static final String SQL_FIND_BY_TXT_ID_AUTHOR = SQL_SELECT_START + " where txt_id_author = ?";
+	private static final String SQL_FIND_IN_STATUS = SQL_SELECT_START + " where id_author_status in (...)";
 	private static final String SQL_FIND_ALL_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ? ";
 	private static final String SQL_FIND_FIRST_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc limit 1";
 	private static final String SQL_FIND_LIMITED_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following";
 
+	// This is the cache for 'in finders' which have an ellipses (...) in the statement
+	private static final LruCache<String, String> findInStatus_statement_cache = new LruCache<>(1024);
 	// now for the statement limit cache(s)
-	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByIdAuthorStatus_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByFlIsUpdating_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByTxtIdAuthorIdAuthorStatus_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByTxtIdAuthor_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findAllToBeEvaluated_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findFirstToBeEvaluated_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findLimitedToBeEvaluated_limit_statement_cache = new LruCache<String, String>(1024);
+	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByIdAuthorStatus_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByFlIsUpdating_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTxtIdAuthorIdAuthorStatus_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTxtIdAuthor_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findInStatus_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findAllToBeEvaluated_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findFirstToBeEvaluated_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findLimitedToBeEvaluated_limit_statement_cache = new LruCache<>(1024);
 
 	private AuthorFinder() {}
 
@@ -81,10 +85,8 @@ public class AuthorFinder {
 			preparedStatement.setLong(1, idAuthor);
 			resultSet = preparedStatement.executeQuery();
 			author = uniqueResult(resultSet);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idAuthor:" + idAuthor + "].");
+		} catch (H2ZeroFinderException | SQLException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idAuthor:" + idAuthor + "].");
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -173,27 +175,27 @@ public class AuthorFinder {
 	/**
 	 * Find all UserTitle objects with the passed in connection, with limited
 	 * results starting at a particular offset.
-	 * 
+	 * <p>
 	 * If the limit parameter is null, there will be no limit applied.
-	 * 
+	 * <p>
 	 * If the offset is null, then this will be set to 0
-	 * 
+	 * <p>
 	 * If both limit and offset are null, then no limit and no offset will be applied
 	 * to the statement.
-	 * 
+	 * <p>
 	 * The passed in connection object is usable for transactional SQL statements,
 	 * where the connection has already had a transaction started on it.
-	 * 
+	 * <p>
 	 * If the connection object is null an new connection object will be created 
 	 * and closed at the end of the method.
-	 * 
+	 * <p>
 	 * If the connection object is not null, then it will not be closed.
 	 * 
 	 * @param connection - the connection object to use (or null if not part of a transaction)
 	 * @param limit - the limit for the result set
 	 * @param offset - the offset for the start of the results.
 	 * 
-	 * @return a list of all of the UserTitle objects
+	 * @return a list of all the Author objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
@@ -256,18 +258,60 @@ public class AuthorFinder {
 		return(results);
 	}
 
+	/**
+	 * Find all the Author objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters.
+	 * 
+	 * @return The list of Author model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<Author> findAll() throws SQLException {
 		return(findAll(null, null, null));
 	}
 
+	/**
+	 * Find all the Author objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset
+	 * parameters.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of Author model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<Author> findAll(Connection connection) throws SQLException {
 		return(findAll(connection, null, null));
 	}
 
+	/**
+	 * Find all the Author objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null connection parameter
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of Author model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<Author> findAll(Integer limit, Integer offset) throws SQLException {
 		return(findAll(null, limit, offset));
 	}
 
+	/**
+	 * Find all the Author objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * 
+	 * @param connection - the connection to be used
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of Author model objects, or an empty List on error
+	 */
 	public static List<Author> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
@@ -282,14 +326,40 @@ public class AuthorFinder {
 		}
 	}
 
+	/**
+	 * Find all the Author objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of Author model objects, or an empty List on error
+	 */
 	public static List<Author> findAllSilent(Connection connection) {
 		return(findAllSilent(connection, null, null));
 	}
 
+	/**
+	 * Find all the Author objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of Author model objects, or an empty List on error
+	 */
 	public static List<Author> findAllSilent(Integer limit, Integer offset) {
 		return(findAllSilent(null, limit, offset));
 	}
 
+	/**
+	 * Find all the Author objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @return The list of Author model objects, or an empty List on error
+	 */
 	public static List<Author> findAllSilent() {
 		return(findAllSilent(null, null, null));
 	}
@@ -300,15 +370,18 @@ public class AuthorFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 7 defined finders on the author table:
+	 * There are 8 defined finders on the author table, of those finders
+	 * the following are the regular finders, either defined through the
+	 * 'finders' or 'fieldFinders' JSON key
 	 * 
-	 * - findByIdAuthorStatus - regular finder 
-	 * - findByFlIsUpdating - regular finder 
-	 * - findByTxtIdAuthorIdAuthorStatus - regular finder 
-	 * - findByTxtIdAuthor - regular finder 
-	 * - findAllToBeEvaluated - regular finder 
-	 * - findFirstToBeEvaluated - regular finder 
-	 * - findLimitedToBeEvaluated - regular finder 
+	 * - findByIdAuthorStatus - Generated from the 'fieldFinders' JSON key
+	 * - findByFlIsUpdating - Generated from the 'fieldFinders' JSON key
+	 * - findByTxtIdAuthorIdAuthorStatus - Generated from the 'fieldFinders' JSON key
+	 * - findByTxtIdAuthor - Generated from the 'fieldFinders' JSON key
+	 * - findInStatus - Generated from the 'finders' JSON key
+	 * - findAllToBeEvaluated - Generated from the 'finders' JSON key
+	 * - findFirstToBeEvaluated - Generated from the 'finders' JSON key
+	 * - findLimitedToBeEvaluated - Generated from the 'finders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -810,6 +883,143 @@ public class AuthorFinder {
 	}
 
 	/**
+	 * findInStatus 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param idAuthorStatusList - maps to the id_author_status field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the list of Author results found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static List<Author> findInStatus(Connection connection, List<Long> idAuthorStatusList, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset + ":" + idAuthorStatusList.size() + ":" ;
+		if(!findInStatus_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			String preparedStatementTemp = SQL_FIND_IN_STATUS;
+			StringBuilder whereFieldStringBuilder = null;
+			whereFieldStringBuilder = new StringBuilder();
+			for(int i = 0; i < idAuthorStatusList.size(); i++) {
+				if(i > 0) {
+					whereFieldStringBuilder.append(", ");
+				}
+				whereFieldStringBuilder.append("?");
+			}
+			preparedStatementTemp = SQL_FIND_IN_STATUS.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findInStatus_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findInStatus_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Author> results = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			int i = 1;
+			for (Long idAuthorStatusIn : idAuthorStatusList) {
+				ConnectionManager.setBigint(preparedStatement, i, idAuthorStatusIn);
+				i++;
+			}
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<Author> findInStatus(Connection connection, List<Long> idAuthorStatusList) throws H2ZeroFinderException, SQLException {
+		return(findInStatus(connection, idAuthorStatusList, null, null));
+	}
+
+	public static List<Author> findInStatus(List<Long> idAuthorStatusList, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findInStatus(null, idAuthorStatusList, limit, offset));
+	}
+
+	public static List<Author> findInStatus(List<Long> idAuthorStatusList) throws H2ZeroFinderException, SQLException {
+		return(findInStatus(null, idAuthorStatusList, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static List<Author> findInStatusSilent(Connection connection, List<Long> idAuthorStatusList, Integer limit, Integer offset) {
+		try {
+			return(findInStatus(connection, idAuthorStatusList, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findInStatusSilent(connection: " + connection + ", " + idAuthorStatusList + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<Author>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findInStatusSilent(connection: " + connection + ", " + idAuthorStatusList + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<Author>());
+		}
+	}
+
+	// silent connection, params...
+	public static List<Author> findInStatusSilent(Connection connection, List<Long> idAuthorStatusList) {
+		return(findInStatusSilent(connection, idAuthorStatusList, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static List<Author> findInStatusSilent(List<Long> idAuthorStatusList, Integer limit, Integer offset) {
+		return(findInStatusSilent(null, idAuthorStatusList, limit, offset));
+	}
+
+	public static List<Author> findInStatusSilent(List<Long> idAuthorStatusList) {
+		return(findInStatusSilent(null, idAuthorStatusList, null, null));
+	}
+
+	/**
 	 * findAllToBeEvaluated 
 	 * <p>
 	 * (This finder was generated through the 'finders' JSON key)
@@ -1264,15 +1474,9 @@ public class AuthorFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 7 defined finders on the author table:
+	 * There are 8 defined finders on the author table, of those finders
+	 * the following are the select clause finders:
 	 * 
-	 * - findByIdAuthorStatus - regular finder 
-	 * - findByFlIsUpdating - regular finder 
-	 * - findByTxtIdAuthorIdAuthorStatus - regular finder 
-	 * - findByTxtIdAuthor - regular finder 
-	 * - findAllToBeEvaluated - regular finder 
-	 * - findFirstToBeEvaluated - regular finder 
-	 * - findLimitedToBeEvaluated - regular finder 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

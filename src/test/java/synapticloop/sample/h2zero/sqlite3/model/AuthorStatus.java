@@ -15,7 +15,11 @@ import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 
-public class AuthorStatus  {
+/**
+ * This is the model for the AuthorStatus which maps to the author_status database table.
+ * This is a constant table which cannot be changed
+ */
+ public class AuthorStatus  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -26,6 +30,10 @@ public class AuthorStatus  {
 	public static final AuthorStatus TO_BE_EVALUATED = new AuthorStatus(Long.valueOf(2), "TO_BE_EVALUATED", "Author is waiting to be evaluated.");
 	public static final AuthorStatus IGNORED = new AuthorStatus(Long.valueOf(3), "IGNORED", "Author is being ignored.");
 	public static final AuthorStatus FOLLOWED = new AuthorStatus(Long.valueOf(4), "FOLLOWED", "Author is followed.");
+ 	public static final Long WAITING_PRIMARY_KEY_VALUE = Long.valueOf(1);
+ 	public static final Long TO_BE_EVALUATED_PRIMARY_KEY_VALUE = Long.valueOf(2);
+ 	public static final Long IGNORED_PRIMARY_KEY_VALUE = Long.valueOf(3);
+ 	public static final Long FOLLOWED_PRIMARY_KEY_VALUE = Long.valueOf(4);
 
 	public static final AuthorStatus[] ALL =  {
 		AuthorStatus.WAITING, AuthorStatus.TO_BE_EVALUATED, AuthorStatus.IGNORED, AuthorStatus.FOLLOWED

@@ -14,10 +14,13 @@
 {\t} * database table (or tables if there is a join statement) as a generated{\n}
 {\t} * bean{\n}
 {\t} * {\n}
-{\t} * There are {fn:length[tableOrView.finders]} defined finders on the {tableOrView.name} table:{\n}
+{\t} * There are {fn:length[tableOrView.finders]} defined finders on the {tableOrView.name} table, of those finders{\n}
+{\t} * the following are the select clause finders:{\n}
 {\t} * {\n}
 {loop tableOrView.finders as finder}
-{\t} * - {finder.name} - {if fn:notNull[finder.selectClause]}selectClause finder{else}regular finder{endif} {\n}
+	{if fn:notNull[finder.selectClause]}
+{\t} * - {finder.name}{\n}
+	{endif}
 {endloop}
 {\t} * {\n}
 {\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}{\n}

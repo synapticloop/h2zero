@@ -29,7 +29,11 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 
 
-public class Author extends ModelBase {
+/**
+ * This is the model for the Author which maps to the author database table
+ * and contains the default CRUD methods.
+ */
+ public class Author extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code

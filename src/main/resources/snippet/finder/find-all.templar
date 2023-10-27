@@ -1,27 +1,27 @@
 {\t}/**{\n}
 {\t} * Find all UserTitle objects with the passed in connection, with limited{\n}
 {\t} * results starting at a particular offset.{\n}
-{\t} * {\n}
+{\t} * <p>{\n}
 {\t} * If the limit parameter is null, there will be no limit applied.{\n}
-{\t} * {\n}
+{\t} * <p>{\n}
 {\t} * If the offset is null, then this will be set to 0{\n}
-{\t} * {\n}
+{\t} * <p>{\n}
 {\t} * If both limit and offset are null, then no limit and no offset will be applied{\n}
 {\t} * to the statement.{\n}
-{\t} * {\n}
+{\t} * <p>{\n}
 {\t} * The passed in connection object is usable for transactional SQL statements,{\n}
 {\t} * where the connection has already had a transaction started on it.{\n}
-{\t} * {\n}
+{\t} * <p>{\n}
 {\t} * If the connection object is null an new connection object will be created {\n}
 {\t} * and closed at the end of the method.{\n}
-{\t} * {\n}
+{\t} * <p>{\n}
 {\t} * If the connection object is not null, then it will not be closed.{\n}
 {\t} * {\n}
 {\t} * @param connection - the connection object to use (or null if not part of a transaction){\n}
 {\t} * @param limit - the limit for the result set{\n}
 {\t} * @param offset - the offset for the start of the results.{\n}
 {\t} * {\n}
-{\t} * @return a list of all of the UserTitle objects{\n}
+{\t} * @return a list of all the {tableOrView.javaClassName} objects{\n}
 {\t} * {\n}
 {\t} * @throws SQLException if there was an error in the SQL statement{\n}
 {\t} */{\n}
@@ -95,16 +95,46 @@
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
+{\t} * to the findAll(connection, limit, offset) with null parameters.{\n}
+{\t} * {\n}
+{\t} * @return The list of {tableOrView.javaClassName} model objects{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the SQL statement{\n}
+{\t} */{\n}
 {\t}public static List<{tableOrView.javaClassName}> findAll() throws SQLException {{{\n}
 {\t}{\t}return(findAll(null, null, null));{\n}
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
+{\t} * to the findAll(connection, limit, offset) with null limit and offset{\n}
+{\t} * parameters.{\n}
+{\t} * {\n}
+{\t} * @param connection - the connection to be used{\n}
+{\t} * {\n}
+{\t} * @return The list of {tableOrView.javaClassName} model objects{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the SQL statement{\n}
+{\t} */{\n}
 {\t}public static List<{tableOrView.javaClassName}> findAll(Connection connection) throws SQLException {{{\n}
 {\t}{\t}return(findAll(connection, null, null));{\n}
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
+{\t} * to the findAll(connection, limit, offset) with null connection parameter{\n}
+{\t} * {\n}
+{\t} * @param limit - the limit for the number of results to return{\n}
+{\t} * @param offset - the offset from the start of the results{\n}
+{\t} * {\n}
+{\t} * @return The list of {tableOrView.javaClassName} model objects{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the SQL statement{\n}
+{\t} */{\n}
 {\t}public static List<{tableOrView.javaClassName}> findAll(Integer limit, Integer offset) throws SQLException {{{\n}
 {\t}{\t}return(findAll(null, limit, offset));{\n}
 {\t}}{\n}
@@ -119,6 +149,18 @@
 }
 
 
+{\t}/**{\n}
+{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
+{\t} * to the findAll(connection, limit, offset) with null parameters,{\n}
+{\t} * however this method swallows any exceptions and will return an empty list.{\n}
+{\t} * {\n}
+{\t} * {\n}
+{\t} * @param connection - the connection to be used{\n}
+{\t} * @param limit - the limit for the number of results to return{\n}
+{\t} * @param offset - the offset from the start of the results{\n}
+{\t} * {\n}
+{\t} * @return The list of {tableOrView.javaClassName} model objects, or an empty List on error{\n}
+{\t} */{\n}
 
 {\t}public static List<{tableOrView.javaClassName}> findAllSilent(Connection connection, Integer limit, Integer offset) {{{\n}
 {\t}{\t}try {{{\n}
@@ -139,16 +181,42 @@
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
+{\t} * to the findAll(connection, limit, offset) with null limit and offset parameters,{\n}
+{\t} * however this method swallows any exceptions and will return an empty list.{\n}
+{\t} * {\n}
+{\t} * @param connection - the connection to be used{\n}
+{\t} * {\n}
+{\t} * @return The list of {tableOrView.javaClassName} model objects, or an empty List on error{\n}
+{\t} */{\n}
 {\t}public static List<{tableOrView.javaClassName}> findAllSilent(Connection connection) {{{\n}
 {\t}{\t}return(findAllSilent(connection, null, null));{\n}
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
+{\t} * to the findAll(connection, limit, offset) with null limit and offset parameters,{\n}
+{\t} * however this method swallows any exceptions and will return an empty list.{\n}
+{\t} * {\n}
+{\t} * @param limit - the limit for the number of results to return{\n}
+{\t} * @param offset - the offset from the start of the results{\n}
+{\t} * {\n}
+{\t} * @return The list of {tableOrView.javaClassName} model objects, or an empty List on error{\n}
+{\t} */{\n}
 {\t}public static List<{tableOrView.javaClassName}> findAllSilent(Integer limit, Integer offset) {{{\n}
 {\t}{\t}return(findAllSilent(null, limit, offset));{\n}
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
+{\t} * to the findAll(connection, limit, offset) with null parameters,{\n}
+{\t} * however this method swallows any exceptions and will return an empty list.{\n}
+{\t} * {\n}
+{\t} * @return The list of {tableOrView.javaClassName} model objects, or an empty List on error{\n}
+{\t} */{\n}
 {\t}public static List<{tableOrView.javaClassName}> findAllSilent() {{{\n}
 {\t}{\t}return(findAllSilent(null, null, null));{\n}
 {\t}}{\n}

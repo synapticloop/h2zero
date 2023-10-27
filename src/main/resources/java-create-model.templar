@@ -64,6 +64,17 @@ import {database.package}.model.util.Constants;{\n}
 {endif}
 
 {\n}{\n}
+{if table.isConstant}
+/**{\n}
+ * This is the model for the {table.javaClassName} which maps to the {table.name} database table.{\n}
+ * This is a constant table which cannot be changed{\n}
+ */{\n}
+ {else}
+/**{\n}
+ * This is the model for the {table.javaClassName} which maps to the {table.name} database table{\n}
+ * and contains the default CRUD methods.{\n}
+ */{\n}
+ {endif}
 
 public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif} {{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}
@@ -82,6 +93,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 				{value}{if !valueStatus.last}, {endif}
 			{endloop}
 		);{\n}
+	{endloop}
+
+
+	{loop table.constants as constant}
+ 		{\t}public static final {constant.primaryKeyJavaType} {constant.name}_PRIMARY_KEY_VALUE = {constant.primaryKeyValue};{\n}
 	{endloop}
 	{\n}
 

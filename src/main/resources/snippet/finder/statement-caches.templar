@@ -6,15 +6,15 @@
 			{set "false" as hasInfield}
 		{endif}
 
-		{\t}private static LruCache<String, String> {finder.name}_statement_cache = new LruCache<String, String>({finder.statementCacheSize});{\n}
+		{\t}private static final LruCache<String, String> {finder.name}_statement_cache = new LruCache<>({finder.statementCacheSize});{\n}
 	{endif}
 {endloop}
 
 		{\t}// now for the statement limit cache(s){\n}
-		{\t}private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>({tableOrView.findAllStatementCacheSize});{\n}
+		{\t}private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>({tableOrView.findAllStatementCacheSize});{\n}
 
 {loop tableOrView.finders as finder}
 	{-- if fn:null[finder.selectClause]}
-		{\t}private static LruCache<String, String> {finder.name}_limit_statement_cache = new LruCache<String, String>({finder.statementCacheSize});{\n}
+		{\t}private static final LruCache<String, String> {finder.name}_limit_statement_cache = new LruCache<>({finder.statementCacheSize});{\n}
 	{-- endif}
 {endloop}

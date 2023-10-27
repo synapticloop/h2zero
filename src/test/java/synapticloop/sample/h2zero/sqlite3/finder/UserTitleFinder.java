@@ -41,9 +41,9 @@ public class UserTitleFinder {
 	private static final String SQL_FIND_ALL_ORDERED = SQL_SELECT_START + " order by num_order_by";
 
 	// now for the statement limit cache(s)
-	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findIdUserTitleNmUserTitleOrdered_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findAllOrdered_limit_statement_cache = new LruCache<String, String>(1024);
+	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findIdUserTitleNmUserTitleOrdered_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findAllOrdered_limit_statement_cache = new LruCache<>(1024);
 
 	private UserTitleFinder() {}
 
@@ -71,10 +71,8 @@ public class UserTitleFinder {
 			preparedStatement.setLong(1, idUserTitle);
 			resultSet = preparedStatement.executeQuery();
 			userTitle = uniqueResult(resultSet);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idUserTitle:" + idUserTitle + "].");
+		} catch (H2ZeroFinderException | SQLException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idUserTitle:" + idUserTitle + "].");
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -163,27 +161,27 @@ public class UserTitleFinder {
 	/**
 	 * Find all UserTitle objects with the passed in connection, with limited
 	 * results starting at a particular offset.
-	 * 
+	 * <p>
 	 * If the limit parameter is null, there will be no limit applied.
-	 * 
+	 * <p>
 	 * If the offset is null, then this will be set to 0
-	 * 
+	 * <p>
 	 * If both limit and offset are null, then no limit and no offset will be applied
 	 * to the statement.
-	 * 
+	 * <p>
 	 * The passed in connection object is usable for transactional SQL statements,
 	 * where the connection has already had a transaction started on it.
-	 * 
+	 * <p>
 	 * If the connection object is null an new connection object will be created 
 	 * and closed at the end of the method.
-	 * 
+	 * <p>
 	 * If the connection object is not null, then it will not be closed.
 	 * 
 	 * @param connection - the connection object to use (or null if not part of a transaction)
 	 * @param limit - the limit for the result set
 	 * @param offset - the offset for the start of the results.
 	 * 
-	 * @return a list of all of the UserTitle objects
+	 * @return a list of all the UserTitle objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
@@ -246,18 +244,60 @@ public class UserTitleFinder {
 		return(results);
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters.
+	 * 
+	 * @return The list of UserTitle model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<UserTitle> findAll() throws SQLException {
 		return(findAll(null, null, null));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset
+	 * parameters.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of UserTitle model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<UserTitle> findAll(Connection connection) throws SQLException {
 		return(findAll(connection, null, null));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null connection parameter
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of UserTitle model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<UserTitle> findAll(Integer limit, Integer offset) throws SQLException {
 		return(findAll(null, limit, offset));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * 
+	 * @param connection - the connection to be used
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of UserTitle model objects, or an empty List on error
+	 */
 	public static List<UserTitle> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
@@ -272,14 +312,40 @@ public class UserTitleFinder {
 		}
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of UserTitle model objects, or an empty List on error
+	 */
 	public static List<UserTitle> findAllSilent(Connection connection) {
 		return(findAllSilent(connection, null, null));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of UserTitle model objects, or an empty List on error
+	 */
 	public static List<UserTitle> findAllSilent(Integer limit, Integer offset) {
 		return(findAllSilent(null, limit, offset));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @return The list of UserTitle model objects, or an empty List on error
+	 */
 	public static List<UserTitle> findAllSilent() {
 		return(findAllSilent(null, null, null));
 	}
@@ -290,10 +356,11 @@ public class UserTitleFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 2 defined finders on the user_title table:
+	 * There are 2 defined finders on the user_title table, of those finders
+	 * the following are the regular finders, either defined through the
+	 * 'finders' or 'fieldFinders' JSON key
 	 * 
-	 * - findIdUserTitleNmUserTitleOrdered - selectClause finder 
-	 * - findAllOrdered - regular finder 
+	 * - findAllOrdered - Generated from the 'finders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -481,10 +548,10 @@ public class UserTitleFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 2 defined finders on the user_title table:
+	 * There are 2 defined finders on the user_title table, of those finders
+	 * the following are the select clause finders:
 	 * 
-	 * - findIdUserTitleNmUserTitleOrdered - selectClause finder 
-	 * - findAllOrdered - regular finder 
+	 * - findIdUserTitleNmUserTitleOrdered
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

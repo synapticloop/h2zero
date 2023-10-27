@@ -29,10 +29,8 @@
 {\t}{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
 {\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 {\t}{\t}{\t}{tableOrView.javaFieldName} = uniqueResult(resultSet);{\n}
-{\t}{\t}} catch (SQLException sqlex) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException(sqlex);{\n}
-{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
+{\t}{\t}} catch (H2ZeroFinderException | SQLException ex) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [{primaryFieldJavaName}:" + {primaryFieldJavaName} + "].");{\n}
 {\t}{\t}} finally {{{\n}
 {\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 {\t}{\t}}{\n}

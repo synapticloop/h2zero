@@ -50,18 +50,18 @@ public class UserFinder {
 	private static final String SQL_FIND_BY_NUM_AGE_BETWEEN = SQL_SELECT_START + " where num_age > ? and num_age < ?";
 
 	// This is the cache for 'in finders' which have an ellipses (...) in the statement
-	private static LruCache<String, String> findByNumAgeIn_statement_cache = new LruCache<String, String>(1024);
+	private static final LruCache<String, String> findByNumAgeIn_statement_cache = new LruCache<>(1024);
 	// now for the statement limit cache(s)
-	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByNumAge_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByFlIsAliveNumAge_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByNmUsername_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByTxtAddressEmail_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByTxtAddressEmailTxtPassword_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findNmUserDtmSignup_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findGroupNumAge_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByNumAgeIn_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByNumAgeBetween_limit_statement_cache = new LruCache<String, String>(1024);
+	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByNumAge_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByFlIsAliveNumAge_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByNmUsername_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTxtAddressEmail_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTxtAddressEmailTxtPassword_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findNmUserDtmSignup_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findGroupNumAge_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByNumAgeIn_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByNumAgeBetween_limit_statement_cache = new LruCache<>(1024);
 
 	private UserFinder() {}
 
@@ -89,10 +89,8 @@ public class UserFinder {
 			preparedStatement.setLong(1, idUser);
 			resultSet = preparedStatement.executeQuery();
 			user = uniqueResult(resultSet);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idUser:" + idUser + "].");
+		} catch (H2ZeroFinderException | SQLException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idUser:" + idUser + "].");
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -181,27 +179,27 @@ public class UserFinder {
 	/**
 	 * Find all UserTitle objects with the passed in connection, with limited
 	 * results starting at a particular offset.
-	 * 
+	 * <p>
 	 * If the limit parameter is null, there will be no limit applied.
-	 * 
+	 * <p>
 	 * If the offset is null, then this will be set to 0
-	 * 
+	 * <p>
 	 * If both limit and offset are null, then no limit and no offset will be applied
 	 * to the statement.
-	 * 
+	 * <p>
 	 * The passed in connection object is usable for transactional SQL statements,
 	 * where the connection has already had a transaction started on it.
-	 * 
+	 * <p>
 	 * If the connection object is null an new connection object will be created 
 	 * and closed at the end of the method.
-	 * 
+	 * <p>
 	 * If the connection object is not null, then it will not be closed.
 	 * 
 	 * @param connection - the connection object to use (or null if not part of a transaction)
 	 * @param limit - the limit for the result set
 	 * @param offset - the offset for the start of the results.
 	 * 
-	 * @return a list of all of the UserTitle objects
+	 * @return a list of all the User objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
@@ -264,18 +262,60 @@ public class UserFinder {
 		return(results);
 	}
 
+	/**
+	 * Find all the User objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters.
+	 * 
+	 * @return The list of User model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<User> findAll() throws SQLException {
 		return(findAll(null, null, null));
 	}
 
+	/**
+	 * Find all the User objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset
+	 * parameters.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of User model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<User> findAll(Connection connection) throws SQLException {
 		return(findAll(connection, null, null));
 	}
 
+	/**
+	 * Find all the User objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null connection parameter
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of User model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<User> findAll(Integer limit, Integer offset) throws SQLException {
 		return(findAll(null, limit, offset));
 	}
 
+	/**
+	 * Find all the User objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * 
+	 * @param connection - the connection to be used
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of User model objects, or an empty List on error
+	 */
 	public static List<User> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
@@ -290,14 +330,40 @@ public class UserFinder {
 		}
 	}
 
+	/**
+	 * Find all the User objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of User model objects, or an empty List on error
+	 */
 	public static List<User> findAllSilent(Connection connection) {
 		return(findAllSilent(connection, null, null));
 	}
 
+	/**
+	 * Find all the User objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of User model objects, or an empty List on error
+	 */
 	public static List<User> findAllSilent(Integer limit, Integer offset) {
 		return(findAllSilent(null, limit, offset));
 	}
 
+	/**
+	 * Find all the User objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @return The list of User model objects, or an empty List on error
+	 */
 	public static List<User> findAllSilent() {
 		return(findAllSilent(null, null, null));
 	}
@@ -308,17 +374,17 @@ public class UserFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 9 defined finders on the user table:
+	 * There are 9 defined finders on the user table, of those finders
+	 * the following are the regular finders, either defined through the
+	 * 'finders' or 'fieldFinders' JSON key
 	 * 
-	 * - findByNumAge - regular finder 
-	 * - findByFlIsAliveNumAge - regular finder 
-	 * - findByNmUsername - regular finder 
-	 * - findByTxtAddressEmail - regular finder 
-	 * - findByTxtAddressEmailTxtPassword - regular finder 
-	 * - findNmUserDtmSignup - selectClause finder 
-	 * - findGroupNumAge - selectClause finder 
-	 * - findByNumAgeIn - regular finder 
-	 * - findByNumAgeBetween - regular finder 
+	 * - findByNumAge - Generated from the 'fieldFinders' JSON key
+	 * - findByFlIsAliveNumAge - Generated from the 'fieldFinders' JSON key
+	 * - findByNmUsername - Generated from the 'fieldFinders' JSON key
+	 * - findByTxtAddressEmail - Generated from the 'fieldFinders' JSON key
+	 * - findByTxtAddressEmailTxtPassword - Generated from the 'finders' JSON key
+	 * - findByNumAgeIn - Generated from the 'finders' JSON key
+	 * - findByNumAgeBetween - Generated from the 'finders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -1294,17 +1360,11 @@ public class UserFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 9 defined finders on the user table:
+	 * There are 9 defined finders on the user table, of those finders
+	 * the following are the select clause finders:
 	 * 
-	 * - findByNumAge - regular finder 
-	 * - findByFlIsAliveNumAge - regular finder 
-	 * - findByNmUsername - regular finder 
-	 * - findByTxtAddressEmail - regular finder 
-	 * - findByTxtAddressEmailTxtPassword - regular finder 
-	 * - findNmUserDtmSignup - selectClause finder 
-	 * - findGroupNumAge - selectClause finder 
-	 * - findByNumAgeIn - regular finder 
-	 * - findByNumAgeBetween - regular finder 
+	 * - findNmUserDtmSignup
+	 * - findGroupNumAge
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

@@ -15,7 +15,11 @@ import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 
-public class UserType  {
+/**
+ * This is the model for the UserType which maps to the user_type database table.
+ * This is a constant table which cannot be changed
+ */
+ public class UserType  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -26,6 +30,10 @@ public class UserType  {
 	public static final UserType SPECIAL = new UserType(Long.valueOf(2), "special");
 	public static final UserType ADMIN = new UserType(Long.valueOf(3), "admin");
 	public static final UserType SUPER_ADMIN = new UserType(Long.valueOf(4), "super admin");
+ 	public static final Long NORMAL_PRIMARY_KEY_VALUE = Long.valueOf(1);
+ 	public static final Long SPECIAL_PRIMARY_KEY_VALUE = Long.valueOf(2);
+ 	public static final Long ADMIN_PRIMARY_KEY_VALUE = Long.valueOf(3);
+ 	public static final Long SUPER_ADMIN_PRIMARY_KEY_VALUE = Long.valueOf(4);
 
 	public static final UserType[] ALL =  {
 		UserType.NORMAL, UserType.SPECIAL, UserType.ADMIN, UserType.SUPER_ADMIN

@@ -10,10 +10,14 @@
 {\t} * through either the "finders" JSON key, or the "fieldFinders" JSON{\n}
 {\t} * key.{\n}
 {\t} * {\n}
-{\t} * There are {fn:length[tableOrView.finders]} defined finders on the {tableOrView.name} table:{\n}
+{\t} * There are {fn:length[tableOrView.finders]} defined finders on the {tableOrView.name} table, of those finders{\n}
+{\t} * the following are the regular finders, either defined through the{\n}
+{\t} * 'finders' or 'fieldFinders' JSON key{\n}
 {\t} * {\n}
 {loop tableOrView.finders as finder}
-{\t} * - {finder.name} - {if fn:notNull[finder.selectClause]}selectClause finder{else}regular finder{endif} {\n}
+	{if fn:null[finder.selectClause]}
+{\t} * - {finder.name} - Generated from the {if finder.isAutoFinder}'fieldFinders'{else}'finders'{endif} JSON key{\n}
+	{endif}
 {endloop}
 {\t} * {\n}
 {\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}{\n}

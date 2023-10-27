@@ -40,8 +40,8 @@ public class PetFinder {
 	private static final String SQL_FIND_BY_NM_PET_NUM_AGE = SQL_SELECT_START + " where nm_pet = ? and num_age = ?";
 
 	// now for the statement limit cache(s)
-	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findByNmPetNumAge_limit_statement_cache = new LruCache<String, String>(1024);
+	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByNmPetNumAge_limit_statement_cache = new LruCache<>(1024);
 
 	private PetFinder() {}
 
@@ -69,10 +69,8 @@ public class PetFinder {
 			preparedStatement.setLong(1, idPet);
 			resultSet = preparedStatement.executeQuery();
 			pet = uniqueResult(resultSet);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idPet:" + idPet + "].");
+		} catch (H2ZeroFinderException | SQLException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idPet:" + idPet + "].");
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -161,27 +159,27 @@ public class PetFinder {
 	/**
 	 * Find all UserTitle objects with the passed in connection, with limited
 	 * results starting at a particular offset.
-	 * 
+	 * <p>
 	 * If the limit parameter is null, there will be no limit applied.
-	 * 
+	 * <p>
 	 * If the offset is null, then this will be set to 0
-	 * 
+	 * <p>
 	 * If both limit and offset are null, then no limit and no offset will be applied
 	 * to the statement.
-	 * 
+	 * <p>
 	 * The passed in connection object is usable for transactional SQL statements,
 	 * where the connection has already had a transaction started on it.
-	 * 
+	 * <p>
 	 * If the connection object is null an new connection object will be created 
 	 * and closed at the end of the method.
-	 * 
+	 * <p>
 	 * If the connection object is not null, then it will not be closed.
 	 * 
 	 * @param connection - the connection object to use (or null if not part of a transaction)
 	 * @param limit - the limit for the result set
 	 * @param offset - the offset for the start of the results.
 	 * 
-	 * @return a list of all of the UserTitle objects
+	 * @return a list of all the Pet objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
@@ -244,18 +242,60 @@ public class PetFinder {
 		return(results);
 	}
 
+	/**
+	 * Find all the Pet objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters.
+	 * 
+	 * @return The list of Pet model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<Pet> findAll() throws SQLException {
 		return(findAll(null, null, null));
 	}
 
+	/**
+	 * Find all the Pet objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset
+	 * parameters.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of Pet model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<Pet> findAll(Connection connection) throws SQLException {
 		return(findAll(connection, null, null));
 	}
 
+	/**
+	 * Find all the Pet objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null connection parameter
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of Pet model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<Pet> findAll(Integer limit, Integer offset) throws SQLException {
 		return(findAll(null, limit, offset));
 	}
 
+	/**
+	 * Find all the Pet objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * 
+	 * @param connection - the connection to be used
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of Pet model objects, or an empty List on error
+	 */
 	public static List<Pet> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
@@ -270,14 +310,40 @@ public class PetFinder {
 		}
 	}
 
+	/**
+	 * Find all the Pet objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of Pet model objects, or an empty List on error
+	 */
 	public static List<Pet> findAllSilent(Connection connection) {
 		return(findAllSilent(connection, null, null));
 	}
 
+	/**
+	 * Find all the Pet objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of Pet model objects, or an empty List on error
+	 */
 	public static List<Pet> findAllSilent(Integer limit, Integer offset) {
 		return(findAllSilent(null, limit, offset));
 	}
 
+	/**
+	 * Find all the Pet objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @return The list of Pet model objects, or an empty List on error
+	 */
 	public static List<Pet> findAllSilent() {
 		return(findAllSilent(null, null, null));
 	}
@@ -288,9 +354,11 @@ public class PetFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 1 defined finders on the pet table:
+	 * There are 1 defined finders on the pet table, of those finders
+	 * the following are the regular finders, either defined through the
+	 * 'finders' or 'fieldFinders' JSON key
 	 * 
-	 * - findByNmPetNumAge - regular finder 
+	 * - findByNmPetNumAge - Generated from the 'fieldFinders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -486,9 +554,9 @@ public class PetFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 1 defined finders on the pet table:
+	 * There are 1 defined finders on the pet table, of those finders
+	 * the following are the select clause finders:
 	 * 
-	 * - findByNmPetNumAge - regular finder 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

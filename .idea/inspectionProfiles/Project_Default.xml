@@ -5,8 +5,10 @@
       <option name="ignoredTypes">
         <set>
           <option value="java.lang.String" />
+          <option value="java.util.List" />
         </set>
       </option>
     </inspection_tool>
+    <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
   </profile>
 </component>

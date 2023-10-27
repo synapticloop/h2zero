@@ -39,6 +39,7 @@ public class Constant {
 	private final List<Object> sqlValues = new ArrayList<>();
 	private String name = null;
 	private Object primaryKeyValue = null;
+	private String primaryKeyJavaType = null;
 
 	// this should look like:
 	// { "name": "BOOK", "values": [ 1, "book" ] },
@@ -72,6 +73,7 @@ public class Constant {
 					values.add(stringified);
 					if(i == 0) {
 						this.primaryKeyValue = stringified;
+						this.primaryKeyJavaType = table.getFields().get(i).getJavaType();
 					}
 				}
 
@@ -87,5 +89,6 @@ public class Constant {
 	public List<Object> getSqlValues() { return sqlValues; }
 	public String getName() { return name; }
 	public Object getPrimaryKeyValue() { return primaryKeyValue; }
+	public Object getPrimaryKeyJavaType() { return primaryKeyJavaType; }
 	public void setPrimaryKeyValue(Object primaryKeyValue) { this.primaryKeyValue = primaryKeyValue; }
 }

@@ -31,7 +31,11 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 
 
-public class UserPet extends ModelBase {
+/**
+ * This is the model for the UserPet which maps to the user_pet database table
+ * and contains the default CRUD methods.
+ */
+ public class UserPet extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code

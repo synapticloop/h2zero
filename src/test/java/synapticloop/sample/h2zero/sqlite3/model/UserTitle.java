@@ -15,7 +15,11 @@ import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 
-public class UserTitle  {
+/**
+ * This is the model for the UserTitle which maps to the user_title database table.
+ * This is a constant table which cannot be changed
+ */
+ public class UserTitle  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -26,6 +30,10 @@ public class UserTitle  {
 	public static final UserTitle MRS = new UserTitle(Long.valueOf(2), "Mrs.", Integer.valueOf(2));
 	public static final UserTitle MISS = new UserTitle(Long.valueOf(3), "Miss", Integer.valueOf(3));
 	public static final UserTitle DR = new UserTitle(Long.valueOf(4), "Dr.", Integer.valueOf(4));
+ 	public static final Long MR_PRIMARY_KEY_VALUE = Long.valueOf(1);
+ 	public static final Long MRS_PRIMARY_KEY_VALUE = Long.valueOf(2);
+ 	public static final Long MISS_PRIMARY_KEY_VALUE = Long.valueOf(3);
+ 	public static final Long DR_PRIMARY_KEY_VALUE = Long.valueOf(4);
 
 	public static final UserTitle[] ALL =  {
 		UserTitle.MR, UserTitle.MRS, UserTitle.MISS, UserTitle.DR
