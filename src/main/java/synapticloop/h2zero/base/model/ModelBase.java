@@ -26,11 +26,10 @@ import org.slf4j.LoggerFactory;
 
 import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
-import synapticloop.h2zero.base.manager.BaseConnectionManager;
 import synapticloop.h2zero.base.validator.bean.ValidationBean;
 
 /**
- * This is the base class for all h2zero generated models and defines the required functionality for a working model.  
+ * This is the base class for all h2zero generated models and defines the required functionality for a working model.
  * It contains methods to insert, update and delete itself.
  *
  */
@@ -41,32 +40,33 @@ public abstract class ModelBase {
 
 	/**
 	 * Whether the primary key is set for this bean
-	 * 
+	 *
 	 * @return whether the primary key is set
 	 */
 	public abstract boolean primaryKeySet();
 
 	/**
 	 * Whether the bean is valid for insertion
-	 * 
-	 * @return a validation bean 
+	 *
+	 * @return a validation bean
 	 */
 	public abstract ValidationBean validate();
 
 	/**
-	 * Retrieve a connection from the appropriate connection manager, which is 
+	 * Retrieve a connection from the appropriate connection manager, which is
 	 * delegated to the sub-classes.
-	 * 
+	 *
 	 * @return The connection to the database
-	 * 
+	 *
 	 * @throws SQLException If there was an error with retrieving the connection
 	 */
 	protected abstract Connection getConnection() throws SQLException;
 
 	/**
 	 * Persist the model object to the database
-	 * 
-	 * @param connection the SQL connection to be used - this connection __MUST__ be closed by the caller
+	 *
+	 * @param connection the SQL connection to be used - this connection __MUST__
+	 *                   be closed by the caller
 	 *
 	 * @throws SQLException if there was an error in the SQL expression
 	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
@@ -75,7 +75,7 @@ public abstract class ModelBase {
 
 	/**
 	 * Persist the model object to the database
-	 * 
+	 *
 	 * @throws SQLException if there was an error in the SQL expression
 	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
 	 */
@@ -92,42 +92,42 @@ public abstract class ModelBase {
 		try (Connection connection = getConnection()){
 			insert(connection);
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
-			ex.printStackTrace();
+			LOGGER.error("Could not insert", ex);
 		}
 	}
 
 	/**
 	 * Persist the model object to the database silently, i.e. swallow any SQL or H2Zero exceptions
-	 * 
+	 *
 	 * @param connection the SQL connection to be used
 	 */
 	public void insertSilent(Connection connection) {
 		try {
 			insert(connection);
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
-			ex.printStackTrace();
+			LOGGER.error("Could not insert", ex);
 		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * 
+	 *
 	 * All of the update methods
-	 * 
+	 *
 	 */
 
 	/**
-	 * Update the model utilising the passed in connection, the caller must 
+	 * Update the model utilising the passed in connection, the caller must
 	 * close the connection.
-	 * 
+	 *
 	 * @param connection The connection to the database
 	 */
 	public abstract void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 
 	/**
-	 * Update the model utilising the passed in connection, the caller must 
+	 * Update the model utilising the passed in connection, the caller must
 	 * close the connection.  If there are any exceptions thrown from subsequent
 	 * calls, these will be caught and swallowed.
-	 * 
+	 *
 	 * @param connection The connection to the database
 	 */
 	public void updateSilent(Connection connection) {
@@ -141,7 +141,7 @@ public abstract class ModelBase {
 	/**
 	 * Update the model, this will automatically get a connection and then close it
 	 * once completed.
-	 * 
+	 *
 	 * @throws SQLException If there was an error with the updating of the model
 	 * @throws H2ZeroPrimaryKeyException If the primary key is not set
 	 */
@@ -153,7 +153,7 @@ public abstract class ModelBase {
 
 	/**
 	 * Update the model silently, i.e. swallow any exceptions
-	 * 
+	 *
 	 */
 	public void updateSilent() {
 		try (Connection connection = getConnection()) {
@@ -163,80 +163,12 @@ public abstract class ModelBase {
 		}
 	}
 
-	/*
-	 * All of the insert or update methods
-	 */
-
 	/**
-	 * @see #upsert(Connection connection)
-	 * 
-	 * @param connection the connection to use (if a transaction has been started)
-	 * 
-	 * @throws H2ZeroPrimaryKeyException if there was an error retrieving the primary key 
-	 * @throws SQLException if there was an error with the SQL statement
-	 */
-	@Deprecated
-	public void insertOrUpdate(Connection connection) throws H2ZeroPrimaryKeyException, SQLException {
-		if(!primaryKeySet()) {
-			insert(connection);
-		} else {
-			update(connection);
-		}
-	}
-
-	/**
-	 * @see #upsert()
-	 * 
-	 * @throws H2ZeroPrimaryKeyException if there was an error retrieving the primary key 
-	 * @throws SQLException if there was an error with the SQL statement
-	 */
-	@Deprecated
-	public void insertOrUpdate() throws H2ZeroPrimaryKeyException, SQLException {
-		try (Connection connection = getConnection()){
-			insertOrUpdate(connection);
-		}
-	}
-
-	/**
-	 * @see #upsertSilent(Connection connection)
-	 * 
-	 * @param connection the connection to use (if a transaction has been started)
-	 */
-	@Deprecated
-	public void insertOrUpdateSilent(Connection connection) {
-		try {
-			if(!primaryKeySet()) {
-				insert(connection);
-			} else {
-				update(connection);
-			}
-		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
-			LOGGER.error(ex.getMessage(), ex);
-		}
-	}
-
-	/**
-	 * @see #upsertSilent()
-	 */
-	@Deprecated
-	public void insertOrUpdateSilent() {
-		try (Connection connection = getConnection()) {
-			if(!primaryKeySet()) {
-				insert(connection);
-			} else {
-				update(connection);
-			}
-		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
-			LOGGER.error(ex.getMessage(), ex);
-		}
-	}
-
-	/**
-	 * Update or insert the model object - updates are performed where the 
+	 * Update or insert the model object - updates are performed where the
 	 * primary key is set, inserts where the primary key is null
-	 * 
-	 * @param connection The connection to use for transactional purposes 
-	 * @throws H2ZeroPrimaryKeyException if the return value for the primary key 
+	 *
+	 * @param connection The connection to use for transactional purposes
+	 * @throws H2ZeroPrimaryKeyException if the return value for the primary key
 	 *     could not be determined
 	 * @throws SQLException if there was an error with the SQL statement
 	 */
@@ -249,11 +181,11 @@ public abstract class ModelBase {
 	}
 
 	/**
-	 * Update or insert the model object - updates are performed where the 
+	 * Update or insert the model object - updates are performed where the
 	 * primary key is set, inserts where the primary key is null.  This will
 	 * grab a connection from the pool and close it at the end of the method.
-	 * 
-	 * @throws H2ZeroPrimaryKeyException if the return value for the primary key 
+	 *
+	 * @throws H2ZeroPrimaryKeyException if the return value for the primary key
 	 *     could not be determined
 	 * @throws SQLException if there was an error with the SQL statement
 	 */
@@ -265,10 +197,10 @@ public abstract class ModelBase {
 
 	/**
 	 * Update or insert the model object silently (that is catch all exceptions)
-	 * updates are performed where the primary key is set, inserts where the 
+	 * updates are performed where the primary key is set, inserts where the
 	 * primary key is null.
-	 * 
-	 * @param connection The connection to use for transactional purposes 
+	 *
+	 * @param connection The connection to use for transactional purposes
 	 */
 	public void upsertSilent(Connection connection) {
 		try {
@@ -280,8 +212,8 @@ public abstract class ModelBase {
 
 	/**
 	 * Update or insert the model object silently (that is catch all exceptions)
-	 * updates are performed where the primary key is set, inserts where the 
-	 * primary key is null.   This will grab a connection from the pool and 
+	 * updates are performed where the primary key is set, inserts where the
+	 * primary key is null.   This will grab a connection from the pool and
 	 * close it at the end of the method.
 	 */
 	public void upsertSilent() {
@@ -293,13 +225,27 @@ public abstract class ModelBase {
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * 
-	 * All of the delete methods
-	 * 
-	 */
+	 *
+	 * All the delete methods
+	 *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	/**
+	 * Delete this been with its primary key
+	 *
+	 * @param connection The connection to use - note that this connection __MUST__
+	 *                   be closed by the caller
+	 * @throws SQLException If there was an error with the SQL statement
+	 * @throws H2ZeroPrimaryKeyException If the primary key is null
+	 */
 	public abstract void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 
+	/**
+	 * Delete this been with its primary key - this will swallow any exceptions
+	 *
+	 * @param connection The connection to use - note that this connection __MUST__
+	 *                   be closed by the caller
+	 */
 	public void deleteSilent(Connection connection) {
 		try {
 			delete(connection);
@@ -327,10 +273,10 @@ public abstract class ModelBase {
 
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * 
-	 * All of the ensure methods
-	 * 
-	 */
+	 *
+	 * All the ensure methods
+	 *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	public abstract void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 
@@ -359,11 +305,11 @@ public abstract class ModelBase {
 	/**
 	 * Hydrate any fields that are not automatically populated.  By default, this does
 	 * nothing unless over-written in the child classes
-	 * 
+	 *
 	 * @param connection The connection to use
-	 * 
-	 * @throws SQLException
-	 * @throws H2ZeroPrimaryKeyException
+	 *
+	 * @throws SQLException IUf there was an error in the SQL statement
+	 * @throws H2ZeroPrimaryKeyException If the primary key is null
 	 */
 	protected void hydrate(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		// do nothing
@@ -392,24 +338,27 @@ public abstract class ModelBase {
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * 
-	 * All of the refresh methods
-	 * 
-	 */
+	 *
+	 * All the refresh methods
+	 *
+   * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Refresh the bean with the passed in connection by loading all of the information again using the primary 
-	 * key to look it up.  The passed in connection can be used for transactional purposes.
-	 * 
-	 * @param Connection The connection to use
+	 * Refresh the bean with the passed in connection by loading all the
+	 * information again using the primary key to look it up.  The passed in
+	 * connection can be used for transactional purposes.
+	 *
+	 * @param connection The connection to use
+	 *
 	 * @throws SQLException If there was an error in the SQL statement
 	 * @throws H2ZeroPrimaryKeyException if the primary key is null
 	 */
-	public abstract void refresh(Connection Connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException;
+	public abstract void refresh(Connection connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException;
 
 	/**
-	 * Refresh the bean by loading all of the information again using the primary key to look it up
-	 * 
+	 * Refresh the bean by loading all information again using the primary key
+	 * to look it up
+	 *
 	 * @throws SQLException if there was an error in the SQL statement
 	 * @throws H2ZeroPrimaryKeyException if the primary key is null
 	 */
@@ -437,10 +386,10 @@ public abstract class ModelBase {
 
 	/**
 	 * Determine whether the two objects differ
-	 * 
+	 *
 	 * @param from the first object to be checked against
 	 * @param to the second object to be checked
-	 * 
+	 *
 	 * @return whether the two objects differ
 	 */
 	protected boolean isDifferent(Object from, Object to) {
@@ -454,7 +403,7 @@ public abstract class ModelBase {
 			}
 		}
 	}
-	
+
 	protected void addtoJSONObject(JSONObject jsonObject, String key, Object object) {
 		jsonObject.put(key, object);
 	}

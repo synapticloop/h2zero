@@ -90,27 +90,21 @@ public class UserTitleFinder {
 	 * 
 	 * @param idUserTitle the primary key
 	 * 
-	 * @return the unique result or throw an exception if one coudn't be found.
+	 * @return the unique result or throw an exception if one couldn't be found.
 	 * 
 	 * @throws H2ZeroFinderException if one couldn't be found
 	 */
 	public static UserTitle findByPrimaryKey(Long idUserTitle) throws H2ZeroFinderException {
-		UserTitle userTitle = null;
-		Connection connection = null;
 
 		if(null == idUserTitle) {
 			throw new H2ZeroFinderException("Could not find result as the primary key field [idUserTitle] was null.");
 		}
 
-		try {
-			connection = ConnectionManager.getConnection();
+		UserTitle userTitle = null;
+		try (Connection connection = ConnectionManager.getConnection()) {
 			userTitle = findByPrimaryKey(connection, idUserTitle);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idUserTitle:" + idUserTitle + "].");
-		} finally {
-			ConnectionManager.closeAll(connection);
+		} catch (SQLException | H2ZeroFinderException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idUserTitle:" + idUserTitle + "].");
 		}
 
 		if(null == userTitle) {

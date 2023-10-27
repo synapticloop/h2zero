@@ -100,27 +100,21 @@ public class AuthorFinder {
 	 * 
 	 * @param idAuthor the primary key
 	 * 
-	 * @return the unique result or throw an exception if one coudn't be found.
+	 * @return the unique result or throw an exception if one couldn't be found.
 	 * 
 	 * @throws H2ZeroFinderException if one couldn't be found
 	 */
 	public static Author findByPrimaryKey(Long idAuthor) throws H2ZeroFinderException {
-		Author author = null;
-		Connection connection = null;
 
 		if(null == idAuthor) {
 			throw new H2ZeroFinderException("Could not find result as the primary key field [idAuthor] was null.");
 		}
 
-		try {
-			connection = ConnectionManager.getConnection();
+		Author author = null;
+		try (Connection connection = ConnectionManager.getConnection()) {
 			author = findByPrimaryKey(connection, idAuthor);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idAuthor:" + idAuthor + "].");
-		} finally {
-			ConnectionManager.closeAll(connection);
+		} catch (SQLException | H2ZeroFinderException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idAuthor:" + idAuthor + "].");
 		}
 
 		if(null == author) {
