@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import synapticloop.h2zero.base.manager.BaseConnectionManager;
 import synapticloop.h2zero.base.validator.bean.ValidationBean;
@@ -65,7 +66,8 @@ public abstract class ModelBase {
 	/**
 	 * Persist the model object to the database
 	 * 
-	 * @param connection the SQL connection to be used
+	 * @param connection the SQL connection to be used - this connection __MUST__ be closed by the caller
+	 *
 	 * @throws SQLException if there was an error in the SQL expression
 	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
 	 */
@@ -78,20 +80,8 @@ public abstract class ModelBase {
 	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
 	 */
 	public void insert() throws SQLException, H2ZeroPrimaryKeyException {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()) {
 			insert(connection);
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
@@ -99,25 +89,10 @@ public abstract class ModelBase {
 	 * Persist the model object to the database silently, i.e. swallow any SQL or H2Zero exceptions
 	 */
 	public void insertSilent() {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()){
 			insert(connection);
-			connection.close();
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -129,10 +104,8 @@ public abstract class ModelBase {
 	public void insertSilent(Connection connection) {
 		try {
 			insert(connection);
-		} catch(H2ZeroPrimaryKeyException h2zpkex) {
-			h2zpkex.printStackTrace();
-		} catch(SQLException sqlex) {
-			sqlex.printStackTrace();
+		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -173,9 +146,9 @@ public abstract class ModelBase {
 	 * @throws H2ZeroPrimaryKeyException If the primary key is not set
 	 */
 	public void update() throws SQLException, H2ZeroPrimaryKeyException {
-		Connection connection = getConnection();
-		update(connection);
-		connection.close();
+		try (Connection connection = getConnection()) {
+			update(connection);
+		}
 	}
 
 	/**
@@ -183,23 +156,10 @@ public abstract class ModelBase {
 	 * 
 	 */
 	public void updateSilent() {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()) {
 			update(connection);
-			connection.close();
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
@@ -232,23 +192,8 @@ public abstract class ModelBase {
 	 */
 	@Deprecated
 	public void insertOrUpdate() throws H2ZeroPrimaryKeyException, SQLException {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()){
 			insertOrUpdate(connection);
-			connection.close();
-		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
-			throw(ex);
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
@@ -275,27 +220,14 @@ public abstract class ModelBase {
 	 */
 	@Deprecated
 	public void insertOrUpdateSilent() {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()) {
 			if(!primaryKeySet()) {
 				insert(connection);
 			} else {
 				update(connection);
 			}
-			connection.close();
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
@@ -326,15 +258,8 @@ public abstract class ModelBase {
 	 * @throws SQLException if there was an error with the SQL statement
 	 */
 	public void upsert() throws H2ZeroPrimaryKeyException, SQLException {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()){
 			upsert(connection);
-			connection.close();
-		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
-			throw(ex);
-		} finally {
-			BaseConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -384,29 +309,19 @@ public abstract class ModelBase {
 	}
 
 	public void delete() throws SQLException, H2ZeroPrimaryKeyException {
-		Connection connection = getConnection();
-		delete(connection);
-		connection.close();
+		try (Connection connection = getConnection()) {
+			delete(connection);
+		}
 	}
 
+	/**
+	 * Delete the model silently - i.e. swallow any exceptions
+	 */
 	public void deleteSilent() {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()) {
 			delete(connection);
-			connection.close();
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
@@ -428,42 +343,16 @@ public abstract class ModelBase {
 	}
 
 	public void ensure() throws SQLException, H2ZeroPrimaryKeyException {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()) {
 			ensure(connection);
-			connection.close();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
 	public void ensureSilent() {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()) {
 			ensure(connection);
-			connection.close();
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
@@ -489,42 +378,16 @@ public abstract class ModelBase {
 	}
 
 	protected void hydrate() throws SQLException, H2ZeroPrimaryKeyException {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()) {
 			hydrate(connection);
-			connection.close();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
 	protected void hydrateSilent() {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+		try (Connection connection = getConnection()) {
 			hydrate(connection);
-			connection.close();
 		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
@@ -542,7 +405,7 @@ public abstract class ModelBase {
 	 * @throws SQLException If there was an error in the SQL statement
 	 * @throws H2ZeroPrimaryKeyException if the primary key is null
 	 */
-	public abstract void refresh(Connection Connection) throws SQLException, H2ZeroPrimaryKeyException;
+	public abstract void refresh(Connection Connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException;
 
 	/**
 	 * Refresh the bean by loading all of the information again using the primary key to look it up
@@ -550,29 +413,16 @@ public abstract class ModelBase {
 	 * @throws SQLException if there was an error in the SQL statement
 	 * @throws H2ZeroPrimaryKeyException if the primary key is null
 	 */
-	public void refresh() throws SQLException, H2ZeroPrimaryKeyException {
-		Connection connection = null;
-		try {
-			connection = getConnection();
+	public void refresh() throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException {
+		try (Connection connection = getConnection()) {
 			refresh(connection);
-			connection.close();
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException sqlex) {
-					// do nothing
-				} finally {
-					connection = null;
-				}
-			}
 		}
 	}
 
 	public void refreshSilent() {
 		try {
 			refresh();
-		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+		} catch(H2ZeroPrimaryKeyException | H2ZeroFinderException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);
 		}
 	}
@@ -580,7 +430,7 @@ public abstract class ModelBase {
 	public void refreshSilent(Connection connection) {
 		try {
 			refresh(connection);
-		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
+		} catch(H2ZeroPrimaryKeyException | H2ZeroFinderException | SQLException ex) {
 			LOGGER.error(ex.getMessage(), ex);
 		}
 	}

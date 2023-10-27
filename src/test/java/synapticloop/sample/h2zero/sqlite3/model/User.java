@@ -11,6 +11,7 @@ import synapticloop.sample.h2zero.sqlite3.question.UserTypeQuestion;
 import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.math.BigDecimal;
@@ -105,53 +106,12 @@ public class User extends ModelBase {
 		if(primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot insert user model when primary key is not null.");
 		}
-		// create this bean 
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setBigint(preparedStatement, 1, idUserType);
-		ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
-		ConnectionManager.setInt(preparedStatement, 3, numAge);
-		ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-		ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
-		ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
-		ConnectionManager.setDatetime(preparedStatement, 7, dtmSignup);
-		preparedStatement.executeUpdate();
-		ResultSet resultSet = preparedStatement.getGeneratedKeys();
-		if(resultSet.next()) {
-			this.idUser = resultSet.getLong(1);
-		} else {
-			throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
-		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
-	}
 
-	@Override
-	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);
-		ConnectionManager.setBigint(preparedStatement, 1, idUserType);
-		ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
-		ConnectionManager.setInt(preparedStatement, 3, numAge);
-		ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-		ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
-		ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
-		ConnectionManager.setDatetime(preparedStatement, 7, dtmSignup);
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if(resultSet.next()) {
-			this.idUser = resultSet.getLong(1);
-		} else {
-			// could not find the value - need to insert it - null is the primary key
-			insert(connection);
-		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
-	}
-
-	@Override
-	public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
-		}
-		if(isDirty) {
-			// update this bean, but only if dirty
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// create this bean 
+			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 			ConnectionManager.setBigint(preparedStatement, 1, idUserType);
 			ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
 			ConnectionManager.setInt(preparedStatement, 3, numAge);
@@ -159,31 +119,90 @@ public class User extends ModelBase {
 			ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
 			ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
 			ConnectionManager.setDatetime(preparedStatement, 7, dtmSignup);
-			// now set the primary key
-			preparedStatement.setLong(8, idUser);
 			preparedStatement.executeUpdate();
-			ConnectionManager.closeAll(preparedStatement);
-			isDirty = false;
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				this.idUser = resultSet.getLong(1);
+			} else {
+				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
 	@Override
-	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{
+	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_ENSURE);
+			ConnectionManager.setBigint(preparedStatement, 1, idUserType);
+			ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
+			ConnectionManager.setInt(preparedStatement, 3, numAge);
+			ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+			ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
+			ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
+			ConnectionManager.setDatetime(preparedStatement, 7, dtmSignup);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				this.idUser = resultSet.getLong(1);
+			} else {
+				// could not find the value - need to insert it - null is the primary key
+				insert(connection);
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+	}
+
+	@Override
+	public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+		if(!primaryKeySet()) {
+			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
+		}
+
+		if(isDirty) {
+			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+				// update this bean, but only if dirty
+				ConnectionManager.setBigint(preparedStatement, 1, idUserType);
+				ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
+				ConnectionManager.setInt(preparedStatement, 3, numAge);
+				ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+				ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
+				ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
+				ConnectionManager.setDatetime(preparedStatement, 7, dtmSignup);
+				// now set the primary key
+				preparedStatement.setLong(8, idUser);
+				preparedStatement.executeUpdate();
+			} finally {
+				isDirty = false;
+			}
+		}
+	}
+
+	@Override
+	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(!primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");
 		}
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
-		preparedStatement.setLong(1, idUser);
-		preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.setLong(1, idUser);
+			preparedStatement.executeUpdate();
+		}
 	}
 
 	@Override
-	public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {
+	public void refresh(Connection connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException {
 		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");
+			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'User' when primary key is null.");
 		}
+
 		User user = UserFinder.findByPrimaryKeySilent(connection, this.idUser);
+		if(null == user) {
+			throw new H2ZeroFinderException("Could not find the model 'User' with primaryKey of " + getPrimaryKey());
+		}
 		this.idUser = user.getIdUser();
 		this.idUserType = user.getIdUserType();
 		this.flIsAlive = user.getFlIsAlive();

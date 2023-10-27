@@ -11,6 +11,7 @@ import synapticloop.sample.h2zero.sqlite3.question.AuthorStatusQuestion;
 import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.math.BigDecimal;
@@ -123,63 +124,12 @@ public class Author extends ModelBase {
 		if(primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot insert author model when primary key is not null.");
 		}
-		// create this bean 
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
-		ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
-		ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
-		ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-		ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
-		ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
-		ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
-		ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
-		ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
-		ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
-		ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
-		ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
-		preparedStatement.executeUpdate();
-		ResultSet resultSet = preparedStatement.getGeneratedKeys();
-		if(resultSet.next()) {
-			this.idAuthor = resultSet.getLong(1);
-		} else {
-			throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
-		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
-	}
 
-	@Override
-	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);
-		ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
-		ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
-		ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
-		ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-		ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
-		ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
-		ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
-		ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
-		ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
-		ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
-		ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
-		ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if(resultSet.next()) {
-			this.idAuthor = resultSet.getLong(1);
-		} else {
-			// could not find the value - need to insert it - null is the primary key
-			insert(connection);
-		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
-	}
-
-	@Override
-	public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
-		}
-		if(isDirty) {
-			// update this bean, but only if dirty
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// create this bean 
+			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 			ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
 			ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
 			ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
@@ -192,31 +142,100 @@ public class Author extends ModelBase {
 			ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
 			ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
 			ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
-			// now set the primary key
-			preparedStatement.setLong(13, idAuthor);
 			preparedStatement.executeUpdate();
-			ConnectionManager.closeAll(preparedStatement);
-			isDirty = false;
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				this.idAuthor = resultSet.getLong(1);
+			} else {
+				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
 	@Override
-	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{
+	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_ENSURE);
+			ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
+			ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
+			ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
+			ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+			ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
+			ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
+			ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
+			ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
+			ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
+			ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
+			ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
+			ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				this.idAuthor = resultSet.getLong(1);
+			} else {
+				// could not find the value - need to insert it - null is the primary key
+				insert(connection);
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+	}
+
+	@Override
+	public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+		if(!primaryKeySet()) {
+			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
+		}
+
+		if(isDirty) {
+			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+				// update this bean, but only if dirty
+				ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
+				ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
+				ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
+				ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+				ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
+				ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
+				ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
+				ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
+				ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
+				ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
+				ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
+				ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
+				// now set the primary key
+				preparedStatement.setLong(13, idAuthor);
+				preparedStatement.executeUpdate();
+			} finally {
+				isDirty = false;
+			}
+		}
+	}
+
+	@Override
+	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(!primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");
 		}
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
-		preparedStatement.setLong(1, idAuthor);
-		preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.setLong(1, idAuthor);
+			preparedStatement.executeUpdate();
+		}
 	}
 
 	@Override
-	public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {
+	public void refresh(Connection connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException {
 		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");
+			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'Author' when primary key is null.");
 		}
+
 		Author author = AuthorFinder.findByPrimaryKeySilent(connection, this.idAuthor);
+		if(null == author) {
+			throw new H2ZeroFinderException("Could not find the model 'Author' with primaryKey of " + getPrimaryKey());
+		}
 		this.idAuthor = author.getIdAuthor();
 		this.idAuthorStatus = author.getIdAuthorStatus();
 		this.txtIdAuthor = author.getTxtIdAuthor();

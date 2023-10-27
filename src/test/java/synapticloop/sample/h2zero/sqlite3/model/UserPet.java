@@ -12,6 +12,7 @@ import synapticloop.sample.h2zero.sqlite3.question.PetQuestion;
 import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.math.BigDecimal;
@@ -81,33 +82,45 @@ public class UserPet extends ModelBase {
 		if(primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot insert user_pet model when primary key is not null.");
 		}
-		// create this bean 
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setBigint(preparedStatement, 1, idUser);
-		ConnectionManager.setBigint(preparedStatement, 2, idPet);
-		preparedStatement.executeUpdate();
-		ResultSet resultSet = preparedStatement.getGeneratedKeys();
-		if(resultSet.next()) {
-			this.idUserPet = resultSet.getLong(1);
-		} else {
-			throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// create this bean 
+			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+			ConnectionManager.setBigint(preparedStatement, 1, idUser);
+			ConnectionManager.setBigint(preparedStatement, 2, idPet);
+			preparedStatement.executeUpdate();
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				this.idUserPet = resultSet.getLong(1);
+			} else {
+				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
 	}
 
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);
-		ConnectionManager.setBigint(preparedStatement, 1, idUser);
-		ConnectionManager.setBigint(preparedStatement, 2, idPet);
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if(resultSet.next()) {
-			this.idUserPet = resultSet.getLong(1);
-		} else {
-			// could not find the value - need to insert it - null is the primary key
-			insert(connection);
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_ENSURE);
+			ConnectionManager.setBigint(preparedStatement, 1, idUser);
+			ConnectionManager.setBigint(preparedStatement, 2, idPet);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				this.idUserPet = resultSet.getLong(1);
+			} else {
+				// could not find the value - need to insert it - null is the primary key
+				insert(connection);
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
 	}
 
 	@Override
@@ -115,36 +128,42 @@ public class UserPet extends ModelBase {
 		if(!primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
 		}
+
 		if(isDirty) {
-			// update this bean, but only if dirty
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
-			ConnectionManager.setBigint(preparedStatement, 1, idUser);
-			ConnectionManager.setBigint(preparedStatement, 2, idPet);
-			// now set the primary key
-			preparedStatement.setLong(3, idUserPet);
-			preparedStatement.executeUpdate();
-			ConnectionManager.closeAll(preparedStatement);
-			isDirty = false;
+			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+				// update this bean, but only if dirty
+				ConnectionManager.setBigint(preparedStatement, 1, idUser);
+				ConnectionManager.setBigint(preparedStatement, 2, idPet);
+				// now set the primary key
+				preparedStatement.setLong(3, idUserPet);
+				preparedStatement.executeUpdate();
+			} finally {
+				isDirty = false;
+			}
 		}
 	}
 
 	@Override
-	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{
+	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(!primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");
 		}
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
-		preparedStatement.setLong(1, idUserPet);
-		preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.setLong(1, idUserPet);
+			preparedStatement.executeUpdate();
+		}
 	}
 
 	@Override
-	public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {
+	public void refresh(Connection connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException {
 		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");
+			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'UserPet' when primary key is null.");
 		}
+
 		UserPet userPet = UserPetFinder.findByPrimaryKeySilent(connection, this.idUserPet);
+		if(null == userPet) {
+			throw new H2ZeroFinderException("Could not find the model 'UserPet' with primaryKey of " + getPrimaryKey());
+		}
 		this.idUserPet = userPet.getIdUserPet();
 		this.idUser = userPet.getIdUser();
 		this.idPet = userPet.getIdPet();

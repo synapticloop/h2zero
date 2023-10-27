@@ -20,6 +20,7 @@ package {database.package}.model;{\n}{\n}
 	import synapticloop.h2zero.base.validator.*;{\n}
 	import synapticloop.h2zero.base.model.{options.database}.ModelBase;{\n}
 	import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;{\n}
+	import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
 	import java.lang.StringBuilder;{\n}
 	import java.sql.Connection;{\n}
 	{if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
@@ -274,31 +275,36 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}{\t}if(primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot insert {table.name} model when primary key is not null.");{\n}
 	{\t}{\t}}{\n}
-	{\t}{\t}// create this bean {\n}
-	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);{\n}
+	{\n}
+	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+	{\t}{\t}ResultSet resultSet = null;{\n}
+
+	{\t}{\t}try {{{\n}
+	{\t}{\t}{\t}// create this bean {\n}
+	{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);{\n}
 
 	{loop table.nonPrimaryFields as field}
-		{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
+		{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 	{endloop}
 
-	{\t}{\t}preparedStatement.executeUpdate();{\n}
+	{\t}{\t}{\t}preparedStatement.executeUpdate();{\n}
 
-	{\t}{\t}ResultSet resultSet = preparedStatement.getGeneratedKeys();{\n}
-	{\t}{\t}if(resultSet.next()) {{{\n}
+	{\t}{\t}{\t}resultSet = preparedStatement.getGeneratedKeys();{\n}
+	{\t}{\t}{\t}if(resultSet.next()) {{{\n}
 
 	{loop table.fields as field}
 		{if field.primary}
-			{\t}{\t}{\t}this.{field.javaName} = resultSet.getLong(1);{\n}
+			{\t}{\t}{\t}{\t}this.{field.javaName} = resultSet.getLong(1);{\n}
 		{endif}
 	{endloop}
 
-	{\t}{\t}} else {{{\n}
-	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");{\n}
+	{\t}{\t}{\t}} else {{{\n}
+	{\t}{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");{\n}
+	{\t}{\t}{\t}}{\n}
+
+	{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 	{\t}{\t}}{\n}
-
-
-	{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
-
 	{\t}}{\n}
 	{\n}
 
@@ -307,31 +313,39 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	}
 	{\t}@Override{\n}
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
+	{\n}
+	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
+	{\t}{\t}ResultSet resultSet = null;{\n}
 
-	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);{\n}
+	{\t}{\t}try {{{\n}
+
+	{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_ENSURE);{\n}
 
 	{loop table.nonPrimaryFields as field}
-		{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
+		{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 	{endloop}
 
-	{\t}{\t}ResultSet resultSet = preparedStatement.executeQuery();{\n}
+	{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 
-	{\t}{\t}if(resultSet.next()) {{{\n}
+	{\t}{\t}{\t}if(resultSet.next()) {{{\n}
 
 	{loop table.fields as field}
 		{if field.primary}
-			{\t}{\t}{\t}this.{field.javaName} = resultSet.getLong(1);{\n}
+			{\t}{\t}{\t}{\t}this.{field.javaName} = resultSet.getLong(1);{\n}
 		{endif}
 	{endloop}
 
-	{\t}{\t}} else {{{\n}
-	{\t}{\t}{\t}// could not find the value - need to insert it - null is the primary key{\n}
-	{\t}{\t}{\t}insert(connection);{\n}
+	{\t}{\t}{\t}} else {{{\n}
+	{\t}{\t}{\t}{\t}// could not find the value - need to insert it - null is the primary key{\n}
+	{\t}{\t}{\t}{\t}insert(connection);{\n}
+	{\t}{\t}{\t}}{\n}
+
+	{\t}{\t}} finally {{{\n}
+
+
+	{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
+
 	{\t}{\t}}{\n}
-
-
-	{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
-
 	{\t}}{\n}
 	{\n}
 
@@ -342,62 +356,72 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");{\n}
 	{\t}{\t}}{\n}
 
+	{\n}
+
 	{\t}{\t}if(isDirty) {{{\n}
-	{\t}{\t}{\t}// update this bean, but only if dirty{\n}
-	{\t}{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);{\n}
+	{\t}{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {{{\n}
+	{\t}{\t}{\t}{\t}// update this bean, but only if dirty{\n}
 
 	{set fn:length[table.fields] as preparedStatementSize}
 
 	{loop table.fields as field}
 		{if !field.primary}
-			{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.offset}, {field.javaName});{\n}
+			{\t}{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.offset}, {field.javaName});{\n}
 		{endif}
 	{endloop}
 
-	{\t}{\t}{\t}// now set the primary key{\n}
+	{\t}{\t}{\t}{\t}// now set the primary key{\n}
 	{loop table.fields as field}
 		{if field.primary}
-			{\t}{\t}{\t}preparedStatement.setLong({preparedStatementSize}, {field.javaName});{\n}
+			{\t}{\t}{\t}{\t}preparedStatement.setLong({preparedStatementSize}, {field.javaName});{\n}
 		{endif}
 	{endloop}
 
-	{\t}{\t}{\t}preparedStatement.executeUpdate();{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
-	{\t}{\t}{\t}isDirty = false;{\n}
+	{\t}{\t}{\t}{\t}preparedStatement.executeUpdate();{\n}
+	{\t}{\t}{\t}} finally {{{\n}
+	{\t}{\t}{\t}{\t}isDirty = false;{\n}
+	{\t}{\t}{\t}}{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}
 	{\n}
 
 
 	{\t}@Override{\n}
-	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{{{\n}
+	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
 	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");{\n}
 	{\t}{\t}}{\n}
-	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);{\n}
+	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {{{\n}
 	{loop table.fields as field}
 		{if field.primary}
-			{\t}{\t}preparedStatement.setLong(1, {field.javaName});{\n}
+			{\t}{\t}{\t}preparedStatement.setLong(1, {field.javaName});{\n}
 		{endif}
 	{endloop}
-	{\t}{\t}preparedStatement.executeUpdate();{\n}
-	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
+	{\t}{\t}{\t}preparedStatement.executeUpdate();{\n}
+	{\t}{\t}}{\n}
 	{\t}}{\n}
 	{\n}
 
 
 	{\t}@Override{\n}
-	{\t}public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {{{\n}
+	{\t}public void refresh(Connection connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException {{{\n}
 
 	{\t}{\t}if(!primaryKeySet()) {{{\n}
-	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");{\n}
+	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot refresh model '{table.javaClassName}' when primary key is null.");{\n}
 	{\t}{\t}}{\n}
+
+	{\n}
+
 	{loop table.fields as field}
 		{if field.primary}
 			{\t}{\t}{table.javaClassName} {table.javaFieldName} = {table.javaClassName}Finder.findByPrimaryKeySilent(connection, this.{field.javaName});{\n}
+			{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
+			{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find the model '{table.javaClassName}' with primaryKey of " + getPrimaryKey());{\n}
+			{\t}{\t}}{\n}
 		{endif}
 	{endloop}
+
 
 		{loop table.fields as field}
 			{\t}{\t}this.{field.javaName} = {table.javaFieldName}.get{field.javaAccessorName}();{\n}
