@@ -111,13 +111,11 @@ public class DatabaseFieldTypeConfirm {
 		cockroachSet.add("varchar");
 
 		FIELD_VALIDATION_LOOKUP.put("cockroach", cockroachSet);
-		
-		Set<String> postgresqlSet = new HashSet<String>();
-		postgresqlSet.addAll(cockroachSet);
-		postgresqlSet.add("money");
-		FIELD_VALIDATION_LOOKUP.put("postgresql", postgresqlSet);
 
-		
+    Set<String> postgresqlSet = new HashSet<String>(cockroachSet);
+		postgresqlSet.add("money");
+
+		FIELD_VALIDATION_LOOKUP.put("postgresql", postgresqlSet);
 	}
 
 	public static boolean getIsValidFieldTypeForDatabase(String database, String fieldType) {

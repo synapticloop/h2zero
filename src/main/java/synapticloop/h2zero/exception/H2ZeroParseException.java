@@ -17,8 +17,10 @@ package synapticloop.h2zero.exception;
  * under the Licence.
  */
 
+import java.io.Serial;
+
 public class H2ZeroParseException extends Exception {
-	private static final long serialVersionUID = -319281700923415030L;
+	@Serial private static final long serialVersionUID = -319281700923415030L;
 
 	/**
 	 * Create a new exception

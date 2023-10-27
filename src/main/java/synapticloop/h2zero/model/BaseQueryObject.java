@@ -93,7 +93,7 @@ public abstract class BaseQueryObject {
 	protected List<BaseField> updateFields = new ArrayList<BaseField>();
 	protected Map<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
 
-	private List<String> comments = new ArrayList<String>();
+	private final List<String> comments = new ArrayList<String>();
 
 	protected BaseQueryObject(BaseSchemaObject baseSchemaObject, JSONObject jsonObject) throws H2ZeroParseException {
 		// set up the default allowable keys

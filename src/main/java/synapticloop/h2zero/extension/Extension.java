@@ -46,16 +46,16 @@ public abstract class Extension {
 	public Extension() {}
 
 	/**
-	 * Return a list of all of the options that are required for generating this 
+	 * Return a list of all the options that are required for generating this
 	 * code.
 	 * 
-	 * @return A list of all of the required options that this extension needs 
+	 * @return A list of all the required options that this extension needs
 	 * to generate code for
 	 */
 	public abstract List<String> getRequiredOutputOptions();
 
 	/**
-	 * Return a map of all of the options that have default values, and the values 
+	 * Return a map of all the options that have default values, and the values
 	 * that they are set to
 	 *  
 	 * @return a map of the option name, and the default value that it is set to
@@ -91,7 +91,6 @@ public abstract class Extension {
 	 * 
 	 * @return a new templar context with the default configuration
 	 * 
-	 * @throws FunctionException if there was an error registering the new function
 	 */
 	protected TemplarContext getDefaultTemplarContext(JSONObject extensionOptions, Database database, Options options) {
 		TemplarConfiguration templarConfiguration = new TemplarConfiguration();

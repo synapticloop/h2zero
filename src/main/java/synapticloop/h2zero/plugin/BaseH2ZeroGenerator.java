@@ -50,9 +50,9 @@ public class BaseH2ZeroGenerator {
 	private boolean verbose = false;
 	private int numTables;
 
-	private List<Generator> generators = new ArrayList<Generator>();
-	private File h2ZeroFile;
-	private File outFile;
+	private final List<Generator> generators = new ArrayList<Generator>();
+	private final File h2ZeroFile;
+	private final File outFile;
 
 	/**
 	 * Instantiate the generator
@@ -178,51 +178,42 @@ public class BaseH2ZeroGenerator {
 			for (Generator generator : generators) {
 				numFiles += generator.getNumFiles();
 				Map<String, Integer> generatorNumFilesHashMap = generator.getNumFilesHashMap();
-				Iterator<String> iterator = generatorNumFilesHashMap.keySet().iterator();
-				while (iterator.hasNext()) {
-					String key = iterator.next();
-					Integer generatorNumFiles = generatorNumFilesHashMap.get(key);
-					if(numFilesHashMap.containsKey(key)) {
-						numFilesHashMap.put(key, numFilesHashMap.get(key) + generatorNumFiles);
-					} else {
-						numFilesHashMap.put(key, generatorNumFiles);
-					}
-				}
+        for (String key : generatorNumFilesHashMap.keySet()) {
+          Integer generatorNumFiles = generatorNumFilesHashMap.get(key);
+          if (numFilesHashMap.containsKey(key)) {
+            numFilesHashMap.put(key, numFilesHashMap.get(key) + generatorNumFiles);
+          } else {
+            numFilesHashMap.put(key, generatorNumFiles);
+          }
+        }
 			}
 
 			// now go through the extensions and get the summary information
 			Map<Extension, JSONObject> extensions = h2zeroParser.getOptions().getExtensions();
-			Iterator<Extension> extensionsIterator = extensions.keySet().iterator();
-			while (extensionsIterator.hasNext()) {
-				Extension extension = (Extension) extensionsIterator.next();
-				numFiles += extension.getNumFiles();
-				Map<String, Integer> extensionNumFilesHashMap = extension.getNumFilesHashMap();
-				Iterator<String> iterator = extensionNumFilesHashMap.keySet().iterator();
-				while (iterator.hasNext()) {
-					String key = iterator.next();
-					Integer extensionNumFiles = extensionNumFilesHashMap.get(key);
-					if(numFilesHashMap.containsKey(key)) {
-						numFilesHashMap.put(key, numFilesHashMap.get(key) + extensionNumFiles);
-					} else {
-						numFilesHashMap.put(key, extensionNumFiles);
-					}
-				}
-			}
+      for (Extension extension : extensions.keySet()) {
+        numFiles += extension.getNumFiles();
+        Map<String, Integer> extensionNumFilesHashMap = extension.getNumFilesHashMap();
+        for (String key : extensionNumFilesHashMap.keySet()) {
+          Integer extensionNumFiles = extensionNumFilesHashMap.get(key);
+          if (numFilesHashMap.containsKey(key)) {
+            numFilesHashMap.put(key, numFilesHashMap.get(key) + extensionNumFiles);
+          } else {
+            numFilesHashMap.put(key, extensionNumFiles);
+          }
+        }
+      }
 
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just generated code for %d tables!", numTables));
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just saved you typing %d files!  Messages [ warn: %3d, fatal: %3d ]", numFiles, h2zeroParser.getNumWarn(), h2zeroParser.getNumFatal()));
 
-			Iterator<String> iterator = numFilesHashMap.keySet().iterator();
-
-			while (iterator.hasNext()) {
-				String key = iterator.next();
-				Integer count = numFilesHashMap.get(key);
-				String multiple = "s";
-				if(count == 1) {
-					multiple = "";
-				}
-				SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("%8d %s file%s", count, key, multiple));
-			}
+      for (String key : numFilesHashMap.keySet()) {
+        Integer count = numFilesHashMap.get(key);
+        String multiple = "s";
+        if (count == 1) {
+          multiple = "";
+        }
+        SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("%8d %s file%s", count, key, multiple));
+      }
 			SimpleLogger.logInfo(LoggerType.SUMMARY, "--------");
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("%8d TOTAL", numFiles));
 		}

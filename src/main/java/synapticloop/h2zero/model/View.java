@@ -50,13 +50,12 @@ public class View extends BaseSchemaObject {
 			JSONArray asClauseArray = jsonObject.optJSONArray(JSONKeyConstants.AS_CLAUSE);
 			if(null != asClauseArray) {
 				StringBuilder stringBuilder = new StringBuilder();
-				
-				Iterator<Object> iterator = asClauseArray.iterator();
-				while (iterator.hasNext()) {
-					String snippet = (String) iterator.next();
-					stringBuilder.append(snippet);
-					stringBuilder.append(" ");
-				}
+
+        for (Object o : asClauseArray) {
+          String snippet = (String) o;
+          stringBuilder.append(snippet);
+          stringBuilder.append(" ");
+        }
 				this.asClause = stringBuilder.toString();
 			}
 		}
@@ -134,14 +133,10 @@ public class View extends BaseSchemaObject {
 		jsonObject.remove(JSONKeyConstants.FIELDS);
 	}
 
-	@Override public BaseField getField(String name) { return(fieldLookup.get(name)); }
-
 	public String getAsClause() { return asClause; }
 	public List<BaseField> getFields() { return fields; }
 	public boolean getCacheable() { return cacheable; }
 	public boolean getCacheFindAll() { return cacheFindAll; }
-
-	public boolean getIsConstant() { return(false); }
 
 	@Override public boolean getIsTable() { return(false); }
 	@Override public boolean getIsView() { return(true); }

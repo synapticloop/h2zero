@@ -24,8 +24,8 @@ import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 
 public class Counter extends BaseQueryObject {
+	private boolean isAutoCounter = false; // whether this is an automatically generated counter (i.e. from the fieldCounters JSON key)
 
-	private boolean isAutoCounter = false;
 	/**
 	 * Create a new counter SQL query object from the passed in JSON object
 	 * 
@@ -49,11 +49,9 @@ public class Counter extends BaseQueryObject {
 		populateWhereFields(counterObject);
 	}
 
-	@Override
-	public String getType() {
-		return("Counter");
-	}
+	@Override public String getType() { return("Counter"); }
 
 	public boolean getIsAutoCounter() { return(isAutoCounter); };
+
 	public void setIsAutoCounter(boolean isAutoCounter) {this.isAutoCounter = isAutoCounter; }
 }

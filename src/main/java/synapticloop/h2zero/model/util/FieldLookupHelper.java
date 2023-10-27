@@ -47,7 +47,7 @@ public class FieldLookupHelper {
 	private static final String IN_DESIGNATOR = "in:";
 
 	private FieldLookupHelper() {}
-	private static Set<String> TABLE_FIELD_CACHE = new HashSet<String>();
+	private static final Set<String> TABLE_FIELD_CACHE = new HashSet<String>();
 
 	/**
 	 * Get the base field from the base schema object (table or view) with the specified name

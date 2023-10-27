@@ -71,7 +71,7 @@ public abstract class BaseSchemaObject {
 	protected BaseField primaryKeyField = null; // the field that is the primary key
 
 	protected Set<String> referencedFieldTypes = new HashSet<>(); // this is a set of all of the referenced field types
-	private int defaultStatementCacheSize;  // the default statement cache size
+	private final int defaultStatementCacheSize;  // the default statement cache size
 
 	/**
 	 * Instantiate a base schema object (either a table or a view)
@@ -87,7 +87,8 @@ public abstract class BaseSchemaObject {
 
 	/**
 	 * Return whether this is a table base schema object
-	 * @return
+	 *
+	 * @return whether this base schema object is a table
 	 */
 	public abstract boolean getIsTable();
 

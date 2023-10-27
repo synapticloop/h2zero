@@ -86,8 +86,6 @@ public class JavaGenerator extends Generator {
 		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Statistics.java";
 		renderToFile(templarContext, javaCreateModelStatisticsParser, pathname);
 
-
-
 		// now for the tables
 		List<Table> tables = database.getTables();
 
@@ -188,5 +186,4 @@ public class JavaGenerator extends Generator {
       }
     }
 	}
-
 }

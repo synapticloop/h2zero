@@ -35,8 +35,8 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
  *
  */
 public class Constant {
-	private List<Object> values = new ArrayList<Object>();
-	private List<Object> sqlValues = new ArrayList<Object>();
+	private final List<Object> values = new ArrayList<Object>();
+	private final List<Object> sqlValues = new ArrayList<Object>();
 	private String name = null;
 	private Object primaryKeyValue = null;
 
@@ -51,7 +51,7 @@ public class Constant {
 				throw new H2ZeroParseException(JSONKeyConstants.NAME + " cannot be null for constant object '" + constantsObject + "'.");
 			}
 
-			this.name = this.name.toString().toUpperCase().replaceAll("[^A-Z]", "_");
+			this.name = this.name.toUpperCase().replaceAll("[^A-Z]", "_");
 
 			JSONArray valuesArray = constantsObject.getJSONArray(JSONKeyConstants.VALUES);
 			for(int i = 0; i < valuesArray.length(); i++) {

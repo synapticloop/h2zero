@@ -48,13 +48,13 @@ public class Database {
 	private String schema = null;
 	private String packageName = null;
 
-	private List<Table> tables = new ArrayList<Table>();
-	private List<View> views = new ArrayList<View>();
+	private final List<Table> tables = new ArrayList<Table>();
+	private final List<View> views = new ArrayList<View>();
 
-	private Set<String> tableNames = new HashSet<String>();
+	private final Set<String> tableNames = new HashSet<String>();
 	private int defaultStatementCacheSize = 1024;
 
-	private Map<String, Object> additionalKeys = new HashMap<String, Object>();
+	private final Map<String, Object> additionalKeys = new HashMap<String, Object>();
 
 	/**
 	 * Parse and create a new database object from the passed in JSON object
@@ -231,11 +231,7 @@ public class Database {
 	 * @return the object if it exists on the h2zero map
 	 */
 	public Object getJSONObjectForKey(String key) {
-		if(additionalKeys.containsKey(key)) {
-			return(additionalKeys.get(key));
-		} else {
-			return(null);
-		}
+    return (additionalKeys.getOrDefault(key, (null)));
 	}
 
 	/**

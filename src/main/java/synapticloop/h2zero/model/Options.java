@@ -61,7 +61,7 @@ public class Options {
 	public static final String DATABASE_COCKROACH = "cockroach";
 	public static final String DATABASE_POSTGRESQL = "postgresql";
 
-	private static Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
+	private static final Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
 	static {
 		ALLOWABLE_DATABASES.add(DATABASE_MYSQL);
 		ALLOWABLE_DATABASES.add(DATABASE_SQLITE3);
@@ -79,9 +79,9 @@ public class Options {
 	private String outputResource = "/src/main/resources/";
 	private String outputBuild = "/build/";
 
-	private Set<String> generators = new HashSet<String>();
-	private Map<Extension, JSONObject> extensions = new HashMap<Extension, JSONObject>();
-	private Map<String, String> extensionOptions = new HashMap<String, String>();
+	private final Set<String> generators = new HashSet<String>();
+	private final Map<Extension, JSONObject> extensions = new HashMap<Extension, JSONObject>();
+	private final Map<String, String> extensionOptions = new HashMap<String, String>();
 
 	public Options(JSONObject jsonObject) throws H2ZeroParseException {
 		if(null == jsonObject) {
@@ -184,18 +184,14 @@ public class Options {
 		Set<String> disabledGenerators = new HashSet<String>();
 		disabledGenerators.addAll(ALLOWABLE_GENERATORS);
 
-		Iterator<String> generatorsIterator = generators.iterator();
-		while (generatorsIterator.hasNext()) {
-			String next = generatorsIterator.next();
-			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ ENABLED  ] Generator '" + next + "'");
-			disabledGenerators.remove(next);
-		}
+    for (String next : generators) {
+      SimpleLogger.logInfo(LoggerType.GENERATORS, "[ ENABLED  ] Generator '" + next + "'");
+      disabledGenerators.remove(next);
+    }
 
-		Iterator<String> disabledIterator = disabledGenerators.iterator();
-		while (disabledIterator.hasNext()) {
-			String next = disabledIterator.next();
-			SimpleLogger.logInfo(LoggerType.GENERATORS, "[ DISABLED ] Generator '" + next + "'");
-		}
+    for (String next : disabledGenerators) {
+      SimpleLogger.logInfo(LoggerType.GENERATORS, "[ DISABLED ] Generator '" + next + "'");
+    }
 
 		updateValidators(optionsJson.optJSONObject(JSONKeyConstants.VALIDATORS));
 	}
