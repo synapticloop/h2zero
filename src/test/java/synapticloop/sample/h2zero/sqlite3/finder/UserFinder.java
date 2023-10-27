@@ -308,9 +308,38 @@ public class UserFinder {
 		return(findAllSilent(null, null, null));
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined finders which are generated
+	 * through either the "finders" JSON key, or the "fieldFinders" JSON
+	 * key.
+	 * 
+	 * There are 9 defined finders on the user table:
+	 * 
+	 * - findByNumAge - regular finder 
+	 * - findByFlIsAliveNumAge - regular finder 
+	 * - findByNmUsername - regular finder 
+	 * - findByTxtAddressEmail - regular finder 
+	 * - findByTxtAddressEmailTxtPassword - regular finder 
+	 * - findNmUserDtmSignup - selectClause finder 
+	 * - findGroupNumAge - selectClause finder 
+	 * - findByNumAgeIn - regular finder 
+	 * - findByNumAgeBetween - regular finder 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	/**
-	 * findByNumAge
-	 * @param numAge
+	 * findByNumAge 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param numAge - maps to the num_age field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of User results found
 	 * 
@@ -321,7 +350,7 @@ public class UserFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByNumAge_limit_statement_cache.containsKey(cacheKey)) {
@@ -385,7 +414,7 @@ public class UserFinder {
 		return(findByNumAge(null, numAge, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<User> findByNumAgeSilent(Connection connection, Integer numAge, Integer limit, Integer offset) {
 		try {
 			return(findByNumAge(connection, numAge, limit, offset));
@@ -408,14 +437,14 @@ public class UserFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<User> findByNumAgeSilent(Connection connection, Integer numAge) {
 		return(findByNumAgeSilent(connection, numAge, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<User> findByNumAgeSilent(Integer numAge, Integer limit, Integer offset) {
-		return(findByNumAgeSilent(null , numAge, limit, offset));
+		return(findByNumAgeSilent(null, numAge, limit, offset));
 	}
 
 	public static List<User> findByNumAgeSilent(Integer numAge) {
@@ -423,9 +452,18 @@ public class UserFinder {
 	}
 
 	/**
-	 * findByFlIsAliveNumAge
-	 * @param flIsAlive
-	 * @param numAge
+	 * findByFlIsAliveNumAge 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param flIsAlive - maps to the fl_is_alive field
+	 * @param numAge - maps to the num_age field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of User results found
 	 * 
@@ -436,7 +474,7 @@ public class UserFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByFlIsAliveNumAge_limit_statement_cache.containsKey(cacheKey)) {
@@ -501,7 +539,7 @@ public class UserFinder {
 		return(findByFlIsAliveNumAge(null, flIsAlive, numAge, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<User> findByFlIsAliveNumAgeSilent(Connection connection, Boolean flIsAlive, Integer numAge, Integer limit, Integer offset) {
 		try {
 			return(findByFlIsAliveNumAge(connection, flIsAlive, numAge, limit, offset));
@@ -524,14 +562,14 @@ public class UserFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<User> findByFlIsAliveNumAgeSilent(Connection connection, Boolean flIsAlive, Integer numAge) {
 		return(findByFlIsAliveNumAgeSilent(connection, flIsAlive, numAge, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<User> findByFlIsAliveNumAgeSilent(Boolean flIsAlive, Integer numAge, Integer limit, Integer offset) {
-		return(findByFlIsAliveNumAgeSilent(null , flIsAlive, numAge, limit, offset));
+		return(findByFlIsAliveNumAgeSilent(null, flIsAlive, numAge, limit, offset));
 	}
 
 	public static List<User> findByFlIsAliveNumAgeSilent(Boolean flIsAlive, Integer numAge) {
@@ -539,8 +577,17 @@ public class UserFinder {
 	}
 
 	/**
-	 * findByNmUsername
-	 * @param nmUsername
+	 * findByNmUsername 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param nmUsername - maps to the nm_username field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the unique result of User found
 	 * 
@@ -551,7 +598,7 @@ public class UserFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByNmUsername_limit_statement_cache.containsKey(cacheKey)) {
@@ -618,7 +665,7 @@ public class UserFinder {
 		return(findByNmUsername(null, nmUsername, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static User findByNmUsernameSilent(Connection connection, String nmUsername, Integer limit, Integer offset) {
 		try {
 			return(findByNmUsername(connection, nmUsername, limit, offset));
@@ -641,14 +688,14 @@ public class UserFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static User findByNmUsernameSilent(Connection connection, String nmUsername) {
 		return(findByNmUsernameSilent(connection, nmUsername, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static User findByNmUsernameSilent(String nmUsername, Integer limit, Integer offset) {
-		return(findByNmUsernameSilent(null , nmUsername, limit, offset));
+		return(findByNmUsernameSilent(null, nmUsername, limit, offset));
 	}
 
 	public static User findByNmUsernameSilent(String nmUsername) {
@@ -656,8 +703,17 @@ public class UserFinder {
 	}
 
 	/**
-	 * findByTxtAddressEmail
-	 * @param txtAddressEmail
+	 * findByTxtAddressEmail 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param txtAddressEmail - maps to the txt_address_email field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the unique result of User found
 	 * 
@@ -668,7 +724,7 @@ public class UserFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByTxtAddressEmail_limit_statement_cache.containsKey(cacheKey)) {
@@ -735,7 +791,7 @@ public class UserFinder {
 		return(findByTxtAddressEmail(null, txtAddressEmail, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static User findByTxtAddressEmailSilent(Connection connection, String txtAddressEmail, Integer limit, Integer offset) {
 		try {
 			return(findByTxtAddressEmail(connection, txtAddressEmail, limit, offset));
@@ -758,14 +814,14 @@ public class UserFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static User findByTxtAddressEmailSilent(Connection connection, String txtAddressEmail) {
 		return(findByTxtAddressEmailSilent(connection, txtAddressEmail, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static User findByTxtAddressEmailSilent(String txtAddressEmail, Integer limit, Integer offset) {
-		return(findByTxtAddressEmailSilent(null , txtAddressEmail, limit, offset));
+		return(findByTxtAddressEmailSilent(null, txtAddressEmail, limit, offset));
 	}
 
 	public static User findByTxtAddressEmailSilent(String txtAddressEmail) {
@@ -773,9 +829,18 @@ public class UserFinder {
 	}
 
 	/**
-	 * findByTxtAddressEmailTxtPassword
-	 * @param txtAddressEmail
-	 * @param txtPassword
+	 * findByTxtAddressEmailTxtPassword 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param txtAddressEmail - maps to the txt_address_email field
+	 * @param txtPassword - maps to the txt_password field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the unique result of User found
 	 * 
@@ -786,7 +851,7 @@ public class UserFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByTxtAddressEmailTxtPassword_limit_statement_cache.containsKey(cacheKey)) {
@@ -854,7 +919,7 @@ public class UserFinder {
 		return(findByTxtAddressEmailTxtPassword(null, txtAddressEmail, txtPassword, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection, String txtAddressEmail, String txtPassword, Integer limit, Integer offset) {
 		try {
 			return(findByTxtAddressEmailTxtPassword(connection, txtAddressEmail, txtPassword, limit, offset));
@@ -877,14 +942,14 @@ public class UserFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static User findByTxtAddressEmailTxtPasswordSilent(Connection connection, String txtAddressEmail, String txtPassword) {
 		return(findByTxtAddressEmailTxtPasswordSilent(connection, txtAddressEmail, txtPassword, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static User findByTxtAddressEmailTxtPasswordSilent(String txtAddressEmail, String txtPassword, Integer limit, Integer offset) {
-		return(findByTxtAddressEmailTxtPasswordSilent(null , txtAddressEmail, txtPassword, limit, offset));
+		return(findByTxtAddressEmailTxtPasswordSilent(null, txtAddressEmail, txtPassword, limit, offset));
 	}
 
 	public static User findByTxtAddressEmailTxtPasswordSilent(String txtAddressEmail, String txtPassword) {
@@ -892,8 +957,17 @@ public class UserFinder {
 	}
 
 	/**
-	 * findByNumAgeIn
-	 * @param numAgeList
+	 * findByNumAgeIn 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param numAgeList - maps to the num_age field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of User results found
 	 * 
@@ -904,7 +978,7 @@ public class UserFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset + ":" + numAgeList.size() + ":" ;
 		if(!findByNumAgeIn_limit_statement_cache.containsKey(cacheKey)) {
@@ -982,7 +1056,7 @@ public class UserFinder {
 		return(findByNumAgeIn(null, numAgeList, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<User> findByNumAgeInSilent(Connection connection, List<Integer> numAgeList, Integer limit, Integer offset) {
 		try {
 			return(findByNumAgeIn(connection, numAgeList, limit, offset));
@@ -1005,14 +1079,14 @@ public class UserFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<User> findByNumAgeInSilent(Connection connection, List<Integer> numAgeList) {
 		return(findByNumAgeInSilent(connection, numAgeList, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<User> findByNumAgeInSilent(List<Integer> numAgeList, Integer limit, Integer offset) {
-		return(findByNumAgeInSilent(null , numAgeList, limit, offset));
+		return(findByNumAgeInSilent(null, numAgeList, limit, offset));
 	}
 
 	public static List<User> findByNumAgeInSilent(List<Integer> numAgeList) {
@@ -1020,9 +1094,18 @@ public class UserFinder {
 	}
 
 	/**
-	 * findByNumAgeBetween
-	 * @param numAgeMin
-	 * @param numAgeMax
+	 * findByNumAgeBetween 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param numAgeMin - maps to the num_age field
+	 * @param numAgeMax - maps to the num_age field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of User results found
 	 * 
@@ -1033,7 +1116,7 @@ public class UserFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByNumAgeBetween_limit_statement_cache.containsKey(cacheKey)) {
@@ -1098,7 +1181,7 @@ public class UserFinder {
 		return(findByNumAgeBetween(null, numAgeMin, numAgeMax, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<User> findByNumAgeBetweenSilent(Connection connection, Integer numAgeMin, Integer numAgeMax, Integer limit, Integer offset) {
 		try {
 			return(findByNumAgeBetween(connection, numAgeMin, numAgeMax, limit, offset));
@@ -1121,14 +1204,14 @@ public class UserFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<User> findByNumAgeBetweenSilent(Connection connection, Integer numAgeMin, Integer numAgeMax) {
 		return(findByNumAgeBetweenSilent(connection, numAgeMin, numAgeMax, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<User> findByNumAgeBetweenSilent(Integer numAgeMin, Integer numAgeMax, Integer limit, Integer offset) {
-		return(findByNumAgeBetweenSilent(null , numAgeMin, numAgeMax, limit, offset));
+		return(findByNumAgeBetweenSilent(null, numAgeMin, numAgeMax, limit, offset));
 	}
 
 	public static List<User> findByNumAgeBetweenSilent(Integer numAgeMin, Integer numAgeMax) {
@@ -1137,13 +1220,14 @@ public class UserFinder {
 
 	/**
 	 * Return a unique result for the query - in effect just the first result of
-	 * query.
+	 * query.  If there is a second result (i.e. the query did not return the 
+	 * expected unique result), then an exception will be thrown.
 	 * 
 	 * @param resultSet The result set of the query
 	 * 
 	 * @return The User that represents this result
 	 * 
-	 * @throws H2ZeroFinderException if no results were found
+	 * @throws H2ZeroFinderException if no results were found or more than one result was found
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static User uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
@@ -1206,7 +1290,31 @@ public class UserFinder {
 		return(arrayList);
 	}
 
-// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined select clause finders which are 
+	 * generated through the "finders" JSON key, with a 'selectClause' 
+	 * key on the finder.
+	 * 
+	 * All selectClause finders return a subset of the data from a row of the 
+	 * database table (or tables if there is a join statement) as a generated
+	 * bean
+	 * 
+	 * There are 9 defined finders on the user table:
+	 * 
+	 * - findByNumAge - regular finder 
+	 * - findByFlIsAliveNumAge - regular finder 
+	 * - findByNmUsername - regular finder 
+	 * - findByTxtAddressEmail - regular finder 
+	 * - findByTxtAddressEmailTxtPassword - regular finder 
+	 * - findNmUserDtmSignup - selectClause finder 
+	 * - findGroupNumAge - selectClause finder 
+	 * - findByNumAgeIn - regular finder 
+	 * - findByNumAgeBetween - regular finder 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
 	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		if(!hasConnection) {
@@ -1258,22 +1366,22 @@ public class UserFinder {
 
 	}
 
-// SELECTBEAN - PARAMS..., LIMIT, OFFSET 
+	// SELECTBEAN - PARAMS..., LIMIT, OFFSET 
 	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		return(findNmUserDtmSignup(null, limit, offset));
 	}
 
-// SELECTBEAN - CONNECTION, PARAMS...
+	// SELECTBEAN - CONNECTION, PARAMS...
 	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException {
 		return(findNmUserDtmSignup(null, null, null));
 	}
 
-// SELECTBEAN - PARAMS...
+	// SELECTBEAN - PARAMS...
 	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {
 		return(findNmUserDtmSignup(null, null, null));
 	}
 
-// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
+	// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
 	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findNmUserDtmSignup(connection, limit, offset));
@@ -1311,7 +1419,7 @@ public class UserFinder {
 		return(findNmUserDtmSignupSilent(null, null, null));
 	}
 
-// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
+	// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
 	public static List<UserFindGroupNumAgeBean> findGroupNumAge(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		if(!hasConnection) {
@@ -1363,22 +1471,22 @@ public class UserFinder {
 
 	}
 
-// SELECTBEAN - PARAMS..., LIMIT, OFFSET 
+	// SELECTBEAN - PARAMS..., LIMIT, OFFSET 
 	public static List<UserFindGroupNumAgeBean> findGroupNumAge(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		return(findGroupNumAge(null, limit, offset));
 	}
 
-// SELECTBEAN - CONNECTION, PARAMS...
+	// SELECTBEAN - CONNECTION, PARAMS...
 	public static List<UserFindGroupNumAgeBean> findGroupNumAge(Connection connection) throws H2ZeroFinderException, SQLException {
 		return(findGroupNumAge(null, null, null));
 	}
 
-// SELECTBEAN - PARAMS...
+	// SELECTBEAN - PARAMS...
 	public static List<UserFindGroupNumAgeBean> findGroupNumAge() throws H2ZeroFinderException, SQLException {
 		return(findGroupNumAge(null, null, null));
 	}
 
-// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
+	// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
 	public static List<UserFindGroupNumAgeBean> findGroupNumAgeSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findGroupNumAge(connection, limit, offset));

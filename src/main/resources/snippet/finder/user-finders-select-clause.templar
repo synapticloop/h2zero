@@ -4,13 +4,31 @@
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
+{\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
+{\t} * {\n}
+{\t} * This is the start of the user defined select clause finders which are {\n}
+{\t} * generated through the "finders" JSON key, with a 'selectClause' {\n}
+{\t} * key on the finder.{\n}
+{\t} * {\n}
+{\t} * All selectClause finders return a subset of the data from a row of the {\n}
+{\t} * database table (or tables if there is a join statement) as a generated{\n}
+{\t} * bean{\n}
+{\t} * {\n}
+{\t} * There are {fn:length[tableOrView.finders]} defined finders on the {tableOrView.name} table:{\n}
+{\t} * {\n}
+{loop tableOrView.finders as finder}
+{\t} * - {finder.name} - {if fn:notNull[finder.selectClause]}selectClause finder{else}regular finder{endif} {\n}
+{endloop}
+{\t} * {\n}
+{\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}{\n}
+
 {loop tableOrView.finders as finder}
 	{if fn:notNull[finder.selectClause]}
 
 		{--
 			CONNECTION, PARAMS..., LIMIT, OFFSET
 		}
-		// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET{\n}
+		{\t}// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET{\n}
 		{\t}public static 
 		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}(Connection connection
@@ -186,7 +204,7 @@
 			CONNECTION, PARAMS...
 		}
 
-		// SELECTBEAN - PARAMS..., LIMIT, OFFSET {\n}
+		{\t}// SELECTBEAN - PARAMS..., LIMIT, OFFSET {\n}
 
 
 
@@ -205,7 +223,7 @@
 
 
 
-		// SELECTBEAN - CONNECTION, PARAMS...{\n}
+		{\t}// SELECTBEAN - CONNECTION, PARAMS...{\n}
 
 		{\t}public static 
 		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
@@ -222,7 +240,7 @@
 
 
 
-		// SELECTBEAN - PARAMS...{\n}
+		{\t}// SELECTBEAN - PARAMS...{\n}
 
 		{\t}public static 
 		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
@@ -247,7 +265,7 @@
 	SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
 }
 
-// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET{\n}
+		{\t}// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET{\n}
 		{\t}public static 
 		{if finder.unique}{table.javaClassName}{finder.tagName}Bean {else}List<{table.javaClassName}{finder.tagName}Bean> {endif}
 		{finder.name}Silent(Connection connection

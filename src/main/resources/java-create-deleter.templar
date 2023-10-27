@@ -66,12 +66,19 @@ public class {table.javaClassName}Deleter {{{\n}
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				DELETE BY PRIMARY KEY
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+ {\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
+ {\t} * {\n}
+ {\t} * The following deleters are built in by h2zero and are always generated {\n}
+ {\t} * {\n}
+ {\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}{\n}
+
 
 {\t}/**{\n}
 {\t} * Delete a row in the {table.upperName} table by its primary key{\n}
 {\t} * {\n}
-{\t} * @param connection The connection{\n}
+{\t} * @param connection The connection to use - the caller must close this connection{\n}
 {\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
+{\t} * {\n}
 {\t} * @return the number of rows deleted{\n}
 {\t} * {\n}
 {\t} * @throws SQLException if there was an error in the delete{\n}
@@ -79,50 +86,47 @@ public class {table.javaClassName}Deleter {{{\n}
 
 {\t}public static int deleteByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws SQLException {{{\n}
 
-	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY);{\n}
+	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {{{\n}
 	{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
-	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
-	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
-	{\t}{\t}return(numResults);{\n}
+	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
+	{\t}{\t}}{\n}
 {\t}}{\n}{\n}
 
 {\t}/**{\n}
 {\t} * Delete a row in the {table.upperName} table by its primary key{\n}
 {\t} * {\n}
 {\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
+{\t} * {\n}
 {\t} * @return the number of rows deleted{\n}
 {\t} * {\n}
 {\t} * @throws SQLException if there was an error in the delete{\n}
 {\t} */{\n}
 
 {\t}public static int deleteByPrimaryKey(Long {primaryFieldJavaName}) throws SQLException {{{\n}
-	{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}int numResults = deleteByPrimaryKey(connection, {primaryFieldJavaName});{\n}
-	{\t}{\t}ConnectionManager.closeAll(connection);{\n}
-	{\t}{\t}return(numResults);{\n}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+	{\t}{\t}{\t}return(deleteByPrimaryKey(connection, {primaryFieldJavaName}));{\n}
+	{\t}{\t}}{\n}
 {\t}}{\n}
 {\n}
 
 {\t}/**{\n}
 {\t} * Delete a row in the {table.upperName} table by its primary key silently{\n}
-{\t} * (i.e. don't throw an exception if it coudn't be deleted).{\n}
+{\t} * (i.e. don't throw an exception if it couldn't be deleted).{\n}
 {\t} * {\n}
+{\t} * @param connection - the connection to use - the caller must close this connection{\n}
 {\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
-{\t} * @return the number of rows deleted{\n}
 {\t} * {\n}
-{\t} * @throws SQLException if there was an error in the delete{\n}
+{\t} * @return the number of rows deleted{\n}
 {\t} */{\n}
 
 
 {\t}public static int deleteByPrimaryKeySilent(Connection connection, Long {primaryFieldJavaName}) {{{\n}
-	{\t}{\t}int numResults = 0;{\n}
 	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}numResults = deleteByPrimaryKey(connection, {primaryFieldJavaName});{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occured.", sqlex);{\n}
+	{\t}{\t}{\t}return(deleteByPrimaryKey(connection, {primaryFieldJavaName}));{\n}
+	{\t}{\t}} catch (SQLException ex) {{{\n}
+	{\t}{\t}{\t}LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);{\n}
 	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
-	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}
 {\n}
 
@@ -131,25 +135,18 @@ public class {table.javaClassName}Deleter {{{\n}
 {\t} * (i.e. don't throw an exception if it coudn't be deleted).{\n}
 {\t} * {\n}
 {\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
-{\t} * @return the number of rows deleted{\n}
 {\t} * {\n}
-{\t} * @throws SQLException if there was an error in the delete{\n}
+{\t} * @return the number of rows deleted or -1 if there was an error{\n}
 {\t} */{\n}
 
 
 {\t}public static int deleteByPrimaryKeySilent(Long {primaryFieldJavaName}) {{{\n}
-	{\t}{\t}int numResults = 0;{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}numResults = deleteByPrimaryKeySilent(connection, {primaryFieldJavaName});{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occured.", sqlex);{\n}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+	{\t}{\t}{\t}return(deleteByPrimaryKeySilent(connection, {primaryFieldJavaName}));{\n}
+	{\t}{\t}} catch (SQLException ex) {{{\n}
+	{\t}{\t}{\t}LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);{\n}
 	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
 	{\t}{\t}}{\n}
-	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}
 {\n}
 
@@ -162,86 +159,118 @@ public class {table.javaClassName}Deleter {{{\n}
 {if fn:or[table.hasForeignKey, fn:=[options.database, "sqlite3"]]}
 	{if fn:=[options.database, "sqlite3"]}
 		{\t} * {\n}
-		{\t} * This database does not have the 'truncate' keywork hence the 'DELETE FROM' SQL{\n}
+		{\t} * This database does not have the 'truncate' keyword hence the 'DELETE FROM' SQL{\n}
 		{\t} * statement is used{\n}
-		{\t} * {\n}
 	{else}
 		{\t} * {\n}
 		{\t} * This table has a foreign key relationship on it, consequently the truncate{\n}
 		{\t} * method would have been faster, but would fail, hence the 'DELETE FROM' SQL{\n}
 		{\t} * statement is used{\n}
-		{\t} * {\n}
 	{endif}
 {else}
 	{\t} * {\n}
 	{\t} * This table has no foreign key relationships and consequently can be truncated.{\n}
 {endif}
 {\t} * {\n}
+{\t} * @param connection - the connection to use - the caller must close this connection{\n}
+{\t} * {\n}
 {\t} * @return The number of rows affected by this statement{\n}
 {\t} */{\n}
 {\t}public static int deleteAll(Connection connection) throws SQLException {{{\n}
 
-	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-	{\t}{\t}int numResults = -1;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL);{\n}
+	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL)) {{{\n}
 
-	{\t}{\t}{\t}numResults = preparedStatement.executeUpdate();{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
+	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
+	{\t}{\t}} catch (SQLException ex) {{{\n}
+	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);{\n}
+	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
-	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}{\n}
 
+{\t}/**{\n}
+{\t} * Delete all the rows in the {table.upperName} table{\n}
+{\t} * {\n}
+{\t} * @return the number of rows deleted{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was an error in the delete{\n}
+{\t} */{\n}
+
 {\t}public static int deleteAll() throws SQLException {{{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}int numResults = -1;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}numResults = deleteAll(connection);{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}throw sqlex;{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+	{\t}{\t}{\t}return(deleteAll(connection));{\n}
 	{\t}{\t}}{\n}
-	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}
 {\n}
+
+{\t}/**{\n}
+{\t} * Delete all the rows in the {table.upperName} table silently - i.e{\n}
+{\t} * swallow any SQL exceptions{\n}
+{\t} * {\n}
+{\t} * @param connection - the connection to use - the caller must close this connection{\n}
+{\t} * {\n}
+{\t} * @return the number of rows deleted or -1 if there was an error{\n}
+{\t} */{\n}
 
 {\t}public static int deleteAllSilent(Connection connection) {{{\n}
-	{\t}{\t}int numResults = -1;{\n}
 	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}numResults = deleteAll(connection);{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);{\n}
+	{\t}{\t}{\t}return(deleteAll(connection));{\n}
+	{\t}{\t}} catch (SQLException ex) {{{\n}
+	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);{\n}
+	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
-	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}
 {\n}
 
+{\t}/**{\n}
+{\t} * Delete all the rows in the {table.upperName} table silently - i.e{\n}
+{\t} * swallow any SQL exceptions{\n}
+{\t} * {\n}
+{\t} * @return the number of rows deleted, or -1 if there was an error{\n}
+{\t} */{\n}
 {\t}public static int deleteAllSilent() {{{\n}
-	{\t}{\t}Connection connection = null;{\n}
-	{\t}{\t}int numResults = -1;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}numResults = deleteAll(connection);{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+	{\t}{\t}{\t}return(deleteAll(connection));{\n}
+	{\t}{\t}} catch (SQLException ex) {{{\n}
+	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);{\n}
+	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
-	{\t}{\t}return(numResults);{\n}
 {\t}}{\n}
 {\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				THE DELETER STATEMENTS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
+{\t} * {\n}
+{\t} * This is the start of the user defined deleters which are generated{\n}
+{\t} * through either the "deleters" JSON key, or the "fieldDeleters" JSON{\n}
+{\t} * key.{\n}
+{\t} * {\n}
+{\t} * There are {fn:length[table.deleters]} defined deleters on the {table.name} table:{\n}
+{\t} * {\n}
+{loop table.deleters as deleter}
+{\t} * - {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif} {\n}
+{endloop}
+{\t} * {\n}
+{\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}{\n}
+
 {loop table.deleters as deleter}
 	{set fn:length[deleter.whereFields] as deleterFieldsLength}
 
-	{\t}public static int {deleter.name}(Connection connection{if fn:>[deleterFieldsLength, '0']}, {endif} 
+	{\t}/**{\n}
+	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}{\n}
+	{\t} *{\n}
+	{\t} * @param connection - the connection - the caller must close this connection{\n}
+	{loop deleter.whereFields as whereField}
+		{\t} * @param {whereField.javaName} - maps to the {whereField.name} field{\n}
+	{endloop}
+	{\t} * {\n}
+	{\t} * @return the number of rows deleted{\n}
+	{\t} * {\n}
+	{\t} * @throws SQLException if there was an error in the deletion{\n}
+	{\t} */{\n}
+	{\t}public static int {deleter.name}(Connection connection{if fn:>[deleterFieldsLength, '0']}, {endif}
 		{--
 		Now for the where fields
 	}
@@ -252,17 +281,15 @@ public class {table.javaClassName}Deleter {{{\n}
 
 	) throws SQLException {{{\n}
 
-	{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_{deleter.staticName});{\n}
+	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_{deleter.staticName})) {{{\n}
 
 	{loop deleter.whereFields as whereField}
-		{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
+		{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
 	{endloop}
-	{\n}
 
-	{\t}{\t}int numResults = preparedStatement.executeUpdate();{\n}
+	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
 
-	{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
-	{\t}{\t}return(numResults);{\n}
+	{\t}{\t}}{\n}
 	{\t}}{\n}
 {\n}
 {endloop}
@@ -270,6 +297,17 @@ public class {table.javaClassName}Deleter {{{\n}
 {loop table.deleters as deleter}
 	{set fn:length[deleter.whereFields] as deleterFieldsLength}
 
+	{\t}/**{\n}
+	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}{\n}
+	{\t} *{\n}
+	{loop deleter.whereFields as whereField}
+		{\t} * @param {whereField.javaName} - maps to the {whereField.name} field{\n}
+	{endloop}
+	{\t} * {\n}
+	{\t} * @return the number of rows deleted{\n}
+	{\t} * {\n}
+	{\t} * @throws SQLException if there was an error in the deletion{\n}
+	{\t} */{\n}
 	{\t}public static int {deleter.name}(
 	{--
 		Now for the where fields
@@ -279,22 +317,30 @@ public class {table.javaClassName}Deleter {{{\n}
 		{if whereFieldStatus.last}{else},{endif}
 	{endloop}
 
-	) {{{\n}
+	) throws SQLException {{{\n}
 
-	{\t}{\t}Connection connection;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}int numRowsDeleted = {deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
 		{whereField.javaName}
 		{if whereFieldStatus.last}{else},{endif}
-	{endloop});{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
-	{\t}{\t}{\t}return(numRowsDeleted);{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occured.", sqlex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
+	{endloop}));{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}
+
+{\n}
+
+	{\t}/**{\n}
+	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
+	{\t} * This will silently swallow any exceptions.{\n}
+	{\t} * {\n}
+	{loop deleter.whereFields as whereField}
+		{\t} * @param {whereField.javaName} - maps to the {whereField.name} field{\n}
+	{endloop}
+	{\t} * {\n}
+	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
+	{\t} */{\n}
+
+{\n}
 
 	{\t}public static int {deleter.name}Silent(
 	{--
@@ -306,22 +352,30 @@ public class {table.javaClassName}Deleter {{{\n}
 	{endloop}
 
 	) {{{\n}
-	{\t}{\t}Connection connection;{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}int numRowsDeleted = {deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
 		{whereField.javaName}
 		{if whereFieldStatus.last}{else},{endif}
-	{endloop});{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
-	{\t}{\t}{\t}return(numRowsDeleted);{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occured.", sqlex);{\n}
+	{endloop}));{\n}
+	{\t}{\t}} catch (SQLException ex) {{{\n}
+	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
 	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}
 
 {\n}
+
+	{\t}/**{\n}
+	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
+	{\t} * This will silently swallow any exceptions.{\n}
+	{\t} * {\n}
+	{\t} * @param connection - the connection to use - the caller must close this connection{\n}
+	{loop deleter.whereFields as whereField}
+		{\t} * @param {whereField.javaName} - maps to the {whereField.name} field{\n}
+	{endloop}
+	{\t} * {\n}
+	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
+	{\t} */{\n}
 
 	{\t}public static int {deleter.name}Silent(Connection connection
 	{--
@@ -337,8 +391,8 @@ public class {table.javaClassName}Deleter {{{\n}
 		{whereField.javaName}
 		{if whereFieldStatus.last}{else},{endif}
 	{endloop}));{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occured.", sqlex);{\n}
+	{\t}{\t}} catch (SQLException ex) {{{\n}
+	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
 	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}

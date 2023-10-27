@@ -4,7 +4,23 @@
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
+{\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
+{\t} * {\n}
+{\t} * This is the start of the user defined finders which are generated{\n}
+{\t} * through either the "finders" JSON key, or the "fieldFinders" JSON{\n}
+{\t} * key.{\n}
+{\t} * {\n}
+{\t} * There are {fn:length[tableOrView.finders]} defined finders on the {tableOrView.name} table:{\n}
+{\t} * {\n}
 {loop tableOrView.finders as finder}
+{\t} * - {finder.name} - {if fn:notNull[finder.selectClause]}selectClause finder{else}regular finder{endif} {\n}
+{endloop}
+{\t} * {\n}
+{\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}{\n}
+
+{loop tableOrView.finders as finder}
+
+
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -15,24 +31,41 @@
 	{if fn:null[finder.selectClause]}
 
 		{\t}/**{\n}
-				{\t} * {finder.name}{\n}
+		{\t} * {finder.name} {\n}
+		{\t} * <p>{\n}
+{if fn:true[finder.isAutoFinder]}
+		{\t} * (This finder was generated through the 'fieldFinders' JSON key){\n}
+{else}
+		{\t} * (This finder was generated through the 'finders' JSON key){\n}
+{endif}
+		{\t} * <p>{\n}
+		{\t} * Note that if a limit and offset are passed through, then the generated statement {\n}
+		{\t} * will be cached for further use{\n}
+		{\t} * {\n}
 
-				{loop finder.comments as comment}
-					{\t} * {comment}{\n}
-					{if commentStatus.last}
-						{\t} * {\n}
-					{endif}
-				{endloop}
+		{loop finder.comments as comment}
+			{if commentStatus.first}
+				{\t} * Comments from the finder JSON object:{\n}
+			{endif}
+			{\t} * {comment}{\n}
+			{if commentStatus.last}
+				{\t} * {\n}
+			{endif}
+		{endloop}
+
+		{\t} * @param connection - the connection to the database{\n}
 
 	{if finder.hasWhereFieldAliases}
 		{loop finder.whereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif}{\n}
+			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
 		{endloop}
 	{else}
 		{loop finder.uniqueWhereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif}{\n}
+			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
 		{endloop}
 	{endif}
+		{\t} * @param limit - The maximum number of rows to return{\n}
+		{\t} * @param offset - The row offset to start with{\n}
 
 		{\t} * {\n}
 			{if finder.unique}
@@ -62,7 +95,7 @@
 		{\t}{\t}boolean hasConnection = (null != connection);{\n}
 		{\t}{\t}String statement = null;{\n}
 		{\n}
-		{\t}{\t}// first find the statement that we want{\n}
+		{\t}{\t}// first find the statement that we want - or cache it if it doesn't exist{\n}
 		{\n}
 
 		{-- 
@@ -277,7 +310,7 @@
 		}
 
 
-// silent connection, params..., limit, offset{\n}
+		{\t}// silent connection, params..., limit, offset{\n}
 		{\t}public static 
 		{if finder.unique}{tableOrView.javaClassName} {else}List<{tableOrView.javaClassName}> {endif}
 		{finder.name}Silent(Connection connection
@@ -334,7 +367,7 @@
 		{\t}}{\n}
 	{\n}
 
-// silent connection, params...{\n}
+	{\t}// silent connection, params...{\n}
 
 		{\t}public static 
 		{if finder.unique}{tableOrView.javaClassName} {else}List<{tableOrView.javaClassName}> {endif}
@@ -350,20 +383,20 @@
 		{\t}}{\n}
 	{\n}
 
-// silent params..., limit, offset{\n}
+	{\t}// silent params..., limit, offset{\n}
 
-		{\t}public static 
-		{if finder.unique}{tableOrView.javaClassName} {else}List<{tableOrView.javaClassName}> {endif}
-		{finder.name}Silent(
-			{import classpath:/snippet/finder/method-parameters-limit-offset.templar}
-		) {{{\n}
+	{\t}public static 
+	{if finder.unique}{tableOrView.javaClassName} {else}List<{tableOrView.javaClassName}> {endif}
+	{finder.name}Silent(
+		{import classpath:/snippet/finder/method-parameters-limit-offset.templar}
+	) {{{\n}
 
-		{\t}{\t}return({finder.name}Silent(null 
-			{import classpath:/snippet/finder/method-parameters-call-with-connection-limit-offset.templar}
-		));{\n}
+	{\t}{\t}return({finder.name}Silent(null
+		{import classpath:/snippet/finder/method-parameters-call-with-connection-limit-offset.templar}
+	));{\n}
 
 
-		{\t}}{\n}
+	{\t}}{\n}
 	{\n}
 
 		{\t}public static 
@@ -378,7 +411,7 @@
 		));{\n}
 
 		{\t}}{\n}
-	{\n}
+		{\n}
 
 	{endif}
 {endloop}
@@ -391,13 +424,14 @@
 
 {\t}/**{\n}
 {\t} * Return a unique result for the query - in effect just the first result of{\n}
-{\t} * query.{\n}
+{\t} * query.  If there is a second result (i.e. the query did not return the {\n}
+{\t} * expected unique result), then an exception will be thrown.{\n}
 {\t} * {\n}
 {\t} * @param resultSet The result set of the query{\n}
 {\t} * {\n}
 {\t} * @return The {tableOrView.javaClassName} that represents this result{\n}
 {\t} * {\n}
-{\t} * @throws H2ZeroFinderException if no results were found{\n}
+{\t} * @throws H2ZeroFinderException if no results were found or more than one result was found{\n}
 {\t} * @throws SQLException if there was a problem retrieving the results{\n}
 {\t} */{\n}
 

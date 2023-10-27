@@ -39,56 +39,60 @@ public class UserDeleter {
 
 	private UserDeleter() {}
 
+ 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ 	 * 
+ 	 * The following deleters are built in by h2zero and are always generated 
+ 	 * 
+ 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	/**
 	 * Delete a row in the USER table by its primary key
 	 * 
-	 * @param connection The connection
+	 * @param connection The connection to use - the caller must close this connection
 	 * @param idUser the primary key to delete
+	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the delete
 	 */
 	public static int deleteByPrimaryKey(Connection connection, Long idUser) throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {
 		preparedStatement.setLong(1, idUser);
-		int numResults = preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
-		return(numResults);
+			return(preparedStatement.executeUpdate());
+		}
 	}
 
 	/**
 	 * Delete a row in the USER table by its primary key
 	 * 
 	 * @param idUser the primary key to delete
+	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the delete
 	 */
 	public static int deleteByPrimaryKey(Long idUser) throws SQLException {
-		Connection connection = ConnectionManager.getConnection();
-		int numResults = deleteByPrimaryKey(connection, idUser);
-		ConnectionManager.closeAll(connection);
-		return(numResults);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByPrimaryKey(connection, idUser));
+		}
 	}
 
 	/**
 	 * Delete a row in the USER table by its primary key silently
-	 * (i.e. don't throw an exception if it coudn't be deleted).
+	 * (i.e. don't throw an exception if it couldn't be deleted).
 	 * 
+	 * @param connection - the connection to use - the caller must close this connection
 	 * @param idUser the primary key to delete
-	 * @return the number of rows deleted
 	 * 
-	 * @throws SQLException if there was an error in the delete
+	 * @return the number of rows deleted
 	 */
 	public static int deleteByPrimaryKeySilent(Connection connection, Long idUser) {
-		int numResults = 0;
 		try {
-			numResults = deleteByPrimaryKey(connection, idUser);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occured.", sqlex);
+			return(deleteByPrimaryKey(connection, idUser));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
 			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -96,209 +100,299 @@ public class UserDeleter {
 	 * (i.e. don't throw an exception if it coudn't be deleted).
 	 * 
 	 * @param idUser the primary key to delete
-	 * @return the number of rows deleted
 	 * 
-	 * @throws SQLException if there was an error in the delete
+	 * @return the number of rows deleted or -1 if there was an error
 	 */
 	public static int deleteByPrimaryKeySilent(Long idUser) {
-		int numResults = 0;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = deleteByPrimaryKeySilent(connection, idUser);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occured.", sqlex);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByPrimaryKeySilent(connection, idUser));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
-		return(numResults);
 	}
 
 	/**
 	 * Delete all of the rows in the table 'user'.
 	 * 
-	 * This database does not have the 'truncate' keywork hence the 'DELETE FROM' SQL
+	 * This database does not have the 'truncate' keyword hence the 'DELETE FROM' SQL
 	 * statement is used
 	 * 
+	 * @param connection - the connection to use - the caller must close this connection
 	 * 
 	 * @return The number of rows affected by this statement
 	 */
 	public static int deleteAll(Connection connection) throws SQLException {
-		PreparedStatement preparedStatement = null;
-		int numResults = -1;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);
-			ConnectionManager.closeAll(preparedStatement);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL)) {
+			return(preparedStatement.executeUpdate());
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
+			return(-1);
 		}
-		return(numResults);
 	}
 
+	/**
+	 * Delete all the rows in the USER table
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the delete
+	 */
 	public static int deleteAll() throws SQLException {
-		Connection connection = null;
-		int numResults = -1;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = deleteAll(connection);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteAll(connection));
 		}
-		return(numResults);
 	}
 
+	/**
+	 * Delete all the rows in the USER table silently - i.e
+	 * swallow any SQL exceptions
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
 	public static int deleteAllSilent(Connection connection) {
-		int numResults = -1;
 		try {
-			numResults = deleteAll(connection);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);
+			return(deleteAll(connection));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
+			return(-1);
 		}
-		return(numResults);
 	}
 
+	/**
+	 * Delete all the rows in the USER table silently - i.e
+	 * swallow any SQL exceptions
+	 * 
+	 * @return the number of rows deleted, or -1 if there was an error
+	 */
 	public static int deleteAllSilent() {
-		Connection connection = null;
-		int numResults = -1;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = deleteAll(connection);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);
-		} finally {
-			ConnectionManager.closeAll(connection);
-		}
-		return(numResults);
-	}
-
-	public static int deleteByNumAge(Connection connection,  Integer numAge) throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_NUM_AGE);
-		ConnectionManager.setInt(preparedStatement, 1, numAge);
-
-		int numResults = preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
-		return(numResults);
-	}
-
-	public static int deleteByFlIsAliveIdUserType(Connection connection,  Boolean flIsAlive,Long idUserType) throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE);
-		ConnectionManager.setBoolean(preparedStatement, 1, flIsAlive);
-		ConnectionManager.setBigint(preparedStatement, 2, idUserType);
-
-		int numResults = preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
-		return(numResults);
-	}
-
-	public static int deleteByNumAgeTest(Connection connection,  Integer numAge) throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_NUM_AGE_TEST);
-		ConnectionManager.setInt(preparedStatement, 1, numAge);
-
-		int numResults = preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
-		return(numResults);
-	}
-
-	public static int deleteByNumAge(Integer numAge) {
-		Connection connection;
-		try {
-			connection = ConnectionManager.getConnection();
-			int numRowsDeleted = deleteByNumAge(connection, numAge);
-			ConnectionManager.closeAll(connection);
-			return(numRowsDeleted);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByNumAge, a SQL Exception occured.", sqlex);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteAll(connection));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
 			return(-1);
 		}
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined deleters which are generated
+	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
+	 * key.
+	 * 
+	 * There are 3 defined deleters on the user table:
+	 * 
+	 * - deleteByNumAge - from 'fieldDeleters' JSON key 
+	 * - deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key 
+	 * - deleteByNumAgeTest - from 'deleters' JSON key 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * deleteByNumAge - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByNumAge(Connection connection, Integer numAge) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_NUM_AGE)) {
+			ConnectionManager.setInt(preparedStatement, 1, numAge);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param flIsAlive - maps to the fl_is_alive field
+	 * @param idUserType - maps to the id_user_type field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByFlIsAliveIdUserType(Connection connection, Boolean flIsAlive,Long idUserType) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE)) {
+			ConnectionManager.setBoolean(preparedStatement, 1, flIsAlive);
+			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByNumAgeTest - from 'deleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByNumAgeTest(Connection connection, Integer numAge) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_NUM_AGE_TEST)) {
+			ConnectionManager.setInt(preparedStatement, 1, numAge);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByNumAge - from 'fieldDeleters' JSON key
+	 *
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByNumAge(Integer numAge) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByNumAge(connection, numAge));
+		}
+	}
+
+	/**
+	 * deleteByNumAge - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
 	public static int deleteByNumAgeSilent(Integer numAge) {
-		Connection connection;
-		try {
-			connection = ConnectionManager.getConnection();
-			int numRowsDeleted = deleteByNumAge(connection, numAge);
-			ConnectionManager.closeAll(connection);
-			return(numRowsDeleted);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByNumAge, a SQL Exception occured.", sqlex);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByNumAge(connection, numAge));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByNumAge, a SQL Exception occurred.", ex);
 			return(-1);
 		}
 	}
 
+	/**
+	 * deleteByNumAge - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
 	public static int deleteByNumAgeSilent(Connection connection, Integer numAge) {
 		try {
 			return(deleteByNumAge(connection, numAge));
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByNumAge, a SQL Exception occured.", sqlex);
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByNumAge, a SQL Exception occurred.", ex);
 			return(-1);
 		}
 	}
-	public static int deleteByFlIsAliveIdUserType(Boolean flIsAlive,Long idUserType) {
-		Connection connection;
-		try {
-			connection = ConnectionManager.getConnection();
-			int numRowsDeleted = deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType);
-			ConnectionManager.closeAll(connection);
-			return(numRowsDeleted);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occured.", sqlex);
-			return(-1);
+	/**
+	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key
+	 *
+	 * @param flIsAlive - maps to the fl_is_alive field
+	 * @param idUserType - maps to the id_user_type field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByFlIsAliveIdUserType(Boolean flIsAlive,Long idUserType) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType));
 		}
 	}
+
+	/**
+	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param flIsAlive - maps to the fl_is_alive field
+	 * @param idUserType - maps to the id_user_type field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
 	public static int deleteByFlIsAliveIdUserTypeSilent(Boolean flIsAlive,Long idUserType) {
-		Connection connection;
-		try {
-			connection = ConnectionManager.getConnection();
-			int numRowsDeleted = deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType);
-			ConnectionManager.closeAll(connection);
-			return(numRowsDeleted);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occured.", sqlex);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occurred.", ex);
 			return(-1);
 		}
 	}
 
+	/**
+	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param flIsAlive - maps to the fl_is_alive field
+	 * @param idUserType - maps to the id_user_type field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
 	public static int deleteByFlIsAliveIdUserTypeSilent(Connection connection, Boolean flIsAlive, Long idUserType) {
 		try {
 			return(deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType));
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occured.", sqlex);
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occurred.", ex);
 			return(-1);
 		}
 	}
-	public static int deleteByNumAgeTest(Integer numAge) {
-		Connection connection;
-		try {
-			connection = ConnectionManager.getConnection();
-			int numRowsDeleted = deleteByNumAgeTest(connection, numAge);
-			ConnectionManager.closeAll(connection);
-			return(numRowsDeleted);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occured.", sqlex);
-			return(-1);
+	/**
+	 * deleteByNumAgeTest - from 'deleters' JSON key
+	 *
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByNumAgeTest(Integer numAge) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByNumAgeTest(connection, numAge));
 		}
 	}
+
+	/**
+	 * deleteByNumAgeTest - from 'deleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
 	public static int deleteByNumAgeTestSilent(Integer numAge) {
-		Connection connection;
-		try {
-			connection = ConnectionManager.getConnection();
-			int numRowsDeleted = deleteByNumAgeTest(connection, numAge);
-			ConnectionManager.closeAll(connection);
-			return(numRowsDeleted);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occured.", sqlex);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByNumAgeTest(connection, numAge));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occurred.", ex);
 			return(-1);
 		}
 	}
 
+	/**
+	 * deleteByNumAgeTest - from 'deleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
 	public static int deleteByNumAgeTestSilent(Connection connection, Integer numAge) {
 		try {
 			return(deleteByNumAgeTest(connection, numAge));
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occured.", sqlex);
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occurred.", ex);
 			return(-1);
 		}
 	}

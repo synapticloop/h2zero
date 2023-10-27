@@ -285,15 +285,27 @@ public class AuthorStatusFinder {
 		return(findAllSilent(null, null, null));
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined finders which are generated
+	 * through either the "finders" JSON key, or the "fieldFinders" JSON
+	 * key.
+	 * 
+	 * There are 0 defined finders on the author_status table:
+	 * 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	/**
 	 * Return a unique result for the query - in effect just the first result of
-	 * query.
+	 * query.  If there is a second result (i.e. the query did not return the 
+	 * expected unique result), then an exception will be thrown.
 	 * 
 	 * @param resultSet The result set of the query
 	 * 
 	 * @return The AuthorStatus that represents this result
 	 * 
-	 * @throws H2ZeroFinderException if no results were found
+	 * @throws H2ZeroFinderException if no results were found or more than one result was found
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static AuthorStatus uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
@@ -336,5 +348,20 @@ public class AuthorStatusFinder {
 		}
 		return(arrayList);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined select clause finders which are 
+	 * generated through the "finders" JSON key, with a 'selectClause' 
+	 * key on the finder.
+	 * 
+	 * All selectClause finders return a subset of the data from a row of the 
+	 * database table (or tables if there is a join statement) as a generated
+	 * bean
+	 * 
+	 * There are 0 defined finders on the author_status table:
+	 * 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 }

@@ -300,9 +300,36 @@ public class AuthorFinder {
 		return(findAllSilent(null, null, null));
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined finders which are generated
+	 * through either the "finders" JSON key, or the "fieldFinders" JSON
+	 * key.
+	 * 
+	 * There are 7 defined finders on the author table:
+	 * 
+	 * - findByIdAuthorStatus - regular finder 
+	 * - findByFlIsUpdating - regular finder 
+	 * - findByTxtIdAuthorIdAuthorStatus - regular finder 
+	 * - findByTxtIdAuthor - regular finder 
+	 * - findAllToBeEvaluated - regular finder 
+	 * - findFirstToBeEvaluated - regular finder 
+	 * - findLimitedToBeEvaluated - regular finder 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	/**
-	 * findByIdAuthorStatus
-	 * @param idAuthorStatus
+	 * findByIdAuthorStatus 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param idAuthorStatus - maps to the id_author_status field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of Author results found
 	 * 
@@ -313,7 +340,7 @@ public class AuthorFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByIdAuthorStatus_limit_statement_cache.containsKey(cacheKey)) {
@@ -377,7 +404,7 @@ public class AuthorFinder {
 		return(findByIdAuthorStatus(null, idAuthorStatus, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<Author> findByIdAuthorStatusSilent(Connection connection, Long idAuthorStatus, Integer limit, Integer offset) {
 		try {
 			return(findByIdAuthorStatus(connection, idAuthorStatus, limit, offset));
@@ -400,14 +427,14 @@ public class AuthorFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<Author> findByIdAuthorStatusSilent(Connection connection, Long idAuthorStatus) {
 		return(findByIdAuthorStatusSilent(connection, idAuthorStatus, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<Author> findByIdAuthorStatusSilent(Long idAuthorStatus, Integer limit, Integer offset) {
-		return(findByIdAuthorStatusSilent(null , idAuthorStatus, limit, offset));
+		return(findByIdAuthorStatusSilent(null, idAuthorStatus, limit, offset));
 	}
 
 	public static List<Author> findByIdAuthorStatusSilent(Long idAuthorStatus) {
@@ -415,8 +442,17 @@ public class AuthorFinder {
 	}
 
 	/**
-	 * findByFlIsUpdating
-	 * @param flIsUpdating
+	 * findByFlIsUpdating 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param flIsUpdating - maps to the fl_is_updating field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of Author results found
 	 * 
@@ -427,7 +463,7 @@ public class AuthorFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByFlIsUpdating_limit_statement_cache.containsKey(cacheKey)) {
@@ -491,7 +527,7 @@ public class AuthorFinder {
 		return(findByFlIsUpdating(null, flIsUpdating, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<Author> findByFlIsUpdatingSilent(Connection connection, Boolean flIsUpdating, Integer limit, Integer offset) {
 		try {
 			return(findByFlIsUpdating(connection, flIsUpdating, limit, offset));
@@ -514,14 +550,14 @@ public class AuthorFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<Author> findByFlIsUpdatingSilent(Connection connection, Boolean flIsUpdating) {
 		return(findByFlIsUpdatingSilent(connection, flIsUpdating, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<Author> findByFlIsUpdatingSilent(Boolean flIsUpdating, Integer limit, Integer offset) {
-		return(findByFlIsUpdatingSilent(null , flIsUpdating, limit, offset));
+		return(findByFlIsUpdatingSilent(null, flIsUpdating, limit, offset));
 	}
 
 	public static List<Author> findByFlIsUpdatingSilent(Boolean flIsUpdating) {
@@ -529,9 +565,18 @@ public class AuthorFinder {
 	}
 
 	/**
-	 * findByTxtIdAuthorIdAuthorStatus
-	 * @param txtIdAuthor
-	 * @param idAuthorStatus
+	 * findByTxtIdAuthorIdAuthorStatus 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param txtIdAuthor - maps to the txt_id_author field
+	 * @param idAuthorStatus - maps to the id_author_status field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of Author results found
 	 * 
@@ -542,7 +587,7 @@ public class AuthorFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByTxtIdAuthorIdAuthorStatus_limit_statement_cache.containsKey(cacheKey)) {
@@ -607,7 +652,7 @@ public class AuthorFinder {
 		return(findByTxtIdAuthorIdAuthorStatus(null, txtIdAuthor, idAuthorStatus, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<Author> findByTxtIdAuthorIdAuthorStatusSilent(Connection connection, String txtIdAuthor, Long idAuthorStatus, Integer limit, Integer offset) {
 		try {
 			return(findByTxtIdAuthorIdAuthorStatus(connection, txtIdAuthor, idAuthorStatus, limit, offset));
@@ -630,14 +675,14 @@ public class AuthorFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<Author> findByTxtIdAuthorIdAuthorStatusSilent(Connection connection, String txtIdAuthor, Long idAuthorStatus) {
 		return(findByTxtIdAuthorIdAuthorStatusSilent(connection, txtIdAuthor, idAuthorStatus, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<Author> findByTxtIdAuthorIdAuthorStatusSilent(String txtIdAuthor, Long idAuthorStatus, Integer limit, Integer offset) {
-		return(findByTxtIdAuthorIdAuthorStatusSilent(null , txtIdAuthor, idAuthorStatus, limit, offset));
+		return(findByTxtIdAuthorIdAuthorStatusSilent(null, txtIdAuthor, idAuthorStatus, limit, offset));
 	}
 
 	public static List<Author> findByTxtIdAuthorIdAuthorStatusSilent(String txtIdAuthor, Long idAuthorStatus) {
@@ -645,8 +690,17 @@ public class AuthorFinder {
 	}
 
 	/**
-	 * findByTxtIdAuthor
-	 * @param txtIdAuthor
+	 * findByTxtIdAuthor 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param txtIdAuthor - maps to the txt_id_author field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the unique result of Author found
 	 * 
@@ -657,7 +711,7 @@ public class AuthorFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByTxtIdAuthor_limit_statement_cache.containsKey(cacheKey)) {
@@ -724,7 +778,7 @@ public class AuthorFinder {
 		return(findByTxtIdAuthor(null, txtIdAuthor, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static Author findByTxtIdAuthorSilent(Connection connection, String txtIdAuthor, Integer limit, Integer offset) {
 		try {
 			return(findByTxtIdAuthor(connection, txtIdAuthor, limit, offset));
@@ -747,14 +801,14 @@ public class AuthorFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static Author findByTxtIdAuthorSilent(Connection connection, String txtIdAuthor) {
 		return(findByTxtIdAuthorSilent(connection, txtIdAuthor, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static Author findByTxtIdAuthorSilent(String txtIdAuthor, Integer limit, Integer offset) {
-		return(findByTxtIdAuthorSilent(null , txtIdAuthor, limit, offset));
+		return(findByTxtIdAuthorSilent(null, txtIdAuthor, limit, offset));
 	}
 
 	public static Author findByTxtIdAuthorSilent(String txtIdAuthor) {
@@ -762,8 +816,17 @@ public class AuthorFinder {
 	}
 
 	/**
-	 * findAllToBeEvaluated
-	 * @param dtmStartedFollowing
+	 * findAllToBeEvaluated 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param dtmStartedFollowing - maps to the dtm_started_following field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of Author results found
 	 * 
@@ -774,7 +837,7 @@ public class AuthorFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findAllToBeEvaluated_limit_statement_cache.containsKey(cacheKey)) {
@@ -838,7 +901,7 @@ public class AuthorFinder {
 		return(findAllToBeEvaluated(null, dtmStartedFollowing, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<Author> findAllToBeEvaluatedSilent(Connection connection, Timestamp dtmStartedFollowing, Integer limit, Integer offset) {
 		try {
 			return(findAllToBeEvaluated(connection, dtmStartedFollowing, limit, offset));
@@ -861,14 +924,14 @@ public class AuthorFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<Author> findAllToBeEvaluatedSilent(Connection connection, Timestamp dtmStartedFollowing) {
 		return(findAllToBeEvaluatedSilent(connection, dtmStartedFollowing, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<Author> findAllToBeEvaluatedSilent(Timestamp dtmStartedFollowing, Integer limit, Integer offset) {
-		return(findAllToBeEvaluatedSilent(null , dtmStartedFollowing, limit, offset));
+		return(findAllToBeEvaluatedSilent(null, dtmStartedFollowing, limit, offset));
 	}
 
 	public static List<Author> findAllToBeEvaluatedSilent(Timestamp dtmStartedFollowing) {
@@ -876,8 +939,17 @@ public class AuthorFinder {
 	}
 
 	/**
-	 * findFirstToBeEvaluated
-	 * @param dtmStartedFollowing
+	 * findFirstToBeEvaluated 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param dtmStartedFollowing - maps to the dtm_started_following field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the unique result of Author found
 	 * 
@@ -888,7 +960,7 @@ public class AuthorFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findFirstToBeEvaluated_limit_statement_cache.containsKey(cacheKey)) {
@@ -955,7 +1027,7 @@ public class AuthorFinder {
 		return(findFirstToBeEvaluated(null, dtmStartedFollowing, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static Author findFirstToBeEvaluatedSilent(Connection connection, Timestamp dtmStartedFollowing, Integer limit, Integer offset) {
 		try {
 			return(findFirstToBeEvaluated(connection, dtmStartedFollowing, limit, offset));
@@ -978,14 +1050,14 @@ public class AuthorFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static Author findFirstToBeEvaluatedSilent(Connection connection, Timestamp dtmStartedFollowing) {
 		return(findFirstToBeEvaluatedSilent(connection, dtmStartedFollowing, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static Author findFirstToBeEvaluatedSilent(Timestamp dtmStartedFollowing, Integer limit, Integer offset) {
-		return(findFirstToBeEvaluatedSilent(null , dtmStartedFollowing, limit, offset));
+		return(findFirstToBeEvaluatedSilent(null, dtmStartedFollowing, limit, offset));
 	}
 
 	public static Author findFirstToBeEvaluatedSilent(Timestamp dtmStartedFollowing) {
@@ -993,8 +1065,17 @@ public class AuthorFinder {
 	}
 
 	/**
-	 * findLimitedToBeEvaluated
-	 * @param dtmStartedFollowing
+	 * findLimitedToBeEvaluated 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param dtmStartedFollowing - maps to the dtm_started_following field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of Author results found
 	 * 
@@ -1005,7 +1086,7 @@ public class AuthorFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findLimitedToBeEvaluated_limit_statement_cache.containsKey(cacheKey)) {
@@ -1069,7 +1150,7 @@ public class AuthorFinder {
 		return(findLimitedToBeEvaluated(null, dtmStartedFollowing, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<Author> findLimitedToBeEvaluatedSilent(Connection connection, Timestamp dtmStartedFollowing, Integer limit, Integer offset) {
 		try {
 			return(findLimitedToBeEvaluated(connection, dtmStartedFollowing, limit, offset));
@@ -1092,14 +1173,14 @@ public class AuthorFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<Author> findLimitedToBeEvaluatedSilent(Connection connection, Timestamp dtmStartedFollowing) {
 		return(findLimitedToBeEvaluatedSilent(connection, dtmStartedFollowing, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<Author> findLimitedToBeEvaluatedSilent(Timestamp dtmStartedFollowing, Integer limit, Integer offset) {
-		return(findLimitedToBeEvaluatedSilent(null , dtmStartedFollowing, limit, offset));
+		return(findLimitedToBeEvaluatedSilent(null, dtmStartedFollowing, limit, offset));
 	}
 
 	public static List<Author> findLimitedToBeEvaluatedSilent(Timestamp dtmStartedFollowing) {
@@ -1108,13 +1189,14 @@ public class AuthorFinder {
 
 	/**
 	 * Return a unique result for the query - in effect just the first result of
-	 * query.
+	 * query.  If there is a second result (i.e. the query did not return the 
+	 * expected unique result), then an exception will be thrown.
 	 * 
 	 * @param resultSet The result set of the query
 	 * 
 	 * @return The Author that represents this result
 	 * 
-	 * @throws H2ZeroFinderException if no results were found
+	 * @throws H2ZeroFinderException if no results were found or more than one result was found
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static Author uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
@@ -1177,5 +1259,27 @@ public class AuthorFinder {
 		}
 		return(arrayList);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined select clause finders which are 
+	 * generated through the "finders" JSON key, with a 'selectClause' 
+	 * key on the finder.
+	 * 
+	 * All selectClause finders return a subset of the data from a row of the 
+	 * database table (or tables if there is a join statement) as a generated
+	 * bean
+	 * 
+	 * There are 7 defined finders on the author table:
+	 * 
+	 * - findByIdAuthorStatus - regular finder 
+	 * - findByFlIsUpdating - regular finder 
+	 * - findByTxtIdAuthorIdAuthorStatus - regular finder 
+	 * - findByTxtIdAuthor - regular finder 
+	 * - findAllToBeEvaluated - regular finder 
+	 * - findFirstToBeEvaluated - regular finder 
+	 * - findLimitedToBeEvaluated - regular finder 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 }

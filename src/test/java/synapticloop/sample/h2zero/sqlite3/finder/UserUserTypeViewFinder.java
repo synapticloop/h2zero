@@ -288,9 +288,30 @@ public class UserUserTypeViewFinder {
 		return(findAllSilent(null, null, null));
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined finders which are generated
+	 * through either the "finders" JSON key, or the "fieldFinders" JSON
+	 * key.
+	 * 
+	 * There are 1 defined finders on the user_user_type table:
+	 * 
+	 * - findByNmUser - regular finder 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	/**
-	 * findByNmUser
-	 * @param nmUser
+	 * findByNmUser 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param nmUser - maps to the nm_user field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of UserUserType results found
 	 * 
@@ -301,7 +322,7 @@ public class UserUserTypeViewFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findByNmUser_limit_statement_cache.containsKey(cacheKey)) {
@@ -365,7 +386,7 @@ public class UserUserTypeViewFinder {
 		return(findByNmUser(null, nmUser, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<UserUserType> findByNmUserSilent(Connection connection, String nmUser, Integer limit, Integer offset) {
 		try {
 			return(findByNmUser(connection, nmUser, limit, offset));
@@ -388,14 +409,14 @@ public class UserUserTypeViewFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<UserUserType> findByNmUserSilent(Connection connection, String nmUser) {
 		return(findByNmUserSilent(connection, nmUser, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<UserUserType> findByNmUserSilent(String nmUser, Integer limit, Integer offset) {
-		return(findByNmUserSilent(null , nmUser, limit, offset));
+		return(findByNmUserSilent(null, nmUser, limit, offset));
 	}
 
 	public static List<UserUserType> findByNmUserSilent(String nmUser) {
@@ -404,13 +425,14 @@ public class UserUserTypeViewFinder {
 
 	/**
 	 * Return a unique result for the query - in effect just the first result of
-	 * query.
+	 * query.  If there is a second result (i.e. the query did not return the 
+	 * expected unique result), then an exception will be thrown.
 	 * 
 	 * @param resultSet The result set of the query
 	 * 
 	 * @return The UserUserType that represents this result
 	 * 
-	 * @throws H2ZeroFinderException if no results were found
+	 * @throws H2ZeroFinderException if no results were found or more than one result was found
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static UserUserType uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
@@ -451,5 +473,21 @@ public class UserUserTypeViewFinder {
 		}
 		return(arrayList);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined select clause finders which are 
+	 * generated through the "finders" JSON key, with a 'selectClause' 
+	 * key on the finder.
+	 * 
+	 * All selectClause finders return a subset of the data from a row of the 
+	 * database table (or tables if there is a join statement) as a generated
+	 * bean
+	 * 
+	 * There are 1 defined finders on the user_user_type table:
+	 * 
+	 * - findByNmUser - regular finder 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 }
