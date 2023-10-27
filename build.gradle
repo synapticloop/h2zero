@@ -48,12 +48,19 @@ dependencies {
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.mockito:mockito-core:5.6.0"
     testImplementation "com.github.stefanbirkner:system-rules:1.17.1"
+
+    // this is for the tests
+    testImplementation('com.mchange:c3p0:0.9.5.5')
+    testImplementation('com.mchange:mchange-commons-java:0.2.20')
+    testImplementation('org.xerial:sqlite-jdbc:3.42.0.1')
+
 }
 
 configurations.all {
     resolutionStrategy {
         failOnVersionConflict()
-        force "junit:junit:4.13.2"
+        force "junit:junit:4.13.2",
+        "com.mchange:mchange-commons-java:0.2.20"
     }
 }
 

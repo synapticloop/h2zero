@@ -44,6 +44,7 @@ public class Options {
 	public static final String OPTION_BUILD = "build";
 
 	public static final String OPTION_JAVA = "java";
+	public static final String OPTION_TESTS = "tests";
 	public static final String OPTION_SQL = "sql";
 	public static final String OPTION_REPORTS = "reports";
 
