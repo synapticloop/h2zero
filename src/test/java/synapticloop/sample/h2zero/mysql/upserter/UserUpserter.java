@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
 
 
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
-import synapticloop.sample.h2zero.mysql.bean.FindNmUserDtmSignupBean;
-import synapticloop.sample.h2zero.mysql.bean.FindGroupNumAgeBean;
+import synapticloop.sample.h2zero.mysql.bean.UserFindNmUserDtmSignupBean;
+import synapticloop.sample.h2zero.mysql.bean.UserFindGroupNumAgeBean;
 
 import synapticloop.sample.h2zero.mysql.model.User;
 

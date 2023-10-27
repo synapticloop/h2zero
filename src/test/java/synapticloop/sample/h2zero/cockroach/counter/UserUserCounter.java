@@ -56,13 +56,12 @@ public class UserUserCounter {
 	public static int countAll(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_COUNT_ALL);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
@@ -76,7 +75,7 @@ public class UserUserCounter {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 
-		return(count);
+		return(-1);
 	}
 
 	/**
@@ -87,10 +86,8 @@ public class UserUserCounter {
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
 	public static int countAll() throws SQLException {
-		Connection connection = null;
 
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			return(countAll(connection));
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
@@ -100,8 +97,6 @@ public class UserUserCounter {
 				}
 			}
 			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -153,32 +148,22 @@ public class UserUserCounter {
 	public static int countNumberOfUsers(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_COUNT_NUMBER_OF_USERS);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
-		} catch (SQLException sqlex) {
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		return(count);
+		return(-1);
 	}
 
 	public static int countNumberOfUsers() throws SQLException {
-		Connection connection = null;
-
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()){
 			return(countNumberOfUsers(connection));
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -213,33 +198,23 @@ public class UserUserCounter {
 	public static int countNumberOfUsersOverAge(Connection connection, Integer numAge) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_COUNT_NUMBER_OF_USERS_OVER_AGE);
 			ConnectionManager.setInt(preparedStatement, 1, numAge);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
-		} catch (SQLException sqlex) {
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		return(count);
+		return(-1);
 	}
 
 	public static int countNumberOfUsersOverAge(Integer numAge) throws SQLException {
-		Connection connection = null;
-
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()){
 			return(countNumberOfUsersOverAge(connection, numAge));
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -274,7 +249,6 @@ public class UserUserCounter {
 	public static int countNumberOfUsersBetweenAge(Connection connection, Integer numAgeFrom, Integer numAgeTo) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_COUNT_NUMBER_OF_USERS_BETWEEN_AGE);
 			ConnectionManager.setInt(preparedStatement, 1, numAgeFrom);
@@ -282,26 +256,17 @@ public class UserUserCounter {
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
-		} catch (SQLException sqlex) {
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		return(count);
+		return(-1);
 	}
 
 	public static int countNumberOfUsersBetweenAge(Integer numAgeFrom, Integer numAgeTo) throws SQLException {
-		Connection connection = null;
-
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()){
 			return(countNumberOfUsersBetweenAge(connection, numAgeFrom, numAgeTo));
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 
@@ -336,7 +301,6 @@ public class UserUserCounter {
 	public static int countUsersInAges(Connection connection, List<Integer> numAgeList) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 		try {
 			if(countUsersInAges_statement_cache.containsKey(numAgeList.size() + ":" )) {
 				preparedStatement = connection.prepareStatement(countUsersInAges_statement_cache.get(numAgeList.size() + ":" ));
@@ -362,26 +326,17 @@ public class UserUserCounter {
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
-		} catch (SQLException sqlex) {
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		return(count);
+		return(-1);
 	}
 
 	public static int countUsersInAges(List<Integer> numAgeList) throws SQLException {
-		Connection connection = null;
-
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()){
 			return(countUsersInAges(connection, numAgeList));
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 

@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
 
 
 import synapticloop.sample.h2zero.cockroach.model.util.Constants;
-import synapticloop.sample.h2zero.cockroach.bean.FindNmUserDtmSignupBean;
-import synapticloop.sample.h2zero.cockroach.bean.FindGroupNumAgeBean;
+import synapticloop.sample.h2zero.cockroach.bean.UserUserFindNmUserDtmSignupBean;
+import synapticloop.sample.h2zero.cockroach.bean.UserUserFindGroupNumAgeBean;
 
 import synapticloop.sample.h2zero.cockroach.model.UserUser;
 

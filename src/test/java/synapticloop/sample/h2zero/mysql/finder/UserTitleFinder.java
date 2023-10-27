@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
-import synapticloop.sample.h2zero.mysql.bean.FindIdUserTitleNmUserTitleOrderedBean;
+import synapticloop.sample.h2zero.mysql.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
 
 import synapticloop.sample.h2zero.mysql.model.UserTitle;
 
@@ -41,9 +41,9 @@ public class UserTitleFinder {
 	private static final String SQL_FIND_ALL_ORDERED = SQL_SELECT_START + " order by num_order_by";
 
 	// now for the statement limit cache(s)
-	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findIdUserTitleNmUserTitleOrdered_limit_statement_cache = new LruCache<String, String>(1024);
-	private static LruCache<String, String> findAllOrdered_limit_statement_cache = new LruCache<String, String>(1024);
+	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findIdUserTitleNmUserTitleOrdered_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findAllOrdered_limit_statement_cache = new LruCache<>(1024);
 
 	private UserTitleFinder() {}
 
@@ -71,10 +71,8 @@ public class UserTitleFinder {
 			preparedStatement.setLong(1, idUserTitle);
 			resultSet = preparedStatement.executeQuery();
 			userTitle = uniqueResult(resultSet);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idUserTitle:" + idUserTitle + "].");
+		} catch (H2ZeroFinderException | SQLException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idUserTitle:" + idUserTitle + "].");
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -90,27 +88,21 @@ public class UserTitleFinder {
 	 * 
 	 * @param idUserTitle the primary key
 	 * 
-	 * @return the unique result or throw an exception if one coudn't be found.
+	 * @return the unique result or throw an exception if one couldn't be found.
 	 * 
 	 * @throws H2ZeroFinderException if one couldn't be found
 	 */
 	public static UserTitle findByPrimaryKey(Long idUserTitle) throws H2ZeroFinderException {
-		UserTitle userTitle = null;
-		Connection connection = null;
 
 		if(null == idUserTitle) {
 			throw new H2ZeroFinderException("Could not find result as the primary key field [idUserTitle] was null.");
 		}
 
-		try {
-			connection = ConnectionManager.getConnection();
+		UserTitle userTitle = null;
+		try (Connection connection = ConnectionManager.getConnection()) {
 			userTitle = findByPrimaryKey(connection, idUserTitle);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idUserTitle:" + idUserTitle + "].");
-		} finally {
-			ConnectionManager.closeAll(connection);
+		} catch (SQLException | H2ZeroFinderException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idUserTitle:" + idUserTitle + "].");
 		}
 
 		if(null == userTitle) {
@@ -169,27 +161,27 @@ public class UserTitleFinder {
 	/**
 	 * Find all UserTitle objects with the passed in connection, with limited
 	 * results starting at a particular offset.
-	 * 
+	 * <p>
 	 * If the limit parameter is null, there will be no limit applied.
-	 * 
+	 * <p>
 	 * If the offset is null, then this will be set to 0
-	 * 
+	 * <p>
 	 * If both limit and offset are null, then no limit and no offset will be applied
 	 * to the statement.
-	 * 
+	 * <p>
 	 * The passed in connection object is usable for transactional SQL statements,
 	 * where the connection has already had a transaction started on it.
-	 * 
+	 * <p>
 	 * If the connection object is null an new connection object will be created 
 	 * and closed at the end of the method.
-	 * 
+	 * <p>
 	 * If the connection object is not null, then it will not be closed.
 	 * 
 	 * @param connection - the connection object to use (or null if not part of a transaction)
 	 * @param limit - the limit for the result set
 	 * @param offset - the offset for the start of the results.
 	 * 
-	 * @return a list of all of the UserTitle objects
+	 * @return a list of all the UserTitle objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
@@ -252,18 +244,60 @@ public class UserTitleFinder {
 		return(results);
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters.
+	 * 
+	 * @return The list of UserTitle model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<UserTitle> findAll() throws SQLException {
 		return(findAll(null, null, null));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset
+	 * parameters.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of UserTitle model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<UserTitle> findAll(Connection connection) throws SQLException {
 		return(findAll(connection, null, null));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null connection parameter
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of UserTitle model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<UserTitle> findAll(Integer limit, Integer offset) throws SQLException {
 		return(findAll(null, limit, offset));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * 
+	 * @param connection - the connection to be used
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of UserTitle model objects, or an empty List on error
+	 */
 	public static List<UserTitle> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
@@ -278,20 +312,69 @@ public class UserTitleFinder {
 		}
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of UserTitle model objects, or an empty List on error
+	 */
 	public static List<UserTitle> findAllSilent(Connection connection) {
 		return(findAllSilent(connection, null, null));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of UserTitle model objects, or an empty List on error
+	 */
 	public static List<UserTitle> findAllSilent(Integer limit, Integer offset) {
 		return(findAllSilent(null, limit, offset));
 	}
 
+	/**
+	 * Find all the UserTitle objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @return The list of UserTitle model objects, or an empty List on error
+	 */
 	public static List<UserTitle> findAllSilent() {
 		return(findAllSilent(null, null, null));
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined finders which are generated
+	 * through either the "finders" JSON key, or the "fieldFinders" JSON
+	 * key.
+	 * 
+	 * There are 2 defined finders on the user_title table, of those finders
+	 * the following are the regular finders, either defined through the
+	 * 'finders' or 'fieldFinders' JSON key
+	 * 
+	 * - findAllOrdered - Generated from the 'finders' JSON key
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	/**
-	 * findAllOrdered
+	 * findAllOrdered 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
 	 * 
 	 * @return the list of UserTitle results found
 	 * 
@@ -302,7 +385,7 @@ public class UserTitleFinder {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
-		// first find the statement that we want
+		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
 		if(!findAllOrdered_limit_statement_cache.containsKey(cacheKey)) {
@@ -347,7 +430,7 @@ public class UserTitleFinder {
 		}
 
 
-		if(null == results || results.size() == 0) {
+		if(results.size() == 0) {
 			throw new H2ZeroFinderException("Could not find result.");
 		}
 		return(results);
@@ -365,7 +448,7 @@ public class UserTitleFinder {
 		return(findAllOrdered(null, null, null));
 	}
 
-// silent connection, params..., limit, offset
+	// silent connection, params..., limit, offset
 	public static List<UserTitle> findAllOrderedSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAllOrdered(connection, limit, offset));
@@ -388,14 +471,14 @@ public class UserTitleFinder {
 		}
 	}
 
-// silent connection, params...
+	// silent connection, params...
 	public static List<UserTitle> findAllOrderedSilent(Connection connection) {
 		return(findAllOrderedSilent(connection, null, null));
 	}
 
-// silent params..., limit, offset
+	// silent params..., limit, offset
 	public static List<UserTitle> findAllOrderedSilent(Integer limit, Integer offset) {
-		return(findAllOrderedSilent(null , limit, offset));
+		return(findAllOrderedSilent(null, limit, offset));
 	}
 
 	public static List<UserTitle> findAllOrderedSilent() {
@@ -404,13 +487,14 @@ public class UserTitleFinder {
 
 	/**
 	 * Return a unique result for the query - in effect just the first result of
-	 * query.
+	 * query.  If there is a second result (i.e. the query did not return the 
+	 * expected unique result), then an exception will be thrown.
 	 * 
 	 * @param resultSet The result set of the query
 	 * 
 	 * @return The UserTitle that represents this result
 	 * 
-	 * @throws H2ZeroFinderException if no results were found
+	 * @throws H2ZeroFinderException if no results were found or more than one result was found
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static UserTitle uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
@@ -454,8 +538,25 @@ public class UserTitleFinder {
 		return(arrayList);
 	}
 
-// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined select clause finders which are 
+	 * generated through the "finders" JSON key, with a 'selectClause' 
+	 * key on the finder.
+	 * 
+	 * All selectClause finders return a subset of the data from a row of the 
+	 * database table (or tables if there is a join statement) as a generated
+	 * bean
+	 * 
+	 * There are 2 defined finders on the user_title table, of those finders
+	 * the following are the select clause finders:
+	 * 
+	 * - findIdUserTitleNmUserTitleOrdered
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		if(!hasConnection) {
 			connection = ConnectionManager.getConnection();
@@ -489,10 +590,10 @@ public class UserTitleFinder {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try {
-			preparedStatement = connection.prepareStatement(SQL_FIND_ID_USER_TITLE_NM_USER_TITLE_ORDERED);
+			preparedStatement = connection.prepareStatement(statement);
 
 			resultSet = preparedStatement.executeQuery();
-			List<FindIdUserTitleNmUserTitleOrderedBean> results = listFindIdUserTitleNmUserTitleOrderedBean(resultSet);
+			List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> results = listFindIdUserTitleNmUserTitleOrderedBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
 			throw sqlex;
@@ -506,23 +607,23 @@ public class UserTitleFinder {
 
 	}
 
-// SELECTBEAN - PARAMS..., LIMIT, OFFSET 
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	// SELECTBEAN - PARAMS..., LIMIT, OFFSET 
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		return(findIdUserTitleNmUserTitleOrdered(null, limit, offset));
 	}
 
-// SELECTBEAN - CONNECTION, PARAMS...
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Connection connection) throws H2ZeroFinderException, SQLException {
+	// SELECTBEAN - CONNECTION, PARAMS...
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered(Connection connection) throws H2ZeroFinderException, SQLException {
 		return(findIdUserTitleNmUserTitleOrdered(null, null, null));
 	}
 
-// SELECTBEAN - PARAMS...
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered() throws H2ZeroFinderException, SQLException {
+	// SELECTBEAN - PARAMS...
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrdered() throws H2ZeroFinderException, SQLException {
 		return(findIdUserTitleNmUserTitleOrdered(null, null, null));
 	}
 
-// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Connection connection, Integer limit, Integer offset) {
+	// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findIdUserTitleNmUserTitleOrdered(connection, limit, offset));
 		} catch(H2ZeroFinderException h2zfex) {
@@ -532,7 +633,7 @@ public class UserTitleFinder {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(new ArrayList<FindIdUserTitleNmUserTitleOrderedBean>());
+			return(new ArrayList<UserTitleFindIdUserTitleNmUserTitleOrderedBean>());
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException findIdUserTitleNmUserTitleOrderedSilent(connection: " + connection  + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
@@ -540,39 +641,39 @@ public class UserTitleFinder {
 					sqlex.printStackTrace();
 				}
 			}
-			return(new ArrayList<FindIdUserTitleNmUserTitleOrderedBean>());
+			return(new ArrayList<UserTitleFindIdUserTitleNmUserTitleOrderedBean>());
 		}
 	}
 
 // CONNECTION, PARAMS...
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Connection connection) {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Connection connection) {
 		return(findIdUserTitleNmUserTitleOrderedSilent(connection, null, null));
 	}
 
 // PARAMS..., LIMIT, OFFSET
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Integer limit, Integer offset) {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent(Integer limit, Integer offset) {
 		return(findIdUserTitleNmUserTitleOrderedSilent(null, limit, offset));
 	}
 
 // PARAMS...
-	public static List<FindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent() {
+	public static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> findIdUserTitleNmUserTitleOrderedSilent() {
 		return(findIdUserTitleNmUserTitleOrderedSilent(null, null, null));
 	}
 
 	/**
-	 * Return the results as a list of FindIdUserTitleNmUserTitleOrderedBeans, this will be empty if
+	 * Return the results as a list of UserTitleFindIdUserTitleNmUserTitleOrderedBeans, this will be empty if
 	 * none are found.
 	 * 
-	 * @param resultSet the results as a list of FindIdUserTitleNmUserTitleOrderedBean
+	 * @param resultSet the results as a list of UserTitleFindIdUserTitleNmUserTitleOrderedBean
 	 * 
 	 * @return the list of results
 	 * 
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
-	private static List<FindIdUserTitleNmUserTitleOrderedBean> listFindIdUserTitleNmUserTitleOrderedBean(ResultSet resultSet) throws SQLException {
-		List<FindIdUserTitleNmUserTitleOrderedBean> arrayList = new ArrayList<FindIdUserTitleNmUserTitleOrderedBean>();
+	private static List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> listFindIdUserTitleNmUserTitleOrderedBean(ResultSet resultSet) throws SQLException {
+		List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> arrayList = new ArrayList<UserTitleFindIdUserTitleNmUserTitleOrderedBean>();
 		while(resultSet.next()) {
-			arrayList.add(new FindIdUserTitleNmUserTitleOrderedBean(
+			arrayList.add(new UserTitleFindIdUserTitleNmUserTitleOrderedBean(
 					resultSet.getLong(1),
 					resultSet.getString(2)));
 		}

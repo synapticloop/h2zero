@@ -117,10 +117,7 @@ public class AllTypesInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
 			ConnectionManager.setBigint(preparedStatement, 2, testBigint);
 			ConnectionManager.setBlob(preparedStatement, 3, testBlob);
@@ -150,13 +147,8 @@ public class AllTypesInserter {
 			ConnectionManager.setTinytext(preparedStatement, 27, testTinytext);
 			ConnectionManager.setVarchar(preparedStatement, 28, testVarchar);
 			ConnectionManager.setYear(preparedStatement, 29, testYear);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -172,10 +164,7 @@ public class AllTypesInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idAllTypes) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
 			ConnectionManager.setBigint(preparedStatement, 2, null);
 			Blob testBlobBlob = null;
@@ -213,13 +202,8 @@ public class AllTypesInserter {
 			ConnectionManager.setTinytext(preparedStatement, 27, testTinytextString);
 			ConnectionManager.setVarchar(preparedStatement, 28, null);
 			ConnectionManager.setYear(preparedStatement, 29, null);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -261,17 +245,9 @@ public class AllTypesInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -285,17 +261,9 @@ public class AllTypesInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAllTypes) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idAllTypes);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idAllTypes));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -339,16 +307,15 @@ public class AllTypesInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear);
+			return(insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -366,16 +333,15 @@ public class AllTypesInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idAllTypes) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idAllTypes);
+			return(insert(connection, idAllTypes));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -417,20 +383,15 @@ public class AllTypesInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear);
+		try (Connection connection = ConnectionManager.getConnection()){
+			return(insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -439,27 +400,22 @@ public class AllTypesInserter {
 	 * by the method, the exception message will be logged as an 'error', if 'trace' logging
 	 * is enabled, the stack trace will be printed to the output stream.
 	 * 
-	 * This is for non-nullabel fields only
+	 * This is for non-nullable fields only
 	 * 
 	 * @param idAllTypes  maps to id_all_types
 	 * 
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAllTypes) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idAllTypes);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idAllTypes));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	public static int insert(Connection connection, Long idAllTypes, Long testBigint, InputStream testBlob, Boolean testBool, String testChar, Boolean testBoolean, InputStream testBinary, InputStream testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, InputStream testLongtext, InputStream testMediumblob, Integer testMediumint, InputStream testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, InputStream testText, Timestamp testTimestamp, Boolean testTinyint, InputStream testTinytext, String testVarchar, Integer testYear) throws SQLException {

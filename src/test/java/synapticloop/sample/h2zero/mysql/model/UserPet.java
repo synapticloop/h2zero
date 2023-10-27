@@ -12,6 +12,7 @@ import synapticloop.sample.h2zero.mysql.question.PetQuestion;
 import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.model.mysql.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.math.BigDecimal;
@@ -30,14 +31,18 @@ import synapticloop.sample.h2zero.mysql.finder.UserFinder;
 import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 
 
-public class UserPet extends ModelBase {
+/**
+ * This is the model for the UserPet which maps to the user_pet database table
+ * and contains the default CRUD methods.
+ */
+ public class UserPet extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_PET_BINDER;
 
-	public static final String PRIMARY_KEY_FIELD = "id_user_pet";
+	public static final String PRIMARY_KEY_FIELD = "id_user_pet";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = "insert into user_pet (id_user, id_pet) values (?, ?)";
 	private static final String SQL_UPDATE = "update user_pet set id_user = ?, id_pet = ? where " + PRIMARY_KEY_FIELD + " = ?";
@@ -57,12 +62,12 @@ public class UserPet extends ModelBase {
 	// the number of read-hits for a particular field
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0 };
 
-	private User User = null;
-	private Pet Pet = null;
+	private User User = null; // maps to the id_user field
+	private Pet Pet = null; // maps to the id_pet field
 
-	private Long idUserPet = null;
-	private Long idUser = null;
-	private Long idPet = null;
+	private Long idUserPet = null; // maps to the id_user_pet field
+	private Long idUser = null; // maps to the id_user field
+	private Long idPet = null; // maps to the id_pet field
 
 	public UserPet(Long idUserPet, Long idUser, Long idPet) {
 		this.idUserPet = idUserPet;
@@ -81,33 +86,45 @@ public class UserPet extends ModelBase {
 		if(primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot insert user_pet model when primary key is not null.");
 		}
-		// create this bean 
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setBigint(preparedStatement, 1, idUser);
-		ConnectionManager.setBigint(preparedStatement, 2, idPet);
-		preparedStatement.executeUpdate();
-		ResultSet resultSet = preparedStatement.getGeneratedKeys();
-		if(resultSet.next()) {
-			this.idUserPet = resultSet.getLong(1);
-		} else {
-			throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// create this bean 
+			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+			ConnectionManager.setBigint(preparedStatement, 1, idUser);
+			ConnectionManager.setBigint(preparedStatement, 2, idPet);
+			preparedStatement.executeUpdate();
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				this.idUserPet = resultSet.getLong(1);
+			} else {
+				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
 	}
 
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);
-		ConnectionManager.setBigint(preparedStatement, 1, idUser);
-		ConnectionManager.setBigint(preparedStatement, 2, idPet);
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if(resultSet.next()) {
-			this.idUserPet = resultSet.getLong(1);
-		} else {
-			// could not find the value - need to insert it - null is the primary key
-			insert(connection);
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_ENSURE);
+			ConnectionManager.setBigint(preparedStatement, 1, idUser);
+			ConnectionManager.setBigint(preparedStatement, 2, idPet);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				this.idUserPet = resultSet.getLong(1);
+			} else {
+				// could not find the value - need to insert it - null is the primary key
+				insert(connection);
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
 	}
 
 	@Override
@@ -115,36 +132,42 @@ public class UserPet extends ModelBase {
 		if(!primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
 		}
+
 		if(isDirty) {
-			// update this bean, but only if dirty
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
-			ConnectionManager.setBigint(preparedStatement, 1, idUser);
-			ConnectionManager.setBigint(preparedStatement, 2, idPet);
-			// now set the primary key
-			preparedStatement.setLong(3, idUserPet);
-			preparedStatement.executeUpdate();
-			ConnectionManager.closeAll(preparedStatement);
-			isDirty = false;
+			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+				// update this bean, but only if dirty
+				ConnectionManager.setBigint(preparedStatement, 1, idUser);
+				ConnectionManager.setBigint(preparedStatement, 2, idPet);
+				// now set the primary key
+				preparedStatement.setLong(3, idUserPet);
+				preparedStatement.executeUpdate();
+			} finally {
+				isDirty = false;
+			}
 		}
 	}
 
 	@Override
-	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{
+	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(!primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");
 		}
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
-		preparedStatement.setLong(1, idUserPet);
-		preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.setLong(1, idUserPet);
+			preparedStatement.executeUpdate();
+		}
 	}
 
 	@Override
-	public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {
+	public void refresh(Connection connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException {
 		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");
+			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'UserPet' when primary key is null.");
 		}
+
 		UserPet userPet = UserPetFinder.findByPrimaryKeySilent(connection, this.idUserPet);
+		if(null == userPet) {
+			throw new H2ZeroFinderException("Could not find the model 'UserPet' with primaryKey of " + getPrimaryKey());
+		}
 		this.idUserPet = userPet.getIdUserPet();
 		this.idUser = userPet.getIdUser();
 		this.idPet = userPet.getIdPet();
@@ -176,6 +199,9 @@ public class UserPet extends ModelBase {
 
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { updateHitCount(1); return(this.idUserPet); }
@@ -206,10 +232,12 @@ public class UserPet extends ModelBase {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[UserPet]\n");
-		stringBuilder.append("  Field[idUserPet:" + this.idUserPet + "]\n");
-		stringBuilder.append("  Field[idUser:" + this.idUser + "]\n");
-		stringBuilder.append("  Field[idPet:" + this.idPet + "]\n");
+		stringBuilder
+			.append("Model: 'UserPet'\n")
+			.append("  Field: 'idUserPet:").append(this.idUserPet).append("'\n")
+			.append("  Field: 'idUser:").append(this.idUser).append("'\n")
+			.append("  Field: 'idPet:").append(this.idPet).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -219,11 +247,16 @@ public class UserPet extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "UserPet");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "UserPet");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserPet", this.getIdUserPet());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUser", this.getIdUser());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserPet", this.getIdUserPet());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUser", this.getIdUser());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idPet", this.getIdPet());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

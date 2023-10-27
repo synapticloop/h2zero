@@ -71,23 +71,15 @@ public class PetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idPet);
 			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
 			ConnectionManager.setInt(preparedStatement, 3, numAge);
 			ConnectionManager.setFloat(preparedStatement, 4, fltWeight);
 			ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
 			ConnectionManager.setBlob(preparedStatement, 6, imgPhoto);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -105,10 +97,7 @@ public class PetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idPet);
 			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
 			ConnectionManager.setInt(preparedStatement, 3, numAge);
@@ -116,13 +105,8 @@ public class PetInserter {
 			ConnectionManager.setDate(preparedStatement, 5, null);
 			Blob imgPhotoBlob = null;
 			ConnectionManager.setBlob(preparedStatement, 6, imgPhotoBlob);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -141,17 +125,9 @@ public class PetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -167,17 +143,9 @@ public class PetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idPet, String nmPet, Integer numAge) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idPet, nmPet, numAge);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idPet, nmPet, numAge));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -198,16 +166,15 @@ public class PetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
+			return(insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -227,16 +194,15 @@ public class PetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idPet, String nmPet, Integer numAge) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idPet, nmPet, numAge);
+			return(insert(connection, idPet, nmPet, numAge));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -255,20 +221,15 @@ public class PetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
+		try (Connection connection = ConnectionManager.getConnection()){
+			return(insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -277,7 +238,7 @@ public class PetInserter {
 	 * by the method, the exception message will be logged as an 'error', if 'trace' logging
 	 * is enabled, the stack trace will be printed to the output stream.
 	 * 
-	 * This is for non-nullabel fields only
+	 * This is for non-nullable fields only
 	 * 
 	 * @param idPet  maps to id_pet
 	 * @param nmPet  maps to nm_pet
@@ -286,20 +247,15 @@ public class PetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idPet, String nmPet, Integer numAge) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idPet, nmPet, numAge);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idPet, nmPet, numAge));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, InputStream imgPhoto) throws SQLException {

@@ -3,12 +3,8 @@ buildscript {
 		mavenCentral()
 		jcenter()
 		mavenLocal()
-		maven {
-			url "https://plugins.gradle.org/"
-		}
-		maven {
-			url "https://jitpack.io/"
-		}
+		maven { url "https://plugins.gradle.org/" }
+		maven { url "https://jitpack.io/" }
 	}
 
 	dependencies {
@@ -26,7 +22,7 @@ apply plugin: 'synapticloop.h2zero'
 repositories {
 	mavenLocal()
 	mavenCentral()
-	jcenter()
+	maven { url "https://jitpack.io/" }
 }
 
 h2zero {

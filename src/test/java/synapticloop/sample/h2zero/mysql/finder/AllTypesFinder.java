@@ -42,7 +42,7 @@ public class AllTypesFinder {
 
 
 	// now for the statement limit cache(s)
-	private static LruCache<String, String> findAll_limit_statement_cache = new LruCache<String, String>(1024);
+	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
 
 	private AllTypesFinder() {}
 
@@ -70,10 +70,8 @@ public class AllTypesFinder {
 			preparedStatement.setLong(1, idAllTypes);
 			resultSet = preparedStatement.executeQuery();
 			allTypes = uniqueResult(resultSet);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idAllTypes:" + idAllTypes + "].");
+		} catch (H2ZeroFinderException | SQLException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idAllTypes:" + idAllTypes + "].");
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -89,27 +87,21 @@ public class AllTypesFinder {
 	 * 
 	 * @param idAllTypes the primary key
 	 * 
-	 * @return the unique result or throw an exception if one coudn't be found.
+	 * @return the unique result or throw an exception if one couldn't be found.
 	 * 
 	 * @throws H2ZeroFinderException if one couldn't be found
 	 */
 	public static AllTypes findByPrimaryKey(Long idAllTypes) throws H2ZeroFinderException {
-		AllTypes allTypes = null;
-		Connection connection = null;
 
 		if(null == idAllTypes) {
 			throw new H2ZeroFinderException("Could not find result as the primary key field [idAllTypes] was null.");
 		}
 
-		try {
-			connection = ConnectionManager.getConnection();
+		AllTypes allTypes = null;
+		try (Connection connection = ConnectionManager.getConnection()) {
 			allTypes = findByPrimaryKey(connection, idAllTypes);
-		} catch (SQLException sqlex) {
-			throw new H2ZeroFinderException(sqlex);
-		} catch (H2ZeroFinderException h2zfex) {
-			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were [idAllTypes:" + idAllTypes + "].");
-		} finally {
-			ConnectionManager.closeAll(connection);
+		} catch (SQLException | H2ZeroFinderException ex) {
+			throw new H2ZeroFinderException(ex.getMessage() + "  Additionally, the parameters were [idAllTypes:" + idAllTypes + "].");
 		}
 
 		if(null == allTypes) {
@@ -168,27 +160,27 @@ public class AllTypesFinder {
 	/**
 	 * Find all UserTitle objects with the passed in connection, with limited
 	 * results starting at a particular offset.
-	 * 
+	 * <p>
 	 * If the limit parameter is null, there will be no limit applied.
-	 * 
+	 * <p>
 	 * If the offset is null, then this will be set to 0
-	 * 
+	 * <p>
 	 * If both limit and offset are null, then no limit and no offset will be applied
 	 * to the statement.
-	 * 
+	 * <p>
 	 * The passed in connection object is usable for transactional SQL statements,
 	 * where the connection has already had a transaction started on it.
-	 * 
+	 * <p>
 	 * If the connection object is null an new connection object will be created 
 	 * and closed at the end of the method.
-	 * 
+	 * <p>
 	 * If the connection object is not null, then it will not be closed.
 	 * 
 	 * @param connection - the connection object to use (or null if not part of a transaction)
 	 * @param limit - the limit for the result set
 	 * @param offset - the offset for the start of the results.
 	 * 
-	 * @return a list of all of the UserTitle objects
+	 * @return a list of all the AllTypes objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
@@ -251,18 +243,60 @@ public class AllTypesFinder {
 		return(results);
 	}
 
+	/**
+	 * Find all the AllTypes objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters.
+	 * 
+	 * @return The list of AllTypes model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<AllTypes> findAll() throws SQLException {
 		return(findAll(null, null, null));
 	}
 
+	/**
+	 * Find all the AllTypes objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset
+	 * parameters.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of AllTypes model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<AllTypes> findAll(Connection connection) throws SQLException {
 		return(findAll(connection, null, null));
 	}
 
+	/**
+	 * Find all the AllTypes objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null connection parameter
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of AllTypes model objects
+	 * 
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
 	public static List<AllTypes> findAll(Integer limit, Integer offset) throws SQLException {
 		return(findAll(null, limit, offset));
 	}
 
+	/**
+	 * Find all the AllTypes objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * 
+	 * @param connection - the connection to be used
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of AllTypes model objects, or an empty List on error
+	 */
 	public static List<AllTypes> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
@@ -277,27 +311,67 @@ public class AllTypesFinder {
 		}
 	}
 
+	/**
+	 * Find all the AllTypes objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param connection - the connection to be used
+	 * 
+	 * @return The list of AllTypes model objects, or an empty List on error
+	 */
 	public static List<AllTypes> findAllSilent(Connection connection) {
 		return(findAllSilent(connection, null, null));
 	}
 
+	/**
+	 * Find all the AllTypes objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null limit and offset parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @param limit - the limit for the number of results to return
+	 * @param offset - the offset from the start of the results
+	 * 
+	 * @return The list of AllTypes model objects, or an empty List on error
+	 */
 	public static List<AllTypes> findAllSilent(Integer limit, Integer offset) {
 		return(findAllSilent(null, limit, offset));
 	}
 
+	/**
+	 * Find all the AllTypes objects - in effect this chains 
+	 * to the findAll(connection, limit, offset) with null parameters,
+	 * however this method swallows any exceptions and will return an empty list.
+	 * 
+	 * @return The list of AllTypes model objects, or an empty List on error
+	 */
 	public static List<AllTypes> findAllSilent() {
 		return(findAllSilent(null, null, null));
 	}
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined finders which are generated
+	 * through either the "finders" JSON key, or the "fieldFinders" JSON
+	 * key.
+	 * 
+	 * There are 0 defined finders on the all_types table, of those finders
+	 * the following are the regular finders, either defined through the
+	 * 'finders' or 'fieldFinders' JSON key
+	 * 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 	/**
 	 * Return a unique result for the query - in effect just the first result of
-	 * query.
+	 * query.  If there is a second result (i.e. the query did not return the 
+	 * expected unique result), then an exception will be thrown.
 	 * 
 	 * @param resultSet The result set of the query
 	 * 
 	 * @return The AllTypes that represents this result
 	 * 
-	 * @throws H2ZeroFinderException if no results were found
+	 * @throws H2ZeroFinderException if no results were found or more than one result was found
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
 	private static AllTypes uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
@@ -392,5 +466,21 @@ public class AllTypesFinder {
 		}
 		return(arrayList);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined select clause finders which are 
+	 * generated through the "finders" JSON key, with a 'selectClause' 
+	 * key on the finder.
+	 * 
+	 * All selectClause finders return a subset of the data from a row of the 
+	 * database table (or tables if there is a join statement) as a generated
+	 * bean
+	 * 
+	 * There are 0 defined finders on the all_types table, of those finders
+	 * the following are the select clause finders:
+	 * 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 }

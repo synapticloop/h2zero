@@ -7,6 +7,8 @@ package synapticloop.sample.h2zero.cockroach.view;
 
 import synapticloop.h2zero.base.view.ViewBase;
 import synapticloop.sample.h2zero.cockroach.model.util.Constants;
+import org.json.JSONObject;
+import synapticloop.h2zero.base.model.ModelBaseHelper;
 
 
 public class UserUserType extends ViewBase {
@@ -36,25 +38,34 @@ public class UserUserType extends ViewBase {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[UserUserType]\n");
-		stringBuilder.append("  Field[nmUsername:" + this.nmUsername + "]\n");
-		stringBuilder.append("  Field[nmUserType:" + this.nmUserType + "]\n");
-		return(stringBuilder.toString());
+		return(new StringBuilder()
+			.append("Model: 'UserUserType'\n")
+			.append("  Field: 'nmUsername:").append(this.nmUsername).append("'\n")
+			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
+			.toString());
 	}
 
 	public String toJsonString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
-		stringBuilder.append("  \"model\": {\n");
-		stringBuilder.append("    \"name\": \"UserUserType\",\n");
-		stringBuilder.append("    \"fields\": [\n");
-		stringBuilder.append("     { \"name\": \"nmUsername\", \"value\": \"" + this.nmUsername + "\" }, \n");
-		stringBuilder.append("     { \"name\": \"nmUserType\", \"value\": \"" + this.nmUserType + "\" }\n");
-		stringBuilder.append("    ]\n");
-		stringBuilder.append("  }\n");
-		stringBuilder.append("}\n");
-		return(stringBuilder.toString());
+		return(toJSON().toString());
+	}
+
+	public JSONObject getToJSON() {
+		return(toJSON());
+	}
+
+	public JSONObject toJSON() {
+		JSONObject jsonObject = new JSONObject();
+
+		jsonObject.put("type", "view");
+		jsonObject.put("name", "UserUserType");
+		JSONObject fieldsObject = new JSONObject();
+
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
+
+		jsonObject.put("fields", fieldsObject);
+
+		return(jsonObject);
 	}
 
 	public String getJsonString() {

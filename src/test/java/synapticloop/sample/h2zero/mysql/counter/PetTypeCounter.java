@@ -51,13 +51,12 @@ public class PetTypeCounter {
 	public static int countAll(Connection connection) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		int count = -1;
 
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_COUNT_ALL);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				count = resultSet.getInt(1);
+				return(resultSet.getInt(1));
 			}
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
@@ -71,7 +70,7 @@ public class PetTypeCounter {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 
-		return(count);
+		return(-1);
 	}
 
 	/**
@@ -82,10 +81,8 @@ public class PetTypeCounter {
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
 	public static int countAll() throws SQLException {
-		Connection connection = null;
 
-		try {
-			connection = ConnectionManager.getConnection();
+		try (Connection connection = ConnectionManager.getConnection()) {
 			return(countAll(connection));
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
@@ -95,8 +92,6 @@ public class PetTypeCounter {
 				}
 			}
 			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
 	}
 

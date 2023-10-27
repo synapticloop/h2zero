@@ -33,58 +33,63 @@ public class PetDeleter {
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_pet = ?";
 
 
+	// We don't allow instantiation
 	private PetDeleter() {}
+
+ 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ 	 * 
+ 	 * The following deleters are built in by h2zero and are always generated 
+ 	 * 
+ 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * Delete a row in the PET table by its primary key
 	 * 
-	 * @param connection The connection
+	 * @param connection The connection to use - the caller must close this connection
 	 * @param idPet the primary key to delete
+	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the delete
 	 */
 	public static int deleteByPrimaryKey(Connection connection, Long idPet) throws SQLException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {
 		preparedStatement.setLong(1, idPet);
-		int numResults = preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
-		return(numResults);
+			return(preparedStatement.executeUpdate());
+		}
 	}
 
 	/**
 	 * Delete a row in the PET table by its primary key
 	 * 
 	 * @param idPet the primary key to delete
+	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the delete
 	 */
 	public static int deleteByPrimaryKey(Long idPet) throws SQLException {
-		Connection connection = ConnectionManager.getConnection();
-		int numResults = deleteByPrimaryKey(connection, idPet);
-		ConnectionManager.closeAll(connection);
-		return(numResults);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByPrimaryKey(connection, idPet));
+		}
 	}
 
 	/**
 	 * Delete a row in the PET table by its primary key silently
-	 * (i.e. don't throw an exception if it coudn't be deleted).
+	 * (i.e. don't throw an exception if it couldn't be deleted).
 	 * 
+	 * @param connection - the connection to use - the caller must close this connection
 	 * @param idPet the primary key to delete
-	 * @return the number of rows deleted
 	 * 
-	 * @throws SQLException if there was an error in the delete
+	 * @return the number of rows deleted
 	 */
 	public static int deleteByPrimaryKeySilent(Connection connection, Long idPet) {
-		int numResults = 0;
 		try {
-			numResults = deleteByPrimaryKey(connection, idPet);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occured.", sqlex);
+			return(deleteByPrimaryKey(connection, idPet));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
 			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -92,23 +97,16 @@ public class PetDeleter {
 	 * (i.e. don't throw an exception if it coudn't be deleted).
 	 * 
 	 * @param idPet the primary key to delete
-	 * @return the number of rows deleted
 	 * 
-	 * @throws SQLException if there was an error in the delete
+	 * @return the number of rows deleted or -1 if there was an error
 	 */
 	public static int deleteByPrimaryKeySilent(Long idPet) {
-		int numResults = 0;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = deleteByPrimaryKeySilent(connection, idPet);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occured.", sqlex);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByPrimaryKeySilent(connection, idPet));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
 			return(-1);
-		} finally {
-			ConnectionManager.closeAll(connection);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -116,57 +114,73 @@ public class PetDeleter {
 	 * 
 	 * This table has no foreign key relationships and consequently can be truncated.
 	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * 
 	 * @return The number of rows affected by this statement
 	 */
 	public static int deleteAll(Connection connection) throws SQLException {
-		PreparedStatement preparedStatement = null;
-		int numResults = -1;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);
-			ConnectionManager.closeAll(preparedStatement);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL)) {
+			return(preparedStatement.executeUpdate());
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
+			return(-1);
 		}
-		return(numResults);
 	}
 
+	/**
+	 * Delete all the rows in the PET table
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the delete
+	 */
 	public static int deleteAll() throws SQLException {
-		Connection connection = null;
-		int numResults = -1;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = deleteAll(connection);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteAll(connection));
 		}
-		return(numResults);
 	}
 
+	/**
+	 * Delete all the rows in the PET table silently - i.e
+	 * swallow any SQL exceptions
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
 	public static int deleteAllSilent(Connection connection) {
-		int numResults = -1;
 		try {
-			numResults = deleteAll(connection);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);
+			return(deleteAll(connection));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
+			return(-1);
 		}
-		return(numResults);
 	}
 
+	/**
+	 * Delete all the rows in the PET table silently - i.e
+	 * swallow any SQL exceptions
+	 * 
+	 * @return the number of rows deleted, or -1 if there was an error
+	 */
 	public static int deleteAllSilent() {
-		Connection connection = null;
-		int numResults = -1;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = deleteAll(connection);
-		} catch (SQLException sqlex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occured.", sqlex);
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteAll(connection));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
+			return(-1);
 		}
-		return(numResults);
 	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined deleters which are generated
+	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
+	 * key.
+	 * 
+	 * There are 0 defined deleters on the pet table:
+	 * 
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 }

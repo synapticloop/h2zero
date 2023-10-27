@@ -15,7 +15,11 @@ import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.postgresql.model.util.Constants;
 
 
-public class UserType  {
+/**
+ * This is the model for the UserType which maps to the user_type database table.
+ * This is a constant table which cannot be changed
+ */
+ public class UserType  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -26,6 +30,10 @@ public class UserType  {
 	public static final UserType SPECIAL = new UserType(Long.valueOf(2), "special");
 	public static final UserType ADMIN = new UserType(Long.valueOf(3), "admin");
 	public static final UserType SUPER_ADMIN = new UserType(Long.valueOf(4), "super admin");
+ 	public static final Long NORMAL_PRIMARY_KEY_VALUE = Long.valueOf(1);
+ 	public static final Long SPECIAL_PRIMARY_KEY_VALUE = Long.valueOf(2);
+ 	public static final Long ADMIN_PRIMARY_KEY_VALUE = Long.valueOf(3);
+ 	public static final Long SUPER_ADMIN_PRIMARY_KEY_VALUE = Long.valueOf(4);
 
 	public static final UserType[] ALL =  {
 		UserType.NORMAL, UserType.SPECIAL, UserType.ADMIN, UserType.SUPER_ADMIN
@@ -40,12 +48,12 @@ public class UserType  {
 
 	};
 
-	public static final String PRIMARY_KEY_FIELD = "id_user_type";
+	public static final String PRIMARY_KEY_FIELD = "id_user_type";  // the primary key - a convenience field
 
 
 
-	private Long idUserType = null;
-	private String nmUserType = null;
+	private Long idUserType = null; // maps to the id_user_type field
+	private String nmUserType = null; // maps to the nm_user_type field
 
 	public UserType(Long idUserType, String nmUserType) {
 		this.idUserType = idUserType;
@@ -53,6 +61,9 @@ public class UserType  {
 	}
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { return(this.idUserType); }
@@ -62,9 +73,11 @@ public class UserType  {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[UserType]\n");
-		stringBuilder.append("  Field[idUserType:" + this.idUserType + "]\n");
-		stringBuilder.append("  Field[nmUserType:" + this.nmUserType + "]\n");
+		stringBuilder
+			.append("Model: 'UserType'\n")
+			.append("  Field: 'idUserType:").append(this.idUserType).append("'\n")
+			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -74,10 +87,15 @@ public class UserType  {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "UserType");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "UserType");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idUserType", this.getIdUserType());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "nmUserType", this.getNmUserType());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserType", this.getIdUserType());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

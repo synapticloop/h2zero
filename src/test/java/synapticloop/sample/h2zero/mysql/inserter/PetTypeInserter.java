@@ -62,20 +62,12 @@ public class PetTypeInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Connection connection, Long idPetType, String nmPetType, String txtDescPetType) throws SQLException {
-		int numResults = -1;
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idPetType);
 			ConnectionManager.setVarchar(preparedStatement, 2, nmPetType);
 			ConnectionManager.setVarchar(preparedStatement, 3, txtDescPetType);
-			numResults = preparedStatement.executeUpdate();
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			return(preparedStatement.executeUpdate());
 		}
-		return(numResults);
 	}
 
 	/**
@@ -91,17 +83,9 @@ public class PetTypeInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idPetType, String nmPetType, String txtDescPetType) throws SQLException {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idPetType, nmPetType, txtDescPetType);
-		} catch (SQLException sqlex) {
-			throw sqlex;
-		} finally {
-			ConnectionManager.closeAll(connection);
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(insert(connection, idPetType, nmPetType, txtDescPetType));
 		}
-		return(numResults);
 	}
 
 	/**
@@ -119,16 +103,15 @@ public class PetTypeInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Connection connection, Long idPetType, String nmPetType, String txtDescPetType) {
-		int numResults = -1;
 		try {
-			numResults = insert(connection, idPetType, nmPetType, txtDescPetType);
+			return(insert(connection, idPetType, nmPetType, txtDescPetType));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
+			return(-1);
 		}
-		return(numResults);
 	}
 
 	/**
@@ -144,20 +127,15 @@ public class PetTypeInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idPetType, String nmPetType, String txtDescPetType) {
-		int numResults = -1;
-		Connection connection = null;
-		try {
-			connection = ConnectionManager.getConnection();
-			numResults = insert(connection, idPetType, nmPetType, txtDescPetType);
+		try (Connection connection = ConnectionManager.getConnection()){
+			return(insert(connection, idPetType, nmPetType, txtDescPetType));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
 			if(LOGGER.isTraceEnabled()){
 				sqlex.printStackTrace();
 			}
-		} finally {
-			ConnectionManager.closeAll(connection);
+			return(-1);
 		}
-		return(numResults);
 	}
 
 }

@@ -9,6 +9,7 @@ import synapticloop.h2zero.base.validator.bean.ValidationBean;
 import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.model.cockroach.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.math.BigDecimal;
@@ -25,14 +26,18 @@ import synapticloop.sample.h2zero.cockroach.model.util.Constants;
 import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 
 
-public class AllTypes extends ModelBase {
+/**
+ * This is the model for the AllTypes which maps to the all_types database table
+ * and contains the default CRUD methods.
+ */
+ public class AllTypes extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
-	public static final String PRIMARY_KEY_FIELD = "id_all_types";
+	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = "insert into all_types (num_smallint, num_integer, num_bigint, num_decimal, num_numeric, flt_real, dbl_real, num_serial, num_smallserial, num_bigserial) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "update all_types set num_smallint = ?, num_integer = ?, num_bigint = ?, num_decimal = ?, num_numeric = ?, flt_real = ?, dbl_real = ?, num_serial = ?, num_smallserial = ?, num_bigserial = ? where " + PRIMARY_KEY_FIELD + " = ?";
@@ -61,17 +66,17 @@ public class AllTypes extends ModelBase {
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
-	private Long idAllTypes = null;
-	private Short numSmallint = null;
-	private Integer numInteger = null;
-	private Long numBigint = null;
-	private BigDecimal numDecimal = null;
-	private BigDecimal numNumeric = null;
-	private Double fltReal = null;
-	private Double dblReal = null;
-	private Integer numSerial = null;
-	private Short numSmallserial = null;
-	private Long numBigserial = null;
+	private Long idAllTypes = null; // maps to the id_all_types field
+	private Short numSmallint = null; // maps to the num_smallint field
+	private Integer numInteger = null; // maps to the num_integer field
+	private Long numBigint = null; // maps to the num_bigint field
+	private BigDecimal numDecimal = null; // maps to the num_decimal field
+	private BigDecimal numNumeric = null; // maps to the num_numeric field
+	private Double fltReal = null; // maps to the flt_real field
+	private Double dblReal = null; // maps to the dbl_real field
+	private Integer numSerial = null; // maps to the num_serial field
+	private Short numSmallserial = null; // maps to the num_smallserial field
+	private Long numBigserial = null; // maps to the num_bigserial field
 
 	public AllTypes(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		this.idAllTypes = idAllTypes;
@@ -112,59 +117,12 @@ public class AllTypes extends ModelBase {
 		if(primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot insert all_types model when primary key is not null.");
 		}
-		// create this bean 
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
-		ConnectionManager.setInteger(preparedStatement, 2, numInteger);
-		ConnectionManager.setBigint(preparedStatement, 3, numBigint);
-		ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
-		ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
-		ConnectionManager.setReal(preparedStatement, 6, fltReal);
-		ConnectionManager.setDouble(preparedStatement, 7, dblReal);
-		ConnectionManager.setSerial(preparedStatement, 8, numSerial);
-		ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
-		ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
-		preparedStatement.executeUpdate();
-		ResultSet resultSet = preparedStatement.getGeneratedKeys();
-		if(resultSet.next()) {
-			this.idAllTypes = resultSet.getLong(1);
-		} else {
-			throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
-		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
-	}
 
-	@Override
-	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);
-		ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
-		ConnectionManager.setInteger(preparedStatement, 2, numInteger);
-		ConnectionManager.setBigint(preparedStatement, 3, numBigint);
-		ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
-		ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
-		ConnectionManager.setReal(preparedStatement, 6, fltReal);
-		ConnectionManager.setDouble(preparedStatement, 7, dblReal);
-		ConnectionManager.setSerial(preparedStatement, 8, numSerial);
-		ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
-		ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if(resultSet.next()) {
-			this.idAllTypes = resultSet.getLong(1);
-		} else {
-			// could not find the value - need to insert it - null is the primary key
-			insert(connection);
-		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
-	}
-
-	@Override
-	public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
-		}
-		if(isDirty) {
-			// update this bean, but only if dirty
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// create this bean 
+			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 			ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
 			ConnectionManager.setInteger(preparedStatement, 2, numInteger);
 			ConnectionManager.setBigint(preparedStatement, 3, numBigint);
@@ -175,31 +133,96 @@ public class AllTypes extends ModelBase {
 			ConnectionManager.setSerial(preparedStatement, 8, numSerial);
 			ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
 			ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
-			// now set the primary key
-			preparedStatement.setLong(11, idAllTypes);
 			preparedStatement.executeUpdate();
-			ConnectionManager.closeAll(preparedStatement);
-			isDirty = false;
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				this.idAllTypes = resultSet.getLong(1);
+			} else {
+				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
 	@Override
-	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{
+	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_ENSURE);
+			ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
+			ConnectionManager.setInteger(preparedStatement, 2, numInteger);
+			ConnectionManager.setBigint(preparedStatement, 3, numBigint);
+			ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
+			ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
+			ConnectionManager.setReal(preparedStatement, 6, fltReal);
+			ConnectionManager.setDouble(preparedStatement, 7, dblReal);
+			ConnectionManager.setSerial(preparedStatement, 8, numSerial);
+			ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
+			ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				this.idAllTypes = resultSet.getLong(1);
+			} else {
+				// could not find the value - need to insert it - null is the primary key
+				insert(connection);
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+	}
+
+	@Override
+	public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+		if(!primaryKeySet()) {
+			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
+		}
+
+		if(isDirty) {
+			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+				// update this bean, but only if dirty
+				ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
+				ConnectionManager.setInteger(preparedStatement, 2, numInteger);
+				ConnectionManager.setBigint(preparedStatement, 3, numBigint);
+				ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
+				ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
+				ConnectionManager.setReal(preparedStatement, 6, fltReal);
+				ConnectionManager.setDouble(preparedStatement, 7, dblReal);
+				ConnectionManager.setSerial(preparedStatement, 8, numSerial);
+				ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
+				ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
+				// now set the primary key
+				preparedStatement.setLong(11, idAllTypes);
+				preparedStatement.executeUpdate();
+			} finally {
+				isDirty = false;
+			}
+		}
+	}
+
+	@Override
+	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(!primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");
 		}
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
-		preparedStatement.setLong(1, idAllTypes);
-		preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.setLong(1, idAllTypes);
+			preparedStatement.executeUpdate();
+		}
 	}
 
 	@Override
-	public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {
+	public void refresh(Connection connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException {
 		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");
+			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'AllTypes' when primary key is null.");
 		}
+
 		AllTypes allTypes = AllTypesFinder.findByPrimaryKeySilent(connection, this.idAllTypes);
+		if(null == allTypes) {
+			throw new H2ZeroFinderException("Could not find the model 'AllTypes' with primaryKey of " + getPrimaryKey());
+		}
 		this.idAllTypes = allTypes.getIdAllTypes();
 		this.numSmallint = allTypes.getNumSmallint();
 		this.numInteger = allTypes.getNumInteger();
@@ -223,6 +246,9 @@ public class AllTypes extends ModelBase {
 
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { updateHitCount(1); return(this.idAllTypes); }
@@ -271,18 +297,20 @@ public class AllTypes extends ModelBase {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[AllTypes]\n");
-		stringBuilder.append("  Field[idAllTypes:" + this.idAllTypes + "]\n");
-		stringBuilder.append("  Field[numSmallint:" + this.numSmallint + "]\n");
-		stringBuilder.append("  Field[numInteger:" + this.numInteger + "]\n");
-		stringBuilder.append("  Field[numBigint:" + this.numBigint + "]\n");
-		stringBuilder.append("  Field[numDecimal:" + this.numDecimal + "]\n");
-		stringBuilder.append("  Field[numNumeric:" + this.numNumeric + "]\n");
-		stringBuilder.append("  Field[fltReal:" + this.fltReal + "]\n");
-		stringBuilder.append("  Field[dblReal:" + this.dblReal + "]\n");
-		stringBuilder.append("  Field[numSerial:" + this.numSerial + "]\n");
-		stringBuilder.append("  Field[numSmallserial:" + this.numSmallserial + "]\n");
-		stringBuilder.append("  Field[numBigserial:" + this.numBigserial + "]\n");
+		stringBuilder
+			.append("Model: 'AllTypes'\n")
+			.append("  Field: 'idAllTypes:").append(this.idAllTypes).append("'\n")
+			.append("  Field: 'numSmallint:").append(this.numSmallint).append("'\n")
+			.append("  Field: 'numInteger:").append(this.numInteger).append("'\n")
+			.append("  Field: 'numBigint:").append(this.numBigint).append("'\n")
+			.append("  Field: 'numDecimal:").append(this.numDecimal).append("'\n")
+			.append("  Field: 'numNumeric:").append(this.numNumeric).append("'\n")
+			.append("  Field: 'fltReal:").append(this.fltReal).append("'\n")
+			.append("  Field: 'dblReal:").append(this.dblReal).append("'\n")
+			.append("  Field: 'numSerial:").append(this.numSerial).append("'\n")
+			.append("  Field: 'numSmallserial:").append(this.numSmallserial).append("'\n")
+			.append("  Field: 'numBigserial:").append(this.numBigserial).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -292,19 +320,24 @@ public class AllTypes extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "AllTypes");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "AllTypes");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idAllTypes", this.getIdAllTypes());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numSmallint", this.getNumSmallint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numInteger", this.getNumInteger());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numBigint", this.getNumBigint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numDecimal", this.getNumDecimal());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numNumeric", this.getNumNumeric());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "fltReal", this.getFltReal());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "dblReal", this.getDblReal());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numSerial", this.getNumSerial());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numSmallserial", this.getNumSmallserial());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "numBigserial", this.getNumBigserial());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAllTypes", this.getIdAllTypes());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numSmallint", this.getNumSmallint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numInteger", this.getNumInteger());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numBigint", this.getNumBigint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numDecimal", this.getNumDecimal());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numNumeric", this.getNumNumeric());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "fltReal", this.getFltReal());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "dblReal", this.getDblReal());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numSerial", this.getNumSerial());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numSmallserial", this.getNumSmallserial());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "numBigserial", this.getNumBigserial());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 

@@ -9,6 +9,7 @@ import synapticloop.h2zero.base.validator.bean.ValidationBean;
 import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.model.mysql.ModelBase;
 import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.sql.Date;
@@ -29,14 +30,18 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 
 
-public class AllTypes extends ModelBase {
+/**
+ * This is the model for the AllTypes which maps to the all_types database table
+ * and contains the default CRUD methods.
+ */
+ public class AllTypes extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
-	public static final String PRIMARY_KEY_FIELD = "id_all_types";
+	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = "insert into all_types (test_bigint, test_blob, test_bool, test_char, test_boolean, test_binary, test_varbinary, test_date, test_datetime, test_dec, test_decimal, test_double, test_float, test_int, test_integer, test_longtext, test_mediumblob, test_mediumint, test_mediumtext, test_numeric, test_smallint, test_time, test_text, test_timestamp, test_tinyint, test_tinytext, test_varchar, test_year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE = "update all_types set test_bigint = ?, test_blob = ?, test_bool = ?, test_char = ?, test_boolean = ?, test_binary = ?, test_varbinary = ?, test_date = ?, test_datetime = ?, test_dec = ?, test_decimal = ?, test_double = ?, test_float = ?, test_int = ?, test_integer = ?, test_longtext = ?, test_mediumblob = ?, test_mediumint = ?, test_mediumtext = ?, test_numeric = ?, test_smallint = ?, test_time = ?, test_text = ?, test_timestamp = ?, test_tinyint = ?, test_tinytext = ?, test_varchar = ?, test_year = ? where " + PRIMARY_KEY_FIELD + " = ?";
@@ -83,35 +88,35 @@ public class AllTypes extends ModelBase {
 	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
-	private Long idAllTypes = null;
-	private Long testBigint = null;
-	private Blob testBlob = null;
-	private Boolean testBool = null;
-	private String testChar = null;
-	private Boolean testBoolean = null;
-	private String testBinary = null;
-	private String testVarbinary = null;
-	private Date testDate = null;
-	private Timestamp testDatetime = null;
-	private BigDecimal testDec = null;
-	private BigDecimal testDecimal = null;
-	private Double testDouble = null;
-	private Float testFloat = null;
-	private Integer testInt = null;
-	private Integer testInteger = null;
-	private String testLongtext = null;
-	private Blob testMediumblob = null;
-	private Integer testMediumint = null;
-	private String testMediumtext = null;
-	private BigDecimal testNumeric = null;
-	private Short testSmallint = null;
-	private Time testTime = null;
-	private String testText = null;
-	private Timestamp testTimestamp = null;
-	private Boolean testTinyint = null;
-	private String testTinytext = null;
-	private String testVarchar = null;
-	private Integer testYear = null;
+	private Long idAllTypes = null; // maps to the id_all_types field
+	private Long testBigint = null; // maps to the test_bigint field
+	private Blob testBlob = null; // maps to the test_blob field
+	private Boolean testBool = null; // maps to the test_bool field
+	private String testChar = null; // maps to the test_char field
+	private Boolean testBoolean = null; // maps to the test_boolean field
+	private String testBinary = null; // maps to the test_binary field
+	private String testVarbinary = null; // maps to the test_varbinary field
+	private Date testDate = null; // maps to the test_date field
+	private Timestamp testDatetime = null; // maps to the test_datetime field
+	private BigDecimal testDec = null; // maps to the test_dec field
+	private BigDecimal testDecimal = null; // maps to the test_decimal field
+	private Double testDouble = null; // maps to the test_double field
+	private Float testFloat = null; // maps to the test_float field
+	private Integer testInt = null; // maps to the test_int field
+	private Integer testInteger = null; // maps to the test_integer field
+	private String testLongtext = null; // maps to the test_longtext field
+	private Blob testMediumblob = null; // maps to the test_mediumblob field
+	private Integer testMediumint = null; // maps to the test_mediumint field
+	private String testMediumtext = null; // maps to the test_mediumtext field
+	private BigDecimal testNumeric = null; // maps to the test_numeric field
+	private Short testSmallint = null; // maps to the test_smallint field
+	private Time testTime = null; // maps to the test_time field
+	private String testText = null; // maps to the test_text field
+	private Timestamp testTimestamp = null; // maps to the test_timestamp field
+	private Boolean testTinyint = null; // maps to the test_tinyint field
+	private String testTinytext = null; // maps to the test_tinytext field
+	private String testVarchar = null; // maps to the test_varchar field
+	private Integer testYear = null; // maps to the test_year field
 
 	public AllTypes(Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) {
 		this.idAllTypes = idAllTypes;
@@ -188,95 +193,12 @@ public class AllTypes extends ModelBase {
 		if(primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot insert all_types model when primary key is not null.");
 		}
-		// create this bean 
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-		ConnectionManager.setBigint(preparedStatement, 1, testBigint);
-		ConnectionManager.setBlob(preparedStatement, 2, testBlob);
-		ConnectionManager.setBool(preparedStatement, 3, testBool);
-		ConnectionManager.setChar(preparedStatement, 4, testChar);
-		ConnectionManager.setBoolean(preparedStatement, 5, testBoolean);
-		ConnectionManager.setBinary(preparedStatement, 6, testBinary);
-		ConnectionManager.setVarbinary(preparedStatement, 7, testVarbinary);
-		ConnectionManager.setDate(preparedStatement, 8, testDate);
-		ConnectionManager.setDatetime(preparedStatement, 9, testDatetime);
-		ConnectionManager.setDec(preparedStatement, 10, testDec);
-		ConnectionManager.setDecimal(preparedStatement, 11, testDecimal);
-		ConnectionManager.setDouble(preparedStatement, 12, testDouble);
-		ConnectionManager.setFloat(preparedStatement, 13, testFloat);
-		ConnectionManager.setInt(preparedStatement, 14, testInt);
-		ConnectionManager.setInteger(preparedStatement, 15, testInteger);
-		ConnectionManager.setLongtext(preparedStatement, 16, testLongtext);
-		ConnectionManager.setMediumblob(preparedStatement, 17, testMediumblob);
-		ConnectionManager.setMediumint(preparedStatement, 18, testMediumint);
-		ConnectionManager.setMediumtext(preparedStatement, 19, testMediumtext);
-		ConnectionManager.setNumeric(preparedStatement, 20, testNumeric);
-		ConnectionManager.setSmallint(preparedStatement, 21, testSmallint);
-		ConnectionManager.setTime(preparedStatement, 22, testTime);
-		ConnectionManager.setText(preparedStatement, 23, testText);
-		ConnectionManager.setTimestamp(preparedStatement, 24, testTimestamp);
-		ConnectionManager.setTinyint(preparedStatement, 25, testTinyint);
-		ConnectionManager.setTinytext(preparedStatement, 26, testTinytext);
-		ConnectionManager.setVarchar(preparedStatement, 27, testVarchar);
-		ConnectionManager.setYear(preparedStatement, 28, testYear);
-		preparedStatement.executeUpdate();
-		ResultSet resultSet = preparedStatement.getGeneratedKeys();
-		if(resultSet.next()) {
-			this.idAllTypes = resultSet.getLong(1);
-		} else {
-			throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
-		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
-	}
 
-	@Override
-	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE);
-		ConnectionManager.setBigint(preparedStatement, 1, testBigint);
-		ConnectionManager.setBlob(preparedStatement, 2, testBlob);
-		ConnectionManager.setBool(preparedStatement, 3, testBool);
-		ConnectionManager.setChar(preparedStatement, 4, testChar);
-		ConnectionManager.setBoolean(preparedStatement, 5, testBoolean);
-		ConnectionManager.setBinary(preparedStatement, 6, testBinary);
-		ConnectionManager.setVarbinary(preparedStatement, 7, testVarbinary);
-		ConnectionManager.setDate(preparedStatement, 8, testDate);
-		ConnectionManager.setDatetime(preparedStatement, 9, testDatetime);
-		ConnectionManager.setDec(preparedStatement, 10, testDec);
-		ConnectionManager.setDecimal(preparedStatement, 11, testDecimal);
-		ConnectionManager.setDouble(preparedStatement, 12, testDouble);
-		ConnectionManager.setFloat(preparedStatement, 13, testFloat);
-		ConnectionManager.setInt(preparedStatement, 14, testInt);
-		ConnectionManager.setInteger(preparedStatement, 15, testInteger);
-		ConnectionManager.setLongtext(preparedStatement, 16, testLongtext);
-		ConnectionManager.setMediumblob(preparedStatement, 17, testMediumblob);
-		ConnectionManager.setMediumint(preparedStatement, 18, testMediumint);
-		ConnectionManager.setMediumtext(preparedStatement, 19, testMediumtext);
-		ConnectionManager.setNumeric(preparedStatement, 20, testNumeric);
-		ConnectionManager.setSmallint(preparedStatement, 21, testSmallint);
-		ConnectionManager.setTime(preparedStatement, 22, testTime);
-		ConnectionManager.setText(preparedStatement, 23, testText);
-		ConnectionManager.setTimestamp(preparedStatement, 24, testTimestamp);
-		ConnectionManager.setTinyint(preparedStatement, 25, testTinyint);
-		ConnectionManager.setTinytext(preparedStatement, 26, testTinytext);
-		ConnectionManager.setVarchar(preparedStatement, 27, testVarchar);
-		ConnectionManager.setYear(preparedStatement, 28, testYear);
-		ResultSet resultSet = preparedStatement.executeQuery();
-		if(resultSet.next()) {
-			this.idAllTypes = resultSet.getLong(1);
-		} else {
-			// could not find the value - need to insert it - null is the primary key
-			insert(connection);
-		}
-		ConnectionManager.closeAll(resultSet, preparedStatement);
-	}
-
-	@Override
-	public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
-		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
-		}
-		if(isDirty) {
-			// update this bean, but only if dirty
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// create this bean 
+			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 			ConnectionManager.setBigint(preparedStatement, 1, testBigint);
 			ConnectionManager.setBlob(preparedStatement, 2, testBlob);
 			ConnectionManager.setBool(preparedStatement, 3, testBool);
@@ -305,31 +227,132 @@ public class AllTypes extends ModelBase {
 			ConnectionManager.setTinytext(preparedStatement, 26, testTinytext);
 			ConnectionManager.setVarchar(preparedStatement, 27, testVarchar);
 			ConnectionManager.setYear(preparedStatement, 28, testYear);
-			// now set the primary key
-			preparedStatement.setLong(29, idAllTypes);
 			preparedStatement.executeUpdate();
-			ConnectionManager.closeAll(preparedStatement);
-			isDirty = false;
+			resultSet = preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				this.idAllTypes = resultSet.getLong(1);
+			} else {
+				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
 	@Override
-	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException{
+	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = connection.prepareStatement(SQL_ENSURE);
+			ConnectionManager.setBigint(preparedStatement, 1, testBigint);
+			ConnectionManager.setBlob(preparedStatement, 2, testBlob);
+			ConnectionManager.setBool(preparedStatement, 3, testBool);
+			ConnectionManager.setChar(preparedStatement, 4, testChar);
+			ConnectionManager.setBoolean(preparedStatement, 5, testBoolean);
+			ConnectionManager.setBinary(preparedStatement, 6, testBinary);
+			ConnectionManager.setVarbinary(preparedStatement, 7, testVarbinary);
+			ConnectionManager.setDate(preparedStatement, 8, testDate);
+			ConnectionManager.setDatetime(preparedStatement, 9, testDatetime);
+			ConnectionManager.setDec(preparedStatement, 10, testDec);
+			ConnectionManager.setDecimal(preparedStatement, 11, testDecimal);
+			ConnectionManager.setDouble(preparedStatement, 12, testDouble);
+			ConnectionManager.setFloat(preparedStatement, 13, testFloat);
+			ConnectionManager.setInt(preparedStatement, 14, testInt);
+			ConnectionManager.setInteger(preparedStatement, 15, testInteger);
+			ConnectionManager.setLongtext(preparedStatement, 16, testLongtext);
+			ConnectionManager.setMediumblob(preparedStatement, 17, testMediumblob);
+			ConnectionManager.setMediumint(preparedStatement, 18, testMediumint);
+			ConnectionManager.setMediumtext(preparedStatement, 19, testMediumtext);
+			ConnectionManager.setNumeric(preparedStatement, 20, testNumeric);
+			ConnectionManager.setSmallint(preparedStatement, 21, testSmallint);
+			ConnectionManager.setTime(preparedStatement, 22, testTime);
+			ConnectionManager.setText(preparedStatement, 23, testText);
+			ConnectionManager.setTimestamp(preparedStatement, 24, testTimestamp);
+			ConnectionManager.setTinyint(preparedStatement, 25, testTinyint);
+			ConnectionManager.setTinytext(preparedStatement, 26, testTinytext);
+			ConnectionManager.setVarchar(preparedStatement, 27, testVarchar);
+			ConnectionManager.setYear(preparedStatement, 28, testYear);
+			resultSet = preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				this.idAllTypes = resultSet.getLong(1);
+			} else {
+				// could not find the value - need to insert it - null is the primary key
+				insert(connection);
+			}
+		} finally {
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		}
+	}
+
+	@Override
+	public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
+		if(!primaryKeySet()) {
+			throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");
+		}
+
+		if(isDirty) {
+			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+				// update this bean, but only if dirty
+				ConnectionManager.setBigint(preparedStatement, 1, testBigint);
+				ConnectionManager.setBlob(preparedStatement, 2, testBlob);
+				ConnectionManager.setBool(preparedStatement, 3, testBool);
+				ConnectionManager.setChar(preparedStatement, 4, testChar);
+				ConnectionManager.setBoolean(preparedStatement, 5, testBoolean);
+				ConnectionManager.setBinary(preparedStatement, 6, testBinary);
+				ConnectionManager.setVarbinary(preparedStatement, 7, testVarbinary);
+				ConnectionManager.setDate(preparedStatement, 8, testDate);
+				ConnectionManager.setDatetime(preparedStatement, 9, testDatetime);
+				ConnectionManager.setDec(preparedStatement, 10, testDec);
+				ConnectionManager.setDecimal(preparedStatement, 11, testDecimal);
+				ConnectionManager.setDouble(preparedStatement, 12, testDouble);
+				ConnectionManager.setFloat(preparedStatement, 13, testFloat);
+				ConnectionManager.setInt(preparedStatement, 14, testInt);
+				ConnectionManager.setInteger(preparedStatement, 15, testInteger);
+				ConnectionManager.setLongtext(preparedStatement, 16, testLongtext);
+				ConnectionManager.setMediumblob(preparedStatement, 17, testMediumblob);
+				ConnectionManager.setMediumint(preparedStatement, 18, testMediumint);
+				ConnectionManager.setMediumtext(preparedStatement, 19, testMediumtext);
+				ConnectionManager.setNumeric(preparedStatement, 20, testNumeric);
+				ConnectionManager.setSmallint(preparedStatement, 21, testSmallint);
+				ConnectionManager.setTime(preparedStatement, 22, testTime);
+				ConnectionManager.setText(preparedStatement, 23, testText);
+				ConnectionManager.setTimestamp(preparedStatement, 24, testTimestamp);
+				ConnectionManager.setTinyint(preparedStatement, 25, testTinyint);
+				ConnectionManager.setTinytext(preparedStatement, 26, testTinytext);
+				ConnectionManager.setVarchar(preparedStatement, 27, testVarchar);
+				ConnectionManager.setYear(preparedStatement, 28, testYear);
+				// now set the primary key
+				preparedStatement.setLong(29, idAllTypes);
+				preparedStatement.executeUpdate();
+			} finally {
+				isDirty = false;
+			}
+		}
+	}
+
+	@Override
+	public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(!primaryKeySet()) {
 			throw new H2ZeroPrimaryKeyException("Cannot delete bean when primary key is null.");
 		}
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE);
-		preparedStatement.setLong(1, idAllTypes);
-		preparedStatement.executeUpdate();
-		ConnectionManager.closeAll(preparedStatement);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.setLong(1, idAllTypes);
+			preparedStatement.executeUpdate();
+		}
 	}
 
 	@Override
-	public void refresh(Connection connection) throws H2ZeroPrimaryKeyException {
+	public void refresh(Connection connection) throws SQLException, H2ZeroPrimaryKeyException, H2ZeroFinderException {
 		if(!primaryKeySet()) {
-			throw new H2ZeroPrimaryKeyException("Cannot refresh bean when primary key is null.");
+			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'AllTypes' when primary key is null.");
 		}
+
 		AllTypes allTypes = AllTypesFinder.findByPrimaryKeySilent(connection, this.idAllTypes);
+		if(null == allTypes) {
+			throw new H2ZeroFinderException("Could not find the model 'AllTypes' with primaryKey of " + getPrimaryKey());
+		}
 		this.idAllTypes = allTypes.getIdAllTypes();
 		this.testBigint = allTypes.getTestBigint();
 		this.testBlob = allTypes.getTestBlob();
@@ -371,6 +394,9 @@ public class AllTypes extends ModelBase {
 
 	/*
 	 * Boring ol' getters and setters 
+	 * 
+	 * On setting any of these fields - the 'isDirty' flag will be set
+	 * 
 	 */
 
 	public Long getPrimaryKey() { updateHitCount(1); return(this.idAllTypes); }
@@ -473,36 +499,38 @@ public class AllTypes extends ModelBase {
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Model[AllTypes]\n");
-		stringBuilder.append("  Field[idAllTypes:" + this.idAllTypes + "]\n");
-		stringBuilder.append("  Field[testBigint:" + this.testBigint + "]\n");
-		stringBuilder.append("  Field[testBlob:" + this.testBlob + "]\n");
-		stringBuilder.append("  Field[testBool:" + this.testBool + "]\n");
-		stringBuilder.append("  Field[testChar:" + this.testChar + "]\n");
-		stringBuilder.append("  Field[testBoolean:" + this.testBoolean + "]\n");
-		stringBuilder.append("  Field[testBinary:" + this.testBinary + "]\n");
-		stringBuilder.append("  Field[testVarbinary:" + this.testVarbinary + "]\n");
-		stringBuilder.append("  Field[testDate:" + this.testDate + "]\n");
-		stringBuilder.append("  Field[testDatetime:" + this.testDatetime + "]\n");
-		stringBuilder.append("  Field[testDec:" + this.testDec + "]\n");
-		stringBuilder.append("  Field[testDecimal:" + this.testDecimal + "]\n");
-		stringBuilder.append("  Field[testDouble:" + this.testDouble + "]\n");
-		stringBuilder.append("  Field[testFloat:" + this.testFloat + "]\n");
-		stringBuilder.append("  Field[testInt:" + this.testInt + "]\n");
-		stringBuilder.append("  Field[testInteger:" + this.testInteger + "]\n");
-		stringBuilder.append("  Field[testLongtext:" + this.testLongtext + "]\n");
-		stringBuilder.append("  Field[testMediumblob:" + this.testMediumblob + "]\n");
-		stringBuilder.append("  Field[testMediumint:" + this.testMediumint + "]\n");
-		stringBuilder.append("  Field[testMediumtext:" + this.testMediumtext + "]\n");
-		stringBuilder.append("  Field[testNumeric:" + this.testNumeric + "]\n");
-		stringBuilder.append("  Field[testSmallint:" + this.testSmallint + "]\n");
-		stringBuilder.append("  Field[testTime:" + this.testTime + "]\n");
-		stringBuilder.append("  Field[testText:" + this.testText + "]\n");
-		stringBuilder.append("  Field[testTimestamp:" + this.testTimestamp + "]\n");
-		stringBuilder.append("  Field[testTinyint:" + this.testTinyint + "]\n");
-		stringBuilder.append("  Field[testTinytext:" + this.testTinytext + "]\n");
-		stringBuilder.append("  Field[testVarchar:" + this.testVarchar + "]\n");
-		stringBuilder.append("  Field[testYear:" + this.testYear + "]\n");
+		stringBuilder
+			.append("Model: 'AllTypes'\n")
+			.append("  Field: 'idAllTypes:").append(this.idAllTypes).append("'\n")
+			.append("  Field: 'testBigint:").append(this.testBigint).append("'\n")
+			.append("  Field: 'testBlob:").append(this.testBlob).append("'\n")
+			.append("  Field: 'testBool:").append(this.testBool).append("'\n")
+			.append("  Field: 'testChar:").append(this.testChar).append("'\n")
+			.append("  Field: 'testBoolean:").append(this.testBoolean).append("'\n")
+			.append("  Field: 'testBinary:").append(this.testBinary).append("'\n")
+			.append("  Field: 'testVarbinary:").append(this.testVarbinary).append("'\n")
+			.append("  Field: 'testDate:").append(this.testDate).append("'\n")
+			.append("  Field: 'testDatetime:").append(this.testDatetime).append("'\n")
+			.append("  Field: 'testDec:").append(this.testDec).append("'\n")
+			.append("  Field: 'testDecimal:").append(this.testDecimal).append("'\n")
+			.append("  Field: 'testDouble:").append(this.testDouble).append("'\n")
+			.append("  Field: 'testFloat:").append(this.testFloat).append("'\n")
+			.append("  Field: 'testInt:").append(this.testInt).append("'\n")
+			.append("  Field: 'testInteger:").append(this.testInteger).append("'\n")
+			.append("  Field: 'testLongtext:").append(this.testLongtext).append("'\n")
+			.append("  Field: 'testMediumblob:").append(this.testMediumblob).append("'\n")
+			.append("  Field: 'testMediumint:").append(this.testMediumint).append("'\n")
+			.append("  Field: 'testMediumtext:").append(this.testMediumtext).append("'\n")
+			.append("  Field: 'testNumeric:").append(this.testNumeric).append("'\n")
+			.append("  Field: 'testSmallint:").append(this.testSmallint).append("'\n")
+			.append("  Field: 'testTime:").append(this.testTime).append("'\n")
+			.append("  Field: 'testText:").append(this.testText).append("'\n")
+			.append("  Field: 'testTimestamp:").append(this.testTimestamp).append("'\n")
+			.append("  Field: 'testTinyint:").append(this.testTinyint).append("'\n")
+			.append("  Field: 'testTinytext:").append(this.testTinytext).append("'\n")
+			.append("  Field: 'testVarchar:").append(this.testVarchar).append("'\n")
+			.append("  Field: 'testYear:").append(this.testYear).append("'\n")
+			;
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -512,37 +540,42 @@ public class AllTypes extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "AllTypes");
+		jsonObject.put("type", "table");
+		jsonObject.put("name", "AllTypes");
+		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(jsonObject, "idAllTypes", this.getIdAllTypes());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testBigint", this.getTestBigint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testBlob", this.getTestBlob());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testBool", this.getTestBool());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testChar", this.getTestChar());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testBoolean", this.getTestBoolean());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testBinary", this.getTestBinary());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testVarbinary", this.getTestVarbinary());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testDate", this.getTestDate());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testDatetime", this.getTestDatetime());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testDec", this.getTestDec());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testDecimal", this.getTestDecimal());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testDouble", this.getTestDouble());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testFloat", this.getTestFloat());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testInt", this.getTestInt());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testInteger", this.getTestInteger());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testLongtext", this.getTestLongtext());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testMediumblob", this.getTestMediumblob());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testMediumint", this.getTestMediumint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testMediumtext", this.getTestMediumtext());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testNumeric", this.getTestNumeric());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testSmallint", this.getTestSmallint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testTime", this.getTestTime());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testText", this.getTestText());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testTimestamp", this.getTestTimestamp());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testTinyint", this.getTestTinyint());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testTinytext", this.getTestTinytext());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testVarchar", this.getTestVarchar());
-		ModelBaseHelper.addtoJSONObject(jsonObject, "testYear", this.getTestYear());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAllTypes", this.getIdAllTypes());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBigint", this.getTestBigint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBlob", this.getTestBlob());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBool", this.getTestBool());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testChar", this.getTestChar());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBoolean", this.getTestBoolean());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBinary", this.getTestBinary());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testVarbinary", this.getTestVarbinary());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDate", this.getTestDate());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDatetime", this.getTestDatetime());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDec", this.getTestDec());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDecimal", this.getTestDecimal());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDouble", this.getTestDouble());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testFloat", this.getTestFloat());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testInt", this.getTestInt());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testInteger", this.getTestInteger());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testLongtext", this.getTestLongtext());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testMediumblob", this.getTestMediumblob());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testMediumint", this.getTestMediumint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testMediumtext", this.getTestMediumtext());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testNumeric", this.getTestNumeric());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testSmallint", this.getTestSmallint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testTime", this.getTestTime());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testText", this.getTestText());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testTimestamp", this.getTestTimestamp());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testTinyint", this.getTestTinyint());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testTinytext", this.getTestTinytext());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testVarchar", this.getTestVarchar());
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "testYear", this.getTestYear());
+
+		jsonObject.put("fields", fieldsObject);
+
 		return(jsonObject);
 	}
 
