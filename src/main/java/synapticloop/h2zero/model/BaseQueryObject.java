@@ -52,7 +52,7 @@ public abstract class BaseQueryObject {
 		INVALID
 	}
 
-	protected Map<String, UsageType> allowableJsonKeys = new HashMap<String, UsageType>();
+	protected Map<String, UsageType> allowableJsonKeys = new HashMap<>();
 
 	protected JSONObject jsonObject = null;
 	protected BaseSchemaObject baseSchemaObject = null;
@@ -66,34 +66,34 @@ public abstract class BaseQueryObject {
 
 	protected Boolean jsonUniqueKey; // whether there is a 'unique' jsonKey for this object
 
-	protected List<BaseField> allFields = new ArrayList<BaseField>();
-	protected Set<String> allUniqueFieldNames = new HashSet<String>();
-	protected List<BaseField> allUniqueFields = new ArrayList<BaseField>();
+	protected List<BaseField> allFields = new ArrayList<>();
+	protected Set<String> allUniqueFieldNames = new HashSet<>();
+	protected List<BaseField> allUniqueFields = new ArrayList<>();
 
 	// select fields
-	protected List<BaseField> selectFields = new ArrayList<BaseField>();
-	protected Map<String, BaseField> uniqueSelectFields = new LinkedHashMap<String, BaseField>();
+	protected List<BaseField> selectFields = new ArrayList<>();
+	protected Map<String, BaseField> uniqueSelectFields = new LinkedHashMap<>();
 
 
 	// where fields and their associated properties
-	protected List<BaseField> whereFields = new ArrayList<BaseField>();
-	protected Map<String, BaseField> uniqueWhereFields = new LinkedHashMap<String, BaseField>();
-	protected List<BaseField> inWhereFields = new ArrayList<BaseField>();
+	protected List<BaseField> whereFields = new ArrayList<>();
+	protected Map<String, BaseField> uniqueWhereFields = new LinkedHashMap<>();
+	protected List<BaseField> inWhereFields = new ArrayList<>();
 
 	protected boolean hasInFields = false;
 	private boolean hasWhereFieldAliases = false;
 
 
-	protected List<BaseField> valueFields = new ArrayList<BaseField>();
-	protected Map<String, BaseField> uniqueValueFields = new LinkedHashMap<String, BaseField>();
+	protected List<BaseField> valueFields = new ArrayList<>();
+	protected Map<String, BaseField> uniqueValueFields = new LinkedHashMap<>();
 
 	protected String setClause;
-	protected List<BaseField> setFields = new ArrayList<BaseField>();
+	protected List<BaseField> setFields = new ArrayList<>();
 
-	protected List<BaseField> updateFields = new ArrayList<BaseField>();
-	protected Map<String, BaseField> uniqueUpdateFields = new LinkedHashMap<String, BaseField>();
+	protected List<BaseField> updateFields = new ArrayList<>();
+	protected Map<String, BaseField> uniqueUpdateFields = new LinkedHashMap<>();
 
-	private final List<String> comments = new ArrayList<String>();
+	private final List<String> comments = new ArrayList<>();
 
 	protected BaseQueryObject(BaseSchemaObject baseSchemaObject, JSONObject jsonObject) throws H2ZeroParseException {
 		// set up the default allowable keys

@@ -50,7 +50,7 @@ public class BaseH2ZeroGenerator {
 	private boolean verbose = false;
 	private int numTables;
 
-	private final List<Generator> generators = new ArrayList<Generator>();
+	private final List<Generator> generators = new ArrayList<>();
 	private final File h2ZeroFile;
 	private final File outFile;
 
@@ -140,7 +140,7 @@ public class BaseH2ZeroGenerator {
 			try {
 
 				while (iterator.hasNext()) {
-					Extension extension = (Extension) iterator.next();
+					Extension extension = iterator.next();
 					extension.generate(extensions.get(extension), database, options, outFile, verbose);
 				}
 
@@ -172,7 +172,7 @@ public class BaseH2ZeroGenerator {
 
 			// go through the generators and get the summary information
 
-			Map<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
+			Map<String, Integer> numFilesHashMap = new HashMap<>();
 			int numFiles = 0;
 
 			for (Generator generator : generators) {

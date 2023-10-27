@@ -32,14 +32,13 @@ import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.h2zero.validator.BaseValidator;
 import synapticloop.templar.Parser;
-import synapticloop.templar.exception.FunctionException;
 import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
 
 public abstract class Extension {
-	private Map<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
+	private final Map<String, Integer> numFilesHashMap = new HashMap<>();
 
 	private int numFiles = 0;
 

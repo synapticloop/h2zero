@@ -22,9 +22,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class DatabaseFieldTypeConfirm {
-	public static final Map<String, Set<String>> FIELD_VALIDATION_LOOKUP = new HashMap<String, Set<String>>();
+	public static final Map<String, Set<String>> FIELD_VALIDATION_LOOKUP = new HashMap<>();
 	static {
-		Set<String> sqliteSet = new HashSet<String>();
+		Set<String> sqliteSet = new HashSet<>();
 		sqliteSet.add("int");
 		sqliteSet.add("integer");
 		sqliteSet.add("tinyint");
@@ -49,7 +49,7 @@ public class DatabaseFieldTypeConfirm {
 
 		FIELD_VALIDATION_LOOKUP.put("sqlite3", sqliteSet);
 
-		Set<String> mysqlSet = new HashSet<String>();
+		Set<String> mysqlSet = new HashSet<>();
 		mysqlSet.add("bigint");
 		mysqlSet.add("binary");
 		mysqlSet.add("blob");
@@ -85,7 +85,7 @@ public class DatabaseFieldTypeConfirm {
 		// add in spatial sets
 		FIELD_VALIDATION_LOOKUP.put("mysql", mysqlSet);
 
-		Set<String> cockroachSet = new HashSet<String>();
+		Set<String> cockroachSet = new HashSet<>();
 		cockroachSet.add("serial");
 		cockroachSet.add("bigserial");
 		cockroachSet.add("smallserial");
@@ -112,7 +112,7 @@ public class DatabaseFieldTypeConfirm {
 
 		FIELD_VALIDATION_LOOKUP.put("cockroach", cockroachSet);
 
-    Set<String> postgresqlSet = new HashSet<String>(cockroachSet);
+    Set<String> postgresqlSet = new HashSet<>(cockroachSet);
 		postgresqlSet.add("money");
 
 		FIELD_VALIDATION_LOOKUP.put("postgresql", postgresqlSet);

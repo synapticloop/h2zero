@@ -47,7 +47,7 @@ import synapticloop.h2zero.util.SimpleLogger.LoggerType;
  */
 public class Table extends BaseSchemaObject {
 
-  private static final List<String> ignoredKeys = new ArrayList<String>();
+  private static final List<String> ignoredKeys = new ArrayList<>();
 
   static {
     ignoredKeys.add(JSONKeyConstants.COMMENT);
@@ -55,7 +55,7 @@ public class Table extends BaseSchemaObject {
     ignoredKeys.add(JSONKeyConstants.CACHE_FIND_ALL);
   }
 
-  public static Set<String> ALLOWABLE_KEYS = new HashSet<String>();
+  public static Set<String> ALLOWABLE_KEYS = new HashSet<>();
 
   static {
     ALLOWABLE_KEYS.add(JSONKeyConstants.NAME);
@@ -86,17 +86,17 @@ public class Table extends BaseSchemaObject {
     ALLOWABLE_KEYS.add(JSONKeyConstants.INSERTERS);
   }
 
-  private static final Map<String, String> replacementKeys = new HashMap<String, String>();
+  private static final Map<String, String> replacementKeys = new HashMap<>();
 
   static {
     replacementKeys.put("comment", "comments");
   }
 
-  private List<String> foundIgnoredKeys = new ArrayList<String>();
+  private final List<String> foundIgnoredKeys = new ArrayList<>();
 
   private String engine = "innodb";
   private String charset = "UTF8";
-  private final List<String> comments = new ArrayList<String>();
+  private final List<String> comments = new ArrayList<>();
 
   private boolean hasLargeObject = false;
   private boolean hasForeignKey = false;
@@ -125,7 +125,7 @@ public class Table extends BaseSchemaObject {
 
   private final Options options;
 
-  private Map<String, Object> additionalKeys = new HashMap<>();
+  private final Map<String, Object> additionalKeys = new HashMap<>();
 
   /**
    * Create a new Table object from the passed in jsonObject.
@@ -220,7 +220,7 @@ public class Table extends BaseSchemaObject {
 
     Iterator<String> keys = jsonObject.keys();
     while (keys.hasNext()) {
-      String key = (String) keys.next();
+      String key = keys.next();
 
       Object keyObject = jsonObject.get(key);
       additionalKeys.put(key, keyObject);
@@ -367,8 +367,7 @@ public class Table extends BaseSchemaObject {
       generateAutomaticUpdater(updater);
     }
 
-    JSONArray updaterJson = new JSONArray();
-    updaterJson = jsonObject.optJSONArray(JSONKeyConstants.UPDATERS);
+    JSONArray updaterJson = jsonObject.optJSONArray(JSONKeyConstants.UPDATERS);
     if (null == updaterJson) {
       // no updates is ok
       return;

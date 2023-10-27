@@ -35,8 +35,8 @@ import synapticloop.h2zero.model.util.JSONKeyConstants;
  *
  */
 public class Constant {
-	private final List<Object> values = new ArrayList<Object>();
-	private final List<Object> sqlValues = new ArrayList<Object>();
+	private final List<Object> values = new ArrayList<>();
+	private final List<Object> sqlValues = new ArrayList<>();
 	private String name = null;
 	private Object primaryKeyValue = null;
 

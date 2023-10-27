@@ -48,13 +48,13 @@ public class Database {
 	private String schema = null;
 	private String packageName = null;
 
-	private final List<Table> tables = new ArrayList<Table>();
-	private final List<View> views = new ArrayList<View>();
+	private final List<Table> tables = new ArrayList<>();
+	private final List<View> views = new ArrayList<>();
 
-	private final Set<String> tableNames = new HashSet<String>();
+	private final Set<String> tableNames = new HashSet<>();
 	private int defaultStatementCacheSize = 1024;
 
-	private final Map<String, Object> additionalKeys = new HashMap<String, Object>();
+	private final Map<String, Object> additionalKeys = new HashMap<>();
 
 	/**
 	 * Parse and create a new database object from the passed in JSON object
@@ -149,7 +149,7 @@ public class Database {
 		// go through and add all remaining keys to the additional keys object
 		Iterator<String> keys = databaseJson.keys();
 		while (keys.hasNext()) {
-			String key = (String) keys.next();
+			String key = keys.next();
 
 			Object keyObject = databaseJson.get(key);
 			additionalKeys.put(key, keyObject);

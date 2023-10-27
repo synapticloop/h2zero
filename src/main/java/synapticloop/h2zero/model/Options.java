@@ -49,7 +49,7 @@ public class Options {
 
 	public static final String OPTION_OUTPUT = "output";
 
-	private static Set<String> ALLOWABLE_GENERATORS = new HashSet<String>();
+	private final static Set<String> ALLOWABLE_GENERATORS = new HashSet<>();
 	static {
 		ALLOWABLE_GENERATORS.add(OPTION_SQL);
 		ALLOWABLE_GENERATORS.add(OPTION_JAVA);
@@ -61,7 +61,7 @@ public class Options {
 	public static final String DATABASE_COCKROACH = "cockroach";
 	public static final String DATABASE_POSTGRESQL = "postgresql";
 
-	private static final Set<String> ALLOWABLE_DATABASES = new HashSet<String>();
+	private static final Set<String> ALLOWABLE_DATABASES = new HashSet<>();
 	static {
 		ALLOWABLE_DATABASES.add(DATABASE_MYSQL);
 		ALLOWABLE_DATABASES.add(DATABASE_SQLITE3);
@@ -79,9 +79,9 @@ public class Options {
 	private String outputResource = "/src/main/resources/";
 	private String outputBuild = "/build/";
 
-	private final Set<String> generators = new HashSet<String>();
-	private final Map<Extension, JSONObject> extensions = new HashMap<Extension, JSONObject>();
-	private final Map<String, String> extensionOptions = new HashMap<String, String>();
+	private final Set<String> generators = new HashSet<>();
+	private final Map<Extension, JSONObject> extensions = new HashMap<>();
+	private final Map<String, String> extensionOptions = new HashMap<>();
 
 	public Options(JSONObject jsonObject) throws H2ZeroParseException {
 		if(null == jsonObject) {

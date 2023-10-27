@@ -51,7 +51,7 @@ public class Counter extends BaseQueryObject {
 
 	@Override public String getType() { return("Counter"); }
 
-	public boolean getIsAutoCounter() { return(isAutoCounter); };
+	public boolean getIsAutoCounter() { return(isAutoCounter); }
 
 	public void setIsAutoCounter(boolean isAutoCounter) {this.isAutoCounter = isAutoCounter; }
 }
