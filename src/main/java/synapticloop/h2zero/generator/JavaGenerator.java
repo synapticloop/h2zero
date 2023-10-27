@@ -19,7 +19,6 @@ package synapticloop.h2zero.generator;
  */
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 
 import synapticloop.h2zero.model.Database;
@@ -52,15 +51,14 @@ public class JavaGenerator extends Generator {
 			return;
 		}
 
-		TemplarContext templarContext = null;
 		try {
-			templarContext = getDefaultTemplarContext();
+      TemplarContext templarContext = getDefaultTemplarContext();
+      generateTables(templarContext);
+      generateViews(templarContext);
 		} catch (FunctionException fex) {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
 
-		generateTables(templarContext);
-		generateViews(templarContext);
 	}
 
 	private void generateTables(TemplarContext templarContext) throws ParseException, RenderException {
@@ -77,6 +75,7 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateQuestionParser = getParser("/java-create-question.templar");
 		Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
 		Parser javaCreateDeleterParser = getParser("/java-create-deleter.templar");
+		Parser javaCreateUpserterParser = getParser("/java-create-upserter.templar");
 
 		// the select clause bean
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
@@ -108,6 +107,10 @@ public class JavaGenerator extends Generator {
         // the inserter
         pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
         renderToFile(templarContext, javaCreateInserterParser, pathname);
+
+        // the upserter
+        pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/upserter/" + table.getJavaClassName() + "Upserter.java";
+        renderToFile(templarContext, javaCreateUpserterParser, pathname);
       }
 
 
@@ -176,7 +179,6 @@ public class JavaGenerator extends Generator {
       renderToFile(templarContext, javaCreateViewQuestionParser, pathname);
 
       List<Finder> finders = view.getFinders();
-
       for (Finder finder : finders) {
         templarContext.add("finder", finder);
         if (null != finder.getSelectClause()) {
