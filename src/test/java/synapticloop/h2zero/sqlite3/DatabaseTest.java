@@ -21,60 +21,60 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DatabaseTest extends BaseConnectionManager {
-  private static final String DB_DRIVER_CLASS = "org.sqlite.JDBC";
-  private static final ComboPooledDataSource comboPooledDataSource = BaseConnectionManager.comboPooledDataSource;
+	private static final String DB_DRIVER_CLASS = "org.sqlite.JDBC";
+	private static final ComboPooledDataSource comboPooledDataSource = BaseConnectionManager.comboPooledDataSource;
 
-  @Before
-  public void setup() {
-    // setup the database
-    try {
-      comboPooledDataSource.setDriverClass(DB_DRIVER_CLASS);
-    } catch (PropertyVetoException e) { // runtime exception
-      throw new RuntimeException(e);
-    }
-    // now we need to check for backups and whatnot
+	@Before
+	public void setup() {
+// setup the database
+		try {
+			comboPooledDataSource.setDriverClass(DB_DRIVER_CLASS);
+		} catch (PropertyVetoException e) { // runtime exception
+			throw new RuntimeException(e);
+		}
+// now we need to check for backups and whatnot
 
-    comboPooledDataSource.setJdbcUrl("jdbc:sqlite:/test.db");
-  }
+		comboPooledDataSource.setJdbcUrl("jdbc:sqlite:/test.db");
+	}
 
-  @After
-  public void teardown() {
-    AuthorDeleter.deleteAllSilent();
-  }
+	@After
+	public void teardown() {
+		AuthorDeleter.deleteAllSilent();
+	}
 
-  @Test
-  public void createDatabase() {
-    try {
-      Connection connection = ConnectionManager.getConnection();
-      BufferedReader bufferedReader = new BufferedReader(
-          new InputStreamReader(
-              DatabaseTest.class.getResourceAsStream("/create-database-sqlite3.sql")));
-      String line = null;
-      StringBuilder query = new StringBuilder();
+	@Test
+	public void createDatabase() {
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(
+							DatabaseTest.class.getResourceAsStream("/create-database-sqlite3.sql")));
+			String line = null;
+			StringBuilder query = new StringBuilder();
 
-      while ((line = bufferedReader.readLine()) != null) {
-        if (!line.startsWith("--") && !line.trim().isEmpty()) {
-          query.append(line);
-        } else {
-          continue;
-        }
+			while ((line = bufferedReader.readLine()) != null) {
+				if (!line.startsWith("--") && !line.trim().isEmpty()) {
+					query.append(line);
+				} else {
+					continue;
+				}
 
-        if (line.trim().endsWith(";")) {
-          // execute the query and
-          if (line.trim().isEmpty()) {
-            // we don't want to run an empty query
-            continue;
-          }
-          PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
-          preparedStatement.execute();
-          preparedStatement.close();
-          query.setLength(0);
-        }
-      }
+				if (line.trim().endsWith(";")) {
+// execute the query and
+					if (line.trim().isEmpty()) {
+// we don't want to run an empty query
+						continue;
+					}
+					PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+					preparedStatement.execute();
+					preparedStatement.close();
+					query.setLength(0);
+				}
+			}
 
-    } catch (IOException | SQLException e) {
-      // TODO - this is going to be a problem
-      e.printStackTrace();
-    }
-  }
+		} catch (IOException | SQLException e) {
+// TODO - this is going to be a problem
+			e.printStackTrace();
+		}
+	}
 }

@@ -49,137 +49,15 @@ public class JavaTestGenerator extends Generator {
 
 		try {
       TemplarContext templarContext = getDefaultTemplarContext();
-      generateTables(templarContext);
-      generateViews(templarContext);
+			generateDatabaseTestBase(templarContext);
 		} catch (FunctionException fex) {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
-
 	}
 
-	private void generateTables(TemplarContext templarContext) throws ParseException, RenderException {
-		Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
-
-		// The model
-		Parser javaCreateModelParser = getParser("/java-create-model.templar");
-		Parser javaCreateModelStatisticsParser = getParser("/java-create-model-statistics.templar");
-
-		// The table actions
-		Parser javaCreateFinderParser = getParser("/java-create-finder.templar");
-		Parser javaCreateInserterParser = getParser("/java-create-inserter.templar");
-		Parser javaCreateCounterParser = getParser("/java-create-counter.templar");
-		Parser javaCreateQuestionParser = getParser("/java-create-question.templar");
-		Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
-		Parser javaCreateDeleterParser = getParser("/java-create-deleter.templar");
-		Parser javaCreateUpserterParser = getParser("/java-create-upserter.templar");
-
-		// the select clause bean
-		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
-
+	private void generateDatabaseTestBase(TemplarContext templarContext) throws ParseException, RenderException {
+		Parser javaGenerateDatabaseTestBaseParser = getParser("/tests/java-sqlite3-database-test-base.templar");
 		String pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Constants.java";
-		renderToFile(templarContext, javaCreateConstantsParser, pathname);
-
-		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Statistics.java";
-		renderToFile(templarContext, javaCreateModelStatisticsParser, pathname);
-
-		// now for the tables
-		List<Table> tables = database.getTables();
-
-    for (Table table : tables) {
-      templarContext.add("table", table);
-      SimpleLogger.logInfo(LoggerType.GENERATE_JAVA, "Generating for table '" + table.getName() + "'.");
-
-      // the model
-      pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/" + table.getJavaClassName() + ".java";
-      renderToFile(templarContext, javaCreateModelParser, pathname);
-
-      // the finder
-      pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/finder/" + table.getJavaClassName() + "Finder.java";
-      renderToFile(templarContext, javaCreateFinderParser, pathname);
-
-      if (!table.getIsConstant()) {
-        // the inserter
-        pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/inserter/" + table.getJavaClassName() + "Inserter.java";
-        renderToFile(templarContext, javaCreateInserterParser, pathname);
-
-        // the upserter
-        pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/upserter/" + table.getJavaClassName() + "Upserter.java";
-        renderToFile(templarContext, javaCreateUpserterParser, pathname);
-      }
-
-
-      // the counters
-      pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/counter/" + table.getJavaClassName() + "Counter.java";
-      renderToFile(templarContext, javaCreateCounterParser, pathname);
-
-      // the questions - we always have an internal question
-      pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/question/" + table.getJavaClassName() + "Question.java";
-      renderToFile(templarContext, javaCreateQuestionParser, pathname);
-
-      List<Finder> finders = table.getFinders();
-
-      for (Finder finder : finders) {
-        templarContext.add("finder", finder);
-
-        // don't forget the beans for the selectClause finders
-        if (null != finder.getSelectClause()) {
-          pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/bean/" + table.getJavaClassName() + finder.getTagName() + "Bean.java";
-          renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
-        }
-      }
-
-      if (!table.getIsConstant()) {
-        // the updater
-        pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/updater/" + table.getJavaClassName() + "Updater.java";
-        renderToFile(templarContext, javaCreateUpdaterParser, pathname);
-
-        // the deleter
-        pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/deleter/" + table.getJavaClassName() + "Deleter.java";
-        renderToFile(templarContext, javaCreateDeleterParser, pathname);
-      }
-    }
-	}
-
-	private void generateViews(TemplarContext templarContext) throws ParseException, RenderException {
-		Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
-		Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
-		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
-		Parser javaCreateViewCounterParser = getParser("/java-create-view-counter.templar");
-		Parser javaCreateViewQuestionParser = getParser("/java-create-view-question.templar");
-
-		String pathname;
-
-		// now for the views
-		List<View> views = database.getViews();
-    for (View view : views) {
-      templarContext.add("view", view);
-
-      // hack for finder taglibs for views - should be split out
-      templarContext.add("table", view);
-
-      String pathPrefix = outFile + options.getOutputCode() + database.getPackagePath();
-      String viewJavaClassName = view.getJavaClassName();
-
-      pathname = pathPrefix + "/view/" + viewJavaClassName + ".java";
-      renderToFile(templarContext, javaCreateViewModelParser, pathname);
-
-      pathname = pathPrefix + "/finder/" + viewJavaClassName + "ViewFinder.java";
-      renderToFile(templarContext, javaCreateViewFinderParser, pathname);
-
-      pathname = pathPrefix + "/counter/" + viewJavaClassName + "ViewCounter.java";
-      renderToFile(templarContext, javaCreateViewCounterParser, pathname);
-
-      pathname = pathPrefix + "/question/" + viewJavaClassName + "ViewQuestion.java";
-      renderToFile(templarContext, javaCreateViewQuestionParser, pathname);
-
-      List<Finder> finders = view.getFinders();
-      for (Finder finder : finders) {
-        templarContext.add("finder", finder);
-        if (null != finder.getSelectClause()) {
-          pathname = pathPrefix + "/bean/" + finder.getTagName() + "Bean.java";
-          renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
-        }
-      }
-    }
+		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
 	}
 }
