@@ -151,7 +151,7 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateViewCounterParser = getParser("/java-create-view-counter.templar");
 		Parser javaCreateViewQuestionParser = getParser("/java-create-view-question.templar");
 
-		String pathname = null;
+		String pathname;
 
 		// now for the views
 		List<View> views = database.getViews();
