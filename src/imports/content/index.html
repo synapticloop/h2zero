@@ -3,6 +3,28 @@
 	h2zero is an easy to use object relationship mapper (ORM) code generator for Java and MySQL.
 </p>
 
+<h4>Background - i.e. the one source of truth</h4>
+
+<p>
+	After using (and sometimes abusing) various ORMs, the decision was made that rather than 
+	starting with the model and letting the model drive the database schema and interactions, 
+	to start with the database schema that would then drive the model.
+</p>
+
+<p>
+	When starting with the model, (and using annotations, and/or some hybrid SQL-like language), the generated 
+	code would work fine, the schema would be set up, and the hybrid-SQL would be made.  Eventually 
+	there would be performance problems and you would then have to go in and try and replace the 
+	non-performing hybrid SQL with better SQL.  Or you would have to re-annotate classes to force 
+	the underlying system to create the meaning that you would want. (i.e. the implicit meaning would) 
+	have to be made more explicit
+</p>
+
+<p>
+	When starting with the schema, the meaning is explicit, every SQL statement is explicit, and the model 
+	conforms to exactly what you require.
+</p>
+
 <h4>No..</h4>
 
 <ol>
@@ -94,12 +116,28 @@ into the code, and modify and all that malarky - so raise an issue on github and
 	<dt><strong>the model</strong></dt>
 	<dd>
 		This is the plain old java object (POJO) which maps to a single row in a database table.  They come in two 
-		versions, namely regular (the main usage) and constant (for very narrow usage).
+		flavours, namely 'regular' (the main usage) and 'constant' (for very narrow usage).
+		<dl>
+			<dt><em>regular</em></dt>
+			<dd>A regular model - which contains all of the CRUD updates required for the SQL interaction</dd>
+			<dt><em>constant</em></dt>
+			<dd>
+				A constant model - which does not interact with the database at all.  The underlying values are 
+				contained within the database, but hard coded into the java classes for usage.
+			</dd>
+		</dl>
 	</dd>
 	<dt><strong>interactions</strong></dt>
 	<dd>
-		Interactions refer to any of the generated code that interacts with the database tables, this includes: finders, 
-		updaters, deleters, inserters, counters and questions.
+		Interactions refer to any of the generated code that interacts with the database tables, this includes: 
+		<ul>
+			<li>finders,</li>
+			<li>updaters, </li>
+			<li>deleters, </li>
+			<li>inserters, </li>
+			<li>counters, and </li>
+			<li>questions.</li>
+		</ul>
 	</dd>
 </dl>
 

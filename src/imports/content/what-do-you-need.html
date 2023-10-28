@@ -32,23 +32,46 @@
 ]
 pre}
 </code></pre>
-<p>
-	The first field finder will generate a where clause with the parameter <code>field_one</code>, (e.g. <code>select * from table where field_one = ?</code>) 
-</p>
-<p>
-	the second will generate a where clause with two parameters, namely: <code>field_one</code> and <code>field_two</code> (e.g. <code>select * from table where field_one = ? and field_two = ?</code>)
-</p>
+
+<h5>multiple</h5>
 
 <dl>
 	<dt><code>multiple</code></dt>
 	<dd>This designation tells h2zero that <strong>one or more</strong> rows will be returned</dd>
+</dl>
+
+<p>
+	The first field finder will generate a where clause with the parameter: <code>field_one</code>, (e.g. <code>select * from table where field_one = ?</code>) 
+</p>
+
+<p>
+	The generated code will create a method that returns a <code>List&lt;Model&gt;</code> with a signature that would be of the form: <br />
+	<code>public List&lt;Model&gt; findByFieldOne(&lt;Type&gt; fieldOne);</code>
+</p>
+
+<h5>unique</h5>
+
+<dl>
 	<dt><code>unique</code> (you may also use <code>single</code>)</dt>
 	<dd>This designation tells h2zero that only <strong>one</strong> row will be returned</dd>
 </dl>
 
+<p>
+	the second will generate a where clause with two parameters, namely: <code>field_one</code> and <code>field_two</code> (e.g. <code>select * from table where field_one = ? and field_two = ?</code>)
+</p>
+
+<p>
+	The generated code will create a method that returns a <code>Model</code> with a signature that would be of the form: <br />
+	<code>public Model findByFieldOneFieldTwo(&lt;Type&gt; fieldOne, &lt;Type&gt; fieldTwo);</code>
+</p>
+
+
 <dl>
 	<dt><strong>Find a sub-set of fields</strong></dt>
-	<dd>In the <code>.json</code> file you can use a <code>selectClauseFinder</code> which will return a <code>selectClauseBean</code></dd>
+	<dd>
+		In the <code>.json</code> file you can use a <code>selectClauseFinder</code> which will return a <code>selectClauseBean</code>, this 
+		will only return a sub-set of the fields in a table, encapsulated in a Bean.
+	</dd>
 </dl>
 
 <h4><a id="count">I need to count something...</a></h4>
