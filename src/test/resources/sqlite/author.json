@@ -128,6 +128,15 @@
 			]
 		}
 	],
+	"deleters": [
+		{
+			"name": "deleteInNumber",
+			"whereClause": " where fl_is_updating in (...)",
+			"whereFields": [
+				"in:fl_is_updating"
+			]
+		}
+	],
 	"fieldCounters": [
 		"fl_is_updating,num_followers"
 	],

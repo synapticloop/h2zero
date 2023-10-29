@@ -38,7 +38,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testAllTypesDeleteByPrimaryKey() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, AllTypesDeleter.deleteByPrimaryKey(1L));
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -87,7 +86,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testAllTypesDeleteAll() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, AllTypesDeleter.deleteAll());
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -136,7 +134,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testAuthorDeleteByPrimaryKey() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, AuthorDeleter.deleteByPrimaryKey(1L));
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -185,7 +182,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testAuthorDeleteAll() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, AuthorDeleter.deleteAll());
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -234,7 +230,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testUserDeleteByPrimaryKey() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, UserDeleter.deleteByPrimaryKey(1L));
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -283,7 +278,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testUserDeleteAll() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, UserDeleter.deleteAll());
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -332,7 +326,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testPetDeleteByPrimaryKey() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, PetDeleter.deleteByPrimaryKey(1L));
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -381,7 +374,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testPetDeleteAll() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, PetDeleter.deleteAll());
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -430,7 +422,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testUserPetDeleteByPrimaryKey() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, UserPetDeleter.deleteByPrimaryKey(1L));
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -479,7 +470,6 @@ public class DeleterTest extends DatabaseSetupTest {
 	public void testUserPetDeleteAll() throws SQLException {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		Assert.assertNotEquals(-1, UserPetDeleter.deleteAll());
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
@@ -1237,6 +1227,54 @@ public class DeleterTest extends DatabaseSetupTest {
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertNotEquals(-1, AllTypesDeleter.deleteByTestVarcharSilent(connection, "varchar"));
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthordeleteInNumber() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		Assert.assertNotEquals(-1, AuthorDeleter.deleteInNumber(new ArrayList<Boolean>()));
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthordeleteInNumberSilent() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		Assert.assertNotEquals(-1, AuthorDeleter.deleteInNumberSilent(new ArrayList<Boolean>()));
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthordeleteInNumberWithConnection() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try (Connection connection = ConnectionManager.getConnection()){
+			Assert.assertNotEquals(-1, AuthorDeleter.deleteInNumber(connection, new ArrayList<Boolean>()));
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthordeleteInNumberWithConnectionSilent() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try (Connection connection = ConnectionManager.getConnection()){
+			Assert.assertNotEquals(-1, AuthorDeleter.deleteInNumberSilent(connection, new ArrayList<Boolean>()));
 		}
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(

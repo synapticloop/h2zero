@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.*;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
+import synapticloop.h2zero.util.LruCache;
 
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
@@ -34,6 +37,8 @@ public class PetDeleter {
 	private static final String SQL_DELETE_START = "delete from pet ";
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_pet = ?";
 
+	// now for the statement limit cache(s)
+	private static final LruCache<String, String> DeleterAll_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private PetDeleter() {}

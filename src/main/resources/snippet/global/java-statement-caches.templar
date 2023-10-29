@@ -1,0 +1,27 @@
+{--
+ so we need the queryObjects to loop over
+
+ queryObjects: The tableOrView finder/deleters/updaters etc
+ statementCacheSize: the size of the statementCache
+
+}
+{set "true" as hasInfield}
+{loop queryObjects as queryObject}
+	{if queryObject.hasInFields}
+		{if fn:=[hasInfield, "true"]}
+			{\t}// This is the cache for 'in {queryObject.type}' which have an ellipses (...) in the statement{\n}
+			{set "false" as hasInfield}
+		{endif}
+
+		{\t}private static final LruCache<String, String> {queryObject.name}_statement_cache = new LruCache<>({statementCacheSize});{\n}
+	{endif}
+{endloop}
+
+{\t}// now for the statement limit cache(s){\n}
+{\t}private static final LruCache<String, String> {queryObject.type}All_statement_cache = new LruCache<>({statementCacheSize});{\n}
+
+{loop queryObjects as queryObject}
+	{if !queryObject.hasInFields}
+		{\t}private static final LruCache<String, String> {queryObject.name}_statement_cache = new LruCache<>({statementCacheSize});{\n}
+	{endif}
+{endloop}

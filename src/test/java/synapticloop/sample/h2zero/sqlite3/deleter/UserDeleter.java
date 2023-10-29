@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.*;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
+import synapticloop.h2zero.util.LruCache;
 
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
@@ -38,6 +41,11 @@ public class UserDeleter {
 	private static final String SQL_DELETE_BY_NUM_AGE = SQL_DELETE_START + " where num_age = ?";
 	private static final String SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE = SQL_DELETE_START + " where fl_is_alive = ? and id_user_type = ?";
 	private static final String SQL_DELETE_BY_NUM_AGE_TEST = SQL_DELETE_START + " where num_age = ?";
+	// now for the statement limit cache(s)
+	private static final LruCache<String, String> DeleterAll_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByNumAge_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByFlIsAliveIdUserType_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByNumAgeTest_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private UserDeleter() {}
@@ -204,8 +212,25 @@ public class UserDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByNumAge(Connection connection, Integer numAge) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_NUM_AGE)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByNumAge_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_NUM_AGE);
+			statement = stringBuilder.toString();
+			deleteByNumAge_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByNumAge_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setInt(preparedStatement, 1, numAge);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -222,9 +247,26 @@ public class UserDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByFlIsAliveIdUserType(Connection connection, Boolean flIsAlive,Long idUserType) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByFlIsAliveIdUserType_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE);
+			statement = stringBuilder.toString();
+			deleteByFlIsAliveIdUserType_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByFlIsAliveIdUserType_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setBoolean(preparedStatement, 1, flIsAlive);
 			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -240,8 +282,25 @@ public class UserDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByNumAgeTest(Connection connection, Integer numAge) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_NUM_AGE_TEST)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByNumAgeTest_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_NUM_AGE_TEST);
+			statement = stringBuilder.toString();
+			deleteByNumAgeTest_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByNumAgeTest_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setInt(preparedStatement, 1, numAge);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -288,7 +347,7 @@ public class UserDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByNumAgeSilent(Connection connection, Integer numAge) {
+	public static int deleteByNumAgeSilent(Connection connection,Integer numAge) {
 		try {
 			return(deleteByNumAge(connection, numAge));
 		} catch (SQLException ex) {
@@ -341,7 +400,7 @@ public class UserDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByFlIsAliveIdUserTypeSilent(Connection connection, Boolean flIsAlive, Long idUserType) {
+	public static int deleteByFlIsAliveIdUserTypeSilent(Connection connection,Boolean flIsAlive,Long idUserType) {
 		try {
 			return(deleteByFlIsAliveIdUserType(connection, flIsAlive,idUserType));
 		} catch (SQLException ex) {
@@ -391,7 +450,7 @@ public class UserDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByNumAgeTestSilent(Connection connection, Integer numAge) {
+	public static int deleteByNumAgeTestSilent(Connection connection,Integer numAge) {
 		try {
 			return(deleteByNumAgeTest(connection, numAge));
 		} catch (SQLException ex) {

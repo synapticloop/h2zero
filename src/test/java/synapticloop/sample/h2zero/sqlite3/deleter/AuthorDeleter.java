@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.*;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
+import synapticloop.h2zero.util.LruCache;
 
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
@@ -34,6 +37,12 @@ public class AuthorDeleter {
 	private static final String SQL_DELETE_START = "delete from author ";
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_author = ?";
 
+	// static fields generated from the user input
+	private static final String SQL_DELETE_IN_NUMBER = SQL_DELETE_START + "  where fl_is_updating in (...)";
+	// This is the cache for 'in Deleter' which have an ellipses (...) in the statement
+	private static final LruCache<String, String> deleteInNumber_statement_cache = new LruCache<>(1024);
+	// now for the statement limit cache(s)
+	private static final LruCache<String, String> DeleterAll_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private AuthorDeleter() {}
@@ -181,9 +190,108 @@ public class AuthorDeleter {
 	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
 	 * key.
 	 * 
-	 * There are 0 defined deleters on the author table:
+	 * There are 1 defined deleters on the author table:
 	 * 
+	 * - deleteInNumber - from 'deleters' JSON key 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	/**
+	 * deleteInNumber - from 'deleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteInNumber(Connection connection, List<Boolean> flIsUpdatingList) throws SQLException {
+		String cacheKey = flIsUpdatingList.size() + ":" ;
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteInNumber_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			String preparedStatementTemp = SQL_DELETE_IN_NUMBER;
+			StringBuilder whereFieldStringBuilder = null;
+			whereFieldStringBuilder = new StringBuilder();
+			for(int i = 0; i < flIsUpdatingList.size(); i++) {
+				if(i > 0) {
+					whereFieldStringBuilder.append(", ");
+				}
+				whereFieldStringBuilder.append("?");
+			}
+			preparedStatementTemp = SQL_DELETE_IN_NUMBER.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
+			statement = stringBuilder.toString();
+			deleteInNumber_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteInNumber_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
+			int i = 1;
+			for (Boolean flIsUpdatingIn : flIsUpdatingList) {
+				ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingIn);
+				i++;
+			}
+
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteInNumber - from 'deleters' JSON key
+	 *
+	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteInNumber(List<Boolean> flIsUpdatingList) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteInNumber(connection, flIsUpdatingList));
+		}
+	}
+
+	/**
+	 * deleteInNumber - from 'deleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteInNumberSilent(List<Boolean> flIsUpdatingList) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteInNumber(connection, flIsUpdatingList));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteInNumber, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteInNumber - from 'deleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteInNumberSilent(Connection connection,List<Boolean> flIsUpdatingList) {
+		try {
+			return(deleteInNumber(connection, flIsUpdatingList));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteInNumber, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
 }

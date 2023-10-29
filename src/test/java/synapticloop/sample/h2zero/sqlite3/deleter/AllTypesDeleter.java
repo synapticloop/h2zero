@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.*;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
+import synapticloop.h2zero.util.LruCache;
 
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
@@ -50,6 +53,23 @@ public class AllTypesDeleter {
 	private static final String SQL_DELETE_BY_TEST_TEXT = SQL_DELETE_START + " where test_text = ?";
 	private static final String SQL_DELETE_BY_TEST_TINYINT = SQL_DELETE_START + " where test_tinyint = ?";
 	private static final String SQL_DELETE_BY_TEST_VARCHAR = SQL_DELETE_START + " where test_varchar = ?";
+	// now for the statement limit cache(s)
+	private static final LruCache<String, String> DeleterAll_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByIdAllTypes_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestBigint_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestBoolean_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestDate_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestDatetime_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestDouble_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestFloat_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestInt_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestInteger_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestMediumint_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestNumeric_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestSmallint_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestText_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestTinyint_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestVarchar_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private AllTypesDeleter() {}
@@ -228,8 +248,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByIdAllTypes(Connection connection, Long idAllTypes) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID_ALL_TYPES)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByIdAllTypes_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_ID_ALL_TYPES);
+			statement = stringBuilder.toString();
+			deleteByIdAllTypes_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByIdAllTypes_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -245,8 +282,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestBigint(Connection connection, Long testBigint) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_BIGINT)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestBigint_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_BIGINT);
+			statement = stringBuilder.toString();
+			deleteByTestBigint_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestBigint_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setBigint(preparedStatement, 1, testBigint);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -262,8 +316,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestBoolean(Connection connection, Boolean testBoolean) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_BOOLEAN)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestBoolean_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_BOOLEAN);
+			statement = stringBuilder.toString();
+			deleteByTestBoolean_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestBoolean_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setBoolean(preparedStatement, 1, testBoolean);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -279,8 +350,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestDate(Connection connection, Date testDate) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_DATE)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestDate_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DATE);
+			statement = stringBuilder.toString();
+			deleteByTestDate_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestDate_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setDate(preparedStatement, 1, testDate);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -296,8 +384,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestDatetime(Connection connection, Timestamp testDatetime) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_DATETIME)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestDatetime_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DATETIME);
+			statement = stringBuilder.toString();
+			deleteByTestDatetime_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestDatetime_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setDatetime(preparedStatement, 1, testDatetime);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -313,8 +418,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestDouble(Connection connection, Double testDouble) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_DOUBLE)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestDouble_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DOUBLE);
+			statement = stringBuilder.toString();
+			deleteByTestDouble_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestDouble_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setDouble(preparedStatement, 1, testDouble);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -330,8 +452,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestFloat(Connection connection, Float testFloat) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_FLOAT)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestFloat_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_FLOAT);
+			statement = stringBuilder.toString();
+			deleteByTestFloat_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestFloat_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setFloat(preparedStatement, 1, testFloat);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -347,8 +486,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestInt(Connection connection, Integer testInt) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_INT)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestInt_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_INT);
+			statement = stringBuilder.toString();
+			deleteByTestInt_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestInt_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setInt(preparedStatement, 1, testInt);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -364,8 +520,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestInteger(Connection connection, Integer testInteger) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_INTEGER)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestInteger_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_INTEGER);
+			statement = stringBuilder.toString();
+			deleteByTestInteger_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestInteger_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setInteger(preparedStatement, 1, testInteger);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -381,8 +554,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestMediumint(Connection connection, Integer testMediumint) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_MEDIUMINT)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestMediumint_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_MEDIUMINT);
+			statement = stringBuilder.toString();
+			deleteByTestMediumint_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestMediumint_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setMediumint(preparedStatement, 1, testMediumint);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -398,8 +588,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestNumeric(Connection connection, BigDecimal testNumeric) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_NUMERIC)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestNumeric_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_NUMERIC);
+			statement = stringBuilder.toString();
+			deleteByTestNumeric_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestNumeric_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setNumeric(preparedStatement, 1, testNumeric);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -415,8 +622,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestSmallint(Connection connection, Short testSmallint) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_SMALLINT)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestSmallint_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_SMALLINT);
+			statement = stringBuilder.toString();
+			deleteByTestSmallint_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestSmallint_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setSmallint(preparedStatement, 1, testSmallint);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -432,8 +656,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestText(Connection connection, String testText) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_TEXT)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestText_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_TEXT);
+			statement = stringBuilder.toString();
+			deleteByTestText_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestText_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setText(preparedStatement, 1, testText);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -449,8 +690,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestTinyint(Connection connection, Boolean testTinyint) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_TINYINT)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestTinyint_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_TINYINT);
+			statement = stringBuilder.toString();
+			deleteByTestTinyint_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestTinyint_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setTinyint(preparedStatement, 1, testTinyint);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -466,8 +724,25 @@ public class AllTypesDeleter {
 	 * @throws SQLException if there was an error in the deletion
 	 */
 	public static int deleteByTestVarchar(Connection connection, String testVarchar) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_VARCHAR)) {
+		String cacheKey = "cacheKey";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteByTestVarchar_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_VARCHAR);
+			statement = stringBuilder.toString();
+			deleteByTestVarchar_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteByTestVarchar_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			ConnectionManager.setVarchar(preparedStatement, 1, testVarchar);
+
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -514,7 +789,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByIdAllTypesSilent(Connection connection, Long idAllTypes) {
+	public static int deleteByIdAllTypesSilent(Connection connection,Long idAllTypes) {
 		try {
 			return(deleteByIdAllTypes(connection, idAllTypes));
 		} catch (SQLException ex) {
@@ -564,7 +839,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestBigintSilent(Connection connection, Long testBigint) {
+	public static int deleteByTestBigintSilent(Connection connection,Long testBigint) {
 		try {
 			return(deleteByTestBigint(connection, testBigint));
 		} catch (SQLException ex) {
@@ -614,7 +889,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestBooleanSilent(Connection connection, Boolean testBoolean) {
+	public static int deleteByTestBooleanSilent(Connection connection,Boolean testBoolean) {
 		try {
 			return(deleteByTestBoolean(connection, testBoolean));
 		} catch (SQLException ex) {
@@ -664,7 +939,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestDateSilent(Connection connection, Date testDate) {
+	public static int deleteByTestDateSilent(Connection connection,Date testDate) {
 		try {
 			return(deleteByTestDate(connection, testDate));
 		} catch (SQLException ex) {
@@ -714,7 +989,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestDatetimeSilent(Connection connection, Timestamp testDatetime) {
+	public static int deleteByTestDatetimeSilent(Connection connection,Timestamp testDatetime) {
 		try {
 			return(deleteByTestDatetime(connection, testDatetime));
 		} catch (SQLException ex) {
@@ -764,7 +1039,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestDoubleSilent(Connection connection, Double testDouble) {
+	public static int deleteByTestDoubleSilent(Connection connection,Double testDouble) {
 		try {
 			return(deleteByTestDouble(connection, testDouble));
 		} catch (SQLException ex) {
@@ -814,7 +1089,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestFloatSilent(Connection connection, Float testFloat) {
+	public static int deleteByTestFloatSilent(Connection connection,Float testFloat) {
 		try {
 			return(deleteByTestFloat(connection, testFloat));
 		} catch (SQLException ex) {
@@ -864,7 +1139,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestIntSilent(Connection connection, Integer testInt) {
+	public static int deleteByTestIntSilent(Connection connection,Integer testInt) {
 		try {
 			return(deleteByTestInt(connection, testInt));
 		} catch (SQLException ex) {
@@ -914,7 +1189,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestIntegerSilent(Connection connection, Integer testInteger) {
+	public static int deleteByTestIntegerSilent(Connection connection,Integer testInteger) {
 		try {
 			return(deleteByTestInteger(connection, testInteger));
 		} catch (SQLException ex) {
@@ -964,7 +1239,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestMediumintSilent(Connection connection, Integer testMediumint) {
+	public static int deleteByTestMediumintSilent(Connection connection,Integer testMediumint) {
 		try {
 			return(deleteByTestMediumint(connection, testMediumint));
 		} catch (SQLException ex) {
@@ -1014,7 +1289,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestNumericSilent(Connection connection, BigDecimal testNumeric) {
+	public static int deleteByTestNumericSilent(Connection connection,BigDecimal testNumeric) {
 		try {
 			return(deleteByTestNumeric(connection, testNumeric));
 		} catch (SQLException ex) {
@@ -1064,7 +1339,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestSmallintSilent(Connection connection, Short testSmallint) {
+	public static int deleteByTestSmallintSilent(Connection connection,Short testSmallint) {
 		try {
 			return(deleteByTestSmallint(connection, testSmallint));
 		} catch (SQLException ex) {
@@ -1114,7 +1389,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestTextSilent(Connection connection, String testText) {
+	public static int deleteByTestTextSilent(Connection connection,String testText) {
 		try {
 			return(deleteByTestText(connection, testText));
 		} catch (SQLException ex) {
@@ -1164,7 +1439,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestTinyintSilent(Connection connection, Boolean testTinyint) {
+	public static int deleteByTestTinyintSilent(Connection connection,Boolean testTinyint) {
 		try {
 			return(deleteByTestTinyint(connection, testTinyint));
 		} catch (SQLException ex) {
@@ -1214,7 +1489,7 @@ public class AllTypesDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteByTestVarcharSilent(Connection connection, String testVarchar) {
+	public static int deleteByTestVarcharSilent(Connection connection,String testVarchar) {
 		try {
 			return(deleteByTestVarchar(connection, testVarchar));
 		} catch (SQLException ex) {
