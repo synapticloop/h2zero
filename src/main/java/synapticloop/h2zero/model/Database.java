@@ -68,8 +68,8 @@ public class Database {
 		JSONObject databaseJson = null;
 		try {
 			databaseJson = jsonObject.getJSONObject(JSONKeyConstants.DATABASE);
-		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException(String.format("The json file must have a key of '%s'.", JSONKeyConstants.DATABASE), ojjsonex);
+		} catch (JSONException ex) {
+			throw new H2ZeroParseException(String.format("The json file must have a key of '%s'.", JSONKeyConstants.DATABASE), ex);
 		}
 
 		// get the generic information from the json object
@@ -84,18 +84,18 @@ public class Database {
 
 		// do some checking on the values, fail if not available
 		if(null == schema) {
-			throw new H2ZeroParseException(String.format("You must have a key and value of '%s'.", JSONKeyConstants.SCHEMA));
+			throw new H2ZeroParseException(String.format("You must have a key of '%s' and an associated value.", JSONKeyConstants.SCHEMA));
 		}
 
 		if(null == this.packageName) {
-			throw new H2ZeroParseException(String.format("You must have a key and value of '%s'.", JSONKeyConstants.PACKAGE));
+			throw new H2ZeroParseException(String.format("You must have a key of '%s' and an associated value.", JSONKeyConstants.PACKAGE));
 		}
 
 		// now that we have the database set up, now it is time for the tables
 		JSONArray tableJson = new JSONArray();
 		try {
 			tableJson = databaseJson.getJSONArray(JSONKeyConstants.TABLES);
-		} catch (JSONException ojjsonex) {
+		} catch (JSONException ex) {
 			// whilst it is possible to create a database without any tables, is it
 			// advisable?
 		}
@@ -106,8 +106,8 @@ public class Database {
 				Table table = new Table(options, tableObject, defaultStatementCacheSize);
 				tables.add(table);
 				tableLookup.put(table.getName(), table);
-			} catch (JSONException jsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.TABLES + "' array.", jsonex);
+			} catch (JSONException ex) {
+				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.TABLES + "' array.", ex);
 			}
 		}
 
@@ -132,7 +132,7 @@ public class Database {
 		JSONArray viewJson = new JSONArray();
 		try {
 			viewJson = databaseJson.getJSONArray(JSONKeyConstants.VIEWS);
-		} catch (JSONException ojjsonex) {
+		} catch (JSONException ex) {
 			// no views is OK
 		}
 
@@ -140,8 +140,8 @@ public class Database {
 			try {
 				JSONObject viewObject = viewJson.getJSONObject(i);
 				views.add(new View(viewObject, defaultStatementCacheSize));
-			} catch (JSONException jsonex) {
-				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.VIEWS + "' array.", jsonex);
+			} catch (JSONException ex) {
+				throw new H2ZeroParseException("Could not parse the '" + JSONKeyConstants.VIEWS + "' array.", ex);
 			}
 		}
 		databaseJson.remove(JSONKeyConstants.VIEWS);

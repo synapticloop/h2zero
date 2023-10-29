@@ -144,6 +144,12 @@ public class Options {
 
 		outputBuild = convertToAbsolutePath(outputBuild);
 
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "Parsed options are as follows:");
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "\t          Output code to: " + outputCode);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "\t     Output test code to: " + outputTestCode);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "\t     Output resources to: " + outputResource);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tOutput test resources to: " + outputTestResource);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "\t         Output build to: " + outputBuild);
 		jsonObject.remove(JSONKeyConstants.OPTIONS);
 	}
 
@@ -169,8 +175,14 @@ public class Options {
 				SimpleLogger.logInfo(LoggerType.EXTENSIONS, "Adding extension '" + extension + "' with options '" + extensionJSONObject.toString() + "'.");
 				extensions.put(extensionClass, extensionJSONObject);
 
-			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | 
-					IllegalArgumentException | InvocationTargetException | SecurityException ex) {
+			} catch (ClassNotFoundException |
+							 InstantiationException |
+							 IllegalAccessException |
+							 NoSuchMethodException |
+							 IllegalArgumentException |
+							 InvocationTargetException |
+							 SecurityException ex) {
+
 				String message = "Could not instantiate the extension '" + extension + "', message was: " + ex.getMessage();
 				SimpleLogger.logFatal(LoggerType.EXTENSIONS, message);
 				throw new H2ZeroParseException(message, ex);
