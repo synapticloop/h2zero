@@ -233,7 +233,7 @@ public class BaseH2ZeroGenerator {
 			List<Table> tables = h2zeroParser.getDatabase().getTables();
 			List<View> views = h2zeroParser.getDatabase().getViews();
 
-			int maxViewNameLength = 0;
+			int maxNameLength = 0;
 
 			int maxFields = 0;
 			int maxFinders = 0;
@@ -244,37 +244,30 @@ public class BaseH2ZeroGenerator {
 			int maxCounters = 0;
 
 			for (Table table : tables) {
-				int tableNameLength = table.getName().length();
-				if(tableNameLength > maxViewNameLength) {
-					maxViewNameLength = tableNameLength;
-				}
+				maxNameLength = Math.max(maxNameLength, table.getName().length());
 
-				int fieldsSize = table.getFields().size();
-				if(fieldsSize > maxFields) { maxFields = fieldsSize; }
+				maxFields = Math.max(maxFields, table.getFields().size());
+				maxFinders = Math.max(maxFinders, table.getFinders().size());
+				maxDeleters = Math.max(maxDeleters, table.getDeleters().size());
+				maxUpdaters = Math.max(maxUpdaters, table.getUpdaters().size());
+				maxInserters = Math.max(maxInserters, table.getUpdaters().size());
+				maxQuestions = Math.max(maxInserters, table.getQuestions().size());
+				maxCounters = Math.max(maxCounters, table.getCounters().size());
+			}
 
-				int findersSize = table.getFinders().size();
-				if(findersSize > maxFinders) { maxFinders = findersSize; }
+			for (View view : views) {
+				maxNameLength = Math.max(maxNameLength, view.getName().length());
 
-				int deletersSize = table.getDeleters().size();
-				if(deletersSize > maxDeleters) { maxDeleters = deletersSize; }
-
-				int updatersSize = table.getUpdaters().size();
-				if(updatersSize > maxUpdaters) { maxUpdaters = updatersSize; }
-
-				int insertersSize = table.getUpdaters().size();
-				if(insertersSize > maxInserters) { maxInserters = insertersSize; }
-
-				int questionsSize = table.getQuestions().size();
-				if(questionsSize > maxQuestions) { maxQuestions = questionsSize; }
-
-				int countersSize = table.getCounters().size();
-				if(countersSize > maxCounters) { maxCounters = countersSize; }
+				maxFields = Math.max(maxFields, view.getFields().size());
+				maxFinders = Math.max(maxFinders, view.getFinders().size());
+				maxQuestions = Math.max(maxInserters, view.getQuestions().size());
+				maxCounters = Math.max(maxCounters, view.getCounters().size());
 			}
 
 			for (Table table : tables) {
-				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'table' " + String.format("%-" + maxViewNameLength + "s", table.getName()) + 
+				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'table' " + String.format("%-" + maxNameLength + "s", table.getName()) +
 						" [ " + 
-						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", table.getFields().size()) + 
+						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", table.getFields().size()) +
 						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", table.getFinders().size()) + 
 						String.format("%" + (Integer.toString(maxDeleters)).length() + "s deleters, ", table.getDeleters().size()) + 
 						String.format("%" + (Integer.toString(maxUpdaters)).length() + "s updaters, ", table.getUpdaters().size()) + 
@@ -285,35 +278,17 @@ public class BaseH2ZeroGenerator {
 			}
 
 			for (View view : views) {
-				int viewNameLength = view.getName().length();
-				if(viewNameLength > maxViewNameLength) {
-					maxViewNameLength = viewNameLength;
-				}
-
-				int fieldsSize = view.getFields().size();
-				if(fieldsSize > maxFields) { maxFields = fieldsSize; }
-
-				int findersSize = view.getFinders().size();
-				if(findersSize > maxFinders) { maxFinders = findersSize; }
-
-				int questionsSize = view.getQuestions().size();
-				if(questionsSize > maxQuestions) { maxQuestions = questionsSize; }
-
-				int countersSize = view.getCounters().size();
-				if(countersSize > maxCounters) { maxCounters = countersSize; }
-			}
-
-			for (View view : views) {
-				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'view' " + String.format("%-" + maxViewNameLength + "s", view.getName()) + 
-						"  [ " + 
+				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'view'  " + String.format("%-" + maxNameLength + "s", view.getName()) +
+						" [ " +
 						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", view.getFields().size()) + 
 						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", view.getFinders().size()) +
-						"- deleters, " +
-						"- updaters, " +
-						"- inserters, " +
-						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", view.getQuestions().size()) + 
+						String.format("%" + (Integer.toString(maxDeleters)).length() + "s deleters, ", "-") +
+						String.format("%" + (Integer.toString(maxUpdaters)).length() + "s updaters, ", "-") +
+						String.format("%" + (Integer.toString(maxInserters)).length() + "s inserters, ", "-") +
+						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", view.getQuestions().size()) +
 						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", view.getCounters().size()) + 
 						" ] ");
 			}
 		}
-	}}
+	}
+}

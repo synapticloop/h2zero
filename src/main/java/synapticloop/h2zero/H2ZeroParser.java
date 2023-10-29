@@ -252,8 +252,8 @@ public class H2ZeroParser {
 		JSONObject jsonObject = null;
 		try {
 			jsonObject = getJSONFileContents(file);
-		} catch (JSONException ojjsonex) {
-			throw new H2ZeroParseException("Error parsing JSON, message was '" + ojjsonex.getMessage() + "'.", ojjsonex);
+		} catch (JSONException ex) {
+			throw new H2ZeroParseException("Error parsing JSON, message was '" + ex.getMessage() + "'.", ex);
 		}
 
 		// try and get the options
@@ -310,7 +310,7 @@ public class H2ZeroParser {
 			}
 		}
 
-		SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] +-----------> [ info: %d, warn: %d, fatal: %d ]", "Validation statistics: ", numInfo, numWarn, numFatal));
+		SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] +-----------> [ info: %4d, warn: %4d, fatal: %4d ]", "Validation statistics: ", numInfo, numWarn, numFatal));
 		return isValid;
 	}
 
@@ -336,8 +336,8 @@ public class H2ZeroParser {
 				stringBuilder.append(line);
 				stringBuilder.append("\n");
 			}
-		} catch (IOException ioex) {
-			throw new H2ZeroParseException("There was a problem reading the file '" + file.getAbsolutePath() + "'.", ioex);
+		} catch (IOException ex) {
+			throw new H2ZeroParseException("There was a problem reading the file '" + file.getAbsolutePath() + "'.", ex);
 		}
 		return (stringBuilder.toString());
 	}
@@ -359,6 +359,7 @@ public class H2ZeroParser {
 		String absolutePath = file.getParentFile().getAbsolutePath();
 		JSONObject databaseObject = jsonObject.getJSONObject(JSONKeyConstants.DATABASE);
 		JSONArray tablesArray = databaseObject.getJSONArray(JSONKeyConstants.TABLES);
+
 		int i = 0;
 		for (Object object : tablesArray) {
 			JSONObject tableObject = (JSONObject) object;

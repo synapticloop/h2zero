@@ -135,9 +135,9 @@ public abstract class BaseValidator {
 	 */
 	public List<Message> getFormattedMessages() {
 		if(isValid) {
-			addSummaryMessage("  VALID:  [ info: " + numInfo + ", warn: " + numWarn + ", fatal: " + numFatal + " ]");
+			addSummaryMessage(String.format("  VALID:  [ info: %4d, warn: %4d, fatal: %4d ]", numInfo, numWarn, numFatal));
 		} else {
-			addSummaryMessage("INVALID:  [ info: " + numInfo + ", warn: " + numWarn + ", fatal: " + numFatal + " ]");
+			addSummaryMessage(String.format("INVALID:  [ info: %4d, warn: %4d, fatal: %4d ]", numInfo, numWarn, numFatal));
 		}
 		return(messages);
 	}
