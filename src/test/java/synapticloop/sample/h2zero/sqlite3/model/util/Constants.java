@@ -80,7 +80,7 @@ public class Constants {
 	public static final String USER_DTM_SIGNUP = "dtmSignup";
 
 
-	public static final String USER_findNmUserDtmSignup_BINDER = "USER_findNmUserDtmSignup";
+	public static final String USER_findNmUsernameDtmSignup_BINDER = "USER_findNmUsernameDtmSignup";
 	public static final String USER_findGroupNumAge_BINDER = "USER_findGroupNumAge";
 	// Field constants for the pet table
 	public static final String PET_ID_PET = "idPet";

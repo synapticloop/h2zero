@@ -59,6 +59,7 @@ public class JavaTestGenerator extends Generator {
 			new File("." + options.getOutputTestResources()).mkdirs();
 			generateDatabaseTestBase(templarContext);
 			generateFinderTest(templarContext);
+			generateDeleterTest(templarContext);
 		} catch (FunctionException fex) {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
@@ -73,6 +74,12 @@ public class JavaTestGenerator extends Generator {
 	private void generateFinderTest(TemplarContext templarContext) throws ParseException, RenderException {
 		Parser javaGenerateDatabaseTestBaseParser = getParser("/tests/java-finder-test.templar");
 		String pathname = outFile + options.getOutputTestCode() + database.getPackagePath() + "/test/util/FinderTest.java";
+		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
+	}
+
+	private void generateDeleterTest(TemplarContext templarContext) throws ParseException, RenderException {
+		Parser javaGenerateDatabaseTestBaseParser = getParser("/tests/java-deleter-test.templar");
+		String pathname = outFile + options.getOutputTestCode() + database.getPackagePath() + "/test/util/DeleterTest.java";
 		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
 	}
 

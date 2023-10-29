@@ -29,10 +29,10 @@
 			"unique": true
 		},
 		{
-			"name": "findNmUserDtmSignup",
-			"selectClause": "select nm_user, dtm_signup from user",
+			"name": "findNmUsernameDtmSignup",
+			"selectClause": "select nm_username, dtm_signup from user",
 			"selectFields": [
-				{ "name": "nm_user", "type": "varchar" },
+				{ "name": "nm_username", "type": "varchar" },
 				{ "name": "dtm_signup", "type": "datetime" }
 			],
 			"unique": false

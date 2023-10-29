@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-import synapticloop.sample.h2zero.sqlite3.bean.UserFindNmUserDtmSignupBean;
+import synapticloop.sample.h2zero.sqlite3.bean.UserFindNmUsernameDtmSignupBean;
 import synapticloop.sample.h2zero.sqlite3.bean.UserFindGroupNumAgeBean;
 
 import synapticloop.sample.h2zero.sqlite3.model.User;
@@ -44,7 +44,7 @@ public class UserFinder {
 	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START + " where nm_username = ?";
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL = SQL_SELECT_START + " where txt_address_email = ?";
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START + " where txt_address_email = ? and txt_password = ?";
-	private static final String SQL_FIND_NM_USER_DTM_SIGNUP = "select nm_user, dtm_signup from user";
+	private static final String SQL_FIND_NM_USERNAME_DTM_SIGNUP = "select nm_username, dtm_signup from user";
 	private static final String SQL_FIND_GROUP_NUM_AGE = "select count(*) as num_count, num_age from user group by num_age";
 	private static final String SQL_FIND_BY_NUM_AGE_IN = SQL_SELECT_START + " where num_age in (...)";
 	private static final String SQL_FIND_BY_NUM_AGE_BETWEEN = SQL_SELECT_START + " where num_age > ? and num_age < ?";
@@ -58,7 +58,7 @@ public class UserFinder {
 	private static final LruCache<String, String> findByNmUsername_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByTxtAddressEmail_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByTxtAddressEmailTxtPassword_limit_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> findNmUserDtmSignup_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findNmUsernameDtmSignup_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findGroupNumAge_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByNumAgeIn_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByNumAgeBetween_limit_statement_cache = new LruCache<>(1024);
@@ -1370,13 +1370,13 @@ public class UserFinder {
 	 * There are 9 defined finders on the user table, of those finders
 	 * the following are the select clause finders:
 	 * 
-	 * - findNmUserDtmSignup
+	 * - findNmUsernameDtmSignup
 	 * - findGroupNumAge
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignup(Connection connection, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		if(!hasConnection) {
 			connection = ConnectionManager.getConnection();
@@ -1387,10 +1387,10 @@ public class UserFinder {
 		// first find the statement that we want
 
 		String cacheKey = limit + ":" + offset;
-		if(!findNmUserDtmSignup_limit_statement_cache.containsKey(cacheKey)) {
+		if(!findNmUsernameDtmSignup_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
-			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_NM_USER_DTM_SIGNUP);
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_NM_USERNAME_DTM_SIGNUP);
 
 			if(null != limit) {
 				stringBuilder.append(" limit ");
@@ -1402,9 +1402,9 @@ public class UserFinder {
 			}
 
 			statement = stringBuilder.toString();
-			findNmUserDtmSignup_limit_statement_cache.put(cacheKey, statement);
+			findNmUsernameDtmSignup_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = findNmUserDtmSignup_limit_statement_cache.get(cacheKey);
+			statement = findNmUsernameDtmSignup_limit_statement_cache.get(cacheKey);
 		}
 
 		PreparedStatement preparedStatement = null;
@@ -1413,7 +1413,7 @@ public class UserFinder {
 			preparedStatement = connection.prepareStatement(statement);
 
 			resultSet = preparedStatement.executeQuery();
-			List<UserFindNmUserDtmSignupBean> results = listFindNmUserDtmSignupBean(resultSet);
+			List<UserFindNmUsernameDtmSignupBean> results = listFindNmUsernameDtmSignupBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
 			throw sqlex;
@@ -1428,56 +1428,56 @@ public class UserFinder {
 	}
 
 	// SELECTBEAN - PARAMS..., LIMIT, OFFSET 
-	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
-		return(findNmUserDtmSignup(null, limit, offset));
+	public static List<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignup(Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findNmUsernameDtmSignup(null, limit, offset));
 	}
 
 	// SELECTBEAN - CONNECTION, PARAMS...
-	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException {
-		return(findNmUserDtmSignup(null, null, null));
+	public static List<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignup(Connection connection) throws H2ZeroFinderException, SQLException {
+		return(findNmUsernameDtmSignup(null, null, null));
 	}
 
 	// SELECTBEAN - PARAMS...
-	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignup() throws H2ZeroFinderException, SQLException {
-		return(findNmUserDtmSignup(null, null, null));
+	public static List<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignup() throws H2ZeroFinderException, SQLException {
+		return(findNmUsernameDtmSignup(null, null, null));
 	}
 
 	// SILENT SELECTBEAN: CONNECTION, PARAMS..., LIMIT, OFFSET
-	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Connection connection, Integer limit, Integer offset) {
+	public static List<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignupSilent(Connection connection, Integer limit, Integer offset) {
 		try {
-			return(findNmUserDtmSignup(connection, limit, offset));
+			return(findNmUsernameDtmSignup(connection, limit, offset));
 		} catch(H2ZeroFinderException h2zfex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("H2ZeroFinderException findNmUserDtmSignupSilent(connection: " + connection  + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				LOGGER.warn("H2ZeroFinderException findNmUsernameDtmSignupSilent(connection: " + connection  + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
 					h2zfex.printStackTrace();
 				}
 			}
-			return(new ArrayList<UserFindNmUserDtmSignupBean>());
+			return(new ArrayList<UserFindNmUsernameDtmSignupBean>());
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findNmUserDtmSignupSilent(connection: " + connection  + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				LOGGER.warn("SQLException findNmUsernameDtmSignupSilent(connection: " + connection  + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
 					sqlex.printStackTrace();
 				}
 			}
-			return(new ArrayList<UserFindNmUserDtmSignupBean>());
+			return(new ArrayList<UserFindNmUsernameDtmSignupBean>());
 		}
 	}
 
 // CONNECTION, PARAMS...
-	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Connection connection) {
-		return(findNmUserDtmSignupSilent(connection, null, null));
+	public static List<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignupSilent(Connection connection) {
+		return(findNmUsernameDtmSignupSilent(connection, null, null));
 	}
 
 // PARAMS..., LIMIT, OFFSET
-	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent(Integer limit, Integer offset) {
-		return(findNmUserDtmSignupSilent(null, limit, offset));
+	public static List<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignupSilent(Integer limit, Integer offset) {
+		return(findNmUsernameDtmSignupSilent(null, limit, offset));
 	}
 
 // PARAMS...
-	public static List<UserFindNmUserDtmSignupBean> findNmUserDtmSignupSilent() {
-		return(findNmUserDtmSignupSilent(null, null, null));
+	public static List<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignupSilent() {
+		return(findNmUsernameDtmSignupSilent(null, null, null));
 	}
 
 	// SELECTBEAN - CONNECTION, PARAMS..., LIMIT, OFFSET
@@ -1586,19 +1586,19 @@ public class UserFinder {
 	}
 
 	/**
-	 * Return the results as a list of UserFindNmUserDtmSignupBeans, this will be empty if
+	 * Return the results as a list of UserFindNmUsernameDtmSignupBeans, this will be empty if
 	 * none are found.
 	 * 
-	 * @param resultSet the results as a list of UserFindNmUserDtmSignupBean
+	 * @param resultSet the results as a list of UserFindNmUsernameDtmSignupBean
 	 * 
 	 * @return the list of results
 	 * 
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
-	private static List<UserFindNmUserDtmSignupBean> listFindNmUserDtmSignupBean(ResultSet resultSet) throws SQLException {
-		List<UserFindNmUserDtmSignupBean> arrayList = new ArrayList<UserFindNmUserDtmSignupBean>();
+	private static List<UserFindNmUsernameDtmSignupBean> listFindNmUsernameDtmSignupBean(ResultSet resultSet) throws SQLException {
+		List<UserFindNmUsernameDtmSignupBean> arrayList = new ArrayList<UserFindNmUsernameDtmSignupBean>();
 		while(resultSet.next()) {
-			arrayList.add(new UserFindNmUserDtmSignupBean(
+			arrayList.add(new UserFindNmUsernameDtmSignupBean(
 					resultSet.getString(1),
 					resultSet.getTimestamp(2)));
 		}
