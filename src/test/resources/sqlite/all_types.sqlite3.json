@@ -33,5 +33,23 @@
 		{ "test_text": "single" },
 		{ "test_tinyint": "single" },
 		{ "test_varchar": "single" }
+	],
+	"fieldDeleters": [
+		"id_all_types",
+		"test_bigint",
+		"test_boolean",
+		"test_date",
+		"test_datetime",
+		"test_double",
+		"test_float",
+		"test_int",
+		"test_integer",
+		"test_mediumint",
+		"test_numeric",
+		"test_smallint",
+		"test_text",
+		"test_tinyint",
+		"test_varchar"
 	]
+
 }

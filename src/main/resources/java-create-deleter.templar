@@ -13,6 +13,9 @@ import java.sql.Connection;{\n}
 import java.sql.Timestamp;{\n}
 import java.sql.PreparedStatement;{\n}
 import java.sql.SQLException;{\n}
+import java.sql.*;{\n}
+import java.math.BigDecimal;{\n}
+
 {\n}
 import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 

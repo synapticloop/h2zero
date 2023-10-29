@@ -28,11 +28,11 @@ import java.sql.SQLException;{\n}
 {\n}
 public class DatabaseSetupTest extends BaseConnectionManager {{{\n}
 {\t}private static final String DB_DRIVER_CLASS = "org.sqlite.JDBC";{\n}
-{\t}private static final ComboPooledDataSource comboPooledDataSource = BaseConnectionManager.comboPooledDataSource;{\n}
 {\n}
 {\t}@BeforeClass{\n}
 {\t}public static void setup() {{{\n}
 {\t}{\t}try {{{\n}
+{\t}{\t}{\t}BaseConnectionManager.comboPooledDataSource = new ComboPooledDataSource();{\n}
 {\t}{\t}{\t}comboPooledDataSource.setDriverClass(DB_DRIVER_CLASS);{\n}
 {\t}{\t}} catch (PropertyVetoException e) {{ // runtime exception{\n}
 {\t}{\t}{\t}throw new RuntimeException(e);{\n}

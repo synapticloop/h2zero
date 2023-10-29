@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.*;
+import java.math.BigDecimal;
 
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 

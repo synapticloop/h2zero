@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.*;
+import java.math.BigDecimal;
 
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
@@ -32,6 +34,22 @@ public class AllTypesDeleter {
 	private static final String SQL_DELETE_START = "delete from all_types ";
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_all_types = ?";
 
+	// static fields generated from the user input
+	private static final String SQL_DELETE_BY_ID_ALL_TYPES = SQL_DELETE_START + " where id_all_types = ?";
+	private static final String SQL_DELETE_BY_TEST_BIGINT = SQL_DELETE_START + " where test_bigint = ?";
+	private static final String SQL_DELETE_BY_TEST_BOOLEAN = SQL_DELETE_START + " where test_boolean = ?";
+	private static final String SQL_DELETE_BY_TEST_DATE = SQL_DELETE_START + " where test_date = ?";
+	private static final String SQL_DELETE_BY_TEST_DATETIME = SQL_DELETE_START + " where test_datetime = ?";
+	private static final String SQL_DELETE_BY_TEST_DOUBLE = SQL_DELETE_START + " where test_double = ?";
+	private static final String SQL_DELETE_BY_TEST_FLOAT = SQL_DELETE_START + " where test_float = ?";
+	private static final String SQL_DELETE_BY_TEST_INT = SQL_DELETE_START + " where test_int = ?";
+	private static final String SQL_DELETE_BY_TEST_INTEGER = SQL_DELETE_START + " where test_integer = ?";
+	private static final String SQL_DELETE_BY_TEST_MEDIUMINT = SQL_DELETE_START + " where test_mediumint = ?";
+	private static final String SQL_DELETE_BY_TEST_NUMERIC = SQL_DELETE_START + " where test_numeric = ?";
+	private static final String SQL_DELETE_BY_TEST_SMALLINT = SQL_DELETE_START + " where test_smallint = ?";
+	private static final String SQL_DELETE_BY_TEST_TEXT = SQL_DELETE_START + " where test_text = ?";
+	private static final String SQL_DELETE_BY_TEST_TINYINT = SQL_DELETE_START + " where test_tinyint = ?";
+	private static final String SQL_DELETE_BY_TEST_VARCHAR = SQL_DELETE_START + " where test_varchar = ?";
 
 	// We don't allow instantiation
 	private AllTypesDeleter() {}
@@ -179,9 +197,1029 @@ public class AllTypesDeleter {
 	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
 	 * key.
 	 * 
-	 * There are 0 defined deleters on the all_types table:
+	 * There are 15 defined deleters on the all_types table:
 	 * 
+	 * - deleteByIdAllTypes - from 'fieldDeleters' JSON key 
+	 * - deleteByTestBigint - from 'fieldDeleters' JSON key 
+	 * - deleteByTestBoolean - from 'fieldDeleters' JSON key 
+	 * - deleteByTestDate - from 'fieldDeleters' JSON key 
+	 * - deleteByTestDatetime - from 'fieldDeleters' JSON key 
+	 * - deleteByTestDouble - from 'fieldDeleters' JSON key 
+	 * - deleteByTestFloat - from 'fieldDeleters' JSON key 
+	 * - deleteByTestInt - from 'fieldDeleters' JSON key 
+	 * - deleteByTestInteger - from 'fieldDeleters' JSON key 
+	 * - deleteByTestMediumint - from 'fieldDeleters' JSON key 
+	 * - deleteByTestNumeric - from 'fieldDeleters' JSON key 
+	 * - deleteByTestSmallint - from 'fieldDeleters' JSON key 
+	 * - deleteByTestText - from 'fieldDeleters' JSON key 
+	 * - deleteByTestTinyint - from 'fieldDeleters' JSON key 
+	 * - deleteByTestVarchar - from 'fieldDeleters' JSON key 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	/**
+	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param idAllTypes - maps to the id_all_types field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByIdAllTypes(Connection connection, Long idAllTypes) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID_ALL_TYPES)) {
+			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestBigint - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testBigint - maps to the test_bigint field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestBigint(Connection connection, Long testBigint) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_BIGINT)) {
+			ConnectionManager.setBigint(preparedStatement, 1, testBigint);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestBoolean - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testBoolean - maps to the test_boolean field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestBoolean(Connection connection, Boolean testBoolean) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_BOOLEAN)) {
+			ConnectionManager.setBoolean(preparedStatement, 1, testBoolean);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestDate - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testDate - maps to the test_date field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestDate(Connection connection, Date testDate) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_DATE)) {
+			ConnectionManager.setDate(preparedStatement, 1, testDate);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestDatetime - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testDatetime - maps to the test_datetime field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestDatetime(Connection connection, Timestamp testDatetime) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_DATETIME)) {
+			ConnectionManager.setDatetime(preparedStatement, 1, testDatetime);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestDouble - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testDouble - maps to the test_double field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestDouble(Connection connection, Double testDouble) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_DOUBLE)) {
+			ConnectionManager.setDouble(preparedStatement, 1, testDouble);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestFloat - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testFloat - maps to the test_float field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestFloat(Connection connection, Float testFloat) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_FLOAT)) {
+			ConnectionManager.setFloat(preparedStatement, 1, testFloat);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestInt - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testInt - maps to the test_int field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestInt(Connection connection, Integer testInt) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_INT)) {
+			ConnectionManager.setInt(preparedStatement, 1, testInt);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestInteger - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testInteger - maps to the test_integer field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestInteger(Connection connection, Integer testInteger) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_INTEGER)) {
+			ConnectionManager.setInteger(preparedStatement, 1, testInteger);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestMediumint - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testMediumint - maps to the test_mediumint field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestMediumint(Connection connection, Integer testMediumint) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_MEDIUMINT)) {
+			ConnectionManager.setMediumint(preparedStatement, 1, testMediumint);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestNumeric - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testNumeric - maps to the test_numeric field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestNumeric(Connection connection, BigDecimal testNumeric) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_NUMERIC)) {
+			ConnectionManager.setNumeric(preparedStatement, 1, testNumeric);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestSmallint - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testSmallint - maps to the test_smallint field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestSmallint(Connection connection, Short testSmallint) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_SMALLINT)) {
+			ConnectionManager.setSmallint(preparedStatement, 1, testSmallint);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestText - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testText - maps to the test_text field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestText(Connection connection, String testText) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_TEXT)) {
+			ConnectionManager.setText(preparedStatement, 1, testText);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestTinyint - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testTinyint - maps to the test_tinyint field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestTinyint(Connection connection, Boolean testTinyint) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_TINYINT)) {
+			ConnectionManager.setTinyint(preparedStatement, 1, testTinyint);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByTestVarchar - from 'fieldDeleters' JSON key
+	 *
+	 * @param connection - the connection - the caller must close this connection
+	 * @param testVarchar - maps to the test_varchar field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestVarchar(Connection connection, String testVarchar) throws SQLException {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_TEST_VARCHAR)) {
+			ConnectionManager.setVarchar(preparedStatement, 1, testVarchar);
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key
+	 *
+	 * @param idAllTypes - maps to the id_all_types field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByIdAllTypes(Long idAllTypes) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByIdAllTypes(connection, idAllTypes));
+		}
+	}
+
+	/**
+	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param idAllTypes - maps to the id_all_types field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByIdAllTypesSilent(Long idAllTypes) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByIdAllTypes(connection, idAllTypes));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByIdAllTypes, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param idAllTypes - maps to the id_all_types field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByIdAllTypesSilent(Connection connection, Long idAllTypes) {
+		try {
+			return(deleteByIdAllTypes(connection, idAllTypes));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByIdAllTypes, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestBigint - from 'fieldDeleters' JSON key
+	 *
+	 * @param testBigint - maps to the test_bigint field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestBigint(Long testBigint) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestBigint(connection, testBigint));
+		}
+	}
+
+	/**
+	 * deleteByTestBigint - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testBigint - maps to the test_bigint field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestBigintSilent(Long testBigint) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestBigint(connection, testBigint));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestBigint, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestBigint - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testBigint - maps to the test_bigint field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestBigintSilent(Connection connection, Long testBigint) {
+		try {
+			return(deleteByTestBigint(connection, testBigint));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestBigint, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestBoolean - from 'fieldDeleters' JSON key
+	 *
+	 * @param testBoolean - maps to the test_boolean field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestBoolean(Boolean testBoolean) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestBoolean(connection, testBoolean));
+		}
+	}
+
+	/**
+	 * deleteByTestBoolean - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testBoolean - maps to the test_boolean field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestBooleanSilent(Boolean testBoolean) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestBoolean(connection, testBoolean));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestBoolean, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestBoolean - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testBoolean - maps to the test_boolean field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestBooleanSilent(Connection connection, Boolean testBoolean) {
+		try {
+			return(deleteByTestBoolean(connection, testBoolean));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestBoolean, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestDate - from 'fieldDeleters' JSON key
+	 *
+	 * @param testDate - maps to the test_date field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestDate(Date testDate) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestDate(connection, testDate));
+		}
+	}
+
+	/**
+	 * deleteByTestDate - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testDate - maps to the test_date field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestDateSilent(Date testDate) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestDate(connection, testDate));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestDate, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestDate - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testDate - maps to the test_date field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestDateSilent(Connection connection, Date testDate) {
+		try {
+			return(deleteByTestDate(connection, testDate));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestDate, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestDatetime - from 'fieldDeleters' JSON key
+	 *
+	 * @param testDatetime - maps to the test_datetime field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestDatetime(Timestamp testDatetime) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestDatetime(connection, testDatetime));
+		}
+	}
+
+	/**
+	 * deleteByTestDatetime - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testDatetime - maps to the test_datetime field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestDatetimeSilent(Timestamp testDatetime) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestDatetime(connection, testDatetime));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestDatetime, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestDatetime - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testDatetime - maps to the test_datetime field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestDatetimeSilent(Connection connection, Timestamp testDatetime) {
+		try {
+			return(deleteByTestDatetime(connection, testDatetime));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestDatetime, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestDouble - from 'fieldDeleters' JSON key
+	 *
+	 * @param testDouble - maps to the test_double field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestDouble(Double testDouble) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestDouble(connection, testDouble));
+		}
+	}
+
+	/**
+	 * deleteByTestDouble - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testDouble - maps to the test_double field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestDoubleSilent(Double testDouble) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestDouble(connection, testDouble));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestDouble, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestDouble - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testDouble - maps to the test_double field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestDoubleSilent(Connection connection, Double testDouble) {
+		try {
+			return(deleteByTestDouble(connection, testDouble));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestDouble, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestFloat - from 'fieldDeleters' JSON key
+	 *
+	 * @param testFloat - maps to the test_float field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestFloat(Float testFloat) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestFloat(connection, testFloat));
+		}
+	}
+
+	/**
+	 * deleteByTestFloat - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testFloat - maps to the test_float field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestFloatSilent(Float testFloat) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestFloat(connection, testFloat));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestFloat, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestFloat - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testFloat - maps to the test_float field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestFloatSilent(Connection connection, Float testFloat) {
+		try {
+			return(deleteByTestFloat(connection, testFloat));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestFloat, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestInt - from 'fieldDeleters' JSON key
+	 *
+	 * @param testInt - maps to the test_int field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestInt(Integer testInt) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestInt(connection, testInt));
+		}
+	}
+
+	/**
+	 * deleteByTestInt - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testInt - maps to the test_int field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestIntSilent(Integer testInt) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestInt(connection, testInt));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestInt, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestInt - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testInt - maps to the test_int field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestIntSilent(Connection connection, Integer testInt) {
+		try {
+			return(deleteByTestInt(connection, testInt));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestInt, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestInteger - from 'fieldDeleters' JSON key
+	 *
+	 * @param testInteger - maps to the test_integer field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestInteger(Integer testInteger) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestInteger(connection, testInteger));
+		}
+	}
+
+	/**
+	 * deleteByTestInteger - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testInteger - maps to the test_integer field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestIntegerSilent(Integer testInteger) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestInteger(connection, testInteger));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestInteger, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestInteger - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testInteger - maps to the test_integer field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestIntegerSilent(Connection connection, Integer testInteger) {
+		try {
+			return(deleteByTestInteger(connection, testInteger));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestInteger, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestMediumint - from 'fieldDeleters' JSON key
+	 *
+	 * @param testMediumint - maps to the test_mediumint field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestMediumint(Integer testMediumint) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestMediumint(connection, testMediumint));
+		}
+	}
+
+	/**
+	 * deleteByTestMediumint - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testMediumint - maps to the test_mediumint field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestMediumintSilent(Integer testMediumint) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestMediumint(connection, testMediumint));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestMediumint, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestMediumint - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testMediumint - maps to the test_mediumint field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestMediumintSilent(Connection connection, Integer testMediumint) {
+		try {
+			return(deleteByTestMediumint(connection, testMediumint));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestMediumint, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestNumeric - from 'fieldDeleters' JSON key
+	 *
+	 * @param testNumeric - maps to the test_numeric field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestNumeric(BigDecimal testNumeric) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestNumeric(connection, testNumeric));
+		}
+	}
+
+	/**
+	 * deleteByTestNumeric - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testNumeric - maps to the test_numeric field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestNumericSilent(BigDecimal testNumeric) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestNumeric(connection, testNumeric));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestNumeric, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestNumeric - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testNumeric - maps to the test_numeric field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestNumericSilent(Connection connection, BigDecimal testNumeric) {
+		try {
+			return(deleteByTestNumeric(connection, testNumeric));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestNumeric, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestSmallint - from 'fieldDeleters' JSON key
+	 *
+	 * @param testSmallint - maps to the test_smallint field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestSmallint(Short testSmallint) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestSmallint(connection, testSmallint));
+		}
+	}
+
+	/**
+	 * deleteByTestSmallint - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testSmallint - maps to the test_smallint field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestSmallintSilent(Short testSmallint) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestSmallint(connection, testSmallint));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestSmallint, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestSmallint - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testSmallint - maps to the test_smallint field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestSmallintSilent(Connection connection, Short testSmallint) {
+		try {
+			return(deleteByTestSmallint(connection, testSmallint));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestSmallint, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestText - from 'fieldDeleters' JSON key
+	 *
+	 * @param testText - maps to the test_text field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestText(String testText) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestText(connection, testText));
+		}
+	}
+
+	/**
+	 * deleteByTestText - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testText - maps to the test_text field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestTextSilent(String testText) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestText(connection, testText));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestText, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestText - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testText - maps to the test_text field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestTextSilent(Connection connection, String testText) {
+		try {
+			return(deleteByTestText(connection, testText));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestText, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestTinyint - from 'fieldDeleters' JSON key
+	 *
+	 * @param testTinyint - maps to the test_tinyint field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestTinyint(Boolean testTinyint) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestTinyint(connection, testTinyint));
+		}
+	}
+
+	/**
+	 * deleteByTestTinyint - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testTinyint - maps to the test_tinyint field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestTinyintSilent(Boolean testTinyint) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestTinyint(connection, testTinyint));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestTinyint, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestTinyint - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testTinyint - maps to the test_tinyint field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestTinyintSilent(Connection connection, Boolean testTinyint) {
+		try {
+			return(deleteByTestTinyint(connection, testTinyint));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestTinyint, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteByTestVarchar - from 'fieldDeleters' JSON key
+	 *
+	 * @param testVarchar - maps to the test_varchar field
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteByTestVarchar(String testVarchar) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestVarchar(connection, testVarchar));
+		}
+	}
+
+	/**
+	 * deleteByTestVarchar - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param testVarchar - maps to the test_varchar field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteByTestVarcharSilent(String testVarchar) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByTestVarchar(connection, testVarchar));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestVarchar, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteByTestVarchar - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection to use - the caller must close this connection
+	 * @param testVarchar - maps to the test_varchar field
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteByTestVarcharSilent(Connection connection, String testVarchar) {
+		try {
+			return(deleteByTestVarchar(connection, testVarchar));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByTestVarchar, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
 }
