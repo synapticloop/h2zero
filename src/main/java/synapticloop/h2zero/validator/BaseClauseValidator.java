@@ -40,6 +40,7 @@ public abstract class BaseClauseValidator extends BaseValidator {
 			}
 		}
 
+		// now to see whether the
 		// the select clause is a little bit different in that there may be multiple sub-selects and is harder to validate
 	}
 }

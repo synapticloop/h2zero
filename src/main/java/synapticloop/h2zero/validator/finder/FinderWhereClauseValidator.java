@@ -41,6 +41,17 @@ public class FinderWhereClauseValidator extends BaseValidator {
 				}
 			}
 		}
+
+		for (Table table : tables) {
+			List<Finder> finders = table.getFinders();
+			for (Finder finder : finders) {
+				String whereClause = finder.getWhereClause();
+				if(null != whereClause && whereClause.toLowerCase().trim().endsWith(";")) {
+					addFatalMessage("Finder '" + table.getName() + "." + finder.getName() + "' ends in a semicolon ';' which will not work...  please remove it.");
+				}
+			}
+		}
+
 	}
 
 }
