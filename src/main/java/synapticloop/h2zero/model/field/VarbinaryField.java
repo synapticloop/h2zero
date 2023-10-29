@@ -57,4 +57,6 @@ public class VarbinaryField extends BaseField {
 		return(true);
 	}
 
+	@Override public String getSqlTestValue() { return("new java.sql.Blob()"); }
+
 }

@@ -49,4 +49,6 @@ public class NcharacterField extends BaseField {
 		return true;
 	}
 
+	@Override public String getSqlTestValue() { return("\"N\""); }
+
 }

@@ -23,6 +23,8 @@ import org.json.JSONObject;
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
 
+import java.math.BigDecimal;
+
 public class NumericField extends BaseField {
 
 	public NumericField(JSONObject jsonObject) throws H2ZeroParseException {
@@ -60,5 +62,7 @@ public class NumericField extends BaseField {
 	public boolean getShouldEscape() {
 		return false;
 	}
+
+	@Override public String getSqlTestValue() { return("new java.math.BigDecimal(\"0.0\")"); }
 
 }

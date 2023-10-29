@@ -38,9 +38,39 @@ public class AllTypesFinder {
 	private static final String SQL_SELECT_START = "select id_all_types, test_bigint, test_boolean, test_date, test_datetime, test_double, test_float, test_int, test_integer, test_mediumint, test_numeric, test_smallint, test_text, test_tinyint, test_varchar from all_types";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
+	private static final String SQL_FIND_BY_ID_ALL_TYPES = SQL_SELECT_START + " where id_all_types = ?";
+	private static final String SQL_FIND_BY_TEST_BIGINT = SQL_SELECT_START + " where test_bigint = ?";
+	private static final String SQL_FIND_BY_TEST_BOOLEAN = SQL_SELECT_START + " where test_boolean = ?";
+	private static final String SQL_FIND_BY_TEST_DATE = SQL_SELECT_START + " where test_date = ?";
+	private static final String SQL_FIND_BY_TEST_DATETIME = SQL_SELECT_START + " where test_datetime = ?";
+	private static final String SQL_FIND_BY_TEST_DOUBLE = SQL_SELECT_START + " where test_double = ?";
+	private static final String SQL_FIND_BY_TEST_FLOAT = SQL_SELECT_START + " where test_float = ?";
+	private static final String SQL_FIND_BY_TEST_INT = SQL_SELECT_START + " where test_int = ?";
+	private static final String SQL_FIND_BY_TEST_INTEGER = SQL_SELECT_START + " where test_integer = ?";
+	private static final String SQL_FIND_BY_TEST_MEDIUMINT = SQL_SELECT_START + " where test_mediumint = ?";
+	private static final String SQL_FIND_BY_TEST_NUMERIC = SQL_SELECT_START + " where test_numeric = ?";
+	private static final String SQL_FIND_BY_TEST_SMALLINT = SQL_SELECT_START + " where test_smallint = ?";
+	private static final String SQL_FIND_BY_TEST_TEXT = SQL_SELECT_START + " where test_text = ?";
+	private static final String SQL_FIND_BY_TEST_TINYINT = SQL_SELECT_START + " where test_tinyint = ?";
+	private static final String SQL_FIND_BY_TEST_VARCHAR = SQL_SELECT_START + " where test_varchar = ?";
 
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByIdAllTypes_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestBigint_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestBoolean_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestDate_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestDatetime_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestDouble_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestFloat_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestInt_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestInteger_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestMediumint_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestNumeric_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestSmallint_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestText_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestTinyint_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByTestVarchar_limit_statement_cache = new LruCache<>(1024);
 
 	private AllTypesFinder() {}
 
@@ -181,8 +211,9 @@ public class AllTypesFinder {
 	 * @return a list of all the AllTypes objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<AllTypes> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {
+	public static List<AllTypes> findAll(Connection connection, Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		// first find the statement that we want
@@ -222,14 +253,14 @@ public class AllTypesFinder {
 			preparedStatement = connection.prepareStatement(statement);
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch(SQLException sqlex) {
+		} catch(SQLException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAll(): " + sqlex.getMessage());
+				LOGGER.warn("SQLException findAll(): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
-			throw sqlex;
+			throw ex;
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -238,6 +269,9 @@ public class AllTypesFinder {
 			}
 		}
 
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find any results for findAll");
+		}
 		return(results);
 	}
 
@@ -248,8 +282,9 @@ public class AllTypesFinder {
 	 * @return The list of AllTypes model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<AllTypes> findAll() throws SQLException {
+	public static List<AllTypes> findAll() throws SQLException, H2ZeroFinderException {
 		return(findAll(null, null, null));
 	}
 
@@ -263,8 +298,9 @@ public class AllTypesFinder {
 	 * @return The list of AllTypes model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<AllTypes> findAll(Connection connection) throws SQLException {
+	public static List<AllTypes> findAll(Connection connection) throws SQLException, H2ZeroFinderException {
 		return(findAll(connection, null, null));
 	}
 
@@ -278,8 +314,9 @@ public class AllTypesFinder {
 	 * @return The list of AllTypes model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<AllTypes> findAll(Integer limit, Integer offset) throws SQLException {
+	public static List<AllTypes> findAll(Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		return(findAll(null, limit, offset));
 	}
 
@@ -298,11 +335,11 @@ public class AllTypesFinder {
 	public static List<AllTypes> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
-		} catch(SQLException sqlex){
+		} catch(SQLException | H2ZeroFinderException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				LOGGER.warn("Exception findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
 			return(new ArrayList<AllTypes>());
@@ -353,12 +390,1917 @@ public class AllTypesFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 0 defined finders on the all_types table, of those finders
+	 * There are 15 defined finders on the all_types table, of those finders
 	 * the following are the regular finders, either defined through the
 	 * 'finders' or 'fieldFinders' JSON key
 	 * 
+	 * - findByIdAllTypes - Generated from the 'fieldFinders' JSON key
+	 * - findByTestBigint - Generated from the 'fieldFinders' JSON key
+	 * - findByTestBoolean - Generated from the 'fieldFinders' JSON key
+	 * - findByTestDate - Generated from the 'fieldFinders' JSON key
+	 * - findByTestDatetime - Generated from the 'fieldFinders' JSON key
+	 * - findByTestDouble - Generated from the 'fieldFinders' JSON key
+	 * - findByTestFloat - Generated from the 'fieldFinders' JSON key
+	 * - findByTestInt - Generated from the 'fieldFinders' JSON key
+	 * - findByTestInteger - Generated from the 'fieldFinders' JSON key
+	 * - findByTestMediumint - Generated from the 'fieldFinders' JSON key
+	 * - findByTestNumeric - Generated from the 'fieldFinders' JSON key
+	 * - findByTestSmallint - Generated from the 'fieldFinders' JSON key
+	 * - findByTestText - Generated from the 'fieldFinders' JSON key
+	 * - findByTestTinyint - Generated from the 'fieldFinders' JSON key
+	 * - findByTestVarchar - Generated from the 'fieldFinders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+	/**
+	 * findByIdAllTypes 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param idAllTypes - maps to the id_all_types field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByIdAllTypes(Connection connection, Long idAllTypes, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByIdAllTypes_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_ID_ALL_TYPES);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByIdAllTypes_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByIdAllTypes_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[idAllTypes:" + idAllTypes + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByIdAllTypes(Connection connection, Long idAllTypes) throws H2ZeroFinderException, SQLException {
+		return(findByIdAllTypes(connection, idAllTypes, null, null));
+	}
+
+	public static AllTypes findByIdAllTypes(Long idAllTypes, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByIdAllTypes(null, idAllTypes, limit, offset));
+	}
+
+	public static AllTypes findByIdAllTypes(Long idAllTypes) throws H2ZeroFinderException, SQLException {
+		return(findByIdAllTypes(null, idAllTypes, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByIdAllTypesSilent(Connection connection, Long idAllTypes, Integer limit, Integer offset) {
+		try {
+			return(findByIdAllTypes(connection, idAllTypes, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByIdAllTypesSilent(connection: " + connection + ", " + idAllTypes + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByIdAllTypesSilent(connection: " + connection + ", " + idAllTypes + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByIdAllTypesSilent(Connection connection, Long idAllTypes) {
+		return(findByIdAllTypesSilent(connection, idAllTypes, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByIdAllTypesSilent(Long idAllTypes, Integer limit, Integer offset) {
+		return(findByIdAllTypesSilent(null, idAllTypes, limit, offset));
+	}
+
+	public static AllTypes findByIdAllTypesSilent(Long idAllTypes) {
+		return(findByIdAllTypesSilent(null, idAllTypes, null, null));
+	}
+
+	/**
+	 * findByTestBigint 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testBigint - maps to the test_bigint field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestBigint(Connection connection, Long testBigint, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestBigint_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_BIGINT);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestBigint_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestBigint_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setBigint(preparedStatement, 1, testBigint);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testBigint:" + testBigint + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestBigint(Connection connection, Long testBigint) throws H2ZeroFinderException, SQLException {
+		return(findByTestBigint(connection, testBigint, null, null));
+	}
+
+	public static AllTypes findByTestBigint(Long testBigint, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestBigint(null, testBigint, limit, offset));
+	}
+
+	public static AllTypes findByTestBigint(Long testBigint) throws H2ZeroFinderException, SQLException {
+		return(findByTestBigint(null, testBigint, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestBigintSilent(Connection connection, Long testBigint, Integer limit, Integer offset) {
+		try {
+			return(findByTestBigint(connection, testBigint, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestBigintSilent(connection: " + connection + ", " + testBigint + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestBigintSilent(connection: " + connection + ", " + testBigint + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestBigintSilent(Connection connection, Long testBigint) {
+		return(findByTestBigintSilent(connection, testBigint, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestBigintSilent(Long testBigint, Integer limit, Integer offset) {
+		return(findByTestBigintSilent(null, testBigint, limit, offset));
+	}
+
+	public static AllTypes findByTestBigintSilent(Long testBigint) {
+		return(findByTestBigintSilent(null, testBigint, null, null));
+	}
+
+	/**
+	 * findByTestBoolean 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testBoolean - maps to the test_boolean field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestBoolean(Connection connection, Boolean testBoolean, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestBoolean_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_BOOLEAN);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestBoolean_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestBoolean_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setBoolean(preparedStatement, 1, testBoolean);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testBoolean:" + testBoolean + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestBoolean(Connection connection, Boolean testBoolean) throws H2ZeroFinderException, SQLException {
+		return(findByTestBoolean(connection, testBoolean, null, null));
+	}
+
+	public static AllTypes findByTestBoolean(Boolean testBoolean, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestBoolean(null, testBoolean, limit, offset));
+	}
+
+	public static AllTypes findByTestBoolean(Boolean testBoolean) throws H2ZeroFinderException, SQLException {
+		return(findByTestBoolean(null, testBoolean, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestBooleanSilent(Connection connection, Boolean testBoolean, Integer limit, Integer offset) {
+		try {
+			return(findByTestBoolean(connection, testBoolean, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestBooleanSilent(connection: " + connection + ", " + testBoolean + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestBooleanSilent(connection: " + connection + ", " + testBoolean + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestBooleanSilent(Connection connection, Boolean testBoolean) {
+		return(findByTestBooleanSilent(connection, testBoolean, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestBooleanSilent(Boolean testBoolean, Integer limit, Integer offset) {
+		return(findByTestBooleanSilent(null, testBoolean, limit, offset));
+	}
+
+	public static AllTypes findByTestBooleanSilent(Boolean testBoolean) {
+		return(findByTestBooleanSilent(null, testBoolean, null, null));
+	}
+
+	/**
+	 * findByTestDate 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testDate - maps to the test_date field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestDate(Connection connection, Date testDate, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestDate_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_DATE);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestDate_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestDate_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setDate(preparedStatement, 1, testDate);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testDate:" + testDate + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestDate(Connection connection, Date testDate) throws H2ZeroFinderException, SQLException {
+		return(findByTestDate(connection, testDate, null, null));
+	}
+
+	public static AllTypes findByTestDate(Date testDate, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestDate(null, testDate, limit, offset));
+	}
+
+	public static AllTypes findByTestDate(Date testDate) throws H2ZeroFinderException, SQLException {
+		return(findByTestDate(null, testDate, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestDateSilent(Connection connection, Date testDate, Integer limit, Integer offset) {
+		try {
+			return(findByTestDate(connection, testDate, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestDateSilent(connection: " + connection + ", " + testDate + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestDateSilent(connection: " + connection + ", " + testDate + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestDateSilent(Connection connection, Date testDate) {
+		return(findByTestDateSilent(connection, testDate, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestDateSilent(Date testDate, Integer limit, Integer offset) {
+		return(findByTestDateSilent(null, testDate, limit, offset));
+	}
+
+	public static AllTypes findByTestDateSilent(Date testDate) {
+		return(findByTestDateSilent(null, testDate, null, null));
+	}
+
+	/**
+	 * findByTestDatetime 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testDatetime - maps to the test_datetime field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestDatetime(Connection connection, Timestamp testDatetime, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestDatetime_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_DATETIME);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestDatetime_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestDatetime_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setDatetime(preparedStatement, 1, testDatetime);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testDatetime:" + testDatetime + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestDatetime(Connection connection, Timestamp testDatetime) throws H2ZeroFinderException, SQLException {
+		return(findByTestDatetime(connection, testDatetime, null, null));
+	}
+
+	public static AllTypes findByTestDatetime(Timestamp testDatetime, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestDatetime(null, testDatetime, limit, offset));
+	}
+
+	public static AllTypes findByTestDatetime(Timestamp testDatetime) throws H2ZeroFinderException, SQLException {
+		return(findByTestDatetime(null, testDatetime, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestDatetimeSilent(Connection connection, Timestamp testDatetime, Integer limit, Integer offset) {
+		try {
+			return(findByTestDatetime(connection, testDatetime, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestDatetimeSilent(connection: " + connection + ", " + testDatetime + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestDatetimeSilent(connection: " + connection + ", " + testDatetime + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestDatetimeSilent(Connection connection, Timestamp testDatetime) {
+		return(findByTestDatetimeSilent(connection, testDatetime, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestDatetimeSilent(Timestamp testDatetime, Integer limit, Integer offset) {
+		return(findByTestDatetimeSilent(null, testDatetime, limit, offset));
+	}
+
+	public static AllTypes findByTestDatetimeSilent(Timestamp testDatetime) {
+		return(findByTestDatetimeSilent(null, testDatetime, null, null));
+	}
+
+	/**
+	 * findByTestDouble 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testDouble - maps to the test_double field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestDouble(Connection connection, Double testDouble, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestDouble_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_DOUBLE);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestDouble_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestDouble_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setDouble(preparedStatement, 1, testDouble);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testDouble:" + testDouble + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestDouble(Connection connection, Double testDouble) throws H2ZeroFinderException, SQLException {
+		return(findByTestDouble(connection, testDouble, null, null));
+	}
+
+	public static AllTypes findByTestDouble(Double testDouble, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestDouble(null, testDouble, limit, offset));
+	}
+
+	public static AllTypes findByTestDouble(Double testDouble) throws H2ZeroFinderException, SQLException {
+		return(findByTestDouble(null, testDouble, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestDoubleSilent(Connection connection, Double testDouble, Integer limit, Integer offset) {
+		try {
+			return(findByTestDouble(connection, testDouble, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestDoubleSilent(connection: " + connection + ", " + testDouble + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestDoubleSilent(connection: " + connection + ", " + testDouble + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestDoubleSilent(Connection connection, Double testDouble) {
+		return(findByTestDoubleSilent(connection, testDouble, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestDoubleSilent(Double testDouble, Integer limit, Integer offset) {
+		return(findByTestDoubleSilent(null, testDouble, limit, offset));
+	}
+
+	public static AllTypes findByTestDoubleSilent(Double testDouble) {
+		return(findByTestDoubleSilent(null, testDouble, null, null));
+	}
+
+	/**
+	 * findByTestFloat 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testFloat - maps to the test_float field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestFloat(Connection connection, Float testFloat, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestFloat_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_FLOAT);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestFloat_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestFloat_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setFloat(preparedStatement, 1, testFloat);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testFloat:" + testFloat + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestFloat(Connection connection, Float testFloat) throws H2ZeroFinderException, SQLException {
+		return(findByTestFloat(connection, testFloat, null, null));
+	}
+
+	public static AllTypes findByTestFloat(Float testFloat, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestFloat(null, testFloat, limit, offset));
+	}
+
+	public static AllTypes findByTestFloat(Float testFloat) throws H2ZeroFinderException, SQLException {
+		return(findByTestFloat(null, testFloat, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestFloatSilent(Connection connection, Float testFloat, Integer limit, Integer offset) {
+		try {
+			return(findByTestFloat(connection, testFloat, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestFloatSilent(connection: " + connection + ", " + testFloat + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestFloatSilent(connection: " + connection + ", " + testFloat + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestFloatSilent(Connection connection, Float testFloat) {
+		return(findByTestFloatSilent(connection, testFloat, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestFloatSilent(Float testFloat, Integer limit, Integer offset) {
+		return(findByTestFloatSilent(null, testFloat, limit, offset));
+	}
+
+	public static AllTypes findByTestFloatSilent(Float testFloat) {
+		return(findByTestFloatSilent(null, testFloat, null, null));
+	}
+
+	/**
+	 * findByTestInt 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testInt - maps to the test_int field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestInt(Connection connection, Integer testInt, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestInt_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_INT);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestInt_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestInt_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setInt(preparedStatement, 1, testInt);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testInt:" + testInt + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestInt(Connection connection, Integer testInt) throws H2ZeroFinderException, SQLException {
+		return(findByTestInt(connection, testInt, null, null));
+	}
+
+	public static AllTypes findByTestInt(Integer testInt, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestInt(null, testInt, limit, offset));
+	}
+
+	public static AllTypes findByTestInt(Integer testInt) throws H2ZeroFinderException, SQLException {
+		return(findByTestInt(null, testInt, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestIntSilent(Connection connection, Integer testInt, Integer limit, Integer offset) {
+		try {
+			return(findByTestInt(connection, testInt, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestIntSilent(connection: " + connection + ", " + testInt + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestIntSilent(connection: " + connection + ", " + testInt + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestIntSilent(Connection connection, Integer testInt) {
+		return(findByTestIntSilent(connection, testInt, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestIntSilent(Integer testInt, Integer limit, Integer offset) {
+		return(findByTestIntSilent(null, testInt, limit, offset));
+	}
+
+	public static AllTypes findByTestIntSilent(Integer testInt) {
+		return(findByTestIntSilent(null, testInt, null, null));
+	}
+
+	/**
+	 * findByTestInteger 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testInteger - maps to the test_integer field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestInteger(Connection connection, Integer testInteger, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestInteger_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_INTEGER);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestInteger_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestInteger_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setInteger(preparedStatement, 1, testInteger);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testInteger:" + testInteger + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestInteger(Connection connection, Integer testInteger) throws H2ZeroFinderException, SQLException {
+		return(findByTestInteger(connection, testInteger, null, null));
+	}
+
+	public static AllTypes findByTestInteger(Integer testInteger, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestInteger(null, testInteger, limit, offset));
+	}
+
+	public static AllTypes findByTestInteger(Integer testInteger) throws H2ZeroFinderException, SQLException {
+		return(findByTestInteger(null, testInteger, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestIntegerSilent(Connection connection, Integer testInteger, Integer limit, Integer offset) {
+		try {
+			return(findByTestInteger(connection, testInteger, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestIntegerSilent(connection: " + connection + ", " + testInteger + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestIntegerSilent(connection: " + connection + ", " + testInteger + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestIntegerSilent(Connection connection, Integer testInteger) {
+		return(findByTestIntegerSilent(connection, testInteger, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestIntegerSilent(Integer testInteger, Integer limit, Integer offset) {
+		return(findByTestIntegerSilent(null, testInteger, limit, offset));
+	}
+
+	public static AllTypes findByTestIntegerSilent(Integer testInteger) {
+		return(findByTestIntegerSilent(null, testInteger, null, null));
+	}
+
+	/**
+	 * findByTestMediumint 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testMediumint - maps to the test_mediumint field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestMediumint(Connection connection, Integer testMediumint, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestMediumint_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_MEDIUMINT);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestMediumint_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestMediumint_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setMediumint(preparedStatement, 1, testMediumint);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testMediumint:" + testMediumint + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestMediumint(Connection connection, Integer testMediumint) throws H2ZeroFinderException, SQLException {
+		return(findByTestMediumint(connection, testMediumint, null, null));
+	}
+
+	public static AllTypes findByTestMediumint(Integer testMediumint, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestMediumint(null, testMediumint, limit, offset));
+	}
+
+	public static AllTypes findByTestMediumint(Integer testMediumint) throws H2ZeroFinderException, SQLException {
+		return(findByTestMediumint(null, testMediumint, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestMediumintSilent(Connection connection, Integer testMediumint, Integer limit, Integer offset) {
+		try {
+			return(findByTestMediumint(connection, testMediumint, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestMediumintSilent(connection: " + connection + ", " + testMediumint + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestMediumintSilent(connection: " + connection + ", " + testMediumint + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestMediumintSilent(Connection connection, Integer testMediumint) {
+		return(findByTestMediumintSilent(connection, testMediumint, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestMediumintSilent(Integer testMediumint, Integer limit, Integer offset) {
+		return(findByTestMediumintSilent(null, testMediumint, limit, offset));
+	}
+
+	public static AllTypes findByTestMediumintSilent(Integer testMediumint) {
+		return(findByTestMediumintSilent(null, testMediumint, null, null));
+	}
+
+	/**
+	 * findByTestNumeric 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testNumeric - maps to the test_numeric field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestNumeric(Connection connection, BigDecimal testNumeric, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestNumeric_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_NUMERIC);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestNumeric_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestNumeric_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setNumeric(preparedStatement, 1, testNumeric);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testNumeric:" + testNumeric + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestNumeric(Connection connection, BigDecimal testNumeric) throws H2ZeroFinderException, SQLException {
+		return(findByTestNumeric(connection, testNumeric, null, null));
+	}
+
+	public static AllTypes findByTestNumeric(BigDecimal testNumeric, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestNumeric(null, testNumeric, limit, offset));
+	}
+
+	public static AllTypes findByTestNumeric(BigDecimal testNumeric) throws H2ZeroFinderException, SQLException {
+		return(findByTestNumeric(null, testNumeric, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestNumericSilent(Connection connection, BigDecimal testNumeric, Integer limit, Integer offset) {
+		try {
+			return(findByTestNumeric(connection, testNumeric, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestNumericSilent(connection: " + connection + ", " + testNumeric + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestNumericSilent(connection: " + connection + ", " + testNumeric + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestNumericSilent(Connection connection, BigDecimal testNumeric) {
+		return(findByTestNumericSilent(connection, testNumeric, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestNumericSilent(BigDecimal testNumeric, Integer limit, Integer offset) {
+		return(findByTestNumericSilent(null, testNumeric, limit, offset));
+	}
+
+	public static AllTypes findByTestNumericSilent(BigDecimal testNumeric) {
+		return(findByTestNumericSilent(null, testNumeric, null, null));
+	}
+
+	/**
+	 * findByTestSmallint 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testSmallint - maps to the test_smallint field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestSmallint(Connection connection, Short testSmallint, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestSmallint_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_SMALLINT);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestSmallint_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestSmallint_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setSmallint(preparedStatement, 1, testSmallint);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testSmallint:" + testSmallint + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestSmallint(Connection connection, Short testSmallint) throws H2ZeroFinderException, SQLException {
+		return(findByTestSmallint(connection, testSmallint, null, null));
+	}
+
+	public static AllTypes findByTestSmallint(Short testSmallint, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestSmallint(null, testSmallint, limit, offset));
+	}
+
+	public static AllTypes findByTestSmallint(Short testSmallint) throws H2ZeroFinderException, SQLException {
+		return(findByTestSmallint(null, testSmallint, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestSmallintSilent(Connection connection, Short testSmallint, Integer limit, Integer offset) {
+		try {
+			return(findByTestSmallint(connection, testSmallint, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestSmallintSilent(connection: " + connection + ", " + testSmallint + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestSmallintSilent(connection: " + connection + ", " + testSmallint + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestSmallintSilent(Connection connection, Short testSmallint) {
+		return(findByTestSmallintSilent(connection, testSmallint, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestSmallintSilent(Short testSmallint, Integer limit, Integer offset) {
+		return(findByTestSmallintSilent(null, testSmallint, limit, offset));
+	}
+
+	public static AllTypes findByTestSmallintSilent(Short testSmallint) {
+		return(findByTestSmallintSilent(null, testSmallint, null, null));
+	}
+
+	/**
+	 * findByTestText 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testText - maps to the test_text field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestText(Connection connection, String testText, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestText_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_TEXT);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestText_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestText_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setText(preparedStatement, 1, testText);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testText:" + testText + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestText(Connection connection, String testText) throws H2ZeroFinderException, SQLException {
+		return(findByTestText(connection, testText, null, null));
+	}
+
+	public static AllTypes findByTestText(String testText, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestText(null, testText, limit, offset));
+	}
+
+	public static AllTypes findByTestText(String testText) throws H2ZeroFinderException, SQLException {
+		return(findByTestText(null, testText, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestTextSilent(Connection connection, String testText, Integer limit, Integer offset) {
+		try {
+			return(findByTestText(connection, testText, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestTextSilent(connection: " + connection + ", " + testText + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestTextSilent(connection: " + connection + ", " + testText + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestTextSilent(Connection connection, String testText) {
+		return(findByTestTextSilent(connection, testText, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestTextSilent(String testText, Integer limit, Integer offset) {
+		return(findByTestTextSilent(null, testText, limit, offset));
+	}
+
+	public static AllTypes findByTestTextSilent(String testText) {
+		return(findByTestTextSilent(null, testText, null, null));
+	}
+
+	/**
+	 * findByTestTinyint 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testTinyint - maps to the test_tinyint field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestTinyint(Connection connection, Boolean testTinyint, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestTinyint_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_TINYINT);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestTinyint_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestTinyint_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setTinyint(preparedStatement, 1, testTinyint);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testTinyint:" + testTinyint + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestTinyint(Connection connection, Boolean testTinyint) throws H2ZeroFinderException, SQLException {
+		return(findByTestTinyint(connection, testTinyint, null, null));
+	}
+
+	public static AllTypes findByTestTinyint(Boolean testTinyint, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestTinyint(null, testTinyint, limit, offset));
+	}
+
+	public static AllTypes findByTestTinyint(Boolean testTinyint) throws H2ZeroFinderException, SQLException {
+		return(findByTestTinyint(null, testTinyint, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestTinyintSilent(Connection connection, Boolean testTinyint, Integer limit, Integer offset) {
+		try {
+			return(findByTestTinyint(connection, testTinyint, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestTinyintSilent(connection: " + connection + ", " + testTinyint + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestTinyintSilent(connection: " + connection + ", " + testTinyint + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestTinyintSilent(Connection connection, Boolean testTinyint) {
+		return(findByTestTinyintSilent(connection, testTinyint, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestTinyintSilent(Boolean testTinyint, Integer limit, Integer offset) {
+		return(findByTestTinyintSilent(null, testTinyint, limit, offset));
+	}
+
+	public static AllTypes findByTestTinyintSilent(Boolean testTinyint) {
+		return(findByTestTinyintSilent(null, testTinyint, null, null));
+	}
+
+	/**
+	 * findByTestVarchar 
+	 * <p>
+	 * (This finder was generated through the 'fieldFinders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param testVarchar - maps to the test_varchar field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the unique result of AllTypes found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static AllTypes findByTestVarchar(Connection connection, String testVarchar, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset;
+		if(!findByTestVarchar_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_TEST_VARCHAR);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findByTestVarchar_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findByTestVarchar_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		AllTypes result = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			ConnectionManager.setVarchar(preparedStatement, 1, testVarchar);
+
+			resultSet = preparedStatement.executeQuery();
+			result = uniqueResult(resultSet);
+			ConnectionManager.closeAll(resultSet, preparedStatement);
+		} catch (SQLException sqlex) {
+			throw sqlex;
+		} catch (H2ZeroFinderException h2zfex) {
+			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testVarchar:" + testVarchar + "].");
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(null == result) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(result);
+	}
+
+	public static AllTypes findByTestVarchar(Connection connection, String testVarchar) throws H2ZeroFinderException, SQLException {
+		return(findByTestVarchar(connection, testVarchar, null, null));
+	}
+
+	public static AllTypes findByTestVarchar(String testVarchar, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByTestVarchar(null, testVarchar, limit, offset));
+	}
+
+	public static AllTypes findByTestVarchar(String testVarchar) throws H2ZeroFinderException, SQLException {
+		return(findByTestVarchar(null, testVarchar, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static AllTypes findByTestVarcharSilent(Connection connection, String testVarchar, Integer limit, Integer offset) {
+		try {
+			return(findByTestVarchar(connection, testVarchar, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findByTestVarcharSilent(connection: " + connection + ", " + testVarchar + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(null);
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findByTestVarcharSilent(connection: " + connection + ", " + testVarchar + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(null);
+		}
+	}
+
+	// silent connection, params...
+	public static AllTypes findByTestVarcharSilent(Connection connection, String testVarchar) {
+		return(findByTestVarcharSilent(connection, testVarchar, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static AllTypes findByTestVarcharSilent(String testVarchar, Integer limit, Integer offset) {
+		return(findByTestVarcharSilent(null, testVarchar, limit, offset));
+	}
+
+	public static AllTypes findByTestVarcharSilent(String testVarchar) {
+		return(findByTestVarcharSilent(null, testVarchar, null, null));
+	}
 
 	/**
 	 * Return a unique result for the query - in effect just the first result of
@@ -447,7 +2389,7 @@ public class AllTypesFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 0 defined finders on the all_types table, of those finders
+	 * There are 15 defined finders on the all_types table, of those finders
 	 * the following are the select clause finders:
 	 * 
 	 * 

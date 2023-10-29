@@ -48,4 +48,7 @@ public class TimestampField extends BaseField {
 		return true;
 	}
 
+	@Override public String getSqlTestValue() { return("new java.sql.Timestamp(System.currentTimeMillis())"); }
+
+
 }

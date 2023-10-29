@@ -48,4 +48,6 @@ public class SmallintField extends BaseField {
 		return false;
 	}
 
+	@Override public String getSqlTestValue() { return("(short) 0"); }
+
 }

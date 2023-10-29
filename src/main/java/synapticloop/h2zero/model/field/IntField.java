@@ -48,4 +48,7 @@ public class IntField extends BaseField {
 		return false;
 	}
 
+	@Override public String getSqlTestValue() { return("1"); }
+
+
 }

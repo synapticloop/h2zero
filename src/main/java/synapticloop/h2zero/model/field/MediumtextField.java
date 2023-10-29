@@ -53,4 +53,6 @@ public class MediumtextField extends BaseField {
 		return(true);
 	}
 
+	@Override public String getSqlTestValue() { return("\"mediumtext\""); }
+
 }

@@ -39,4 +39,6 @@ public class BigserialField extends BaseField {
 	@Override public String getSqlNullType() { return("BIGINT"); }
 
 	@Override public boolean getShouldEscape() { return(false);}
+
+	@Override public String getSqlTestValue() { return("1L"); }
 }

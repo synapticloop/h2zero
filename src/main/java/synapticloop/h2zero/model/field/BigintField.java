@@ -47,4 +47,6 @@ public class BigintField extends BaseField {
   @Override public boolean getShouldEscape() {
     return false;
   }
+
+  @Override public String getSqlTestValue() { return("1L"); }
 }

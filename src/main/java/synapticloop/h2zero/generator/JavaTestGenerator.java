@@ -47,9 +47,18 @@ public class JavaTestGenerator extends Generator {
 			return;
 		}
 
+		if(!options.getDatabase().equals("sqlite3")) {
+			throw new RenderException("Generating tests is only available for sqlite3 databases at the moment.");
+		}
+
 		try {
       TemplarContext templarContext = getDefaultTemplarContext();
+			templarContext.add("options", options);
+			templarContext.add("database",database);
+			templarContext.add("dbUrl", outFile + options.getOutputTestResources() + "/test.db");
+			new File("." + options.getOutputTestResources()).mkdirs();
 			generateDatabaseTestBase(templarContext);
+			generateFinderTest(templarContext);
 		} catch (FunctionException fex) {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
@@ -57,7 +66,14 @@ public class JavaTestGenerator extends Generator {
 
 	private void generateDatabaseTestBase(TemplarContext templarContext) throws ParseException, RenderException {
 		Parser javaGenerateDatabaseTestBaseParser = getParser("/tests/java-sqlite3-database-test-base.templar");
-		String pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Constants.java";
+		String pathname = outFile + options.getOutputTestCode() + database.getPackagePath() + "/test/util/DatabaseSetupTest.java";
 		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
 	}
+
+	private void generateFinderTest(TemplarContext templarContext) throws ParseException, RenderException {
+		Parser javaGenerateDatabaseTestBaseParser = getParser("/tests/java-finder-test.templar");
+		String pathname = outFile + options.getOutputTestCode() + database.getPackagePath() + "/test/util/FinderTest.java";
+		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
+	}
+
 }

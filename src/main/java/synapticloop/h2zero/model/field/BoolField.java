@@ -51,4 +51,7 @@ public class BoolField extends BaseField {
 	public boolean getShouldEscape() {
 		return false;
 	}
+
+	@Override public String getSqlTestValue() { return("true"); }
+
 }

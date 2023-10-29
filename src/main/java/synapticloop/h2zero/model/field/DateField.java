@@ -50,4 +50,7 @@ public class DateField extends BaseField {
 	public boolean getShouldEscape() {
 		return true;
 	}
+
+	@Override public String getSqlTestValue() { return("new java.sql.Date(System.currentTimeMillis())"); }
+
 }

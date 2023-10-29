@@ -31,4 +31,6 @@ public class MediumblobField extends BlobField {
 	public MediumblobField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
+
+	@Override public String getSqlTestValue() { return("new java.sql.Blob()"); }
 }

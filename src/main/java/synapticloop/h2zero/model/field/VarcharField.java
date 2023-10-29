@@ -49,4 +49,7 @@ public class VarcharField extends BaseField {
 		return true;
 	}
 
+	@Override public String getSqlTestValue() { return("\"varchar\""); }
+
 }
+

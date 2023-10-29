@@ -44,7 +44,7 @@
 		},
 		{
 			"name": "findFirstToBeEvaluated",
-			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc limit 1",
+			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc",
 			"whereFields": [
 				"dtm_started_following"
 			],

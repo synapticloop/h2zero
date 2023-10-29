@@ -53,4 +53,7 @@ public class TimeField extends BaseField {
 		return true;
 	}
 
+	@Override public String getSqlTestValue() { return("new java.sql.Time(System.currentTimeMillis())"); }
+
+
 }

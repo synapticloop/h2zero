@@ -54,6 +54,7 @@ public class Options {
 	static {
 		ALLOWABLE_GENERATORS.add(OPTION_SQL);
 		ALLOWABLE_GENERATORS.add(OPTION_JAVA);
+		ALLOWABLE_GENERATORS.add(OPTION_TESTS);
 		ALLOWABLE_GENERATORS.add(OPTION_REPORTS);
 	}
 
@@ -77,7 +78,9 @@ public class Options {
 	private boolean isDefault = true;
 
 	private String outputCode = "/src/main/java/";
+	private String outputTestCode = "/src/test/java/";
 	private String outputResource = "/src/main/resources/";
+	private String outputTestResource = "/src/test/resources/";
 	private String outputBuild = "/build/";
 
 	private final Set<String> generators = new HashSet<>();
@@ -110,6 +113,10 @@ public class Options {
 		if(null != outputJson) {
 			outputCode = JsonHelper.getStringValue(outputJson, OPTION_CODE, outputCode);
 			outputResource = JsonHelper.getStringValue(outputJson, OPTION_RESOURCES, outputResource);
+
+			outputTestCode = JsonHelper.getStringValue(outputJson, OPTION_CODE, outputTestCode);
+			outputTestResource = JsonHelper.getStringValue(outputJson, OPTION_RESOURCES, outputTestResource);
+
 			outputBuild = JsonHelper.getStringValue(outputJson, OPTION_BUILD, outputBuild);
 
 			if(null != JsonHelper.getStringValue(outputJson, "java", null)) {
@@ -131,6 +138,10 @@ public class Options {
 		// now ensure that there are slashes on both sides of the output directory
 		outputCode = convertToAbsolutePath(outputCode);
 		outputResource = convertToAbsolutePath(outputResource);
+
+		outputTestCode = convertToAbsolutePath(outputTestCode);
+		outputTestResource = convertToAbsolutePath(outputTestResource);
+
 		outputBuild = convertToAbsolutePath(outputBuild);
 
 		jsonObject.remove(JSONKeyConstants.OPTIONS);
@@ -264,6 +275,8 @@ public class Options {
 
 	public String getOutputCode() { return(outputCode); }
 	public String getOutputResources() { return(outputResource); }
+	public String getOutputTestCode() { return(outputTestCode); }
+	public String getOutputTestResources() { return(outputTestResource); }
 	public String getOutputBuild() { return(outputBuild); }
 	public boolean getIsAllowableDatabase() { return(ALLOWABLE_DATABASES.contains(getDatabase())); }
 	public boolean getIsDefault() { return(this.isDefault); }

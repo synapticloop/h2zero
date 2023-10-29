@@ -16,5 +16,22 @@
 		{ "name": "test_text", "type": "text", "nullable": true },
 		{ "name": "test_tinyint", "type": "tinyint", "nullable": true },
 		{ "name": "test_varchar", "type": "varchar", "nullable": true }
+	],
+	"fieldFinders": [
+		{ "id_all_types": "single" },
+		{ "test_bigint": "single" },
+		{ "test_boolean": "single" },
+		{ "test_date": "single" },
+		{ "test_datetime": "single" },
+		{ "test_double": "single" },
+		{ "test_float": "single" },
+		{ "test_int": "single" },
+		{ "test_integer": "single" },
+		{ "test_mediumint": "single" },
+		{ "test_numeric": "single" },
+		{ "test_smallint": "single" },
+		{ "test_text": "single" },
+		{ "test_tinyint": "single" },
+		{ "test_varchar": "single" }
 	]
 }

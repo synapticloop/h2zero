@@ -57,4 +57,6 @@ public class BinaryField extends BaseField {
 		return(true);
 	}
 
+	@Override public String getSqlTestValue() { return("true"); }
+
 }

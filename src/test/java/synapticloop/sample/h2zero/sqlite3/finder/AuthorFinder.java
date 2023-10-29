@@ -43,7 +43,7 @@ public class AuthorFinder {
 	private static final String SQL_FIND_BY_TXT_ID_AUTHOR = SQL_SELECT_START + " where txt_id_author = ?";
 	private static final String SQL_FIND_IN_STATUS = SQL_SELECT_START + " where id_author_status in (...)";
 	private static final String SQL_FIND_ALL_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ? ";
-	private static final String SQL_FIND_FIRST_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc limit 1";
+	private static final String SQL_FIND_FIRST_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc";
 	private static final String SQL_FIND_LIMITED_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following";
 
 	// This is the cache for 'in finders' which have an ellipses (...) in the statement
@@ -198,8 +198,9 @@ public class AuthorFinder {
 	 * @return a list of all the Author objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<Author> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {
+	public static List<Author> findAll(Connection connection, Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		// first find the statement that we want
@@ -239,14 +240,14 @@ public class AuthorFinder {
 			preparedStatement = connection.prepareStatement(statement);
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch(SQLException sqlex) {
+		} catch(SQLException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAll(): " + sqlex.getMessage());
+				LOGGER.warn("SQLException findAll(): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
-			throw sqlex;
+			throw ex;
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -255,6 +256,9 @@ public class AuthorFinder {
 			}
 		}
 
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find any results for findAll");
+		}
 		return(results);
 	}
 
@@ -265,8 +269,9 @@ public class AuthorFinder {
 	 * @return The list of Author model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<Author> findAll() throws SQLException {
+	public static List<Author> findAll() throws SQLException, H2ZeroFinderException {
 		return(findAll(null, null, null));
 	}
 
@@ -280,8 +285,9 @@ public class AuthorFinder {
 	 * @return The list of Author model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<Author> findAll(Connection connection) throws SQLException {
+	public static List<Author> findAll(Connection connection) throws SQLException, H2ZeroFinderException {
 		return(findAll(connection, null, null));
 	}
 
@@ -295,8 +301,9 @@ public class AuthorFinder {
 	 * @return The list of Author model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<Author> findAll(Integer limit, Integer offset) throws SQLException {
+	public static List<Author> findAll(Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		return(findAll(null, limit, offset));
 	}
 
@@ -315,11 +322,11 @@ public class AuthorFinder {
 	public static List<Author> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
-		} catch(SQLException sqlex){
+		} catch(SQLException | H2ZeroFinderException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				LOGGER.warn("Exception findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
 			return(new ArrayList<Author>());

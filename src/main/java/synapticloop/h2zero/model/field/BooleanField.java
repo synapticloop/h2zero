@@ -52,4 +52,6 @@ public class BooleanField extends BaseField {
 		return false;
 	}
 
+	@Override public String getSqlTestValue() { return("true"); }
+
 }

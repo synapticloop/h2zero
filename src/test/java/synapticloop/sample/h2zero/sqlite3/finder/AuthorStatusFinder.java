@@ -179,8 +179,9 @@ public class AuthorStatusFinder {
 	 * @return a list of all the AuthorStatus objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<AuthorStatus> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {
+	public static List<AuthorStatus> findAll(Connection connection, Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		// first find the statement that we want
@@ -220,14 +221,14 @@ public class AuthorStatusFinder {
 			preparedStatement = connection.prepareStatement(statement);
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch(SQLException sqlex) {
+		} catch(SQLException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAll(): " + sqlex.getMessage());
+				LOGGER.warn("SQLException findAll(): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
-			throw sqlex;
+			throw ex;
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -236,6 +237,9 @@ public class AuthorStatusFinder {
 			}
 		}
 
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find any results for findAll");
+		}
 		return(results);
 	}
 
@@ -246,8 +250,9 @@ public class AuthorStatusFinder {
 	 * @return The list of AuthorStatus model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<AuthorStatus> findAll() throws SQLException {
+	public static List<AuthorStatus> findAll() throws SQLException, H2ZeroFinderException {
 		return(findAll(null, null, null));
 	}
 
@@ -261,8 +266,9 @@ public class AuthorStatusFinder {
 	 * @return The list of AuthorStatus model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<AuthorStatus> findAll(Connection connection) throws SQLException {
+	public static List<AuthorStatus> findAll(Connection connection) throws SQLException, H2ZeroFinderException {
 		return(findAll(connection, null, null));
 	}
 
@@ -276,8 +282,9 @@ public class AuthorStatusFinder {
 	 * @return The list of AuthorStatus model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<AuthorStatus> findAll(Integer limit, Integer offset) throws SQLException {
+	public static List<AuthorStatus> findAll(Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		return(findAll(null, limit, offset));
 	}
 
@@ -296,11 +303,11 @@ public class AuthorStatusFinder {
 	public static List<AuthorStatus> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
-		} catch(SQLException sqlex){
+		} catch(SQLException | H2ZeroFinderException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				LOGGER.warn("Exception findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
 			return(new ArrayList<AuthorStatus>());

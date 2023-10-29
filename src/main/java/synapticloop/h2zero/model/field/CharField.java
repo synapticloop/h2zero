@@ -51,4 +51,7 @@ public class CharField extends BaseField {
 	public boolean getShouldEscape() {
 		return false;
 	}
+
+	@Override public String getSqlTestValue() { return("\"X\""); }
+
 }

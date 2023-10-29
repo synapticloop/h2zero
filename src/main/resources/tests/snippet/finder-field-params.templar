@@ -1,0 +1,15 @@
+{if finder.hasInFields}
+	{loop finder.whereFields as whereField}
+		{if whereField.isInField}
+			new ArrayList<{whereField.javaType}>()
+		{else}
+			{whereField.sqlTestValue}
+		{endif}
+		{if !whereFieldStatus.last}, {endif}
+	{endloop}
+{else}
+	{loop finder.whereFields as whereField}
+		{whereField.sqlTestValue}
+		{if !whereFieldStatus.last}, {endif}
+	{endloop}
+{endif}

@@ -56,4 +56,7 @@ public class ClobField extends BaseField {
 	public boolean getIsLargeObject() {
 		return(true);
 	}
+
+	@Override public String getSqlTestValue() { return("new java.sql.Clob()"); }
+
 }

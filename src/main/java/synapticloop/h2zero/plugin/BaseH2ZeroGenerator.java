@@ -31,6 +31,7 @@ import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.extension.Extension;
 import synapticloop.h2zero.generator.Generator;
 import synapticloop.h2zero.generator.JavaGenerator;
+import synapticloop.h2zero.generator.JavaTestGenerator;
 import synapticloop.h2zero.generator.ReportGenerator;
 import synapticloop.h2zero.generator.SqlGenerator;
 import synapticloop.h2zero.generator.UtilGenerator;
@@ -103,6 +104,7 @@ public class BaseH2ZeroGenerator {
 
 			generators.add(new SqlGenerator(database, options, outFile, verbose));
 			generators.add(new JavaGenerator(database, options, outFile, verbose));
+			generators.add(new JavaTestGenerator(database, options, outFile, verbose));
 			generators.add(new UtilGenerator(database, options, outFile, verbose));
 			generators.add(new ReportGenerator(database, options, outFile, verbose));
 

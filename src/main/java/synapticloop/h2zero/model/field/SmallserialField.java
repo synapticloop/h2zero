@@ -49,4 +49,7 @@ public class SmallserialField extends BaseField {
 		return false;
 	}
 
+	@Override public String getSqlTestValue() { return("0"); }
+
+
 }

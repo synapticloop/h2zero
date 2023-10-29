@@ -336,6 +336,8 @@ public abstract class BaseField {
 	public List<String> getFoundIgnoredKeys() { return foundIgnoredKeys; }
 	public String getReplacementForKey(String key) { return(replacementKeys.get(key)); }
 
+	public abstract String getSqlTestValue();
+
 	/**
 	 * Return a copy of this BaseField with the same details as the original.  In effect this creates
 	 * a new BaseField object from the original json object that was passed in to create this field.

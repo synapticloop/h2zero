@@ -51,4 +51,7 @@ public class TinytextField extends BaseField {
 	public boolean getIsLargeObject() {
 		return(true);
 	}
+
+	@Override public String getSqlTestValue() { return("\"tinytext\""); }
+
 }

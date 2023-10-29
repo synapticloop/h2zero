@@ -61,4 +61,7 @@ public class DoubleField extends BaseField {
 		return false;
 	}
 
+	@Override public String getSqlTestValue() { return("0.0"); }
+
+
 }

@@ -49,4 +49,6 @@ public class TinyintField extends BaseField {
 		return false;
 	}
 
+	@Override public String getSqlTestValue() { return("true"); }
+
 }

@@ -61,4 +61,6 @@ public class FloatField extends BaseField {
 		return false;
 	}
 
+	@Override public String getSqlTestValue() { return("0.0f"); }
+
 }

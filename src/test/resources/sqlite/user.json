@@ -39,7 +39,7 @@
 		},
 		{
 			"name": "findGroupNumAge",
-			"selectClause": "select count(*) as num_count, num_age from user group by num_count",
+			"selectClause": "select count(*) as num_count, num_age from user group by num_age",
 			"selectFields": [
 				{ "name": "num_count", "type": "int" },
 				{ "name": "num_age", "type": "int" }

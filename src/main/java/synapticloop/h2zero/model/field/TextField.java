@@ -51,4 +51,6 @@ public class TextField extends BaseField {
 	public boolean getIsLargeObject() {
 		return(true);
 	}
+
+	@Override public String getSqlTestValue() { return("\"text\""); }
 }

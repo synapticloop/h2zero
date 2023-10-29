@@ -6,7 +6,8 @@
 	"generators": [
 	    "java",
 	    "sql",
-	    "reports"
+	    "reports",
+	    "tests"
 	],
 
 	"validators": {
@@ -22,6 +23,10 @@
 	"output": {
 		"code": "src/test/java/",
 		"resources": "src/test/resources/",
+
+		"testCode": "src/test/java/",
+		"testResources": "src/test/resources/",
+
 		"build": "build/"
 	}
 },
