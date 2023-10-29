@@ -18,22 +18,39 @@ package synapticloop.h2zero.validator.finder;
  * under the Licence.
  */
 
-import java.util.List;
-
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Finder;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
+import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
 import synapticloop.h2zero.validator.BaseValidator;
 
-public class FinderSelectClauseValidator extends BaseValidator {
+import java.util.List;
+
+public class FinderSelectFieldValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {
+
 		for (Table table : database.getTables()) {
 			for (Finder finder : table.getFinders()) {
 				String selectClause = finder.getSelectClause();
+
+				for (BaseField selectField : finder.getSelectFields()) {
+					if(!selectClause.toLowerCase().contains(selectField.getName())) {
+						addWarnMessage("Finder '" +
+								table.getName() +
+								"." + finder.getName() +
+								"' has a " +
+								JSONKeyConstants.SELECT_CLAUSE +
+								" with a selectField of '" +
+								selectField.getName() +
+								"' that does not appear in the statement.");
+					}
+				}
+
+
 				if(null != selectClause && !selectClause.toLowerCase().contains("select")) {
 					addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a " + JSONKeyConstants.SELECT_CLAUSE + " that does not start with 'select', so I am going to add one.");
 					finder.setSelectClause(" select " + selectClause);

@@ -77,6 +77,7 @@ import synapticloop.h2zero.validator.finder.FinderQueryParameterNumberValidator;
 import synapticloop.h2zero.validator.finder.FinderSelectClauseBeanNameValidator;
 import synapticloop.h2zero.validator.finder.FinderSelectClauseFromValidator;
 import synapticloop.h2zero.validator.finder.FinderSelectClauseValidator;
+import synapticloop.h2zero.validator.finder.FinderSelectFieldValidator;
 import synapticloop.h2zero.validator.finder.FinderWhereClauseIncludesLimitOrOffsetValidator;
 import synapticloop.h2zero.validator.finder.FinderWhereClauseValidator;
 import synapticloop.h2zero.validator.finder.FinderWhereFieldAliasValidator;
@@ -163,6 +164,7 @@ public class H2ZeroParser {
 		validators.add(new FinderWhereClauseIncludesLimitOrOffsetValidator());
 		validators.add(new FinderOrderByClauseValidator());
 		validators.add(new FinderSelectClauseValidator());
+		validators.add(new FinderSelectFieldValidator());
 		validators.add(new FinderSelectClauseFromValidator());
 		validators.add(new FinderSelectClauseBeanNameValidator());
 		validators.add(new FinderAutoIndexValidator());
