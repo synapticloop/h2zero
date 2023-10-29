@@ -213,52 +213,63 @@ public class AllTypesDeleter {
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
-	 * This is the start of the user defined deleters which are generated
+	 *     USER DEFINED DELETERS FOR THE TABLE: all_types
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined Deleters which are generated
 	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
 	 * key.
 	 * 
-	 * There are 15 defined deleters on the all_types table:
+	 * There are 15 defined Deleters on the all_types table:
 	 * 
-	 * - deleteByIdAllTypes - from 'fieldDeleters' JSON key 
-	 * - deleteByTestBigint - from 'fieldDeleters' JSON key 
-	 * - deleteByTestBoolean - from 'fieldDeleters' JSON key 
-	 * - deleteByTestDate - from 'fieldDeleters' JSON key 
-	 * - deleteByTestDatetime - from 'fieldDeleters' JSON key 
-	 * - deleteByTestDouble - from 'fieldDeleters' JSON key 
-	 * - deleteByTestFloat - from 'fieldDeleters' JSON key 
-	 * - deleteByTestInt - from 'fieldDeleters' JSON key 
-	 * - deleteByTestInteger - from 'fieldDeleters' JSON key 
-	 * - deleteByTestMediumint - from 'fieldDeleters' JSON key 
-	 * - deleteByTestNumeric - from 'fieldDeleters' JSON key 
-	 * - deleteByTestSmallint - from 'fieldDeleters' JSON key 
-	 * - deleteByTestText - from 'fieldDeleters' JSON key 
-	 * - deleteByTestTinyint - from 'fieldDeleters' JSON key 
-	 * - deleteByTestVarchar - from 'fieldDeleters' JSON key 
+	 * - deleteByIdAllTypes - 'fieldDeleters' JSON key 
+	 * - deleteByTestBigint - 'fieldDeleters' JSON key 
+	 * - deleteByTestBoolean - 'fieldDeleters' JSON key 
+	 * - deleteByTestDate - 'fieldDeleters' JSON key 
+	 * - deleteByTestDatetime - 'fieldDeleters' JSON key 
+	 * - deleteByTestDouble - 'fieldDeleters' JSON key 
+	 * - deleteByTestFloat - 'fieldDeleters' JSON key 
+	 * - deleteByTestInt - 'fieldDeleters' JSON key 
+	 * - deleteByTestInteger - 'fieldDeleters' JSON key 
+	 * - deleteByTestMediumint - 'fieldDeleters' JSON key 
+	 * - deleteByTestNumeric - 'fieldDeleters' JSON key 
+	 * - deleteByTestSmallint - 'fieldDeleters' JSON key 
+	 * - deleteByTestText - 'fieldDeleters' JSON key 
+	 * - deleteByTestTinyint - 'fieldDeleters' JSON key 
+	 * - deleteByTestVarchar - 'fieldDeleters' JSON key 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param idAllTypes - maps to the id_all_types field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param idAllTypes - maps to the id_all_types field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByIdAllTypes(Connection connection, Long idAllTypes) throws SQLException {
+	public static int deleteByIdAllTypes(Connection connection, Long idAllTypes, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByIdAllTypes_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByIdAllTypes_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_ID_ALL_TYPES);
 			statement = stringBuilder.toString();
-			deleteByIdAllTypes_statement_cache.put(cacheKey, statement);
+			deleteByIdAllTypes_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByIdAllTypes_statement_cache.get(cacheKey);
+			statement = deleteByIdAllTypes_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -274,25 +285,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestBigint - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testBigint - maps to the test_bigint field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testBigint - maps to the test_bigint field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestBigint(Connection connection, Long testBigint) throws SQLException {
+	public static int deleteByTestBigint(Connection connection, Long testBigint, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestBigint_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestBigint_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_BIGINT);
 			statement = stringBuilder.toString();
-			deleteByTestBigint_statement_cache.put(cacheKey, statement);
+			deleteByTestBigint_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestBigint_statement_cache.get(cacheKey);
+			statement = deleteByTestBigint_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -308,25 +326,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestBoolean - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testBoolean - maps to the test_boolean field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testBoolean - maps to the test_boolean field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestBoolean(Connection connection, Boolean testBoolean) throws SQLException {
+	public static int deleteByTestBoolean(Connection connection, Boolean testBoolean, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestBoolean_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestBoolean_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_BOOLEAN);
 			statement = stringBuilder.toString();
-			deleteByTestBoolean_statement_cache.put(cacheKey, statement);
+			deleteByTestBoolean_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestBoolean_statement_cache.get(cacheKey);
+			statement = deleteByTestBoolean_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -342,25 +367,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestDate - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testDate - maps to the test_date field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testDate - maps to the test_date field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestDate(Connection connection, Date testDate) throws SQLException {
+	public static int deleteByTestDate(Connection connection, Date testDate, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestDate_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestDate_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DATE);
 			statement = stringBuilder.toString();
-			deleteByTestDate_statement_cache.put(cacheKey, statement);
+			deleteByTestDate_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestDate_statement_cache.get(cacheKey);
+			statement = deleteByTestDate_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -376,25 +408,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestDatetime - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testDatetime - maps to the test_datetime field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testDatetime - maps to the test_datetime field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestDatetime(Connection connection, Timestamp testDatetime) throws SQLException {
+	public static int deleteByTestDatetime(Connection connection, Timestamp testDatetime, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestDatetime_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestDatetime_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DATETIME);
 			statement = stringBuilder.toString();
-			deleteByTestDatetime_statement_cache.put(cacheKey, statement);
+			deleteByTestDatetime_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestDatetime_statement_cache.get(cacheKey);
+			statement = deleteByTestDatetime_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -410,25 +449,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestDouble - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testDouble - maps to the test_double field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testDouble - maps to the test_double field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestDouble(Connection connection, Double testDouble) throws SQLException {
+	public static int deleteByTestDouble(Connection connection, Double testDouble, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestDouble_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestDouble_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DOUBLE);
 			statement = stringBuilder.toString();
-			deleteByTestDouble_statement_cache.put(cacheKey, statement);
+			deleteByTestDouble_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestDouble_statement_cache.get(cacheKey);
+			statement = deleteByTestDouble_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -444,25 +490,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestFloat - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testFloat - maps to the test_float field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testFloat - maps to the test_float field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestFloat(Connection connection, Float testFloat) throws SQLException {
+	public static int deleteByTestFloat(Connection connection, Float testFloat, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestFloat_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestFloat_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_FLOAT);
 			statement = stringBuilder.toString();
-			deleteByTestFloat_statement_cache.put(cacheKey, statement);
+			deleteByTestFloat_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestFloat_statement_cache.get(cacheKey);
+			statement = deleteByTestFloat_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -478,25 +531,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestInt - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testInt - maps to the test_int field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testInt - maps to the test_int field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestInt(Connection connection, Integer testInt) throws SQLException {
+	public static int deleteByTestInt(Connection connection, Integer testInt, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestInt_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestInt_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_INT);
 			statement = stringBuilder.toString();
-			deleteByTestInt_statement_cache.put(cacheKey, statement);
+			deleteByTestInt_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestInt_statement_cache.get(cacheKey);
+			statement = deleteByTestInt_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -512,25 +572,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestInteger - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testInteger - maps to the test_integer field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testInteger - maps to the test_integer field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestInteger(Connection connection, Integer testInteger) throws SQLException {
+	public static int deleteByTestInteger(Connection connection, Integer testInteger, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestInteger_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestInteger_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_INTEGER);
 			statement = stringBuilder.toString();
-			deleteByTestInteger_statement_cache.put(cacheKey, statement);
+			deleteByTestInteger_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestInteger_statement_cache.get(cacheKey);
+			statement = deleteByTestInteger_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -546,25 +613,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestMediumint - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testMediumint - maps to the test_mediumint field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testMediumint - maps to the test_mediumint field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestMediumint(Connection connection, Integer testMediumint) throws SQLException {
+	public static int deleteByTestMediumint(Connection connection, Integer testMediumint, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestMediumint_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestMediumint_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_MEDIUMINT);
 			statement = stringBuilder.toString();
-			deleteByTestMediumint_statement_cache.put(cacheKey, statement);
+			deleteByTestMediumint_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestMediumint_statement_cache.get(cacheKey);
+			statement = deleteByTestMediumint_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -580,25 +654,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestNumeric - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testNumeric - maps to the test_numeric field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testNumeric - maps to the test_numeric field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestNumeric(Connection connection, BigDecimal testNumeric) throws SQLException {
+	public static int deleteByTestNumeric(Connection connection, BigDecimal testNumeric, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestNumeric_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestNumeric_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_NUMERIC);
 			statement = stringBuilder.toString();
-			deleteByTestNumeric_statement_cache.put(cacheKey, statement);
+			deleteByTestNumeric_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestNumeric_statement_cache.get(cacheKey);
+			statement = deleteByTestNumeric_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -614,25 +695,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestSmallint - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testSmallint - maps to the test_smallint field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testSmallint - maps to the test_smallint field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestSmallint(Connection connection, Short testSmallint) throws SQLException {
+	public static int deleteByTestSmallint(Connection connection, Short testSmallint, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestSmallint_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestSmallint_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_SMALLINT);
 			statement = stringBuilder.toString();
-			deleteByTestSmallint_statement_cache.put(cacheKey, statement);
+			deleteByTestSmallint_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestSmallint_statement_cache.get(cacheKey);
+			statement = deleteByTestSmallint_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -648,25 +736,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestText - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testText - maps to the test_text field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testText - maps to the test_text field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestText(Connection connection, String testText) throws SQLException {
+	public static int deleteByTestText(Connection connection, String testText, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestText_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestText_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_TEXT);
 			statement = stringBuilder.toString();
-			deleteByTestText_statement_cache.put(cacheKey, statement);
+			deleteByTestText_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestText_statement_cache.get(cacheKey);
+			statement = deleteByTestText_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -682,25 +777,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestTinyint - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testTinyint - maps to the test_tinyint field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testTinyint - maps to the test_tinyint field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestTinyint(Connection connection, Boolean testTinyint) throws SQLException {
+	public static int deleteByTestTinyint(Connection connection, Boolean testTinyint, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestTinyint_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestTinyint_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_TINYINT);
 			statement = stringBuilder.toString();
-			deleteByTestTinyint_statement_cache.put(cacheKey, statement);
+			deleteByTestTinyint_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestTinyint_statement_cache.get(cacheKey);
+			statement = deleteByTestTinyint_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -716,25 +818,32 @@ public class AllTypesDeleter {
 	/**
 	 * deleteByTestVarchar - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param testVarchar - maps to the test_varchar field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param testVarchar - maps to the test_varchar field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestVarchar(Connection connection, String testVarchar) throws SQLException {
+	public static int deleteByTestVarchar(Connection connection, String testVarchar, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByTestVarchar_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByTestVarchar_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_VARCHAR);
 			statement = stringBuilder.toString();
-			deleteByTestVarchar_statement_cache.put(cacheKey, statement);
+			deleteByTestVarchar_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByTestVarchar_statement_cache.get(cacheKey);
+			statement = deleteByTestVarchar_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {

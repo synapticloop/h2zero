@@ -258,19 +258,10 @@ The statement caches
 				THE DELETER STATEMENTS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
-{\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
-{\t} * {\n}
-{\t} * This is the start of the user defined deleters which are generated{\n}
-{\t} * through either the "deleters" JSON key, or the "fieldDeleters" JSON{\n}
-{\t} * key.{\n}
-{\t} * {\n}
-{\t} * There are {fn:length[table.deleters]} defined deleters on the {table.name} table:{\n}
-{\t} * {\n}
-{loop table.deleters as deleter}
-{\t} * - {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif} {\n}
-{endloop}
-{\t} * {\n}
-{\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}{\n}
+{set tableOrView.deleters as queryObjects}
+{set tableOrView.name as tableName}
+{set "Deleter" as type}
+{import classpath:/snippet/global/java-query-objects-user-comments.templar}
 
 {loop table.deleters as deleter}
 	{set fn:length[deleter.whereFields] as deleterFieldsLength}
@@ -278,32 +269,34 @@ The statement caches
 	{\t}/**{\n}
 	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}{\n}
 	{\t} *{\n}
-	{\t} * @param connection - the connection - the caller must close this connection{\n}
-	{if deleter.hasWhereFieldAliases}
-		{loop deleter.whereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
-		{endloop}
-	{else}
-		{loop deleter.uniqueWhereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
-		{endloop}
-	{endif}
+	{\t} * This is the main method for all other deleter methods with the same prefix,{\n}
+	{\t} * including the (silent method signatures).  All methods chain to this one.{\n}
+	{\t} * {\n}
+
+	{set deleter as queryObject}
+	{set tableOrView.name as tableName}
+	{set "true" as hasConnection}
+	{set "true" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
 
 	{\t} * {\n}
 	{\t} * @return the number of rows deleted{\n}
 	{\t} * {\n}
 	{\t} * @throws SQLException if there was an error in the deletion{\n}
 	{\t} */{\n}
-	{\t}public static int {deleter.name}(Connection connection{if fn:>[deleterFieldsLength, '0']}, {endif}
+	{\t}public static int {deleter.name}(
 		{--
-		Now for the where fields
-	}
-	{loop deleter.whereFields as whereField}
-		{if whereField.isInField}List<{endif}{whereField.javaType}{if whereField.isInField}>{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else},{endif}
-	{endloop}
+			Now for the where field parameters
+		}
 
-	) throws SQLException {{{\n}
+	{set deleter as queryObject}
+	{set "true" as hasConnection}
+	{set "true" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
+
+) throws SQLException {{{\n}
 
 	{--
 			need to add in the correct cache keys for infields....
@@ -319,7 +312,7 @@ The statement caches
 		{\t}{\t}boolean hasConnection = (null != connection);{\n}
 		{\t}{\t}String statement = null;{\n}
 
-		{\t}{\t}if(!{deleter.name}_statement_cache.containsKey(cacheKey)) {{{\n}
+		{\t}{\t}if(!{deleter.name}_limit_statement_cache.containsKey(cacheKey)) {{{\n}
 
 		{\t}{\t}{\t}// place the cacheKey in the cache for later use{\n}
 		{\n}
@@ -346,9 +339,9 @@ The statement caches
 		{endif}
 
 		{\t}{\t}{\t}statement = stringBuilder.toString();{\n}
-		{\t}{\t}{\t}{deleter.name}_statement_cache.put(cacheKey, statement);{\n}
+		{\t}{\t}{\t}{deleter.name}_limit_statement_cache.put(cacheKey, statement);{\n}
 		{\t}{\t}} else {{{\n}
-		{\t}{\t}{\t}statement = {deleter.name}_statement_cache.get(cacheKey);{\n}
+		{\t}{\t}{\t}statement = {deleter.name}_limit_statement_cache.get(cacheKey);{\n}
 		{\t}{\t}}{\n}
 		{\n}
 

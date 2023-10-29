@@ -4,8 +4,8 @@
  queryObjects: The tableOrView finder/deleters/updaters etc
  allName: The find/delete/update all name
  statementCacheSize: the size of the statementCache
-
 }
+
 {set "true" as hasInfield}
 {loop queryObjects as queryObject}
 	{if queryObject.hasInFields}

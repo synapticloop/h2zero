@@ -186,31 +186,42 @@ public class AuthorDeleter {
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
-	 * This is the start of the user defined deleters which are generated
+	 *     USER DEFINED DELETERS FOR THE TABLE: author
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined Deleters which are generated
 	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
 	 * key.
 	 * 
-	 * There are 1 defined deleters on the author table:
+	 * There are 1 defined Deleters on the author table:
 	 * 
-	 * - deleteInNumber - from 'deleters' JSON key 
+	 * - deleteInNumber - from 'deleter' JSON key 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * deleteInNumber - from 'deleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteInNumber(Connection connection, List<Boolean> flIsUpdatingList) throws SQLException {
+	public static int deleteInNumber(Connection connection, List<Boolean> flIsUpdatingList, Integer limit) throws SQLException {
 		String cacheKey = flIsUpdatingList.size() + ":" ;
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteInNumber_statement_cache.containsKey(cacheKey)) {
+		if(!deleteInNumber_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			String preparedStatementTemp = SQL_DELETE_IN_NUMBER;
@@ -225,9 +236,9 @@ public class AuthorDeleter {
 			preparedStatementTemp = SQL_DELETE_IN_NUMBER.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
 			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
 			statement = stringBuilder.toString();
-			deleteInNumber_statement_cache.put(cacheKey, statement);
+			deleteInNumber_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteInNumber_statement_cache.get(cacheKey);
+			statement = deleteInNumber_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {

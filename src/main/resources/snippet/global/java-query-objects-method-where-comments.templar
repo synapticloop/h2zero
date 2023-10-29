@@ -1,0 +1,44 @@
+{--
+	This is the method comment with the correct paramters
+
+	required
+		queryObject: The tableOrView finder/deleter/updater etc
+		tableName: the name of the table
+		hasConnection: whether to output the connection parameter
+		hasLimit: whether to output the limit parameter
+		hasOffset: whether to output the offset parameter
+}
+
+{if fn:=[hasConnection, "true"]}
+	{\t} * @param connection - the connection - the caller __MUST__ close this connection{\n}
+	{\t} *        if the caller created this connection. If the passed in connection is {\n}
+	{\t} *        null, then a new connection will be created, utilised, and closed within{\n}
+	{\t} *        this method.{\n}
+{endif}
+
+{loop queryObject.updateFields as updateField}
+	{\t} * @param {updateField.javaName} - maps to the {updateField.name} field (from the set clause){\n}
+{endloop}
+
+{if queryObject.hasWhereFieldAliases}
+	{loop queryObject.whereFields as whereField}
+		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field (from the where clause){\n}
+	{endloop}
+{else}
+	{loop queryObject.uniqueWhereFields as whereField}
+		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field (from the where clause){\n}
+	{endloop}
+{endif}
+
+{if fn:=[hasLimit, "true"]}
+	{\t} * @param limit - The limit of the number of rows to affect{\n}
+{endif}
+
+{if fn:=[hasOffset, "true"]}
+	{\t} * @param offset - The offset of the row to start with{\n}
+{endif}
+
+
+{set "false" as hasConnection}
+{set "false" as hasLimit}
+{set "false" as hasOffset}

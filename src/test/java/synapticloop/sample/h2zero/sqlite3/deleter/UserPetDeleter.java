@@ -182,11 +182,15 @@ public class UserPetDeleter {
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
-	 * This is the start of the user defined deleters which are generated
+	 *     USER DEFINED DELETERS FOR THE TABLE: user_pet
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined Deleters which are generated
 	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
 	 * key.
 	 * 
-	 * There are 0 defined deleters on the user_pet table:
+	 * There are 0 defined Deleters on the user_pet table:
 	 * 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

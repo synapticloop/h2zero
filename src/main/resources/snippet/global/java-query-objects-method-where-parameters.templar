@@ -1,0 +1,33 @@
+{--
+	This is the method comment with the correct paramters
+
+	required
+		queryObject: The tableOrView finder/deleter/updater etc
+		hasConnection: whether to output the connection parameter
+		hasLimit: whether to output the limit parameter
+		hasOffset: whether to output the offset parameter
+}
+
+
+
+{if fn:=[hasConnection, "true"]}
+	Connection connection{if fn:>[fn:+[fn:length[queryObject.whereFields], fn:length[queryObject.updateFields]], '0']}, {endif}
+{endif}
+
+{loop queryObject.whereFields as whereField}
+	{if whereField.isInField}List<{endif}{whereField.javaType}{if whereField.isInField}>{endif} {whereField.javaName}{if whereField.isInField}List{endif}
+	{if whereFieldStatus.last}{else},{endif}
+{endloop}
+
+{if fn:=[hasLimit, "true"]}
+	, Integer limit
+{endif}
+
+{if fn:=[hasOffset, "true"]}
+	, Integer offset
+{endif}
+
+
+{set "false" as hasConnection}
+{set "false" as hasLimit}
+{set "false" as hasOffset}

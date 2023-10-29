@@ -189,40 +189,51 @@ public class UserDeleter {
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
-	 * This is the start of the user defined deleters which are generated
+	 *     USER DEFINED DELETERS FOR THE TABLE: user
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined Deleters which are generated
 	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
 	 * key.
 	 * 
-	 * There are 3 defined deleters on the user table:
+	 * There are 3 defined Deleters on the user table:
 	 * 
-	 * - deleteByNumAge - from 'fieldDeleters' JSON key 
-	 * - deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key 
-	 * - deleteByNumAgeTest - from 'deleters' JSON key 
+	 * - deleteByNumAge - 'fieldDeleters' JSON key 
+	 * - deleteByFlIsAliveIdUserType - 'fieldDeleters' JSON key 
+	 * - deleteByNumAgeTest - from 'deleter' JSON key 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * deleteByNumAge - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param numAge - maps to the num_age field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param numAge - maps to the num_age field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByNumAge(Connection connection, Integer numAge) throws SQLException {
+	public static int deleteByNumAge(Connection connection, Integer numAge, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByNumAge_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByNumAge_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_NUM_AGE);
 			statement = stringBuilder.toString();
-			deleteByNumAge_statement_cache.put(cacheKey, statement);
+			deleteByNumAge_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByNumAge_statement_cache.get(cacheKey);
+			statement = deleteByNumAge_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -238,26 +249,33 @@ public class UserDeleter {
 	/**
 	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param flIsAlive - maps to the fl_is_alive field
-	 * @param idUserType - maps to the id_user_type field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
+	 * @param idUserType - maps to the id_user_type field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByFlIsAliveIdUserType(Connection connection, Boolean flIsAlive,Long idUserType) throws SQLException {
+	public static int deleteByFlIsAliveIdUserType(Connection connection, Boolean flIsAlive,Long idUserType, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByFlIsAliveIdUserType_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByFlIsAliveIdUserType_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE);
 			statement = stringBuilder.toString();
-			deleteByFlIsAliveIdUserType_statement_cache.put(cacheKey, statement);
+			deleteByFlIsAliveIdUserType_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByFlIsAliveIdUserType_statement_cache.get(cacheKey);
+			statement = deleteByFlIsAliveIdUserType_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
@@ -274,25 +292,32 @@ public class UserDeleter {
 	/**
 	 * deleteByNumAgeTest - from 'deleters' JSON key
 	 *
-	 * @param connection - the connection - the caller must close this connection
-	 * @param numAge - maps to the num_age field
+	 * This is the main method for all other methods to chain to as it covers
+	 * all the allowable method calls
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param numAge - maps to the num_age field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByNumAgeTest(Connection connection, Integer numAge) throws SQLException {
+	public static int deleteByNumAgeTest(Connection connection, Integer numAge, Integer limit) throws SQLException {
 		String cacheKey = "cacheKey";
 		boolean hasConnection = (null != connection);
 		String statement = null;
-		if(!deleteByNumAgeTest_statement_cache.containsKey(cacheKey)) {
+		if(!deleteByNumAgeTest_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_NUM_AGE_TEST);
 			statement = stringBuilder.toString();
-			deleteByNumAgeTest_statement_cache.put(cacheKey, statement);
+			deleteByNumAgeTest_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = deleteByNumAgeTest_statement_cache.get(cacheKey);
+			statement = deleteByNumAgeTest_limit_statement_cache.get(cacheKey);
 		}
 
 		if(!hasConnection) {
