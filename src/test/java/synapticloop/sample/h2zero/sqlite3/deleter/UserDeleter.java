@@ -42,10 +42,10 @@ public class UserDeleter {
 	private static final String SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE = SQL_DELETE_START + " where fl_is_alive = ? and id_user_type = ?";
 	private static final String SQL_DELETE_BY_NUM_AGE_TEST = SQL_DELETE_START + " where num_age = ?";
 	// now for the statement limit cache(s)
-	private static final LruCache<String, String> DeleterAll_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByNumAge_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByFlIsAliveIdUserType_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByNumAgeTest_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByNumAge_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByFlIsAliveIdUserType_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByNumAgeTest_limit_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private UserDeleter() {}

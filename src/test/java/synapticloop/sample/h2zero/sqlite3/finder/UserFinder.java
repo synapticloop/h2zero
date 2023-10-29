@@ -49,8 +49,8 @@ public class UserFinder {
 	private static final String SQL_FIND_BY_NUM_AGE_IN = SQL_SELECT_START + " where num_age in (...)";
 	private static final String SQL_FIND_BY_NUM_AGE_BETWEEN = SQL_SELECT_START + " where num_age > ? and num_age < ?";
 
-	// This is the cache for 'in finders' which have an ellipses (...) in the statement
-	private static final LruCache<String, String> findByNumAgeIn_statement_cache = new LruCache<>(1024);
+	// This is the cache for 'in Finder' which have an ellipses (...) in the statement
+	private static final LruCache<String, String> findByNumAgeIn_limit_statement_cache = new LruCache<>(1024);
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByNumAge_limit_statement_cache = new LruCache<>(1024);
@@ -60,7 +60,6 @@ public class UserFinder {
 	private static final LruCache<String, String> findByTxtAddressEmailTxtPassword_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findNmUsernameDtmSignup_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findGroupNumAge_limit_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> findByNumAgeIn_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByNumAgeBetween_limit_statement_cache = new LruCache<>(1024);
 
 	private UserFinder() {}

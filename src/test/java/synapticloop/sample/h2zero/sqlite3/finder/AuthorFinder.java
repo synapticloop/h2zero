@@ -46,15 +46,14 @@ public class AuthorFinder {
 	private static final String SQL_FIND_FIRST_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc";
 	private static final String SQL_FIND_LIMITED_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following";
 
-	// This is the cache for 'in finders' which have an ellipses (...) in the statement
-	private static final LruCache<String, String> findInStatus_statement_cache = new LruCache<>(1024);
+	// This is the cache for 'in Finder' which have an ellipses (...) in the statement
+	private static final LruCache<String, String> findInStatus_limit_statement_cache = new LruCache<>(1024);
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByIdAuthorStatus_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByFlIsUpdating_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByTxtIdAuthorIdAuthorStatus_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByTxtIdAuthor_limit_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> findInStatus_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findAllToBeEvaluated_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findFirstToBeEvaluated_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findLimitedToBeEvaluated_limit_statement_cache = new LruCache<>(1024);

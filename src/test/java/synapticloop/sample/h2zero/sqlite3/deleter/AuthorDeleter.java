@@ -40,9 +40,9 @@ public class AuthorDeleter {
 	// static fields generated from the user input
 	private static final String SQL_DELETE_IN_NUMBER = SQL_DELETE_START + "  where fl_is_updating in (...)";
 	// This is the cache for 'in Deleter' which have an ellipses (...) in the statement
-	private static final LruCache<String, String> deleteInNumber_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteInNumber_limit_statement_cache = new LruCache<>(1024);
 	// now for the statement limit cache(s)
-	private static final LruCache<String, String> DeleterAll_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteAll_limit_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private AuthorDeleter() {}

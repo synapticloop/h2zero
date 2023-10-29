@@ -34,7 +34,11 @@ public class {table.javaClassName}Finder {{{\n}
 				STATEMENT CACHES
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
-{import classpath:/snippet/finder/statement-caches.templar}
+
+{set tableOrView.finders as queryObjects}
+{set tableOrView.defaultStatementCacheSize as statementCacheSize}
+{set "find" as allName}
+{import classpath:/snippet/global/java-query-objects-statement-caches.templar}
 
 {\n}{\t}private {table.javaClassName}Finder() {{}{\n}{\n}
 

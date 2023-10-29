@@ -67,9 +67,14 @@ public class {table.javaClassName}Deleter {{{\n}
 	{if fn:notNull[deleter.whereClause]} + " {deleter.whereClause}"{endif};{\n}
 {endloop}
 
+{--
+The statement caches
+}
+
 {set tableOrView.deleters as queryObjects}
 {set deleter.statementCacheSize as statementCacheSize}
-{import classpath:/snippet/global/java-statement-caches.templar}
+{set "delete" as allName}
+{import classpath:/snippet/global/java-query-objects-statement-caches.templar}
 
 
 {\n}

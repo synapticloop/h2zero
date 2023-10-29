@@ -54,22 +54,22 @@ public class AllTypesDeleter {
 	private static final String SQL_DELETE_BY_TEST_TINYINT = SQL_DELETE_START + " where test_tinyint = ?";
 	private static final String SQL_DELETE_BY_TEST_VARCHAR = SQL_DELETE_START + " where test_varchar = ?";
 	// now for the statement limit cache(s)
-	private static final LruCache<String, String> DeleterAll_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByIdAllTypes_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestBigint_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestBoolean_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestDate_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestDatetime_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestDouble_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestFloat_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestInt_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestInteger_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestMediumint_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestNumeric_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestSmallint_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestText_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestTinyint_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> deleteByTestVarchar_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByIdAllTypes_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestBigint_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestBoolean_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestDate_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestDatetime_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestDouble_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestFloat_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestInt_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestInteger_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestMediumint_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestNumeric_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestSmallint_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestText_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestTinyint_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteByTestVarchar_limit_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private AllTypesDeleter() {}

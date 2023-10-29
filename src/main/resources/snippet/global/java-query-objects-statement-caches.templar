@@ -2,6 +2,7 @@
  so we need the queryObjects to loop over
 
  queryObjects: The tableOrView finder/deleters/updaters etc
+ allName: The find/delete/update all name
  statementCacheSize: the size of the statementCache
 
 }
@@ -13,15 +14,15 @@
 			{set "false" as hasInfield}
 		{endif}
 
-		{\t}private static final LruCache<String, String> {queryObject.name}_statement_cache = new LruCache<>({statementCacheSize});{\n}
+		{\t}private static final LruCache<String, String> {queryObject.name}_limit_statement_cache = new LruCache<>({statementCacheSize});{\n}
 	{endif}
 {endloop}
 
 {\t}// now for the statement limit cache(s){\n}
-{\t}private static final LruCache<String, String> {queryObject.type}All_statement_cache = new LruCache<>({statementCacheSize});{\n}
+{\t}private static final LruCache<String, String> {allName}All_limit_statement_cache = new LruCache<>({statementCacheSize});{\n}
 
 {loop queryObjects as queryObject}
 	{if !queryObject.hasInFields}
-		{\t}private static final LruCache<String, String> {queryObject.name}_statement_cache = new LruCache<>({statementCacheSize});{\n}
+		{\t}private static final LruCache<String, String> {queryObject.name}_limit_statement_cache = new LruCache<>({statementCacheSize});{\n}
 	{endif}
 {endloop}

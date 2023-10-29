@@ -38,7 +38,7 @@ public class UserPetDeleter {
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_user_pet = ?";
 
 	// now for the statement limit cache(s)
-	private static final LruCache<String, String> DeleterAll_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteAll_limit_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private UserPetDeleter() {}
