@@ -72,7 +72,11 @@ The statement caches
 }
 
 {set tableOrView.deleters as queryObjects}
-{set deleter.statementCacheSize as statementCacheSize}
+{if fn:null[deleter]}
+	{set "1024" as statementCacheSize}
+{else}
+	{set deleter.statementCacheSize as statementCacheSize}
+{endif}
 {set "delete" as allName}
 {import classpath:/snippet/global/java-query-objects-statement-caches.templar}
 
@@ -302,12 +306,13 @@ The statement caches
 			need to add in the correct cache keys for infields....
 
 			this is a little more complex...  the cacheKey now becomes the values of:
-			<limit>:<offset>:<num_args in list>:...
+			<limit>:<num_args in list>:...
 		}
-		{\t}{\t}String cacheKey = {if deleter.hasInFields}
+
+		{\t}{\t}String cacheKey = limit {if deleter.hasInFields} + ":" +{\ }
 			{loop deleter.inWhereFields as whereField}
 				{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
-			{endloop}{else}"cacheKey"{endif};{\n}
+			{endloop}{endif} + "";{\n}
 
 		{\t}{\t}boolean hasConnection = (null != connection);{\n}
 		{\t}{\t}String statement = null;{\n}
@@ -338,12 +343,19 @@ The statement caches
 			{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(SQL_{deleter.staticName});{\n}
 		{endif}
 
+		{\n}
+		{\t}{\t}{\t}if(null != limit) {{{\n}
+		{\t}{\t}{\t}{\t}stringBuilder.append(" limit ");{\n}
+		{\t}{\t}{\t}{\t}stringBuilder.append(limit);{\n}
+		{\t}{\t}{\t}}{\n}
+		{\n}
 		{\t}{\t}{\t}statement = stringBuilder.toString();{\n}
 		{\t}{\t}{\t}{deleter.name}_limit_statement_cache.put(cacheKey, statement);{\n}
 		{\t}{\t}} else {{{\n}
 		{\t}{\t}{\t}statement = {deleter.name}_limit_statement_cache.get(cacheKey);{\n}
 		{\t}{\t}}{\n}
 		{\n}
+
 
 		{\t}{\t}if(!hasConnection) {{{\n}
 		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
@@ -385,15 +397,14 @@ The statement caches
 	{\t}/**{\n}
 	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}{\n}
 	{\t} *{\n}
-	{if deleter.hasWhereFieldAliases}
-		{loop deleter.whereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
-		{endloop}
-	{else}
-		{loop deleter.uniqueWhereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
-		{endloop}
-	{endif}
+
+	{set deleter as queryObject}
+	{set tableOrView.name as tableName}
+	{set "false" as hasConnection}
+	{set "true" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
+
 	{\t} * {\n}
 	{\t} * @return the number of rows deleted{\n}
 	{\t} * {\n}
@@ -403,17 +414,19 @@ The statement caches
 	{--
 		Now for the where fields
 	}
-	{loop deleter.whereFields as whereField}
-		{if whereField.isInField}List<{endif}{whereField.javaType}{if whereField.isInField}>{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else},{endif}
-	{endloop}
+
+	{set deleter as queryObject}
+	{set "false" as hasConnection}
+	{set "true" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
+
 	) throws SQLException {{{\n}
 
 	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
-		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else},{endif}
-	{endloop}));{\n}
+	{\t}{\t}{\t}return({deleter.name}(connection{loop deleter.whereFields as whereField}
+		, {whereField.javaName}{if whereField.isInField}List{endif}
+	{endloop}, limit));{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}
 
@@ -423,15 +436,14 @@ The statement caches
 	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
 	{\t} * This will silently swallow any exceptions.{\n}
 	{\t} * {\n}
-	{if deleter.hasWhereFieldAliases}
-		{loop deleter.whereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
-		{endloop}
-	{else}
-		{loop deleter.uniqueWhereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
-		{endloop}
-	{endif}
+
+	{set deleter as queryObject}
+	{set tableOrView.name as tableName}
+	{set "false" as hasConnection}
+	{set "false" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
+
 	{\t} * {\n}
 	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
 	{\t} */{\n}
@@ -442,17 +454,18 @@ The statement caches
 	{--
 		Now for the where fields
 	}
-	{loop deleter.whereFields as whereField}
-		{if whereField.isInField}List<{endif}{whereField.javaType}{if whereField.isInField}>{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else},{endif}
-	{endloop}
+	{set deleter as queryObject}
+	{set "false" as hasConnection}
+	{set "false" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
 
 	) {{{\n}
 	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
 		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else},{endif}
-	{endloop}));{\n}
+		{if whereFieldStatus.last}{else}, {endif}
+	{endloop}, null));{\n}
 	{\t}{\t}} catch (SQLException ex) {{{\n}
 	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
 	{\t}{\t}{\t}return(-1);{\n}
@@ -465,39 +478,103 @@ The statement caches
 	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
 	{\t} * This will silently swallow any exceptions.{\n}
 	{\t} * {\n}
-	{\t} * @param connection - the connection to use - the caller must close this connection{\n}
-	{if deleter.hasWhereFieldAliases}
-		{loop deleter.whereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
-		{endloop}
-	{else}
-		{loop deleter.uniqueWhereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
-		{endloop}
-	{endif}
+
+	{set deleter as queryObject}
+	{set tableOrView.name as tableName}
+	{set "true" as hasConnection}
+	{set "false" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
+
 	{\t} * {\n}
 	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
 	{\t} */{\n}
 
-	{\t}public static int {deleter.name}Silent(Connection connection,
+	{\t}public static int {deleter.name}Silent(
 	{--
 		Now for the where fields
 	}
-	{loop deleter.whereFields as whereField}
-		{if whereField.isInField}List<{endif}{whereField.javaType}{if whereField.isInField}>{endif} {whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else},{endif}
-	{endloop}
+	{set deleter as queryObject}
+	{set "true" as hasConnection}
+	{set "false" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
 	) {{{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
 		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else},{endif}
-	{endloop}));{\n}
+		{if whereFieldStatus.last}{else}, {endif}
+	{endloop}, null));{\n}
 	{\t}{\t}} catch (SQLException ex) {{{\n}
 	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
 	{\t}{\t}{\t}return(-1);{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}
 
+
+
+	{\t}/**{\n}
+	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
+	{\t} * {\n}
+
+	{set deleter as queryObject}
+	{set tableOrView.name as tableName}
+	{set "false" as hasConnection}
+	{set "false" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
+
+	{\t} * {\n}
+	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
+	{\t} */{\n}
+
+	{\t}public static int {deleter.name}(
+	{--
+		Now for the where fields
+	}
+	{set deleter as queryObject}
+	{set "false" as hasConnection}
+	{set "false" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
+	) throws SQLException {{{\n}
+	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
+	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[fn:length[deleter.whereFields], '0']}, {endif}{loop deleter.whereFields as whereField}
+		{whereField.javaName}{if whereField.isInField}List{endif}
+		{if whereFieldStatus.last}{else}, {endif}
+	{endloop}, null));{\n}
+	{\t}{\t}}{\n}
+	{\t}}{\n}
+
+	{\t}/**{\n}
+	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
+	{\t} * {\n}
+
+	{set deleter as queryObject}
+	{set tableOrView.name as tableName}
+	{set "true" as hasConnection}
+	{set "false" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
+
+	{\t} * {\n}
+	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
+	{\t} */{\n}
+
+	{\t}public static int {deleter.name}(
+	{--
+		Now for the where fields
+	}
+	{set deleter as queryObject}
+	{set "true" as hasConnection}
+	{set "false" as hasLimit}
+	{set "false" as hasOffset}
+	{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
+	) throws SQLException {{{\n}
+	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
+		{whereField.javaName}{if whereField.isInField}List{endif}
+		{if whereFieldStatus.last}{else}, {endif}
+	{endloop}, null));{\n}
+	{\t}}{\n}
 {endloop}
 }

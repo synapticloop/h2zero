@@ -38,11 +38,13 @@ public class AuthorDeleter {
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_author = ?";
 
 	// static fields generated from the user input
-	private static final String SQL_DELETE_IN_NUMBER = SQL_DELETE_START + "  where fl_is_updating in (...)";
+	private static final String SQL_DELETE_IN_NUMBER = SQL_DELETE_START + "  where fl_is_updating = ? and fl_is_updating in (...) and dtm_started_following in (...) and fl_is_updating = ? and fl_is_updating = ?";
+	private static final String SQL_DELETE_ALL_TO_BE_EVALUATED = SQL_DELETE_START + " where fl_is_updating = 0";
 	// This is the cache for 'in Deleter' which have an ellipses (...) in the statement
 	private static final LruCache<String, String> deleteInNumber_limit_statement_cache = new LruCache<>(1024);
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> deleteAll_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> deleteAllToBeEvaluated_limit_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private AuthorDeleter() {}
@@ -194,31 +196,36 @@ public class AuthorDeleter {
 	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
 	 * key.
 	 * 
-	 * There are 1 defined Deleters on the author table:
+	 * There are 2 defined Deleters on the author table:
 	 * 
 	 * - deleteInNumber - from 'deleter' JSON key 
+	 * - deleteAllToBeEvaluated - from 'deleter' JSON key 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * deleteInNumber - from 'deleters' JSON key
 	 *
-	 * This is the main method for all other methods to chain to as it covers
-	 * all the allowable method calls
+	 * This is the main method for all other deleter methods with the same prefix,
+	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
 	 * @param connection - the connection - the caller __MUST__ close this connection
 	 *        if the caller created this connection. If the passed in connection is 
 	 *        null, then a new connection will be created, utilised, and closed within
 	 *        this method.
+	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
 	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
+	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
+	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
 	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteInNumber(Connection connection, List<Boolean> flIsUpdatingList, Integer limit) throws SQLException {
-		String cacheKey = flIsUpdatingList.size() + ":" ;
+	public static int deleteInNumber(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo, Integer limit) throws SQLException {
+		String cacheKey = limit  + ":" + flIsUpdatingList.size() + ":"  + dtmStartedFollowingList.size() + ":"  + "";
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		if(!deleteInNumber_limit_statement_cache.containsKey(cacheKey)) {
@@ -234,7 +241,21 @@ public class AuthorDeleter {
 				whereFieldStringBuilder.append("?");
 			}
 			preparedStatementTemp = SQL_DELETE_IN_NUMBER.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			whereFieldStringBuilder = new StringBuilder();
+			for(int i = 0; i < dtmStartedFollowingList.size(); i++) {
+				if(i > 0) {
+					whereFieldStringBuilder.append(", ");
+				}
+				whereFieldStringBuilder.append("?");
+			}
+			preparedStatementTemp = SQL_DELETE_IN_NUMBER.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
 			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+			}
+
 			statement = stringBuilder.toString();
 			deleteInNumber_limit_statement_cache.put(cacheKey, statement);
 		} else {
@@ -246,10 +267,65 @@ public class AuthorDeleter {
 		}
 		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 			int i = 1;
+			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdating);
+			i++;
 			for (Boolean flIsUpdatingIn : flIsUpdatingList) {
 				ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingIn);
 				i++;
 			}
+			for (Timestamp dtmStartedFollowingIn : dtmStartedFollowingList) {
+				ConnectionManager.setDatetime(preparedStatement, i, dtmStartedFollowingIn);
+				i++;
+			}
+			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingOne);
+			i++;
+			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingTwo);
+			i++;
+
+			return(preparedStatement.executeUpdate());
+		}
+	}
+
+	/**
+	 * deleteAllToBeEvaluated - from 'deleters' JSON key
+	 *
+	 * This is the main method for all other deleter methods with the same prefix,
+	 * including the (silent method signatures).  All methods chain to this one.
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param limit - The limit of the number of rows to affect
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteAllToBeEvaluated(Connection connection, Integer limit) throws SQLException {
+		String cacheKey = limit  + "";
+		boolean hasConnection = (null != connection);
+		String statement = null;
+		if(!deleteAllToBeEvaluated_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_ALL_TO_BE_EVALUATED);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+			}
+
+			statement = stringBuilder.toString();
+			deleteAllToBeEvaluated_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = deleteAllToBeEvaluated_limit_statement_cache.get(cacheKey);
+		}
+
+		if(!hasConnection) {
+			connection = ConnectionManager.getConnection();
+		}
+		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
 
 			return(preparedStatement.executeUpdate());
 		}
@@ -258,15 +334,20 @@ public class AuthorDeleter {
 	/**
 	 * deleteInNumber - from 'deleters' JSON key
 	 *
-	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
+	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
+	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
+	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteInNumber(List<Boolean> flIsUpdatingList) throws SQLException {
+	public static int deleteInNumber(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo, Integer limit) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteInNumber(connection, flIsUpdatingList));
+			return(deleteInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, limit));
 		}
 	}
 
@@ -274,14 +355,18 @@ public class AuthorDeleter {
 	 * deleteInNumber - from 'deleters' JSON key.
 	 * This will silently swallow any exceptions.
 	 * 
-	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
+	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
+	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
 
-	public static int deleteInNumberSilent(List<Boolean> flIsUpdatingList) {
+	public static int deleteInNumberSilent(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteInNumber(connection, flIsUpdatingList));
+			return(deleteInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, null));
 		} catch (SQLException ex) {
 			LOGGER.error("Could not deleteInNumber, a SQL Exception occurred.", ex);
 			return(-1);
@@ -292,17 +377,133 @@ public class AuthorDeleter {
 	 * deleteInNumber - from 'deleters' JSON key.
 	 * This will silently swallow any exceptions.
 	 * 
-	 * @param connection - the connection to use - the caller must close this connection
-	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
+	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
+	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
-	public static int deleteInNumberSilent(Connection connection,List<Boolean> flIsUpdatingList) {
+	public static int deleteInNumberSilent(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {
 		try {
-			return(deleteInNumber(connection, flIsUpdatingList));
+			return(deleteInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, null));
 		} catch (SQLException ex) {
 			LOGGER.error("Could not deleteInNumber, a SQL Exception occurred.", ex);
 			return(-1);
 		}
+	}
+	/**
+	 * deleteInNumber - from 'deleters' JSON key.
+	 * 
+	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
+	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
+	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteInNumber(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()){
+			return(deleteInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, null));
+		}
+	}
+	/**
+	 * deleteInNumber - from 'deleters' JSON key.
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
+	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
+	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
+	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteInNumber(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) throws SQLException {
+			return(deleteInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, null));
+	}
+	/**
+	 * deleteAllToBeEvaluated - from 'deleters' JSON key
+	 *
+	 * @param limit - The limit of the number of rows to affect
+	 * 
+	 * @return the number of rows deleted
+	 * 
+	 * @throws SQLException if there was an error in the deletion
+	 */
+	public static int deleteAllToBeEvaluated(Integer limit) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteAllToBeEvaluated(connection, limit));
+		}
+	}
+
+	/**
+	 * deleteAllToBeEvaluated - from 'deleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+
+	public static int deleteAllToBeEvaluatedSilent() {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteAllToBeEvaluated(connection, null));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteAllToBeEvaluated, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	/**
+	 * deleteAllToBeEvaluated - from 'deleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteAllToBeEvaluatedSilent(Connection connection) {
+		try {
+			return(deleteAllToBeEvaluated(connection, null));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteAllToBeEvaluated, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+	/**
+	 * deleteAllToBeEvaluated - from 'deleters' JSON key.
+	 * 
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteAllToBeEvaluated() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()){
+			return(deleteAllToBeEvaluated(connection, null));
+		}
+	}
+	/**
+	 * deleteAllToBeEvaluated - from 'deleters' JSON key.
+	 * 
+	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+	public static int deleteAllToBeEvaluated(Connection connection) throws SQLException {
+			return(deleteAllToBeEvaluated(connection, null));
 	}
 }

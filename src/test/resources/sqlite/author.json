@@ -131,11 +131,20 @@
 	"deleters": [
 		{
 			"name": "deleteInNumber",
-			"whereClause": " where fl_is_updating in (...)",
+			"whereClause": " where fl_is_updating = ? and fl_is_updating in (...) and dtm_started_following in (...) and fl_is_updating = ? and fl_is_updating = ?",
 			"whereFields": [
-				"in:fl_is_updating"
+				"fl_is_updating",
+				"in:fl_is_updating",
+				"in:dtm_started_following",
+				{ "name":  "fl_is_updating", "alias":  "flIsUpdatingOne" },
+				{ "name":  "fl_is_updating", "alias":  "flIsUpdatingTwo" }
 			]
+		},
+		{
+			"name": "deleteAllToBeEvaluated",
+			"whereClause": "where fl_is_updating = 0"
 		}
+
 	],
 	"fieldCounters": [
 		"fl_is_updating,num_followers"
