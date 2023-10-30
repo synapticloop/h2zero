@@ -68,7 +68,7 @@ public class UserDeleter {
 	 */
 	public static int deleteByPrimaryKey(Connection connection, Long idUser) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {
-		preparedStatement.setLong(1, idUser);
+			preparedStatement.setLong(1, idUser);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -205,6 +205,7 @@ public class UserDeleter {
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
 	/**
 	 * deleteByNumAge - from 'fieldDeleters' JSON key
 	 *
@@ -216,25 +217,19 @@ public class UserDeleter {
 	 *        null, then a new connection will be created, utilised, and closed within
 	 *        this method.
 	 * @param numAge - maps to the num_age field (from the where clause)
-	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByNumAge(Connection connection, Integer numAge, Integer limit) throws SQLException {
-		String cacheKey = limit  + "";
+	public static int deleteByNumAge(Connection connection, Integer numAge) throws SQLException {
+		String cacheKey = "cacheKey"  + "";
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		if(!deleteByNumAge_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_NUM_AGE);
-
-			if(null != limit) {
-				stringBuilder.append(" limit ");
-				stringBuilder.append(limit);
-			}
 
 			statement = stringBuilder.toString();
 			deleteByNumAge_limit_statement_cache.put(cacheKey, statement);
@@ -252,6 +247,66 @@ public class UserDeleter {
 		}
 	}
 
+  	// USER DEFINED DELETER CONNECTION, PARAMS,
+  	/**
+  	 * deleteByNumAge - from 'fieldDeleters' JSON key
+  	 *
+  	 * This is the main method for all other deleter methods with the same prefix,
+  	 * including the (silent method signatures).  All methods chain to this one.
+  	 * 
+            	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param numAge - maps to the num_age field (from the where clause)
+  	 * 
+  	 * @return the number of rows deleted
+  	 */
+  	public static int deleteByNumAgeSilent(            Connection connection, Integer numAge  ) {
+  		try {
+  			return(deleteByNumAge(connection,   numAge    ));
+  		} catch (SQLException ex) {
+  			LOGGER.error("Could not deleteByNumAge, a SQL Exception occurred.", ex);
+  			return(-1);
+  		}
+  	}
+  
+	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
+	/**
+	 * deleteByNumAge - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param numAge - maps to the num_age field (from the where clause)
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+  
+	public static int deleteByNumAge(Integer numAge) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByNumAge(connection, numAge));
+		}
+	}
+
+	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
+	/**
+	 * deleteByNumAge - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param numAge - maps to the num_age field (from the where clause)
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+  
+	public static int deleteByNumAgeSilent(Integer numAge) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByNumAge(connection, numAge));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByNumAge, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
 	/**
 	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key
 	 *
@@ -264,25 +319,19 @@ public class UserDeleter {
 	 *        this method.
 	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
 	 * @param idUserType - maps to the id_user_type field (from the where clause)
-	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByFlIsAliveIdUserType(Connection connection, Boolean flIsAlive, Long idUserType, Integer limit) throws SQLException {
-		String cacheKey = limit  + "";
+	public static int deleteByFlIsAliveIdUserType(Connection connection, Boolean flIsAlive, Long idUserType) throws SQLException {
+		String cacheKey = "cacheKey"  + "";
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		if(!deleteByFlIsAliveIdUserType_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_FL_IS_ALIVE_ID_USER_TYPE);
-
-			if(null != limit) {
-				stringBuilder.append(" limit ");
-				stringBuilder.append(limit);
-			}
 
 			statement = stringBuilder.toString();
 			deleteByFlIsAliveIdUserType_limit_statement_cache.put(cacheKey, statement);
@@ -301,6 +350,69 @@ public class UserDeleter {
 		}
 	}
 
+  	// USER DEFINED DELETER CONNECTION, PARAMS,
+  	/**
+  	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key
+  	 *
+  	 * This is the main method for all other deleter methods with the same prefix,
+  	 * including the (silent method signatures).  All methods chain to this one.
+  	 * 
+            	 * @param connection - the connection - the caller __MUST__ close this connection
+	 *        if the caller created this connection. If the passed in connection is 
+	 *        null, then a new connection will be created, utilised, and closed within
+	 *        this method.
+	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
+	 * @param idUserType - maps to the id_user_type field (from the where clause)
+  	 * 
+  	 * @return the number of rows deleted
+  	 */
+  	public static int deleteByFlIsAliveIdUserTypeSilent(            Connection connection, Boolean flIsAlive, Long idUserType  ) {
+  		try {
+  			return(deleteByFlIsAliveIdUserType(connection,   flIsAlive  ,     idUserType    ));
+  		} catch (SQLException ex) {
+  			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occurred.", ex);
+  			return(-1);
+  		}
+  	}
+  
+	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
+	/**
+	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
+	 * @param idUserType - maps to the id_user_type field (from the where clause)
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+  
+	public static int deleteByFlIsAliveIdUserType(Boolean flIsAlive, Long idUserType) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByFlIsAliveIdUserType(connection, flIsAlive, idUserType));
+		}
+	}
+
+	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
+	/**
+	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
+	 * @param idUserType - maps to the id_user_type field (from the where clause)
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+  
+	public static int deleteByFlIsAliveIdUserTypeSilent(Boolean flIsAlive, Long idUserType) {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByFlIsAliveIdUserType(connection, flIsAlive, idUserType));
+		} catch (SQLException ex) {
+			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occurred.", ex);
+			return(-1);
+		}
+	}
+
+	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
 	/**
 	 * deleteByNumAgeTest - from 'deleters' JSON key
 	 *
@@ -312,25 +424,19 @@ public class UserDeleter {
 	 *        null, then a new connection will be created, utilised, and closed within
 	 *        this method.
 	 * @param numAge - maps to the num_age field (from the where clause)
-	 * @param limit - The limit of the number of rows to affect
 	 * 
 	 * @return the number of rows deleted
 	 * 
 	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByNumAgeTest(Connection connection, Integer numAge, Integer limit) throws SQLException {
-		String cacheKey = limit  + "";
+	public static int deleteByNumAgeTest(Connection connection, Integer numAge) throws SQLException {
+		String cacheKey = "cacheKey"  + "";
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		if(!deleteByNumAgeTest_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
 			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_NUM_AGE_TEST);
-
-			if(null != limit) {
-				stringBuilder.append(" limit ");
-				stringBuilder.append(limit);
-			}
 
 			statement = stringBuilder.toString();
 			deleteByNumAgeTest_limit_statement_cache.put(cacheKey, statement);
@@ -348,187 +454,31 @@ public class UserDeleter {
 		}
 	}
 
-	/**
-	 * deleteByNumAge - from 'fieldDeleters' JSON key
-	 *
-	 * @param numAge - maps to the num_age field (from the where clause)
-	 * @param limit - The limit of the number of rows to affect
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the deletion
-	 */
-	public static int deleteByNumAge(Integer numAge, Integer limit) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByNumAge(connection, numAge, limit));
-		}
-	}
-
-	/**
-	 * deleteByNumAge - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param numAge - maps to the num_age field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-
-	public static int deleteByNumAgeSilent(Integer numAge) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByNumAge(connection, numAge, null));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByNumAge, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	/**
-	 * deleteByNumAge - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
+  	// USER DEFINED DELETER CONNECTION, PARAMS,
+  	/**
+  	 * deleteByNumAgeTest - from 'deleters' JSON key
+  	 *
+  	 * This is the main method for all other deleter methods with the same prefix,
+  	 * including the (silent method signatures).  All methods chain to this one.
+  	 * 
+            	 * @param connection - the connection - the caller __MUST__ close this connection
 	 *        if the caller created this connection. If the passed in connection is 
 	 *        null, then a new connection will be created, utilised, and closed within
 	 *        this method.
 	 * @param numAge - maps to the num_age field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByNumAgeSilent(Connection connection, Integer numAge) {
-		try {
-			return(deleteByNumAge(connection, numAge, null));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByNumAge, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-	/**
-	 * deleteByNumAge - from 'fieldDeleters' JSON key.
-	 * 
-	 * @param numAge - maps to the num_age field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByNumAge(Integer numAge) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
-			return(deleteByNumAge(connection, numAge, null));
-		}
-	}
-	/**
-	 * deleteByNumAge - from 'fieldDeleters' JSON key.
-	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param numAge - maps to the num_age field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByNumAge(Connection connection, Integer numAge) throws SQLException {
-			return(deleteByNumAge(connection, numAge, null));
-	}
-	/**
-	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key
-	 *
-	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
-	 * @param idUserType - maps to the id_user_type field (from the where clause)
-	 * @param limit - The limit of the number of rows to affect
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the deletion
-	 */
-	public static int deleteByFlIsAliveIdUserType(Boolean flIsAlive, Long idUserType, Integer limit) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByFlIsAliveIdUserType(connection, flIsAlive, idUserType, limit));
-		}
-	}
-
-	/**
-	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
-	 * @param idUserType - maps to the id_user_type field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-
-	public static int deleteByFlIsAliveIdUserTypeSilent(Boolean flIsAlive, Long idUserType) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByFlIsAliveIdUserType(connection, flIsAlive, idUserType, null));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	/**
-	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
-	 * @param idUserType - maps to the id_user_type field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByFlIsAliveIdUserTypeSilent(Connection connection, Boolean flIsAlive, Long idUserType) {
-		try {
-			return(deleteByFlIsAliveIdUserType(connection, flIsAlive, idUserType, null));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByFlIsAliveIdUserType, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-	/**
-	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key.
-	 * 
-	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
-	 * @param idUserType - maps to the id_user_type field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByFlIsAliveIdUserType(Boolean flIsAlive, Long idUserType) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
-			return(deleteByFlIsAliveIdUserType(connection, flIsAlive, idUserType, null));
-		}
-	}
-	/**
-	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key.
-	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param flIsAlive - maps to the fl_is_alive field (from the where clause)
-	 * @param idUserType - maps to the id_user_type field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByFlIsAliveIdUserType(Connection connection, Boolean flIsAlive, Long idUserType) throws SQLException {
-			return(deleteByFlIsAliveIdUserType(connection, flIsAlive, idUserType, null));
-	}
-	/**
-	 * deleteByNumAgeTest - from 'deleters' JSON key
-	 *
-	 * @param numAge - maps to the num_age field (from the where clause)
-	 * @param limit - The limit of the number of rows to affect
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the deletion
-	 */
-	public static int deleteByNumAgeTest(Integer numAge, Integer limit) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByNumAgeTest(connection, numAge, limit));
-		}
-	}
-
+  	 * 
+  	 * @return the number of rows deleted
+  	 */
+  	public static int deleteByNumAgeTestSilent(            Connection connection, Integer numAge  ) {
+  		try {
+  			return(deleteByNumAgeTest(connection,   numAge    ));
+  		} catch (SQLException ex) {
+  			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occurred.", ex);
+  			return(-1);
+  		}
+  	}
+  
+	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
 	/**
 	 * deleteByNumAgeTest - from 'deleters' JSON key.
 	 * This will silently swallow any exceptions.
@@ -537,60 +487,30 @@ public class UserDeleter {
 	 * 
 	 * @return the number of rows deleted or -1 if there was an error
 	 */
+  
+	public static int deleteByNumAgeTest(Integer numAge) throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			return(deleteByNumAgeTest(connection, numAge));
+		}
+	}
 
+	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
+	/**
+	 * deleteByNumAgeTest - from 'deleters' JSON key.
+	 * This will silently swallow any exceptions.
+	 * 
+	 * @param numAge - maps to the num_age field (from the where clause)
+	 * 
+	 * @return the number of rows deleted or -1 if there was an error
+	 */
+  
 	public static int deleteByNumAgeTestSilent(Integer numAge) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByNumAgeTest(connection, numAge, null));
+			return(deleteByNumAgeTest(connection, numAge));
 		} catch (SQLException ex) {
 			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occurred.", ex);
 			return(-1);
 		}
 	}
 
-	/**
-	 * deleteByNumAgeTest - from 'deleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param numAge - maps to the num_age field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByNumAgeTestSilent(Connection connection, Integer numAge) {
-		try {
-			return(deleteByNumAgeTest(connection, numAge, null));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByNumAgeTest, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-	/**
-	 * deleteByNumAgeTest - from 'deleters' JSON key.
-	 * 
-	 * @param numAge - maps to the num_age field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByNumAgeTest(Integer numAge) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
-			return(deleteByNumAgeTest(connection, numAge, null));
-		}
-	}
-	/**
-	 * deleteByNumAgeTest - from 'deleters' JSON key.
-	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param numAge - maps to the num_age field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByNumAgeTest(Connection connection, Integer numAge) throws SQLException {
-			return(deleteByNumAgeTest(connection, numAge, null));
-	}
 }

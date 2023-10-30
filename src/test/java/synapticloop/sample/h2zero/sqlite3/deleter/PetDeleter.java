@@ -61,7 +61,7 @@ public class PetDeleter {
 	 */
 	public static int deleteByPrimaryKey(Connection connection, Long idPet) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {
-		preparedStatement.setLong(1, idPet);
+			preparedStatement.setLong(1, idPet);
 			return(preparedStatement.executeUpdate());
 		}
 	}

@@ -177,6 +177,32 @@ public class DeleterTest extends DatabaseSetupTest {{{\n}
 {\t}}{\n}
 {\n}
 
+{if fn:notEqual[options.database, "sqlite3"]}
+{\t}@Test{\n}
+{\t}public void test{table.javaClassName}{deleter.name}WithLimit() throws SQLException {{{\n}
+{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}Assert.assertNotEquals(-1, {table.javaClassName}Deleter.{deleter.name}({import classpath:/tests/snippet/deleter-field-params.templar}{if fn:notEqual[deleter.whereFields.size, '0']}, {endif}Integer.valueOf(0)));{\n}
+{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
+{\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}}{\n}
+{\n}
+
+{\t}@Test{\n}
+{\t}public void test{table.javaClassName}{deleter.name}WithLimitSilent() throws SQLException {{{\n}
+{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}Assert.assertNotEquals(-1, {table.javaClassName}Deleter.{deleter.name}Silent({import classpath:/tests/snippet/deleter-field-params.templar}{if fn:notEqual[deleter.whereFields.size, '0']}, {endif}Integer.valueOf(0)));{\n}
+{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
+{\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}}{\n}
+{\n}
+{endif}
+
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{deleter.name}WithConnection() throws SQLException {{{\n}
@@ -206,6 +232,40 @@ public class DeleterTest extends DatabaseSetupTest {{{\n}
 {\t}}{\n}
 {\n}
 
+{if fn:notEqual[options.database, "sqlite3"]}
+{\t}@Test{\n}
+{\t}public void test{table.javaClassName}{deleter.name}WithConnectionLimit() throws SQLException {{{\n}
+{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
+{\t}// ::{deleter.whereFields.size}::{\n}
+{\t}{\t}{\t}Assert.assertNotEquals(-1, {table.javaClassName}Deleter.{deleter.name}(connection,
+
+{import classpath:/tests/snippet/deleter-field-params.templar}
+{if fn:notEqual[deleter.whereFields.size, "0"]}, {endif}Integer.valueOf(0)));{\n}
+
+{\t}{\t}}{\n}
+{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
+{\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}}{\n}
+{\n}
+
+{\t}@Test{\n}
+{\t}public void test{table.javaClassName}{deleter.name}WithConnectionLimitSilent() throws SQLException {{{\n}
+{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
+{\t}{\t}{\t}Assert.assertNotEquals(-1, {table.javaClassName}Deleter.{deleter.name}Silent(connection{if fn:notEqual[deleter.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/deleter-field-params.templar}, Integer.valueOf(0)));{\n}
+{\t}{\t}}{\n}
+{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
+{\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}}{\n}
+{\n}
+{endif}
 		{endloop}
 	{endif}
 {endloop}
