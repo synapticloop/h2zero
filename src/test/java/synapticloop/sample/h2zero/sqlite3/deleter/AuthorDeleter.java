@@ -300,7 +300,7 @@ public class AuthorDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteInNumberSilent(            Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo  ) {
+  	public static int deleteInNumberSilent(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {
   		try {
   			return(deleteInNumber(connection,   flIsUpdating  ,     flIsUpdatingList  ,     dtmStartedFollowingList  ,     flIsUpdatingOne  ,     flIsUpdatingTwo    ));
   		} catch (SQLException ex) {
@@ -406,7 +406,7 @@ public class AuthorDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteAllToBeEvaluatedSilent(            Connection connection  ) {
+  	public static int deleteAllToBeEvaluatedSilent(Connection connection) {
   		try {
   			return(deleteAllToBeEvaluated(connection));
   		} catch (SQLException ex) {

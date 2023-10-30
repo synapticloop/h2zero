@@ -521,7 +521,7 @@ The statement caches
 
 	{-- SQLITE DOES NOT ALLOW LIMITS ON DELETERS }
 
-  	{\t}// USER DEFINED DELETER CONNECTION, PARAMS,{\n}
+  	{\t}// USER DEFINED DELETER CONNECTION, PARAMS SILENT{\n}
   	{\t}/**{\n}
   	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}{\n}
   	{\t} *{\n}
@@ -540,17 +540,14 @@ The statement caches
   	{\t} * @return the number of rows deleted{\n}
   	{\t} */{\n}
   	{\t}public static int {deleter.name}Silent(
-  		{--
-  			Now for the where field parameters
-  		}
-
-  {set deleter as queryObject}
-  {set "true" as hasConnection}
-  {set "false" as hasLimit}
-  {set "false" as hasOffset}
-  {import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
-
-  ) {{{\n}
+		{--
+			Now for the where field parameters
+		}
+{set deleter as queryObject}
+{set "true" as hasConnection}
+{set "false" as hasLimit}
+{set "false" as hasOffset}
+{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) {{{\n}
   	{\t}{\t}try {{{\n}
   	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[fn:length[deleter.whereFields], '0']}, {endif}{loop deleter.whereFields as whereField}
   		{whereField.javaName}{if whereField.isInField}List{endif}
@@ -564,7 +561,7 @@ The statement caches
   	{\n}
 
 
-	{endif}
+{endif}
 
 {if fn:notEqual[options.database, "sqlite3"]}
 {-- SQLITE DOES NOT ALLOW LIMITS ON DELETERS }
@@ -588,17 +585,14 @@ The statement caches
 	{\t} * @return the number of rows deleted{\n}
 	{\t} */{\n}
 	{\t}public static int {deleter.name}Silent(
-		{--
-			Now for the where field parameters
-		}
-
+{--
+	Now for the where field parameters
+}
 {set deleter as queryObject}
 {set "true" as hasConnection}
 {set "true" as hasLimit}
 {set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
-
-) {{{\n}
+{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) {{{\n}
 	{\t}{\t}try {{{\n}
 	{\t}{\t}{\t}return({deleter.name}(null{if fn:>[fn:length[deleter.whereFields], '0']}, {endif}{loop deleter.whereFields as whereField}
 		{whereField.javaName}{if whereField.isInField}List{endif}

@@ -298,7 +298,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByIdAllTypesSilent(            Connection connection, Long idAllTypes  ) {
+  	public static int deleteByIdAllTypesSilent(Connection connection, Long idAllTypes) {
   		try {
   			return(deleteByIdAllTypes(connection,   idAllTypes    ));
   		} catch (SQLException ex) {
@@ -399,7 +399,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestBigintSilent(            Connection connection, Long testBigint  ) {
+  	public static int deleteByTestBigintSilent(Connection connection, Long testBigint) {
   		try {
   			return(deleteByTestBigint(connection,   testBigint    ));
   		} catch (SQLException ex) {
@@ -500,7 +500,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestBooleanSilent(            Connection connection, Boolean testBoolean  ) {
+  	public static int deleteByTestBooleanSilent(Connection connection, Boolean testBoolean) {
   		try {
   			return(deleteByTestBoolean(connection,   testBoolean    ));
   		} catch (SQLException ex) {
@@ -601,7 +601,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestDateSilent(            Connection connection, Date testDate  ) {
+  	public static int deleteByTestDateSilent(Connection connection, Date testDate) {
   		try {
   			return(deleteByTestDate(connection,   testDate    ));
   		} catch (SQLException ex) {
@@ -702,7 +702,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestDatetimeSilent(            Connection connection, Timestamp testDatetime  ) {
+  	public static int deleteByTestDatetimeSilent(Connection connection, Timestamp testDatetime) {
   		try {
   			return(deleteByTestDatetime(connection,   testDatetime    ));
   		} catch (SQLException ex) {
@@ -803,7 +803,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestDoubleSilent(            Connection connection, Double testDouble  ) {
+  	public static int deleteByTestDoubleSilent(Connection connection, Double testDouble) {
   		try {
   			return(deleteByTestDouble(connection,   testDouble    ));
   		} catch (SQLException ex) {
@@ -904,7 +904,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestFloatSilent(            Connection connection, Float testFloat  ) {
+  	public static int deleteByTestFloatSilent(Connection connection, Float testFloat) {
   		try {
   			return(deleteByTestFloat(connection,   testFloat    ));
   		} catch (SQLException ex) {
@@ -1005,7 +1005,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestIntSilent(            Connection connection, Integer testInt  ) {
+  	public static int deleteByTestIntSilent(Connection connection, Integer testInt) {
   		try {
   			return(deleteByTestInt(connection,   testInt    ));
   		} catch (SQLException ex) {
@@ -1106,7 +1106,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestIntegerSilent(            Connection connection, Integer testInteger  ) {
+  	public static int deleteByTestIntegerSilent(Connection connection, Integer testInteger) {
   		try {
   			return(deleteByTestInteger(connection,   testInteger    ));
   		} catch (SQLException ex) {
@@ -1207,7 +1207,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestMediumintSilent(            Connection connection, Integer testMediumint  ) {
+  	public static int deleteByTestMediumintSilent(Connection connection, Integer testMediumint) {
   		try {
   			return(deleteByTestMediumint(connection,   testMediumint    ));
   		} catch (SQLException ex) {
@@ -1308,7 +1308,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestNumericSilent(            Connection connection, BigDecimal testNumeric  ) {
+  	public static int deleteByTestNumericSilent(Connection connection, BigDecimal testNumeric) {
   		try {
   			return(deleteByTestNumeric(connection,   testNumeric    ));
   		} catch (SQLException ex) {
@@ -1409,7 +1409,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestSmallintSilent(            Connection connection, Short testSmallint  ) {
+  	public static int deleteByTestSmallintSilent(Connection connection, Short testSmallint) {
   		try {
   			return(deleteByTestSmallint(connection,   testSmallint    ));
   		} catch (SQLException ex) {
@@ -1510,7 +1510,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestTextSilent(            Connection connection, String testText  ) {
+  	public static int deleteByTestTextSilent(Connection connection, String testText) {
   		try {
   			return(deleteByTestText(connection,   testText    ));
   		} catch (SQLException ex) {
@@ -1611,7 +1611,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestTinyintSilent(            Connection connection, Boolean testTinyint  ) {
+  	public static int deleteByTestTinyintSilent(Connection connection, Boolean testTinyint) {
   		try {
   			return(deleteByTestTinyint(connection,   testTinyint    ));
   		} catch (SQLException ex) {
@@ -1712,7 +1712,7 @@ public class AllTypesDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByTestVarcharSilent(            Connection connection, String testVarchar  ) {
+  	public static int deleteByTestVarcharSilent(Connection connection, String testVarchar) {
   		try {
   			return(deleteByTestVarchar(connection,   testVarchar    ));
   		} catch (SQLException ex) {

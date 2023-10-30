@@ -262,7 +262,7 @@ public class UserDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByNumAgeSilent(            Connection connection, Integer numAge  ) {
+  	public static int deleteByNumAgeSilent(Connection connection, Integer numAge) {
   		try {
   			return(deleteByNumAge(connection,   numAge    ));
   		} catch (SQLException ex) {
@@ -366,7 +366,7 @@ public class UserDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByFlIsAliveIdUserTypeSilent(            Connection connection, Boolean flIsAlive, Long idUserType  ) {
+  	public static int deleteByFlIsAliveIdUserTypeSilent(Connection connection, Boolean flIsAlive, Long idUserType) {
   		try {
   			return(deleteByFlIsAliveIdUserType(connection,   flIsAlive  ,     idUserType    ));
   		} catch (SQLException ex) {
@@ -469,7 +469,7 @@ public class UserDeleter {
   	 * 
   	 * @return the number of rows deleted
   	 */
-  	public static int deleteByNumAgeTestSilent(            Connection connection, Integer numAge  ) {
+  	public static int deleteByNumAgeTestSilent(Connection connection, Integer numAge) {
   		try {
   			return(deleteByNumAgeTest(connection,   numAge    ));
   		} catch (SQLException ex) {
