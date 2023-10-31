@@ -44,7 +44,11 @@
 		},
 		{
 			"name": "findFirstToBeEvaluated",
-			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc",
+			"whereClause": [
+				"where id_author_status = ",
+				"(select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and ",
+				"dtm_started_following < ? order by dtm_started_following asc"
+			],
 			"whereFields": [
 				"dtm_started_following"
 			],
@@ -84,8 +88,18 @@
 	"updaters": [
 		{
 			"name": "resetAuthorsToBeFollowed",
-			"setClause": "set id_author_status = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')",
-			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following",
+			"setClause": [
+				"set id_author_status = ",
+				"(select id_author_status ",
+				"from author_status ",
+				"where txt_author_status = 'FOLLOWED')"
+			],
+			"whereClause": [
+				"where id_author_status = ",
+				"(select id_author_status from author_status where ",
+				"txt_author_status = 'TO_BE_EVALUATED') and ",
+				"dtm_started_following < ? order by dtm_started_following"
+				],
 			"whereFields": [
 				"dtm_started_following"
 			]

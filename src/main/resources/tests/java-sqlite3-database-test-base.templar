@@ -7,13 +7,8 @@ package {database.package}.test.util;{\n}{\n}
 import static org.junit.Assert.*;{\n}
 {\n}
 import com.mchange.v2.c3p0.ComboPooledDataSource;{\n}
-import org.json.JSONException;{\n}
-import org.json.JSONObject;{\n}
-import org.junit.After;{\n}
-import org.junit.Before;{\n}
 import org.junit.BeforeClass;{\n}
 import org.junit.AfterClass;{\n}
-import org.junit.Test;{\n}
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;{\n}
 import synapticloop.h2zero.base.manager.BaseConnectionManager;{\n}
 {\n}

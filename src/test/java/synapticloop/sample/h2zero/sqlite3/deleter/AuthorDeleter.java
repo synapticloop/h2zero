@@ -38,7 +38,7 @@ public class AuthorDeleter {
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_author = ?";
 
 	// static fields generated from the user input
-	private static final String SQL_DELETE_IN_NUMBER = SQL_DELETE_START + "  where fl_is_updating = ? and  fl_is_updating in (...) and  dtm_started_following in (...) and fl_is_updating = ? and fl_is_updating = ? ";
+	private static final String SQL_DELETE_IN_NUMBER = SQL_DELETE_START + "  where fl_is_updating = ? and fl_is_updating in (...) and dtm_started_following in (...) and fl_is_updating = ? and fl_is_updating = ? ";
 	private static final String SQL_DELETE_ALL_TO_BE_EVALUATED = SQL_DELETE_START + " where fl_is_updating = 0";
 	// This is the cache for 'in Deleter' which have an ellipses (...) in the statement
 	private static final LruCache<String, String> deleteInNumber_limit_statement_cache = new LruCache<>(1024);

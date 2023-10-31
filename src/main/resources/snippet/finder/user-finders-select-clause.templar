@@ -180,7 +180,7 @@
 				{\t}{\t}{\t}return(results);{\n}
 			{endif}
 		{\t}{\t}} catch (SQLException sqlex) {{{\n}
-		{\t}{\t}{\t}throw sqlex;{\n}
+		{\t}{\t}{\t}throw new SQLException("SQL exception in statement: " + statement, sqlex);{\n}
 
 		{if finder.unique}
 			{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}

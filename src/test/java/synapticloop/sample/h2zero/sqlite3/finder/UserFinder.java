@@ -1415,7 +1415,7 @@ public class UserFinder {
 			List<UserFindNmUsernameDtmSignupBean> results = listFindNmUsernameDtmSignupBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
-			throw sqlex;
+			throw new SQLException("SQL exception in statement: " + statement, sqlex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -1520,7 +1520,7 @@ public class UserFinder {
 			List<UserFindGroupNumAgeBean> results = listFindGroupNumAgeBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
-			throw sqlex;
+			throw new SQLException("SQL exception in statement: " + statement, sqlex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);

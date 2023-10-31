@@ -34,14 +34,14 @@ public class AuthorUpdater {
 	private static final String SQL_UPDATE_NUM_FOLLOWERS = SQL_UPDATE_START + " set num_followers = ? ";
 	private static final String SQL_UPDATE_ID_AUTHOR = SQL_UPDATE_START + " set id_author = ? ";
 	private static final String SQL_UPDATE_ID_AUTHOR_NUM_FOLLOWERS = SQL_UPDATE_START + " set id_author,num_followers = ? id_author,num_followers = ? , ";
-	private static final String SQL_RESET_AUTHORS_TO_BE_FOLLOWED = SQL_UPDATE_START + " set id_author_status = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')" + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following";
+	private static final String SQL_RESET_AUTHORS_TO_BE_FOLLOWED = SQL_UPDATE_START + "  set id_author_status = (select id_author_status from author_status where txt_author_status = 'FOLLOWED') " + "  where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following ";
 	private static final String SQL_SET_FL_IS_UPDATING = SQL_UPDATE_START + "  set fl_is_updating = ?";
 	private static final String SQL_SET_FL_IS_UPDATING_WHERE_FL_AUTHOR_IS_FOLLOWED_BY_USER = SQL_UPDATE_START + " set fl_is_updating = ?" + " where fl_author_is_followed_by_user = 1";
 	private static final String SQL_SET_FL_AUTHOR_IS_FOLLOWED_BY_USER_WHERE_FL_IS_UPDATING = SQL_UPDATE_START + " set fl_author_is_followed_by_user = ?, fl_is_updating = 1" + "  where fl_is_updating = 1";
 	private static final String SQL_SET_FL_IS_UPDATING_WHERE_FL_AUTHOR_IS_FOLLOWING_USER = SQL_UPDATE_START + " set fl_is_updating = ?" + " where fl_author_is_following_user = 1";
 	private static final String SQL_SET_FL_AUTHOR_IS_FOLLOWING_USER_WHERE_FL_IS_UPDATING = SQL_UPDATE_START + " set fl_author_is_following_user = ?, fl_is_updating = 1" + "  where fl_is_updating = 1";
 	private static final String SQL_UPDATE_FL_IS_FOLLOWING = SQL_UPDATE_START + " set fl_is = ?";
-	private static final String SQL_UPDATE_ALL_TO_BE_EVALUATED_TO_FOLLOWED = SQL_UPDATE_START + " set id_status_author = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')" + " where id_author_status =  (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and  dtm_started_following < ? ";
+	private static final String SQL_UPDATE_ALL_TO_BE_EVALUATED_TO_FOLLOWED = SQL_UPDATE_START + " set id_status_author = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')" + "  where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? ";
 
 	private AuthorUpdater() {}
 

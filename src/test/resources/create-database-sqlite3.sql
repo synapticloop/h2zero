@@ -155,5 +155,5 @@ create index user_pet_id_user_idx on user_pet(id_user);
 create index user_pet_id_pet_idx on user_pet(id_pet);
 
 
-drop view if exists user_user_type;create view user_user_type as  select u.nm_user, ut.nm_user_type from user u, user_type ut where u.id_user_type = ut.id_user_type;
+drop view if exists user_user_type;create view user_user_type as  select  u.nm_user,  ut.nm_user_type  from user u, user_type ut  where  u.id_user_type = ut.id_user_type ;
 

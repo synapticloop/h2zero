@@ -603,7 +603,7 @@ public class UserTitleFinder {
 			List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> results = listFindIdUserTitleNmUserTitleOrderedBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
-			throw sqlex;
+			throw new SQLException("SQL exception in statement: " + statement, sqlex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
