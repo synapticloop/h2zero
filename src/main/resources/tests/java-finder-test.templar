@@ -15,6 +15,7 @@ import synapticloop.h2zero.base.manager.BaseConnectionManager;{\n}
 import java.sql.Connection;{\n}
 import java.sql.SQLException;{\n}
 import java.util.ArrayList;{\n}
+import java.sql.*;{\n}
 {\n}
 {\n}
 {loop database.tables as table}

@@ -57,6 +57,23 @@
 				"dtm_started_following"
 			],
 			"unique": false
+		},
+		{
+			"name": "findInNumber",
+			"whereClause": [
+				" where fl_is_updating = ? and ",
+				"fl_is_updating in (...) and ",
+				"dtm_started_following in (...) and",
+				"fl_is_updating = ? and",
+				"fl_is_updating = ?"
+			],
+			"whereFields": [
+				"fl_is_updating",
+				"in:fl_is_updating",
+				"in:dtm_started_following",
+				{ "name":  "fl_is_updating", "alias":  "flIsUpdatingOne" },
+				{ "name":  "fl_is_updating", "alias":  "flIsUpdatingTwo" }
+			]
 		}
 	],
 	"fieldUpdaters": [
@@ -122,7 +139,11 @@
 		{
 			"name": "updateAllToBeEvaluatedToFollowed",
 			"setClause": "set id_status_author = (select id_author_status from author_status where txt_author_status = 'FOLLOWED')",
-			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ?",
+			"whereClause": [
+				"where id_author_status = ",
+				"(select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and ",
+				"dtm_started_following < ?"
+			],
 			"whereFields": [
 				"dtm_started_following"
 			]
@@ -131,7 +152,13 @@
 	"deleters": [
 		{
 			"name": "deleteInNumber",
-			"whereClause": " where fl_is_updating = ? and fl_is_updating in (...) and dtm_started_following in (...) and fl_is_updating = ? and fl_is_updating = ?",
+			"whereClause": [
+				" where fl_is_updating = ? and ",
+				"fl_is_updating in (...) and ",
+				"dtm_started_following in (...) and",
+				"fl_is_updating = ? and",
+				"fl_is_updating = ?"
+			],
 			"whereFields": [
 				"fl_is_updating",
 				"in:fl_is_updating",

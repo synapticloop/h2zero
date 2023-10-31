@@ -344,7 +344,7 @@ The statement caches
 					{\t}{\t}{\t}{\t}whereFieldStringBuilder.append("?");{\n}
 					{\t}{\t}{\t}}{\n}
 
-					{\t}{\t}{\t}preparedStatementTemp = SQL_{deleter.staticName}.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());{\n}
+					{\t}{\t}{\t}preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());{\n}
 				{endif}
 			{endloop}
 			{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);{\n}
@@ -468,7 +468,7 @@ The statement caches
 					{\t}{\t}{\t}{\t}whereFieldStringBuilder.append("?");{\n}
 					{\t}{\t}{\t}}{\n}
 
-					{\t}{\t}{\t}preparedStatementTemp = SQL_{deleter.staticName}.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());{\n}
+					{\t}{\t}{\t}preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());{\n}
 				{endif}
 			{endloop}
 			{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);{\n}

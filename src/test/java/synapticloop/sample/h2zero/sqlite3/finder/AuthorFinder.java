@@ -45,9 +45,11 @@ public class AuthorFinder {
 	private static final String SQL_FIND_ALL_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ? ";
 	private static final String SQL_FIND_FIRST_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following asc";
 	private static final String SQL_FIND_LIMITED_TO_BE_EVALUATED = SQL_SELECT_START + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following";
+	private static final String SQL_FIND_IN_NUMBER = SQL_SELECT_START + "  where fl_is_updating = ? and  fl_is_updating in (...) and  dtm_started_following in (...) and fl_is_updating = ? and fl_is_updating = ? ";
 
 	// This is the cache for 'in Finder' which have an ellipses (...) in the statement
 	private static final LruCache<String, String> findInStatus_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findInNumber_limit_statement_cache = new LruCache<>(1024);
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByIdAuthorStatus_limit_statement_cache = new LruCache<>(1024);
@@ -376,7 +378,7 @@ public class AuthorFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 8 defined finders on the author table, of those finders
+	 * There are 9 defined finders on the author table, of those finders
 	 * the following are the regular finders, either defined through the
 	 * 'finders' or 'fieldFinders' JSON key
 	 * 
@@ -388,6 +390,7 @@ public class AuthorFinder {
 	 * - findAllToBeEvaluated - Generated from the 'finders' JSON key
 	 * - findFirstToBeEvaluated - Generated from the 'finders' JSON key
 	 * - findLimitedToBeEvaluated - Generated from the 'finders' JSON key
+	 * - findInNumber - Generated from the 'finders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -448,8 +451,8 @@ public class AuthorFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -571,8 +574,8 @@ public class AuthorFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -696,8 +699,8 @@ public class AuthorFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -820,8 +823,8 @@ public class AuthorFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[txtIdAuthor:" + txtIdAuthor + "].");
 		} finally {
@@ -925,7 +928,7 @@ public class AuthorFinder {
 				}
 				whereFieldStringBuilder.append("?");
 			}
-			preparedStatementTemp = SQL_FIND_IN_STATUS.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
 			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
 
 			if(null != limit) {
@@ -959,8 +962,8 @@ public class AuthorFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -1082,8 +1085,8 @@ public class AuthorFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -1206,8 +1209,8 @@ public class AuthorFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[dtmStartedFollowing:" + dtmStartedFollowing + "].");
 		} finally {
@@ -1331,8 +1334,8 @@ public class AuthorFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -1395,6 +1398,165 @@ public class AuthorFinder {
 
 	public static List<Author> findLimitedToBeEvaluatedSilent(Timestamp dtmStartedFollowing) {
 		return(findLimitedToBeEvaluatedSilent(null, dtmStartedFollowing, null, null));
+	}
+
+	/**
+	 * findInNumber 
+	 * <p>
+	 * (This finder was generated through the 'finders' JSON key)
+	 * <p>
+	 * Note that if a limit and offset are passed through, then the generated statement 
+	 * will be cached for further use
+	 * 
+	 * @param connection - the connection to the database
+	 * @param flIsUpdating - maps to the fl_is_updating field
+	 * @param flIsUpdatingList - maps to the fl_is_updating field
+	 * @param dtmStartedFollowingList - maps to the dtm_started_following field
+	 * @param flIsUpdatingOne - maps to the fl_is_updating field
+	 * @param flIsUpdatingTwo - maps to the fl_is_updating field
+	 * @param limit - The maximum number of rows to return
+	 * @param offset - The row offset to start with
+	 * 
+	 * @return the list of Author results found
+	 * 
+	 * @throws H2ZeroFinderException if no results could be found
+	 * @throws SQLException if there was an error in the SQL statement
+	 */
+	public static List<Author> findInNumber(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		boolean hasConnection = (null != connection);
+		String statement = null;
+
+		// first find the statement that we want - or cache it if it doesn't exist
+
+		String cacheKey = limit + ":" + offset + ":" + flIsUpdatingList.size() + ":"  + dtmStartedFollowingList.size() + ":" ;
+		if(!findInNumber_limit_statement_cache.containsKey(cacheKey)) {
+			// place the cacheKey in the cache for later use
+
+			String preparedStatementTemp = SQL_FIND_IN_NUMBER;
+			StringBuilder whereFieldStringBuilder = null;
+			whereFieldStringBuilder = new StringBuilder();
+			for(int i = 0; i < flIsUpdatingList.size(); i++) {
+				if(i > 0) {
+					whereFieldStringBuilder.append(", ");
+				}
+				whereFieldStringBuilder.append("?");
+			}
+			preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			whereFieldStringBuilder = new StringBuilder();
+			for(int i = 0; i < dtmStartedFollowingList.size(); i++) {
+				if(i > 0) {
+					whereFieldStringBuilder.append(", ");
+				}
+				whereFieldStringBuilder.append("?");
+			}
+			preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
+
+			if(null != limit) {
+				stringBuilder.append(" limit ");
+				stringBuilder.append(limit);
+				if(null != offset) {
+					stringBuilder.append(" offset ");
+					stringBuilder.append(offset);
+				}
+			}
+
+			statement = stringBuilder.toString();
+			findInNumber_limit_statement_cache.put(cacheKey, statement);
+		} else {
+			statement = findInNumber_limit_statement_cache.get(cacheKey);
+		}
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Author> results = null;
+		try {
+			if(!hasConnection) {
+				connection = ConnectionManager.getConnection();
+			}
+			preparedStatement = connection.prepareStatement(statement);
+			int i = 1;
+			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdating);
+			i++;
+			for (Boolean flIsUpdatingIn : flIsUpdatingList) {
+				ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingIn);
+				i++;
+			}
+			for (Timestamp dtmStartedFollowingIn : dtmStartedFollowingList) {
+				ConnectionManager.setDatetime(preparedStatement, i, dtmStartedFollowingIn);
+				i++;
+			}
+			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingOne);
+			i++;
+			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingTwo);
+			i++;
+
+			resultSet = preparedStatement.executeQuery();
+			results = list(resultSet);
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
+		} finally {
+			if(hasConnection) {
+				ConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			}
+		}
+
+
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find result.");
+		}
+		return(results);
+	}
+
+	public static List<Author> findInNumber(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) throws H2ZeroFinderException, SQLException {
+		return(findInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, null, null));
+	}
+
+	public static List<Author> findInNumber(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findInNumber(null, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, limit, offset));
+	}
+
+	public static List<Author> findInNumber(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) throws H2ZeroFinderException, SQLException {
+		return(findInNumber(null, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, null, null));
+	}
+
+	// silent connection, params..., limit, offset
+	public static List<Author> findInNumberSilent(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo, Integer limit, Integer offset) {
+		try {
+			return(findInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, limit, offset));
+		} catch(H2ZeroFinderException h2zfex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("H2ZeroFinderException findInNumberSilent(connection: " + connection + ", " + flIsUpdating + ", " + flIsUpdatingList + ", " + dtmStartedFollowingList + ", " + flIsUpdatingOne + ", " + flIsUpdatingTwo + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					h2zfex.printStackTrace();
+				}
+			}
+			return(new ArrayList<Author>());
+		} catch(SQLException sqlex) {
+			if(LOGGER.isWarnEnabled()) {
+				LOGGER.warn("SQLException findInNumberSilent(connection: " + connection + ", " + flIsUpdating + ", " + flIsUpdatingList + ", " + dtmStartedFollowingList + ", " + flIsUpdatingOne + ", " + flIsUpdatingTwo + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				if(LOGGER.isDebugEnabled()) {
+					sqlex.printStackTrace();
+				}
+			}
+			return(new ArrayList<Author>());
+		}
+	}
+
+	// silent connection, params...
+	public static List<Author> findInNumberSilent(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {
+		return(findInNumberSilent(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, null, null));
+	}
+
+	// silent params..., limit, offset
+	public static List<Author> findInNumberSilent(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo, Integer limit, Integer offset) {
+		return(findInNumberSilent(null, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, limit, offset));
+	}
+
+	public static List<Author> findInNumberSilent(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {
+		return(findInNumberSilent(null, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo, null, null));
 	}
 
 	/**
@@ -1480,7 +1642,7 @@ public class AuthorFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 8 defined finders on the author table, of those finders
+	 * There are 9 defined finders on the author table, of those finders
 	 * the following are the select clause finders:
 	 * 
 	 * 

@@ -428,8 +428,8 @@ public class PetFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);

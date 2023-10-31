@@ -16,6 +16,7 @@ import synapticloop.h2zero.base.manager.BaseConnectionManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.*;
 
 
 import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
@@ -5505,6 +5506,164 @@ public class FinderTest extends DatabaseSetupTest {
 		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
 		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
 		AuthorFinder.findLimitedToBeEvaluatedSilent(null, new java.sql.Timestamp(System.currentTimeMillis()), null, null);
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumber() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try {
+			AuthorFinder.findInNumber(true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true);
+		} catch (H2ZeroFinderException ex) {
+			// do nothing - expected condition
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberSilent() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		AuthorFinder.findInNumberSilent(true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true);
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberLimitOffset() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try {
+			AuthorFinder.findInNumber(true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true, 0, 0);
+		} catch (H2ZeroFinderException ex) {
+			// do nothing - expected condition
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberLimitOffsetSilent() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		AuthorFinder.findInNumberSilent(true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true,  0, 0);
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberWithConnection() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AuthorFinder.findInNumber(connection, true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true);
+		} catch (H2ZeroFinderException ex) {
+			// do nothing - expected condition
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberWithConnectionSilent() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AuthorFinder.findInNumberSilent(connection, true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true);
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberWithNullConnection() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try {
+			AuthorFinder.findInNumber(null, true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true);
+		} catch (H2ZeroFinderException ex) {
+			// do nothing - expected condition
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberWithNullConnectionSilent() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		AuthorFinder.findInNumberSilent(null, true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true);
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberWithNullConnectionLimitOffset() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try {
+			AuthorFinder.findInNumber(null, true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true, 0, 0);
+		} catch (H2ZeroFinderException ex) {
+			// do nothing - expected condition
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberWithNullConnectionLimitOffsetSilent() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		AuthorFinder.findInNumberSilent(null, true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true, 0, 0);
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberWithNullConnectionNullLimitNullOffset() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		try {
+			AuthorFinder.findInNumber(null, true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true, null, null);
+		} catch (H2ZeroFinderException ex) {
+			// do nothing - expected condition
+		}
+		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
+		// need to sleep to ensure that the connection has time to close - hacky... :(
+		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
+		Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());
+	}
+
+	@Test
+	public void testAuthorfindInNumberWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();
+		int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();
+		AuthorFinder.findInNumberSilent(null, true, new ArrayList<Boolean>(), new ArrayList<Timestamp>(), true, true, null, null);
 		Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());
 		// need to sleep to ensure that the connection has time to close - hacky... :(
 		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }

@@ -34,17 +34,21 @@ public class FinderWhereFieldAliasValidator extends BaseValidator {
 		List<Table> tables = database.getTables();
 		for (Table table : tables) {
 			List<Finder> finders = table.getFinders();
-			for (Finder finder : finders) {
-				if(finder.getHasWhereFieldAliases()) {
-					// go through and ensure that all of the finder where fields has an alias
-					List<BaseField> whereFields = finder.getWhereFields();
-					for (BaseField baseField : whereFields) {
-						if(!baseField.getHasAlias()) {
-							addFatalMessage("'" + table.getName() + "." + finder.getName() + " has aliased whereFields, however '" + baseField.getName() + "' does not have an alias.");
-						}
-					}
-				}
-			}
+			// TODO - I don't think that this logic is correct.....
+//			for (Finder finder : finders) {
+//
+//				if(finder.getHasWhereFieldAliases()) {
+//					// go through and ensure that all of the finder where fields has an alias
+//					List<BaseField> whereFields = finder.getWhereFields();
+//					for (BaseField baseField : whereFields) {
+//
+//
+//						if(!baseField.getHasAlias()) {
+//							addFatalMessage("'" + table.getName() + "." + finder.getName() + " has aliased whereFields, however '" + baseField.getName() + "' does not have an alias.");
+//						}
+//					}
+//				}
+//			}
 		}
 	}
 

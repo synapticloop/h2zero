@@ -115,7 +115,19 @@ public abstract class BaseQueryObject {
 		this.name = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.NAME, null);
 		this.selectClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.SELECT_CLAUSE, null);
 
-		this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
+		// try and find the where clause as an array first
+		JSONArray whereClauseArray = jsonObject.optJSONArray(JSONKeyConstants.WHERE_CLAUSE);
+		if(null != whereClauseArray) {
+			StringBuffer stringBuffer = new StringBuffer();
+			for (Object object : whereClauseArray) {
+				stringBuffer
+						.append(object.toString())
+						.append(" ");
+			}
+			this.whereClause = stringBuffer.toString();
+		} else {
+			this.whereClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.WHERE_CLAUSE, null);
+		}
 
 		this.insertClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.INSERT_CLAUSE, null);
 		this.valuesClause = JsonHelper.getStringValue(jsonObject, JSONKeyConstants.VALUES_CLAUSE, null);
@@ -175,11 +187,9 @@ public abstract class BaseQueryObject {
 
 				BaseField baseField = null;
 				if(hasWhereFieldAliases) {
-					// TODO - if we have a type - we need to ignore finding the basefield and just
-					// create a new one...
-
 					// we need to create a new BaseField identical to the current one - as it is currently cached
 					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName).copy();
+					baseField.setAlias(whereFieldAlias);
 				} else {
 					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName);
 				}
@@ -200,6 +210,7 @@ public abstract class BaseQueryObject {
 							name
 							));
 				}
+
 
 				whereFields.add(baseField);
 				if(baseField.getIsInField()) {

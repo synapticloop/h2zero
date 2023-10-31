@@ -247,7 +247,7 @@ public class UserDeleter {
 		}
 	}
 
-  	// USER DEFINED DELETER CONNECTION, PARAMS,
+  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
   	/**
   	 * deleteByNumAge - from 'fieldDeleters' JSON key
   	 *
@@ -350,7 +350,7 @@ public class UserDeleter {
 		}
 	}
 
-  	// USER DEFINED DELETER CONNECTION, PARAMS,
+  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
   	/**
   	 * deleteByFlIsAliveIdUserType - from 'fieldDeleters' JSON key
   	 *
@@ -454,7 +454,7 @@ public class UserDeleter {
 		}
 	}
 
-  	// USER DEFINED DELETER CONNECTION, PARAMS,
+  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
   	/**
   	 * deleteByNumAgeTest - from 'deleters' JSON key
   	 *

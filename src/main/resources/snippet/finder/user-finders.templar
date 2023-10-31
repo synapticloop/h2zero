@@ -131,7 +131,7 @@
 					{\t}{\t}{\t}{\t}whereFieldStringBuilder.append("?");{\n}
 					{\t}{\t}{\t}}{\n}
 
-					{\t}{\t}{\t}preparedStatementTemp = SQL_{finder.staticName}.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());{\n}
+					{\t}{\t}{\t}preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());{\n}
 				{endif}
 			{endloop}
 			{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);{\n}
@@ -205,8 +205,8 @@
 				{\t}{\t}{\t}results = list(resultSet);{\n}
 
 			{endif}
-		{\t}{\t}} catch (SQLException sqlex) {{{\n}
-		{\t}{\t}{\t}throw sqlex;{\n}
+		{\t}{\t}} catch (SQLException ex) {{{\n}
+		{\t}{\t}{\t}throw new SQLException("SQL exception in statement: " + statement, ex);{\n}
 
 		{if finder.unique}
 			{\t}{\t}} catch (H2ZeroFinderException h2zfex) {{{\n}

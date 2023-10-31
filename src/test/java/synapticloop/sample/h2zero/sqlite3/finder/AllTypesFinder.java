@@ -470,8 +470,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[idAllTypes:" + idAllTypes + "].");
 		} finally {
@@ -596,8 +596,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testBigint:" + testBigint + "].");
 		} finally {
@@ -722,8 +722,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testBoolean:" + testBoolean + "].");
 		} finally {
@@ -848,8 +848,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testDate:" + testDate + "].");
 		} finally {
@@ -974,8 +974,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testDatetime:" + testDatetime + "].");
 		} finally {
@@ -1100,8 +1100,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testDouble:" + testDouble + "].");
 		} finally {
@@ -1226,8 +1226,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testFloat:" + testFloat + "].");
 		} finally {
@@ -1352,8 +1352,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testInt:" + testInt + "].");
 		} finally {
@@ -1478,8 +1478,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testInteger:" + testInteger + "].");
 		} finally {
@@ -1604,8 +1604,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testMediumint:" + testMediumint + "].");
 		} finally {
@@ -1730,8 +1730,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testNumeric:" + testNumeric + "].");
 		} finally {
@@ -1856,8 +1856,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testSmallint:" + testSmallint + "].");
 		} finally {
@@ -1982,8 +1982,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testText:" + testText + "].");
 		} finally {
@@ -2108,8 +2108,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testTinyint:" + testTinyint + "].");
 		} finally {
@@ -2234,8 +2234,8 @@ public class AllTypesFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[testVarchar:" + testVarchar + "].");
 		} finally {

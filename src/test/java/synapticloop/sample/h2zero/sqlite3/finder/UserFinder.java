@@ -451,8 +451,8 @@ public class UserFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -576,8 +576,8 @@ public class UserFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -700,8 +700,8 @@ public class UserFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[nmUsername:" + nmUsername + "].");
 		} finally {
@@ -826,8 +826,8 @@ public class UserFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[txtAddressEmail:" + txtAddressEmail + "].");
 		} finally {
@@ -954,8 +954,8 @@ public class UserFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[txtAddressEmail:" + txtAddressEmail + "], " + "[txtPassword:" + txtPassword + "].");
 		} finally {
@@ -1059,7 +1059,7 @@ public class UserFinder {
 				}
 				whereFieldStringBuilder.append("?");
 			}
-			preparedStatementTemp = SQL_FIND_BY_NUM_AGE_IN.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
 			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
 
 			if(null != limit) {
@@ -1093,8 +1093,8 @@ public class UserFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -1218,8 +1218,8 @@ public class UserFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
