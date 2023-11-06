@@ -8,13 +8,8 @@ package synapticloop.sample.h2zero.sqlite3.test.util;
 import static org.junit.Assert.*;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.AfterClass;
-import org.junit.Test;
 import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import synapticloop.h2zero.base.manager.BaseConnectionManager;
 

@@ -397,7 +397,7 @@
 			{\t} */{\n}
 
 			{\t}private static {table.javaClassName}{finder.tagName}Bean unique{finder.tagName}BeanResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {{{\n}
-			{\t}{\t}if(resultSet.first()) {{{\n}
+			{\t}{\t}if(resultSet.next()) {{{\n}
 			{\t}{\t}{\t}// we have a result{\n}
 
 			{\t}{\t}{\t}return(new {table.javaClassName}{finder.tagName}Bean({\n}

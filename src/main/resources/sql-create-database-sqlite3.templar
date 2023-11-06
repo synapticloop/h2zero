@@ -95,7 +95,7 @@
 
 {loop database.views as view}
 
-drop view if exists {view.name};
+drop view if exists {view.name};{\n}{\n}
 
 create view {view.name} as {view.asClause};{\n}{\n}
 {endloop}

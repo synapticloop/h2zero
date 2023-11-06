@@ -180,7 +180,7 @@ public class JavaGenerator extends Generator {
       for (Finder finder : finders) {
         templarContext.add("finder", finder);
         if (null != finder.getSelectClause()) {
-          pathname = pathPrefix + "/bean/" + finder.getTagName() + "Bean.java";
+          pathname = pathPrefix + "/bean/" + view.getJavaClassName() + finder.getTagName() + "Bean.java";
           renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
         }
       }

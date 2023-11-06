@@ -12,6 +12,7 @@ public class Constants {{{\n}
 	{\t}// it has been removed from the generation.{\n}{\n}
 
 	{loop database.tables as table}
+    	{\t}// Model Binder for the {table.name} table{\n}
 		{\t}public static final String {table.upperName}_BINDER = "{table.upperName}";{\n}
 	{endloop}
 {\n}
@@ -24,20 +25,30 @@ public class Constants {{{\n}
 
 	{loop table.finders as finder}
 		{if fn:notNull[finder.selectClause]}
+        	{\t}// Finder binder constants for the {finder.name} finder{\n}
 			{\t}public static final String {table.upperName}_{finder.name}_BINDER = "{table.upperName}_{finder.name}";{\n}
 		{endif}
 	{endloop}
 {endloop}
 
 {loop database.views as view}
+	{\t}// Model Binder for the {view.name} view{\n}
 	{\t}public static final String {view.upperName}_BINDER = "{view.upperName}";{\n}
 {endloop}
 {\n}
 
 {loop database.views as view}
-	{\t}// Field constants for the {view.name} table{\n}
+	{\t}// Field constants for the {view.name} view{\n}
 	{loop view.fields as field}
 		{\t}public static final String {view.upperName}_{field.upperName} = "{field.javaName}";{\n}
 	{endloop}{\n}{\n}
+
+	{loop view.finders as finder}
+		{if fn:notNull[finder.selectClause]}
+        	{\t}// Finder binder constants for the {finder.name} finder{\n}
+			{\t}public static final String {view.upperName}_{finder.name}_BINDER = "{view.upperName}_{finder.name}";{\n}
+		{endif}
+	{endloop}
+
 {endloop}
 }
