@@ -47,6 +47,7 @@ public class Options {
 	public static final String OPTION_TESTS = "tests";
 	public static final String OPTION_SQL = "sql";
 	public static final String OPTION_REPORTS = "reports";
+	public static final String OPTION_IMPEX = "impex";
 
 	public static final String OPTION_OUTPUT = "output";
 
@@ -56,6 +57,7 @@ public class Options {
 		ALLOWABLE_GENERATORS.add(OPTION_JAVA);
 		ALLOWABLE_GENERATORS.add(OPTION_TESTS);
 		ALLOWABLE_GENERATORS.add(OPTION_REPORTS);
+		ALLOWABLE_GENERATORS.add(OPTION_IMPEX);
 	}
 
 	public static final String DATABASE_MYSQL = "mysql";
@@ -205,7 +207,7 @@ public class Options {
 		// here we add all generators to the disabled generators, then when we 
 		// iterate over the generators and print whether they are enabled, we
 		// remove the enabled generator from the disabledGenerator list
-		Set<String> disabledGenerators = new HashSet<String>();
+		Set<String> disabledGenerators = new HashSet<>();
 		disabledGenerators.addAll(ALLOWABLE_GENERATORS);
 
     for (String next : generators) {

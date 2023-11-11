@@ -4,10 +4,11 @@
 	"database": "sqlite3",
 
 	"generators": [
-	    "java",
-	    "sql",
-	    "reports",
-	    "tests"
+		"java",
+		"sql",
+		"reports",
+		"tests",
+		"impex"
 	],
 
 	"validators": {
