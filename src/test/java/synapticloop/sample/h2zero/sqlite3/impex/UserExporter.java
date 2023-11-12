@@ -5,7 +5,33 @@ package synapticloop.sample.h2zero.sqlite3.impex;
 //                 (/impex/impex-exporter.templar)
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import java.io.BufferedWriter;
+import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
+import synapticloop.sample.h2zero.sqlite3.model.User;
+import java.util.List;
+import java.io.IOException;
 
 public class UserExporter {
+	public static void exportToFile(BufferedWriter bufferedWriter) throws IOException {
+		List<User> all = UserFinder.findAllSilent();
+		for (User user: all) {
+			bufferedWriter.write(ImpexConverter.convertToString(user.getIdUser()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(user.getIdUserType()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(user.getFlIsAlive()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(user.getNumAge()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(user.getNmUsername()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(user.getTxtAddressEmail()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(user.getTxtPassword()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(user.getDtmSignup()));
+			bufferedWriter.write("\n");
+		}
+	}
 
 }

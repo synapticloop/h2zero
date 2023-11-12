@@ -5,7 +5,26 @@ package {database.package}.impex;{\n}{\n}
 //                 (/impex/impex-exporter.templar){\n}{\n}
 
 import synapticloop.h2zero.exception.H2ZeroParseException;{\n}
+import java.io.BufferedWriter;{\n}
+import {database.package}.finder.{table.javaClassName}Finder;{\n}
+import {database.package}.model.{table.javaClassName};{\n}
+import java.util.List;{\n}
+import java.io.IOException;{\n}
+
 {\n}
 public class {table.javaClassName}Exporter {{{\n}
+{\t}public static void exportToFile(BufferedWriter bufferedWriter) throws IOException {{{\n}
+{\t}{\t}List<{table.javaClassName}> all = {table.javaClassName}Finder.findAllSilent();{\n}
+{\t}{\t}for ({table.javaClassName} {table.javaFieldName}: all) {{{\n}
+{loop table.fields as field}
+{\t}{\t}{\t}bufferedWriter.write(ImpexConverter.convertToString({table.javaFieldName}.get{field.javaAccessorName}()));{\n}
+{if fieldStatus.last}
+{\t}{\t}{\t}bufferedWriter.write("\n");{\n}
+{else}
+{\t}{\t}{\t}bufferedWriter.write("\t");{\n}
+{endif}
+{endloop}
+{\t}{\t}}{\n}
+{\t}}{\n}
 {\n}
 }

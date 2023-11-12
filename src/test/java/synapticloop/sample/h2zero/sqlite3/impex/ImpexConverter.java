@@ -177,4 +177,71 @@ public class ImpexConverter {
 				.replace("\\t", "\t"));
 	}
 
+	private static String convertToDefaultString(Object value) {
+		if(value == null) {
+			return("");
+		} else {
+			return(value.toString());
+		}
+	}
+
+	public static String convertToString(Long value) {
+		return(convertToDefaultString(value));
+	}
+
+	public static String convertToString(Boolean value) {
+		if(value == null) {
+			return("");
+		} else {
+			if(value == true) {
+				return("1");
+			} else {
+				return("0");
+			}
+		}
+	}
+
+	public static String convertToString(Date value) {
+		if(value == null) {
+			return("");
+		} else {
+			return(value.getTime() + "");
+		}
+	}
+
+	public static String convertToString(Timestamp value) {
+		if(value == null) {
+			return("");
+		} else {
+			return(value.getTime() + "");
+		}
+	}
+
+	public static String convertToString(Double value) {
+		return(convertToDefaultString(value));
+	}
+
+	public static String convertToString(Float value) {
+		return(convertToDefaultString(value));
+	}
+
+	public static String convertToString(Integer value) {
+		return(convertToDefaultString(value));
+	}
+
+	public static String convertToString(BigDecimal value) {
+		return(convertToDefaultString(value));
+	}
+
+	public static String convertToString(Short value) {
+		return(convertToDefaultString(value));
+	}
+
+	public static String convertToString(String value) {
+		if(value == null) {
+			return("");
+		} else {
+			return(String.format("\"%s\"", value));
+		}
+	}
 }

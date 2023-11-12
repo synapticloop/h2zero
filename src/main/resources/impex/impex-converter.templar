@@ -176,4 +176,71 @@ public class ImpexConverter {{{\n}
 {\t}{\t}{\t}{\t}.replace("\\t", "\t"));{\n}
 {\t}}{\n}
 {\n}
+{\t}private static String convertToDefaultString(Object value) {{{\n}
+{\t}{\t}if(value == null) {{{\n}
+{\t}{\t}{\t}return("");{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}return(value.toString());{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(Long value) {{{\n}
+{\t}{\t}return(convertToDefaultString(value));{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(Boolean value) {{{\n}
+{\t}{\t}if(value == null) {{{\n}
+{\t}{\t}{\t}return("");{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}if(value == true) {{{\n}
+{\t}{\t}{\t}{\t}return("1");{\n}
+{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}return("0");{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(Date value) {{{\n}
+{\t}{\t}if(value == null) {{{\n}
+{\t}{\t}{\t}return("");{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}return(value.getTime() + "");{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(Timestamp value) {{{\n}
+{\t}{\t}if(value == null) {{{\n}
+{\t}{\t}{\t}return("");{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}return(value.getTime() + "");{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(Double value) {{{\n}
+{\t}{\t}return(convertToDefaultString(value));{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(Float value) {{{\n}
+{\t}{\t}return(convertToDefaultString(value));{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(Integer value) {{{\n}
+{\t}{\t}return(convertToDefaultString(value));{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(BigDecimal value) {{{\n}
+{\t}{\t}return(convertToDefaultString(value));{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(Short value) {{{\n}
+{\t}{\t}return(convertToDefaultString(value));{\n}
+{\t}}{\n}
+{\n}
+{\t}public static String convertToString(String value) {{{\n}
+{\t}{\t}if(value == null) {{{\n}
+{\t}{\t}{\t}return("");{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}return(String.format("\"%s\"", value));{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
 }{\n}

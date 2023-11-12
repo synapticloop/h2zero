@@ -5,7 +5,23 @@ package synapticloop.sample.h2zero.sqlite3.impex;
 //                 (/impex/impex-exporter.templar)
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import java.io.BufferedWriter;
+import synapticloop.sample.h2zero.sqlite3.finder.UserTitleFinder;
+import synapticloop.sample.h2zero.sqlite3.model.UserTitle;
+import java.util.List;
+import java.io.IOException;
 
 public class UserTitleExporter {
+	public static void exportToFile(BufferedWriter bufferedWriter) throws IOException {
+		List<UserTitle> all = UserTitleFinder.findAllSilent();
+		for (UserTitle userTitle: all) {
+			bufferedWriter.write(ImpexConverter.convertToString(userTitle.getIdUserTitle()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(userTitle.getNmUserTitle()));
+			bufferedWriter.write("\t");
+			bufferedWriter.write(ImpexConverter.convertToString(userTitle.getNumOrderBy()));
+			bufferedWriter.write("\n");
+		}
+	}
 
 }

@@ -68,6 +68,12 @@ public class ImpexGenerator extends Generator {
 		SimpleLogger.logInfo(SimpleLogger.LoggerType.GENERATE_JAVA, "Generating impex importer.");
 		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/impex/Importer.java";
 		renderToFile(templarContext, importerParser, pathname);
+
+		Parser exporterParser = getParser("/impex/exporter.templar");
+		SimpleLogger.logInfo(SimpleLogger.LoggerType.GENERATE_JAVA, "Generating impex importer.");
+		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/impex/Exporter.java";
+		renderToFile(templarContext, exporterParser, pathname);
+
 	}
 
 	private void generateImporter(TemplarContext templarContext) throws ParseException, RenderException {

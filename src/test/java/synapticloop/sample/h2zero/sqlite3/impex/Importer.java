@@ -13,17 +13,23 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Importer {
+	/**
+	 * Import a data dump from a file
+	 *
+	 * @param file The file to import the data from
+	 * @throws H2ZeroParseException If there was an error parsing the data import
+	 */
 	public static void importFromFile(File file) throws H2ZeroParseException {
 		try (FileReader fileReader = new FileReader(file);
 		     BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
-			String tableType;
+			String tableType = null;
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
 				if (line.startsWith("#")) {
 					tableType = parseTypeDirective(line);
 				} else {
-					importLineToTable(type, line);
+					importLineToTable(tableType, line);
 				}
 			}
 		} catch (IOException ex) {
@@ -41,12 +47,12 @@ public class Importer {
 		return(splits[2]);
 	}
 
-	private static void importLineToTable(String type, String line) throws H2ZeroParseException {
-		if (null == type || type.isBlank()) {
+	private static void importLineToTable(String tableType, String line) throws H2ZeroParseException {
+		if (null == tableType ||tableType.isBlank()) {
 			throw new H2ZeroParseException("Could not import a table where the type is null or empty.");
 		}
 
-		switch (type) {
+		switch (tableType) {
 			case "ALL_TYPES":
 				AllTypesImporter.importLine(line);
 				break;
@@ -72,7 +78,7 @@ public class Importer {
 				UserPetImporter.importLine(line);
 				break;
 			default:
-				throw new H2ZeroParseException(String.format("Don't know how to import table of type '%s'", type));
+				throw new H2ZeroParseException(String.format("Don't know how to import table of type '%s'", tableType));
 		}
 
 	}
