@@ -5,12 +5,33 @@ package {database.package}.impex;{\n}{\n}
 //                 (/impex/impex-importer.templar){\n}{\n}
 
 import synapticloop.h2zero.exception.H2ZeroParseException;{\n}
+import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import {database.package}.model.{table.javaClassName};{\n}
+
+{loop table.fields as field}
+{if !field.primary}{if field.isForeignKey}
+import {database.package}.finder.{field.foreignKeyTableLookup.javaClassName}Finder;{\n}
+import {database.package}.model.{field.foreignKeyTableLookup.javaClassName};{\n}
+{endif}{endif}
+{endloop}
+
+{\n}
 import java.math.*;{\n}
 import java.sql.*;{\n}
+import java.util.HashMap;{\n}
+import java.util.Map;{\n}
 {\n}
 
 
 public class {table.javaClassName}Importer {{{\n}
+{\t}// The primary key cache is keyed on the id from the imported line -> value {\n}
+{\t}// is the actual inserted value - which may be the same {\n}
+{\t}public static final Map<Long, Long> PRIMARY_KEY_CACHE = new HashMap<>();{\n}{\n}
+
+{if !table.isConstant}
+{import classpath:/impex/includes/sql-static-statements.templar}
+{endif}
+
 
 {\t}public static void importLine(String line) throws H2ZeroParseException {{{\n}
 {\t}{\t}String[] splits = line.split("\t");{\n}
@@ -22,12 +43,29 @@ public class {table.javaClassName}Importer {{{\n}
 {\t}{\t}// we are good to go{\n}
 {\t}{\t}// for each field - we parse the value{\n}
 
+
 {loop table.fields as field}
 {\t}{\t}{field.javaType} {field.javaName} = ImpexConverter.convert{field.javaType}(splits[{fieldStatus.offset}], {field.nullable});{\n}
 {endloop}
-
+{\t}{\t}if(confirmExisting({loop table.fields as field}{field.javaName}{if !fieldStatus.last}, {endif}{endloop})) {{{\n}
+{\t}{\t}{\t}return;{\n}
+{\t}{\t}}{\n}
 {\t}}{\n}
+
+{import classpath:/impex/includes/find-existing.templar}
+
+{if !table.isConstant}
+{import classpath:/impex/includes/find-unique.templar}
+{endif}
+
 {\n}
+{\n}
+{\t}/**{\n}
+{\t} * Clear the primary key cache, ready for data importing {\n}
+{\t} */{\n}
+{\t}public static void clearPrimaryKeyCache() {{{\n}
+{\t}{\t}PRIMARY_KEY_CACHE.clear();{\n}
+{\t}}{\n}
 }
 
 

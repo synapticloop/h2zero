@@ -1,0 +1,12 @@
+{loop table.fields as field}
+{if field.unique}
+{set field as uniqueField}
+{\t}// unique field {field.javaName}{\n}
+{\t}private static final String SQL_SELECT_START_{field.javaName} ="select
+{loop table.fields as field}
+ {field.name}{if !fieldStatus.last},{endif}
+{endloop}
+ from {table.name} where {uniqueField.name} = ?
+";{\n}{\n}
+{endif}
+{endloop}

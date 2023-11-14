@@ -5,10 +5,19 @@ package synapticloop.sample.h2zero.sqlite3.impex;
 //                 (/impex/impex-importer.templar)
 
 import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import synapticloop.sample.h2zero.sqlite3.model.AllTypes;
+
 import java.math.*;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AllTypesImporter {
+	// The primary key cache is keyed on the id from the imported line -> value 
+	// is the actual inserted value - which may be the same 
+	public static final Map<Long, Long> PRIMARY_KEY_CACHE = new HashMap<>();
+
 	public static void importLine(String line) throws H2ZeroParseException {
 		String[] splits = line.split("\t");
 		if(splits.length != 15) {
@@ -33,6 +42,167 @@ public class AllTypesImporter {
 		String testText = ImpexConverter.convertString(splits[12], true);
 		Boolean testTinyint = ImpexConverter.convertBoolean(splits[13], true);
 		String testVarchar = ImpexConverter.convertString(splits[14], true);
+		if(confirmExisting(idAllTypes, testBigint, testBoolean, testDate, testDatetime, testDouble, testFloat, testInt, testInteger, testMediumint, testNumeric, testSmallint, testText, testTinyint, testVarchar)) {
+			return;
+		}
 	}
 
+
+	// IMPORT 'find-existing.templar' START
+
+	/**
+	 * Confirm whether there is an existing table with all of the fields matching 
+	 * (apart from the primary key)
+	 * 
+	 * @param idAllTypes The id_all_types which is used as the lookup
+	 * @param testBigint The test_bigint which is used as the lookup
+	 * @param testBoolean The test_boolean which is used as the lookup
+	 * @param testDate The test_date which is used as the lookup
+	 * @param testDatetime The test_datetime which is used as the lookup
+	 * @param testDouble The test_double which is used as the lookup
+	 * @param testFloat The test_float which is used as the lookup
+	 * @param testInt The test_int which is used as the lookup
+	 * @param testInteger The test_integer which is used as the lookup
+	 * @param testMediumint The test_mediumint which is used as the lookup
+	 * @param testNumeric The test_numeric which is used as the lookup
+	 * @param testSmallint The test_smallint which is used as the lookup
+	 * @param testText The test_text which is used as the lookup
+	 * @param testTinyint The test_tinyint which is used as the lookup
+	 * @param testVarchar The test_varchar which is used as the lookup
+	 * 
+	 * @return whether we were able to find the exact duplicat of this table row
+	 * 
+	 * @throws H2ZeroParseException - if there was a SQLException, or this is a 
+	 * constant table and we couldn't look up the constant value
+	 */
+	private static boolean confirmExisting(Long idAllTypes, Long testBigint, Boolean testBoolean, Date testDate, Timestamp testDatetime, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, Integer testMediumint, BigDecimal testNumeric, Short testSmallint, String testText, Boolean testTinyint, String testVarchar) throws H2ZeroParseException {
+		StringBuilder SQL_FIND_EXACT = new StringBuilder("select * from all_types where ");
+		if (null == testBigint) {
+			SQL_FIND_EXACT.append(" test_bigint is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_bigint = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testBoolean) {
+			SQL_FIND_EXACT.append(" test_boolean is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_boolean = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testDate) {
+			SQL_FIND_EXACT.append(" test_date is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_date = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testDatetime) {
+			SQL_FIND_EXACT.append(" test_datetime is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_datetime = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testDouble) {
+			SQL_FIND_EXACT.append(" test_double is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_double = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testFloat) {
+			SQL_FIND_EXACT.append(" test_float is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_float = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testInt) {
+			SQL_FIND_EXACT.append(" test_int is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_int = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testInteger) {
+			SQL_FIND_EXACT.append(" test_integer is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_integer = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testMediumint) {
+			SQL_FIND_EXACT.append(" test_mediumint is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_mediumint = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testNumeric) {
+			SQL_FIND_EXACT.append(" test_numeric is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_numeric = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testSmallint) {
+			SQL_FIND_EXACT.append(" test_smallint is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_smallint = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testText) {
+			SQL_FIND_EXACT.append(" test_text is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_text = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testTinyint) {
+			SQL_FIND_EXACT.append(" test_tinyint is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_tinyint = ?");
+		}
+		SQL_FIND_EXACT.append(" and ");
+		if (null == testVarchar) {
+			SQL_FIND_EXACT.append(" test_varchar is null");
+		} else {
+			SQL_FIND_EXACT.append(" test_varchar = ?");
+		}
+		ResultSet resultSetExact = null;
+		// now set all of the parameters
+		try (Connection connection = ConnectionManager.getConnection();
+				 PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_EXACT.toString())) {
+			resultSetExact = preparedStatement.getResultSet();
+			if(resultSetExact.next()) {
+				// we have found one, this means that we do not need to import it
+				// just update the primary key cache
+				PRIMARY_KEY_CACHE.put(idAuthorStatus, resultSetExact.getLong(1));
+				return(true);
+			} else {
+				// fall through and see if we can find it by some other means...
+			}
+		} catch (SQLException e) {
+			throw new H2ZeroParseException(String.format("Could not execute the SQL statement.  Exception, message was: '%s'", e.getMessage()), e);
+		} finally {
+			if(null != resultSetExact) {
+				try { resultSetExact.close(); } catch (SQLException e) { /* do nothing */ }
+			}
+		}
+
+		return(false);
+	}
+	// IMPORT 'find-existing.templar' END
+
+
+
+
+
+		// IMPORT 'find-unique.templar' START
+
+// we have no unique fields
+
+		// IMPORT 'find-unique.templar' END
+
+
+
+
+
+	/**
+	 * Clear the primary key cache, ready for data importing 
+	 */
+	public static void clearPrimaryKeyCache() {
+		PRIMARY_KEY_CACHE.clear();
+	}
 }

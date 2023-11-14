@@ -38,7 +38,7 @@ public class ImpexGenerator extends Generator {
 
 	@Override
 	public void generate() throws RenderException, ParseException {
-		if(!options.hasGenerator(Options.OPTION_IMPEX)) {
+		if (!options.hasGenerator(Options.OPTION_IMPEX)) {
 			return;
 		}
 
@@ -49,25 +49,38 @@ public class ImpexGenerator extends Generator {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
 
-		generateUtils(templarContext);
-		generateImporter(templarContext);
-		generateExporter(templarContext);
+		try {
+			generateUtils();
+			generateImporter();
+			generateExporter();
+		} catch (FunctionException ex) {
+			throw new RenderException(ex.getMessage(), ex);
+		}
 	}
 
-	private void generateUtils(TemplarContext templarContext) throws ParseException, RenderException {
+	private void generateUtils() throws ParseException, RenderException, FunctionException {
 		String pathname;
 
+		TemplarContext templarContext = getDefaultTemplarContext();
 		templarContext.add("tables", database.getTables());
+
 
 		Parser converterParser = getParser("/impex/impex-converter.templar");
 		SimpleLogger.logInfo(SimpleLogger.LoggerType.GENERATE_JAVA, "Generating impex converter.");
 		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/impex/ImpexConverter.java";
 		renderToFile(templarContext, converterParser, pathname);
 
+		templarContext = getDefaultTemplarContext();
+		templarContext.add("tables", database.getTables());
+
 		Parser importerParser = getParser("/impex/importer.templar");
 		SimpleLogger.logInfo(SimpleLogger.LoggerType.GENERATE_JAVA, "Generating impex importer.");
 		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/impex/Importer.java";
 		renderToFile(templarContext, importerParser, pathname);
+
+
+		templarContext = getDefaultTemplarContext();
+		templarContext.add("tables", database.getTables());
 
 		Parser exporterParser = getParser("/impex/exporter.templar");
 		SimpleLogger.logInfo(SimpleLogger.LoggerType.GENERATE_JAVA, "Generating impex importer.");
@@ -76,13 +89,15 @@ public class ImpexGenerator extends Generator {
 
 	}
 
-	private void generateImporter(TemplarContext templarContext) throws ParseException, RenderException {
+	private void generateImporter() throws ParseException, RenderException, FunctionException {
 		Parser exporterParser = getParser("/impex/impex-importer.templar");
 		List<Table> tables = database.getTables();
 
 		String pathname;
 		for (Table table : tables) {
+			TemplarContext templarContext = getDefaultTemplarContext();
 			templarContext.add("table", table);
+
 			SimpleLogger.logInfo(SimpleLogger.LoggerType.GENERATE_JAVA, "Generating importer table '" + table.getName() + "'.");
 
 			// the model
@@ -91,13 +106,14 @@ public class ImpexGenerator extends Generator {
 		}
 	}
 
-	private void generateExporter(TemplarContext templarContext) throws ParseException, RenderException {
+	private void generateExporter() throws ParseException, RenderException, FunctionException {
 		String pathname;
 
 		Parser exporterParser = getParser("/impex/impex-exporter.templar");
 		List<Table> tables = database.getTables();
 
 		for (Table table : tables) {
+			TemplarContext templarContext = getDefaultTemplarContext();
 			templarContext.add("table", table);
 			SimpleLogger.logInfo(SimpleLogger.LoggerType.GENERATE_JAVA, "Generating exporter table '" + table.getName() + "'.");
 

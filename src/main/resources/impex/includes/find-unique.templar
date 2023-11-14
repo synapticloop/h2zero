@@ -1,0 +1,85 @@
+{\n}
+{\n}
+{\t}{\t}// IMPORT 'find-unique.templar' START{\n}{\n}
+
+{loop table.fields as field}
+{if field.unique}
+{set field as uniqueField}
+{\t}public static void findUnique{uniqueField.javaAccessorName}({loop table.fields as field}{field.javaType} {field.javaName}{if !fieldStatus.last}, {endif}{endloop}) throws H2ZeroParseException {{{\n}
+
+{\t}{\t} // unique field {field.javaName}{\n}
+{\t}{\t}{table.javaClassName} {table.javaFieldName};{\n}
+{\t}{\t}ResultSet resultSet;{\n}
+{\t}{\t}try (Connection connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}{\t} PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_START_{uniqueField.javaName})) {{{\n}
+{\t}{\t}{\t}ConnectionManager.set{uniqueField.upperType}(preparedStatement, 1, {uniqueField.javaName});{\n}
+
+{\t}{\t}{\t}resultSet = preparedStatement.getResultSet();{\n}
+{\t}{\t}{\t}if(resultSet.next()) {{{\n}
+{\t}{\t}{\t}{\t}// we have found one, load it up{\n}
+
+
+{\t}{\t}{\t}{\t}{table.javaFieldName} = new {table.javaClassName}({\n}
+{loop table.fields as field}
+{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index}){if !fieldStatus.last}, {endif}{\n}
+{endloop}{\t}{\t}{\t}{\t});{\n}
+{\t}{\t}{\t}{\t}// now set all of the fields that we have{\n}
+{loop table.fields as field}
+{endloop}
+
+{loop table.fields as field}
+{if field.primary}
+{\t}{\t}{\t}{\t}PRIMARY_KEY_CACHE.put({field.getJavaName}, {table.javaFieldName}.getPrimaryKey());{\n}
+{endif}
+{endloop}
+
+
+{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}{table.javaFieldName} = new {table.javaClassName}(null,{\ }
+{loop table.fields as field}
+{if !fieldStatus.first}{field.javaName}{if !fieldStatus.last}, {endif}{endif}{endloop});{\n}
+
+{loop table.fields as field}
+{if !field.primary}{if field.isForeignKey}
+{\t}{\t}{\t}{\t}// {field.name} is a foreign key - look it up to make sure that it exists{\n}
+
+
+{\t}{\t}{\t}{\t}if(null != {field.javaName}) {{{\n}
+{\t}{\t}{\t}{\t}{\t}Long {field.javaName}Lookup = {field.foreignKeyTableLookup.javaClassName}Importer.PRIMARY_KEY_CACHE.get({field.javaName});{\n}
+{\t}{\t}{\t}{\t}{\t}if(null == {field.javaName}Lookup) {{{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}// we don't have a lookup - which is OK{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}{field.javaName}Lookup = {field.javaName};{\n}
+{\t}{\t}{\t}{\t}{\t}}{\n}
+{\t}{\t}{\t}{\t}{\t}{field.foreignKeyTableLookup.javaClassName} {field.foreignKeyTableLookup.javaFieldName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent({field.javaName}Lookup);{\n}
+{\n}
+{\t}{\t}{\t}{\t}{\t}if(null == {field.foreignKeyTableLookup.javaFieldName}) {{{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}throw new H2ZeroParseException(String.format("Could not find the foreignKey for author_status.id_author_status of '%d'", {field.javaName}Lookup));{\n}
+{\t}{\t}{\t}{\t}{\t}}{\n}
+{\n}
+{\t}{\t}{\t}{\t}{\t}{table.javaFieldName}.set{field.javaAccessorName}({field.foreignKeyTableLookup.javaFieldName}.getPrimaryKey());{\n}
+{\t}{\t}{\t}{\t}}{\n}
+
+{endif}{endif}
+{endloop}
+
+
+
+{\t}{\t}{\t}{\t}{table.javaFieldName}.insertSilent();{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}} catch (SQLException e) {{{\n}
+{\t}{\t}{\t}throw new RuntimeException(e);{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
+{endif}
+{endloop}
+
+{if fn:null[uniqueField]}
+// we have no unique fields{\n}
+{else}
+// we have a unique field {\n}
+{endif}
+
+{\n}
+{\t}{\t}// IMPORT 'find-unique.templar' END{\n}{\n}
+{\n}
+{\n}

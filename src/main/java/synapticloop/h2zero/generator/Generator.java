@@ -24,6 +24,7 @@ import java.util.Map;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
+import synapticloop.h2zero.templar.function.FunctionExists;
 import synapticloop.h2zero.templar.function.FunctionRequiresImport;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
@@ -36,6 +37,8 @@ import synapticloop.templar.utils.TemplarContext;
 
 public abstract class Generator {
 	private static final String FUNCTION_NAME_HAS_IMPORT = "requiresImport";
+	private static final String FUNCTION_NAME_EXISTS = "exists";
+
 	protected Database database;
 	protected Options options;
 	protected File outFile;
@@ -89,6 +92,11 @@ public abstract class Generator {
 		if(!templarContext.hasFunction(FUNCTION_NAME_HAS_IMPORT)) {
 			templarContext.addFunction(FUNCTION_NAME_HAS_IMPORT, new FunctionRequiresImport());
 			SimpleLogger.logInfo(LoggerType.FUNCTION_REGISTER, "Registered new Function '" + FUNCTION_NAME_HAS_IMPORT + "'.");
+		}
+
+		if(!templarContext.hasFunction(FUNCTION_NAME_EXISTS)) {
+			templarContext.addFunction(FUNCTION_NAME_EXISTS, new FunctionExists());
+			SimpleLogger.logInfo(LoggerType.FUNCTION_REGISTER, "Registered new Function '" + FUNCTION_NAME_EXISTS + "'.");
 		}
 
 		return templarContext;

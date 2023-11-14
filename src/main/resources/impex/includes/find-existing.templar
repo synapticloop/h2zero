@@ -1,0 +1,66 @@
+{\n}
+{\n}
+{\t}// IMPORT 'find-existing.templar' START{\n}{\n}
+
+{\t}/**{\n}
+{\t} * Confirm whether there is an existing table with all of the fields matching {\n}
+{\t} * (apart from the primary key){\n}
+{\t} * {\n}
+{loop table.fields as field}
+{\t} * @param {field.javaName} The {field.name} which is used as the lookup{\n}
+{endloop}
+{\t} * {\n}
+{\t} * @return whether we were able to find the exact duplicat of this table row{\n}
+{\t} * {\n}
+{\t} * @throws H2ZeroParseException - if there was a SQLException, or this is a {\n}
+{\t} * constant table and we couldn't look up the constant value{\n}
+{\t} */{\n}
+{\t}private static boolean confirmExisting({loop table.fields as field}{field.javaType} {field.javaName}{if !fieldStatus.last}, {endif}{endloop}) throws H2ZeroParseException {{{\n}
+
+{\t}{\t}StringBuilder SQL_FIND_EXACT = new StringBuilder("select * from {table.name} where ");{\n}
+{loop table.nonPrimaryFields as field}
+
+{if !fieldStatus.first}
+{\t}{\t}SQL_FIND_EXACT.append(" and ");{\n}
+{endif}
+
+{\t}{\t}if (null == {field.javaName}) {{{\n}
+{\t}{\t}{\t}SQL_FIND_EXACT.append(" {field.name} is null");{\n}
+{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}SQL_FIND_EXACT.append(" {field.name} = ?");{\n}
+{\t}{\t}}{\n}
+{endloop}
+
+{\t}{\t}ResultSet resultSetExact = null;{\n}
+
+{\t}{\t}// now set all of the parameters{\n}
+{\t}{\t}try (Connection connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}{\t} PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_EXACT.toString())) {{{\n}
+{\t}{\t}{\t}resultSetExact = preparedStatement.getResultSet();{\n}
+{\t}{\t}{\t}if(resultSetExact.next()) {{{\n}
+{\t}{\t}{\t}{\t}// we have found one, this means that we do not need to import it{\n}
+{\t}{\t}{\t}{\t}// just update the primary key cache{\n}
+{\t}{\t}{\t}{\t}PRIMARY_KEY_CACHE.put(idAuthorStatus, resultSetExact.getLong(1));{\n}
+{\t}{\t}{\t}{\t}return(true);{\n}
+{\t}{\t}{\t}} else {{{\n}
+{\t}{\t}{\t}{\t}// fall through and see if we can find it by some other means...{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}} catch (SQLException e) {{{\n}
+{\t}{\t}{\t}throw new H2ZeroParseException(String.format("Could not execute the SQL statement.  Exception, message was: '%s'", e.getMessage()), e);{\n}
+{\t}{\t}} finally {{{\n}
+{\t}{\t}{\t}if(null != resultSetExact) {{{\n}
+{\t}{\t}{\t}{\t}try {{ resultSetExact.close(); } catch (SQLException e) {{ /* do nothing */ }{\n}
+{\t}{\t}{\t}}{\n}
+{\t}{\t}}{\n}
+{\n}
+{if table.isConstant}
+{\t}{\t}// this is a constant table - if it cannot be looked up then a code change will need to be made{\n}
+{\t}{\t}throw new H2ZeroParseException("Could not find a constant table with values ["{loop table.fields as field}{if !fieldStatus.first}, "{endif}
+ + {field.javaName} + "{endloop}] a code change will be required.");{\n}
+{else}
+{\t}{\t}return(false);{\n}
+{endif}
+{\t}}{\n}
+{\t}// IMPORT 'find-existing.templar' END{\n}{\n}
+{\n}
+{\n}
