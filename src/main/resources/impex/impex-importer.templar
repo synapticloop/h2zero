@@ -47,9 +47,14 @@ public class {table.javaClassName}Importer {{{\n}
 {loop table.fields as field}
 {\t}{\t}{field.javaType} {field.javaName} = ImpexConverter.convert{field.javaType}(splits[{fieldStatus.offset}], {field.nullable});{\n}
 {endloop}
+{\n}
 {\t}{\t}if(confirmExisting({loop table.fields as field}{field.javaName}{if !fieldStatus.last}, {endif}{endloop})) {{{\n}
 {\t}{\t}{\t}return;{\n}
 {\t}{\t}}{\n}
+
+{loop table.uniqueFields as uniqueField}
+// {uniqueField.name}{\n}
+{endloop}
 {\t}}{\n}
 
 {import classpath:/impex/includes/find-existing.templar}

@@ -30,9 +30,12 @@ public class AuthorStatusImporter {
 		Long idAuthorStatus = ImpexConverter.convertLong(splits[0], false);
 		String txtAuthorStatus = ImpexConverter.convertString(splits[1], false);
 		String txtDescAuthorStatus = ImpexConverter.convertString(splits[2], false);
+
 		if(confirmExisting(idAuthorStatus, txtAuthorStatus, txtDescAuthorStatus)) {
 			return;
 		}
+// txt_author_status
+// txt_desc_author_status
 	}
 
 

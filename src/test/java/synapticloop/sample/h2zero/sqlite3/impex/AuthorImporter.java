@@ -23,6 +23,7 @@ public class AuthorImporter {
 	// unique field txtIdAuthor
 	private static final String SQL_SELECT_START_txtIdAuthor ="select id_author, id_author_status, txt_id_author, nm_author, nm_username, txt_bio, txt_url_cache_image, num_following, num_followers, dtm_started_following, fl_is_updating, fl_author_is_following_user, fl_author_is_followed_by_user from author where txt_id_author = ?";
 
+	private static final STRING SQL_SELECT_UNIQUE = "";
 	public static void importLine(String line) throws H2ZeroParseException {
 		String[] splits = line.split("\t");
 		if(splits.length != 13) {
@@ -45,9 +46,11 @@ public class AuthorImporter {
 		Boolean flIsUpdating = ImpexConverter.convertBoolean(splits[10], true);
 		Boolean flAuthorIsFollowingUser = ImpexConverter.convertBoolean(splits[11], true);
 		Boolean flAuthorIsFollowedByUser = ImpexConverter.convertBoolean(splits[12], true);
+
 		if(confirmExisting(idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser)) {
 			return;
 		}
+// txt_id_author
 	}
 
 
@@ -206,8 +209,6 @@ public class AuthorImporter {
 					ConnectionManager.getNullableResultBoolean(resultSet, 13)
 				);
 				// now set all of the fields that we have
-
-				// we are now going to update
 				PRIMARY_KEY_CACHE.put(idAuthor, author.getPrimaryKey());
 			} else {
 				author = new Author(null, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser);

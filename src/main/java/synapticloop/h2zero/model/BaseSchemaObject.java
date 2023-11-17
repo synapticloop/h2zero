@@ -64,6 +64,7 @@ public abstract class BaseSchemaObject {
 	protected Map<String, BaseField> inFieldLookup = new HashMap<>(); // a quick lookup for all of the 'in' fields
 
 	protected List<BaseField> fields = new ArrayList<>();  // a list of all of the fields on this table
+	protected final List<BaseField> uniqueFields = new ArrayList<>();
 
 	protected List<BaseField> populateFields = new ArrayList<>();  // a list of all of the fields on this table
 	protected List<BaseField> nonPopulateFields = new ArrayList<>();  // a list of all of the fields on this table
@@ -495,4 +496,6 @@ public abstract class BaseSchemaObject {
 	 * @return whether this schema object has any questions on it
 	 */
 	public boolean getHasQuestions() { return(!questions.isEmpty()); }
+
+	public List<BaseField> getUniqueFields() { return(uniqueFields); }
 }

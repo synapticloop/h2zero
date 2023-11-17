@@ -18,6 +18,7 @@ public class AllTypesImporter {
 	// is the actual inserted value - which may be the same 
 	public static final Map<Long, Long> PRIMARY_KEY_CACHE = new HashMap<>();
 
+	private static final STRING SQL_SELECT_UNIQUE = "";
 	public static void importLine(String line) throws H2ZeroParseException {
 		String[] splits = line.split("\t");
 		if(splits.length != 15) {
@@ -42,6 +43,7 @@ public class AllTypesImporter {
 		String testText = ImpexConverter.convertString(splits[12], true);
 		Boolean testTinyint = ImpexConverter.convertBoolean(splits[13], true);
 		String testVarchar = ImpexConverter.convertString(splits[14], true);
+
 		if(confirmExisting(idAllTypes, testBigint, testBoolean, testDate, testDatetime, testDouble, testFloat, testInt, testInteger, testMediumint, testNumeric, testSmallint, testText, testTinyint, testVarchar)) {
 			return;
 		}

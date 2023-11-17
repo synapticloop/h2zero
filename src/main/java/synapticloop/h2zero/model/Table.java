@@ -319,6 +319,9 @@ public class Table extends BaseSchemaObject {
 
         fieldLookup.put(fieldName, baseField);
         inFieldLookup.put(fieldName, inBaseField);
+        if(baseField.getUnique()) {
+          uniqueFields.add(baseField);
+        }
 
         BaseField setBaseField = (BaseField) constructor.newInstance(fieldObject);
         setBaseField.suffixJavaName("Set");

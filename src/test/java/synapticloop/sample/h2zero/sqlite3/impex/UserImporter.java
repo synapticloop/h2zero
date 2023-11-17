@@ -26,6 +26,7 @@ public class UserImporter {
 	// unique field txtAddressEmail
 	private static final String SQL_SELECT_START_txtAddressEmail ="select id_user, id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, dtm_signup from user where txt_address_email = ?";
 
+	private static final STRING SQL_SELECT_UNIQUE = "";
 	public static void importLine(String line) throws H2ZeroParseException {
 		String[] splits = line.split("\t");
 		if(splits.length != 8) {
@@ -43,9 +44,12 @@ public class UserImporter {
 		String txtAddressEmail = ImpexConverter.convertString(splits[5], false);
 		String txtPassword = ImpexConverter.convertString(splits[6], false);
 		Timestamp dtmSignup = ImpexConverter.convertTimestamp(splits[7], true);
+
 		if(confirmExisting(idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup)) {
 			return;
 		}
+// nm_username
+// txt_address_email
 	}
 
 

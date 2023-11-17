@@ -10,3 +10,7 @@
 ";{\n}{\n}
 {endif}
 {endloop}
+
+{if !fn:equal[table.uniqueFields, "0"]}
+{\t}private static final String SQL_SELECT_UNIQUE = "";{\n}
+{endif}

@@ -29,6 +29,7 @@ public class UserTypeImporter {
 		// for each field - we parse the value
 		Long idUserType = ImpexConverter.convertLong(splits[0], false);
 		String nmUserType = ImpexConverter.convertString(splits[1], false);
+
 		if(confirmExisting(idUserType, nmUserType)) {
 			return;
 		}
