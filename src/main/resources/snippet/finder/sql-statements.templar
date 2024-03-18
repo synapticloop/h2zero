@@ -32,10 +32,20 @@
 	{if fn:null[finder.selectClause]}
 		{\t}private static final String SQL_{finder.staticName} = SQL_SELECT_START
 	{else}
-		{\t}private static final String SQL_{finder.staticName} = "{finder.selectClause}"
+		{\t}private static final String SQL_{finder.staticName} ={\n}
+		{\t}{\t}"""{\n}
+		{loop finder.selectClauses as clause}
+			{\t}{\t}{\t}{clause}{\n}
+		{endloop}
+		{\t}{\t}"""
 	{endif}
 
-	{if fn:notNull[finder.whereClause]} + " {finder.whereClause}"{endif}
+	{if fn:notNull[finder.whereClause]} +
+		"""{\n}
+		{loop finder.whereClauses as clause}
+			{\t}{\t}{\t}{clause}{\n}
+		{endloop}
+		{\t}{\t}"""{endif}
+
 	{if fn:notNull[finder.orderBy]} + " order by {finder.orderBy}"{endif};{\n}
 {endloop}
-{\n}

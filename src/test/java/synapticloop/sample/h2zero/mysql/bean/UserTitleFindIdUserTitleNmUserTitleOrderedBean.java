@@ -36,4 +36,19 @@ public class UserTitleFindIdUserTitleNmUserTitleOrderedBean {
 	public void setIdUserTitle(Long idUserTitle) { this.idUserTitle = idUserTitle; }
 	public String getNmUserTitle() { return(this.nmUserTitle); }
 	public void setNmUserTitle(String nmUserTitle) { this.nmUserTitle = nmUserTitle; }
+
+	/**
+	 * Return an XML representation of the select clause bean for the FindIdUserTitleNmUserTitleOrdered
+	 * finder.  The root node is name of the select clause finder - i.e. <FindIdUserTitleNmUserTitleOrdered>
+	 * and the child nodes the name of the fields.
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<findIdUserTitleNmUserTitleOrdered>" + 
+  			String.format("<id_user_title>%s</id_user_title>", this.getIdUserTitle()) + 
+  			String.format("<nm_user_title>%s</nm_user_title>", this.getNmUserTitle()) + 
+			"</findIdUserTitleNmUserTitleOrdered>");
+	}
+
 }

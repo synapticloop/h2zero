@@ -701,6 +701,31 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}{\t}return(toJsonString());{\n}
 	{\t}}{\n}
 
+{\n}
+	{\t}/**{\n}
+	{\t} * Return an XML representation of the '{table.javaClassName}' model, with the root node being the{\n}
+	{\t} * name of the table - i.e. <{table.name}> and the child nodes the name of the {\n}
+	{\t} * fields.{\n}
+	{\t} * <p>{\n}
+	{\t} * <strong>NOTE:</strong> Any field marked as secure will not be included as{\n}
+	{\t} * part of the XML document{\n}
+	{\t} * {\n}
+	{\t} * @return An XML representation of the model.  {\n}
+	{\t} */{\n}
+
+	{\t}public String toXMLString() {{{\n}
+	{\t}{\t}return("<{table.name}>" + {\n}
+	{loop table.fields as field}
+		{if !field.isSecure}
+			{\t}{\t}{\t}String.format("<{field.name}>%s</{field.name}>", this.get{field.javaAccessorName}()) + {\n}
+		{endif}
+	{endloop}
+
+	{\t}{\t}{\t}"</{table.name}>");{\n}
+	{\t}}{\n}
+	{\n}
+
+
 {if !table.isConstant}
 	{-- This is the hitcount --}
 	{\n}

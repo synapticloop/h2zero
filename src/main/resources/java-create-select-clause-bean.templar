@@ -51,4 +51,22 @@ public class {table.javaClassName}{finder.tagName}Bean {{{\n}
 		{\t}public void set{selectField.javaAccessorName}({selectField.javaType} {selectField.javaName}) {{ this.{selectField.javaName} = {selectField.javaName}; }{\n}
 	{endloop}
 
+{\n}
+	{\t}/**{\n}
+	{\t} * Return an XML representation of the select clause bean for the {finder.tagName}{\n}
+	{\t} * finder.  The root node is name of the select clause finder - i.e. <{finder.tagName}>{\n}
+	{\t} * and the child nodes the name of the fields.{\n}
+	{\t} * {\n}
+	{\t} * @return An XML representation of the model.  {\n}
+	{\t} */{\n}
+
+	{\t}public String toXMLString() {{{\n}
+	{\t}{\t}return("<{finder.name}>" + {\n}
+	{loop finder.selectFields as field}
+	  {\t}{\t}{\t}String.format("<{field.name}>%s</{field.name}>", this.get{field.javaAccessorName}()) + {\n}
+	{endloop}
+
+	{\t}{\t}{\t}"</{finder.name}>");{\n}
+	{\t}}{\n}
+	{\n}
 }

@@ -112,4 +112,23 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'UserTitle' model, with the root node being the
+	 * name of the table - i.e. <user_title> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_title>" + 
+			String.format("<id_user_title>%s</id_user_title>", this.getIdUserTitle()) + 
+			String.format("<nm_user_title>%s</nm_user_title>", this.getNmUserTitle()) + 
+			String.format("<num_order_by>%s</num_order_by>", this.getNumOrderBy()) + 
+			"</user_title>");
+	}
+
 }

@@ -34,7 +34,7 @@ public class DatabaseSetupTest extends BaseConnectionManager {
 			throw new RuntimeException(e);
 		}
 
-		comboPooledDataSource.setJdbcUrl("jdbc:sqlite://Users/osmanj/IdeaProjects/h2zero/./src/test/resources//test.db");
+		comboPooledDataSource.setJdbcUrl("jdbc:sqlite:/C:\Users\strata\IdeaProjects\h2zero\./src/test/resources//test.db");
 		createDatabase();
 	}
 

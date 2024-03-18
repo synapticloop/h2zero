@@ -1,14 +1,13 @@
 buildscript {
 	repositories {
 		mavenCentral()
-		jcenter()
 		mavenLocal()
 		maven { url "https://plugins.gradle.org/" }
 		maven { url "https://jitpack.io/" }
 	}
 
 	dependencies {
-		classpath 'synapticloop:h2zero:5.2.0'
+		classpath 'synapticloop:h2zero:5.2.1'
 	}
 }
 

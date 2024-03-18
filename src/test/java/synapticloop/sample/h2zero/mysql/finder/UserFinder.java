@@ -39,18 +39,37 @@ public class UserFinder {
 	private static final String SQL_SELECT_START = "select id_user, id_user_type, fl_is_alive, nm_username, txt_address_email, txt_password from user";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user = ?";
 
-	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + " where num_age = ?";
-	private static final String SQL_FIND_BY_FL_IS_ALIVE_NUM_AGE = SQL_SELECT_START + " where fl_is_alive = ? and num_age = ?";
-	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START + " where nm_username = ?";
-	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL = SQL_SELECT_START + " where txt_address_email = ?";
-	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START + " where txt_address_email = ? and txt_password = ?";
-	private static final String SQL_FIND_NM_USER_DTM_SIGNUP = "select nm_user, dtm_signup from user";
-	private static final String SQL_FIND_GROUP_NUM_AGE = "select count(*) as num_count, num_age from user group by num_count";
-	private static final String SQL_FIND_BY_NUM_AGE_IN = SQL_SELECT_START + " where num_age in (...)";
-	private static final String SQL_FIND_BY_NUM_AGE_BETWEEN = SQL_SELECT_START + " where num_age > ? and num_age < ?";
-
-	// This is the cache for 'in finders' which have an ellipses (...) in the statement
-	private static final LruCache<String, String> findByNumAgeIn_statement_cache = new LruCache<>(1024);
+	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START +"""
+			where num_age = ?
+		""";
+	private static final String SQL_FIND_BY_FL_IS_ALIVE_NUM_AGE = SQL_SELECT_START +"""
+			where fl_is_alive = ? and num_age = ?
+		""";
+	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START +"""
+			where nm_username = ?
+		""";
+	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL = SQL_SELECT_START +"""
+			where txt_address_email = ?
+		""";
+	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START +"""
+			where txt_address_email = ? and txt_password = ?
+		""";
+	private static final String SQL_FIND_NM_USER_DTM_SIGNUP =
+		"""
+			select nm_user, dtm_signup from user
+		""";
+	private static final String SQL_FIND_GROUP_NUM_AGE =
+		"""
+			select count(*) as num_count, num_age from user group by num_count
+		""";
+	private static final String SQL_FIND_BY_NUM_AGE_IN = SQL_SELECT_START +"""
+			where num_age in (...)
+		""";
+	private static final String SQL_FIND_BY_NUM_AGE_BETWEEN = SQL_SELECT_START +"""
+			where num_age > ? and num_age < ?
+		""";
+	// This is the cache for 'in Finder' which have an ellipses (...) in the statement
+	private static final LruCache<String, String> findByNumAgeIn_limit_statement_cache = new LruCache<>(1024);
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByNumAge_limit_statement_cache = new LruCache<>(1024);
@@ -60,7 +79,6 @@ public class UserFinder {
 	private static final LruCache<String, String> findByTxtAddressEmailTxtPassword_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findNmUserDtmSignup_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findGroupNumAge_limit_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> findByNumAgeIn_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findByNumAgeBetween_limit_statement_cache = new LruCache<>(1024);
 
 	private UserFinder() {}
@@ -202,8 +220,9 @@ public class UserFinder {
 	 * @return a list of all the User objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<User> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {
+	public static List<User> findAll(Connection connection, Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		// first find the statement that we want
@@ -243,14 +262,14 @@ public class UserFinder {
 			preparedStatement = connection.prepareStatement(statement);
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch(SQLException sqlex) {
+		} catch(SQLException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAll(): " + sqlex.getMessage());
+				LOGGER.warn("SQLException findAll(): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
-			throw sqlex;
+			throw ex;
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -259,6 +278,9 @@ public class UserFinder {
 			}
 		}
 
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find any results for findAll");
+		}
 		return(results);
 	}
 
@@ -269,8 +291,9 @@ public class UserFinder {
 	 * @return The list of User model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<User> findAll() throws SQLException {
+	public static List<User> findAll() throws SQLException, H2ZeroFinderException {
 		return(findAll(null, null, null));
 	}
 
@@ -284,8 +307,9 @@ public class UserFinder {
 	 * @return The list of User model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<User> findAll(Connection connection) throws SQLException {
+	public static List<User> findAll(Connection connection) throws SQLException, H2ZeroFinderException {
 		return(findAll(connection, null, null));
 	}
 
@@ -299,8 +323,9 @@ public class UserFinder {
 	 * @return The list of User model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<User> findAll(Integer limit, Integer offset) throws SQLException {
+	public static List<User> findAll(Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		return(findAll(null, limit, offset));
 	}
 
@@ -319,11 +344,11 @@ public class UserFinder {
 	public static List<User> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
-		} catch(SQLException sqlex){
+		} catch(SQLException | H2ZeroFinderException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				LOGGER.warn("Exception findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
 			return(new ArrayList<User>());
@@ -445,8 +470,8 @@ public class UserFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -570,8 +595,8 @@ public class UserFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -694,8 +719,8 @@ public class UserFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[nmUsername:" + nmUsername + "].");
 		} finally {
@@ -820,8 +845,8 @@ public class UserFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[txtAddressEmail:" + txtAddressEmail + "].");
 		} finally {
@@ -948,8 +973,8 @@ public class UserFinder {
 			resultSet = preparedStatement.executeQuery();
 			result = uniqueResult(resultSet);
 			ConnectionManager.closeAll(resultSet, preparedStatement);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} catch (H2ZeroFinderException h2zfex) {
 			throw new H2ZeroFinderException(h2zfex.getMessage() + "  Additionally, the parameters were "  + "[txtAddressEmail:" + txtAddressEmail + "], " + "[txtPassword:" + txtPassword + "].");
 		} finally {
@@ -1053,7 +1078,7 @@ public class UserFinder {
 				}
 				whereFieldStringBuilder.append("?");
 			}
-			preparedStatementTemp = SQL_FIND_BY_NUM_AGE_IN.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
 			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
 
 			if(null != limit) {
@@ -1087,8 +1112,8 @@ public class UserFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -1212,8 +1237,8 @@ public class UserFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -1409,7 +1434,7 @@ public class UserFinder {
 			List<UserFindNmUserDtmSignupBean> results = listFindNmUserDtmSignupBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
-			throw sqlex;
+			throw new SQLException("SQL exception in statement: " + statement, sqlex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -1514,7 +1539,7 @@ public class UserFinder {
 			List<UserFindGroupNumAgeBean> results = listFindGroupNumAgeBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
-			throw sqlex;
+			throw new SQLException("SQL exception in statement: " + statement, sqlex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);

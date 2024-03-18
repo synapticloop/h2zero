@@ -26,7 +26,7 @@ public class UserImporter {
 	// unique field txtAddressEmail
 	private static final String SQL_SELECT_START_txtAddressEmail ="select id_user, id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, dtm_signup from user where txt_address_email = ?";
 
-	private static final STRING SQL_SELECT_UNIQUE = "";
+	private static final String SQL_SELECT_UNIQUE = "";
 	public static void importLine(String line) throws H2ZeroParseException {
 		String[] splits = line.split("\t");
 		if(splits.length != 8) {

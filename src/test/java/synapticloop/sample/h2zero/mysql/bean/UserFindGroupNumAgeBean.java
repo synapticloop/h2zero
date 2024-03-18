@@ -36,4 +36,19 @@ public class UserFindGroupNumAgeBean {
 	public void setNumCount(Integer numCount) { this.numCount = numCount; }
 	public Integer getNumAge() { return(this.numAge); }
 	public void setNumAge(Integer numAge) { this.numAge = numAge; }
+
+	/**
+	 * Return an XML representation of the select clause bean for the FindGroupNumAge
+	 * finder.  The root node is name of the select clause finder - i.e. <FindGroupNumAge>
+	 * and the child nodes the name of the fields.
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<findGroupNumAge>" + 
+  			String.format("<num_count>%s</num_count>", this.getNumCount()) + 
+  			String.format("<num_age>%s</num_age>", this.getNumAge()) + 
+			"</findGroupNumAge>");
+	}
+
 }

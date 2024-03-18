@@ -41,7 +41,6 @@ public class AllTypesUpserter {
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
 
-
 	private AllTypesUpserter() {}
 
 }

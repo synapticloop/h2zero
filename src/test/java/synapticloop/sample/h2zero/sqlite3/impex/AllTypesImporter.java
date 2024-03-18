@@ -18,7 +18,7 @@ public class AllTypesImporter {
 	// is the actual inserted value - which may be the same 
 	public static final Map<Long, Long> PRIMARY_KEY_CACHE = new HashMap<>();
 
-	private static final STRING SQL_SELECT_UNIQUE = "";
+	private static final String SQL_SELECT_UNIQUE = "";
 	public static void importLine(String line) throws H2ZeroParseException {
 		String[] splits = line.split("\t");
 		if(splits.length != 15) {
@@ -170,7 +170,7 @@ public class AllTypesImporter {
 			if(resultSetExact.next()) {
 				// we have found one, this means that we do not need to import it
 				// just update the primary key cache
-				PRIMARY_KEY_CACHE.put(idAuthorStatus, resultSetExact.getLong(1));
+				PRIMARY_KEY_CACHE.put(idAllTypes, resultSetExact.getLong(1));
 				return(true);
 			} else {
 				// fall through and see if we can find it by some other means...

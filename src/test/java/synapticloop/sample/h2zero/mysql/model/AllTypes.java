@@ -588,6 +588,51 @@ import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 		return(toJsonString());
 	}
 
+	/**
+	 * Return an XML representation of the 'AllTypes' model, with the root node being the
+	 * name of the table - i.e. <all_types> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<all_types>" + 
+			String.format("<id_all_types>%s</id_all_types>", this.getIdAllTypes()) + 
+			String.format("<test_bigint>%s</test_bigint>", this.getTestBigint()) + 
+			String.format("<test_blob>%s</test_blob>", this.getTestBlob()) + 
+			String.format("<test_bool>%s</test_bool>", this.getTestBool()) + 
+			String.format("<test_char>%s</test_char>", this.getTestChar()) + 
+			String.format("<test_boolean>%s</test_boolean>", this.getTestBoolean()) + 
+			String.format("<test_binary>%s</test_binary>", this.getTestBinary()) + 
+			String.format("<test_varbinary>%s</test_varbinary>", this.getTestVarbinary()) + 
+			String.format("<test_date>%s</test_date>", this.getTestDate()) + 
+			String.format("<test_datetime>%s</test_datetime>", this.getTestDatetime()) + 
+			String.format("<test_dec>%s</test_dec>", this.getTestDec()) + 
+			String.format("<test_decimal>%s</test_decimal>", this.getTestDecimal()) + 
+			String.format("<test_double>%s</test_double>", this.getTestDouble()) + 
+			String.format("<test_float>%s</test_float>", this.getTestFloat()) + 
+			String.format("<test_int>%s</test_int>", this.getTestInt()) + 
+			String.format("<test_integer>%s</test_integer>", this.getTestInteger()) + 
+			String.format("<test_longtext>%s</test_longtext>", this.getTestLongtext()) + 
+			String.format("<test_mediumblob>%s</test_mediumblob>", this.getTestMediumblob()) + 
+			String.format("<test_mediumint>%s</test_mediumint>", this.getTestMediumint()) + 
+			String.format("<test_mediumtext>%s</test_mediumtext>", this.getTestMediumtext()) + 
+			String.format("<test_numeric>%s</test_numeric>", this.getTestNumeric()) + 
+			String.format("<test_smallint>%s</test_smallint>", this.getTestSmallint()) + 
+			String.format("<test_time>%s</test_time>", this.getTestTime()) + 
+			String.format("<test_text>%s</test_text>", this.getTestText()) + 
+			String.format("<test_timestamp>%s</test_timestamp>", this.getTestTimestamp()) + 
+			String.format("<test_tinyint>%s</test_tinyint>", this.getTestTinyint()) + 
+			String.format("<test_tinytext>%s</test_tinytext>", this.getTestTinytext()) + 
+			String.format("<test_varchar>%s</test_varchar>", this.getTestVarchar()) + 
+			String.format("<test_year>%s</test_year>", this.getTestYear()) + 
+			"</all_types>");
+	}
+
+
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "AllTypes");

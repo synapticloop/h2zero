@@ -269,6 +269,25 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 		return(toJsonString());
 	}
 
+	/**
+	 * Return an XML representation of the 'UserPet' model, with the root node being the
+	 * name of the table - i.e. <user_pet> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_pet>" + 
+			String.format("<id_user_pet>%s</id_user_pet>", this.getIdUserPet()) + 
+			String.format("<id_user>%s</id_user>", this.getIdUser()) + 
+			String.format("<id_pet>%s</id_pet>", this.getIdPet()) + 
+			"</user_pet>");
+	}
+
+
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "UserPet");

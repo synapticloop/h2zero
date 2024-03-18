@@ -115,7 +115,9 @@ drop view if exists {view.name};{\n}{\n}
 
 show warnings;{\n}{\n}
 
-create view {view.name} as {view.asClause};{\n}{\n}
-
+create view {view.name} as{\n}
+{loop view.asClauseLines as asClauseLine}
+	{asClauseLine}{\n}
+{endloop};{\n}{\n}
 show warnings;{\n}{\n}
 {endloop}

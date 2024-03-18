@@ -36,4 +36,19 @@ public class UserFindNmUserDtmSignupBean {
 	public void setNmUser(String nmUser) { this.nmUser = nmUser; }
 	public Timestamp getDtmSignup() { return(this.dtmSignup); }
 	public void setDtmSignup(Timestamp dtmSignup) { this.dtmSignup = dtmSignup; }
+
+	/**
+	 * Return an XML representation of the select clause bean for the FindNmUserDtmSignup
+	 * finder.  The root node is name of the select clause finder - i.e. <FindNmUserDtmSignup>
+	 * and the child nodes the name of the fields.
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<findNmUserDtmSignup>" + 
+  			String.format("<nm_user>%s</nm_user>", this.getNmUser()) + 
+  			String.format("<dtm_signup>%s</dtm_signup>", this.getDtmSignup()) + 
+			"</findNmUserDtmSignup>");
+	}
+
 }

@@ -19,6 +19,7 @@ package synapticloop.h2zero.model;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ import synapticloop.h2zero.util.NamingHelper;
 
 public class View extends BaseSchemaObject {
 	private String asClause;
+	private List<String> asClauseLines = new ArrayList<>();
 	private boolean cacheable = false;
 	private boolean cacheFindAll= false;
 
@@ -54,9 +56,12 @@ public class View extends BaseSchemaObject {
           String snippet = (String) o;
           stringBuilder.append(snippet);
           stringBuilder.append(" ");
+					asClauseLines.add(snippet);
         }
 				this.asClause = stringBuilder.toString();
 			}
+		} else {
+			asClauseLines.add(asClause);
 		}
 
 		jsonObject.remove(JSONKeyConstants.AS_CLAUSE);
@@ -133,6 +138,9 @@ public class View extends BaseSchemaObject {
 	}
 
 	public String getAsClause() { return asClause; }
+
+	public List<String> getAsClauseLines() { return asClauseLines; }
+
 	public List<BaseField> getFields() { return fields; }
 	public boolean getCacheable() { return cacheable; }
 	public boolean getCacheFindAll() { return cacheFindAll; }

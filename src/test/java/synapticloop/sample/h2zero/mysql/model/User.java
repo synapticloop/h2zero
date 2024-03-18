@@ -345,6 +345,29 @@ import synapticloop.sample.h2zero.mysql.finder.UserFinder;
 		return(toJsonString());
 	}
 
+	/**
+	 * Return an XML representation of the 'User' model, with the root node being the
+	 * name of the table - i.e. <user> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user>" + 
+			String.format("<id_user>%s</id_user>", this.getIdUser()) + 
+			String.format("<id_user_type>%s</id_user_type>", this.getIdUserType()) + 
+			String.format("<fl_is_alive>%s</fl_is_alive>", this.getFlIsAlive()) + 
+			String.format("<num_age>%s</num_age>", this.getNumAge()) + 
+			String.format("<nm_username>%s</nm_username>", this.getNmUsername()) + 
+			String.format("<txt_address_email>%s</txt_address_email>", this.getTxtAddressEmail()) + 
+			String.format("<dtm_signup>%s</dtm_signup>", this.getDtmSignup()) + 
+			"</user>");
+	}
+
+
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "User");

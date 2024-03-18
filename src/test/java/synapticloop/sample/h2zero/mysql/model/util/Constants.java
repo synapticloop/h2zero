@@ -8,12 +8,19 @@ public class Constants {
 	// The binder variables below are used to show up compilation errors where
 	// it has been removed from the generation.
 
+    	// Model Binder for the user_type table
 	public static final String USER_TYPE_BINDER = "USER_TYPE";
+    	// Model Binder for the user_title table
 	public static final String USER_TITLE_BINDER = "USER_TITLE";
+    	// Model Binder for the user table
 	public static final String USER_BINDER = "USER";
+    	// Model Binder for the pet_type table
 	public static final String PET_TYPE_BINDER = "PET_TYPE";
+    	// Model Binder for the pet table
 	public static final String PET_BINDER = "PET";
+    	// Model Binder for the user_pet table
 	public static final String USER_PET_BINDER = "USER_PET";
+    	// Model Binder for the all_types table
 	public static final String ALL_TYPES_BINDER = "ALL_TYPES";
 
 	// Field constants for the user_type table
@@ -27,6 +34,7 @@ public class Constants {
 	public static final String USER_TITLE_NUM_ORDER_BY = "numOrderBy";
 
 
+        	// Finder binder constants for the findIdUserTitleNmUserTitleOrdered finder
 	public static final String USER_TITLE_findIdUserTitleNmUserTitleOrdered_BINDER = "USER_TITLE_findIdUserTitleNmUserTitleOrdered";
 	// Field constants for the user table
 	public static final String USER_ID_USER = "idUser";
@@ -39,7 +47,9 @@ public class Constants {
 	public static final String USER_DTM_SIGNUP = "dtmSignup";
 
 
+        	// Finder binder constants for the findNmUserDtmSignup finder
 	public static final String USER_findNmUserDtmSignup_BINDER = "USER_findNmUserDtmSignup";
+        	// Finder binder constants for the findGroupNumAge finder
 	public static final String USER_findGroupNumAge_BINDER = "USER_findGroupNumAge";
 	// Field constants for the pet_type table
 	public static final String PET_TYPE_ID_PET_TYPE = "idPetType";
@@ -94,9 +104,10 @@ public class Constants {
 	public static final String ALL_TYPES_TEST_YEAR = "testYear";
 
 
+	// Model Binder for the user_user_type view
 	public static final String USER_USER_TYPE_BINDER = "USER_USER_TYPE";
 
-	// Field constants for the user_user_type table
+	// Field constants for the user_user_type view
 	public static final String USER_USER_TYPE_NM_USER = "nmUser";
 	public static final String USER_USER_TYPE_NM_USER_TYPE = "nmUserType";
 

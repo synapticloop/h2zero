@@ -37,7 +37,6 @@ public class PetTypeUpserter {
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet_type = ?";
 
 
-
 	private PetTypeUpserter() {}
 
 	public static boolean upsertByNmPetType() {
