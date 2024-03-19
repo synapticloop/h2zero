@@ -17,6 +17,7 @@ import java.util.HashSet;{\n}
 import java.util.Map;{\n}
 import java.util.Set;{\n}
 import java.util.Iterator;{\n}
+import java.util.Collections;{\n}
 {\n}
 {import classpath:/snippet/global/java-logger.templar}
 
@@ -25,8 +26,8 @@ import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n
 
 public class DatabaseCheckerHelper {{{\n}
 {\t}{set "DatabaseCheckerHelper" as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
-{\t}private Set<String> allTables = new HashSet<String>();{\n}
-{\t}private Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();{\n}{\n}
+{\t}private final Set<String> allTables = new HashSet<String>();{\n}
+{\t}private final Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();{\n}{\n}
 
 {\t}private static final String[] ALL_TABLE_NAMES = {{ 
 {loop database.tables as table}
@@ -47,10 +48,7 @@ public class DatabaseCheckerHelper {{{\n}
  };{\n}{\n}
 
 {\t}private void initialiseDataStructures() {{{\n}
-{\t}{\t}for (int i = 0; i < ALL_TABLE_NAMES.length; i++) {{{\n}
-{\t}{\t}{\t}String allTableName = ALL_TABLE_NAMES[i];{\n}
-{\t}{\t}{\t}allTables.add(allTableName);{\n}
-{\t}{\t}}{\n}{\n}
+{\t}{\t}Collections.addAll(allTables, ALL_TABLE_NAMES);{\n}{\n}
 
 {\t}{\t}for (int i = 0; i < ALL_TABLE_FIELD_NAMES.length; i++) {{{\n}
 {\t}{\t}{\t}String allTableFieldName = ALL_TABLE_FIELD_NAMES[i];{\n}

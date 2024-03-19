@@ -48,12 +48,7 @@ import synapticloop.h2zero.validator.constant.ConstantDeleterValidator;
 import synapticloop.h2zero.validator.constant.ConstantInserterValidator;
 import synapticloop.h2zero.validator.constant.ConstantTableValidator;
 import synapticloop.h2zero.validator.constant.ConstantUpdaterValidator;
-import synapticloop.h2zero.validator.counter.CounterJsonUniqueKeyExistsValidator;
-import synapticloop.h2zero.validator.counter.CounterKeyValidator;
-import synapticloop.h2zero.validator.counter.CounterNameValidator;
-import synapticloop.h2zero.validator.counter.CounterQueryParameterNameValidator;
-import synapticloop.h2zero.validator.counter.CounterSelectClauseValidator;
-import synapticloop.h2zero.validator.counter.CounterSelectFieldsValidator;
+import synapticloop.h2zero.validator.counter.*;
 import synapticloop.h2zero.validator.database.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
 import synapticloop.h2zero.validator.deleter.DeleterWhereClauseValidator;
@@ -197,6 +192,7 @@ public class H2ZeroParser {
 		validators.add(new CounterJsonUniqueKeyExistsValidator());
 		validators.add(new CounterKeyValidator());
 		validators.add(new CounterNameValidator());
+		validators.add(new CounterWhereClauseValidator());
 
 
 		// question validators

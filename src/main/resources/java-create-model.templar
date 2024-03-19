@@ -212,7 +212,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}// the list of fields for the hit - starting with 'TOTAL'{\n}
 	{\t}private static final String[] HIT_FIELDS = {{ "TOTAL", {loop table.fields as field}"{field.name}"{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
 	{\t}// the number of read-hits for a particular field{\n}
-	{\t}private static int[] HIT_COUNTS = {{ 0, {loop table.fields as field}0{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
+	{\t}private static final int[] HIT_COUNTS = {{ 0, {loop table.fields as field}0{if fieldStatus.last}{else}, {endif}{endloop} };{\n}
 	{set fn:length[table.nonPopulateFields] as nonPopulateFieldsLength}
 
 	{if table.shouldHydrate}
