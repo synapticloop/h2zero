@@ -34,10 +34,18 @@ public class UserUserTypeViewFinder {
 	private static final String BINDER = Constants.USER_USER_TYPE_BINDER;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserUserTypeViewFinder.class);
-	private static final String SQL_SELECT_START = "select nm_user, nm_user_type from user_user_type";
+	private static final String SQL_SELECT_START = 
+		"""
+			select 
+				nm_user, 
+				nm_user_type
+			from 
+				user_user_type
+		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
-	private static final String SQL_FIND_BY_NM_USER = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_NM_USER = SQL_SELECT_START + 
+		"""
 			where nm_user = ?
 		""";
 	// now for the statement limit cache(s)

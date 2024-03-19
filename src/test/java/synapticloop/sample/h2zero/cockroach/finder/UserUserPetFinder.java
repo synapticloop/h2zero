@@ -33,9 +33,17 @@ public class UserUserPetFinder {
 	private static final String BINDER = Constants.USER_USER_PET_BINDER;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserUserPetFinder.class);
-	private static final String SQL_SELECT_START = "select id_user_user_pet, id_user_user, id_pet from user_user_pet";
-	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_user_pet = ?";
+	private static final String SQL_SELECT_START = 
+		"""
+			select 
+			id_user_user_pet, 
+			id_user_user, 
+			id_pet
 
+			from 
+				user_user_pet
+		""";
+	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_user_pet = ?";
 
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
@@ -179,8 +187,9 @@ public class UserUserPetFinder {
 	 * @return a list of all the UserUserPet objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<UserUserPet> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {
+	public static List<UserUserPet> findAll(Connection connection, Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		// first find the statement that we want
@@ -220,14 +229,14 @@ public class UserUserPetFinder {
 			preparedStatement = connection.prepareStatement(statement);
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch(SQLException sqlex) {
+		} catch(SQLException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAll(): " + sqlex.getMessage());
+				LOGGER.warn("SQLException findAll(): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
-			throw sqlex;
+			throw ex;
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -236,6 +245,9 @@ public class UserUserPetFinder {
 			}
 		}
 
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find any results for findAll");
+		}
 		return(results);
 	}
 
@@ -246,8 +258,9 @@ public class UserUserPetFinder {
 	 * @return The list of UserUserPet model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<UserUserPet> findAll() throws SQLException {
+	public static List<UserUserPet> findAll() throws SQLException, H2ZeroFinderException {
 		return(findAll(null, null, null));
 	}
 
@@ -261,8 +274,9 @@ public class UserUserPetFinder {
 	 * @return The list of UserUserPet model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<UserUserPet> findAll(Connection connection) throws SQLException {
+	public static List<UserUserPet> findAll(Connection connection) throws SQLException, H2ZeroFinderException {
 		return(findAll(connection, null, null));
 	}
 
@@ -276,8 +290,9 @@ public class UserUserPetFinder {
 	 * @return The list of UserUserPet model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<UserUserPet> findAll(Integer limit, Integer offset) throws SQLException {
+	public static List<UserUserPet> findAll(Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		return(findAll(null, limit, offset));
 	}
 
@@ -296,11 +311,11 @@ public class UserUserPetFinder {
 	public static List<UserUserPet> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
-		} catch(SQLException sqlex){
+		} catch(SQLException | H2ZeroFinderException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				LOGGER.warn("Exception findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
 			return(new ArrayList<UserUserPet>());

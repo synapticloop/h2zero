@@ -33,9 +33,25 @@ public class AllTypesUpserter {
 	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AllTypesUpserter.class);
-	private static final String SQL_SELECT_START = "select id_all_types, num_smallint, num_integer, num_bigint, num_decimal, num_numeric, flt_real, dbl_real, num_serial, num_smallserial, num_bigserial from all_types";
-	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
+	private static final String SQL_SELECT_START = 
+		"""
+			select 
+			id_all_types, 
+			num_smallint, 
+			num_integer, 
+			num_bigint, 
+			num_decimal, 
+			num_numeric, 
+			flt_real, 
+			dbl_real, 
+			num_serial, 
+			num_smallserial, 
+			num_bigserial
 
+			from 
+				all_types
+		""";
+	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
 
 	private AllTypesUpserter() {}

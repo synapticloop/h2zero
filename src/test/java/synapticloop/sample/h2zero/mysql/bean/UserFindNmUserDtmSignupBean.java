@@ -7,6 +7,7 @@ package synapticloop.sample.h2zero.mysql.bean;
 import java.sql.Date;
 import java.sql.Timestamp;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
+import synapticloop.h2zero.util.XmlHelper;
 
 /**
  * This is the generated bean for the selectClause finder from
@@ -45,10 +46,10 @@ public class UserFindNmUserDtmSignupBean {
 	 * @return An XML representation of the model.  
 	 */
 	public String toXMLString() {
-		return("<findNmUserDtmSignup>" + 
-  			String.format("<nm_user>%s</nm_user>", this.getNmUser()) + 
-  			String.format("<dtm_signup>%s</dtm_signup>", this.getDtmSignup()) + 
-			"</findNmUserDtmSignup>");
+		return("<user>" + 
+			String.format("<nm_user null=\"%b\">%s</nm_user>", (this.getNmUser() == null), (this.getNmUser() != null ? XmlHelper.escapeXml(this.getNmUser()) : "")) + 
+			String.format("<dtm_signup null=\"%b\">%s</dtm_signup>", (this.getDtmSignup() == null), (this.getDtmSignup() != null ? this.getDtmSignup() : "")) + 
+			"</user>");
 	}
 
 }

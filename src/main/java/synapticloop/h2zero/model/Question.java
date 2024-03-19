@@ -1,7 +1,7 @@
 package synapticloop.h2zero.model;
 
 /*
- * Copyright (c) 2015-2023 synapticloop.
+ * Copyright (c) 2015-2024 synapticloop.
  * 
  * All rights reserved.
  *

@@ -6,6 +6,8 @@ package synapticloop.sample.h2zero.mysql.view;
 //              (java-create-view-model.templar)
 
 import synapticloop.h2zero.base.view.ViewBase;
+import synapticloop.h2zero.util.XmlHelper;
+
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 import org.json.JSONObject;
 import synapticloop.h2zero.base.model.ModelBaseHelper;
@@ -38,11 +40,9 @@ public class UserUserType extends ViewBase {
 
 	@Override
 	public String toString() {
-		return(new StringBuilder()
-			.append("Model: 'UserUserType'\n")
-			.append("  Field: 'nmUser:").append(this.nmUser).append("'\n")
-			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
-			.toString());
+		return("Model: 'UserUserType'\n" +
+				"  Field: 'nmUser:" + this.nmUser + "'\n" +
+				"  Field: 'nmUserType:" + this.nmUserType + "'\n");
 	}
 
 	public String toJsonString() {
@@ -71,4 +71,22 @@ public class UserUserType extends ViewBase {
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'UserUserType' model, with the root node being the
+	 * name of the table - i.e. <user_user_type> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_user_type>" + 
+			String.format("<nm_user null=\"%b\">%s</nm_user>", (this.getNmUser() == null), (this.getNmUser() != null ? XmlHelper.escapeXml(this.getNmUser()) : "")) + 
+			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XmlHelper.escapeXml(this.getNmUserType()) : "")) + 
+			"</user_user_type>");
+	}
+
 }

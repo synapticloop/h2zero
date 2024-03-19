@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
@@ -42,8 +43,60 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_author";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into author (id_author_status, txt_id_author, nm_author, nm_username, txt_bio, txt_url_cache_image, num_following, num_followers, dtm_started_following, fl_is_updating, fl_author_is_following_user, fl_author_is_followed_by_user) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String SQL_UPDATE = "update author set id_author_status = ?, txt_id_author = ?, nm_author = ?, nm_username = ?, txt_bio = ?, txt_url_cache_image = ?, num_following = ?, num_followers = ?, dtm_started_following = ?, fl_is_updating = ?, fl_author_is_following_user = ?, fl_author_is_followed_by_user = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			author (
+				id_author_status,
+				txt_id_author,
+				nm_author,
+				nm_username,
+				txt_bio,
+				txt_url_cache_image,
+				num_following,
+				num_followers,
+				dtm_started_following,
+				fl_is_updating,
+				fl_author_is_following_user,
+				fl_author_is_followed_by_user
+			) values (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				author
+			set
+				id_author_status = ?,
+				txt_id_author = ?,
+				nm_author = ?,
+				nm_username = ?,
+				txt_bio = ?,
+				txt_url_cache_image = ?,
+				num_following = ?,
+				num_followers = ?,
+				dtm_started_following = ?,
+				fl_is_updating = ?,
+				fl_author_is_following_user = ?,
+				fl_author_is_followed_by_user = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from author where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from author where id_author_status = ? and txt_id_author = ? and nm_author = ? and nm_username = ? and txt_bio = ? and txt_url_cache_image = ? and num_following = ? and num_followers = ? and dtm_started_following = ? and fl_is_updating = ? and fl_author_is_following_user = ? and fl_author_is_followed_by_user = ?";
 
@@ -68,7 +121,7 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_author", "id_author_status", "txt_id_author", "nm_author", "nm_username", "txt_bio", "txt_url_cache_image", "num_following", "num_followers", "dtm_started_following", "fl_is_updating", "fl_author_is_following_user", "fl_author_is_followed_by_user" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
 	private Long idAuthor = null; // maps to the id_author field
@@ -115,6 +168,92 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 		this.flIsUpdating = null;
 		this.flAuthorIsFollowingUser = null;
 		this.flAuthorIsFollowedByUser = null;
+	}
+
+	/**
+	 * Get a new Author model, or set the fields on an existing
+	 * Author model.
+	 * <p>
+	 * If the passed in author is null, then a new Author
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param author the model to check
+	 * @param idAuthor
+	 * @param idAuthorStatus
+	 * @param txtIdAuthor
+	 * @param nmAuthor
+	 * @param nmUsername
+	 * @param txtBio
+	 * @param txtUrlCacheImage
+	 * @param numFollowing
+	 * @param numFollowers
+	 * @param dtmStartedFollowing
+	 * @param flIsUpdating
+	 * @param flAuthorIsFollowingUser
+	 * @param flAuthorIsFollowedByUser
+	 * 
+	 * @return Either the existing author with updated field values,
+	 *   or a new Author with the field values set.
+	 */
+	public static Author getOrSet(Author author,Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) {
+		if(null == author) {
+			return (new Author(idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser));
+		} else {
+			author.setIdAuthor(idAuthor);
+			author.setIdAuthorStatus(idAuthorStatus);
+			author.setTxtIdAuthor(txtIdAuthor);
+			author.setNmAuthor(nmAuthor);
+			author.setNmUsername(nmUsername);
+			author.setTxtBio(txtBio);
+			author.setTxtUrlCacheImage(txtUrlCacheImage);
+			author.setNumFollowing(numFollowing);
+			author.setNumFollowers(numFollowers);
+			author.setDtmStartedFollowing(dtmStartedFollowing);
+			author.setFlIsUpdating(flIsUpdating);
+			author.setFlAuthorIsFollowingUser(flAuthorIsFollowingUser);
+			author.setFlAuthorIsFollowedByUser(flAuthorIsFollowedByUser);
+
+			return(author);
+		}
+	}
+
+	/**
+	 * Get a new Author model, or set the fields on an existing
+	 * Author model.
+	 * <p>
+	 * If the passed in author is null, then a new Author
+	 * will be created.  If not null, the fields will be updated on the existing model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param author the model to check
+	 * @param idAuthor
+	 * @param txtIdAuthor
+	 * @param nmAuthor
+	 * @param nmUsername
+	 * @param txtBio
+	 * @param txtUrlCacheImage
+	 * 
+	 * @return Either the existing author with updated field values,
+	 *   or a new Author with the field values set.
+	 */
+	public static Author getOrSet(Author author,Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) {
+		if(null == author) {
+			return (new Author(idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage));
+		} else {
+			author.setIdAuthor(idAuthor);
+			author.setTxtIdAuthor(txtIdAuthor);
+			author.setNmAuthor(nmAuthor);
+			author.setNmUsername(nmUsername);
+			author.setTxtBio(txtBio);
+			author.setTxtUrlCacheImage(txtUrlCacheImage);
+
+			return(author);
+		}
 	}
 
 	@Override
@@ -385,6 +524,35 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'Author' model, with the root node being the
+	 * name of the table - i.e. <author> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<author>" + 
+			String.format("<id_author null=\"%b\">%s</id_author>", (this.getIdAuthor() == null), (this.getIdAuthor() != null ? this.getIdAuthor() : "")) + 
+			String.format("<id_author_status null=\"%b\">%s</id_author_status>", (this.getIdAuthorStatus() == null), (this.getIdAuthorStatus() != null ? this.getIdAuthorStatus() : "")) + 
+			String.format("<txt_id_author null=\"%b\">%s</txt_id_author>", (this.getTxtIdAuthor() == null), (this.getTxtIdAuthor() != null ? XmlHelper.escapeXml(this.getTxtIdAuthor()) : "")) + 
+			String.format("<nm_author null=\"%b\">%s</nm_author>", (this.getNmAuthor() == null), (this.getNmAuthor() != null ? XmlHelper.escapeXml(this.getNmAuthor()) : "")) + 
+			String.format("<nm_username null=\"%b\">%s</nm_username>", (this.getNmUsername() == null), (this.getNmUsername() != null ? XmlHelper.escapeXml(this.getNmUsername()) : "")) + 
+			String.format("<txt_bio null=\"%b\">%s</txt_bio>", (this.getTxtBio() == null), (this.getTxtBio() != null ? XmlHelper.escapeXml(this.getTxtBio()) : "")) + 
+			String.format("<txt_url_cache_image null=\"%b\">%s</txt_url_cache_image>", (this.getTxtUrlCacheImage() == null), (this.getTxtUrlCacheImage() != null ? XmlHelper.escapeXml(this.getTxtUrlCacheImage()) : "")) + 
+			String.format("<num_following null=\"%b\">%s</num_following>", (this.getNumFollowing() == null), (this.getNumFollowing() != null ? this.getNumFollowing() : "")) + 
+			String.format("<num_followers null=\"%b\">%s</num_followers>", (this.getNumFollowers() == null), (this.getNumFollowers() != null ? this.getNumFollowers() : "")) + 
+			String.format("<dtm_started_following null=\"%b\">%s</dtm_started_following>", (this.getDtmStartedFollowing() == null), (this.getDtmStartedFollowing() != null ? this.getDtmStartedFollowing() : "")) + 
+			String.format("<fl_is_updating null=\"%b\">%s</fl_is_updating>", (this.getFlIsUpdating() == null), (this.getFlIsUpdating() != null ? this.getFlIsUpdating() : "")) + 
+			String.format("<fl_author_is_following_user null=\"%b\">%s</fl_author_is_following_user>", (this.getFlAuthorIsFollowingUser() == null), (this.getFlAuthorIsFollowingUser() != null ? this.getFlAuthorIsFollowingUser() : "")) + 
+			String.format("<fl_author_is_followed_by_user null=\"%b\">%s</fl_author_is_followed_by_user>", (this.getFlAuthorIsFollowedByUser() == null), (this.getFlAuthorIsFollowedByUser() != null ? this.getFlAuthorIsFollowedByUser() : "")) + 
+			"</author>");
+	}
+
 
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();

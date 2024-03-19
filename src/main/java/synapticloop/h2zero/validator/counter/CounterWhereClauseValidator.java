@@ -17,12 +17,12 @@ package synapticloop.h2zero.validator.counter;
  * under the Licence.
  */
 
-import org.json.JSONObject;
-import synapticloop.h2zero.model.*;
-import synapticloop.h2zero.validator.BaseNameValidator;
+import synapticloop.h2zero.model.Counter;
+import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.model.Table;
 import synapticloop.h2zero.validator.BaseValidator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CounterWhereClauseValidator extends BaseValidator {

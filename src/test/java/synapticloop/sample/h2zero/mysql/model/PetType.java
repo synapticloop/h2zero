@@ -19,7 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import synapticloop.h2zero.util.XMLHelper;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -40,8 +40,30 @@ import synapticloop.sample.h2zero.mysql.finder.PetTypeFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_pet_type";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into pet_type (nm_pet_type, txt_desc_pet_type) values (?, ?)";
-	private static final String SQL_UPDATE = "update pet_type set nm_pet_type = ?, txt_desc_pet_type = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			pet_type (
+				nm_pet_type,
+				txt_desc_pet_type
+			) values (
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				pet_type
+			set
+				nm_pet_type = ?,
+				txt_desc_pet_type = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from pet_type where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet_type where nm_pet_type = ? and txt_desc_pet_type = ?";
 
@@ -56,7 +78,7 @@ import synapticloop.sample.h2zero.mysql.finder.PetTypeFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_pet_type", "nm_pet_type", "txt_desc_pet_type" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0 };
 
 
 	private Long idPetType = null; // maps to the id_pet_type field
@@ -67,6 +89,36 @@ import synapticloop.sample.h2zero.mysql.finder.PetTypeFinder;
 		this.idPetType = idPetType;
 		this.nmPetType = nmPetType;
 		this.txtDescPetType = txtDescPetType;
+	}
+
+	/**
+	 * Get a new PetType model, or set the fields on an existing
+	 * PetType model.
+	 * <p>
+	 * If the passed in petType is null, then a new PetType
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param petType the model to check
+	 * @param idPetType
+	 * @param nmPetType
+	 * @param txtDescPetType
+	 * 
+	 * @return Either the existing petType with updated field values,
+	 *   or a new PetType with the field values set.
+	 */
+	public static PetType getOrSet(PetType petType,Long idPetType, String nmPetType, String txtDescPetType) {
+		if(null == petType) {
+			return (new PetType(idPetType, nmPetType, txtDescPetType));
+		} else {
+			petType.setIdPetType(idPetType);
+			petType.setNmPetType(nmPetType);
+			petType.setTxtDescPetType(txtDescPetType);
+
+			return(petType);
+		}
 	}
 
 	@Override
@@ -254,8 +306,8 @@ import synapticloop.sample.h2zero.mysql.finder.PetTypeFinder;
 	public String toXMLString() {
 		return("<pet_type>" + 
 			String.format("<id_pet_type null=\"%b\">%s</id_pet_type>", (this.getIdPetType() == null), (this.getIdPetType() != null ? this.getIdPetType() : "")) + 
-			String.format("<nm_pet_type null=\"%b\">%s</nm_pet_type>", (this.getNmPetType() == null), (this.getNmPetType() != null ? XMLHelper.escapeXML(this.getNmPetType() : "")) + 
-			String.format("<txt_desc_pet_type null=\"%b\">%s</txt_desc_pet_type>", (this.getTxtDescPetType() == null), (this.getTxtDescPetType() != null ? XMLHelper.escapeXML(this.getTxtDescPetType() : "")) + 
+			String.format("<nm_pet_type null=\"%b\">%s</nm_pet_type>", (this.getNmPetType() == null), (this.getNmPetType() != null ? XmlHelper.escapeXml(this.getNmPetType()) : "")) + 
+			String.format("<txt_desc_pet_type null=\"%b\">%s</txt_desc_pet_type>", (this.getTxtDescPetType() == null), (this.getTxtDescPetType() != null ? XmlHelper.escapeXml(this.getTxtDescPetType()) : "")) + 
 			"</pet_type>");
 	}
 

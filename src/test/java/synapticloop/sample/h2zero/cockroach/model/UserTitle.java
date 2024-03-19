@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.cockroach.model.util.Constants;
@@ -60,6 +61,36 @@ import synapticloop.sample.h2zero.cockroach.model.util.Constants;
 		this.idUserTitle = idUserTitle;
 		this.nmUserTitle = nmUserTitle;
 		this.numOrderBy = numOrderBy;
+	}
+
+	/**
+	 * Get a new UserTitle model, or set the fields on an existing
+	 * UserTitle model.
+	 * <p>
+	 * If the passed in userTitle is null, then a new UserTitle
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param userTitle the model to check
+	 * @param idUserTitle
+	 * @param nmUserTitle
+	 * @param numOrderBy
+	 * 
+	 * @return Either the existing userTitle with updated field values,
+	 *   or a new UserTitle with the field values set.
+	 */
+	public static UserTitle getOrSet(UserTitle userTitle,Long idUserTitle, String nmUserTitle, Integer numOrderBy) {
+		if(null == userTitle) {
+			return (new UserTitle(idUserTitle, nmUserTitle, numOrderBy));
+		} else {
+			userTitle.setIdUserTitle(idUserTitle);
+			userTitle.setNmUserTitle(nmUserTitle);
+			userTitle.setNumOrderBy(numOrderBy);
+
+			return(userTitle);
+		}
 	}
 	/*
 	 * Boring ol' getters and setters 
@@ -112,4 +143,23 @@ import synapticloop.sample.h2zero.cockroach.model.util.Constants;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'UserTitle' model, with the root node being the
+	 * name of the table - i.e. <user_title> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_title>" + 
+			String.format("<id_user_title null=\"%b\">%s</id_user_title>", (this.getIdUserTitle() == null), (this.getIdUserTitle() != null ? this.getIdUserTitle() : "")) + 
+			String.format("<nm_user_title null=\"%b\">%s</nm_user_title>", (this.getNmUserTitle() == null), (this.getNmUserTitle() != null ? XmlHelper.escapeXml(this.getNmUserTitle()) : "")) + 
+			String.format("<num_order_by null=\"%b\">%s</num_order_by>", (this.getNumOrderBy() == null), (this.getNumOrderBy() != null ? this.getNumOrderBy() : "")) + 
+			"</user_title>");
+	}
+
 }

@@ -23,7 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import synapticloop.h2zero.util.XMLHelper;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -44,8 +44,108 @@ import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into all_types (test_bigint, test_blob, test_bool, test_char, test_boolean, test_binary, test_varbinary, test_date, test_datetime, test_dec, test_decimal, test_double, test_float, test_int, test_integer, test_longtext, test_mediumblob, test_mediumint, test_mediumtext, test_numeric, test_smallint, test_time, test_text, test_timestamp, test_tinyint, test_tinytext, test_varchar, test_year) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String SQL_UPDATE = "update all_types set test_bigint = ?, test_blob = ?, test_bool = ?, test_char = ?, test_boolean = ?, test_binary = ?, test_varbinary = ?, test_date = ?, test_datetime = ?, test_dec = ?, test_decimal = ?, test_double = ?, test_float = ?, test_int = ?, test_integer = ?, test_longtext = ?, test_mediumblob = ?, test_mediumint = ?, test_mediumtext = ?, test_numeric = ?, test_smallint = ?, test_time = ?, test_text = ?, test_timestamp = ?, test_tinyint = ?, test_tinytext = ?, test_varchar = ?, test_year = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			all_types (
+				test_bigint,
+				test_blob,
+				test_bool,
+				test_char,
+				test_boolean,
+				test_binary,
+				test_varbinary,
+				test_date,
+				test_datetime,
+				test_dec,
+				test_decimal,
+				test_double,
+				test_float,
+				test_int,
+				test_integer,
+				test_longtext,
+				test_mediumblob,
+				test_mediumint,
+				test_mediumtext,
+				test_numeric,
+				test_smallint,
+				test_time,
+				test_text,
+				test_timestamp,
+				test_tinyint,
+				test_tinytext,
+				test_varchar,
+				test_year
+			) values (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				all_types
+			set
+				test_bigint = ?,
+				test_blob = ?,
+				test_bool = ?,
+				test_char = ?,
+				test_boolean = ?,
+				test_binary = ?,
+				test_varbinary = ?,
+				test_date = ?,
+				test_datetime = ?,
+				test_dec = ?,
+				test_decimal = ?,
+				test_double = ?,
+				test_float = ?,
+				test_int = ?,
+				test_integer = ?,
+				test_longtext = ?,
+				test_mediumblob = ?,
+				test_mediumint = ?,
+				test_mediumtext = ?,
+				test_numeric = ?,
+				test_smallint = ?,
+				test_time = ?,
+				test_text = ?,
+				test_timestamp = ?,
+				test_tinyint = ?,
+				test_tinytext = ?,
+				test_varchar = ?,
+				test_year = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from all_types where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from all_types where test_bigint = ? and test_blob = ? and test_bool = ? and test_char = ? and test_boolean = ? and test_binary = ? and test_varbinary = ? and test_date = ? and test_datetime = ? and test_dec = ? and test_decimal = ? and test_double = ? and test_float = ? and test_int = ? and test_integer = ? and test_longtext = ? and test_mediumblob = ? and test_mediumint = ? and test_mediumtext = ? and test_numeric = ? and test_smallint = ? and test_time = ? and test_text = ? and test_timestamp = ? and test_tinyint = ? and test_tinytext = ? and test_varchar = ? and test_year = ?";
 
@@ -86,7 +186,7 @@ import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_all_types", "test_bigint", "test_blob", "test_bool", "test_char", "test_boolean", "test_binary", "test_varbinary", "test_date", "test_datetime", "test_dec", "test_decimal", "test_double", "test_float", "test_int", "test_integer", "test_longtext", "test_mediumblob", "test_mediumint", "test_mediumtext", "test_numeric", "test_smallint", "test_time", "test_text", "test_timestamp", "test_tinyint", "test_tinytext", "test_varchar", "test_year" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
 	private Long idAllTypes = null; // maps to the id_all_types field
@@ -181,6 +281,114 @@ import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 		this.testTinytext = null;
 		this.testVarchar = null;
 		this.testYear = null;
+	}
+
+	/**
+	 * Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.
+	 * <p>
+	 * If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param allTypes the model to check
+	 * @param idAllTypes
+	 * @param testBigint
+	 * @param testBlob
+	 * @param testBool
+	 * @param testChar
+	 * @param testBoolean
+	 * @param testBinary
+	 * @param testVarbinary
+	 * @param testDate
+	 * @param testDatetime
+	 * @param testDec
+	 * @param testDecimal
+	 * @param testDouble
+	 * @param testFloat
+	 * @param testInt
+	 * @param testInteger
+	 * @param testLongtext
+	 * @param testMediumblob
+	 * @param testMediumint
+	 * @param testMediumtext
+	 * @param testNumeric
+	 * @param testSmallint
+	 * @param testTime
+	 * @param testText
+	 * @param testTimestamp
+	 * @param testTinyint
+	 * @param testTinytext
+	 * @param testVarchar
+	 * @param testYear
+	 * 
+	 * @return Either the existing allTypes with updated field values,
+	 *   or a new AllTypes with the field values set.
+	 */
+	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) {
+		if(null == allTypes) {
+			return (new AllTypes(idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear));
+		} else {
+			allTypes.setIdAllTypes(idAllTypes);
+			allTypes.setTestBigint(testBigint);
+			allTypes.setTestBlob(testBlob);
+			allTypes.setTestBool(testBool);
+			allTypes.setTestChar(testChar);
+			allTypes.setTestBoolean(testBoolean);
+			allTypes.setTestBinary(testBinary);
+			allTypes.setTestVarbinary(testVarbinary);
+			allTypes.setTestDate(testDate);
+			allTypes.setTestDatetime(testDatetime);
+			allTypes.setTestDec(testDec);
+			allTypes.setTestDecimal(testDecimal);
+			allTypes.setTestDouble(testDouble);
+			allTypes.setTestFloat(testFloat);
+			allTypes.setTestInt(testInt);
+			allTypes.setTestInteger(testInteger);
+			allTypes.setTestLongtext(testLongtext);
+			allTypes.setTestMediumblob(testMediumblob);
+			allTypes.setTestMediumint(testMediumint);
+			allTypes.setTestMediumtext(testMediumtext);
+			allTypes.setTestNumeric(testNumeric);
+			allTypes.setTestSmallint(testSmallint);
+			allTypes.setTestTime(testTime);
+			allTypes.setTestText(testText);
+			allTypes.setTestTimestamp(testTimestamp);
+			allTypes.setTestTinyint(testTinyint);
+			allTypes.setTestTinytext(testTinytext);
+			allTypes.setTestVarchar(testVarchar);
+			allTypes.setTestYear(testYear);
+
+			return(allTypes);
+		}
+	}
+
+	/**
+	 * Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.
+	 * <p>
+	 * If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the existing model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param allTypes the model to check
+	 * @param idAllTypes
+	 * 
+	 * @return Either the existing allTypes with updated field values,
+	 *   or a new AllTypes with the field values set.
+	 */
+	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes) {
+		if(null == allTypes) {
+			return (new AllTypes(idAllTypes));
+		} else {
+			allTypes.setIdAllTypes(idAllTypes);
+
+			return(allTypes);
+		}
 	}
 
 	@Override
@@ -605,10 +813,10 @@ import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 			String.format("<test_bigint null=\"%b\">%s</test_bigint>", (this.getTestBigint() == null), (this.getTestBigint() != null ? this.getTestBigint() : "")) + 
 			String.format("<test_blob null=\"%b\">%s</test_blob>", (this.getTestBlob() == null), (this.getTestBlob() != null ? this.getTestBlob() : "")) + 
 			String.format("<test_bool null=\"%b\">%s</test_bool>", (this.getTestBool() == null), (this.getTestBool() != null ? this.getTestBool() : "")) + 
-			String.format("<test_char null=\"%b\">%s</test_char>", (this.getTestChar() == null), (this.getTestChar() != null ? XMLHelper.escapeXML(this.getTestChar() : "")) + 
+			String.format("<test_char null=\"%b\">%s</test_char>", (this.getTestChar() == null), (this.getTestChar() != null ? XmlHelper.escapeXml(this.getTestChar()) : "")) + 
 			String.format("<test_boolean null=\"%b\">%s</test_boolean>", (this.getTestBoolean() == null), (this.getTestBoolean() != null ? this.getTestBoolean() : "")) + 
-			String.format("<test_binary null=\"%b\">%s</test_binary>", (this.getTestBinary() == null), (this.getTestBinary() != null ? XMLHelper.escapeXML(this.getTestBinary() : "")) + 
-			String.format("<test_varbinary null=\"%b\">%s</test_varbinary>", (this.getTestVarbinary() == null), (this.getTestVarbinary() != null ? XMLHelper.escapeXML(this.getTestVarbinary() : "")) + 
+			String.format("<test_binary null=\"%b\">%s</test_binary>", (this.getTestBinary() == null), (this.getTestBinary() != null ? XmlHelper.escapeXml(this.getTestBinary()) : "")) + 
+			String.format("<test_varbinary null=\"%b\">%s</test_varbinary>", (this.getTestVarbinary() == null), (this.getTestVarbinary() != null ? XmlHelper.escapeXml(this.getTestVarbinary()) : "")) + 
 			String.format("<test_date null=\"%b\">%s</test_date>", (this.getTestDate() == null), (this.getTestDate() != null ? this.getTestDate() : "")) + 
 			String.format("<test_datetime null=\"%b\">%s</test_datetime>", (this.getTestDatetime() == null), (this.getTestDatetime() != null ? this.getTestDatetime() : "")) + 
 			String.format("<test_dec null=\"%b\">%s</test_dec>", (this.getTestDec() == null), (this.getTestDec() != null ? this.getTestDec() : "")) + 
@@ -617,18 +825,18 @@ import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 			String.format("<test_float null=\"%b\">%s</test_float>", (this.getTestFloat() == null), (this.getTestFloat() != null ? this.getTestFloat() : "")) + 
 			String.format("<test_int null=\"%b\">%s</test_int>", (this.getTestInt() == null), (this.getTestInt() != null ? this.getTestInt() : "")) + 
 			String.format("<test_integer null=\"%b\">%s</test_integer>", (this.getTestInteger() == null), (this.getTestInteger() != null ? this.getTestInteger() : "")) + 
-			String.format("<test_longtext null=\"%b\">%s</test_longtext>", (this.getTestLongtext() == null), (this.getTestLongtext() != null ? XMLHelper.escapeXML(this.getTestLongtext() : "")) + 
+			String.format("<test_longtext null=\"%b\">%s</test_longtext>", (this.getTestLongtext() == null), (this.getTestLongtext() != null ? XmlHelper.escapeXml(this.getTestLongtext()) : "")) + 
 			String.format("<test_mediumblob null=\"%b\">%s</test_mediumblob>", (this.getTestMediumblob() == null), (this.getTestMediumblob() != null ? this.getTestMediumblob() : "")) + 
 			String.format("<test_mediumint null=\"%b\">%s</test_mediumint>", (this.getTestMediumint() == null), (this.getTestMediumint() != null ? this.getTestMediumint() : "")) + 
-			String.format("<test_mediumtext null=\"%b\">%s</test_mediumtext>", (this.getTestMediumtext() == null), (this.getTestMediumtext() != null ? XMLHelper.escapeXML(this.getTestMediumtext() : "")) + 
+			String.format("<test_mediumtext null=\"%b\">%s</test_mediumtext>", (this.getTestMediumtext() == null), (this.getTestMediumtext() != null ? XmlHelper.escapeXml(this.getTestMediumtext()) : "")) + 
 			String.format("<test_numeric null=\"%b\">%s</test_numeric>", (this.getTestNumeric() == null), (this.getTestNumeric() != null ? this.getTestNumeric() : "")) + 
 			String.format("<test_smallint null=\"%b\">%s</test_smallint>", (this.getTestSmallint() == null), (this.getTestSmallint() != null ? this.getTestSmallint() : "")) + 
 			String.format("<test_time null=\"%b\">%s</test_time>", (this.getTestTime() == null), (this.getTestTime() != null ? this.getTestTime() : "")) + 
-			String.format("<test_text null=\"%b\">%s</test_text>", (this.getTestText() == null), (this.getTestText() != null ? XMLHelper.escapeXML(this.getTestText() : "")) + 
+			String.format("<test_text null=\"%b\">%s</test_text>", (this.getTestText() == null), (this.getTestText() != null ? XmlHelper.escapeXml(this.getTestText()) : "")) + 
 			String.format("<test_timestamp null=\"%b\">%s</test_timestamp>", (this.getTestTimestamp() == null), (this.getTestTimestamp() != null ? this.getTestTimestamp() : "")) + 
 			String.format("<test_tinyint null=\"%b\">%s</test_tinyint>", (this.getTestTinyint() == null), (this.getTestTinyint() != null ? this.getTestTinyint() : "")) + 
-			String.format("<test_tinytext null=\"%b\">%s</test_tinytext>", (this.getTestTinytext() == null), (this.getTestTinytext() != null ? XMLHelper.escapeXML(this.getTestTinytext() : "")) + 
-			String.format("<test_varchar null=\"%b\">%s</test_varchar>", (this.getTestVarchar() == null), (this.getTestVarchar() != null ? XMLHelper.escapeXML(this.getTestVarchar() : "")) + 
+			String.format("<test_tinytext null=\"%b\">%s</test_tinytext>", (this.getTestTinytext() == null), (this.getTestTinytext() != null ? XmlHelper.escapeXml(this.getTestTinytext()) : "")) + 
+			String.format("<test_varchar null=\"%b\">%s</test_varchar>", (this.getTestVarchar() == null), (this.getTestVarchar() != null ? XmlHelper.escapeXml(this.getTestVarchar()) : "")) + 
 			String.format("<test_year null=\"%b\">%s</test_year>", (this.getTestYear() == null), (this.getTestYear() != null ? this.getTestYear() : "")) + 
 			"</all_types>");
 	}

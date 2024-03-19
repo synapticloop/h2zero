@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Iterator;
+import java.util.Collections;
 
 
 import org.slf4j.Logger;
@@ -24,8 +25,8 @@ public class DatabaseCheckerHelper {
 		private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseCheckerHelper.class);
 
 
-	private Set<String> allTables = new HashSet<String>();
-	private Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();
+	private final Set<String> allTables = new HashSet<String>();
+	private final Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();
 
 	private static final String[] ALL_TABLE_NAMES = { "user_type", "user_title", "user_user", "pet", "user_user_pet", "all_types" };
 	private static final String[] ALL_TABLE_FIELD_NAMES = { "user_type.id_user_type", "user_type.nm_user_type", 
@@ -37,10 +38,7 @@ public class DatabaseCheckerHelper {
 			 };
 
 	private void initialiseDataStructures() {
-		for (int i = 0; i < ALL_TABLE_NAMES.length; i++) {
-			String allTableName = ALL_TABLE_NAMES[i];
-			allTables.add(allTableName);
-		}
+		Collections.addAll(allTables, ALL_TABLE_NAMES);
 
 		for (int i = 0; i < ALL_TABLE_FIELD_NAMES.length; i++) {
 			String allTableFieldName = ALL_TABLE_FIELD_NAMES[i];

@@ -34,12 +34,23 @@ public class UserTitleFinder {
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleFinder.class);
-	private static final String SQL_SELECT_START = "select id_user_title, nm_user_title, num_order_by from user_title";
+	private static final String SQL_SELECT_START = 
+		"""
+			select 
+			id_user_title, 
+			nm_user_title, 
+			num_order_by
+
+			from 
+				user_title
+		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_title = ?";
 
-	private static final String SQL_FIND_ID_USER_TITLE_NM_USER_TITLE_ORDERED = "select id_user_title, nm_user_title from user_title order by num_order_by";
+	private static final String SQL_FIND_ID_USER_TITLE_NM_USER_TITLE_ORDERED =
+		"""
+			select id_user_title, nm_user_title from user_title order by num_order_by
+		""";
 	private static final String SQL_FIND_ALL_ORDERED = SQL_SELECT_START + " order by num_order_by";
-
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findIdUserTitleNmUserTitleOrdered_limit_statement_cache = new LruCache<>(1024);
@@ -184,8 +195,9 @@ public class UserTitleFinder {
 	 * @return a list of all the UserTitle objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<UserTitle> findAll(Connection connection, Integer limit, Integer offset) throws SQLException {
+	public static List<UserTitle> findAll(Connection connection, Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 		// first find the statement that we want
@@ -225,14 +237,14 @@ public class UserTitleFinder {
 			preparedStatement = connection.prepareStatement(statement);
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch(SQLException sqlex) {
+		} catch(SQLException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAll(): " + sqlex.getMessage());
+				LOGGER.warn("SQLException findAll(): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
-			throw sqlex;
+			throw ex;
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -241,6 +253,9 @@ public class UserTitleFinder {
 			}
 		}
 
+		if(results.size() == 0) {
+			throw new H2ZeroFinderException("Could not find any results for findAll");
+		}
 		return(results);
 	}
 
@@ -251,8 +266,9 @@ public class UserTitleFinder {
 	 * @return The list of UserTitle model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<UserTitle> findAll() throws SQLException {
+	public static List<UserTitle> findAll() throws SQLException, H2ZeroFinderException {
 		return(findAll(null, null, null));
 	}
 
@@ -266,8 +282,9 @@ public class UserTitleFinder {
 	 * @return The list of UserTitle model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<UserTitle> findAll(Connection connection) throws SQLException {
+	public static List<UserTitle> findAll(Connection connection) throws SQLException, H2ZeroFinderException {
 		return(findAll(connection, null, null));
 	}
 
@@ -281,8 +298,9 @@ public class UserTitleFinder {
 	 * @return The list of UserTitle model objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
+	 * @throws H2ZeroFinderException if no results were found
 	 */
-	public static List<UserTitle> findAll(Integer limit, Integer offset) throws SQLException {
+	public static List<UserTitle> findAll(Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {
 		return(findAll(null, limit, offset));
 	}
 
@@ -301,11 +319,11 @@ public class UserTitleFinder {
 	public static List<UserTitle> findAllSilent(Connection connection, Integer limit, Integer offset) {
 		try {
 			return(findAll(connection, limit, offset));
-		} catch(SQLException sqlex){
+		} catch(SQLException | H2ZeroFinderException ex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				LOGGER.warn("Exception findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + ex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
+					ex.printStackTrace();
 				}
 			}
 			return(new ArrayList<UserTitle>());
@@ -419,8 +437,8 @@ public class UserTitleFinder {
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
-		} catch (SQLException sqlex) {
-			throw sqlex;
+		} catch (SQLException ex) {
+			throw new SQLException("SQL exception in statement: " + statement, ex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);
@@ -596,7 +614,7 @@ public class UserTitleFinder {
 			List<UserTitleFindIdUserTitleNmUserTitleOrderedBean> results = listFindIdUserTitleNmUserTitleOrderedBean(resultSet);
 			return(results);
 		} catch (SQLException sqlex) {
-			throw sqlex;
+			throw new SQLException("SQL exception in statement: " + statement, sqlex);
 		} finally {
 			if(hasConnection) {
 				ConnectionManager.closeAll(resultSet, preparedStatement, null);

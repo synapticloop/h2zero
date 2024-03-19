@@ -7,6 +7,7 @@ package synapticloop.sample.h2zero.cockroach.bean;
 import java.sql.Date;
 import java.sql.Timestamp;
 import synapticloop.sample.h2zero.cockroach.model.util.Constants;
+import synapticloop.h2zero.util.XmlHelper;
 
 /**
  * This is the generated bean for the selectClause finder from
@@ -36,4 +37,19 @@ public class UserTitleFindIdUserTitleNmUserTitleOrderedBean {
 	public void setIdUserTitle(Long idUserTitle) { this.idUserTitle = idUserTitle; }
 	public String getNmUserTitle() { return(this.nmUserTitle); }
 	public void setNmUserTitle(String nmUserTitle) { this.nmUserTitle = nmUserTitle; }
+
+	/**
+	 * Return an XML representation of the select clause bean for the FindIdUserTitleNmUserTitleOrdered
+	 * finder.  The root node is name of the select clause finder - i.e. <FindIdUserTitleNmUserTitleOrdered>
+	 * and the child nodes the name of the fields.
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_title>" + 
+			String.format("<id_user_title null=\"%b\">%s</id_user_title>", (this.getIdUserTitle() == null), (this.getIdUserTitle() != null ? this.getIdUserTitle() : "")) + 
+			String.format("<nm_user_title null=\"%b\">%s</nm_user_title>", (this.getNmUserTitle() == null), (this.getNmUserTitle() != null ? XmlHelper.escapeXml(this.getNmUserTitle()) : "")) + 
+			"</user_title>");
+	}
+
 }

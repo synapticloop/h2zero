@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Iterator;
+import java.util.Collections;
 
 
 import org.slf4j.Logger;
@@ -24,8 +25,8 @@ public class DatabaseCheckerHelper {
 		private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseCheckerHelper.class);
 
 
-	private Set<String> allTables = new HashSet<String>();
-	private Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();
+	private final Set<String> allTables = new HashSet<String>();
+	private final Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();
 
 	private static final String[] ALL_TABLE_NAMES = { "all_types", "author_status", "author", "user_type", "user_title", "user", "pet", "user_pet" };
 	private static final String[] ALL_TABLE_FIELD_NAMES = { "all_types.id_all_types", "all_types.test_bigint", "all_types.test_boolean", "all_types.test_date", "all_types.test_datetime", "all_types.test_double", "all_types.test_float", "all_types.test_int", "all_types.test_integer", "all_types.test_mediumint", "all_types.test_numeric", "all_types.test_smallint", "all_types.test_text", "all_types.test_tinyint", "all_types.test_varchar", 
@@ -39,10 +40,7 @@ public class DatabaseCheckerHelper {
 			 };
 
 	private void initialiseDataStructures() {
-		for (int i = 0; i < ALL_TABLE_NAMES.length; i++) {
-			String allTableName = ALL_TABLE_NAMES[i];
-			allTables.add(allTableName);
-		}
+		Collections.addAll(allTables, ALL_TABLE_NAMES);
 
 		for (int i = 0; i < ALL_TABLE_FIELD_NAMES.length; i++) {
 			String allTableFieldName = ALL_TABLE_FIELD_NAMES[i];

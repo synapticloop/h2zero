@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.postgresql.model.util.Constants;
@@ -59,6 +60,34 @@ import synapticloop.sample.h2zero.postgresql.model.util.Constants;
 		this.idUserType = idUserType;
 		this.nmUserType = nmUserType;
 	}
+
+	/**
+	 * Get a new UserType model, or set the fields on an existing
+	 * UserType model.
+	 * <p>
+	 * If the passed in userType is null, then a new UserType
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param userType the model to check
+	 * @param idUserType
+	 * @param nmUserType
+	 * 
+	 * @return Either the existing userType with updated field values,
+	 *   or a new UserType with the field values set.
+	 */
+	public static UserType getOrSet(UserType userType,Long idUserType, String nmUserType) {
+		if(null == userType) {
+			return (new UserType(idUserType, nmUserType));
+		} else {
+			userType.setIdUserType(idUserType);
+			userType.setNmUserType(nmUserType);
+
+			return(userType);
+		}
+	}
 	/*
 	 * Boring ol' getters and setters 
 	 * 
@@ -107,4 +136,22 @@ import synapticloop.sample.h2zero.postgresql.model.util.Constants;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'UserType' model, with the root node being the
+	 * name of the table - i.e. <user_type> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_type>" + 
+			String.format("<id_user_type null=\"%b\">%s</id_user_type>", (this.getIdUserType() == null), (this.getIdUserType() != null ? this.getIdUserType() : "")) + 
+			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XmlHelper.escapeXml(this.getNmUserType()) : "")) + 
+			"</user_type>");
+	}
+
 }

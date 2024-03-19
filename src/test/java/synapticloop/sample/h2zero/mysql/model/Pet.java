@@ -21,7 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import synapticloop.h2zero.util.XMLHelper;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -42,8 +42,39 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_pet";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into pet (nm_pet, num_age, flt_weight, dt_birthday, img_photo) values (?, ?, ?, ?, ?)";
-	private static final String SQL_UPDATE = "update pet set nm_pet = ?, num_age = ?, flt_weight = ?, dt_birthday = ?, img_photo = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			pet (
+				nm_pet,
+				num_age,
+				flt_weight,
+				dt_birthday,
+				img_photo
+			) values (
+				?,
+				?,
+				?,
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				pet
+			set
+				nm_pet = ?,
+				num_age = ?,
+				flt_weight = ?,
+				dt_birthday = ?,
+				img_photo = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from pet where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ? and img_photo = ?";
 
@@ -61,7 +92,7 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_pet", "nm_pet", "num_age", "flt_weight", "dt_birthday", "img_photo" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0 };
 
 
 	private Long idPet = null; // maps to the id_pet field
@@ -87,6 +118,72 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 		this.fltWeight = null;
 		this.dtBirthday = null;
 		this.imgPhoto = null;
+	}
+
+	/**
+	 * Get a new Pet model, or set the fields on an existing
+	 * Pet model.
+	 * <p>
+	 * If the passed in pet is null, then a new Pet
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param pet the model to check
+	 * @param idPet
+	 * @param nmPet
+	 * @param numAge
+	 * @param fltWeight
+	 * @param dtBirthday
+	 * @param imgPhoto
+	 * 
+	 * @return Either the existing pet with updated field values,
+	 *   or a new Pet with the field values set.
+	 */
+	public static Pet getOrSet(Pet pet,Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
+		if(null == pet) {
+			return (new Pet(idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
+		} else {
+			pet.setIdPet(idPet);
+			pet.setNmPet(nmPet);
+			pet.setNumAge(numAge);
+			pet.setFltWeight(fltWeight);
+			pet.setDtBirthday(dtBirthday);
+			pet.setImgPhoto(imgPhoto);
+
+			return(pet);
+		}
+	}
+
+	/**
+	 * Get a new Pet model, or set the fields on an existing
+	 * Pet model.
+	 * <p>
+	 * If the passed in pet is null, then a new Pet
+	 * will be created.  If not null, the fields will be updated on the existing model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param pet the model to check
+	 * @param idPet
+	 * @param nmPet
+	 * @param numAge
+	 * 
+	 * @return Either the existing pet with updated field values,
+	 *   or a new Pet with the field values set.
+	 */
+	public static Pet getOrSet(Pet pet,Long idPet, String nmPet, Integer numAge) {
+		if(null == pet) {
+			return (new Pet(idPet, nmPet, numAge));
+		} else {
+			pet.setIdPet(idPet);
+			pet.setNmPet(nmPet);
+			pet.setNumAge(numAge);
+
+			return(pet);
+		}
 	}
 
 	@Override
@@ -301,7 +398,7 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 	public String toXMLString() {
 		return("<pet>" + 
 			String.format("<id_pet null=\"%b\">%s</id_pet>", (this.getIdPet() == null), (this.getIdPet() != null ? this.getIdPet() : "")) + 
-			String.format("<nm_pet null=\"%b\">%s</nm_pet>", (this.getNmPet() == null), (this.getNmPet() != null ? XMLHelper.escapeXML(this.getNmPet() : "")) + 
+			String.format("<nm_pet null=\"%b\">%s</nm_pet>", (this.getNmPet() == null), (this.getNmPet() != null ? XmlHelper.escapeXml(this.getNmPet()) : "")) + 
 			String.format("<num_age null=\"%b\">%s</num_age>", (this.getNumAge() == null), (this.getNumAge() != null ? this.getNumAge() : "")) + 
 			String.format("<flt_weight null=\"%b\">%s</flt_weight>", (this.getFltWeight() == null), (this.getFltWeight() != null ? this.getFltWeight() : "")) + 
 			String.format("<dt_birthday null=\"%b\">%s</dt_birthday>", (this.getDtBirthday() == null), (this.getDtBirthday() != null ? this.getDtBirthday() : "")) + 

@@ -8,6 +8,11 @@ import java.sql.Connection;
 import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.*;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
+import synapticloop.h2zero.util.LruCache;
 
 import synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
 
@@ -32,6 +37,8 @@ public class UserUserPetDeleter {
 	private static final String SQL_DELETE_START = "delete from user_user_pet ";
 	private static final String SQL_BUILTIN_DELETE_BY_PRIMARY_KEY = SQL_DELETE_START + "where id_user_user_pet = ?";
 
+	// now for the statement limit cache(s)
+	private static final LruCache<String, String> deleteAll_limit_statement_cache = new LruCache<>(1024);
 
 	// We don't allow instantiation
 	private UserUserPetDeleter() {}
@@ -54,7 +61,7 @@ public class UserUserPetDeleter {
 	 */
 	public static int deleteByPrimaryKey(Connection connection, Long idUserUserPet) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {
-		preparedStatement.setLong(1, idUserUserPet);
+			preparedStatement.setLong(1, idUserUserPet);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -176,11 +183,15 @@ public class UserUserPetDeleter {
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
-	 * This is the start of the user defined deleters which are generated
+	 *     USER DEFINED DELETERS FOR THE TABLE: user_user_pet
+	 * 
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * 
+	 * This is the start of the user defined Deleters which are generated
 	 * through either the "deleters" JSON key, or the "fieldDeleters" JSON
 	 * key.
 	 * 
-	 * There are 0 defined deleters on the user_user_pet table:
+	 * There are 0 defined Deleters on the user_user_pet table:
 	 * 
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

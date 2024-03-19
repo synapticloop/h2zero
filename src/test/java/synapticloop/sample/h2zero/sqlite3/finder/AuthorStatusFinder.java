@@ -33,9 +33,17 @@ public class AuthorStatusFinder {
 	private static final String BINDER = Constants.AUTHOR_STATUS_BINDER;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthorStatusFinder.class);
-	private static final String SQL_SELECT_START = "select id_author_status, txt_author_status, txt_desc_author_status from author_status";
-	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_author_status = ?";
+	private static final String SQL_SELECT_START = 
+		"""
+			select 
+			id_author_status, 
+			txt_author_status, 
+			txt_desc_author_status
 
+			from 
+				author_status
+		""";
+	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_author_status = ?";
 
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);

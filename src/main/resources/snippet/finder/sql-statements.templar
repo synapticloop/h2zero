@@ -2,12 +2,16 @@
 				FIRST UP THE FIELDS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
-{\t}private static final String SQL_SELECT_START = "select 
+{\t}private static final String SQL_SELECT_START = {\n}
+{\t}{\t}"""{\n}
+{\t}{\t}{\t}select {\n}
 {loop tableOrView.populateFields as field}
-	{field.name}
-	{if !fieldStatus.last}, {endif}
+{\t}{\t}{\t}{\t}{field.name}
+	{if !fieldStatus.last}, {endif}{\n}
 {endloop}
- from {tableOrView.name}";{\n}
+{\t}{\t}{\t}from {\n}
+{\t}{\t}{\t}{\t}{tableOrView.name}{\n}
+{\t}{\t}""";{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				THE FINDER FIELDS
@@ -40,8 +44,8 @@
 		{\t}{\t}"""
 	{endif}
 
-	{if fn:notNull[finder.whereClause]} +
-		"""{\n}
+	{if fn:notNull[finder.whereClause]} + {\n}
+		{\t}{\t}"""{\n}
 		{loop finder.whereClauses as clause}
 			{\t}{\t}{\t}{clause}{\n}
 		{endloop}

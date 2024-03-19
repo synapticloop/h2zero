@@ -22,7 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import synapticloop.h2zero.util.XMLHelper;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -45,8 +45,30 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_pet";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into user_pet (id_user, id_pet) values (?, ?)";
-	private static final String SQL_UPDATE = "update user_pet set id_user = ?, id_pet = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			user_pet (
+				id_user,
+				id_pet
+			) values (
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				user_pet
+			set
+				id_user = ?,
+				id_pet = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from user_pet where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user_pet where id_user = ? and id_pet = ?";
 
@@ -61,7 +83,7 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_user_pet", "id_user", "id_pet" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0 };
 
 	private User User = null; // maps to the id_user field
 	private Pet Pet = null; // maps to the id_pet field
@@ -74,6 +96,36 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 		this.idUserPet = idUserPet;
 		this.idUser = idUser;
 		this.idPet = idPet;
+	}
+
+	/**
+	 * Get a new UserPet model, or set the fields on an existing
+	 * UserPet model.
+	 * <p>
+	 * If the passed in userPet is null, then a new UserPet
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param userPet the model to check
+	 * @param idUserPet
+	 * @param idUser
+	 * @param idPet
+	 * 
+	 * @return Either the existing userPet with updated field values,
+	 *   or a new UserPet with the field values set.
+	 */
+	public static UserPet getOrSet(UserPet userPet,Long idUserPet, Long idUser, Long idPet) {
+		if(null == userPet) {
+			return (new UserPet(idUserPet, idUser, idPet));
+		} else {
+			userPet.setIdUserPet(idUserPet);
+			userPet.setIdUser(idUser);
+			userPet.setIdPet(idPet);
+
+			return(userPet);
+		}
 	}
 
 	@Override

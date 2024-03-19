@@ -33,7 +33,15 @@ public class PetTypeFinder {
 	private static final String BINDER = Constants.PET_TYPE_BINDER;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PetTypeFinder.class);
-	private static final String SQL_SELECT_START = "select id_pet_type, nm_pet_type, txt_desc_pet_type from pet_type";
+	private static final String SQL_SELECT_START = 
+		"""
+			select 
+				id_pet_type, 
+				nm_pet_type, 
+				txt_desc_pet_type
+			from 
+				pet_type
+		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet_type = ?";
 
 	// now for the statement limit cache(s)

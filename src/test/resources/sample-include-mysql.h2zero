@@ -1,7 +1,7 @@
 {
 "options": {
 	"database": "mysql",
-	"metrics": false,
+	"metrics": false
 
 	"generators": [ "java", "sql", "reports" ],
 

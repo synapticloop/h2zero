@@ -7,6 +7,7 @@ package synapticloop.sample.h2zero.sqlite3.bean;
 import java.sql.Date;
 import java.sql.Timestamp;
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
+import synapticloop.h2zero.util.XmlHelper;
 
 /**
  * This is the generated bean for the selectClause finder from
@@ -36,4 +37,19 @@ public class UserFindNmUsernameDtmSignupBean {
 	public void setNmUsername(String nmUsername) { this.nmUsername = nmUsername; }
 	public Timestamp getDtmSignup() { return(this.dtmSignup); }
 	public void setDtmSignup(Timestamp dtmSignup) { this.dtmSignup = dtmSignup; }
+
+	/**
+	 * Return an XML representation of the select clause bean for the FindNmUsernameDtmSignup
+	 * finder.  The root node is name of the select clause finder - i.e. <FindNmUsernameDtmSignup>
+	 * and the child nodes the name of the fields.
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user>" + 
+			String.format("<nm_username null=\"%b\">%s</nm_username>", (this.getNmUsername() == null), (this.getNmUsername() != null ? XmlHelper.escapeXml(this.getNmUsername()) : "")) + 
+			String.format("<dtm_signup null=\"%b\">%s</dtm_signup>", (this.getDtmSignup() == null), (this.getDtmSignup() != null ? this.getDtmSignup() : "")) + 
+			"</user>");
+	}
+
 }

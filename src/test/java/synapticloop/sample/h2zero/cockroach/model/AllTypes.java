@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.cockroach.model.util.Constants;
@@ -39,8 +40,54 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into all_types (num_smallint, num_integer, num_bigint, num_decimal, num_numeric, flt_real, dbl_real, num_serial, num_smallserial, num_bigserial) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String SQL_UPDATE = "update all_types set num_smallint = ?, num_integer = ?, num_bigint = ?, num_decimal = ?, num_numeric = ?, flt_real = ?, dbl_real = ?, num_serial = ?, num_smallserial = ?, num_bigserial = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			all_types (
+				num_smallint,
+				num_integer,
+				num_bigint,
+				num_decimal,
+				num_numeric,
+				flt_real,
+				dbl_real,
+				num_serial,
+				num_smallserial,
+				num_bigserial
+			) values (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				all_types
+			set
+				num_smallint = ?,
+				num_integer = ?,
+				num_bigint = ?,
+				num_decimal = ?,
+				num_numeric = ?,
+				flt_real = ?,
+				dbl_real = ?,
+				num_serial = ?,
+				num_smallserial = ?,
+				num_bigserial = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from all_types where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from all_types where num_smallint = ? and num_integer = ? and num_bigint = ? and num_decimal = ? and num_numeric = ? and flt_real = ? and dbl_real = ? and num_serial = ? and num_smallserial = ? and num_bigserial = ?";
 
@@ -63,7 +110,7 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_all_types", "num_smallint", "num_integer", "num_bigint", "num_decimal", "num_numeric", "flt_real", "dbl_real", "num_serial", "num_smallserial", "num_bigserial" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
 	private Long idAllTypes = null; // maps to the id_all_types field
@@ -104,6 +151,84 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 		this.numSerial = numSerial;
 		this.numSmallserial = numSmallserial;
 		this.numBigserial = numBigserial;
+	}
+
+	/**
+	 * Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.
+	 * <p>
+	 * If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param allTypes the model to check
+	 * @param idAllTypes
+	 * @param numSmallint
+	 * @param numInteger
+	 * @param numBigint
+	 * @param numDecimal
+	 * @param numNumeric
+	 * @param fltReal
+	 * @param dblReal
+	 * @param numSerial
+	 * @param numSmallserial
+	 * @param numBigserial
+	 * 
+	 * @return Either the existing allTypes with updated field values,
+	 *   or a new AllTypes with the field values set.
+	 */
+	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
+		if(null == allTypes) {
+			return (new AllTypes(idAllTypes, numSmallint, numInteger, numBigint, numDecimal, numNumeric, fltReal, dblReal, numSerial, numSmallserial, numBigserial));
+		} else {
+			allTypes.setIdAllTypes(idAllTypes);
+			allTypes.setNumSmallint(numSmallint);
+			allTypes.setNumInteger(numInteger);
+			allTypes.setNumBigint(numBigint);
+			allTypes.setNumDecimal(numDecimal);
+			allTypes.setNumNumeric(numNumeric);
+			allTypes.setFltReal(fltReal);
+			allTypes.setDblReal(dblReal);
+			allTypes.setNumSerial(numSerial);
+			allTypes.setNumSmallserial(numSmallserial);
+			allTypes.setNumBigserial(numBigserial);
+
+			return(allTypes);
+		}
+	}
+
+	/**
+	 * Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.
+	 * <p>
+	 * If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the existing model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param allTypes the model to check
+	 * @param idAllTypes
+	 * @param numSerial
+	 * @param numSmallserial
+	 * @param numBigserial
+	 * 
+	 * @return Either the existing allTypes with updated field values,
+	 *   or a new AllTypes with the field values set.
+	 */
+	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes, Integer numSerial, Short numSmallserial, Long numBigserial) {
+		if(null == allTypes) {
+			return (new AllTypes(idAllTypes, numSerial, numSmallserial, numBigserial));
+		} else {
+			allTypes.setIdAllTypes(idAllTypes);
+			allTypes.setNumSerial(numSerial);
+			allTypes.setNumSmallserial(numSmallserial);
+			allTypes.setNumBigserial(numBigserial);
+
+			return(allTypes);
+		}
 	}
 
 	@Override
@@ -349,6 +474,33 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'AllTypes' model, with the root node being the
+	 * name of the table - i.e. <all_types> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<all_types>" + 
+			String.format("<id_all_types null=\"%b\">%s</id_all_types>", (this.getIdAllTypes() == null), (this.getIdAllTypes() != null ? this.getIdAllTypes() : "")) + 
+			String.format("<num_smallint null=\"%b\">%s</num_smallint>", (this.getNumSmallint() == null), (this.getNumSmallint() != null ? this.getNumSmallint() : "")) + 
+			String.format("<num_integer null=\"%b\">%s</num_integer>", (this.getNumInteger() == null), (this.getNumInteger() != null ? this.getNumInteger() : "")) + 
+			String.format("<num_bigint null=\"%b\">%s</num_bigint>", (this.getNumBigint() == null), (this.getNumBigint() != null ? this.getNumBigint() : "")) + 
+			String.format("<num_decimal null=\"%b\">%s</num_decimal>", (this.getNumDecimal() == null), (this.getNumDecimal() != null ? this.getNumDecimal() : "")) + 
+			String.format("<num_numeric null=\"%b\">%s</num_numeric>", (this.getNumNumeric() == null), (this.getNumNumeric() != null ? this.getNumNumeric() : "")) + 
+			String.format("<flt_real null=\"%b\">%s</flt_real>", (this.getFltReal() == null), (this.getFltReal() != null ? this.getFltReal() : "")) + 
+			String.format("<dbl_real null=\"%b\">%s</dbl_real>", (this.getDblReal() == null), (this.getDblReal() != null ? this.getDblReal() : "")) + 
+			String.format("<num_serial null=\"%b\">%s</num_serial>", (this.getNumSerial() == null), (this.getNumSerial() != null ? this.getNumSerial() : "")) + 
+			String.format("<num_smallserial null=\"%b\">%s</num_smallserial>", (this.getNumSmallserial() == null), (this.getNumSmallserial() != null ? this.getNumSmallserial() : "")) + 
+			String.format("<num_bigserial null=\"%b\">%s</num_bigserial>", (this.getNumBigserial() == null), (this.getNumBigserial() != null ? this.getNumBigserial() : "")) + 
+			"</all_types>");
+	}
+
 
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();

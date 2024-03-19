@@ -1,7 +1,7 @@
 package synapticloop.h2zero.base.model.sqlite3;
 
 /*
- * Copyright (c) 2018 - 2023 synapticloop.
+ * Copyright (c) 2018 - 2024 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and

@@ -34,12 +34,23 @@ public class UserTitleFinder {
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleFinder.class);
-	private static final String SQL_SELECT_START = "select id_user_title, nm_user_title, num_order_by from user_title";
+	private static final String SQL_SELECT_START = 
+		"""
+			select 
+			id_user_title, 
+			nm_user_title, 
+			num_order_by
+
+			from 
+				user_title
+		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_title = ?";
 
-	private static final String SQL_FIND_ID_USER_TITLE_NM_USER_TITLE_ORDERED = "select id_user_title, nm_user_title from user_title order by num_order_by";
+	private static final String SQL_FIND_ID_USER_TITLE_NM_USER_TITLE_ORDERED =
+		"""
+			select id_user_title, nm_user_title from user_title order by num_order_by
+		""";
 	private static final String SQL_FIND_ALL_ORDERED = SQL_SELECT_START + " order by num_order_by";
-
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
 	private static final LruCache<String, String> findIdUserTitleNmUserTitleOrdered_limit_statement_cache = new LruCache<>(1024);

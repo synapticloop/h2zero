@@ -1,7 +1,7 @@
 package synapticloop.h2zero.validator.inserter;
 
 /*
- * Copyright (c) 2012-2023 synapticloop.
+ * Copyright (c) 2012-2024 synapticloop.
  * 
  * All rights reserved.
  *

@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 import org.json.JSONObject;
-import synapticloop.h2zero.util.XMLHelper;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -59,6 +59,34 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 	public UserType(Long idUserType, String nmUserType) {
 		this.idUserType = idUserType;
 		this.nmUserType = nmUserType;
+	}
+
+	/**
+	 * Get a new UserType model, or set the fields on an existing
+	 * UserType model.
+	 * <p>
+	 * If the passed in userType is null, then a new UserType
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param userType the model to check
+	 * @param idUserType
+	 * @param nmUserType
+	 * 
+	 * @return Either the existing userType with updated field values,
+	 *   or a new UserType with the field values set.
+	 */
+	public static UserType getOrSet(UserType userType,Long idUserType, String nmUserType) {
+		if(null == userType) {
+			return (new UserType(idUserType, nmUserType));
+		} else {
+			userType.setIdUserType(idUserType);
+			userType.setNmUserType(nmUserType);
+
+			return(userType);
+		}
 	}
 	/*
 	 * Boring ol' getters and setters 
@@ -122,7 +150,7 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 	public String toXMLString() {
 		return("<user_type>" + 
 			String.format("<id_user_type null=\"%b\">%s</id_user_type>", (this.getIdUserType() == null), (this.getIdUserType() != null ? this.getIdUserType() : "")) + 
-			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XMLHelper.escapeXML(this.getNmUserType() : "")) + 
+			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XmlHelper.escapeXml(this.getNmUserType()) : "")) + 
 			"</user_type>");
 	}
 

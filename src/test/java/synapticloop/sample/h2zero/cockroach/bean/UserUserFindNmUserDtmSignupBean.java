@@ -7,6 +7,7 @@ package synapticloop.sample.h2zero.cockroach.bean;
 import java.sql.Date;
 import java.sql.Timestamp;
 import synapticloop.sample.h2zero.cockroach.model.util.Constants;
+import synapticloop.h2zero.util.XmlHelper;
 
 /**
  * This is the generated bean for the selectClause finder from
@@ -36,4 +37,19 @@ public class UserUserFindNmUserDtmSignupBean {
 	public void setNmUser(String nmUser) { this.nmUser = nmUser; }
 	public Timestamp getDtmSignup() { return(this.dtmSignup); }
 	public void setDtmSignup(Timestamp dtmSignup) { this.dtmSignup = dtmSignup; }
+
+	/**
+	 * Return an XML representation of the select clause bean for the FindNmUserDtmSignup
+	 * finder.  The root node is name of the select clause finder - i.e. <FindNmUserDtmSignup>
+	 * and the child nodes the name of the fields.
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_user>" + 
+			String.format("<nm_user null=\"%b\">%s</nm_user>", (this.getNmUser() == null), (this.getNmUser() != null ? XmlHelper.escapeXml(this.getNmUser()) : "")) + 
+			String.format("<dtm_signup null=\"%b\">%s</dtm_signup>", (this.getDtmSignup() == null), (this.getDtmSignup() != null ? this.getDtmSignup() : "")) + 
+			"</user_user>");
+	}
+
 }

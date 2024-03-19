@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
@@ -41,8 +42,66 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into all_types (test_bigint, test_boolean, test_date, test_datetime, test_double, test_float, test_int, test_integer, test_mediumint, test_numeric, test_smallint, test_text, test_tinyint, test_varchar) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String SQL_UPDATE = "update all_types set test_bigint = ?, test_boolean = ?, test_date = ?, test_datetime = ?, test_double = ?, test_float = ?, test_int = ?, test_integer = ?, test_mediumint = ?, test_numeric = ?, test_smallint = ?, test_text = ?, test_tinyint = ?, test_varchar = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			all_types (
+				test_bigint,
+				test_boolean,
+				test_date,
+				test_datetime,
+				test_double,
+				test_float,
+				test_int,
+				test_integer,
+				test_mediumint,
+				test_numeric,
+				test_smallint,
+				test_text,
+				test_tinyint,
+				test_varchar
+			) values (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				all_types
+			set
+				test_bigint = ?,
+				test_boolean = ?,
+				test_date = ?,
+				test_datetime = ?,
+				test_double = ?,
+				test_float = ?,
+				test_int = ?,
+				test_integer = ?,
+				test_mediumint = ?,
+				test_numeric = ?,
+				test_smallint = ?,
+				test_text = ?,
+				test_tinyint = ?,
+				test_varchar = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from all_types where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from all_types where test_bigint = ? and test_boolean = ? and test_date = ? and test_datetime = ? and test_double = ? and test_float = ? and test_int = ? and test_integer = ? and test_mediumint = ? and test_numeric = ? and test_smallint = ? and test_text = ? and test_tinyint = ? and test_varchar = ?";
 
@@ -69,7 +128,7 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_all_types", "test_bigint", "test_boolean", "test_date", "test_datetime", "test_double", "test_float", "test_int", "test_integer", "test_mediumint", "test_numeric", "test_smallint", "test_text", "test_tinyint", "test_varchar" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
 	private Long idAllTypes = null; // maps to the id_all_types field
@@ -122,6 +181,86 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 		this.testText = null;
 		this.testTinyint = null;
 		this.testVarchar = null;
+	}
+
+	/**
+	 * Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.
+	 * <p>
+	 * If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param allTypes the model to check
+	 * @param idAllTypes
+	 * @param testBigint
+	 * @param testBoolean
+	 * @param testDate
+	 * @param testDatetime
+	 * @param testDouble
+	 * @param testFloat
+	 * @param testInt
+	 * @param testInteger
+	 * @param testMediumint
+	 * @param testNumeric
+	 * @param testSmallint
+	 * @param testText
+	 * @param testTinyint
+	 * @param testVarchar
+	 * 
+	 * @return Either the existing allTypes with updated field values,
+	 *   or a new AllTypes with the field values set.
+	 */
+	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes, Long testBigint, Boolean testBoolean, Date testDate, Timestamp testDatetime, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, Integer testMediumint, BigDecimal testNumeric, Short testSmallint, String testText, Boolean testTinyint, String testVarchar) {
+		if(null == allTypes) {
+			return (new AllTypes(idAllTypes, testBigint, testBoolean, testDate, testDatetime, testDouble, testFloat, testInt, testInteger, testMediumint, testNumeric, testSmallint, testText, testTinyint, testVarchar));
+		} else {
+			allTypes.setIdAllTypes(idAllTypes);
+			allTypes.setTestBigint(testBigint);
+			allTypes.setTestBoolean(testBoolean);
+			allTypes.setTestDate(testDate);
+			allTypes.setTestDatetime(testDatetime);
+			allTypes.setTestDouble(testDouble);
+			allTypes.setTestFloat(testFloat);
+			allTypes.setTestInt(testInt);
+			allTypes.setTestInteger(testInteger);
+			allTypes.setTestMediumint(testMediumint);
+			allTypes.setTestNumeric(testNumeric);
+			allTypes.setTestSmallint(testSmallint);
+			allTypes.setTestText(testText);
+			allTypes.setTestTinyint(testTinyint);
+			allTypes.setTestVarchar(testVarchar);
+
+			return(allTypes);
+		}
+	}
+
+	/**
+	 * Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.
+	 * <p>
+	 * If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the existing model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param allTypes the model to check
+	 * @param idAllTypes
+	 * 
+	 * @return Either the existing allTypes with updated field values,
+	 *   or a new AllTypes with the field values set.
+	 */
+	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes) {
+		if(null == allTypes) {
+			return (new AllTypes(idAllTypes));
+		} else {
+			allTypes.setIdAllTypes(idAllTypes);
+
+			return(allTypes);
+		}
 	}
 
 	@Override
@@ -403,6 +542,37 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'AllTypes' model, with the root node being the
+	 * name of the table - i.e. <all_types> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<all_types>" + 
+			String.format("<id_all_types null=\"%b\">%s</id_all_types>", (this.getIdAllTypes() == null), (this.getIdAllTypes() != null ? this.getIdAllTypes() : "")) + 
+			String.format("<test_bigint null=\"%b\">%s</test_bigint>", (this.getTestBigint() == null), (this.getTestBigint() != null ? this.getTestBigint() : "")) + 
+			String.format("<test_boolean null=\"%b\">%s</test_boolean>", (this.getTestBoolean() == null), (this.getTestBoolean() != null ? this.getTestBoolean() : "")) + 
+			String.format("<test_date null=\"%b\">%s</test_date>", (this.getTestDate() == null), (this.getTestDate() != null ? this.getTestDate() : "")) + 
+			String.format("<test_datetime null=\"%b\">%s</test_datetime>", (this.getTestDatetime() == null), (this.getTestDatetime() != null ? this.getTestDatetime() : "")) + 
+			String.format("<test_double null=\"%b\">%s</test_double>", (this.getTestDouble() == null), (this.getTestDouble() != null ? this.getTestDouble() : "")) + 
+			String.format("<test_float null=\"%b\">%s</test_float>", (this.getTestFloat() == null), (this.getTestFloat() != null ? this.getTestFloat() : "")) + 
+			String.format("<test_int null=\"%b\">%s</test_int>", (this.getTestInt() == null), (this.getTestInt() != null ? this.getTestInt() : "")) + 
+			String.format("<test_integer null=\"%b\">%s</test_integer>", (this.getTestInteger() == null), (this.getTestInteger() != null ? this.getTestInteger() : "")) + 
+			String.format("<test_mediumint null=\"%b\">%s</test_mediumint>", (this.getTestMediumint() == null), (this.getTestMediumint() != null ? this.getTestMediumint() : "")) + 
+			String.format("<test_numeric null=\"%b\">%s</test_numeric>", (this.getTestNumeric() == null), (this.getTestNumeric() != null ? this.getTestNumeric() : "")) + 
+			String.format("<test_smallint null=\"%b\">%s</test_smallint>", (this.getTestSmallint() == null), (this.getTestSmallint() != null ? this.getTestSmallint() : "")) + 
+			String.format("<test_text null=\"%b\">%s</test_text>", (this.getTestText() == null), (this.getTestText() != null ? XmlHelper.escapeXml(this.getTestText()) : "")) + 
+			String.format("<test_tinyint null=\"%b\">%s</test_tinyint>", (this.getTestTinyint() == null), (this.getTestTinyint() != null ? this.getTestTinyint() : "")) + 
+			String.format("<test_varchar null=\"%b\">%s</test_varchar>", (this.getTestVarchar() == null), (this.getTestVarchar() != null ? XmlHelper.escapeXml(this.getTestVarchar()) : "")) + 
+			"</all_types>");
+	}
+
 
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();

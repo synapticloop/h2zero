@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.postgresql.model.util.Constants;
@@ -42,8 +43,45 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_user";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into user_user (id_user_type, fl_is_alive, num_age, nm_username, txt_address_email, txt_password, ts_signup) values (?, ?, ?, ?, ?, ?, ?)";
-	private static final String SQL_UPDATE = "update user_user set id_user_type = ?, fl_is_alive = ?, num_age = ?, nm_username = ?, txt_address_email = ?, txt_password = ?, ts_signup = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			user_user (
+				id_user_type,
+				fl_is_alive,
+				num_age,
+				nm_username,
+				txt_address_email,
+				txt_password,
+				ts_signup
+			) values (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				user_user
+			set
+				id_user_type = ?,
+				fl_is_alive = ?,
+				num_age = ?,
+				nm_username = ?,
+				txt_address_email = ?,
+				txt_password = ?,
+				ts_signup = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from user_user where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user_user where id_user_type = ? and fl_is_alive = ? and num_age = ? and nm_username = ? and txt_address_email = ? and txt_password = ? and ts_signup = ?";
 
@@ -64,7 +102,7 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_user_user", "id_user_type", "fl_is_alive", "num_age", "nm_username", "txt_address_email", "txt_password", "ts_signup" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	private boolean isHydrated = false;
 
 
@@ -97,6 +135,82 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 		this.txtAddressEmail = txtAddressEmail;
 		this.txtPassword = txtPassword;
 		this.tsSignup = null;
+	}
+
+	/**
+	 * Get a new UserUser model, or set the fields on an existing
+	 * UserUser model.
+	 * <p>
+	 * If the passed in userUser is null, then a new UserUser
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param userUser the model to check
+	 * @param idUserUser
+	 * @param idUserType
+	 * @param flIsAlive
+	 * @param numAge
+	 * @param nmUsername
+	 * @param txtAddressEmail
+	 * @param txtPassword
+	 * @param tsSignup
+	 * 
+	 * @return Either the existing userUser with updated field values,
+	 *   or a new UserUser with the field values set.
+	 */
+	public static UserUser getOrSet(UserUser userUser,Long idUserUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp tsSignup) {
+		if(null == userUser) {
+			return (new UserUser(idUserUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, tsSignup));
+		} else {
+			userUser.setIdUserUser(idUserUser);
+			userUser.setIdUserType(idUserType);
+			userUser.setFlIsAlive(flIsAlive);
+			userUser.setNumAge(numAge);
+			userUser.setNmUsername(nmUsername);
+			userUser.setTxtAddressEmail(txtAddressEmail);
+			userUser.setTxtPassword(txtPassword);
+			userUser.setTsSignup(tsSignup);
+
+			return(userUser);
+		}
+	}
+
+	/**
+	 * Get a new UserUser model, or set the fields on an existing
+	 * UserUser model.
+	 * <p>
+	 * If the passed in userUser is null, then a new UserUser
+	 * will be created.  If not null, the fields will be updated on the existing model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param userUser the model to check
+	 * @param idUserUser
+	 * @param idUserType
+	 * @param numAge
+	 * @param nmUsername
+	 * @param txtAddressEmail
+	 * @param txtPassword
+	 * 
+	 * @return Either the existing userUser with updated field values,
+	 *   or a new UserUser with the field values set.
+	 */
+	public static UserUser getOrSet(UserUser userUser,Long idUserUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
+		if(null == userUser) {
+			return (new UserUser(idUserUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
+		} else {
+			userUser.setIdUserUser(idUserUser);
+			userUser.setIdUserType(idUserType);
+			userUser.setNumAge(numAge);
+			userUser.setNmUsername(nmUsername);
+			userUser.setTxtAddressEmail(txtAddressEmail);
+			userUser.setTxtPassword(txtPassword);
+
+			return(userUser);
+		}
 	}
 
 	@Override
@@ -344,6 +458,29 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'UserUser' model, with the root node being the
+	 * name of the table - i.e. <user_user> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_user>" + 
+			String.format("<id_user_user null=\"%b\">%s</id_user_user>", (this.getIdUserUser() == null), (this.getIdUserUser() != null ? this.getIdUserUser() : "")) + 
+			String.format("<id_user_type null=\"%b\">%s</id_user_type>", (this.getIdUserType() == null), (this.getIdUserType() != null ? this.getIdUserType() : "")) + 
+			String.format("<fl_is_alive null=\"%b\">%s</fl_is_alive>", (this.getFlIsAlive() == null), (this.getFlIsAlive() != null ? this.getFlIsAlive() : "")) + 
+			String.format("<num_age null=\"%b\">%s</num_age>", (this.getNumAge() == null), (this.getNumAge() != null ? this.getNumAge() : "")) + 
+			String.format("<nm_username null=\"%b\">%s</nm_username>", (this.getNmUsername() == null), (this.getNmUsername() != null ? XmlHelper.escapeXml(this.getNmUsername()) : "")) + 
+			String.format("<txt_address_email null=\"%b\">%s</txt_address_email>", (this.getTxtAddressEmail() == null), (this.getTxtAddressEmail() != null ? XmlHelper.escapeXml(this.getTxtAddressEmail()) : "")) + 
+			String.format("<ts_signup null=\"%b\">%s</ts_signup>", (this.getTsSignup() == null), (this.getTsSignup() != null ? this.getTsSignup() : "")) + 
+			"</user_user>");
+	}
+
 
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();

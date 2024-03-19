@@ -7,6 +7,7 @@ package synapticloop.sample.h2zero.postgresql.bean;
 import java.sql.Date;
 import java.sql.Timestamp;
 import synapticloop.sample.h2zero.postgresql.model.util.Constants;
+import synapticloop.h2zero.util.XmlHelper;
 
 /**
  * This is the generated bean for the selectClause finder from
@@ -36,4 +37,19 @@ public class UserUserFindGroupNumAgeBean {
 	public void setNumCount(Integer numCount) { this.numCount = numCount; }
 	public Integer getNumAge() { return(this.numAge); }
 	public void setNumAge(Integer numAge) { this.numAge = numAge; }
+
+	/**
+	 * Return an XML representation of the select clause bean for the FindGroupNumAge
+	 * finder.  The root node is name of the select clause finder - i.e. <FindGroupNumAge>
+	 * and the child nodes the name of the fields.
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_user>" + 
+			String.format("<num_count null=\"%b\">%s</num_count>", (this.getNumCount() == null), (this.getNumCount() != null ? this.getNumCount() : "")) + 
+			String.format("<num_age null=\"%b\">%s</num_age>", (this.getNumAge() == null), (this.getNumAge() != null ? this.getNumAge() : "")) + 
+			"</user_user>");
+	}
+
 }

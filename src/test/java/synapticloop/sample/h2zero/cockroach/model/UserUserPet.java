@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.cockroach.model.util.Constants;
@@ -44,8 +45,30 @@ import synapticloop.sample.h2zero.cockroach.finder.PetFinder;
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_user_pet";  // the primary key - a convenience field
 
-	private static final String SQL_INSERT = "insert into user_user_pet (id_user_user, id_pet) values (?, ?)";
-	private static final String SQL_UPDATE = "update user_user_pet set id_user_user = ?, id_pet = ? where " + PRIMARY_KEY_FIELD + " = ?";
+	private static final String SQL_INSERT = 
+		"""
+			insert into
+			user_user_pet (
+				id_user_user,
+				id_pet
+			) values (
+				?,
+				?
+			)
+		""";
+	private static final String SQL_UPDATE = 
+		"""
+			update
+				user_user_pet
+			set
+				id_user_user = ?,
+				id_pet = ?
+			where
+		"""
+			+ PRIMARY_KEY_FIELD + 
+		"""
+			= ?
+		""";
 	private static final String SQL_DELETE = "delete from user_user_pet where " + PRIMARY_KEY_FIELD + " = ?";
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user_user_pet where id_user_user = ? and id_pet = ?";
 
@@ -60,7 +83,7 @@ import synapticloop.sample.h2zero.cockroach.finder.PetFinder;
 	// the list of fields for the hit - starting with 'TOTAL'
 	private static final String[] HIT_FIELDS = { "TOTAL", "id_user_user_pet", "id_user_user", "id_pet" };
 	// the number of read-hits for a particular field
-	private static int[] HIT_COUNTS = { 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0 };
 
 	private UserUser UserUser = null; // maps to the id_user_user field
 	private Pet Pet = null; // maps to the id_pet field
@@ -73,6 +96,36 @@ import synapticloop.sample.h2zero.cockroach.finder.PetFinder;
 		this.idUserUserPet = idUserUserPet;
 		this.idUserUser = idUserUser;
 		this.idPet = idPet;
+	}
+
+	/**
+	 * Get a new UserUserPet model, or set the fields on an existing
+	 * UserUserPet model.
+	 * <p>
+	 * If the passed in userUserPet is null, then a new UserUserPet
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param userUserPet the model to check
+	 * @param idUserUserPet
+	 * @param idUserUser
+	 * @param idPet
+	 * 
+	 * @return Either the existing userUserPet with updated field values,
+	 *   or a new UserUserPet with the field values set.
+	 */
+	public static UserUserPet getOrSet(UserUserPet userUserPet,Long idUserUserPet, Long idUserUser, Long idPet) {
+		if(null == userUserPet) {
+			return (new UserUserPet(idUserUserPet, idUserUser, idPet));
+		} else {
+			userUserPet.setIdUserUserPet(idUserUserPet);
+			userUserPet.setIdUserUser(idUserUser);
+			userUserPet.setIdPet(idPet);
+
+			return(userUserPet);
+		}
 	}
 
 	@Override
@@ -268,6 +321,25 @@ import synapticloop.sample.h2zero.cockroach.finder.PetFinder;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'UserUserPet' model, with the root node being the
+	 * name of the table - i.e. <user_user_pet> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_user_pet>" + 
+			String.format("<id_user_user_pet null=\"%b\">%s</id_user_user_pet>", (this.getIdUserUserPet() == null), (this.getIdUserUserPet() != null ? this.getIdUserUserPet() : "")) + 
+			String.format("<id_user_user null=\"%b\">%s</id_user_user>", (this.getIdUserUser() == null), (this.getIdUserUser() != null ? this.getIdUserUser() : "")) + 
+			String.format("<id_pet null=\"%b\">%s</id_pet>", (this.getIdPet() == null), (this.getIdPet() != null ? this.getIdPet() : "")) + 
+			"</user_user_pet>");
+	}
+
 
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();

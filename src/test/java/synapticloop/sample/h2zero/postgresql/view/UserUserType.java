@@ -6,6 +6,8 @@ package synapticloop.sample.h2zero.postgresql.view;
 //              (java-create-view-model.templar)
 
 import synapticloop.h2zero.base.view.ViewBase;
+import synapticloop.h2zero.util.XmlHelper;
+
 import synapticloop.sample.h2zero.postgresql.model.util.Constants;
 import org.json.JSONObject;
 import synapticloop.h2zero.base.model.ModelBaseHelper;
@@ -71,4 +73,22 @@ public class UserUserType extends ViewBase {
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'UserUserType' model, with the root node being the
+	 * name of the table - i.e. <user_user_type> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<user_user_type>" + 
+			String.format("<nm_username null=\"%b\">%s</nm_username>", (this.getNmUsername() == null), (this.getNmUsername() != null ? XmlHelper.escapeXml(this.getNmUsername()) : "")) + 
+			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XmlHelper.escapeXml(this.getNmUserType()) : "")) + 
+			"</user_user_type>");
+	}
+
 }

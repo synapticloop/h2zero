@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
@@ -60,6 +61,36 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 		this.idAuthorStatus = idAuthorStatus;
 		this.txtAuthorStatus = txtAuthorStatus;
 		this.txtDescAuthorStatus = txtDescAuthorStatus;
+	}
+
+	/**
+	 * Get a new AuthorStatus model, or set the fields on an existing
+	 * AuthorStatus model.
+	 * <p>
+	 * If the passed in authorStatus is null, then a new AuthorStatus
+	 * will be created.  If not null, the fields will be updated on the passed in model.
+	 * <p>
+	 * <strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call.
+	 * 
+	 * @param authorStatus the model to check
+	 * @param idAuthorStatus
+	 * @param txtAuthorStatus
+	 * @param txtDescAuthorStatus
+	 * 
+	 * @return Either the existing authorStatus with updated field values,
+	 *   or a new AuthorStatus with the field values set.
+	 */
+	public static AuthorStatus getOrSet(AuthorStatus authorStatus,Long idAuthorStatus, String txtAuthorStatus, String txtDescAuthorStatus) {
+		if(null == authorStatus) {
+			return (new AuthorStatus(idAuthorStatus, txtAuthorStatus, txtDescAuthorStatus));
+		} else {
+			authorStatus.setIdAuthorStatus(idAuthorStatus);
+			authorStatus.setTxtAuthorStatus(txtAuthorStatus);
+			authorStatus.setTxtDescAuthorStatus(txtDescAuthorStatus);
+
+			return(authorStatus);
+		}
 	}
 	/*
 	 * Boring ol' getters and setters 
@@ -112,4 +143,23 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 	public String getJsonString() {
 		return(toJsonString());
 	}
+
+	/**
+	 * Return an XML representation of the 'AuthorStatus' model, with the root node being the
+	 * name of the table - i.e. <author_status> and the child nodes the name of the 
+	 * fields.
+	 * <p>
+	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document
+	 * 
+	 * @return An XML representation of the model.  
+	 */
+	public String toXMLString() {
+		return("<author_status>" + 
+			String.format("<id_author_status null=\"%b\">%s</id_author_status>", (this.getIdAuthorStatus() == null), (this.getIdAuthorStatus() != null ? this.getIdAuthorStatus() : "")) + 
+			String.format("<txt_author_status null=\"%b\">%s</txt_author_status>", (this.getTxtAuthorStatus() == null), (this.getTxtAuthorStatus() != null ? XmlHelper.escapeXml(this.getTxtAuthorStatus()) : "")) + 
+			String.format("<txt_desc_author_status null=\"%b\">%s</txt_desc_author_status>", (this.getTxtDescAuthorStatus() == null), (this.getTxtDescAuthorStatus() != null ? XmlHelper.escapeXml(this.getTxtDescAuthorStatus()) : "")) + 
+			"</author_status>");
+	}
+
 }
