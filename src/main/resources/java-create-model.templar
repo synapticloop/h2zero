@@ -277,7 +277,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} * {table.javaClassName} model.{\n}
 	{\t} * <p>{\n}
 	{\t} * If the passed in {table.javaFieldName} is null, then a new {table.javaClassName}{\n}
-	{\t} * will be created.  If not null, the fields will be updated.{\n}
+	{\t} * will be created.  If not null, the fields will be updated on the passed in model.{\n}
 	{\t} * <p>{\n}
 	{\t} * <strong>NOTE:</strong> You will still need to persist this to the database{\n}
 	{\t} * with an <code>upsert()</code> call.{\n}
@@ -319,7 +319,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} * {table.javaClassName} model.{\n}
 	{\t} * <p>{\n}
 	{\t} * If the passed in {table.javaFieldName} is null, then a new {table.javaClassName}{\n}
-	{\t} * will be created.  If not null, the fields will be updated.{\n}
+	{\t} * will be created.  If not null, the fields will be updated on the existing model.{\n}
 	{\t} * <p>{\n}
 	{\t} * <strong>NOTE:</strong> You will still need to persist this to the database{\n}
 	{\t} * with an <code>upsert()</code> call.{\n}
