@@ -138,35 +138,47 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 					SQL insert
 	}
 
-	{\t}private static final String SQL_INSERT = "insert into {table.name} (
+	{\t}private static final String SQL_INSERT = {\n}
+	{\t}{\t}"""{\n}{\t}{\t}{\t}insert into{\n}
+	{\t}{\t}{\t}{table.name} ({\n}
 
 		{loop table.nonPrimaryFields as field}
-			{field.name}
-			{if !fieldStatus.last}, {endif}
+			{\t}{\t}{\t}{\t}{field.name}
+			{if !fieldStatus.last},{endif}{\n}
 		{endloop}
-		) values (
+		{\t}{\t}{\t}) values ({\n}
 
 	{-- now loop through all of the fields }
 	{loop table.nonPrimaryFields as field}
-		?
-		{if !fieldStatus.last}, {endif}
+		{\t}{\t}{\t}{\t}?
+		{if !fieldStatus.last},{endif}{\n}
 
-	{endloop})";{\n}
+	{endloop}{\t}{\t}{\t}){\n}
+	{\t}{\t}""";{\n}
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					SQL update
 	}
 
-	{\t}private static final String SQL_UPDATE = "update {table.name} set 
+	{\t}private static final String SQL_UPDATE = {\n}
+	{\t}{\t}"""{\n}
+	{\t}{\t}{\t}update{\n}
+	{\t}{\t}{\t}{\t}{table.name}{\n}
+	{\t}{\t}{\t}set{\n}
 
 	{-- now loop through all of the fields }
 	{loop table.fields as field}
 		{if field.primary}{else}
-			{field.name} = ?
-			{if fieldStatus.last}{else}, {endif}
+			{\t}{\t}{\t}{\t}{field.name} = ?
+			{if fieldStatus.last}{else},{endif}{\n}
 		{endif}
 
-	{endloop} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
+	{endloop}{\t}{\t}{\t}where{\n}
+	{\t}{\t}"""{\n}
+	{\t}{\t}{\t}+ PRIMARY_KEY_FIELD + {\n}
+	{\t}{\t}"""{\n}
+	{\t}{\t}{\t}= ?{\n}
+	{\t}{\t}""";{\n}
 
 	{\t}private static final String SQL_DELETE = "delete from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
 
