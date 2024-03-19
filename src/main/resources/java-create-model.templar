@@ -41,6 +41,7 @@ package {database.package}.model;{\n}{\n}
 
 {\n}
 import org.json.JSONObject;{\n}
+import synapticloop.h2zero.util.XmlHelper;{\n}
 {\n}
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
@@ -264,6 +265,95 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 		{\t}}{\n}
 	{endif}
+{\n}
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+				getOrSet
+			This will either get a new strata plan, or else it will update the strata
+			plan
+}
+
+	{\t}/**{\n}
+	{\t} * Get a new {table.javaClassName} model, or set the fields on an existing{\n}
+	{\t} * {table.javaClassName} model.{\n}
+	{\t} * <p>{\n}
+	{\t} * If the passed in {table.javaFieldName} is null, then a new {table.javaClassName}{\n}
+	{\t} * will be created.  If not null, the fields will be updated.{\n}
+	{\t} * <p>{\n}
+	{\t} * <strong>NOTE:</strong> You will still need to persist this to the database{\n}
+	{\t} * with an <code>upsert()</code> call.{\n}
+	{\t} * {\n}
+	{\t} * @param {table.javaFieldName} the model to check{\n}
+		{loop table.fields as field}
+	{\t} * @param {field.javaName}{\n}
+		{endloop}
+	{\t} * {\n}
+	{\t} * @return Either the existing {table.javaFieldName} with updated field values,{\n}
+	{\t} *   or a new {table.javaClassName} with the field values set.{\n}
+	{\t} */{\n}
+
+
+	{\t}public static {table.javaClassName} getOrSet({table.javaClassName} {table.javaFieldName},
+		{loop table.fields as field}
+			{field.javaType} {field.javaName}
+			{if fieldStatus.last}{else}, {endif}
+		{endloop}
+	) {{{\n}
+
+		{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
+{\t}{\t}{\t}return (new {table.javaClassName}({loop table.fields as field}{field.javaName}{if !fieldStatus.last}, {endif}
+		{endloop}));{\n}
+	{\t}{\t}} else {{{\n}
+		{loop table.fields as field}
+	{\t}{\t}{\t}{table.javaFieldName}.set{field.javaAccessorName}({field.javaName});{\n}
+		{endloop}{\n}
+	{\t}{\t}{\t}return({table.javaFieldName});{\n}
+	{\t}{\t}}{\n}
+
+	{\t}}{\n}
+
+	{if table.hasNonNullConstructor}
+
+	{\n}
+	{\t}/**{\n}
+	{\t} * Get a new {table.javaClassName} model, or set the fields on an existing{\n}
+	{\t} * {table.javaClassName} model.{\n}
+	{\t} * <p>{\n}
+	{\t} * If the passed in {table.javaFieldName} is null, then a new {table.javaClassName}{\n}
+	{\t} * will be created.  If not null, the fields will be updated.{\n}
+	{\t} * <p>{\n}
+	{\t} * <strong>NOTE:</strong> You will still need to persist this to the database{\n}
+	{\t} * with an <code>upsert()</code> call.{\n}
+	{\t} * {\n}
+	{\t} * @param {table.javaFieldName} the model to check{\n}
+		{loop table.nonNullFields as field}
+	{\t} * @param {field.javaName}{\n}
+		{endloop}
+	{\t} * {\n}
+	{\t} * @return Either the existing {table.javaFieldName} with updated field values,{\n}
+	{\t} *   or a new {table.javaClassName} with the field values set.{\n}
+	{\t} */{\n}
+
+
+		{\t}public static {table.javaClassName} getOrSet({table.javaClassName} {table.javaFieldName},
+			{loop table.nonNullFields as field}
+				{field.javaType} {field.javaName}
+				{if fieldStatus.last}{else}, {endif}
+			{endloop}
+		) {{{\n}
+		{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
+{\t}{\t}{\t}return (new {table.javaClassName}({loop table.nonNullFields as field}{field.javaName}{if !fieldStatus.last}, {endif}
+		{endloop}));{\n}
+	{\t}{\t}} else {{{\n}
+		{loop table.nonNullFields as field}
+	{\t}{\t}{\t}{table.javaFieldName}.set{field.javaAccessorName}({field.javaName});{\n}
+		{endloop}{\n}
+	{\t}{\t}{\t}return({table.javaFieldName});{\n}
+	{\t}{\t}}{\n}
+
+	{\t}}{\n}
+
+	{endif}
+
 
 {if !table.isConstant}
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -717,7 +807,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}{\t}return("<{table.name}>" + {\n}
 	{loop table.fields as field}
 		{if !field.isSecure}
-			{\t}{\t}{\t}String.format("<{field.name}>%s</{field.name}>", this.get{field.javaAccessorName}()) + {\n}
+			{if fn:=[field.javaType, "String"]}
+				{\t}{\t}{\t}String.format("<{field.name} null=\"%b\">%s</{field.name}>", (this.get{field.javaAccessorName}() == null), (this.get{field.javaAccessorName}() != null ? XmlHelper.escapeXml(this.get{field.javaAccessorName}()) : "")) + {\n}
+			{else}
+				{\t}{\t}{\t}String.format("<{field.name} null=\"%b\">%s</{field.name}>", (this.get{field.javaAccessorName}() == null), (this.get{field.javaAccessorName}() != null ? this.get{field.javaAccessorName}() : "")) + {\n}
+			{endif}
 		{endif}
 	{endloop}
 

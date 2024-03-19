@@ -7,6 +7,7 @@ package {database.package}.bean;{\n}{\n}
 import java.sql.Date;{\n}
 import java.sql.Timestamp;{\n}
 import {database.package}.model.util.Constants;{\n}
+import synapticloop.h2zero.util.XmlHelper;{\n}
 {\n}
 
 /**{\n}
@@ -61,12 +62,19 @@ public class {table.javaClassName}{finder.tagName}Bean {{{\n}
 	{\t} */{\n}
 
 	{\t}public String toXMLString() {{{\n}
-	{\t}{\t}return("<{finder.name}>" + {\n}
+	{\t}{\t}return("<{table.name}>" + {\n}
 	{loop finder.selectFields as field}
-	  {\t}{\t}{\t}String.format("<{field.name}>%s</{field.name}>", this.get{field.javaAccessorName}()) + {\n}
+		{if !field.isSecure}
+			{if fn:=[field.javaType, "String"]}
+				{\t}{\t}{\t}String.format("<{field.name} null=\"%b\">%s</{field.name}>", (this.get{field.javaAccessorName}() == null), (this.get{field.javaAccessorName}() != null ? XmlHelper.escapeXml(this.get{field.javaAccessorName}()) : "")) + {\n}
+			{else}
+				{\t}{\t}{\t}String.format("<{field.name} null=\"%b\">%s</{field.name}>", (this.get{field.javaAccessorName}() == null), (this.get{field.javaAccessorName}() != null ? this.get{field.javaAccessorName}() : "")) + {\n}
+			{endif}
+		{endif}
 	{endloop}
 
-	{\t}{\t}{\t}"</{finder.name}>");{\n}
+	{\t}{\t}{\t}"</{table.name}>");{\n}
 	{\t}}{\n}
 	{\n}
+
 }

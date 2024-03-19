@@ -5,7 +5,8 @@ package {database.package}.view;{\n}{\n}
 //              (java-create-view-model.templar){\n}{\n}
 
 import synapticloop.h2zero.base.view.ViewBase;{\n}
-
+import synapticloop.h2zero.util.XmlHelper;{\n}
+{\n}
 {if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
 {if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
 {if fn:requiresImport[table, "Blob"]}import java.sql.Blob;{\n}{endif}
@@ -73,6 +74,7 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 
 {\t}}{\n}
 {\n}
+
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					SETTERS AND GETTERS
@@ -175,5 +177,34 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 	{\t}public String getJsonString() {{{\n}
 	{\t}{\t}return(toJsonString());{\n}
 	{\t}}{\n}
+
+
+{\n}
+	{\t}/**{\n}
+	{\t} * Return an XML representation of the '{view.javaClassName}' model, with the root node being the{\n}
+	{\t} * name of the table - i.e. <{table.name}> and the child nodes the name of the {\n}
+	{\t} * fields.{\n}
+	{\t} * <p>{\n}
+	{\t} * <strong>NOTE:</strong> Any field marked as secure will not be included as{\n}
+	{\t} * part of the XML document{\n}
+	{\t} * {\n}
+	{\t} * @return An XML representation of the model.  {\n}
+	{\t} */{\n}
+
+	{\t}public String toXMLString() {{{\n}
+	{\t}{\t}return("<{table.name}>" + {\n}
+	{loop view.fields as field}
+		{if !field.isSecure}
+			{if fn:=[field.javaType, "String"]}
+				{\t}{\t}{\t}String.format("<{field.name} null=\"%b\">%s</{field.name}>", (this.get{field.javaAccessorName}() == null), (this.get{field.javaAccessorName}() != null ? XmlHelper.escapeXml(this.get{field.javaAccessorName}()) : "")) + {\n}
+			{else}
+				{\t}{\t}{\t}String.format("<{field.name} null=\"%b\">%s</{field.name}>", (this.get{field.javaAccessorName}() == null), (this.get{field.javaAccessorName}() != null ? this.get{field.javaAccessorName}() : "")) + {\n}
+			{endif}
+		{endif}
+	{endloop}
+
+	{\t}{\t}{\t}"</{table.name}>");{\n}
+	{\t}}{\n}
+	{\n}
 
 }
