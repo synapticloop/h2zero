@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XMLHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -125,9 +126,9 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 	 */
 	public String toXMLString() {
 		return("<user_title>" + 
-			String.format("<id_user_title>%s</id_user_title>", this.getIdUserTitle()) + 
-			String.format("<nm_user_title>%s</nm_user_title>", this.getNmUserTitle()) + 
-			String.format("<num_order_by>%s</num_order_by>", this.getNumOrderBy()) + 
+			String.format("<id_user_title null=\"%b\">%s</id_user_title>", (this.getIdUserTitle() == null), (this.getIdUserTitle() != null ? this.getIdUserTitle() : "")) + 
+			String.format("<nm_user_title null=\"%b\">%s</nm_user_title>", (this.getNmUserTitle() == null), (this.getNmUserTitle() != null ? XMLHelper.escapeXML(this.getNmUserTitle() : "")) + 
+			String.format("<num_order_by null=\"%b\">%s</num_order_by>", (this.getNumOrderBy() == null), (this.getNumOrderBy() != null ? this.getNumOrderBy() : "")) + 
 			"</user_title>");
 	}
 

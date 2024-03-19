@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XMLHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -600,35 +601,35 @@ import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 	 */
 	public String toXMLString() {
 		return("<all_types>" + 
-			String.format("<id_all_types>%s</id_all_types>", this.getIdAllTypes()) + 
-			String.format("<test_bigint>%s</test_bigint>", this.getTestBigint()) + 
-			String.format("<test_blob>%s</test_blob>", this.getTestBlob()) + 
-			String.format("<test_bool>%s</test_bool>", this.getTestBool()) + 
-			String.format("<test_char>%s</test_char>", this.getTestChar()) + 
-			String.format("<test_boolean>%s</test_boolean>", this.getTestBoolean()) + 
-			String.format("<test_binary>%s</test_binary>", this.getTestBinary()) + 
-			String.format("<test_varbinary>%s</test_varbinary>", this.getTestVarbinary()) + 
-			String.format("<test_date>%s</test_date>", this.getTestDate()) + 
-			String.format("<test_datetime>%s</test_datetime>", this.getTestDatetime()) + 
-			String.format("<test_dec>%s</test_dec>", this.getTestDec()) + 
-			String.format("<test_decimal>%s</test_decimal>", this.getTestDecimal()) + 
-			String.format("<test_double>%s</test_double>", this.getTestDouble()) + 
-			String.format("<test_float>%s</test_float>", this.getTestFloat()) + 
-			String.format("<test_int>%s</test_int>", this.getTestInt()) + 
-			String.format("<test_integer>%s</test_integer>", this.getTestInteger()) + 
-			String.format("<test_longtext>%s</test_longtext>", this.getTestLongtext()) + 
-			String.format("<test_mediumblob>%s</test_mediumblob>", this.getTestMediumblob()) + 
-			String.format("<test_mediumint>%s</test_mediumint>", this.getTestMediumint()) + 
-			String.format("<test_mediumtext>%s</test_mediumtext>", this.getTestMediumtext()) + 
-			String.format("<test_numeric>%s</test_numeric>", this.getTestNumeric()) + 
-			String.format("<test_smallint>%s</test_smallint>", this.getTestSmallint()) + 
-			String.format("<test_time>%s</test_time>", this.getTestTime()) + 
-			String.format("<test_text>%s</test_text>", this.getTestText()) + 
-			String.format("<test_timestamp>%s</test_timestamp>", this.getTestTimestamp()) + 
-			String.format("<test_tinyint>%s</test_tinyint>", this.getTestTinyint()) + 
-			String.format("<test_tinytext>%s</test_tinytext>", this.getTestTinytext()) + 
-			String.format("<test_varchar>%s</test_varchar>", this.getTestVarchar()) + 
-			String.format("<test_year>%s</test_year>", this.getTestYear()) + 
+			String.format("<id_all_types null=\"%b\">%s</id_all_types>", (this.getIdAllTypes() == null), (this.getIdAllTypes() != null ? this.getIdAllTypes() : "")) + 
+			String.format("<test_bigint null=\"%b\">%s</test_bigint>", (this.getTestBigint() == null), (this.getTestBigint() != null ? this.getTestBigint() : "")) + 
+			String.format("<test_blob null=\"%b\">%s</test_blob>", (this.getTestBlob() == null), (this.getTestBlob() != null ? this.getTestBlob() : "")) + 
+			String.format("<test_bool null=\"%b\">%s</test_bool>", (this.getTestBool() == null), (this.getTestBool() != null ? this.getTestBool() : "")) + 
+			String.format("<test_char null=\"%b\">%s</test_char>", (this.getTestChar() == null), (this.getTestChar() != null ? XMLHelper.escapeXML(this.getTestChar() : "")) + 
+			String.format("<test_boolean null=\"%b\">%s</test_boolean>", (this.getTestBoolean() == null), (this.getTestBoolean() != null ? this.getTestBoolean() : "")) + 
+			String.format("<test_binary null=\"%b\">%s</test_binary>", (this.getTestBinary() == null), (this.getTestBinary() != null ? XMLHelper.escapeXML(this.getTestBinary() : "")) + 
+			String.format("<test_varbinary null=\"%b\">%s</test_varbinary>", (this.getTestVarbinary() == null), (this.getTestVarbinary() != null ? XMLHelper.escapeXML(this.getTestVarbinary() : "")) + 
+			String.format("<test_date null=\"%b\">%s</test_date>", (this.getTestDate() == null), (this.getTestDate() != null ? this.getTestDate() : "")) + 
+			String.format("<test_datetime null=\"%b\">%s</test_datetime>", (this.getTestDatetime() == null), (this.getTestDatetime() != null ? this.getTestDatetime() : "")) + 
+			String.format("<test_dec null=\"%b\">%s</test_dec>", (this.getTestDec() == null), (this.getTestDec() != null ? this.getTestDec() : "")) + 
+			String.format("<test_decimal null=\"%b\">%s</test_decimal>", (this.getTestDecimal() == null), (this.getTestDecimal() != null ? this.getTestDecimal() : "")) + 
+			String.format("<test_double null=\"%b\">%s</test_double>", (this.getTestDouble() == null), (this.getTestDouble() != null ? this.getTestDouble() : "")) + 
+			String.format("<test_float null=\"%b\">%s</test_float>", (this.getTestFloat() == null), (this.getTestFloat() != null ? this.getTestFloat() : "")) + 
+			String.format("<test_int null=\"%b\">%s</test_int>", (this.getTestInt() == null), (this.getTestInt() != null ? this.getTestInt() : "")) + 
+			String.format("<test_integer null=\"%b\">%s</test_integer>", (this.getTestInteger() == null), (this.getTestInteger() != null ? this.getTestInteger() : "")) + 
+			String.format("<test_longtext null=\"%b\">%s</test_longtext>", (this.getTestLongtext() == null), (this.getTestLongtext() != null ? XMLHelper.escapeXML(this.getTestLongtext() : "")) + 
+			String.format("<test_mediumblob null=\"%b\">%s</test_mediumblob>", (this.getTestMediumblob() == null), (this.getTestMediumblob() != null ? this.getTestMediumblob() : "")) + 
+			String.format("<test_mediumint null=\"%b\">%s</test_mediumint>", (this.getTestMediumint() == null), (this.getTestMediumint() != null ? this.getTestMediumint() : "")) + 
+			String.format("<test_mediumtext null=\"%b\">%s</test_mediumtext>", (this.getTestMediumtext() == null), (this.getTestMediumtext() != null ? XMLHelper.escapeXML(this.getTestMediumtext() : "")) + 
+			String.format("<test_numeric null=\"%b\">%s</test_numeric>", (this.getTestNumeric() == null), (this.getTestNumeric() != null ? this.getTestNumeric() : "")) + 
+			String.format("<test_smallint null=\"%b\">%s</test_smallint>", (this.getTestSmallint() == null), (this.getTestSmallint() != null ? this.getTestSmallint() : "")) + 
+			String.format("<test_time null=\"%b\">%s</test_time>", (this.getTestTime() == null), (this.getTestTime() != null ? this.getTestTime() : "")) + 
+			String.format("<test_text null=\"%b\">%s</test_text>", (this.getTestText() == null), (this.getTestText() != null ? XMLHelper.escapeXML(this.getTestText() : "")) + 
+			String.format("<test_timestamp null=\"%b\">%s</test_timestamp>", (this.getTestTimestamp() == null), (this.getTestTimestamp() != null ? this.getTestTimestamp() : "")) + 
+			String.format("<test_tinyint null=\"%b\">%s</test_tinyint>", (this.getTestTinyint() == null), (this.getTestTinyint() != null ? this.getTestTinyint() : "")) + 
+			String.format("<test_tinytext null=\"%b\">%s</test_tinytext>", (this.getTestTinytext() == null), (this.getTestTinytext() != null ? XMLHelper.escapeXML(this.getTestTinytext() : "")) + 
+			String.format("<test_varchar null=\"%b\">%s</test_varchar>", (this.getTestVarchar() == null), (this.getTestVarchar() != null ? XMLHelper.escapeXML(this.getTestVarchar() : "")) + 
+			String.format("<test_year null=\"%b\">%s</test_year>", (this.getTestYear() == null), (this.getTestYear() != null ? this.getTestYear() : "")) + 
 			"</all_types>");
 	}
 

@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XMLHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -120,8 +121,8 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 	 */
 	public String toXMLString() {
 		return("<user_type>" + 
-			String.format("<id_user_type>%s</id_user_type>", this.getIdUserType()) + 
-			String.format("<nm_user_type>%s</nm_user_type>", this.getNmUserType()) + 
+			String.format("<id_user_type null=\"%b\">%s</id_user_type>", (this.getIdUserType() == null), (this.getIdUserType() != null ? this.getIdUserType() : "")) + 
+			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XMLHelper.escapeXML(this.getNmUserType() : "")) + 
 			"</user_type>");
 	}
 

@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XMLHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -299,12 +300,12 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 	 */
 	public String toXMLString() {
 		return("<pet>" + 
-			String.format("<id_pet>%s</id_pet>", this.getIdPet()) + 
-			String.format("<nm_pet>%s</nm_pet>", this.getNmPet()) + 
-			String.format("<num_age>%s</num_age>", this.getNumAge()) + 
-			String.format("<flt_weight>%s</flt_weight>", this.getFltWeight()) + 
-			String.format("<dt_birthday>%s</dt_birthday>", this.getDtBirthday()) + 
-			String.format("<img_photo>%s</img_photo>", this.getImgPhoto()) + 
+			String.format("<id_pet null=\"%b\">%s</id_pet>", (this.getIdPet() == null), (this.getIdPet() != null ? this.getIdPet() : "")) + 
+			String.format("<nm_pet null=\"%b\">%s</nm_pet>", (this.getNmPet() == null), (this.getNmPet() != null ? XMLHelper.escapeXML(this.getNmPet() : "")) + 
+			String.format("<num_age null=\"%b\">%s</num_age>", (this.getNumAge() == null), (this.getNumAge() != null ? this.getNumAge() : "")) + 
+			String.format("<flt_weight null=\"%b\">%s</flt_weight>", (this.getFltWeight() == null), (this.getFltWeight() != null ? this.getFltWeight() : "")) + 
+			String.format("<dt_birthday null=\"%b\">%s</dt_birthday>", (this.getDtBirthday() == null), (this.getDtBirthday() != null ? this.getDtBirthday() : "")) + 
+			String.format("<img_photo null=\"%b\">%s</img_photo>", (this.getImgPhoto() == null), (this.getImgPhoto() != null ? this.getImgPhoto() : "")) + 
 			"</pet>");
 	}
 

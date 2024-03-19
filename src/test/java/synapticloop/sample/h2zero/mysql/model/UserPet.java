@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XMLHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -281,9 +282,9 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 	 */
 	public String toXMLString() {
 		return("<user_pet>" + 
-			String.format("<id_user_pet>%s</id_user_pet>", this.getIdUserPet()) + 
-			String.format("<id_user>%s</id_user>", this.getIdUser()) + 
-			String.format("<id_pet>%s</id_pet>", this.getIdPet()) + 
+			String.format("<id_user_pet null=\"%b\">%s</id_user_pet>", (this.getIdUserPet() == null), (this.getIdUserPet() != null ? this.getIdUserPet() : "")) + 
+			String.format("<id_user null=\"%b\">%s</id_user>", (this.getIdUser() == null), (this.getIdUser() != null ? this.getIdUser() : "")) + 
+			String.format("<id_pet null=\"%b\">%s</id_pet>", (this.getIdPet() == null), (this.getIdPet() != null ? this.getIdPet() : "")) + 
 			"</user_pet>");
 	}
 

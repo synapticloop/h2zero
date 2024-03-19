@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XMLHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -252,9 +253,9 @@ import synapticloop.sample.h2zero.mysql.finder.PetTypeFinder;
 	 */
 	public String toXMLString() {
 		return("<pet_type>" + 
-			String.format("<id_pet_type>%s</id_pet_type>", this.getIdPetType()) + 
-			String.format("<nm_pet_type>%s</nm_pet_type>", this.getNmPetType()) + 
-			String.format("<txt_desc_pet_type>%s</txt_desc_pet_type>", this.getTxtDescPetType()) + 
+			String.format("<id_pet_type null=\"%b\">%s</id_pet_type>", (this.getIdPetType() == null), (this.getIdPetType() != null ? this.getIdPetType() : "")) + 
+			String.format("<nm_pet_type null=\"%b\">%s</nm_pet_type>", (this.getNmPetType() == null), (this.getNmPetType() != null ? XMLHelper.escapeXML(this.getNmPetType() : "")) + 
+			String.format("<txt_desc_pet_type null=\"%b\">%s</txt_desc_pet_type>", (this.getTxtDescPetType() == null), (this.getTxtDescPetType() != null ? XMLHelper.escapeXML(this.getTxtDescPetType() : "")) + 
 			"</pet_type>");
 	}
 

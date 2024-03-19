@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import synapticloop.h2zero.util.XMLHelper;
 
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -357,13 +358,13 @@ import synapticloop.sample.h2zero.mysql.finder.UserFinder;
 	 */
 	public String toXMLString() {
 		return("<user>" + 
-			String.format("<id_user>%s</id_user>", this.getIdUser()) + 
-			String.format("<id_user_type>%s</id_user_type>", this.getIdUserType()) + 
-			String.format("<fl_is_alive>%s</fl_is_alive>", this.getFlIsAlive()) + 
-			String.format("<num_age>%s</num_age>", this.getNumAge()) + 
-			String.format("<nm_username>%s</nm_username>", this.getNmUsername()) + 
-			String.format("<txt_address_email>%s</txt_address_email>", this.getTxtAddressEmail()) + 
-			String.format("<dtm_signup>%s</dtm_signup>", this.getDtmSignup()) + 
+			String.format("<id_user null=\"%b\">%s</id_user>", (this.getIdUser() == null), (this.getIdUser() != null ? this.getIdUser() : "")) + 
+			String.format("<id_user_type null=\"%b\">%s</id_user_type>", (this.getIdUserType() == null), (this.getIdUserType() != null ? this.getIdUserType() : "")) + 
+			String.format("<fl_is_alive null=\"%b\">%s</fl_is_alive>", (this.getFlIsAlive() == null), (this.getFlIsAlive() != null ? this.getFlIsAlive() : "")) + 
+			String.format("<num_age null=\"%b\">%s</num_age>", (this.getNumAge() == null), (this.getNumAge() != null ? this.getNumAge() : "")) + 
+			String.format("<nm_username null=\"%b\">%s</nm_username>", (this.getNmUsername() == null), (this.getNmUsername() != null ? XMLHelper.escapeXML(this.getNmUsername() : "")) + 
+			String.format("<txt_address_email null=\"%b\">%s</txt_address_email>", (this.getTxtAddressEmail() == null), (this.getTxtAddressEmail() != null ? XMLHelper.escapeXML(this.getTxtAddressEmail() : "")) + 
+			String.format("<dtm_signup null=\"%b\">%s</dtm_signup>", (this.getDtmSignup() == null), (this.getDtmSignup() != null ? this.getDtmSignup() : "")) + 
 			"</user>");
 	}
 
