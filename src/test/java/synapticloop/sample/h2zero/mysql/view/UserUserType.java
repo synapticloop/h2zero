@@ -40,9 +40,11 @@ public class UserUserType extends ViewBase {
 
 	@Override
 	public String toString() {
-		return("Model: 'UserUserType'\n" +
-				"  Field: 'nmUser:" + this.nmUser + "'\n" +
-				"  Field: 'nmUserType:" + this.nmUserType + "'\n");
+		return(new StringBuilder()
+			.append("Model: 'UserUserType'\n")
+			.append("  Field: 'nmUser:").append(this.nmUser).append("'\n")
+			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
+			.toString());
 	}
 
 	public String toJsonString() {

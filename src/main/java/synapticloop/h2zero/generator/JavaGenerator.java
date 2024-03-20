@@ -18,14 +18,7 @@ package synapticloop.h2zero.generator;
  * under the Licence.
  */
 
-import java.io.File;
-import java.util.List;
-
-import synapticloop.h2zero.model.Database;
-import synapticloop.h2zero.model.Finder;
-import synapticloop.h2zero.model.Options;
-import synapticloop.h2zero.model.Table;
-import synapticloop.h2zero.model.View;
+import synapticloop.h2zero.model.*;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import synapticloop.templar.Parser;
@@ -33,6 +26,9 @@ import synapticloop.templar.exception.FunctionException;
 import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarContext;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * This class generates all things that are java (i.e. ends in a .java extension)
@@ -63,6 +59,8 @@ public class JavaGenerator extends Generator {
 
 	private void generateTables(TemplarContext templarContext) throws ParseException, RenderException {
 		Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
+		Parser javaCreateConnectionManagerInitialiser = getParser("/java-create-connection-manager-initialiser.templar");
+		Parser javaCreateConnectionManagerInitialiserOverride = getParser("/java-create-connection-manager-initialiser-override.templar");
 
 		// The model
 		Parser javaCreateModelParser = getParser("/java-create-model.templar");
@@ -82,6 +80,15 @@ public class JavaGenerator extends Generator {
 
 		String pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Constants.java";
 		renderToFile(templarContext, javaCreateConstantsParser, pathname);
+
+		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/ConnectionManagerInitialiser.java";
+		renderToFile(templarContext, javaCreateConnectionManagerInitialiser, pathname);
+
+		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/ConnectionManagerInitialiserOverride.java";
+		File testFile = new File(pathname);
+		if(!testFile.exists()) {
+			renderToFile(templarContext, javaCreateConnectionManagerInitialiserOverride, pathname);
+		}
 
 		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Statistics.java";
 		renderToFile(templarContext, javaCreateModelStatisticsParser, pathname);

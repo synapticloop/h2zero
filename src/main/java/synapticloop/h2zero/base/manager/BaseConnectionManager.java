@@ -17,32 +17,55 @@ package synapticloop.h2zero.base.manager;
  * under the Licence.
  */
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.sql.Types;
-
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import java.io.*;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class BaseConnectionManager {
 	protected static ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+	private static final Map<String, ComboPooledDataSource> COMBO_POOLED_DATA_SOURCE_MAP = new HashMap<>();
+
+	/**
+	 * Get a named connection to the database from the combo pooled datasource
+	 *
+	 * @return the connection from the underlying database
+	 *
+	 * @throws SQLException If there was an error getting the connection
+	 */
+	public static Connection getConnection(String comboPoolName) throws SQLException {
+		if(COMBO_POOLED_DATA_SOURCE_MAP.containsKey(comboPoolName)) {
+			return (COMBO_POOLED_DATA_SOURCE_MAP.get(comboPoolName).getConnection());
+		} else {
+			return(getConnection());
+		}
+	}
+
+	/**
+	 * <p>
+	 * Add a combo pool to the manager - in effect, this adds it to the HashMap
+	 * for easy lookup.
+	 * </p>
+	 *
+	 * <pre>
+	 *   WARNING:  THE FIRST COMBO POOL ADDED TO THE HASHMAP BECOMES THE DEFAULT
+	 *             COMBO POOL USED IF NO getConnection(String comboPoolName)
+	 *             CALL IS USED
+	 * </pre>
+	 *
+	 * @param comboPoolName the name of the combo pooled data source
+	 * @param comboPooledDataSource the combo pooled data source
+	 */
+	public static void addComboPool(String comboPoolName, ComboPooledDataSource comboPooledDataSource) {
+		if(COMBO_POOLED_DATA_SOURCE_MAP.isEmpty()) {
+			BaseConnectionManager.comboPooledDataSource = comboPooledDataSource;
+		}
+
+		COMBO_POOLED_DATA_SOURCE_MAP.put(comboPoolName, comboPooledDataSource);
+	}
 
 	/**
 	 * Get a connection to the database from the combo pooled datasource
