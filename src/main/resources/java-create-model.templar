@@ -69,13 +69,16 @@ import {database.package}.model.util.Constants;{\n}
 /**{\n}
  * This is the model for the {table.javaClassName} which maps to the {table.name} database table.{\n}
  * This is a constant table which cannot be changed{\n}
- */{\n}
  {else}
 /**{\n}
  * This is the model for the {table.javaClassName} which maps to the {table.name} database table{\n}
  * and contains the default CRUD methods.{\n}
- */{\n}
  {endif}
+ * {\n}
+ * @author synapticloop h2zero{\n}
+ * {\n}
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>{\n}
+ */{\n}
 
 public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif} {{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}

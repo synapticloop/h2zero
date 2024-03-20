@@ -4,26 +4,38 @@ package synapticloop.sample.h2zero.mysql.question;
 //    with the use of synapticloop templar templating language
 //                (java-create-question.templar)
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import synapticloop.sample.h2zero.mysql.model.util.Constants;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-
-import synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
-import synapticloop.sample.h2zero.mysql.model.util.Constants;
-
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * <p>This class contains all of the questions that are defined in the h2zero
+ * file</p>
+ * <p>A question returns a simple true/false response from a query.</p>
+ * 
+ * <p>Table name: <code>user</code></p>
+ * 
+ * <p>Questions defined:
+ * <ul>
+ * <li><code>doWeHaveMoreThanTwentyUsers</code> - SQL query run {@link #SQL_DO_WE_HAVE_MORE_THAN_TWENTY_USERS}</li>
+ * <li><code>doesUserNameExist</code> - SQL query run {@link #SQL_DOES_USER_NAME_EXIST}</li>
+ * <li><code>doWeHaveUsersBetweenAgeExclusive</code> - SQL query run {@link #SQL_DO_WE_HAVE_USERS_BETWEEN_AGE_EXCLUSIVE}</li>
+ * <li><code>doWeHaveUsersInAges</code> - SQL query run {@link #SQL_DO_WE_HAVE_USERS_IN_AGES}</li>
+ * </ul>
+ * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
+ */
 public class UserQuestion {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -42,7 +54,7 @@ public class UserQuestion {
 	private static final String SQL_DO_WE_HAVE_USERS_BETWEEN_AGE_EXCLUSIVE = "select count(*) > 0 from user" + " where num_age > ? and num_age < ?";
 	private static final String SQL_DO_WE_HAVE_USERS_IN_AGES = "select count(*) > 0 from user" + " where num_age in (...)";
 
-	private static Map<String, String> doWeHaveUsersInAges_statement_cache = new HashMap<String, String>();
+	private static final Map<String, String> doWeHaveUsersInAges_statement_cache = new HashMap<String, String>();
 
 	/** Private to deter instantiation */
 	private UserQuestion() {}
@@ -56,15 +68,13 @@ public class UserQuestion {
 	 * @return whether the primary key exists
 	 */
 	public static boolean internalDoesPrimaryKeyExist(Long idUser) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
 		boolean answer = false;
 
-		try {
-			connection = ConnectionManager.getConnection();
-			preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
+		try(Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST)) {
+
 			ConnectionManager.setBigint(preparedStatement, 1, idUser);
 
 			resultSet = preparedStatement.executeQuery();
@@ -79,7 +89,7 @@ public class UserQuestion {
 				}
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
+			ConnectionManager.closeAll(resultSet, null, null);
 		}
 		return(answer);
 	}

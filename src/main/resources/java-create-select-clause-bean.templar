@@ -11,13 +11,17 @@ import synapticloop.h2zero.util.XmlHelper;{\n}
 {\n}
 
 /**{\n}
- * This is the generated bean for the selectClause finder from{\n}
- * <p>{\n}
- * table name: {table.name}{\n}
- * <p>{\n}
- * finder name: {finder.name}{\n}
- * <p>{\n}
- * and is returned either as a single object, or a list of objects{\n}
+ * <p>This is the generated bean for the selectClause finder from</p>{\n}
+ * {\n}
+ * <p>table name: <code>{table.name}</code></p>{\n}
+ * {\n}
+ * <p>finder name: <code>{finder.name}</code></p>{\n}
+ * {\n}
+ * <p>and is returned either as a single object, or a list of objects</p>{\n}
+ * {\n}
+ * @author synapticloop h2zero{\n}
+ * {\n}
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>{\n}
  */{\n}
 public class {table.javaClassName}{finder.tagName}Bean {{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}

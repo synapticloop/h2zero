@@ -19,8 +19,12 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 /**
  * This is the model for the UserTitle which maps to the user_title database table.
  * This is a constant table which cannot be changed
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class UserTitle  {
+public class UserTitle  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code

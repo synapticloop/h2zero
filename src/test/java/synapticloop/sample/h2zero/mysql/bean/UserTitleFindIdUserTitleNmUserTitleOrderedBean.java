@@ -10,13 +10,17 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 import synapticloop.h2zero.util.XmlHelper;
 
 /**
- * This is the generated bean for the selectClause finder from
- * <p>
- * table name: user_title
- * <p>
- * finder name: findIdUserTitleNmUserTitleOrdered
- * <p>
- * and is returned either as a single object, or a list of objects
+ * <p>This is the generated bean for the selectClause finder from</p>
+ * 
+ * <p>table name: <code>user_title</code></p>
+ * 
+ * <p>finder name: <code>findIdUserTitleNmUserTitleOrdered</code></p>
+ * 
+ * <p>and is returned either as a single object, or a list of objects</p>
+ * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
 public class UserTitleFindIdUserTitleNmUserTitleOrderedBean {
 	// the binder is unused in code, but will generate compile problems if this 

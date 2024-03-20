@@ -16,7 +16,28 @@ package {database.package}.question;{\n}{\n}
 
 import java.util.List;{\n}
 {\n}
-
+/**{\n}
+ * <p>This class contains all of the questions that are defined in the h2zero{\n}
+ * file</p>{\n}
+ * <p>A question returns a simple true/false response from a query.</p>{\n}
+ * {\n}
+ * <p>Table name: <code>{table.name}</code></p>{\n}
+ * {\n}
+{loop table.questions as question}
+	{if questionStatus.first}
+ * <p>Questions defined:{\n}
+ * <ul>{\n}
+	{endif}
+ * <li><code>{question.name}</code> - SQL query run {{@link #SQL_{question.staticName}}</li>{\n}
+	{if questionStatus.last}
+ * </ul>{\n}
+	{endif}
+{endloop}
+ * {\n}
+ * @author synapticloop h2zero{\n}
+ * {\n}
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>{\n}
+ */{\n}
 public class {table.javaClassName}Question {{{\n}
 	{set table as baseSchemaObject}
 	{import classpath:/snippet/global/java-binder-declaration.templar}
@@ -46,7 +67,7 @@ public class {table.javaClassName}Question {{{\n}
 
 {loop table.questions as question}
 	{if question.hasInFields}
-		{\t}private static Map<String, String> {question.name}_statement_cache = new HashMap<String, String>();{\n}
+		{\t}private static final Map<String, String> {question.name}_statement_cache = new HashMap<String, String>();{\n}
 	{endif}
 {endloop}
 {\n}

@@ -30,8 +30,12 @@ import synapticloop.sample.h2zero.mysql.finder.PetTypeFinder;
 /**
  * This is the model for the PetType which maps to the pet_type database table
  * and contains the default CRUD methods.
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class PetType extends ModelBase {
+public class PetType extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code

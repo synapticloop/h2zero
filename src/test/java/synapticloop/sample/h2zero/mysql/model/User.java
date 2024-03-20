@@ -33,8 +33,12 @@ import synapticloop.sample.h2zero.mysql.finder.UserFinder;
 /**
  * This is the model for the User which maps to the user database table
  * and contains the default CRUD methods.
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class User extends ModelBase {
+public class User extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
