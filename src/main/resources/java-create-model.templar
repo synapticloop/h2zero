@@ -204,7 +204,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	 from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
 {endif}{-- end of check whether we should hydrate some of the fields }
 
-{\n}// Static lookups for fields in the hit counter.{\n}
+	{\n}{\t}// Static lookups for fields in the hit counter.{\n}
+	{\t}// Whilst these aren't used internally (the offset to the array is {\n}
+	{\t}// automatically computer, external classes can use these static fields {\n}
+	{\t}// to look up the hit counts in the array {\n}
 	{\t}public static final int HIT_TOTAL = 0;{\n}
 	{loop table.fields as field}
 		{\t}public static final int HIT_{field.upperName} = {fieldStatus.index};{\n}
@@ -607,6 +610,21 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}public static String[] getHitFields() {{ return(HIT_FIELDS); }{\n}
 	{\t}public static int[] getHitCounts() {{ return(HIT_COUNTS); }{\n}{\n}
 
+{\t}/**{\n}
+{\t} * Get the hit count for a specific field - look at the <code>public static HIT_*</code>{\n}
+{\t} * fields to retrieve a specific field.{\n}
+{\t} *{\n}
+{\t} * @param hitCountField the hit count field number to retrieve the hit count from{\n}
+{\t} *{\n}
+{\t} * @return the hit count for the field{\n}
+{\t} * {\n}
+	{loop table.fields as field}
+		{\t} * <p>{{@link #HIT_{field.upperName} Use <code>{table.javaClassName}.HIT_{field.upperName}</code> to retrieve the hit count for the <code>{field.name}</code> field}</p>{\n}
+	{endloop}{\n}
+{\t} */{\n}
+
+	{\t}public static int getHitCountForField(int hitCountField) {{ return(HIT_COUNTS[hitCountField]); }{\n}{\n}
+
 {endif}{-- end of !isconstant table }
 
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -836,6 +854,12 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 {if !table.isConstant}
 	{-- This is the hitcount --}
 	{\n}
+		{\t}/**{\n}
+		{\t} * Get the hit count statistics as a JSON encoded object as a <code>String</code>.{\n}
+		{\t} *{\n}
+		{\t} * @return the JSON Object as a <code>String</code>.{\n}
+		{\t} */{\n}
+
 		{\t}public static String getHitCountJson() {{{\n}
 
 		{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}

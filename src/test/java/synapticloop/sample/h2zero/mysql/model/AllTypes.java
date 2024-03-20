@@ -143,7 +143,10 @@ public class AllTypes extends ModelBase {
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from all_types where test_bigint = ? and test_blob = ? and test_bool = ? and test_char = ? and test_boolean = ? and test_binary = ? and test_varbinary = ? and test_date = ? and test_datetime = ? and test_dec = ? and test_decimal = ? and test_double = ? and test_float = ? and test_int = ? and test_integer = ? and test_longtext = ? and test_mediumblob = ? and test_mediumint = ? and test_mediumtext = ? and test_numeric = ? and test_smallint = ? and test_time = ? and test_text = ? and test_timestamp = ? and test_tinyint = ? and test_tinytext = ? and test_varchar = ? and test_year = ?";
 
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_ALL_TYPES = 1;
 	public static final int HIT_TEST_BIGINT = 2;
@@ -586,7 +589,48 @@ public class AllTypes extends ModelBase {
 	public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
-	public static void updateHitCount(int offset) {
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_ALL_TYPES Use <code>AllTypes.HIT_ID_ALL_TYPES</code> to retrieve the hit count for the <code>id_all_types</code> field}</p>
+	 * <p>{@link #HIT_TEST_BIGINT Use <code>AllTypes.HIT_TEST_BIGINT</code> to retrieve the hit count for the <code>test_bigint</code> field}</p>
+	 * <p>{@link #HIT_TEST_BLOB Use <code>AllTypes.HIT_TEST_BLOB</code> to retrieve the hit count for the <code>test_blob</code> field}</p>
+	 * <p>{@link #HIT_TEST_BOOL Use <code>AllTypes.HIT_TEST_BOOL</code> to retrieve the hit count for the <code>test_bool</code> field}</p>
+	 * <p>{@link #HIT_TEST_CHAR Use <code>AllTypes.HIT_TEST_CHAR</code> to retrieve the hit count for the <code>test_char</code> field}</p>
+	 * <p>{@link #HIT_TEST_BOOLEAN Use <code>AllTypes.HIT_TEST_BOOLEAN</code> to retrieve the hit count for the <code>test_boolean</code> field}</p>
+	 * <p>{@link #HIT_TEST_BINARY Use <code>AllTypes.HIT_TEST_BINARY</code> to retrieve the hit count for the <code>test_binary</code> field}</p>
+	 * <p>{@link #HIT_TEST_VARBINARY Use <code>AllTypes.HIT_TEST_VARBINARY</code> to retrieve the hit count for the <code>test_varbinary</code> field}</p>
+	 * <p>{@link #HIT_TEST_DATE Use <code>AllTypes.HIT_TEST_DATE</code> to retrieve the hit count for the <code>test_date</code> field}</p>
+	 * <p>{@link #HIT_TEST_DATETIME Use <code>AllTypes.HIT_TEST_DATETIME</code> to retrieve the hit count for the <code>test_datetime</code> field}</p>
+	 * <p>{@link #HIT_TEST_DEC Use <code>AllTypes.HIT_TEST_DEC</code> to retrieve the hit count for the <code>test_dec</code> field}</p>
+	 * <p>{@link #HIT_TEST_DECIMAL Use <code>AllTypes.HIT_TEST_DECIMAL</code> to retrieve the hit count for the <code>test_decimal</code> field}</p>
+	 * <p>{@link #HIT_TEST_DOUBLE Use <code>AllTypes.HIT_TEST_DOUBLE</code> to retrieve the hit count for the <code>test_double</code> field}</p>
+	 * <p>{@link #HIT_TEST_FLOAT Use <code>AllTypes.HIT_TEST_FLOAT</code> to retrieve the hit count for the <code>test_float</code> field}</p>
+	 * <p>{@link #HIT_TEST_INT Use <code>AllTypes.HIT_TEST_INT</code> to retrieve the hit count for the <code>test_int</code> field}</p>
+	 * <p>{@link #HIT_TEST_INTEGER Use <code>AllTypes.HIT_TEST_INTEGER</code> to retrieve the hit count for the <code>test_integer</code> field}</p>
+	 * <p>{@link #HIT_TEST_LONGTEXT Use <code>AllTypes.HIT_TEST_LONGTEXT</code> to retrieve the hit count for the <code>test_longtext</code> field}</p>
+	 * <p>{@link #HIT_TEST_MEDIUMBLOB Use <code>AllTypes.HIT_TEST_MEDIUMBLOB</code> to retrieve the hit count for the <code>test_mediumblob</code> field}</p>
+	 * <p>{@link #HIT_TEST_MEDIUMINT Use <code>AllTypes.HIT_TEST_MEDIUMINT</code> to retrieve the hit count for the <code>test_mediumint</code> field}</p>
+	 * <p>{@link #HIT_TEST_MEDIUMTEXT Use <code>AllTypes.HIT_TEST_MEDIUMTEXT</code> to retrieve the hit count for the <code>test_mediumtext</code> field}</p>
+	 * <p>{@link #HIT_TEST_NUMERIC Use <code>AllTypes.HIT_TEST_NUMERIC</code> to retrieve the hit count for the <code>test_numeric</code> field}</p>
+	 * <p>{@link #HIT_TEST_SMALLINT Use <code>AllTypes.HIT_TEST_SMALLINT</code> to retrieve the hit count for the <code>test_smallint</code> field}</p>
+	 * <p>{@link #HIT_TEST_TIME Use <code>AllTypes.HIT_TEST_TIME</code> to retrieve the hit count for the <code>test_time</code> field}</p>
+	 * <p>{@link #HIT_TEST_TEXT Use <code>AllTypes.HIT_TEST_TEXT</code> to retrieve the hit count for the <code>test_text</code> field}</p>
+	 * <p>{@link #HIT_TEST_TIMESTAMP Use <code>AllTypes.HIT_TEST_TIMESTAMP</code> to retrieve the hit count for the <code>test_timestamp</code> field}</p>
+	 * <p>{@link #HIT_TEST_TINYINT Use <code>AllTypes.HIT_TEST_TINYINT</code> to retrieve the hit count for the <code>test_tinyint</code> field}</p>
+	 * <p>{@link #HIT_TEST_TINYTEXT Use <code>AllTypes.HIT_TEST_TINYTEXT</code> to retrieve the hit count for the <code>test_tinytext</code> field}</p>
+	 * <p>{@link #HIT_TEST_VARCHAR Use <code>AllTypes.HIT_TEST_VARCHAR</code> to retrieve the hit count for the <code>test_varchar</code> field}</p>
+	 * <p>{@link #HIT_TEST_YEAR Use <code>AllTypes.HIT_TEST_YEAR</code> to retrieve the hit count for the <code>test_year</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
+
+	private static void updateHitCount(int offset) {
 		HIT_COUNTS[0]++;
 		HIT_COUNTS[offset]++;
 	}
@@ -832,6 +876,11 @@ public class AllTypes extends ModelBase {
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a string.
+	 *
+	 * @return the JSON Object as a string.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "AllTypes");

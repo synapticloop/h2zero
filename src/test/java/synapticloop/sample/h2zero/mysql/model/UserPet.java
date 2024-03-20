@@ -77,7 +77,10 @@ public class UserPet extends ModelBase {
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user_pet where id_user = ? and id_pet = ?";
 
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_USER_PET = 1;
 	public static final int HIT_ID_USER = 2;
@@ -233,6 +236,21 @@ public class UserPet extends ModelBase {
 
 	public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
+
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_USER_PET Use <code>UserPet.HIT_ID_USER_PET</code> to retrieve the hit count for the <code>id_user_pet</code> field}</p>
+	 * <p>{@link #HIT_ID_USER Use <code>UserPet.HIT_ID_USER</code> to retrieve the hit count for the <code>id_user</code> field}</p>
+	 * <p>{@link #HIT_ID_PET Use <code>UserPet.HIT_ID_PET</code> to retrieve the hit count for the <code>id_pet</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
 
 	public User getUser() {
 		if(null == this.User) {

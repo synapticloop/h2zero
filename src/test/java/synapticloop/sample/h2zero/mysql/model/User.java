@@ -91,7 +91,10 @@ public class User extends ModelBase {
 
 	private static final String SQL_SELECT_HYDRATE = "select num_age, dtm_signup from user where " + PRIMARY_KEY_FIELD + " = ?";
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_USER = 1;
 	public static final int HIT_ID_USER_TYPE = 2;
@@ -357,6 +360,26 @@ public class User extends ModelBase {
 	}
 		public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
+
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_USER Use <code>User.HIT_ID_USER</code> to retrieve the hit count for the <code>id_user</code> field}</p>
+	 * <p>{@link #HIT_ID_USER_TYPE Use <code>User.HIT_ID_USER_TYPE</code> to retrieve the hit count for the <code>id_user_type</code> field}</p>
+	 * <p>{@link #HIT_FL_IS_ALIVE Use <code>User.HIT_FL_IS_ALIVE</code> to retrieve the hit count for the <code>fl_is_alive</code> field}</p>
+	 * <p>{@link #HIT_NUM_AGE Use <code>User.HIT_NUM_AGE</code> to retrieve the hit count for the <code>num_age</code> field}</p>
+	 * <p>{@link #HIT_NM_USERNAME Use <code>User.HIT_NM_USERNAME</code> to retrieve the hit count for the <code>nm_username</code> field}</p>
+	 * <p>{@link #HIT_TXT_ADDRESS_EMAIL Use <code>User.HIT_TXT_ADDRESS_EMAIL</code> to retrieve the hit count for the <code>txt_address_email</code> field}</p>
+	 * <p>{@link #HIT_TXT_PASSWORD Use <code>User.HIT_TXT_PASSWORD</code> to retrieve the hit count for the <code>txt_password</code> field}</p>
+	 * <p>{@link #HIT_DTM_SIGNUP Use <code>User.HIT_DTM_SIGNUP</code> to retrieve the hit count for the <code>dtm_signup</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
 
 	public UserType getUserType() {
 		return(UserType.ALL_LOOKUP.get(this.idUserType));

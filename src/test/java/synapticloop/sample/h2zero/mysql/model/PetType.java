@@ -72,7 +72,10 @@ public class PetType extends ModelBase {
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet_type where nm_pet_type = ? and txt_desc_pet_type = ?";
 
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_PET_TYPE = 1;
 	public static final int HIT_NM_PET_TYPE = 2;
@@ -224,6 +227,21 @@ public class PetType extends ModelBase {
 
 	public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
+
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_PET_TYPE Use <code>PetType.HIT_ID_PET_TYPE</code> to retrieve the hit count for the <code>id_pet_type</code> field}</p>
+	 * <p>{@link #HIT_NM_PET_TYPE Use <code>PetType.HIT_NM_PET_TYPE</code> to retrieve the hit count for the <code>nm_pet_type</code> field}</p>
+	 * <p>{@link #HIT_TXT_DESC_PET_TYPE Use <code>PetType.HIT_TXT_DESC_PET_TYPE</code> to retrieve the hit count for the <code>txt_desc_pet_type</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
 
 	public static void updateHitCount(int offset) {
 		HIT_COUNTS[0]++;
