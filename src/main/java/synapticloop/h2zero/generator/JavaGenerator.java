@@ -86,7 +86,11 @@ public class JavaGenerator extends Generator {
 
 		pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/ConnectionManagerInitialiserOverride.java";
 		File testFile = new File(pathname);
-		if(!testFile.exists()) {
+		if(testFile.exists()) {
+			if(verbose) {
+				SimpleLogger.logInfo(LoggerType.TEMPLAR_RENDER, "__NOT__ rendering to '" + pathname + "', as the file already exists");
+			}
+		} else {
 			renderToFile(templarContext, javaCreateConnectionManagerInitialiserOverride, pathname);
 		}
 

@@ -4,7 +4,7 @@ package {database.package};{\n}{\n}
 //  (java-create-connection-manager-initialise-override.templar){\n}
 {\n}
 {\n}
-import synapticloop.h2zero.base.manager.{options.database}.ConnectionManagerInitialiser;{\n}
+import {database.package}.ConnectionManagerInitialiser;{\n}
 {\n}
 /**{\n}
  * <p>{\n}

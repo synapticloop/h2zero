@@ -17,10 +17,6 @@ package synapticloop.h2zero.generator;
  * under the Licence.
  */
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.util.JSONKeyConstants;
@@ -35,6 +31,10 @@ import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Generator {
 	private static final String FUNCTION_NAME_HAS_IMPORT = "requiresImport";
 	private static final String FUNCTION_NAME_EXISTS = "exists";
@@ -43,7 +43,7 @@ public abstract class Generator {
 	protected Options options;
 	protected File outFile;
 
-	private boolean verbose = false;
+	protected boolean verbose = false;
 
 	private Map<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
 
