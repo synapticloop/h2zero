@@ -17,8 +17,8 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 
 /**
- * This is the model for the UserTitle which maps to the user_title database table.
- * This is a constant table which cannot be changed
+ * <p>This is the model for the <code>UserTitle</code> which maps to the <code>user_title</code> database table.</p>
+ * <p><strong>NOTE:</strong> This is a constant table which cannot be changed and no CRUD methods are available.</p>
   * 
  * @author synapticloop h2zero
  * 
@@ -68,28 +68,27 @@ public class UserTitle  {
 	}
 
 	/**
-	 * Get a new UserTitle model, or set the fields on an existing
-	 * UserTitle model.
-	 * <p>
-	 * If the passed in userTitle is null, then a new UserTitle
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new UserTitle model, or set the fields on an existing
+	 * UserTitle model.</p>
+	 * 
+	 * <p>If the passed in userTitle is null, then a new UserTitle
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param userTitle the model to check
-	 * @param idUserTitle
-	 * @param nmUserTitle
-	 * @param numOrderBy
+	 * @param nmUserTitle - maps to the <code>nm_user_title</code> field.
+	 * @param numOrderBy - maps to the <code>num_order_by</code> field.
 	 * 
 	 * @return Either the existing userTitle with updated field values,
 	 *   or a new UserTitle with the field values set.
 	 */
-	public static UserTitle getOrSet(UserTitle userTitle,Long idUserTitle, String nmUserTitle, Integer numOrderBy) {
+	public static UserTitle getOrSet(UserTitle userTitle,String nmUserTitle, Integer numOrderBy) {
 		if(null == userTitle) {
-			return (new UserTitle(idUserTitle, nmUserTitle, numOrderBy));
+			return (new UserTitle(null, nmUserTitle, numOrderBy));
 		} else {
-			userTitle.setIdUserTitle(idUserTitle);
 			userTitle.setNmUserTitle(nmUserTitle);
 			userTitle.setNumOrderBy(numOrderBy);
 
@@ -112,11 +111,11 @@ public class UserTitle  {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'UserTitle'\n")
-			.append("  Field: 'idUserTitle:").append(this.idUserTitle).append("'\n")
-			.append("  Field: 'nmUserTitle:").append(this.nmUserTitle).append("'\n")
-			.append("  Field: 'numOrderBy:").append(this.numOrderBy).append("'\n")
-			;
+			.append("{\"UserTitle\": {\n")
+			.append("\"idUserTitle\":\"").append(this.idUserTitle).append("\"")
+			.append("\"nmUserTitle\":\"").append(this.nmUserTitle).append("\"")
+			.append("\"numOrderBy\":\"").append(this.numOrderBy).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -149,14 +148,14 @@ public class UserTitle  {
 	}
 
 	/**
-	 * Return an XML representation of the 'UserTitle' model, with the root node being the
-	 * name of the table - i.e. <user_title> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>UserTitle</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user_title /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user_title>" + 

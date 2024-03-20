@@ -30,8 +30,8 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 
 
 /**
- * This is the model for the Pet which maps to the pet database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>Pet</code> which maps to the <code>pet</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
   * 
  * @author synapticloop h2zero
  * 
@@ -125,31 +125,30 @@ public class Pet extends ModelBase {
 	}
 
 	/**
-	 * Get a new Pet model, or set the fields on an existing
-	 * Pet model.
-	 * <p>
-	 * If the passed in pet is null, then a new Pet
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new Pet model, or set the fields on an existing
+	 * Pet model.</p>
+	 * 
+	 * <p>If the passed in pet is null, then a new Pet
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param pet the model to check
-	 * @param idPet
-	 * @param nmPet
-	 * @param numAge
-	 * @param fltWeight
-	 * @param dtBirthday
-	 * @param imgPhoto
+	 * @param nmPet - maps to the <code>nm_pet</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param fltWeight - maps to the <code>flt_weight</code> field.
+	 * @param dtBirthday - maps to the <code>dt_birthday</code> field.
+	 * @param imgPhoto - maps to the <code>img_photo</code> field.
 	 * 
 	 * @return Either the existing pet with updated field values,
 	 *   or a new Pet with the field values set.
 	 */
-	public static Pet getOrSet(Pet pet,Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
+	public static Pet getOrSet(Pet pet,String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
 		if(null == pet) {
-			return (new Pet(idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
+			return (new Pet(null, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
 		} else {
-			pet.setIdPet(idPet);
 			pet.setNmPet(nmPet);
 			pet.setNumAge(numAge);
 			pet.setFltWeight(fltWeight);
@@ -171,18 +170,16 @@ public class Pet extends ModelBase {
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param pet the model to check
-	 * @param idPet
 	 * @param nmPet
 	 * @param numAge
 	 * 
 	 * @return Either the existing pet with updated field values,
 	 *   or a new Pet with the field values set.
 	 */
-	public static Pet getOrSet(Pet pet,Long idPet, String nmPet, Integer numAge) {
+	public static Pet getOrSet(Pet pet, String nmPet, Integer numAge) {
 		if(null == pet) {
-			return (new Pet(idPet, nmPet, numAge));
+			return (new Pet(null , nmPet, numAge));
 		} else {
-			pet.setIdPet(idPet);
 			pet.setNmPet(nmPet);
 			pet.setNumAge(numAge);
 
@@ -347,14 +344,14 @@ public class Pet extends ModelBase {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'Pet'\n")
-			.append("  Field: 'idPet:").append(this.idPet).append("'\n")
-			.append("  Field: 'nmPet:").append(this.nmPet).append("'\n")
-			.append("  Field: 'numAge:").append(this.numAge).append("'\n")
-			.append("  Field: 'fltWeight:").append(this.fltWeight).append("'\n")
-			.append("  Field: 'dtBirthday:").append(this.dtBirthday).append("'\n")
-			.append("  Field: 'imgPhoto:").append(this.imgPhoto).append("'\n")
-			;
+			.append("{\"Pet\": {\n")
+			.append("\"idPet\":\"").append(this.idPet).append("\"")
+			.append("\"nmPet\":\"").append(this.nmPet).append("\"")
+			.append("\"numAge\":\"").append(this.numAge).append("\"")
+			.append("\"fltWeight\":\"").append(this.fltWeight).append("\"")
+			.append("\"dtBirthday\":\"").append(this.dtBirthday).append("\"")
+			.append("\"imgPhoto\":\"").append(this.imgPhoto).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -390,14 +387,14 @@ public class Pet extends ModelBase {
 	}
 
 	/**
-	 * Return an XML representation of the 'Pet' model, with the root node being the
-	 * name of the table - i.e. <pet> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>Pet</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;pet /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<pet>" + 

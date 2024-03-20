@@ -33,7 +33,7 @@ import {database.package}.ConnectionManagerInitialiser;{\n}
  * {{@link  {database.package}.ConnectionManagerInitialiser#CONNECTION_POOL_NAME  {database.package}.ConnectionManagerInitialiser#CONNECTION_POOL_NAME}{\n}
  * </p>{\n}
  *{\n}
- * <strong><pre>{\n}
+ * <pre>{\n}
  *{\n}
  * NOTE: ONCE GENERATED - THIS FILE WILL __NEVER__ BE OVER-WRITTEN BY AN h2zero{\n}
  *       RE-GENERATION.{\n}
@@ -42,7 +42,7 @@ import {database.package}.ConnectionManagerInitialiser;{\n}
  *       VERSIONS...{\n}
  *{\n}
  *       JUST SAYING...{\n}
- * </pre></strong>{\n}
+ * </pre>{\n}
  */{\n}
 public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {{{\n}
 {\n}

@@ -31,8 +31,8 @@ import synapticloop.sample.h2zero.mysql.finder.UserFinder;
 
 
 /**
- * This is the model for the User which maps to the user database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>User</code> which maps to the <code>user</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
   * 
  * @author synapticloop h2zero
  * 
@@ -142,33 +142,32 @@ public class User extends ModelBase {
 	}
 
 	/**
-	 * Get a new User model, or set the fields on an existing
-	 * User model.
-	 * <p>
-	 * If the passed in user is null, then a new User
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new User model, or set the fields on an existing
+	 * User model.</p>
+	 * 
+	 * <p>If the passed in user is null, then a new User
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param user the model to check
-	 * @param idUser
-	 * @param idUserType
-	 * @param flIsAlive
-	 * @param numAge
-	 * @param nmUsername
-	 * @param txtAddressEmail
-	 * @param txtPassword
-	 * @param dtmSignup
+	 * @param idUserType - maps to the <code>id_user_type</code> field.
+	 * @param flIsAlive - maps to the <code>fl_is_alive</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code> field.
+	 * @param txtPassword - maps to the <code>txt_password</code> field.
+	 * @param dtmSignup - maps to the <code>dtm_signup</code> field.
 	 * 
 	 * @return Either the existing user with updated field values,
 	 *   or a new User with the field values set.
 	 */
-	public static User getOrSet(User user,Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
+	public static User getOrSet(User user,Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
 		if(null == user) {
-			return (new User(idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
+			return (new User(null, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
 		} else {
-			user.setIdUser(idUser);
 			user.setIdUserType(idUserType);
 			user.setFlIsAlive(flIsAlive);
 			user.setNumAge(numAge);
@@ -192,7 +191,6 @@ public class User extends ModelBase {
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param user the model to check
-	 * @param idUser
 	 * @param idUserType
 	 * @param numAge
 	 * @param nmUsername
@@ -202,11 +200,10 @@ public class User extends ModelBase {
 	 * @return Either the existing user with updated field values,
 	 *   or a new User with the field values set.
 	 */
-	public static User getOrSet(User user,Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
+	public static User getOrSet(User user, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
 		if(null == user) {
-			return (new User(idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
+			return (new User(null , idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
 		} else {
-			user.setIdUser(idUser);
 			user.setIdUserType(idUserType);
 			user.setNumAge(numAge);
 			user.setNmUsername(nmUsername);
@@ -418,16 +415,16 @@ public class User extends ModelBase {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'User'\n")
-			.append("  Field: 'idUser:").append(this.idUser).append("'\n")
-			.append("  Field: 'idUserType:").append(this.idUserType).append("'\n")
-			.append("  Field: 'flIsAlive:").append(this.flIsAlive).append("'\n")
-			.append("  Field: 'numAge:").append(this.numAge).append("'\n")
-			.append("  Field: 'nmUsername:").append(this.nmUsername).append("'\n")
-			.append("  Field: 'txtAddressEmail:").append(this.txtAddressEmail).append("'\n")
-			.append("  Field: 'txtPassword:<**secure**>'\n")
-			.append("  Field: 'dtmSignup:").append(this.dtmSignup).append("'\n")
-			;
+			.append("{\"User\": {\n")
+			.append("\"idUser\":\"").append(this.idUser).append("\"")
+			.append("\"idUserType\":\"").append(this.idUserType).append("\"")
+			.append("\"flIsAlive\":\"").append(this.flIsAlive).append("\"")
+			.append("\"numAge\":\"").append(this.numAge).append("\"")
+			.append("\"nmUsername\":\"").append(this.nmUsername).append("\"")
+			.append("\"txtAddressEmail\":\"").append(this.txtAddressEmail).append("\"")
+			.append("\"txtPassword\": \"<**secure**>\"\n")
+			.append("\"dtmSignup\":\"").append(this.dtmSignup).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -464,14 +461,14 @@ public class User extends ModelBase {
 	}
 
 	/**
-	 * Return an XML representation of the 'User' model, with the root node being the
-	 * name of the table - i.e. <user> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>User</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user>" + 

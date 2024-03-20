@@ -4,18 +4,25 @@ package synapticloop.sample.h2zero.mysql.question;
 //    with the use of synapticloop templar templating language
 //                (java-create-question.templar)
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import synapticloop.sample.h2zero.mysql.model.util.Constants;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+import synapticloop.sample.h2zero.mysql.model.util.Constants;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 
 /**
  * <p>This class contains all of the questions that are defined in the h2zero
@@ -68,13 +75,15 @@ public class UserQuestion {
 	 * @return whether the primary key exists
 	 */
 	public static boolean internalDoesPrimaryKeyExist(Long idUser) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
 		boolean answer = false;
 
-		try(Connection connection = ConnectionManager.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST)) {
-
+		try {
+			connection = ConnectionManager.getConnection();
+			preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
 			ConnectionManager.setBigint(preparedStatement, 1, idUser);
 
 			resultSet = preparedStatement.executeQuery();
@@ -89,7 +98,7 @@ public class UserQuestion {
 				}
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, null, null);
+			ConnectionManager.closeAll(resultSet, preparedStatement, connection);
 		}
 		return(answer);
 	}

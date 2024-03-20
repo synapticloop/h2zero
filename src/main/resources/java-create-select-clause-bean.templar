@@ -57,12 +57,18 @@ public class {table.javaClassName}{finder.tagName}Bean {{{\n}
 	{endloop}
 
 {\n}
+
 	{\t}/**{\n}
-	{\t} * Return an XML representation of the select clause bean for the {finder.tagName}{\n}
-	{\t} * finder.  The root node is name of the select clause finder - i.e. <{finder.tagName}>{\n}
-	{\t} * and the child nodes the name of the fields.{\n}
+	{\t} * <p>Return an XML representation of the select clause bean for the call to the {\n}
+	{\t} * <code>{table.javaClassName}Finder.{finder.tagName}()</code> finder as a <code>String</code>.</p>{\n}
 	{\t} * {\n}
-	{\t} * @return An XML representation of the model.  {\n}
+	{\t} * <p>The root node is name of the select clause finder - i.e. <code>&lt;{finder.tagName} /&gt;</code>{\n}
+	{\t} * and the child nodes the name of the fields.</p>{\n}
+	{\t} * {\n}
+	{\t} * <p><strong>NOTE:</strong> Any field marked as secure will not be included as{\n}
+	{\t} * part of the XML document</p>{\n}
+	{\t} * {\n}
+	{\t} * @return An XML representation of the bean as a <code>String</code>.  {\n}
 	{\t} */{\n}
 
 	{\t}public String toXMLString() {{{\n}

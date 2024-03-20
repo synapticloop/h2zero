@@ -21,8 +21,8 @@ import java.sql.*;
 
 
 /**
- * This is the model for the AllTypes which maps to the all_types database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>AllTypes</code> which maps to the <code>all_types</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
   * 
  * @author synapticloop h2zero
  * 
@@ -277,54 +277,53 @@ public class AllTypes extends ModelBase {
 	}
 
 	/**
-	 * Get a new AllTypes model, or set the fields on an existing
-	 * AllTypes model.
-	 * <p>
-	 * If the passed in allTypes is null, then a new AllTypes
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.</p>
+	 * 
+	 * <p>If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param allTypes the model to check
-	 * @param idAllTypes
-	 * @param testBigint
-	 * @param testBlob
-	 * @param testBool
-	 * @param testChar
-	 * @param testBoolean
-	 * @param testBinary
-	 * @param testVarbinary
-	 * @param testDate
-	 * @param testDatetime
-	 * @param testDec
-	 * @param testDecimal
-	 * @param testDouble
-	 * @param testFloat
-	 * @param testInt
-	 * @param testInteger
-	 * @param testLongtext
-	 * @param testMediumblob
-	 * @param testMediumint
-	 * @param testMediumtext
-	 * @param testNumeric
-	 * @param testSmallint
-	 * @param testTime
-	 * @param testText
-	 * @param testTimestamp
-	 * @param testTinyint
-	 * @param testTinytext
-	 * @param testVarchar
-	 * @param testYear
+	 * @param testBigint - maps to the <code>test_bigint</code> field.
+	 * @param testBlob - maps to the <code>test_blob</code> field.
+	 * @param testBool - maps to the <code>test_bool</code> field.
+	 * @param testChar - maps to the <code>test_char</code> field.
+	 * @param testBoolean - maps to the <code>test_boolean</code> field.
+	 * @param testBinary - maps to the <code>test_binary</code> field.
+	 * @param testVarbinary - maps to the <code>test_varbinary</code> field.
+	 * @param testDate - maps to the <code>test_date</code> field.
+	 * @param testDatetime - maps to the <code>test_datetime</code> field.
+	 * @param testDec - maps to the <code>test_dec</code> field.
+	 * @param testDecimal - maps to the <code>test_decimal</code> field.
+	 * @param testDouble - maps to the <code>test_double</code> field.
+	 * @param testFloat - maps to the <code>test_float</code> field.
+	 * @param testInt - maps to the <code>test_int</code> field.
+	 * @param testInteger - maps to the <code>test_integer</code> field.
+	 * @param testLongtext - maps to the <code>test_longtext</code> field.
+	 * @param testMediumblob - maps to the <code>test_mediumblob</code> field.
+	 * @param testMediumint - maps to the <code>test_mediumint</code> field.
+	 * @param testMediumtext - maps to the <code>test_mediumtext</code> field.
+	 * @param testNumeric - maps to the <code>test_numeric</code> field.
+	 * @param testSmallint - maps to the <code>test_smallint</code> field.
+	 * @param testTime - maps to the <code>test_time</code> field.
+	 * @param testText - maps to the <code>test_text</code> field.
+	 * @param testTimestamp - maps to the <code>test_timestamp</code> field.
+	 * @param testTinyint - maps to the <code>test_tinyint</code> field.
+	 * @param testTinytext - maps to the <code>test_tinytext</code> field.
+	 * @param testVarchar - maps to the <code>test_varchar</code> field.
+	 * @param testYear - maps to the <code>test_year</code> field.
 	 * 
 	 * @return Either the existing allTypes with updated field values,
 	 *   or a new AllTypes with the field values set.
 	 */
-	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) {
+	public static AllTypes getOrSet(AllTypes allTypes,Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) {
 		if(null == allTypes) {
-			return (new AllTypes(idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear));
+			return (new AllTypes(null, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear));
 		} else {
-			allTypes.setIdAllTypes(idAllTypes);
 			allTypes.setTestBigint(testBigint);
 			allTypes.setTestBlob(testBlob);
 			allTypes.setTestBool(testBool);
@@ -369,16 +368,14 @@ public class AllTypes extends ModelBase {
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param allTypes the model to check
-	 * @param idAllTypes
 	 * 
 	 * @return Either the existing allTypes with updated field values,
 	 *   or a new AllTypes with the field values set.
 	 */
-	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes) {
+	public static AllTypes getOrSet(AllTypes allTypes) {
 		if(null == allTypes) {
-			return (new AllTypes(idAllTypes));
+			return (new AllTypes(null ));
 		} else {
-			allTypes.setIdAllTypes(idAllTypes);
 
 			return(allTypes);
 		}
@@ -702,37 +699,37 @@ public class AllTypes extends ModelBase {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'AllTypes'\n")
-			.append("  Field: 'idAllTypes:").append(this.idAllTypes).append("'\n")
-			.append("  Field: 'testBigint:").append(this.testBigint).append("'\n")
-			.append("  Field: 'testBlob:").append(this.testBlob).append("'\n")
-			.append("  Field: 'testBool:").append(this.testBool).append("'\n")
-			.append("  Field: 'testChar:").append(this.testChar).append("'\n")
-			.append("  Field: 'testBoolean:").append(this.testBoolean).append("'\n")
-			.append("  Field: 'testBinary:").append(this.testBinary).append("'\n")
-			.append("  Field: 'testVarbinary:").append(this.testVarbinary).append("'\n")
-			.append("  Field: 'testDate:").append(this.testDate).append("'\n")
-			.append("  Field: 'testDatetime:").append(this.testDatetime).append("'\n")
-			.append("  Field: 'testDec:").append(this.testDec).append("'\n")
-			.append("  Field: 'testDecimal:").append(this.testDecimal).append("'\n")
-			.append("  Field: 'testDouble:").append(this.testDouble).append("'\n")
-			.append("  Field: 'testFloat:").append(this.testFloat).append("'\n")
-			.append("  Field: 'testInt:").append(this.testInt).append("'\n")
-			.append("  Field: 'testInteger:").append(this.testInteger).append("'\n")
-			.append("  Field: 'testLongtext:").append(this.testLongtext).append("'\n")
-			.append("  Field: 'testMediumblob:").append(this.testMediumblob).append("'\n")
-			.append("  Field: 'testMediumint:").append(this.testMediumint).append("'\n")
-			.append("  Field: 'testMediumtext:").append(this.testMediumtext).append("'\n")
-			.append("  Field: 'testNumeric:").append(this.testNumeric).append("'\n")
-			.append("  Field: 'testSmallint:").append(this.testSmallint).append("'\n")
-			.append("  Field: 'testTime:").append(this.testTime).append("'\n")
-			.append("  Field: 'testText:").append(this.testText).append("'\n")
-			.append("  Field: 'testTimestamp:").append(this.testTimestamp).append("'\n")
-			.append("  Field: 'testTinyint:").append(this.testTinyint).append("'\n")
-			.append("  Field: 'testTinytext:").append(this.testTinytext).append("'\n")
-			.append("  Field: 'testVarchar:").append(this.testVarchar).append("'\n")
-			.append("  Field: 'testYear:").append(this.testYear).append("'\n")
-			;
+			.append("{\"AllTypes\": {\n")
+			.append("\"idAllTypes\":\"").append(this.idAllTypes).append("\"")
+			.append("\"testBigint\":\"").append(this.testBigint).append("\"")
+			.append("\"testBlob\":\"").append(this.testBlob).append("\"")
+			.append("\"testBool\":\"").append(this.testBool).append("\"")
+			.append("\"testChar\":\"").append(this.testChar).append("\"")
+			.append("\"testBoolean\":\"").append(this.testBoolean).append("\"")
+			.append("\"testBinary\":\"").append(this.testBinary).append("\"")
+			.append("\"testVarbinary\":\"").append(this.testVarbinary).append("\"")
+			.append("\"testDate\":\"").append(this.testDate).append("\"")
+			.append("\"testDatetime\":\"").append(this.testDatetime).append("\"")
+			.append("\"testDec\":\"").append(this.testDec).append("\"")
+			.append("\"testDecimal\":\"").append(this.testDecimal).append("\"")
+			.append("\"testDouble\":\"").append(this.testDouble).append("\"")
+			.append("\"testFloat\":\"").append(this.testFloat).append("\"")
+			.append("\"testInt\":\"").append(this.testInt).append("\"")
+			.append("\"testInteger\":\"").append(this.testInteger).append("\"")
+			.append("\"testLongtext\":\"").append(this.testLongtext).append("\"")
+			.append("\"testMediumblob\":\"").append(this.testMediumblob).append("\"")
+			.append("\"testMediumint\":\"").append(this.testMediumint).append("\"")
+			.append("\"testMediumtext\":\"").append(this.testMediumtext).append("\"")
+			.append("\"testNumeric\":\"").append(this.testNumeric).append("\"")
+			.append("\"testSmallint\":\"").append(this.testSmallint).append("\"")
+			.append("\"testTime\":\"").append(this.testTime).append("\"")
+			.append("\"testText\":\"").append(this.testText).append("\"")
+			.append("\"testTimestamp\":\"").append(this.testTimestamp).append("\"")
+			.append("\"testTinyint\":\"").append(this.testTinyint).append("\"")
+			.append("\"testTinytext\":\"").append(this.testTinytext).append("\"")
+			.append("\"testVarchar\":\"").append(this.testVarchar).append("\"")
+			.append("\"testYear\":\"").append(this.testYear).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -791,14 +788,14 @@ public class AllTypes extends ModelBase {
 	}
 
 	/**
-	 * Return an XML representation of the 'AllTypes' model, with the root node being the
-	 * name of the table - i.e. <all_types> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>AllTypes</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;all_types /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<all_types>" + 

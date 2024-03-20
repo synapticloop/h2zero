@@ -75,14 +75,14 @@ public class UserUserType extends ViewBase {
 	}
 
 	/**
-	 * Return an XML representation of the 'UserUserType' model, with the root node being the
-	 * name of the table - i.e. <user_user_type> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>UserUserType</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user_user_type /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user_user_type>" + 

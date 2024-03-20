@@ -43,11 +43,16 @@ public class UserTitleFindIdUserTitleNmUserTitleOrderedBean {
 	public void setNmUserTitle(String nmUserTitle) { this.nmUserTitle = nmUserTitle; }
 
 	/**
-	 * Return an XML representation of the select clause bean for the FindIdUserTitleNmUserTitleOrdered
-	 * finder.  The root node is name of the select clause finder - i.e. <FindIdUserTitleNmUserTitleOrdered>
-	 * and the child nodes the name of the fields.
+	 * <p>Return an XML representation of the select clause bean for the call to the 
+	 * <code>UserTitleFinder.FindIdUserTitleNmUserTitleOrdered()</code> finder as a <code>String</code>.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p>The root node is name of the select clause finder - i.e. <code>&lt;FindIdUserTitleNmUserTitleOrdered /&gt;</code>
+	 * and the child nodes the name of the fields.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the bean as a <code>String</code>.  
 	 */
 	public String toXMLString() {
 		return("<user_title>" + 

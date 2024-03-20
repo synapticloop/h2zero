@@ -28,8 +28,8 @@ import synapticloop.sample.h2zero.mysql.finder.PetTypeFinder;
 
 
 /**
- * This is the model for the PetType which maps to the pet_type database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>PetType</code> which maps to the <code>pet_type</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
   * 
  * @author synapticloop h2zero
  * 
@@ -96,28 +96,27 @@ public class PetType extends ModelBase {
 	}
 
 	/**
-	 * Get a new PetType model, or set the fields on an existing
-	 * PetType model.
-	 * <p>
-	 * If the passed in petType is null, then a new PetType
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new PetType model, or set the fields on an existing
+	 * PetType model.</p>
+	 * 
+	 * <p>If the passed in petType is null, then a new PetType
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param petType the model to check
-	 * @param idPetType
-	 * @param nmPetType
-	 * @param txtDescPetType
+	 * @param nmPetType - maps to the <code>nm_pet_type</code> field.
+	 * @param txtDescPetType - maps to the <code>txt_desc_pet_type</code> field.
 	 * 
 	 * @return Either the existing petType with updated field values,
 	 *   or a new PetType with the field values set.
 	 */
-	public static PetType getOrSet(PetType petType,Long idPetType, String nmPetType, String txtDescPetType) {
+	public static PetType getOrSet(PetType petType,String nmPetType, String txtDescPetType) {
 		if(null == petType) {
-			return (new PetType(idPetType, nmPetType, txtDescPetType));
+			return (new PetType(null, nmPetType, txtDescPetType));
 		} else {
-			petType.setIdPetType(idPetType);
 			petType.setNmPetType(nmPetType);
 			petType.setTxtDescPetType(txtDescPetType);
 
@@ -261,11 +260,11 @@ public class PetType extends ModelBase {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'PetType'\n")
-			.append("  Field: 'idPetType:").append(this.idPetType).append("'\n")
-			.append("  Field: 'nmPetType:").append(this.nmPetType).append("'\n")
-			.append("  Field: 'txtDescPetType:").append(this.txtDescPetType).append("'\n")
-			;
+			.append("{\"PetType\": {\n")
+			.append("\"idPetType\":\"").append(this.idPetType).append("\"")
+			.append("\"nmPetType\":\"").append(this.nmPetType).append("\"")
+			.append("\"txtDescPetType\":\"").append(this.txtDescPetType).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -298,14 +297,14 @@ public class PetType extends ModelBase {
 	}
 
 	/**
-	 * Return an XML representation of the 'PetType' model, with the root node being the
-	 * name of the table - i.e. <pet_type> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>PetType</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;pet_type /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<pet_type>" + 

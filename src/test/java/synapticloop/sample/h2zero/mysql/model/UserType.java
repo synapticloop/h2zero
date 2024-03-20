@@ -17,8 +17,8 @@ import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 
 /**
- * This is the model for the UserType which maps to the user_type database table.
- * This is a constant table which cannot be changed
+ * <p>This is the model for the <code>UserType</code> which maps to the <code>user_type</code> database table.</p>
+ * <p><strong>NOTE:</strong> This is a constant table which cannot be changed and no CRUD methods are available.</p>
   * 
  * @author synapticloop h2zero
  * 
@@ -66,27 +66,26 @@ public class UserType  {
 	}
 
 	/**
-	 * Get a new UserType model, or set the fields on an existing
-	 * UserType model.
-	 * <p>
-	 * If the passed in userType is null, then a new UserType
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new UserType model, or set the fields on an existing
+	 * UserType model.</p>
+	 * 
+	 * <p>If the passed in userType is null, then a new UserType
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param userType the model to check
-	 * @param idUserType
-	 * @param nmUserType
+	 * @param nmUserType - maps to the <code>nm_user_type</code> field.
 	 * 
 	 * @return Either the existing userType with updated field values,
 	 *   or a new UserType with the field values set.
 	 */
-	public static UserType getOrSet(UserType userType,Long idUserType, String nmUserType) {
+	public static UserType getOrSet(UserType userType,String nmUserType) {
 		if(null == userType) {
-			return (new UserType(idUserType, nmUserType));
+			return (new UserType(null, nmUserType));
 		} else {
-			userType.setIdUserType(idUserType);
 			userType.setNmUserType(nmUserType);
 
 			return(userType);
@@ -107,10 +106,10 @@ public class UserType  {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'UserType'\n")
-			.append("  Field: 'idUserType:").append(this.idUserType).append("'\n")
-			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
-			;
+			.append("{\"UserType\": {\n")
+			.append("\"idUserType\":\"").append(this.idUserType).append("\"")
+			.append("\"nmUserType\":\"").append(this.nmUserType).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -142,14 +141,14 @@ public class UserType  {
 	}
 
 	/**
-	 * Return an XML representation of the 'UserType' model, with the root node being the
-	 * name of the table - i.e. <user_type> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>UserType</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user_type /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user_type>" + 

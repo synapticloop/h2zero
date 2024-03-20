@@ -43,11 +43,16 @@ public class UserFindNmUserDtmSignupBean {
 	public void setDtmSignup(Timestamp dtmSignup) { this.dtmSignup = dtmSignup; }
 
 	/**
-	 * Return an XML representation of the select clause bean for the FindNmUserDtmSignup
-	 * finder.  The root node is name of the select clause finder - i.e. <FindNmUserDtmSignup>
-	 * and the child nodes the name of the fields.
+	 * <p>Return an XML representation of the select clause bean for the call to the 
+	 * <code>UserFinder.FindNmUserDtmSignup()</code> finder as a <code>String</code>.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p>The root node is name of the select clause finder - i.e. <code>&lt;FindNmUserDtmSignup /&gt;</code>
+	 * and the child nodes the name of the fields.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the bean as a <code>String</code>.  
 	 */
 	public String toXMLString() {
 		return("<user>" + 

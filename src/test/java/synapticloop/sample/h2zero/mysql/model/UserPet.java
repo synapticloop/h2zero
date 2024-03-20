@@ -33,8 +33,8 @@ import synapticloop.sample.h2zero.mysql.finder.PetFinder;
 
 
 /**
- * This is the model for the UserPet which maps to the user_pet database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>UserPet</code> which maps to the <code>user_pet</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
   * 
  * @author synapticloop h2zero
  * 
@@ -103,28 +103,27 @@ public class UserPet extends ModelBase {
 	}
 
 	/**
-	 * Get a new UserPet model, or set the fields on an existing
-	 * UserPet model.
-	 * <p>
-	 * If the passed in userPet is null, then a new UserPet
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new UserPet model, or set the fields on an existing
+	 * UserPet model.</p>
+	 * 
+	 * <p>If the passed in userPet is null, then a new UserPet
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param userPet the model to check
-	 * @param idUserPet
-	 * @param idUser
-	 * @param idPet
+	 * @param idUser - maps to the <code>id_user</code> field.
+	 * @param idPet - maps to the <code>id_pet</code> field.
 	 * 
 	 * @return Either the existing userPet with updated field values,
 	 *   or a new UserPet with the field values set.
 	 */
-	public static UserPet getOrSet(UserPet userPet,Long idUserPet, Long idUser, Long idPet) {
+	public static UserPet getOrSet(UserPet userPet,Long idUser, Long idPet) {
 		if(null == userPet) {
-			return (new UserPet(idUserPet, idUser, idPet));
+			return (new UserPet(null, idUser, idPet));
 		} else {
-			userPet.setIdUserPet(idUserPet);
 			userPet.setIdUser(idUser);
 			userPet.setIdPet(idPet);
 
@@ -290,11 +289,11 @@ public class UserPet extends ModelBase {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'UserPet'\n")
-			.append("  Field: 'idUserPet:").append(this.idUserPet).append("'\n")
-			.append("  Field: 'idUser:").append(this.idUser).append("'\n")
-			.append("  Field: 'idPet:").append(this.idPet).append("'\n")
-			;
+			.append("{\"UserPet\": {\n")
+			.append("\"idUserPet\":\"").append(this.idUserPet).append("\"")
+			.append("\"idUser\":\"").append(this.idUser).append("\"")
+			.append("\"idPet\":\"").append(this.idPet).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -327,14 +326,14 @@ public class UserPet extends ModelBase {
 	}
 
 	/**
-	 * Return an XML representation of the 'UserPet' model, with the root node being the
-	 * name of the table - i.e. <user_pet> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>UserPet</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user_pet /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user_pet>" + 

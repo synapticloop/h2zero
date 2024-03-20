@@ -65,14 +65,12 @@ import {database.package}.model.util.Constants;{\n}
 {endif}
 
 {\n}{\n}
+/**{\n}
+ * <p>This is the model for the <code>{table.javaClassName}</code> which maps to the <code>{table.name}</code> database table.</p>{\n}
 {if table.isConstant}
-/**{\n}
- * This is the model for the {table.javaClassName} which maps to the {table.name} database table.{\n}
- * This is a constant table which cannot be changed{\n}
+ * <p><strong>NOTE:</strong> This is a constant table which cannot be changed and no CRUD methods are available.</p>{\n}
  {else}
-/**{\n}
- * This is the model for the {table.javaClassName} which maps to the {table.name} database table{\n}
- * and contains the default CRUD methods.{\n}
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>{\n}
  {endif}
  * {\n}
  * @author synapticloop h2zero{\n}
@@ -288,18 +286,19 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 }
 
 	{\t}/**{\n}
-	{\t} * Get a new {table.javaClassName} model, or set the fields on an existing{\n}
-	{\t} * {table.javaClassName} model.{\n}
-	{\t} * <p>{\n}
-	{\t} * If the passed in {table.javaFieldName} is null, then a new {table.javaClassName}{\n}
-	{\t} * will be created.  If not null, the fields will be updated on the passed in model.{\n}
-	{\t} * <p>{\n}
-	{\t} * <strong>NOTE:</strong> You will still need to persist this to the database{\n}
-	{\t} * with an <code>upsert()</code> call.{\n}
+	{\t} * <p>Get a new {table.javaClassName} model, or set the fields on an existing{\n}
+	{\t} * {table.javaClassName} model.</p>{\n}
+	{\t} * {\n}
+	{\t} * <p>If the passed in {table.javaFieldName} is null, then a new {table.javaClassName}{\n}
+	{\t} * will be created.  If not null, the fields will be updated on the passed in model.</p>{\n}
+	{\t} * {\n}
+	{\t} * <p><strong>NOTE:</strong> You will still need to persist this to the database{\n}
+	{\t} * with an <code>upsert()</code> call - this will insert the model if it .{\n}
+	{\t} * doesn't exist, or update the existing model.</p>{\n}
 	{\t} * {\n}
 	{\t} * @param {table.javaFieldName} the model to check{\n}
-		{loop table.fields as field}
-	{\t} * @param {field.javaName}{\n}
+		{loop table.nonPrimaryFields as field}
+	{\t} * @param {field.javaName} - maps to the <code>{field.name}</code> field.{\n}
 		{endloop}
 	{\t} * {\n}
 	{\t} * @return Either the existing {table.javaFieldName} with updated field values,{\n}
@@ -308,17 +307,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 
 	{\t}public static {table.javaClassName} getOrSet({table.javaClassName} {table.javaFieldName},
-		{loop table.fields as field}
+		{loop table.nonPrimaryFields as field}
 			{field.javaType} {field.javaName}
 			{if fieldStatus.last}{else}, {endif}
 		{endloop}
 	) {{{\n}
 
 		{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
-{\t}{\t}{\t}return (new {table.javaClassName}({loop table.fields as field}{field.javaName}{if !fieldStatus.last}, {endif}
+{\t}{\t}{\t}return (new {table.javaClassName}(null, {loop table.nonPrimaryFields as field}{field.javaName}{if !fieldStatus.last}, {endif}
 		{endloop}));{\n}
 	{\t}{\t}} else {{{\n}
-		{loop table.fields as field}
+		{loop table.nonPrimaryFields as field}
 	{\t}{\t}{\t}{table.javaFieldName}.set{field.javaAccessorName}({field.javaName});{\n}
 		{endloop}{\n}
 	{\t}{\t}{\t}return({table.javaFieldName});{\n}
@@ -340,7 +339,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} * with an <code>upsert()</code> call.{\n}
 	{\t} * {\n}
 	{\t} * @param {table.javaFieldName} the model to check{\n}
-		{loop table.nonNullFields as field}
+		{loop table.nonPrimaryNullFields as field}
 	{\t} * @param {field.javaName}{\n}
 		{endloop}
 	{\t} * {\n}
@@ -349,17 +348,16 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} */{\n}
 
 
-		{\t}public static {table.javaClassName} getOrSet({table.javaClassName} {table.javaFieldName},
-			{loop table.nonNullFields as field}
-				{field.javaType} {field.javaName}
-				{if fieldStatus.last}{else}, {endif}
+		{\t}public static {table.javaClassName} getOrSet({table.javaClassName} {table.javaFieldName}
+			{loop table.nonPrimaryNullFields as field}
+				, {field.javaType} {field.javaName}
 			{endloop}
 		) {{{\n}
 		{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
-{\t}{\t}{\t}return (new {table.javaClassName}({loop table.nonNullFields as field}{field.javaName}{if !fieldStatus.last}, {endif}
+{\t}{\t}{\t}return (new {table.javaClassName}(null {loop table.nonPrimaryNullFields as field}, {field.javaName}
 		{endloop}));{\n}
 	{\t}{\t}} else {{{\n}
-		{loop table.nonNullFields as field}
+		{loop table.nonPrimaryNullFields as field}
 	{\t}{\t}{\t}{table.javaFieldName}.set{field.javaAccessorName}({field.javaName});{\n}
 		{endloop}{\n}
 	{\t}{\t}{\t}return({table.javaFieldName});{\n}
@@ -753,14 +751,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
 
 		{\t}{\t}stringBuilder{\n}
-		{\t}{\t}{\t}.append("Model: '{table.javaClassName}'\n"){\n}
+		{\t}{\t}{\t}.append("{{\"{table.javaClassName}\": {{\n"){\n}
 		{loop table.fields as field}
 			{if field.isSecure}
-				{\t}{\t}{\t}.append("  Field: '{field.javaName}:<**secure**>'\n"){\n}
+				{\t}{\t}{\t}.append("\"{field.javaName}\": \"<**secure**>\"\n"){\n}
 			{else}
-				{\t}{\t}{\t}.append("  Field: '{field.javaName}:").append(this.{field.javaName}).append("'\n"){\n}
+				{\t}{\t}{\t}.append("\"{field.javaName}\":\"").append(this.{field.javaName}).append("\""){\n}
 			{endif}
-			{if fieldStatus.last}{\t}{\t}{\t};{\n}{endif}
+			{if fieldStatus.last}{\t}{\t}{\t}.append("}");{\n}{endif}
 		{endloop}
 
 		{\t}{\t}return(stringBuilder.toString());{\n}
@@ -808,14 +806,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 {\n}
 	{\t}/**{\n}
-	{\t} * Return an XML representation of the '{table.javaClassName}' model, with the root node being the{\n}
-	{\t} * name of the table - i.e. <{table.name}> and the child nodes the name of the {\n}
-	{\t} * fields.{\n}
-	{\t} * <p>{\n}
-	{\t} * <strong>NOTE:</strong> Any field marked as secure will not be included as{\n}
-	{\t} * part of the XML document{\n}
+	{\t} * <p>Return an XML representation of the <code>{table.javaClassName}</code> model as a <code>String</code>, {\n}
+	{\t} * with the root node being the name of the table - i.e. <code>&lt;{table.name} /&gt;</code> {\n}
+	{\t} * and the child nodes the name of the fields.</p>{\n}
 	{\t} * {\n}
-	{\t} * @return An XML representation of the model.  {\n}
+	{\t} * <p><strong>NOTE:</strong> Any field marked as secure will not be included as{\n}
+	{\t} * part of the XML document</p>{\n}
+	{\t} * {\n}
+	{\t} * @return An XML representation of the model as a <code>String</code>.{\n}
 	{\t} */{\n}
 
 	{\t}public String toXMLString() {{{\n}

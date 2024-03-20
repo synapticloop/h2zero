@@ -17,20 +17,9 @@ package synapticloop.h2zero.model;
  * under the Licence.
  */
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.model.field.BaseField;
 import synapticloop.h2zero.model.util.DatabaseFieldTypeConfirm;
@@ -41,6 +30,10 @@ import synapticloop.h2zero.util.KeyHelper;
 import synapticloop.h2zero.util.NamingHelper;
 import synapticloop.h2zero.util.SimpleLogger;
 import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * The table encapsulates everything that is required for a single database table
@@ -114,6 +107,7 @@ public class Table extends BaseSchemaObject {
 
   private final List<BaseField> nonNullFields = new ArrayList<>();
   private final List<BaseField> nonPrimaryFields = new ArrayList<>();
+  private final List<BaseField> nonPrimaryNullFields = new ArrayList<>();
 
   private final List<Updater> updaters = new ArrayList<>(); // a list of all of the updaters
   private final List<Inserter> inserters = new ArrayList<>(); // a list of all of the inserters
@@ -291,6 +285,10 @@ public class Table extends BaseSchemaObject {
         // test to see whether any of the fields can be nullable (for the inserters)
         if (baseField.getNullable()) {
           hasNullableFields = true;
+        }
+
+        if(!baseField.getPrimary() && !baseField.getNullable()) {
+          nonPrimaryNullFields.add(baseField);
         }
 
         if (!baseField.getPrimary()) {
@@ -659,6 +657,10 @@ public class Table extends BaseSchemaObject {
 
   public List<BaseField> getNonPrimaryFields() {
     return (nonPrimaryFields);
+  }
+
+  public List<BaseField> getNonPrimaryNullFields() {
+    return (nonPrimaryNullFields);
   }
 
   public BaseField getSetField(String name) {
