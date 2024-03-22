@@ -229,7 +229,7 @@ public class AllTypes extends ModelBase {
 	/**
 	 * Instantiate the AllTypes object with all the fields within the table.
 	 * 
-	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@5c9a749</code>
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@44c07931</code>
 	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
 	 * then, passing in <code>null</code> will automatically generate this field value
 	 * and will set the value.</p>
@@ -299,7 +299,7 @@ public class AllTypes extends ModelBase {
 	/**
 	 * Instantiate the AllTypes object with all the non-nullable fields within the table
 	 * 
-	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@5c9a749</code>
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@44c07931</code>
 	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
 	 * then, passing in <code>null</code> will automatically generate this field value
 	 * and will set the value.</p>

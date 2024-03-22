@@ -95,7 +95,7 @@ public class PetType extends ModelBase {
 	/**
 	 * Instantiate the PetType object with all the fields within the table.
 	 * 
-	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@34804259</code>
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@3670be97</code>
 	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
 	 * then, passing in <code>null</code> will automatically generate this field value
 	 * and will set the value.</p>

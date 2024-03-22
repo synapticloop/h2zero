@@ -102,7 +102,7 @@ public class UserPet extends ModelBase {
 	/**
 	 * Instantiate the UserPet object with all the fields within the table.
 	 * 
-	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@5c1c6e0b</code>
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@2d5da78e</code>
 	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
 	 * then, passing in <code>null</code> will automatically generate this field value
 	 * and will set the value.</p>

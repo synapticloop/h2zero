@@ -64,7 +64,7 @@ public class UserTitle  {
 	/**
 	 * Instantiate the UserTitle object with all the fields within the table.
 	 * 
-	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@3136def0</code>
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@2e4fc780</code>
 	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
 	 * then, passing in <code>null</code> will automatically generate this field value
 	 * and will set the value.</p>

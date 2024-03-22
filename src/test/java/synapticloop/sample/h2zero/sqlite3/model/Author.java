@@ -31,10 +31,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 
 
 /**
- * This is the model for the Author which maps to the author database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>Author</code> which maps to the <code>author</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class Author extends ModelBase {
+public class Author extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -101,7 +105,10 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from author where id_author_status = ? and txt_id_author = ? and nm_author = ? and nm_username = ? and txt_bio = ? and txt_url_cache_image = ? and num_following = ? and num_followers = ? and dtm_started_following = ? and fl_is_updating = ? and fl_author_is_following_user = ? and fl_author_is_followed_by_user = ?";
 
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_AUTHOR = 1;
 	public static final int HIT_ID_AUTHOR_STATUS = 2;
@@ -138,6 +145,28 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	private Boolean flAuthorIsFollowingUser = null; // maps to the fl_author_is_following_user field
 	private Boolean flAuthorIsFollowedByUser = null; // maps to the fl_author_is_followed_by_user field
 
+	/**
+	 * Instantiate the Author object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@3926cdf2</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAuthor - maps to the <code>id_author</code>
+	 * @param idAuthorStatus - maps to the <code>id_author_status</code>
+	 * @param txtIdAuthor - maps to the <code>txt_id_author</code>
+	 * @param nmAuthor - maps to the <code>nm_author</code>
+	 * @param nmUsername - maps to the <code>nm_username</code>
+	 * @param txtBio - maps to the <code>txt_bio</code>
+	 * @param txtUrlCacheImage - maps to the <code>txt_url_cache_image</code>
+	 * @param numFollowing - maps to the <code>num_following</code>
+	 * @param numFollowers - maps to the <code>num_followers</code>
+	 * @param dtmStartedFollowing - maps to the <code>dtm_started_following</code>
+	 * @param flIsUpdating - maps to the <code>fl_is_updating</code>
+	 * @param flAuthorIsFollowingUser - maps to the <code>fl_author_is_following_user</code>
+	 * @param flAuthorIsFollowedByUser - maps to the <code>fl_author_is_followed_by_user</code>
+	 */
 	public Author(Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) {
 		this.idAuthor = idAuthor;
 		this.idAuthorStatus = idAuthorStatus;
@@ -154,6 +183,21 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 		this.flAuthorIsFollowedByUser = flAuthorIsFollowedByUser;
 	}
 
+	/**
+	 * Instantiate the Author object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@3926cdf2</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAuthor - maps to the <code>id_author</code>
+	 * @param txtIdAuthor - maps to the <code>txt_id_author</code>
+	 * @param nmAuthor - maps to the <code>nm_author</code>
+	 * @param nmUsername - maps to the <code>nm_username</code>
+	 * @param txtBio - maps to the <code>txt_bio</code>
+	 * @param txtUrlCacheImage - maps to the <code>txt_url_cache_image</code>
+	 */
 	public Author(Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) {
 		this.idAuthor = idAuthor;
 		this.idAuthorStatus = null;
@@ -171,38 +215,37 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	}
 
 	/**
-	 * Get a new Author model, or set the fields on an existing
-	 * Author model.
-	 * <p>
-	 * If the passed in author is null, then a new Author
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new Author model, or set the fields on an existing
+	 * Author model.</p>
+	 * 
+	 * <p>If the passed in author is null, then a new Author
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param author the model to check
-	 * @param idAuthor
-	 * @param idAuthorStatus
-	 * @param txtIdAuthor
-	 * @param nmAuthor
-	 * @param nmUsername
-	 * @param txtBio
-	 * @param txtUrlCacheImage
-	 * @param numFollowing
-	 * @param numFollowers
-	 * @param dtmStartedFollowing
-	 * @param flIsUpdating
-	 * @param flAuthorIsFollowingUser
-	 * @param flAuthorIsFollowedByUser
+	 * @param idAuthorStatus - maps to the <code>id_author_status</code> field.
+	 * @param txtIdAuthor - maps to the <code>txt_id_author</code> field.
+	 * @param nmAuthor - maps to the <code>nm_author</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtBio - maps to the <code>txt_bio</code> field.
+	 * @param txtUrlCacheImage - maps to the <code>txt_url_cache_image</code> field.
+	 * @param numFollowing - maps to the <code>num_following</code> field.
+	 * @param numFollowers - maps to the <code>num_followers</code> field.
+	 * @param dtmStartedFollowing - maps to the <code>dtm_started_following</code> field.
+	 * @param flIsUpdating - maps to the <code>fl_is_updating</code> field.
+	 * @param flAuthorIsFollowingUser - maps to the <code>fl_author_is_following_user</code> field.
+	 * @param flAuthorIsFollowedByUser - maps to the <code>fl_author_is_followed_by_user</code> field.
 	 * 
 	 * @return Either the existing author with updated field values,
 	 *   or a new Author with the field values set.
 	 */
-	public static Author getOrSet(Author author,Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) {
+	public static Author getOrSet(Author author,Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) {
 		if(null == author) {
-			return (new Author(idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser));
+			return (new Author(null, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser));
 		} else {
-			author.setIdAuthor(idAuthor);
 			author.setIdAuthorStatus(idAuthorStatus);
 			author.setTxtIdAuthor(txtIdAuthor);
 			author.setNmAuthor(nmAuthor);
@@ -231,21 +274,19 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param author the model to check
-	 * @param idAuthor
-	 * @param txtIdAuthor
-	 * @param nmAuthor
-	 * @param nmUsername
-	 * @param txtBio
-	 * @param txtUrlCacheImage
+	 * @param txtIdAuthor - maps to the <code>txt_id_author</code> field.
+	 * @param nmAuthor - maps to the <code>nm_author</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtBio - maps to the <code>txt_bio</code> field.
+	 * @param txtUrlCacheImage - maps to the <code>txt_url_cache_image</code> field.
 	 * 
 	 * @return Either the existing author with updated field values,
 	 *   or a new Author with the field values set.
 	 */
-	public static Author getOrSet(Author author,Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) {
+	public static Author getOrSet(Author author, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) {
 		if(null == author) {
-			return (new Author(idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage));
+			return (new Author(null , txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage));
 		} else {
-			author.setIdAuthor(idAuthor);
 			author.setTxtIdAuthor(txtIdAuthor);
 			author.setNmAuthor(nmAuthor);
 			author.setNmUsername(nmUsername);
@@ -397,6 +438,31 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_AUTHOR Use <code>Author.HIT_ID_AUTHOR</code> to retrieve the hit count for the <code>id_author</code> field}</p>
+	 * <p>{@link #HIT_ID_AUTHOR_STATUS Use <code>Author.HIT_ID_AUTHOR_STATUS</code> to retrieve the hit count for the <code>id_author_status</code> field}</p>
+	 * <p>{@link #HIT_TXT_ID_AUTHOR Use <code>Author.HIT_TXT_ID_AUTHOR</code> to retrieve the hit count for the <code>txt_id_author</code> field}</p>
+	 * <p>{@link #HIT_NM_AUTHOR Use <code>Author.HIT_NM_AUTHOR</code> to retrieve the hit count for the <code>nm_author</code> field}</p>
+	 * <p>{@link #HIT_NM_USERNAME Use <code>Author.HIT_NM_USERNAME</code> to retrieve the hit count for the <code>nm_username</code> field}</p>
+	 * <p>{@link #HIT_TXT_BIO Use <code>Author.HIT_TXT_BIO</code> to retrieve the hit count for the <code>txt_bio</code> field}</p>
+	 * <p>{@link #HIT_TXT_URL_CACHE_IMAGE Use <code>Author.HIT_TXT_URL_CACHE_IMAGE</code> to retrieve the hit count for the <code>txt_url_cache_image</code> field}</p>
+	 * <p>{@link #HIT_NUM_FOLLOWING Use <code>Author.HIT_NUM_FOLLOWING</code> to retrieve the hit count for the <code>num_following</code> field}</p>
+	 * <p>{@link #HIT_NUM_FOLLOWERS Use <code>Author.HIT_NUM_FOLLOWERS</code> to retrieve the hit count for the <code>num_followers</code> field}</p>
+	 * <p>{@link #HIT_DTM_STARTED_FOLLOWING Use <code>Author.HIT_DTM_STARTED_FOLLOWING</code> to retrieve the hit count for the <code>dtm_started_following</code> field}</p>
+	 * <p>{@link #HIT_FL_IS_UPDATING Use <code>Author.HIT_FL_IS_UPDATING</code> to retrieve the hit count for the <code>fl_is_updating</code> field}</p>
+	 * <p>{@link #HIT_FL_AUTHOR_IS_FOLLOWING_USER Use <code>Author.HIT_FL_AUTHOR_IS_FOLLOWING_USER</code> to retrieve the hit count for the <code>fl_author_is_following_user</code> field}</p>
+	 * <p>{@link #HIT_FL_AUTHOR_IS_FOLLOWED_BY_USER Use <code>Author.HIT_FL_AUTHOR_IS_FOLLOWED_BY_USER</code> to retrieve the hit count for the <code>fl_author_is_followed_by_user</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
+
 	public AuthorStatus getAuthorStatus() {
 		return(AuthorStatus.ALL_LOOKUP.get(this.idAuthorStatus));
 	}
@@ -469,21 +535,21 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'Author'\n")
-			.append("  Field: 'idAuthor:").append(this.idAuthor).append("'\n")
-			.append("  Field: 'idAuthorStatus:").append(this.idAuthorStatus).append("'\n")
-			.append("  Field: 'txtIdAuthor:").append(this.txtIdAuthor).append("'\n")
-			.append("  Field: 'nmAuthor:").append(this.nmAuthor).append("'\n")
-			.append("  Field: 'nmUsername:").append(this.nmUsername).append("'\n")
-			.append("  Field: 'txtBio:").append(this.txtBio).append("'\n")
-			.append("  Field: 'txtUrlCacheImage:").append(this.txtUrlCacheImage).append("'\n")
-			.append("  Field: 'numFollowing:").append(this.numFollowing).append("'\n")
-			.append("  Field: 'numFollowers:").append(this.numFollowers).append("'\n")
-			.append("  Field: 'dtmStartedFollowing:").append(this.dtmStartedFollowing).append("'\n")
-			.append("  Field: 'flIsUpdating:").append(this.flIsUpdating).append("'\n")
-			.append("  Field: 'flAuthorIsFollowingUser:").append(this.flAuthorIsFollowingUser).append("'\n")
-			.append("  Field: 'flAuthorIsFollowedByUser:").append(this.flAuthorIsFollowedByUser).append("'\n")
-			;
+			.append("{\"Author\": {\n")
+			.append("\"idAuthor\":\"").append(this.idAuthor).append("\"")
+			.append("\"idAuthorStatus\":\"").append(this.idAuthorStatus).append("\"")
+			.append("\"txtIdAuthor\":\"").append(this.txtIdAuthor).append("\"")
+			.append("\"nmAuthor\":\"").append(this.nmAuthor).append("\"")
+			.append("\"nmUsername\":\"").append(this.nmUsername).append("\"")
+			.append("\"txtBio\":\"").append(this.txtBio).append("\"")
+			.append("\"txtUrlCacheImage\":\"").append(this.txtUrlCacheImage).append("\"")
+			.append("\"numFollowing\":\"").append(this.numFollowing).append("\"")
+			.append("\"numFollowers\":\"").append(this.numFollowers).append("\"")
+			.append("\"dtmStartedFollowing\":\"").append(this.dtmStartedFollowing).append("\"")
+			.append("\"flIsUpdating\":\"").append(this.flIsUpdating).append("\"")
+			.append("\"flAuthorIsFollowingUser\":\"").append(this.flAuthorIsFollowingUser).append("\"")
+			.append("\"flAuthorIsFollowedByUser\":\"").append(this.flAuthorIsFollowedByUser).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -526,14 +592,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	}
 
 	/**
-	 * Return an XML representation of the 'Author' model, with the root node being the
-	 * name of the table - i.e. <author> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>Author</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;author /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<author>" + 
@@ -554,23 +620,30 @@ import synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
+	 *
+	 * @return the JSON Object as a <code>String</code>.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "Author");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idAuthor", HIT_COUNTS[1]);
-		jsonObject.put("idAuthorStatus", HIT_COUNTS[2]);
-		jsonObject.put("txtIdAuthor", HIT_COUNTS[3]);
-		jsonObject.put("nmAuthor", HIT_COUNTS[4]);
-		jsonObject.put("nmUsername", HIT_COUNTS[5]);
-		jsonObject.put("txtBio", HIT_COUNTS[6]);
-		jsonObject.put("txtUrlCacheImage", HIT_COUNTS[7]);
-		jsonObject.put("numFollowing", HIT_COUNTS[8]);
-		jsonObject.put("numFollowers", HIT_COUNTS[9]);
-		jsonObject.put("dtmStartedFollowing", HIT_COUNTS[10]);
-		jsonObject.put("flIsUpdating", HIT_COUNTS[11]);
-		jsonObject.put("flAuthorIsFollowingUser", HIT_COUNTS[12]);
-		jsonObject.put("flAuthorIsFollowedByUser", HIT_COUNTS[13]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idAuthor", HIT_COUNTS[1]);
+		fieldObject.put("idAuthorStatus", HIT_COUNTS[2]);
+		fieldObject.put("txtIdAuthor", HIT_COUNTS[3]);
+		fieldObject.put("nmAuthor", HIT_COUNTS[4]);
+		fieldObject.put("nmUsername", HIT_COUNTS[5]);
+		fieldObject.put("txtBio", HIT_COUNTS[6]);
+		fieldObject.put("txtUrlCacheImage", HIT_COUNTS[7]);
+		fieldObject.put("numFollowing", HIT_COUNTS[8]);
+		fieldObject.put("numFollowers", HIT_COUNTS[9]);
+		fieldObject.put("dtmStartedFollowing", HIT_COUNTS[10]);
+		fieldObject.put("flIsUpdating", HIT_COUNTS[11]);
+		fieldObject.put("flAuthorIsFollowingUser", HIT_COUNTS[12]);
+		fieldObject.put("flAuthorIsFollowedByUser", HIT_COUNTS[13]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

@@ -36,18 +36,17 @@ public class AllTypesFinder {
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
-			id_all_types, 
-			num_smallint, 
-			num_integer, 
-			num_bigint, 
-			num_decimal, 
-			num_numeric, 
-			flt_real, 
-			dbl_real, 
-			num_serial, 
-			num_smallserial, 
-			num_bigserial
-
+				id_all_types, 
+				num_smallint, 
+				num_integer, 
+				num_bigint, 
+				num_decimal, 
+				num_numeric, 
+				flt_real, 
+				dbl_real, 
+				num_serial, 
+				num_smallserial, 
+				num_bigserial
 			from 
 				all_types
 		""";

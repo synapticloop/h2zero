@@ -15,7 +15,7 @@
 		{ "name": "test_smallint", "type": "smallint", "nullable": true },
 		{ "name": "test_text", "type": "text", "nullable": true },
 		{ "name": "test_tinyint", "type": "tinyint", "nullable": true },
-		{ "name": "test_varchar", "type": "varchar", "nullable": true }
+		{ "name": "test_varchar", "type": "varchar", "length": "64", "nullable": true }
 	],
 	"fieldFinders": [
 		{ "id_all_types": "single" },

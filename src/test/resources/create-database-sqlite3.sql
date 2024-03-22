@@ -18,7 +18,7 @@ create table all_types (
 	test_smallint smallint null,
 	test_text text null,
 	test_tinyint tinyint null,
-	test_varchar varchar null
+	test_varchar varchar(64) null
 );
 
 

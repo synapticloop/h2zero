@@ -36,10 +36,9 @@ public class AuthorStatusFinder {
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
-			id_author_status, 
-			txt_author_status, 
-			txt_desc_author_status
-
+				id_author_status, 
+				txt_author_status, 
+				txt_desc_author_status
 			from 
 				author_status
 		""";

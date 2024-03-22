@@ -31,10 +31,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 
 
 /**
- * This is the model for the User which maps to the user database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>User</code> which maps to the <code>user</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class User extends ModelBase {
+public class User extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -87,7 +91,10 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 
 	private static final String SQL_SELECT_HYDRATE = "select num_age, dtm_signup from user where " + PRIMARY_KEY_FIELD + " = ?";
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_USER = 1;
 	public static final int HIT_ID_USER_TYPE = 2;
@@ -115,6 +122,23 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 	private String txtPassword = null; // maps to the txt_password field
 	private Timestamp dtmSignup = null; // maps to the dtm_signup field
 
+	/**
+	 * Instantiate the User object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@1cae2e4a</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUser - maps to the <code>id_user</code>
+	 * @param idUserType - maps to the <code>id_user_type</code>
+	 * @param flIsAlive - maps to the <code>fl_is_alive</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 * @param nmUsername - maps to the <code>nm_username</code>
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code>
+	 * @param txtPassword - maps to the <code>txt_password</code>
+	 * @param dtmSignup - maps to the <code>dtm_signup</code>
+	 */
 	public User(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
 		this.idUser = idUser;
 		this.idUserType = idUserType;
@@ -126,6 +150,21 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 		this.dtmSignup = dtmSignup;
 	}
 
+	/**
+	 * Instantiate the User object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@1cae2e4a</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUser - maps to the <code>id_user</code>
+	 * @param idUserType - maps to the <code>id_user_type</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 * @param nmUsername - maps to the <code>nm_username</code>
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code>
+	 * @param txtPassword - maps to the <code>txt_password</code>
+	 */
 	public User(Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
 		this.idUser = idUser;
 		this.idUserType = idUserType;
@@ -138,33 +177,32 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 	}
 
 	/**
-	 * Get a new User model, or set the fields on an existing
-	 * User model.
-	 * <p>
-	 * If the passed in user is null, then a new User
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new User model, or set the fields on an existing
+	 * User model.</p>
+	 * 
+	 * <p>If the passed in user is null, then a new User
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param user the model to check
-	 * @param idUser
-	 * @param idUserType
-	 * @param flIsAlive
-	 * @param numAge
-	 * @param nmUsername
-	 * @param txtAddressEmail
-	 * @param txtPassword
-	 * @param dtmSignup
+	 * @param idUserType - maps to the <code>id_user_type</code> field.
+	 * @param flIsAlive - maps to the <code>fl_is_alive</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code> field.
+	 * @param txtPassword - maps to the <code>txt_password</code> field.
+	 * @param dtmSignup - maps to the <code>dtm_signup</code> field.
 	 * 
 	 * @return Either the existing user with updated field values,
 	 *   or a new User with the field values set.
 	 */
-	public static User getOrSet(User user,Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
+	public static User getOrSet(User user,Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
 		if(null == user) {
-			return (new User(idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
+			return (new User(null, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
 		} else {
-			user.setIdUser(idUser);
 			user.setIdUserType(idUserType);
 			user.setFlIsAlive(flIsAlive);
 			user.setNumAge(numAge);
@@ -188,21 +226,19 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param user the model to check
-	 * @param idUser
-	 * @param idUserType
-	 * @param numAge
-	 * @param nmUsername
-	 * @param txtAddressEmail
-	 * @param txtPassword
+	 * @param idUserType - maps to the <code>id_user_type</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code> field.
+	 * @param txtPassword - maps to the <code>txt_password</code> field.
 	 * 
 	 * @return Either the existing user with updated field values,
 	 *   or a new User with the field values set.
 	 */
-	public static User getOrSet(User user,Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
+	public static User getOrSet(User user, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
 		if(null == user) {
-			return (new User(idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
+			return (new User(null , idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
 		} else {
-			user.setIdUser(idUser);
 			user.setIdUserType(idUserType);
 			user.setNumAge(numAge);
 			user.setNmUsername(nmUsername);
@@ -357,6 +393,26 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 		public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_USER Use <code>User.HIT_ID_USER</code> to retrieve the hit count for the <code>id_user</code> field}</p>
+	 * <p>{@link #HIT_ID_USER_TYPE Use <code>User.HIT_ID_USER_TYPE</code> to retrieve the hit count for the <code>id_user_type</code> field}</p>
+	 * <p>{@link #HIT_FL_IS_ALIVE Use <code>User.HIT_FL_IS_ALIVE</code> to retrieve the hit count for the <code>fl_is_alive</code> field}</p>
+	 * <p>{@link #HIT_NUM_AGE Use <code>User.HIT_NUM_AGE</code> to retrieve the hit count for the <code>num_age</code> field}</p>
+	 * <p>{@link #HIT_NM_USERNAME Use <code>User.HIT_NM_USERNAME</code> to retrieve the hit count for the <code>nm_username</code> field}</p>
+	 * <p>{@link #HIT_TXT_ADDRESS_EMAIL Use <code>User.HIT_TXT_ADDRESS_EMAIL</code> to retrieve the hit count for the <code>txt_address_email</code> field}</p>
+	 * <p>{@link #HIT_TXT_PASSWORD Use <code>User.HIT_TXT_PASSWORD</code> to retrieve the hit count for the <code>txt_password</code> field}</p>
+	 * <p>{@link #HIT_DTM_SIGNUP Use <code>User.HIT_DTM_SIGNUP</code> to retrieve the hit count for the <code>dtm_signup</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
+
 	public UserType getUserType() {
 		return(UserType.ALL_LOOKUP.get(this.idUserType));
 	}
@@ -414,16 +470,16 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'User'\n")
-			.append("  Field: 'idUser:").append(this.idUser).append("'\n")
-			.append("  Field: 'idUserType:").append(this.idUserType).append("'\n")
-			.append("  Field: 'flIsAlive:").append(this.flIsAlive).append("'\n")
-			.append("  Field: 'numAge:").append(this.numAge).append("'\n")
-			.append("  Field: 'nmUsername:").append(this.nmUsername).append("'\n")
-			.append("  Field: 'txtAddressEmail:").append(this.txtAddressEmail).append("'\n")
-			.append("  Field: 'txtPassword:<**secure**>'\n")
-			.append("  Field: 'dtmSignup:").append(this.dtmSignup).append("'\n")
-			;
+			.append("{\"User\": {\n")
+			.append("\"idUser\":\"").append(this.idUser).append("\"")
+			.append("\"idUserType\":\"").append(this.idUserType).append("\"")
+			.append("\"flIsAlive\":\"").append(this.flIsAlive).append("\"")
+			.append("\"numAge\":\"").append(this.numAge).append("\"")
+			.append("\"nmUsername\":\"").append(this.nmUsername).append("\"")
+			.append("\"txtAddressEmail\":\"").append(this.txtAddressEmail).append("\"")
+			.append("\"txtPassword\": \"<**secure**>\"\n")
+			.append("\"dtmSignup\":\"").append(this.dtmSignup).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -460,14 +516,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 	}
 
 	/**
-	 * Return an XML representation of the 'User' model, with the root node being the
-	 * name of the table - i.e. <user> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>User</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user>" + 
@@ -482,18 +538,25 @@ import synapticloop.sample.h2zero.sqlite3.finder.UserFinder;
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
+	 *
+	 * @return the JSON Object as a <code>String</code>.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "User");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idUser", HIT_COUNTS[1]);
-		jsonObject.put("idUserType", HIT_COUNTS[2]);
-		jsonObject.put("flIsAlive", HIT_COUNTS[3]);
-		jsonObject.put("numAge", HIT_COUNTS[4]);
-		jsonObject.put("nmUsername", HIT_COUNTS[5]);
-		jsonObject.put("txtAddressEmail", HIT_COUNTS[6]);
-		jsonObject.put("txtPassword", HIT_COUNTS[7]);
-		jsonObject.put("dtmSignup", HIT_COUNTS[8]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idUser", HIT_COUNTS[1]);
+		fieldObject.put("idUserType", HIT_COUNTS[2]);
+		fieldObject.put("flIsAlive", HIT_COUNTS[3]);
+		fieldObject.put("numAge", HIT_COUNTS[4]);
+		fieldObject.put("nmUsername", HIT_COUNTS[5]);
+		fieldObject.put("txtAddressEmail", HIT_COUNTS[6]);
+		fieldObject.put("txtPassword", HIT_COUNTS[7]);
+		fieldObject.put("dtmSignup", HIT_COUNTS[8]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

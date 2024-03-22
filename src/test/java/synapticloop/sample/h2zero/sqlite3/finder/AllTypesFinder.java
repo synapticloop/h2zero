@@ -38,70 +38,84 @@ public class AllTypesFinder {
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
-			id_all_types, 
-			test_bigint, 
-			test_boolean, 
-			test_date, 
-			test_datetime, 
-			test_double, 
-			test_float, 
-			test_int, 
-			test_integer, 
-			test_mediumint, 
-			test_numeric, 
-			test_smallint, 
-			test_text, 
-			test_tinyint, 
-			test_varchar
-
+				id_all_types, 
+				test_bigint, 
+				test_boolean, 
+				test_date, 
+				test_datetime, 
+				test_double, 
+				test_float, 
+				test_int, 
+				test_integer, 
+				test_mediumint, 
+				test_numeric, 
+				test_smallint, 
+				test_text, 
+				test_tinyint, 
+				test_varchar
 			from 
 				all_types
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
-	private static final String SQL_FIND_BY_ID_ALL_TYPES = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_ID_ALL_TYPES = SQL_SELECT_START + 
+		"""
 			where id_all_types = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_BIGINT = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_BIGINT = SQL_SELECT_START + 
+		"""
 			where test_bigint = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_BOOLEAN = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_BOOLEAN = SQL_SELECT_START + 
+		"""
 			where test_boolean = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_DATE = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_DATE = SQL_SELECT_START + 
+		"""
 			where test_date = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_DATETIME = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_DATETIME = SQL_SELECT_START + 
+		"""
 			where test_datetime = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_DOUBLE = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_DOUBLE = SQL_SELECT_START + 
+		"""
 			where test_double = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_FLOAT = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_FLOAT = SQL_SELECT_START + 
+		"""
 			where test_float = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_INT = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_INT = SQL_SELECT_START + 
+		"""
 			where test_int = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_INTEGER = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_INTEGER = SQL_SELECT_START + 
+		"""
 			where test_integer = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_MEDIUMINT = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_MEDIUMINT = SQL_SELECT_START + 
+		"""
 			where test_mediumint = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_NUMERIC = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_NUMERIC = SQL_SELECT_START + 
+		"""
 			where test_numeric = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_SMALLINT = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_SMALLINT = SQL_SELECT_START + 
+		"""
 			where test_smallint = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_TEXT = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_TEXT = SQL_SELECT_START + 
+		"""
 			where test_text = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_TINYINT = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_TINYINT = SQL_SELECT_START + 
+		"""
 			where test_tinyint = ?
 		""";
-	private static final String SQL_FIND_BY_TEST_VARCHAR = SQL_SELECT_START +"""
+	private static final String SQL_FIND_BY_TEST_VARCHAR = SQL_SELECT_START + 
+		"""
 			where test_varchar = ?
 		""";
 	// now for the statement limit cache(s)

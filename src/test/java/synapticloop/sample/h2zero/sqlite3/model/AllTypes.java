@@ -30,10 +30,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 
 
 /**
- * This is the model for the AllTypes which maps to the all_types database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>AllTypes</code> which maps to the <code>all_types</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class AllTypes extends ModelBase {
+public class AllTypes extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -106,7 +110,10 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from all_types where test_bigint = ? and test_boolean = ? and test_date = ? and test_datetime = ? and test_double = ? and test_float = ? and test_int = ? and test_integer = ? and test_mediumint = ? and test_numeric = ? and test_smallint = ? and test_text = ? and test_tinyint = ? and test_varchar = ?";
 
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_ALL_TYPES = 1;
 	public static final int HIT_TEST_BIGINT = 2;
@@ -147,6 +154,30 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	private Boolean testTinyint = null; // maps to the test_tinyint field
 	private String testVarchar = null; // maps to the test_varchar field
 
+	/**
+	 * Instantiate the AllTypes object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@6562a666</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAllTypes - maps to the <code>id_all_types</code>
+	 * @param testBigint - maps to the <code>test_bigint</code>
+	 * @param testBoolean - maps to the <code>test_boolean</code>
+	 * @param testDate - maps to the <code>test_date</code>
+	 * @param testDatetime - maps to the <code>test_datetime</code>
+	 * @param testDouble - maps to the <code>test_double</code>
+	 * @param testFloat - maps to the <code>test_float</code>
+	 * @param testInt - maps to the <code>test_int</code>
+	 * @param testInteger - maps to the <code>test_integer</code>
+	 * @param testMediumint - maps to the <code>test_mediumint</code>
+	 * @param testNumeric - maps to the <code>test_numeric</code>
+	 * @param testSmallint - maps to the <code>test_smallint</code>
+	 * @param testText - maps to the <code>test_text</code>
+	 * @param testTinyint - maps to the <code>test_tinyint</code>
+	 * @param testVarchar - maps to the <code>test_varchar</code>
+	 */
 	public AllTypes(Long idAllTypes, Long testBigint, Boolean testBoolean, Date testDate, Timestamp testDatetime, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, Integer testMediumint, BigDecimal testNumeric, Short testSmallint, String testText, Boolean testTinyint, String testVarchar) {
 		this.idAllTypes = idAllTypes;
 		this.testBigint = testBigint;
@@ -165,6 +196,16 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 		this.testVarchar = testVarchar;
 	}
 
+	/**
+	 * Instantiate the AllTypes object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@6562a666</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAllTypes - maps to the <code>id_all_types</code>
+	 */
 	public AllTypes(Long idAllTypes) {
 		this.idAllTypes = idAllTypes;
 		this.testBigint = null;
@@ -184,40 +225,39 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	}
 
 	/**
-	 * Get a new AllTypes model, or set the fields on an existing
-	 * AllTypes model.
-	 * <p>
-	 * If the passed in allTypes is null, then a new AllTypes
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.</p>
+	 * 
+	 * <p>If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param allTypes the model to check
-	 * @param idAllTypes
-	 * @param testBigint
-	 * @param testBoolean
-	 * @param testDate
-	 * @param testDatetime
-	 * @param testDouble
-	 * @param testFloat
-	 * @param testInt
-	 * @param testInteger
-	 * @param testMediumint
-	 * @param testNumeric
-	 * @param testSmallint
-	 * @param testText
-	 * @param testTinyint
-	 * @param testVarchar
+	 * @param testBigint - maps to the <code>test_bigint</code> field.
+	 * @param testBoolean - maps to the <code>test_boolean</code> field.
+	 * @param testDate - maps to the <code>test_date</code> field.
+	 * @param testDatetime - maps to the <code>test_datetime</code> field.
+	 * @param testDouble - maps to the <code>test_double</code> field.
+	 * @param testFloat - maps to the <code>test_float</code> field.
+	 * @param testInt - maps to the <code>test_int</code> field.
+	 * @param testInteger - maps to the <code>test_integer</code> field.
+	 * @param testMediumint - maps to the <code>test_mediumint</code> field.
+	 * @param testNumeric - maps to the <code>test_numeric</code> field.
+	 * @param testSmallint - maps to the <code>test_smallint</code> field.
+	 * @param testText - maps to the <code>test_text</code> field.
+	 * @param testTinyint - maps to the <code>test_tinyint</code> field.
+	 * @param testVarchar - maps to the <code>test_varchar</code> field.
 	 * 
 	 * @return Either the existing allTypes with updated field values,
 	 *   or a new AllTypes with the field values set.
 	 */
-	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes, Long testBigint, Boolean testBoolean, Date testDate, Timestamp testDatetime, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, Integer testMediumint, BigDecimal testNumeric, Short testSmallint, String testText, Boolean testTinyint, String testVarchar) {
+	public static AllTypes getOrSet(AllTypes allTypes,Long testBigint, Boolean testBoolean, Date testDate, Timestamp testDatetime, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, Integer testMediumint, BigDecimal testNumeric, Short testSmallint, String testText, Boolean testTinyint, String testVarchar) {
 		if(null == allTypes) {
-			return (new AllTypes(idAllTypes, testBigint, testBoolean, testDate, testDatetime, testDouble, testFloat, testInt, testInteger, testMediumint, testNumeric, testSmallint, testText, testTinyint, testVarchar));
+			return (new AllTypes(null, testBigint, testBoolean, testDate, testDatetime, testDouble, testFloat, testInt, testInteger, testMediumint, testNumeric, testSmallint, testText, testTinyint, testVarchar));
 		} else {
-			allTypes.setIdAllTypes(idAllTypes);
 			allTypes.setTestBigint(testBigint);
 			allTypes.setTestBoolean(testBoolean);
 			allTypes.setTestDate(testDate);
@@ -248,16 +288,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param allTypes the model to check
-	 * @param idAllTypes
 	 * 
 	 * @return Either the existing allTypes with updated field values,
 	 *   or a new AllTypes with the field values set.
 	 */
-	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes) {
+	public static AllTypes getOrSet(AllTypes allTypes) {
 		if(null == allTypes) {
-			return (new AllTypes(idAllTypes));
+			return (new AllTypes(null ));
 		} else {
-			allTypes.setIdAllTypes(idAllTypes);
 
 			return(allTypes);
 		}
@@ -412,6 +450,33 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_ALL_TYPES Use <code>AllTypes.HIT_ID_ALL_TYPES</code> to retrieve the hit count for the <code>id_all_types</code> field}</p>
+	 * <p>{@link #HIT_TEST_BIGINT Use <code>AllTypes.HIT_TEST_BIGINT</code> to retrieve the hit count for the <code>test_bigint</code> field}</p>
+	 * <p>{@link #HIT_TEST_BOOLEAN Use <code>AllTypes.HIT_TEST_BOOLEAN</code> to retrieve the hit count for the <code>test_boolean</code> field}</p>
+	 * <p>{@link #HIT_TEST_DATE Use <code>AllTypes.HIT_TEST_DATE</code> to retrieve the hit count for the <code>test_date</code> field}</p>
+	 * <p>{@link #HIT_TEST_DATETIME Use <code>AllTypes.HIT_TEST_DATETIME</code> to retrieve the hit count for the <code>test_datetime</code> field}</p>
+	 * <p>{@link #HIT_TEST_DOUBLE Use <code>AllTypes.HIT_TEST_DOUBLE</code> to retrieve the hit count for the <code>test_double</code> field}</p>
+	 * <p>{@link #HIT_TEST_FLOAT Use <code>AllTypes.HIT_TEST_FLOAT</code> to retrieve the hit count for the <code>test_float</code> field}</p>
+	 * <p>{@link #HIT_TEST_INT Use <code>AllTypes.HIT_TEST_INT</code> to retrieve the hit count for the <code>test_int</code> field}</p>
+	 * <p>{@link #HIT_TEST_INTEGER Use <code>AllTypes.HIT_TEST_INTEGER</code> to retrieve the hit count for the <code>test_integer</code> field}</p>
+	 * <p>{@link #HIT_TEST_MEDIUMINT Use <code>AllTypes.HIT_TEST_MEDIUMINT</code> to retrieve the hit count for the <code>test_mediumint</code> field}</p>
+	 * <p>{@link #HIT_TEST_NUMERIC Use <code>AllTypes.HIT_TEST_NUMERIC</code> to retrieve the hit count for the <code>test_numeric</code> field}</p>
+	 * <p>{@link #HIT_TEST_SMALLINT Use <code>AllTypes.HIT_TEST_SMALLINT</code> to retrieve the hit count for the <code>test_smallint</code> field}</p>
+	 * <p>{@link #HIT_TEST_TEXT Use <code>AllTypes.HIT_TEST_TEXT</code> to retrieve the hit count for the <code>test_text</code> field}</p>
+	 * <p>{@link #HIT_TEST_TINYINT Use <code>AllTypes.HIT_TEST_TINYINT</code> to retrieve the hit count for the <code>test_tinyint</code> field}</p>
+	 * <p>{@link #HIT_TEST_VARCHAR Use <code>AllTypes.HIT_TEST_VARCHAR</code> to retrieve the hit count for the <code>test_varchar</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
+
 	public static void updateHitCount(int offset) {
 		HIT_COUNTS[0]++;
 		HIT_COUNTS[offset]++;
@@ -474,7 +539,7 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 		validationBean.addValidationFieldBean(new SmallintValidator("test_smallint", testSmallint.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new TextValidator("test_text", testText.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new TinyintValidator("test_tinyint", testTinyint.toString(), 0, 0, true).validate());
-		validationBean.addValidationFieldBean(new VarcharValidator("test_varchar", testVarchar.toString(), 0, 0, true).validate());
+		validationBean.addValidationFieldBean(new VarcharValidator("test_varchar", testVarchar.toString(), 0, 64, true).validate());
 		return(validationBean);
 	}
 
@@ -483,23 +548,23 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'AllTypes'\n")
-			.append("  Field: 'idAllTypes:").append(this.idAllTypes).append("'\n")
-			.append("  Field: 'testBigint:").append(this.testBigint).append("'\n")
-			.append("  Field: 'testBoolean:").append(this.testBoolean).append("'\n")
-			.append("  Field: 'testDate:").append(this.testDate).append("'\n")
-			.append("  Field: 'testDatetime:").append(this.testDatetime).append("'\n")
-			.append("  Field: 'testDouble:").append(this.testDouble).append("'\n")
-			.append("  Field: 'testFloat:").append(this.testFloat).append("'\n")
-			.append("  Field: 'testInt:").append(this.testInt).append("'\n")
-			.append("  Field: 'testInteger:").append(this.testInteger).append("'\n")
-			.append("  Field: 'testMediumint:").append(this.testMediumint).append("'\n")
-			.append("  Field: 'testNumeric:").append(this.testNumeric).append("'\n")
-			.append("  Field: 'testSmallint:").append(this.testSmallint).append("'\n")
-			.append("  Field: 'testText:").append(this.testText).append("'\n")
-			.append("  Field: 'testTinyint:").append(this.testTinyint).append("'\n")
-			.append("  Field: 'testVarchar:").append(this.testVarchar).append("'\n")
-			;
+			.append("{\"AllTypes\": {\n")
+			.append("\"idAllTypes\":\"").append(this.idAllTypes).append("\"")
+			.append("\"testBigint\":\"").append(this.testBigint).append("\"")
+			.append("\"testBoolean\":\"").append(this.testBoolean).append("\"")
+			.append("\"testDate\":\"").append(this.testDate).append("\"")
+			.append("\"testDatetime\":\"").append(this.testDatetime).append("\"")
+			.append("\"testDouble\":\"").append(this.testDouble).append("\"")
+			.append("\"testFloat\":\"").append(this.testFloat).append("\"")
+			.append("\"testInt\":\"").append(this.testInt).append("\"")
+			.append("\"testInteger\":\"").append(this.testInteger).append("\"")
+			.append("\"testMediumint\":\"").append(this.testMediumint).append("\"")
+			.append("\"testNumeric\":\"").append(this.testNumeric).append("\"")
+			.append("\"testSmallint\":\"").append(this.testSmallint).append("\"")
+			.append("\"testText\":\"").append(this.testText).append("\"")
+			.append("\"testTinyint\":\"").append(this.testTinyint).append("\"")
+			.append("\"testVarchar\":\"").append(this.testVarchar).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -544,14 +609,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	}
 
 	/**
-	 * Return an XML representation of the 'AllTypes' model, with the root node being the
-	 * name of the table - i.e. <all_types> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>AllTypes</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;all_types /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<all_types>" + 
@@ -574,25 +639,32 @@ import synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
+	 *
+	 * @return the JSON Object as a <code>String</code>.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "AllTypes");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idAllTypes", HIT_COUNTS[1]);
-		jsonObject.put("testBigint", HIT_COUNTS[2]);
-		jsonObject.put("testBoolean", HIT_COUNTS[3]);
-		jsonObject.put("testDate", HIT_COUNTS[4]);
-		jsonObject.put("testDatetime", HIT_COUNTS[5]);
-		jsonObject.put("testDouble", HIT_COUNTS[6]);
-		jsonObject.put("testFloat", HIT_COUNTS[7]);
-		jsonObject.put("testInt", HIT_COUNTS[8]);
-		jsonObject.put("testInteger", HIT_COUNTS[9]);
-		jsonObject.put("testMediumint", HIT_COUNTS[10]);
-		jsonObject.put("testNumeric", HIT_COUNTS[11]);
-		jsonObject.put("testSmallint", HIT_COUNTS[12]);
-		jsonObject.put("testText", HIT_COUNTS[13]);
-		jsonObject.put("testTinyint", HIT_COUNTS[14]);
-		jsonObject.put("testVarchar", HIT_COUNTS[15]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idAllTypes", HIT_COUNTS[1]);
+		fieldObject.put("testBigint", HIT_COUNTS[2]);
+		fieldObject.put("testBoolean", HIT_COUNTS[3]);
+		fieldObject.put("testDate", HIT_COUNTS[4]);
+		fieldObject.put("testDatetime", HIT_COUNTS[5]);
+		fieldObject.put("testDouble", HIT_COUNTS[6]);
+		fieldObject.put("testFloat", HIT_COUNTS[7]);
+		fieldObject.put("testInt", HIT_COUNTS[8]);
+		fieldObject.put("testInteger", HIT_COUNTS[9]);
+		fieldObject.put("testMediumint", HIT_COUNTS[10]);
+		fieldObject.put("testNumeric", HIT_COUNTS[11]);
+		fieldObject.put("testSmallint", HIT_COUNTS[12]);
+		fieldObject.put("testText", HIT_COUNTS[13]);
+		fieldObject.put("testTinyint", HIT_COUNTS[14]);
+		fieldObject.put("testVarchar", HIT_COUNTS[15]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

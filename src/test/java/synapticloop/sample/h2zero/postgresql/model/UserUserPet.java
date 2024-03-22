@@ -33,10 +33,14 @@ import synapticloop.sample.h2zero.postgresql.finder.PetFinder;
 
 
 /**
- * This is the model for the UserUserPet which maps to the user_user_pet database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>UserUserPet</code> which maps to the <code>user_user_pet</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class UserUserPet extends ModelBase {
+public class UserUserPet extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -73,7 +77,10 @@ import synapticloop.sample.h2zero.postgresql.finder.PetFinder;
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from user_user_pet where id_user_user = ? and id_pet = ?";
 
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_USER_USER_PET = 1;
 	public static final int HIT_ID_USER_USER = 2;
@@ -92,6 +99,18 @@ import synapticloop.sample.h2zero.postgresql.finder.PetFinder;
 	private Long idUserUser = null; // maps to the id_user_user field
 	private Long idPet = null; // maps to the id_pet field
 
+	/**
+	 * Instantiate the UserUserPet object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@7363ddf1</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUserUserPet - maps to the <code>id_user_user_pet</code>
+	 * @param idUserUser - maps to the <code>id_user_user</code>
+	 * @param idPet - maps to the <code>id_pet</code>
+	 */
 	public UserUserPet(Long idUserUserPet, Long idUserUser, Long idPet) {
 		this.idUserUserPet = idUserUserPet;
 		this.idUserUser = idUserUser;
@@ -99,28 +118,27 @@ import synapticloop.sample.h2zero.postgresql.finder.PetFinder;
 	}
 
 	/**
-	 * Get a new UserUserPet model, or set the fields on an existing
-	 * UserUserPet model.
-	 * <p>
-	 * If the passed in userUserPet is null, then a new UserUserPet
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new UserUserPet model, or set the fields on an existing
+	 * UserUserPet model.</p>
+	 * 
+	 * <p>If the passed in userUserPet is null, then a new UserUserPet
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param userUserPet the model to check
-	 * @param idUserUserPet
-	 * @param idUserUser
-	 * @param idPet
+	 * @param idUserUser - maps to the <code>id_user_user</code> field.
+	 * @param idPet - maps to the <code>id_pet</code> field.
 	 * 
 	 * @return Either the existing userUserPet with updated field values,
 	 *   or a new UserUserPet with the field values set.
 	 */
-	public static UserUserPet getOrSet(UserUserPet userUserPet,Long idUserUserPet, Long idUserUser, Long idPet) {
+	public static UserUserPet getOrSet(UserUserPet userUserPet,Long idUserUser, Long idPet) {
 		if(null == userUserPet) {
-			return (new UserUserPet(idUserUserPet, idUserUser, idPet));
+			return (new UserUserPet(null, idUserUser, idPet));
 		} else {
-			userUserPet.setIdUserUserPet(idUserUserPet);
 			userUserPet.setIdUserUser(idUserUser);
 			userUserPet.setIdPet(idPet);
 
@@ -231,6 +249,21 @@ import synapticloop.sample.h2zero.postgresql.finder.PetFinder;
 	public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_USER_USER_PET Use <code>UserUserPet.HIT_ID_USER_USER_PET</code> to retrieve the hit count for the <code>id_user_user_pet</code> field}</p>
+	 * <p>{@link #HIT_ID_USER_USER Use <code>UserUserPet.HIT_ID_USER_USER</code> to retrieve the hit count for the <code>id_user_user</code> field}</p>
+	 * <p>{@link #HIT_ID_PET Use <code>UserUserPet.HIT_ID_PET</code> to retrieve the hit count for the <code>id_pet</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
+
 	public UserUser getUserUser() {
 		if(null == this.UserUser) {
 			this.UserUser = UserUserFinder.findByPrimaryKeySilent(this.idUserUser);
@@ -286,11 +319,11 @@ import synapticloop.sample.h2zero.postgresql.finder.PetFinder;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'UserUserPet'\n")
-			.append("  Field: 'idUserUserPet:").append(this.idUserUserPet).append("'\n")
-			.append("  Field: 'idUserUser:").append(this.idUserUser).append("'\n")
-			.append("  Field: 'idPet:").append(this.idPet).append("'\n")
-			;
+			.append("{\"UserUserPet\": {\n")
+			.append("\"idUserUserPet\":\"").append(this.idUserUserPet).append("\"")
+			.append("\"idUserUser\":\"").append(this.idUserUser).append("\"")
+			.append("\"idPet\":\"").append(this.idPet).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -323,14 +356,14 @@ import synapticloop.sample.h2zero.postgresql.finder.PetFinder;
 	}
 
 	/**
-	 * Return an XML representation of the 'UserUserPet' model, with the root node being the
-	 * name of the table - i.e. <user_user_pet> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>UserUserPet</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user_user_pet /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user_user_pet>" + 
@@ -341,13 +374,20 @@ import synapticloop.sample.h2zero.postgresql.finder.PetFinder;
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
+	 *
+	 * @return the JSON Object as a <code>String</code>.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "UserUserPet");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idUserUserPet", HIT_COUNTS[1]);
-		jsonObject.put("idUserUser", HIT_COUNTS[2]);
-		jsonObject.put("idPet", HIT_COUNTS[3]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idUserUserPet", HIT_COUNTS[1]);
+		fieldObject.put("idUserUser", HIT_COUNTS[2]);
+		fieldObject.put("idPet", HIT_COUNTS[3]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

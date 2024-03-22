@@ -21,6 +21,18 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 import java.util.List;
 
+/**
+ * <p>This class contains all of the questions that are defined in the h2zero
+ * file</p>
+ * <p>A question returns a simple true/false response from a query.</p>
+ * 
+ * <p>Table name: <code>user_type</code></p>
+ * 
+ * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
+ */
 public class UserTypeQuestion {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for

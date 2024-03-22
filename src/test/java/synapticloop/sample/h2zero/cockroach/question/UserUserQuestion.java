@@ -24,6 +24,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+/**
+ * <p>This class contains all of the questions that are defined in the h2zero
+ * file</p>
+ * <p>A question returns a simple true/false response from a query.</p>
+ * 
+ * <p>Table name: <code>user_user</code></p>
+ * 
+ * <p>Questions defined:
+ * <ul>
+ * <li><code>doWeHaveMoreThanTwentyUsers</code> - SQL query run {@link #SQL_DO_WE_HAVE_MORE_THAN_TWENTY_USERS}</li>
+ * <li><code>doesUserNameExist</code> - SQL query run {@link #SQL_DOES_USER_NAME_EXIST}</li>
+ * <li><code>doWeHaveUsersBetweenAgeExclusive</code> - SQL query run {@link #SQL_DO_WE_HAVE_USERS_BETWEEN_AGE_EXCLUSIVE}</li>
+ * <li><code>doWeHaveUsersInAges</code> - SQL query run {@link #SQL_DO_WE_HAVE_USERS_IN_AGES}</li>
+ * </ul>
+ * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
+ */
 public class UserUserQuestion {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -42,7 +61,7 @@ public class UserUserQuestion {
 	private static final String SQL_DO_WE_HAVE_USERS_BETWEEN_AGE_EXCLUSIVE = "select count(*) > 0 from user" + " where num_age > ? and num_age < ?";
 	private static final String SQL_DO_WE_HAVE_USERS_IN_AGES = "select count(*) > 0 from user" + " where num_age in (...)";
 
-	private static Map<String, String> doWeHaveUsersInAges_statement_cache = new HashMap<String, String>();
+	private static final Map<String, String> doWeHaveUsersInAges_statement_cache = new HashMap<String, String>();
 
 	/** Private to deter instantiation */
 	private UserUserQuestion() {}

@@ -31,10 +31,14 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 
 
 /**
- * This is the model for the UserUser which maps to the user_user database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>UserUser</code> which maps to the <code>user_user</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class UserUser extends ModelBase {
+public class UserUser extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -87,7 +91,10 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 
 	private static final String SQL_SELECT_HYDRATE = "select num_age, ts_signup from user_user where " + PRIMARY_KEY_FIELD + " = ?";
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_USER_USER = 1;
 	public static final int HIT_ID_USER_TYPE = 2;
@@ -115,6 +122,23 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 	private String txtPassword = null; // maps to the txt_password field
 	private Timestamp tsSignup = null; // maps to the ts_signup field
 
+	/**
+	 * Instantiate the UserUser object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@62fb9a3e</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUserUser - maps to the <code>id_user_user</code>
+	 * @param idUserType - maps to the <code>id_user_type</code>
+	 * @param flIsAlive - maps to the <code>fl_is_alive</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 * @param nmUsername - maps to the <code>nm_username</code>
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code>
+	 * @param txtPassword - maps to the <code>txt_password</code>
+	 * @param tsSignup - maps to the <code>ts_signup</code>
+	 */
 	public UserUser(Long idUserUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp tsSignup) {
 		this.idUserUser = idUserUser;
 		this.idUserType = idUserType;
@@ -126,6 +150,21 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 		this.tsSignup = tsSignup;
 	}
 
+	/**
+	 * Instantiate the UserUser object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@62fb9a3e</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUserUser - maps to the <code>id_user_user</code>
+	 * @param idUserType - maps to the <code>id_user_type</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 * @param nmUsername - maps to the <code>nm_username</code>
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code>
+	 * @param txtPassword - maps to the <code>txt_password</code>
+	 */
 	public UserUser(Long idUserUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
 		this.idUserUser = idUserUser;
 		this.idUserType = idUserType;
@@ -138,33 +177,32 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 	}
 
 	/**
-	 * Get a new UserUser model, or set the fields on an existing
-	 * UserUser model.
-	 * <p>
-	 * If the passed in userUser is null, then a new UserUser
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new UserUser model, or set the fields on an existing
+	 * UserUser model.</p>
+	 * 
+	 * <p>If the passed in userUser is null, then a new UserUser
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param userUser the model to check
-	 * @param idUserUser
-	 * @param idUserType
-	 * @param flIsAlive
-	 * @param numAge
-	 * @param nmUsername
-	 * @param txtAddressEmail
-	 * @param txtPassword
-	 * @param tsSignup
+	 * @param idUserType - maps to the <code>id_user_type</code> field.
+	 * @param flIsAlive - maps to the <code>fl_is_alive</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code> field.
+	 * @param txtPassword - maps to the <code>txt_password</code> field.
+	 * @param tsSignup - maps to the <code>ts_signup</code> field.
 	 * 
 	 * @return Either the existing userUser with updated field values,
 	 *   or a new UserUser with the field values set.
 	 */
-	public static UserUser getOrSet(UserUser userUser,Long idUserUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp tsSignup) {
+	public static UserUser getOrSet(UserUser userUser,Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp tsSignup) {
 		if(null == userUser) {
-			return (new UserUser(idUserUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, tsSignup));
+			return (new UserUser(null, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, tsSignup));
 		} else {
-			userUser.setIdUserUser(idUserUser);
 			userUser.setIdUserType(idUserType);
 			userUser.setFlIsAlive(flIsAlive);
 			userUser.setNumAge(numAge);
@@ -188,21 +226,19 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param userUser the model to check
-	 * @param idUserUser
-	 * @param idUserType
-	 * @param numAge
-	 * @param nmUsername
-	 * @param txtAddressEmail
-	 * @param txtPassword
+	 * @param idUserType - maps to the <code>id_user_type</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code> field.
+	 * @param txtPassword - maps to the <code>txt_password</code> field.
 	 * 
 	 * @return Either the existing userUser with updated field values,
 	 *   or a new UserUser with the field values set.
 	 */
-	public static UserUser getOrSet(UserUser userUser,Long idUserUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
+	public static UserUser getOrSet(UserUser userUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
 		if(null == userUser) {
-			return (new UserUser(idUserUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
+			return (new UserUser(null , idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
 		} else {
-			userUser.setIdUserUser(idUserUser);
 			userUser.setIdUserType(idUserType);
 			userUser.setNumAge(numAge);
 			userUser.setNmUsername(nmUsername);
@@ -357,6 +393,26 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 		public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_USER_USER Use <code>UserUser.HIT_ID_USER_USER</code> to retrieve the hit count for the <code>id_user_user</code> field}</p>
+	 * <p>{@link #HIT_ID_USER_TYPE Use <code>UserUser.HIT_ID_USER_TYPE</code> to retrieve the hit count for the <code>id_user_type</code> field}</p>
+	 * <p>{@link #HIT_FL_IS_ALIVE Use <code>UserUser.HIT_FL_IS_ALIVE</code> to retrieve the hit count for the <code>fl_is_alive</code> field}</p>
+	 * <p>{@link #HIT_NUM_AGE Use <code>UserUser.HIT_NUM_AGE</code> to retrieve the hit count for the <code>num_age</code> field}</p>
+	 * <p>{@link #HIT_NM_USERNAME Use <code>UserUser.HIT_NM_USERNAME</code> to retrieve the hit count for the <code>nm_username</code> field}</p>
+	 * <p>{@link #HIT_TXT_ADDRESS_EMAIL Use <code>UserUser.HIT_TXT_ADDRESS_EMAIL</code> to retrieve the hit count for the <code>txt_address_email</code> field}</p>
+	 * <p>{@link #HIT_TXT_PASSWORD Use <code>UserUser.HIT_TXT_PASSWORD</code> to retrieve the hit count for the <code>txt_password</code> field}</p>
+	 * <p>{@link #HIT_TS_SIGNUP Use <code>UserUser.HIT_TS_SIGNUP</code> to retrieve the hit count for the <code>ts_signup</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
+
 	public UserType getUserType() {
 		return(UserType.ALL_LOOKUP.get(this.idUserType));
 	}
@@ -414,16 +470,16 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'UserUser'\n")
-			.append("  Field: 'idUserUser:").append(this.idUserUser).append("'\n")
-			.append("  Field: 'idUserType:").append(this.idUserType).append("'\n")
-			.append("  Field: 'flIsAlive:").append(this.flIsAlive).append("'\n")
-			.append("  Field: 'numAge:").append(this.numAge).append("'\n")
-			.append("  Field: 'nmUsername:").append(this.nmUsername).append("'\n")
-			.append("  Field: 'txtAddressEmail:").append(this.txtAddressEmail).append("'\n")
-			.append("  Field: 'txtPassword:<**secure**>'\n")
-			.append("  Field: 'tsSignup:").append(this.tsSignup).append("'\n")
-			;
+			.append("{\"UserUser\": {\n")
+			.append("\"idUserUser\":\"").append(this.idUserUser).append("\"")
+			.append("\"idUserType\":\"").append(this.idUserType).append("\"")
+			.append("\"flIsAlive\":\"").append(this.flIsAlive).append("\"")
+			.append("\"numAge\":\"").append(this.numAge).append("\"")
+			.append("\"nmUsername\":\"").append(this.nmUsername).append("\"")
+			.append("\"txtAddressEmail\":\"").append(this.txtAddressEmail).append("\"")
+			.append("\"txtPassword\": \"<**secure**>\"\n")
+			.append("\"tsSignup\":\"").append(this.tsSignup).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -460,14 +516,14 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 	}
 
 	/**
-	 * Return an XML representation of the 'UserUser' model, with the root node being the
-	 * name of the table - i.e. <user_user> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>UserUser</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user_user /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user_user>" + 
@@ -482,18 +538,25 @@ import synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
+	 *
+	 * @return the JSON Object as a <code>String</code>.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "UserUser");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idUserUser", HIT_COUNTS[1]);
-		jsonObject.put("idUserType", HIT_COUNTS[2]);
-		jsonObject.put("flIsAlive", HIT_COUNTS[3]);
-		jsonObject.put("numAge", HIT_COUNTS[4]);
-		jsonObject.put("nmUsername", HIT_COUNTS[5]);
-		jsonObject.put("txtAddressEmail", HIT_COUNTS[6]);
-		jsonObject.put("txtPassword", HIT_COUNTS[7]);
-		jsonObject.put("tsSignup", HIT_COUNTS[8]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idUserUser", HIT_COUNTS[1]);
+		fieldObject.put("idUserType", HIT_COUNTS[2]);
+		fieldObject.put("flIsAlive", HIT_COUNTS[3]);
+		fieldObject.put("numAge", HIT_COUNTS[4]);
+		fieldObject.put("nmUsername", HIT_COUNTS[5]);
+		fieldObject.put("txtAddressEmail", HIT_COUNTS[6]);
+		fieldObject.put("txtPassword", HIT_COUNTS[7]);
+		fieldObject.put("tsSignup", HIT_COUNTS[8]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

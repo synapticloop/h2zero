@@ -40,7 +40,7 @@
 {\t}{\t}{\t}if(resultSetExact.next()) {{{\n}
 {\t}{\t}{\t}{\t}// we have found one, this means that we do not need to import it{\n}
 {\t}{\t}{\t}{\t}// just update the primary key cache{\n}
-{\t}{\t}{\t}{\t}PRIMARY_KEY_CACHE.put(idAuthorStatus, resultSetExact.getLong(1));{\n}
+{\t}{\t}{\t}{\t}PRIMARY_KEY_CACHE.put({table.primaryKeyField.javaName}, resultSetExact.getLong(1));{\n}
 {\t}{\t}{\t}{\t}return(true);{\n}
 {\t}{\t}{\t}} else {{{\n}
 {\t}{\t}{\t}{\t}// fall through and see if we can find it by some other means...{\n}

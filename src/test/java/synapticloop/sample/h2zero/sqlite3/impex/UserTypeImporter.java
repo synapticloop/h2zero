@@ -65,7 +65,7 @@ public class UserTypeImporter {
 			if(resultSetExact.next()) {
 				// we have found one, this means that we do not need to import it
 				// just update the primary key cache
-				PRIMARY_KEY_CACHE.put(idAuthorStatus, resultSetExact.getLong(1));
+				PRIMARY_KEY_CACHE.put(idUserType, resultSetExact.getLong(1));
 				return(true);
 			} else {
 				// fall through and see if we can find it by some other means...

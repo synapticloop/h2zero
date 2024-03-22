@@ -10,13 +10,17 @@ import synapticloop.sample.h2zero.postgresql.model.util.Constants;
 import synapticloop.h2zero.util.XmlHelper;
 
 /**
- * This is the generated bean for the selectClause finder from
- * <p>
- * table name: user_title
- * <p>
- * finder name: findIdUserTitleNmUserTitleOrdered
- * <p>
- * and is returned either as a single object, or a list of objects
+ * <p>This is the generated bean for the selectClause finder from</p>
+ * 
+ * <p>table name: <code>user_title</code></p>
+ * 
+ * <p>finder name: <code>findIdUserTitleNmUserTitleOrdered</code></p>
+ * 
+ * <p>and is returned either as a single object, or a list of objects</p>
+ * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
 public class UserTitleFindIdUserTitleNmUserTitleOrderedBean {
 	// the binder is unused in code, but will generate compile problems if this 
@@ -39,11 +43,16 @@ public class UserTitleFindIdUserTitleNmUserTitleOrderedBean {
 	public void setNmUserTitle(String nmUserTitle) { this.nmUserTitle = nmUserTitle; }
 
 	/**
-	 * Return an XML representation of the select clause bean for the FindIdUserTitleNmUserTitleOrdered
-	 * finder.  The root node is name of the select clause finder - i.e. <FindIdUserTitleNmUserTitleOrdered>
-	 * and the child nodes the name of the fields.
+	 * <p>Return an XML representation of the select clause bean for the call to the 
+	 * <code>UserTitleFinder.FindIdUserTitleNmUserTitleOrdered()</code> finder as a <code>String</code>.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p>The root node is name of the select clause finder - i.e. <code>&lt;FindIdUserTitleNmUserTitleOrdered /&gt;</code>
+	 * and the child nodes the name of the fields.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the bean as a <code>String</code>.  
 	 */
 	public String toXMLString() {
 		return("<user_title>" + 

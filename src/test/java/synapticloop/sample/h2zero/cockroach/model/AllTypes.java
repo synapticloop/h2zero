@@ -28,10 +28,14 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 
 
 /**
- * This is the model for the AllTypes which maps to the all_types database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>AllTypes</code> which maps to the <code>all_types</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class AllTypes extends ModelBase {
+public class AllTypes extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -92,7 +96,10 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from all_types where num_smallint = ? and num_integer = ? and num_bigint = ? and num_decimal = ? and num_numeric = ? and flt_real = ? and dbl_real = ? and num_serial = ? and num_smallserial = ? and num_bigserial = ?";
 
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_ALL_TYPES = 1;
 	public static final int HIT_NUM_SMALLINT = 2;
@@ -125,6 +132,26 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	private Short numSmallserial = null; // maps to the num_smallserial field
 	private Long numBigserial = null; // maps to the num_bigserial field
 
+	/**
+	 * Instantiate the AllTypes object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigserialField@3391a79a</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAllTypes - maps to the <code>id_all_types</code>
+	 * @param numSmallint - maps to the <code>num_smallint</code>
+	 * @param numInteger - maps to the <code>num_integer</code>
+	 * @param numBigint - maps to the <code>num_bigint</code>
+	 * @param numDecimal - maps to the <code>num_decimal</code>
+	 * @param numNumeric - maps to the <code>num_numeric</code>
+	 * @param fltReal - maps to the <code>flt_real</code>
+	 * @param dblReal - maps to the <code>dbl_real</code>
+	 * @param numSerial - maps to the <code>num_serial</code>
+	 * @param numSmallserial - maps to the <code>num_smallserial</code>
+	 * @param numBigserial - maps to the <code>num_bigserial</code>
+	 */
 	public AllTypes(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		this.idAllTypes = idAllTypes;
 		this.numSmallint = numSmallint;
@@ -139,6 +166,19 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 		this.numBigserial = numBigserial;
 	}
 
+	/**
+	 * Instantiate the AllTypes object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigserialField@3391a79a</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAllTypes - maps to the <code>id_all_types</code>
+	 * @param numSerial - maps to the <code>num_serial</code>
+	 * @param numSmallserial - maps to the <code>num_smallserial</code>
+	 * @param numBigserial - maps to the <code>num_bigserial</code>
+	 */
 	public AllTypes(Long idAllTypes, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		this.idAllTypes = idAllTypes;
 		this.numSmallint = null;
@@ -154,36 +194,35 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	}
 
 	/**
-	 * Get a new AllTypes model, or set the fields on an existing
-	 * AllTypes model.
-	 * <p>
-	 * If the passed in allTypes is null, then a new AllTypes
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new AllTypes model, or set the fields on an existing
+	 * AllTypes model.</p>
+	 * 
+	 * <p>If the passed in allTypes is null, then a new AllTypes
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param allTypes the model to check
-	 * @param idAllTypes
-	 * @param numSmallint
-	 * @param numInteger
-	 * @param numBigint
-	 * @param numDecimal
-	 * @param numNumeric
-	 * @param fltReal
-	 * @param dblReal
-	 * @param numSerial
-	 * @param numSmallserial
-	 * @param numBigserial
+	 * @param numSmallint - maps to the <code>num_smallint</code> field.
+	 * @param numInteger - maps to the <code>num_integer</code> field.
+	 * @param numBigint - maps to the <code>num_bigint</code> field.
+	 * @param numDecimal - maps to the <code>num_decimal</code> field.
+	 * @param numNumeric - maps to the <code>num_numeric</code> field.
+	 * @param fltReal - maps to the <code>flt_real</code> field.
+	 * @param dblReal - maps to the <code>dbl_real</code> field.
+	 * @param numSerial - maps to the <code>num_serial</code> field.
+	 * @param numSmallserial - maps to the <code>num_smallserial</code> field.
+	 * @param numBigserial - maps to the <code>num_bigserial</code> field.
 	 * 
 	 * @return Either the existing allTypes with updated field values,
 	 *   or a new AllTypes with the field values set.
 	 */
-	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
+	public static AllTypes getOrSet(AllTypes allTypes,Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		if(null == allTypes) {
-			return (new AllTypes(idAllTypes, numSmallint, numInteger, numBigint, numDecimal, numNumeric, fltReal, dblReal, numSerial, numSmallserial, numBigserial));
+			return (new AllTypes(null, numSmallint, numInteger, numBigint, numDecimal, numNumeric, fltReal, dblReal, numSerial, numSmallserial, numBigserial));
 		} else {
-			allTypes.setIdAllTypes(idAllTypes);
 			allTypes.setNumSmallint(numSmallint);
 			allTypes.setNumInteger(numInteger);
 			allTypes.setNumBigint(numBigint);
@@ -210,19 +249,17 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param allTypes the model to check
-	 * @param idAllTypes
-	 * @param numSerial
-	 * @param numSmallserial
-	 * @param numBigserial
+	 * @param numSerial - maps to the <code>num_serial</code> field.
+	 * @param numSmallserial - maps to the <code>num_smallserial</code> field.
+	 * @param numBigserial - maps to the <code>num_bigserial</code> field.
 	 * 
 	 * @return Either the existing allTypes with updated field values,
 	 *   or a new AllTypes with the field values set.
 	 */
-	public static AllTypes getOrSet(AllTypes allTypes,Long idAllTypes, Integer numSerial, Short numSmallserial, Long numBigserial) {
+	public static AllTypes getOrSet(AllTypes allTypes, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		if(null == allTypes) {
-			return (new AllTypes(idAllTypes, numSerial, numSmallserial, numBigserial));
+			return (new AllTypes(null , numSerial, numSmallserial, numBigserial));
 		} else {
-			allTypes.setIdAllTypes(idAllTypes);
 			allTypes.setNumSerial(numSerial);
 			allTypes.setNumSmallserial(numSmallserial);
 			allTypes.setNumBigserial(numBigserial);
@@ -364,6 +401,29 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_ALL_TYPES Use <code>AllTypes.HIT_ID_ALL_TYPES</code> to retrieve the hit count for the <code>id_all_types</code> field}</p>
+	 * <p>{@link #HIT_NUM_SMALLINT Use <code>AllTypes.HIT_NUM_SMALLINT</code> to retrieve the hit count for the <code>num_smallint</code> field}</p>
+	 * <p>{@link #HIT_NUM_INTEGER Use <code>AllTypes.HIT_NUM_INTEGER</code> to retrieve the hit count for the <code>num_integer</code> field}</p>
+	 * <p>{@link #HIT_NUM_BIGINT Use <code>AllTypes.HIT_NUM_BIGINT</code> to retrieve the hit count for the <code>num_bigint</code> field}</p>
+	 * <p>{@link #HIT_NUM_DECIMAL Use <code>AllTypes.HIT_NUM_DECIMAL</code> to retrieve the hit count for the <code>num_decimal</code> field}</p>
+	 * <p>{@link #HIT_NUM_NUMERIC Use <code>AllTypes.HIT_NUM_NUMERIC</code> to retrieve the hit count for the <code>num_numeric</code> field}</p>
+	 * <p>{@link #HIT_FLT_REAL Use <code>AllTypes.HIT_FLT_REAL</code> to retrieve the hit count for the <code>flt_real</code> field}</p>
+	 * <p>{@link #HIT_DBL_REAL Use <code>AllTypes.HIT_DBL_REAL</code> to retrieve the hit count for the <code>dbl_real</code> field}</p>
+	 * <p>{@link #HIT_NUM_SERIAL Use <code>AllTypes.HIT_NUM_SERIAL</code> to retrieve the hit count for the <code>num_serial</code> field}</p>
+	 * <p>{@link #HIT_NUM_SMALLSERIAL Use <code>AllTypes.HIT_NUM_SMALLSERIAL</code> to retrieve the hit count for the <code>num_smallserial</code> field}</p>
+	 * <p>{@link #HIT_NUM_BIGSERIAL Use <code>AllTypes.HIT_NUM_BIGSERIAL</code> to retrieve the hit count for the <code>num_bigserial</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
+
 	public static void updateHitCount(int offset) {
 		HIT_COUNTS[0]++;
 		HIT_COUNTS[offset]++;
@@ -423,19 +483,19 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'AllTypes'\n")
-			.append("  Field: 'idAllTypes:").append(this.idAllTypes).append("'\n")
-			.append("  Field: 'numSmallint:").append(this.numSmallint).append("'\n")
-			.append("  Field: 'numInteger:").append(this.numInteger).append("'\n")
-			.append("  Field: 'numBigint:").append(this.numBigint).append("'\n")
-			.append("  Field: 'numDecimal:").append(this.numDecimal).append("'\n")
-			.append("  Field: 'numNumeric:").append(this.numNumeric).append("'\n")
-			.append("  Field: 'fltReal:").append(this.fltReal).append("'\n")
-			.append("  Field: 'dblReal:").append(this.dblReal).append("'\n")
-			.append("  Field: 'numSerial:").append(this.numSerial).append("'\n")
-			.append("  Field: 'numSmallserial:").append(this.numSmallserial).append("'\n")
-			.append("  Field: 'numBigserial:").append(this.numBigserial).append("'\n")
-			;
+			.append("{\"AllTypes\": {\n")
+			.append("\"idAllTypes\":\"").append(this.idAllTypes).append("\"")
+			.append("\"numSmallint\":\"").append(this.numSmallint).append("\"")
+			.append("\"numInteger\":\"").append(this.numInteger).append("\"")
+			.append("\"numBigint\":\"").append(this.numBigint).append("\"")
+			.append("\"numDecimal\":\"").append(this.numDecimal).append("\"")
+			.append("\"numNumeric\":\"").append(this.numNumeric).append("\"")
+			.append("\"fltReal\":\"").append(this.fltReal).append("\"")
+			.append("\"dblReal\":\"").append(this.dblReal).append("\"")
+			.append("\"numSerial\":\"").append(this.numSerial).append("\"")
+			.append("\"numSmallserial\":\"").append(this.numSmallserial).append("\"")
+			.append("\"numBigserial\":\"").append(this.numBigserial).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -476,14 +536,14 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	}
 
 	/**
-	 * Return an XML representation of the 'AllTypes' model, with the root node being the
-	 * name of the table - i.e. <all_types> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>AllTypes</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;all_types /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<all_types>" + 
@@ -502,21 +562,28 @@ import synapticloop.sample.h2zero.cockroach.finder.AllTypesFinder;
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
+	 *
+	 * @return the JSON Object as a <code>String</code>.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "AllTypes");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idAllTypes", HIT_COUNTS[1]);
-		jsonObject.put("numSmallint", HIT_COUNTS[2]);
-		jsonObject.put("numInteger", HIT_COUNTS[3]);
-		jsonObject.put("numBigint", HIT_COUNTS[4]);
-		jsonObject.put("numDecimal", HIT_COUNTS[5]);
-		jsonObject.put("numNumeric", HIT_COUNTS[6]);
-		jsonObject.put("fltReal", HIT_COUNTS[7]);
-		jsonObject.put("dblReal", HIT_COUNTS[8]);
-		jsonObject.put("numSerial", HIT_COUNTS[9]);
-		jsonObject.put("numSmallserial", HIT_COUNTS[10]);
-		jsonObject.put("numBigserial", HIT_COUNTS[11]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idAllTypes", HIT_COUNTS[1]);
+		fieldObject.put("numSmallint", HIT_COUNTS[2]);
+		fieldObject.put("numInteger", HIT_COUNTS[3]);
+		fieldObject.put("numBigint", HIT_COUNTS[4]);
+		fieldObject.put("numDecimal", HIT_COUNTS[5]);
+		fieldObject.put("numNumeric", HIT_COUNTS[6]);
+		fieldObject.put("fltReal", HIT_COUNTS[7]);
+		fieldObject.put("dblReal", HIT_COUNTS[8]);
+		fieldObject.put("numSerial", HIT_COUNTS[9]);
+		fieldObject.put("numSmallserial", HIT_COUNTS[10]);
+		fieldObject.put("numBigserial", HIT_COUNTS[11]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

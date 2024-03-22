@@ -36,10 +36,9 @@ public class UserUserPetUpserter {
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
-			id_user_user_pet, 
-			id_user_user, 
-			id_pet
-
+				id_user_user_pet, 
+				id_user_user, 
+				id_pet
 			from 
 				user_user_pet
 		""";

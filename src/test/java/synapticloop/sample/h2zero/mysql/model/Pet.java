@@ -112,7 +112,7 @@ public class Pet extends ModelBase {
 	/**
 	 * Instantiate the Pet object with all the fields within the table.
 	 * 
-	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@135c9aad</code>
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@73c1cd17</code>
 	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
 	 * then, passing in <code>null</code> will automatically generate this field value
 	 * and will set the value.</p>
@@ -136,7 +136,7 @@ public class Pet extends ModelBase {
 	/**
 	 * Instantiate the Pet object with all the non-nullable fields within the table
 	 * 
-	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@135c9aad</code>
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@73c1cd17</code>
 	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
 	 * then, passing in <code>null</code> will automatically generate this field value
 	 * and will set the value.</p>
@@ -344,6 +344,7 @@ public class Pet extends ModelBase {
 	 * <p>{@link #HIT_FLT_WEIGHT Use <code>Pet.HIT_FLT_WEIGHT</code> to retrieve the hit count for the <code>flt_weight</code> field}</p>
 	 * <p>{@link #HIT_DT_BIRTHDAY Use <code>Pet.HIT_DT_BIRTHDAY</code> to retrieve the hit count for the <code>dt_birthday</code> field}</p>
 	 * <p>{@link #HIT_IMG_PHOTO Use <code>Pet.HIT_IMG_PHOTO</code> to retrieve the hit count for the <code>img_photo</code> field}</p>
+
 	 */
 	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
 
@@ -401,7 +402,6 @@ public class Pet extends ModelBase {
 			.append("}");
 		return(stringBuilder.toString());
 	}
-
 	public JSONObject getToJSON() {
 		return(toJSON());
 	}

@@ -17,10 +17,14 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 
 /**
- * This is the model for the AuthorStatus which maps to the author_status database table.
- * This is a constant table which cannot be changed
+ * <p>This is the model for the <code>AuthorStatus</code> which maps to the <code>author_status</code> database table.</p>
+ * <p><strong>NOTE:</strong> This is a constant table which cannot be changed and no CRUD methods are available.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class AuthorStatus  {
+public class AuthorStatus  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -57,41 +61,24 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 	private String txtAuthorStatus = null; // maps to the txt_author_status field
 	private String txtDescAuthorStatus = null; // maps to the txt_desc_author_status field
 
+	/**
+	 * Instantiate the AuthorStatus object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@635e96e3</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAuthorStatus - maps to the <code>id_author_status</code>
+	 * @param txtAuthorStatus - maps to the <code>txt_author_status</code>
+	 * @param txtDescAuthorStatus - maps to the <code>txt_desc_author_status</code>
+	 */
 	public AuthorStatus(Long idAuthorStatus, String txtAuthorStatus, String txtDescAuthorStatus) {
 		this.idAuthorStatus = idAuthorStatus;
 		this.txtAuthorStatus = txtAuthorStatus;
 		this.txtDescAuthorStatus = txtDescAuthorStatus;
 	}
 
-	/**
-	 * Get a new AuthorStatus model, or set the fields on an existing
-	 * AuthorStatus model.
-	 * <p>
-	 * If the passed in authorStatus is null, then a new AuthorStatus
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
-	 * 
-	 * @param authorStatus the model to check
-	 * @param idAuthorStatus
-	 * @param txtAuthorStatus
-	 * @param txtDescAuthorStatus
-	 * 
-	 * @return Either the existing authorStatus with updated field values,
-	 *   or a new AuthorStatus with the field values set.
-	 */
-	public static AuthorStatus getOrSet(AuthorStatus authorStatus,Long idAuthorStatus, String txtAuthorStatus, String txtDescAuthorStatus) {
-		if(null == authorStatus) {
-			return (new AuthorStatus(idAuthorStatus, txtAuthorStatus, txtDescAuthorStatus));
-		} else {
-			authorStatus.setIdAuthorStatus(idAuthorStatus);
-			authorStatus.setTxtAuthorStatus(txtAuthorStatus);
-			authorStatus.setTxtDescAuthorStatus(txtDescAuthorStatus);
-
-			return(authorStatus);
-		}
-	}
 	/*
 	 * Boring ol' getters and setters 
 	 * 
@@ -108,11 +95,11 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'AuthorStatus'\n")
-			.append("  Field: 'idAuthorStatus:").append(this.idAuthorStatus).append("'\n")
-			.append("  Field: 'txtAuthorStatus:").append(this.txtAuthorStatus).append("'\n")
-			.append("  Field: 'txtDescAuthorStatus:").append(this.txtDescAuthorStatus).append("'\n")
-			;
+			.append("{\"AuthorStatus\": {\n")
+			.append("\"idAuthorStatus\":\"").append(this.idAuthorStatus).append("\"")
+			.append("\"txtAuthorStatus\":\"").append(this.txtAuthorStatus).append("\"")
+			.append("\"txtDescAuthorStatus\":\"").append(this.txtDescAuthorStatus).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -145,14 +132,14 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 	}
 
 	/**
-	 * Return an XML representation of the 'AuthorStatus' model, with the root node being the
-	 * name of the table - i.e. <author_status> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>AuthorStatus</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;author_status /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<author_status>" + 

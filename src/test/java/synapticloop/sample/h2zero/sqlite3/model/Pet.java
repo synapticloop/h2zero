@@ -29,10 +29,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 
 
 /**
- * This is the model for the Pet which maps to the pet database table
- * and contains the default CRUD methods.
+ * <p>This is the model for the <code>Pet</code> which maps to the <code>pet</code> database table.</p>
+ * <p>This class contains all CRUD (Create, Read, Update, and Delete) methods.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class Pet extends ModelBase {
+public class Pet extends ModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -75,7 +79,10 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ?";
 
 
-// Static lookups for fields in the hit counter.
+	// Static lookups for fields in the hit counter.
+	// Whilst these aren't used internally (the offset to the array is 
+	// automatically computer, external classes can use these static fields 
+	// to look up the hit counts in the array 
 	public static final int HIT_TOTAL = 0;
 	public static final int HIT_ID_PET = 1;
 	public static final int HIT_NM_PET = 2;
@@ -96,6 +103,20 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 	private Float fltWeight = null; // maps to the flt_weight field
 	private Date dtBirthday = null; // maps to the dt_birthday field
 
+	/**
+	 * Instantiate the Pet object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@68e58ea0</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idPet - maps to the <code>id_pet</code>
+	 * @param nmPet - maps to the <code>nm_pet</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 * @param fltWeight - maps to the <code>flt_weight</code>
+	 * @param dtBirthday - maps to the <code>dt_birthday</code>
+	 */
 	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
@@ -104,6 +125,18 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 		this.dtBirthday = dtBirthday;
 	}
 
+	/**
+	 * Instantiate the Pet object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@68e58ea0</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idPet - maps to the <code>id_pet</code>
+	 * @param nmPet - maps to the <code>nm_pet</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 */
 	public Pet(Long idPet, String nmPet, Integer numAge) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
@@ -113,30 +146,29 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 	}
 
 	/**
-	 * Get a new Pet model, or set the fields on an existing
-	 * Pet model.
-	 * <p>
-	 * If the passed in pet is null, then a new Pet
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>Get a new Pet model, or set the fields on an existing
+	 * Pet model.</p>
+	 * 
+	 * <p>If the passed in pet is null, then a new Pet
+	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>upsert()</code> call - this will insert the model if it .
+	 * doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param pet the model to check
-	 * @param idPet
-	 * @param nmPet
-	 * @param numAge
-	 * @param fltWeight
-	 * @param dtBirthday
+	 * @param nmPet - maps to the <code>nm_pet</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param fltWeight - maps to the <code>flt_weight</code> field.
+	 * @param dtBirthday - maps to the <code>dt_birthday</code> field.
 	 * 
 	 * @return Either the existing pet with updated field values,
 	 *   or a new Pet with the field values set.
 	 */
-	public static Pet getOrSet(Pet pet,Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday) {
+	public static Pet getOrSet(Pet pet,String nmPet, Integer numAge, Float fltWeight, Date dtBirthday) {
 		if(null == pet) {
-			return (new Pet(idPet, nmPet, numAge, fltWeight, dtBirthday));
+			return (new Pet(null, nmPet, numAge, fltWeight, dtBirthday));
 		} else {
-			pet.setIdPet(idPet);
 			pet.setNmPet(nmPet);
 			pet.setNumAge(numAge);
 			pet.setFltWeight(fltWeight);
@@ -157,18 +189,16 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param pet the model to check
-	 * @param idPet
-	 * @param nmPet
-	 * @param numAge
+	 * @param nmPet - maps to the <code>nm_pet</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
 	 * 
 	 * @return Either the existing pet with updated field values,
 	 *   or a new Pet with the field values set.
 	 */
-	public static Pet getOrSet(Pet pet,Long idPet, String nmPet, Integer numAge) {
+	public static Pet getOrSet(Pet pet, String nmPet, Integer numAge) {
 		if(null == pet) {
-			return (new Pet(idPet, nmPet, numAge));
+			return (new Pet(null , nmPet, numAge));
 		} else {
-			pet.setIdPet(idPet);
 			pet.setNmPet(nmPet);
 			pet.setNumAge(numAge);
 
@@ -285,6 +315,23 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 	public static String[] getHitFields() { return(HIT_FIELDS); }
 	public static int[] getHitCounts() { return(HIT_COUNTS); }
 
+	/**
+	 * Get the hit count for a specific field - look at the <code>public static HIT_*</code>
+	 * fields to retrieve a specific field.
+	 *
+	 * @param hitCountField the hit count field number to retrieve the hit count from
+	 *
+	 * @return the hit count for the field
+	 * 
+	 * <p>{@link #HIT_ID_PET Use <code>Pet.HIT_ID_PET</code> to retrieve the hit count for the <code>id_pet</code> field}</p>
+	 * <p>{@link #HIT_NM_PET Use <code>Pet.HIT_NM_PET</code> to retrieve the hit count for the <code>nm_pet</code> field}</p>
+	 * <p>{@link #HIT_NUM_AGE Use <code>Pet.HIT_NUM_AGE</code> to retrieve the hit count for the <code>num_age</code> field}</p>
+	 * <p>{@link #HIT_FLT_WEIGHT Use <code>Pet.HIT_FLT_WEIGHT</code> to retrieve the hit count for the <code>flt_weight</code> field}</p>
+	 * <p>{@link #HIT_DT_BIRTHDAY Use <code>Pet.HIT_DT_BIRTHDAY</code> to retrieve the hit count for the <code>dt_birthday</code> field}</p>
+
+	 */
+	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
+
 	public static void updateHitCount(int offset) {
 		HIT_COUNTS[0]++;
 		HIT_COUNTS[offset]++;
@@ -326,13 +373,13 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'Pet'\n")
-			.append("  Field: 'idPet:").append(this.idPet).append("'\n")
-			.append("  Field: 'nmPet:").append(this.nmPet).append("'\n")
-			.append("  Field: 'numAge:").append(this.numAge).append("'\n")
-			.append("  Field: 'fltWeight:").append(this.fltWeight).append("'\n")
-			.append("  Field: 'dtBirthday:").append(this.dtBirthday).append("'\n")
-			;
+			.append("{\"Pet\": {\n")
+			.append("\"idPet\":\"").append(this.idPet).append("\"")
+			.append("\"nmPet\":\"").append(this.nmPet).append("\"")
+			.append("\"numAge\":\"").append(this.numAge).append("\"")
+			.append("\"fltWeight\":\"").append(this.fltWeight).append("\"")
+			.append("\"dtBirthday\":\"").append(this.dtBirthday).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -367,14 +414,14 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 	}
 
 	/**
-	 * Return an XML representation of the 'Pet' model, with the root node being the
-	 * name of the table - i.e. <pet> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>Pet</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;pet /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<pet>" + 
@@ -387,15 +434,22 @@ import synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
+	 *
+	 * @return the JSON Object as a <code>String</code>.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "Pet");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idPet", HIT_COUNTS[1]);
-		jsonObject.put("nmPet", HIT_COUNTS[2]);
-		jsonObject.put("numAge", HIT_COUNTS[3]);
-		jsonObject.put("fltWeight", HIT_COUNTS[4]);
-		jsonObject.put("dtBirthday", HIT_COUNTS[5]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idPet", HIT_COUNTS[1]);
+		fieldObject.put("nmPet", HIT_COUNTS[2]);
+		fieldObject.put("numAge", HIT_COUNTS[3]);
+		fieldObject.put("fltWeight", HIT_COUNTS[4]);
+		fieldObject.put("dtBirthday", HIT_COUNTS[5]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

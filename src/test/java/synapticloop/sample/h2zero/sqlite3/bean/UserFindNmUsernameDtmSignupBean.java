@@ -10,13 +10,17 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 import synapticloop.h2zero.util.XmlHelper;
 
 /**
- * This is the generated bean for the selectClause finder from
- * <p>
- * table name: user
- * <p>
- * finder name: findNmUsernameDtmSignup
- * <p>
- * and is returned either as a single object, or a list of objects
+ * <p>This is the generated bean for the selectClause finder from</p>
+ * 
+ * <p>table name: <code>user</code></p>
+ * 
+ * <p>finder name: <code>findNmUsernameDtmSignup</code></p>
+ * 
+ * <p>and is returned either as a single object, or a list of objects</p>
+ * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
 public class UserFindNmUsernameDtmSignupBean {
 	// the binder is unused in code, but will generate compile problems if this 
@@ -39,11 +43,16 @@ public class UserFindNmUsernameDtmSignupBean {
 	public void setDtmSignup(Timestamp dtmSignup) { this.dtmSignup = dtmSignup; }
 
 	/**
-	 * Return an XML representation of the select clause bean for the FindNmUsernameDtmSignup
-	 * finder.  The root node is name of the select clause finder - i.e. <FindNmUsernameDtmSignup>
-	 * and the child nodes the name of the fields.
+	 * <p>Return an XML representation of the select clause bean for the call to the 
+	 * <code>UserFinder.FindNmUsernameDtmSignup()</code> finder as a <code>String</code>.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p>The root node is name of the select clause finder - i.e. <code>&lt;FindNmUsernameDtmSignup /&gt;</code>
+	 * and the child nodes the name of the fields.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the bean as a <code>String</code>.  
 	 */
 	public String toXMLString() {
 		return("<user>" + 

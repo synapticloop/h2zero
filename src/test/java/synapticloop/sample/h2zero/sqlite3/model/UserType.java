@@ -17,10 +17,14 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 
 /**
- * This is the model for the UserType which maps to the user_type database table.
- * This is a constant table which cannot be changed
+ * <p>This is the model for the <code>UserType</code> which maps to the <code>user_type</code> database table.</p>
+ * <p><strong>NOTE:</strong> This is a constant table which cannot be changed and no CRUD methods are available.</p>
+  * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
- public class UserType  {
+public class UserType  {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -56,38 +60,22 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 	private Long idUserType = null; // maps to the id_user_type field
 	private String nmUserType = null; // maps to the nm_user_type field
 
+	/**
+	 * Instantiate the UserType object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@7b9ad870</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUserType - maps to the <code>id_user_type</code>
+	 * @param nmUserType - maps to the <code>nm_user_type</code>
+	 */
 	public UserType(Long idUserType, String nmUserType) {
 		this.idUserType = idUserType;
 		this.nmUserType = nmUserType;
 	}
 
-	/**
-	 * Get a new UserType model, or set the fields on an existing
-	 * UserType model.
-	 * <p>
-	 * If the passed in userType is null, then a new UserType
-	 * will be created.  If not null, the fields will be updated on the passed in model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
-	 * 
-	 * @param userType the model to check
-	 * @param idUserType
-	 * @param nmUserType
-	 * 
-	 * @return Either the existing userType with updated field values,
-	 *   or a new UserType with the field values set.
-	 */
-	public static UserType getOrSet(UserType userType,Long idUserType, String nmUserType) {
-		if(null == userType) {
-			return (new UserType(idUserType, nmUserType));
-		} else {
-			userType.setIdUserType(idUserType);
-			userType.setNmUserType(nmUserType);
-
-			return(userType);
-		}
-	}
 	/*
 	 * Boring ol' getters and setters 
 	 * 
@@ -103,10 +91,10 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-			.append("Model: 'UserType'\n")
-			.append("  Field: 'idUserType:").append(this.idUserType).append("'\n")
-			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
-			;
+			.append("{\"UserType\": {\n")
+			.append("\"idUserType\":\"").append(this.idUserType).append("\"")
+			.append("\"nmUserType\":\"").append(this.nmUserType).append("\"")
+			.append("}");
 		return(stringBuilder.toString());
 	}
 	public JSONObject getToJSON() {
@@ -138,14 +126,14 @@ import synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 	}
 
 	/**
-	 * Return an XML representation of the 'UserType' model, with the root node being the
-	 * name of the table - i.e. <user_type> and the child nodes the name of the 
-	 * fields.
-	 * <p>
-	 * <strong>NOTE:</strong> Any field marked as secure will not be included as
-	 * part of the XML document
+	 * <p>Return an XML representation of the <code>UserType</code> model as a <code>String</code>, 
+	 * with the root node being the name of the table - i.e. <code>&lt;user_type /&gt;</code> 
+	 * and the child nodes the name of the fields.</p>
 	 * 
-	 * @return An XML representation of the model.  
+	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as
+	 * part of the XML document</p>
+	 * 
+	 * @return An XML representation of the model as a <code>String</code>.
 	 */
 	public String toXMLString() {
 		return("<user_type>" + 

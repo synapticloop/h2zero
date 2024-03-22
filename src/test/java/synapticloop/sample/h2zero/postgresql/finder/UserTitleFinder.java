@@ -37,10 +37,9 @@ public class UserTitleFinder {
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
-			id_user_title, 
-			nm_user_title, 
-			num_order_by
-
+				id_user_title, 
+				nm_user_title, 
+				num_order_by
 			from 
 				user_title
 		""";

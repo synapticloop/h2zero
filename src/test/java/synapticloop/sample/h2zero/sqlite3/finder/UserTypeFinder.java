@@ -36,9 +36,8 @@ public class UserTypeFinder {
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
-			id_user_type, 
-			nm_user_type
-
+				id_user_type, 
+				nm_user_type
 			from 
 				user_type
 		""";

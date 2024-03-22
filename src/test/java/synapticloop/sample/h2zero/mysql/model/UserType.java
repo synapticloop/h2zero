@@ -63,7 +63,7 @@ public class UserType  {
 	/**
 	 * Instantiate the UserType object with all the fields within the table.
 	 * 
-	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@f5df9a1</code>
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@4ea37106</code>
 	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
 	 * then, passing in <code>null</code> will automatically generate this field value
 	 * and will set the value.</p>
