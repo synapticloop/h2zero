@@ -157,7 +157,7 @@ create table all_types (
 	test_char char null,
 	test_boolean boolean null,
 	test_binary binary null,
-	test_varbinary varbinary null,
+	test_varbinary varbinary(100) null,
 	test_date date null,
 	test_datetime datetime null,
 	test_dec dec null,
@@ -177,7 +177,7 @@ create table all_types (
 	test_timestamp timestamp null,
 	test_tinyint tinyint null,
 	test_tinytext tinytext null,
-	test_varchar varchar null,
+	test_varchar varchar(32) null,
 	test_year year null,
 	primary key(id_all_types)
 ) engine=innodb default charset=UTF8;
@@ -190,7 +190,12 @@ drop view if exists user_user_type;
 show warnings;
 
 create view user_user_type as
- select u.nm_user, ut.nm_user_type from user u, user_type ut where u.id_user_type = ut.id_user_type
+ select 
+u.nm_username, 
+ut.nm_user_type 
+from user u, user_type ut 
+where 
+u.id_user_type = ut.id_user_type
 ;
 
 show warnings;

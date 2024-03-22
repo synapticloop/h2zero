@@ -26,10 +26,12 @@ public class VarbinaryField extends BaseField {
 
 	public VarbinaryField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
+		this.requiresLength = true;
 	}
 
 	public VarbinaryField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
+		this.requiresLength = true;
 	}
 
 	@Override

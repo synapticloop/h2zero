@@ -52,17 +52,7 @@ import synapticloop.h2zero.validator.counter.*;
 import synapticloop.h2zero.validator.database.TableNameDuplicateValidator;
 import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
 import synapticloop.h2zero.validator.deleter.DeleterWhereClauseValidator;
-import synapticloop.h2zero.validator.field.FieldDefaultValueValidator;
-import synapticloop.h2zero.validator.field.FieldIgnoredKeysValidator;
-import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
-import synapticloop.h2zero.validator.field.FieldNotNullLengthValidator;
-import synapticloop.h2zero.validator.field.FieldPopulateForeignKeyValidator;
-import synapticloop.h2zero.validator.field.FieldPopulatePrimaryKeyValidator;
-import synapticloop.h2zero.validator.field.FieldPrimaryKeyTypeValidator;
-import synapticloop.h2zero.validator.field.FieldSerialNonPrimaryKeyValidator;
-import synapticloop.h2zero.validator.field.SQLite3FieldBlobValidator;
-import synapticloop.h2zero.validator.field.SQLite3FieldClobValidator;
-import synapticloop.h2zero.validator.field.SQLite3FieldPrimaryKeyValidator;
+import synapticloop.h2zero.validator.field.*;
 import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
 import synapticloop.h2zero.validator.finder.FinderInQueryValidator;
 import synapticloop.h2zero.validator.finder.FinderNameValidator;
@@ -138,6 +128,7 @@ public class H2ZeroParser {
 
 		// field validators
 		validators.add(new FieldDefaultValueValidator());
+		validators.add(new FieldRequiresLengthValidator());
 		validators.add(new FieldPopulatePrimaryKeyValidator());
 		validators.add(new FieldPopulateForeignKeyValidator());
 		validators.add(new FieldNameDuplicateValidator());

@@ -8,7 +8,7 @@
 		{ "name": "test_char", "type": "char", "nullable": true },
 		{ "name": "test_boolean", "type": "boolean", "nullable": true },
 		{ "name": "test_binary", "type": "binary", "nullable": true },
-		{ "name": "test_varbinary", "type": "varbinary", "nullable": true },
+		{ "name": "test_varbinary", "length": 100, "type": "varbinary", "nullable": true },
 		{ "name": "test_date", "type": "date", "nullable": true },
 		{ "name": "test_datetime", "type": "datetime", "nullable": true },
 		{ "name": "test_dec", "type": "dec", "nullable": true },
@@ -28,7 +28,7 @@
 		{ "name": "test_timestamp", "type": "timestamp", "nullable": true },
 		{ "name": "test_tinyint", "type": "tinyint", "nullable": true },
 		{ "name": "test_tinytext", "type": "tinytext", "nullable": true },
-		{ "name": "test_varchar", "type": "varchar", "nullable": true },
+		{ "name": "test_varchar", "type": "varchar", "length": 32, "nullable": true },
 		{ "name": "test_year", "type": "year", "nullable": true }
 	]
 }

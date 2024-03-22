@@ -102,10 +102,14 @@ public abstract class BaseField {
 	protected String name = null; // the name of the database field
 	private String alias = null; // the alias of the field to use
 	protected String type = null; // the type of the field
-	protected int length = 0; // the length of the field
 	protected boolean nullable = true; // whether the field is nullable
+
+	protected int length = 0; // the length of the field
 	protected int decimalLength = 0; // the decimal length - if required for the fields
+
+	protected boolean requiresLength = false;
 	protected String defaultValue = null; // the default value
+
 	protected boolean primary = false; // whether this field is primary
 	protected boolean index = false; // whether to index this field
 	protected boolean unique = false; // whether this field is unique
@@ -373,4 +377,8 @@ public abstract class BaseField {
 
 	public String getComment() { return comment; }
 	public void setComment(String comment) { this.comment = comment; }
+
+	public boolean getRequiresLength() { return(requiresLength); }
+
+	public int getLength() { return(length); }
 }

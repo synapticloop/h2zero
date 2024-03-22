@@ -27,10 +27,12 @@ public class VarcharField extends BaseField {
 
 	public VarcharField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
+		this.requiresLength = true;
 	}
 
 	public VarcharField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
+		this.requiresLength = true;
 	}
 
 	public String getJavaType() {

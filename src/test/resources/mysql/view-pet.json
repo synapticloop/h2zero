@@ -3,18 +3,25 @@
 	"comments": [
 		"a view on users and pets"
 	],
-	"asClause": " select u.nm_user, ut.nm_user_type from user u, user_type ut where u.id_user_type = ut.id_user_type",
-	
+	"asClause": [
+		" select ",
+		"u.nm_username, ",
+		"ut.nm_user_type ",
+		"from user u, user_type ut ",
+		"where ",
+		"u.id_user_type = ut.id_user_type"
+	],
 	"fields": [
-		{ "name": "nm_user", "type": "varchar", "length": "64", "nullable": false },
+		{ "name": "id_user", "type": "bigint", "nullable": false, "foreignKey": "user.id_user" },
+		{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false },
 		{ "name": "nm_user_type", "type": "varchar", "length": "64", "nullable": false }
 	],
 	"finders": [
 		{
-			"name": "findByNmUser",
-			"whereClause": "where nm_user = ?",
+			"name": "findByNmUsername",
+			"whereClause": "where nm_username = ?",
 			"whereFields": [
-				"nm_user"
+				"nm_username"
 			]
 		}
 	]

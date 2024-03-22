@@ -37,20 +37,21 @@ public class UserUserTypeViewFinder {
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
-				nm_user, 
+				id_user, 
+				nm_username, 
 				nm_user_type
 			from 
 				user_user_type
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
-	private static final String SQL_FIND_BY_NM_USER = SQL_SELECT_START + 
+	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START + 
 		"""
-			where nm_user = ?
+			where nm_username = ?
 		""";
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
-	private static final LruCache<String, String> findByNmUser_limit_statement_cache = new LruCache<>(1024);
+	private static final LruCache<String, String> findByNmUsername_limit_statement_cache = new LruCache<>(1024);
 
 	private UserUserTypeViewFinder() {}
 
@@ -374,12 +375,12 @@ public class UserUserTypeViewFinder {
 	 * the following are the regular finders, either defined through the
 	 * 'finders' or 'fieldFinders' JSON key
 	 * 
-	 * - findByNmUser - Generated from the 'finders' JSON key
+	 * - findByNmUsername - Generated from the 'finders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * findByNmUser 
+	 * findByNmUsername 
 	 * <p>
 	 * (This finder was generated through the 'finders' JSON key)
 	 * <p>
@@ -387,7 +388,7 @@ public class UserUserTypeViewFinder {
 	 * will be cached for further use
 	 * 
 	 * @param connection - the connection to the database
-	 * @param nmUser - maps to the nm_user field
+	 * @param nmUsername - maps to the nm_username field
 	 * @param limit - The maximum number of rows to return
 	 * @param offset - The row offset to start with
 	 * 
@@ -396,17 +397,17 @@ public class UserUserTypeViewFinder {
 	 * @throws H2ZeroFinderException if no results could be found
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
-	public static List<UserUserType> findByNmUser(Connection connection, String nmUser, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+	public static List<UserUserType> findByNmUsername(Connection connection, String nmUsername, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
 		boolean hasConnection = (null != connection);
 		String statement = null;
 
 		// first find the statement that we want - or cache it if it doesn't exist
 
 		String cacheKey = limit + ":" + offset;
-		if(!findByNmUser_limit_statement_cache.containsKey(cacheKey)) {
+		if(!findByNmUsername_limit_statement_cache.containsKey(cacheKey)) {
 			// place the cacheKey in the cache for later use
 
-			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_NM_USER);
+			StringBuilder stringBuilder = new StringBuilder(SQL_FIND_BY_NM_USERNAME);
 
 			if(null != limit) {
 				stringBuilder.append(" limit ");
@@ -418,9 +419,9 @@ public class UserUserTypeViewFinder {
 			}
 
 			statement = stringBuilder.toString();
-			findByNmUser_limit_statement_cache.put(cacheKey, statement);
+			findByNmUsername_limit_statement_cache.put(cacheKey, statement);
 		} else {
-			statement = findByNmUser_limit_statement_cache.get(cacheKey);
+			statement = findByNmUsername_limit_statement_cache.get(cacheKey);
 		}
 
 		PreparedStatement preparedStatement = null;
@@ -431,7 +432,7 @@ public class UserUserTypeViewFinder {
 				connection = ConnectionManager.getConnection();
 			}
 			preparedStatement = connection.prepareStatement(statement);
-			ConnectionManager.setVarchar(preparedStatement, 1, nmUser);
+			ConnectionManager.setVarchar(preparedStatement, 1, nmUsername);
 
 			resultSet = preparedStatement.executeQuery();
 			results = list(resultSet);
@@ -452,25 +453,25 @@ public class UserUserTypeViewFinder {
 		return(results);
 	}
 
-	public static List<UserUserType> findByNmUser(Connection connection, String nmUser) throws H2ZeroFinderException, SQLException {
-		return(findByNmUser(connection, nmUser, null, null));
+	public static List<UserUserType> findByNmUsername(Connection connection, String nmUsername) throws H2ZeroFinderException, SQLException {
+		return(findByNmUsername(connection, nmUsername, null, null));
 	}
 
-	public static List<UserUserType> findByNmUser(String nmUser, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
-		return(findByNmUser(null, nmUser, limit, offset));
+	public static List<UserUserType> findByNmUsername(String nmUsername, Integer limit, Integer offset) throws H2ZeroFinderException, SQLException {
+		return(findByNmUsername(null, nmUsername, limit, offset));
 	}
 
-	public static List<UserUserType> findByNmUser(String nmUser) throws H2ZeroFinderException, SQLException {
-		return(findByNmUser(null, nmUser, null, null));
+	public static List<UserUserType> findByNmUsername(String nmUsername) throws H2ZeroFinderException, SQLException {
+		return(findByNmUsername(null, nmUsername, null, null));
 	}
 
 	// silent connection, params..., limit, offset
-	public static List<UserUserType> findByNmUserSilent(Connection connection, String nmUser, Integer limit, Integer offset) {
+	public static List<UserUserType> findByNmUsernameSilent(Connection connection, String nmUsername, Integer limit, Integer offset) {
 		try {
-			return(findByNmUser(connection, nmUser, limit, offset));
+			return(findByNmUsername(connection, nmUsername, limit, offset));
 		} catch(H2ZeroFinderException h2zfex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("H2ZeroFinderException findByNmUserSilent(connection: " + connection + ", " + nmUser + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
+				LOGGER.warn("H2ZeroFinderException findByNmUsernameSilent(connection: " + connection + ", " + nmUsername + ", limit: " + limit + ", offset: " + offset + "): " + h2zfex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
 					h2zfex.printStackTrace();
 				}
@@ -478,7 +479,7 @@ public class UserUserTypeViewFinder {
 			return(new ArrayList<UserUserType>());
 		} catch(SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException findByNmUserSilent(connection: " + connection + ", " + nmUser + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
+				LOGGER.warn("SQLException findByNmUsernameSilent(connection: " + connection + ", " + nmUsername + ", limit: " + limit + ", offset: " + offset + "): " + sqlex.getMessage());
 				if(LOGGER.isDebugEnabled()) {
 					sqlex.printStackTrace();
 				}
@@ -488,17 +489,17 @@ public class UserUserTypeViewFinder {
 	}
 
 	// silent connection, params...
-	public static List<UserUserType> findByNmUserSilent(Connection connection, String nmUser) {
-		return(findByNmUserSilent(connection, nmUser, null, null));
+	public static List<UserUserType> findByNmUsernameSilent(Connection connection, String nmUsername) {
+		return(findByNmUsernameSilent(connection, nmUsername, null, null));
 	}
 
 	// silent params..., limit, offset
-	public static List<UserUserType> findByNmUserSilent(String nmUser, Integer limit, Integer offset) {
-		return(findByNmUserSilent(null, nmUser, limit, offset));
+	public static List<UserUserType> findByNmUsernameSilent(String nmUsername, Integer limit, Integer offset) {
+		return(findByNmUsernameSilent(null, nmUsername, limit, offset));
 	}
 
-	public static List<UserUserType> findByNmUserSilent(String nmUser) {
-		return(findByNmUserSilent(null, nmUser, null, null));
+	public static List<UserUserType> findByNmUsernameSilent(String nmUsername) {
+		return(findByNmUsernameSilent(null, nmUsername, null, null));
 	}
 
 	/**
@@ -516,10 +517,11 @@ public class UserUserTypeViewFinder {
 	private static UserUserType uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
 		if(resultSet.next()) {
 			// we have a result
-			String nmUser = ConnectionManager.getNullableResultString(resultSet, 1);
-			String nmUserType = ConnectionManager.getNullableResultString(resultSet, 2);
+			Long idUser = ConnectionManager.getNullableResultLong(resultSet, 1);
+			String nmUsername = ConnectionManager.getNullableResultString(resultSet, 2);
+			String nmUserType = ConnectionManager.getNullableResultString(resultSet, 3);
 
-			UserUserType userUserType = new UserUserType(nmUser, nmUserType);
+			UserUserType userUserType = new UserUserType(idUser, nmUsername, nmUserType);
 
 			if(resultSet.next()) {
 				throw new H2ZeroFinderException("More than one result in resultset for unique finder.");
@@ -546,8 +548,9 @@ public class UserUserTypeViewFinder {
 		List<UserUserType> arrayList = new ArrayList<UserUserType>();
 		while(resultSet.next()) {
 			arrayList.add(new UserUserType(
-					ConnectionManager.getNullableResultString(resultSet, 1),
-					ConnectionManager.getNullableResultString(resultSet, 2)));
+					ConnectionManager.getNullableResultLong(resultSet, 1),
+					ConnectionManager.getNullableResultString(resultSet, 2),
+					ConnectionManager.getNullableResultString(resultSet, 3)));
 		}
 		return(arrayList);
 	}

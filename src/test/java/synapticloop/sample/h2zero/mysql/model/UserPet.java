@@ -362,6 +362,11 @@ public class UserPet extends ModelBase {
 	}
 
 
+	/**
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
+	 *
+	 * @return the JSON Object as a <code>String</code>.
+	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "UserPet");
