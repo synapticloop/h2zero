@@ -39,11 +39,10 @@ public class FinderWhereClauseIncludesLimitOrOffsetValidator extends BaseValidat
 						whereClause.toLowerCase().contains(" limit") ||
 								whereClause.toLowerCase().contains(" offset"))
 						) {
-					addFatalMessage(
+					addWarnMessage(
 							"Finder '" + table.getName() + "." + finder.getName() + "' " +
-									"has a whereClause that has the keyword 'limit' or 'offset' which is not allowed, " +
+									"has a whereClause that has the keyword 'limit' or 'offset' which is not recommended, " +
 									"use the finder method with the limit/offset signature.");
-					finder.setWhereClause(" where " + whereClause);
 				}
 			}
 		}
