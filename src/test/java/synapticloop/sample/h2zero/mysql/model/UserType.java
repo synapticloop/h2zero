@@ -60,6 +60,17 @@ public class UserType  {
 	private Long idUserType = null; // maps to the id_user_type field
 	private String nmUserType = null; // maps to the nm_user_type field
 
+	/**
+	 * Instantiate the UserType object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@f5df9a1</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUserType - maps to the <code>id_user_type</code>
+	 * @param nmUserType - maps to the <code>nm_user_type</code>
+	 */
 	public UserType(Long idUserType, String nmUserType) {
 		this.idUserType = idUserType;
 		this.nmUserType = nmUserType;

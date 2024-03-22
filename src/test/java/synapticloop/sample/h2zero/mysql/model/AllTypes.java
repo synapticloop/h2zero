@@ -226,6 +226,44 @@ public class AllTypes extends ModelBase {
 	private String testVarchar = null; // maps to the test_varchar field
 	private Integer testYear = null; // maps to the test_year field
 
+	/**
+	 * Instantiate the AllTypes object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@5c9a749</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAllTypes - maps to the <code>id_all_types</code>
+	 * @param testBigint - maps to the <code>test_bigint</code>
+	 * @param testBlob - maps to the <code>test_blob</code>
+	 * @param testBool - maps to the <code>test_bool</code>
+	 * @param testChar - maps to the <code>test_char</code>
+	 * @param testBoolean - maps to the <code>test_boolean</code>
+	 * @param testBinary - maps to the <code>test_binary</code>
+	 * @param testVarbinary - maps to the <code>test_varbinary</code>
+	 * @param testDate - maps to the <code>test_date</code>
+	 * @param testDatetime - maps to the <code>test_datetime</code>
+	 * @param testDec - maps to the <code>test_dec</code>
+	 * @param testDecimal - maps to the <code>test_decimal</code>
+	 * @param testDouble - maps to the <code>test_double</code>
+	 * @param testFloat - maps to the <code>test_float</code>
+	 * @param testInt - maps to the <code>test_int</code>
+	 * @param testInteger - maps to the <code>test_integer</code>
+	 * @param testLongtext - maps to the <code>test_longtext</code>
+	 * @param testMediumblob - maps to the <code>test_mediumblob</code>
+	 * @param testMediumint - maps to the <code>test_mediumint</code>
+	 * @param testMediumtext - maps to the <code>test_mediumtext</code>
+	 * @param testNumeric - maps to the <code>test_numeric</code>
+	 * @param testSmallint - maps to the <code>test_smallint</code>
+	 * @param testTime - maps to the <code>test_time</code>
+	 * @param testText - maps to the <code>test_text</code>
+	 * @param testTimestamp - maps to the <code>test_timestamp</code>
+	 * @param testTinyint - maps to the <code>test_tinyint</code>
+	 * @param testTinytext - maps to the <code>test_tinytext</code>
+	 * @param testVarchar - maps to the <code>test_varchar</code>
+	 * @param testYear - maps to the <code>test_year</code>
+	 */
 	public AllTypes(Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) {
 		this.idAllTypes = idAllTypes;
 		this.testBigint = testBigint;
@@ -258,6 +296,16 @@ public class AllTypes extends ModelBase {
 		this.testYear = testYear;
 	}
 
+	/**
+	 * Instantiate the AllTypes object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@5c9a749</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idAllTypes - maps to the <code>id_all_types</code>
+	 */
 	public AllTypes(Long idAllTypes) {
 		this.idAllTypes = idAllTypes;
 		this.testBigint = null;
@@ -896,35 +944,37 @@ public class AllTypes extends ModelBase {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "AllTypes");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idAllTypes", HIT_COUNTS[1]);
-		jsonObject.put("testBigint", HIT_COUNTS[2]);
-		jsonObject.put("testBlob", HIT_COUNTS[3]);
-		jsonObject.put("testBool", HIT_COUNTS[4]);
-		jsonObject.put("testChar", HIT_COUNTS[5]);
-		jsonObject.put("testBoolean", HIT_COUNTS[6]);
-		jsonObject.put("testBinary", HIT_COUNTS[7]);
-		jsonObject.put("testVarbinary", HIT_COUNTS[8]);
-		jsonObject.put("testDate", HIT_COUNTS[9]);
-		jsonObject.put("testDatetime", HIT_COUNTS[10]);
-		jsonObject.put("testDec", HIT_COUNTS[11]);
-		jsonObject.put("testDecimal", HIT_COUNTS[12]);
-		jsonObject.put("testDouble", HIT_COUNTS[13]);
-		jsonObject.put("testFloat", HIT_COUNTS[14]);
-		jsonObject.put("testInt", HIT_COUNTS[15]);
-		jsonObject.put("testInteger", HIT_COUNTS[16]);
-		jsonObject.put("testLongtext", HIT_COUNTS[17]);
-		jsonObject.put("testMediumblob", HIT_COUNTS[18]);
-		jsonObject.put("testMediumint", HIT_COUNTS[19]);
-		jsonObject.put("testMediumtext", HIT_COUNTS[20]);
-		jsonObject.put("testNumeric", HIT_COUNTS[21]);
-		jsonObject.put("testSmallint", HIT_COUNTS[22]);
-		jsonObject.put("testTime", HIT_COUNTS[23]);
-		jsonObject.put("testText", HIT_COUNTS[24]);
-		jsonObject.put("testTimestamp", HIT_COUNTS[25]);
-		jsonObject.put("testTinyint", HIT_COUNTS[26]);
-		jsonObject.put("testTinytext", HIT_COUNTS[27]);
-		jsonObject.put("testVarchar", HIT_COUNTS[28]);
-		jsonObject.put("testYear", HIT_COUNTS[29]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idAllTypes", HIT_COUNTS[1]);
+		fieldObject.put("testBigint", HIT_COUNTS[2]);
+		fieldObject.put("testBlob", HIT_COUNTS[3]);
+		fieldObject.put("testBool", HIT_COUNTS[4]);
+		fieldObject.put("testChar", HIT_COUNTS[5]);
+		fieldObject.put("testBoolean", HIT_COUNTS[6]);
+		fieldObject.put("testBinary", HIT_COUNTS[7]);
+		fieldObject.put("testVarbinary", HIT_COUNTS[8]);
+		fieldObject.put("testDate", HIT_COUNTS[9]);
+		fieldObject.put("testDatetime", HIT_COUNTS[10]);
+		fieldObject.put("testDec", HIT_COUNTS[11]);
+		fieldObject.put("testDecimal", HIT_COUNTS[12]);
+		fieldObject.put("testDouble", HIT_COUNTS[13]);
+		fieldObject.put("testFloat", HIT_COUNTS[14]);
+		fieldObject.put("testInt", HIT_COUNTS[15]);
+		fieldObject.put("testInteger", HIT_COUNTS[16]);
+		fieldObject.put("testLongtext", HIT_COUNTS[17]);
+		fieldObject.put("testMediumblob", HIT_COUNTS[18]);
+		fieldObject.put("testMediumint", HIT_COUNTS[19]);
+		fieldObject.put("testMediumtext", HIT_COUNTS[20]);
+		fieldObject.put("testNumeric", HIT_COUNTS[21]);
+		fieldObject.put("testSmallint", HIT_COUNTS[22]);
+		fieldObject.put("testTime", HIT_COUNTS[23]);
+		fieldObject.put("testText", HIT_COUNTS[24]);
+		fieldObject.put("testTimestamp", HIT_COUNTS[25]);
+		fieldObject.put("testTinyint", HIT_COUNTS[26]);
+		fieldObject.put("testTinytext", HIT_COUNTS[27]);
+		fieldObject.put("testVarchar", HIT_COUNTS[28]);
+		fieldObject.put("testYear", HIT_COUNTS[29]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

@@ -99,6 +99,18 @@ public class UserPet extends ModelBase {
 	private Long idUser = null; // maps to the id_user field
 	private Long idPet = null; // maps to the id_pet field
 
+	/**
+	 * Instantiate the UserPet object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@5c1c6e0b</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUserPet - maps to the <code>id_user_pet</code>
+	 * @param idUser - maps to the <code>id_user</code>
+	 * @param idPet - maps to the <code>id_pet</code>
+	 */
 	public UserPet(Long idUserPet, Long idUser, Long idPet) {
 		this.idUserPet = idUserPet;
 		this.idUser = idUser;
@@ -371,9 +383,11 @@ public class UserPet extends ModelBase {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "UserPet");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idUserPet", HIT_COUNTS[1]);
-		jsonObject.put("idUser", HIT_COUNTS[2]);
-		jsonObject.put("idPet", HIT_COUNTS[3]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idUserPet", HIT_COUNTS[1]);
+		fieldObject.put("idUser", HIT_COUNTS[2]);
+		fieldObject.put("idPet", HIT_COUNTS[3]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

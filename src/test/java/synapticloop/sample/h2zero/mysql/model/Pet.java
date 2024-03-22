@@ -109,6 +109,21 @@ public class Pet extends ModelBase {
 	private Date dtBirthday = null; // maps to the dt_birthday field
 	private Blob imgPhoto = null; // maps to the img_photo field
 
+	/**
+	 * Instantiate the Pet object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@135c9aad</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idPet - maps to the <code>id_pet</code>
+	 * @param nmPet - maps to the <code>nm_pet</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 * @param fltWeight - maps to the <code>flt_weight</code>
+	 * @param dtBirthday - maps to the <code>dt_birthday</code>
+	 * @param imgPhoto - maps to the <code>img_photo</code>
+	 */
 	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
@@ -118,6 +133,18 @@ public class Pet extends ModelBase {
 		this.imgPhoto = imgPhoto;
 	}
 
+	/**
+	 * Instantiate the Pet object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@135c9aad</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idPet - maps to the <code>id_pet</code>
+	 * @param nmPet - maps to the <code>nm_pet</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 */
 	public Pet(Long idPet, String nmPet, Integer numAge) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
@@ -173,8 +200,8 @@ public class Pet extends ModelBase {
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param pet the model to check
-	 * @param nmPet
-	 * @param numAge
+	 * @param nmPet - maps to the <code>nm_pet</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
 	 * 
 	 * @return Either the existing pet with updated field values,
 	 *   or a new Pet with the field values set.
@@ -317,7 +344,6 @@ public class Pet extends ModelBase {
 	 * <p>{@link #HIT_FLT_WEIGHT Use <code>Pet.HIT_FLT_WEIGHT</code> to retrieve the hit count for the <code>flt_weight</code> field}</p>
 	 * <p>{@link #HIT_DT_BIRTHDAY Use <code>Pet.HIT_DT_BIRTHDAY</code> to retrieve the hit count for the <code>dt_birthday</code> field}</p>
 	 * <p>{@link #HIT_IMG_PHOTO Use <code>Pet.HIT_IMG_PHOTO</code> to retrieve the hit count for the <code>img_photo</code> field}</p>
-
 	 */
 	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
 
@@ -375,6 +401,7 @@ public class Pet extends ModelBase {
 			.append("}");
 		return(stringBuilder.toString());
 	}
+
 	public JSONObject getToJSON() {
 		return(toJSON());
 	}
@@ -438,12 +465,14 @@ public class Pet extends ModelBase {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "Pet");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idPet", HIT_COUNTS[1]);
-		jsonObject.put("nmPet", HIT_COUNTS[2]);
-		jsonObject.put("numAge", HIT_COUNTS[3]);
-		jsonObject.put("fltWeight", HIT_COUNTS[4]);
-		jsonObject.put("dtBirthday", HIT_COUNTS[5]);
-		jsonObject.put("imgPhoto", HIT_COUNTS[6]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idPet", HIT_COUNTS[1]);
+		fieldObject.put("nmPet", HIT_COUNTS[2]);
+		fieldObject.put("numAge", HIT_COUNTS[3]);
+		fieldObject.put("fltWeight", HIT_COUNTS[4]);
+		fieldObject.put("dtBirthday", HIT_COUNTS[5]);
+		fieldObject.put("imgPhoto", HIT_COUNTS[6]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

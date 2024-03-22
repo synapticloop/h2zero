@@ -486,6 +486,7 @@ public abstract class BaseSchemaObject {
 	public int getFindAllStatementCacheSize() { return findAllStatementCacheSize; }
 	public int getDefaultStatementCacheSize() { return defaultStatementCacheSize; }
 
+	public BaseField getPrimaryKeyField() { return(primaryKeyField); }
 	public List<BaseField> getPopulateFields() { return(populateFields); }
 	public List<BaseField> getNonPopulateFields() { return(nonPopulateFields); }
 
@@ -498,4 +499,6 @@ public abstract class BaseSchemaObject {
 	public boolean getHasQuestions() { return(!questions.isEmpty()); }
 
 	public List<BaseField> getUniqueFields() { return(uniqueFields); }
+
+	public JSONObject getJsonObject() { return(jsonObject); }
 }

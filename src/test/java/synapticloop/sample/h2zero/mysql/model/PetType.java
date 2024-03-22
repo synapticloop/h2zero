@@ -92,6 +92,18 @@ public class PetType extends ModelBase {
 	private String nmPetType = null; // maps to the nm_pet_type field
 	private String txtDescPetType = null; // maps to the txt_desc_pet_type field
 
+	/**
+	 * Instantiate the PetType object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@34804259</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idPetType - maps to the <code>id_pet_type</code>
+	 * @param nmPetType - maps to the <code>nm_pet_type</code>
+	 * @param txtDescPetType - maps to the <code>txt_desc_pet_type</code>
+	 */
 	public PetType(Long idPetType, String nmPetType, String txtDescPetType) {
 		this.idPetType = idPetType;
 		this.nmPetType = nmPetType;
@@ -342,9 +354,11 @@ public class PetType extends ModelBase {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "PetType");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idPetType", HIT_COUNTS[1]);
-		jsonObject.put("nmPetType", HIT_COUNTS[2]);
-		jsonObject.put("txtDescPetType", HIT_COUNTS[3]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idPetType", HIT_COUNTS[1]);
+		fieldObject.put("nmPetType", HIT_COUNTS[2]);
+		fieldObject.put("txtDescPetType", HIT_COUNTS[3]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

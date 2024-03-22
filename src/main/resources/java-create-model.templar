@@ -4,6 +4,7 @@ package {database.package}.model;{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //                  (java-create-model.templar){\n}{\n}
 
+
 {if !table.isConstant}
 	import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 	import synapticloop.h2zero.base.validator.bean.ValidationBean;{\n}
@@ -251,6 +252,21 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 				what about null-able fields?
 	}
 
+{\t}/**{\n}
+{\t} * Instantiate the {table.javaClassName} object with all the fields within the table.{\n}
+{\t} * {\n}
+{if !fn:null[table.primaryKeyField]}
+{\t} * <p>You have a primary key field of <code>{table.primaryKeyField}</code>{\n}
+{\t} * Note, that if the primary key on this table is an <code>auto_increment</code> field{\n}
+{\t} * then, passing in <code>null</code> will automatically generate this field value{\n}
+{\t} * and will set the value.</p>{\n}
+{endif}
+{\t} * {\n}
+{loop table.fields as field}
+{\t} * @param {field.javaName} - maps to the <code>{field.name}</code>{\n}
+{endloop}
+{\t} */{\n}
+
 	{\t}public {table.javaClassName}(
 		{loop table.fields as field}
 			{field.javaType} {field.javaName}
@@ -265,6 +281,21 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 	{if table.hasNonNullConstructor}
 	{\n}
+{\t}/**{\n}
+{\t} * Instantiate the {table.javaClassName} object with all the non-nullable fields within the table{\n}
+{\t} * {\n}
+{if !fn:null[table.primaryKeyField]}
+{\t} * <p>You have a primary key field of <code>{table.primaryKeyField}</code>{\n}
+{\t} * Note, that if the primary key on this table is an <code>auto_increment</code> field{\n}
+{\t} * then, passing in <code>null</code> will automatically generate this field value{\n}
+{\t} * and will set the value.</p>{\n}
+{endif}
+{\t} * {\n}
+{loop table.nonNullFields as field}
+{\t} * @param {field.javaName} - maps to the <code>{field.name}</code>{\n}
+{endloop}
+{\t} */{\n}
+
 		{\t}public {table.javaClassName}(
 			{loop table.nonNullFields as field}
 				{field.javaType} {field.javaName}
@@ -345,7 +376,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} * {\n}
 	{\t} * @param {table.javaFieldName} the model to check{\n}
 		{loop table.nonPrimaryNullFields as field}
-	{\t} * @param {field.javaName}{\n}
+	{\t} * @param {field.javaName} - maps to the <code>{field.name}</code> field.{\n}
 		{endloop}
 	{\t} * {\n}
 	{\t} * @return Either the existing {table.javaFieldName} with updated field values,{\n}
@@ -866,9 +897,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
 		{\t}{\t}jsonObject.put("type", "{table.javaClassName}");{\n}
 		{\t}{\t}jsonObject.put("total", HIT_COUNTS[0]);{\n}
+		{\t}{\t}JSONObject fieldObject = new JSONObject();{\n}
 		{loop table.fields as field}
-		{\t}{\t}jsonObject.put("{field.javaName}", HIT_COUNTS[{fn:+[field.fieldIndex, '1']}]);{\n}
+		{\t}{\t}fieldObject.put("{field.javaName}", HIT_COUNTS[{fn:+[field.fieldIndex, '1']}]);{\n}
 		{endloop}
+		{\t}{\t}jsonObject.put("fields", fieldObject);{\n}
 		{\t}{\t}return(jsonObject.toString());{\n}
 		{\t}}{\n}
 		{\n}

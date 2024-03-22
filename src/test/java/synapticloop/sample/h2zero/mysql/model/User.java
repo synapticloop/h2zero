@@ -122,6 +122,23 @@ public class User extends ModelBase {
 	private String txtPassword = null; // maps to the txt_password field
 	private Timestamp dtmSignup = null; // maps to the dtm_signup field
 
+	/**
+	 * Instantiate the User object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@3059a728</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUser - maps to the <code>id_user</code>
+	 * @param idUserType - maps to the <code>id_user_type</code>
+	 * @param flIsAlive - maps to the <code>fl_is_alive</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 * @param nmUsername - maps to the <code>nm_username</code>
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code>
+	 * @param txtPassword - maps to the <code>txt_password</code>
+	 * @param dtmSignup - maps to the <code>dtm_signup</code>
+	 */
 	public User(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
 		this.idUser = idUser;
 		this.idUserType = idUserType;
@@ -133,6 +150,21 @@ public class User extends ModelBase {
 		this.dtmSignup = dtmSignup;
 	}
 
+	/**
+	 * Instantiate the User object with all the non-nullable fields within the table
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@3059a728</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUser - maps to the <code>id_user</code>
+	 * @param idUserType - maps to the <code>id_user_type</code>
+	 * @param numAge - maps to the <code>num_age</code>
+	 * @param nmUsername - maps to the <code>nm_username</code>
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code>
+	 * @param txtPassword - maps to the <code>txt_password</code>
+	 */
 	public User(Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
 		this.idUser = idUser;
 		this.idUserType = idUserType;
@@ -194,11 +226,11 @@ public class User extends ModelBase {
 	 * with an <code>upsert()</code> call.
 	 * 
 	 * @param user the model to check
-	 * @param idUserType
-	 * @param numAge
-	 * @param nmUsername
-	 * @param txtAddressEmail
-	 * @param txtPassword
+	 * @param idUserType - maps to the <code>id_user_type</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code> field.
+	 * @param txtPassword - maps to the <code>txt_password</code> field.
 	 * 
 	 * @return Either the existing user with updated field values,
 	 *   or a new User with the field values set.
@@ -515,14 +547,16 @@ public class User extends ModelBase {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("type", "User");
 		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idUser", HIT_COUNTS[1]);
-		jsonObject.put("idUserType", HIT_COUNTS[2]);
-		jsonObject.put("flIsAlive", HIT_COUNTS[3]);
-		jsonObject.put("numAge", HIT_COUNTS[4]);
-		jsonObject.put("nmUsername", HIT_COUNTS[5]);
-		jsonObject.put("txtAddressEmail", HIT_COUNTS[6]);
-		jsonObject.put("txtPassword", HIT_COUNTS[7]);
-		jsonObject.put("dtmSignup", HIT_COUNTS[8]);
+		JSONObject fieldObject = new JSONObject();
+		fieldObject.put("idUser", HIT_COUNTS[1]);
+		fieldObject.put("idUserType", HIT_COUNTS[2]);
+		fieldObject.put("flIsAlive", HIT_COUNTS[3]);
+		fieldObject.put("numAge", HIT_COUNTS[4]);
+		fieldObject.put("nmUsername", HIT_COUNTS[5]);
+		fieldObject.put("txtAddressEmail", HIT_COUNTS[6]);
+		fieldObject.put("txtPassword", HIT_COUNTS[7]);
+		fieldObject.put("dtmSignup", HIT_COUNTS[8]);
+		jsonObject.put("fields", fieldObject);
 		return(jsonObject.toString());
 	}
 

@@ -61,6 +61,18 @@ public class UserTitle  {
 	private String nmUserTitle = null; // maps to the nm_user_title field
 	private Integer numOrderBy = null; // maps to the num_order_by field
 
+	/**
+	 * Instantiate the UserTitle object with all the fields within the table.
+	 * 
+	 * <p>You have a primary key field of <code>synapticloop.h2zero.model.field.BigintField@3136def0</code>
+	 * Note, that if the primary key on this table is an <code>auto_increment</code> field
+	 * then, passing in <code>null</code> will automatically generate this field value
+	 * and will set the value.</p>
+	 * 
+	 * @param idUserTitle - maps to the <code>id_user_title</code>
+	 * @param nmUserTitle - maps to the <code>nm_user_title</code>
+	 * @param numOrderBy - maps to the <code>num_order_by</code>
+	 */
 	public UserTitle(Long idUserTitle, String nmUserTitle, Integer numOrderBy) {
 		this.idUserTitle = idUserTitle;
 		this.nmUserTitle = nmUserTitle;
