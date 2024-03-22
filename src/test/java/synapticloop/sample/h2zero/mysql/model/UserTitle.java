@@ -67,34 +67,6 @@ public class UserTitle  {
 		this.numOrderBy = numOrderBy;
 	}
 
-	/**
-	 * <p>Get a new UserTitle model, or set the fields on an existing
-	 * UserTitle model.</p>
-	 * 
-	 * <p>If the passed in userTitle is null, then a new UserTitle
-	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
-	 * 
-	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call - this will insert the model if it .
-	 * doesn't exist, or update the existing model.</p>
-	 * 
-	 * @param userTitle the model to check
-	 * @param nmUserTitle - maps to the <code>nm_user_title</code> field.
-	 * @param numOrderBy - maps to the <code>num_order_by</code> field.
-	 * 
-	 * @return Either the existing userTitle with updated field values,
-	 *   or a new UserTitle with the field values set.
-	 */
-	public static UserTitle getOrSet(UserTitle userTitle,String nmUserTitle, Integer numOrderBy) {
-		if(null == userTitle) {
-			return (new UserTitle(null, nmUserTitle, numOrderBy));
-		} else {
-			userTitle.setNmUserTitle(nmUserTitle);
-			userTitle.setNumOrderBy(numOrderBy);
-
-			return(userTitle);
-		}
-	}
 	/*
 	 * Boring ol' getters and setters 
 	 * 

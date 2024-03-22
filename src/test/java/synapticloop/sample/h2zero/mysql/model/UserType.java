@@ -65,32 +65,6 @@ public class UserType  {
 		this.nmUserType = nmUserType;
 	}
 
-	/**
-	 * <p>Get a new UserType model, or set the fields on an existing
-	 * UserType model.</p>
-	 * 
-	 * <p>If the passed in userType is null, then a new UserType
-	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
-	 * 
-	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call - this will insert the model if it .
-	 * doesn't exist, or update the existing model.</p>
-	 * 
-	 * @param userType the model to check
-	 * @param nmUserType - maps to the <code>nm_user_type</code> field.
-	 * 
-	 * @return Either the existing userType with updated field values,
-	 *   or a new UserType with the field values set.
-	 */
-	public static UserType getOrSet(UserType userType,String nmUserType) {
-		if(null == userType) {
-			return (new UserType(null, nmUserType));
-		} else {
-			userType.setNmUserType(nmUserType);
-
-			return(userType);
-		}
-	}
 	/*
 	 * Boring ol' getters and setters 
 	 * 
