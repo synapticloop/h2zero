@@ -37,6 +37,7 @@ public class UserUserTypeViewFinder {
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
+				id_user, 
 				nm_user, 
 				nm_user_type
 			from 
@@ -516,10 +517,11 @@ public class UserUserTypeViewFinder {
 	private static UserUserType uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
 		if(resultSet.next()) {
 			// we have a result
-			String nmUser = ConnectionManager.getNullableResultString(resultSet, 1);
-			String nmUserType = ConnectionManager.getNullableResultString(resultSet, 2);
+			String idUser = ConnectionManager.getNullableResultString(resultSet, 1);
+			String nmUser = ConnectionManager.getNullableResultString(resultSet, 2);
+			String nmUserType = ConnectionManager.getNullableResultString(resultSet, 3);
 
-			UserUserType userUserType = new UserUserType(nmUser, nmUserType);
+			UserUserType userUserType = new UserUserType(idUser, nmUser, nmUserType);
 
 			if(resultSet.next()) {
 				throw new H2ZeroFinderException("More than one result in resultset for unique finder.");
@@ -547,7 +549,8 @@ public class UserUserTypeViewFinder {
 		while(resultSet.next()) {
 			arrayList.add(new UserUserType(
 					ConnectionManager.getNullableResultString(resultSet, 1),
-					ConnectionManager.getNullableResultString(resultSet, 2)));
+					ConnectionManager.getNullableResultString(resultSet, 2),
+					ConnectionManager.getNullableResultString(resultSet, 3)));
 		}
 		return(arrayList);
 	}

@@ -4,20 +4,31 @@ package synapticloop.sample.h2zero.mysql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import org.json.JSONObject;
-import synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import synapticloop.h2zero.base.model.ModelBaseHelper;
-import synapticloop.h2zero.base.model.mysql.ModelBase;
-import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.validator.bean.ValidationBean;
+import synapticloop.h2zero.base.validator.*;
+import synapticloop.h2zero.base.model.mysql.ModelBase;
+import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import java.lang.StringBuilder;
+import java.sql.Connection;
+import java.sql.Date;
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.Timestamp;
+import java.sql.Time;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import org.json.JSONObject;
 import synapticloop.h2zero.util.XmlHelper;
-import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
+
+import synapticloop.h2zero.base.model.ModelBaseHelper;
 import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
-import java.math.BigDecimal;
-import java.sql.*;
+import synapticloop.sample.h2zero.mysql.finder.AllTypesFinder;
 
 
 /**
@@ -630,7 +641,7 @@ public class AllTypes extends ModelBase {
 	 */
 	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
 
-	private static void updateHitCount(int offset) {
+	public static void updateHitCount(int offset) {
 		HIT_COUNTS[0]++;
 		HIT_COUNTS[offset]++;
 	}
@@ -877,9 +888,9 @@ public class AllTypes extends ModelBase {
 
 
 	/**
-	 * Get the hit count statistics as a JSON encoded object as a string.
+	 * Get the hit count statistics as a JSON encoded object as a <code>String</code>.
 	 *
-	 * @return the JSON Object as a string.
+	 * @return the JSON Object as a <code>String</code>.
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();

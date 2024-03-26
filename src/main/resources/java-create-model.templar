@@ -282,6 +282,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}}{\n}
 	{endif}
 {\n}
+{if !table.isConstant}
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				getOrSet
 			This will either get a new strata plan, or else it will update the strata
@@ -369,7 +370,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}}{\n}
 
 	{endif}
-
+{endif}
 
 {if !table.isConstant}
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

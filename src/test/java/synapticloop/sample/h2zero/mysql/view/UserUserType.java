@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import synapticloop.h2zero.base.model.ModelBaseHelper;
 
 
+import synapticloop.sample.h2zero.mysql.finder.UserFinder;
+import synapticloop.sample.h2zero.mysql.model.User;
 public class UserUserType extends ViewBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -20,18 +22,30 @@ public class UserUserType extends ViewBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_USER_TYPE_BINDER;
 
+	private User User = null;
 
+	private String idUser = null;
 	private String nmUser = null;
 	private String nmUserType = null;
 
-	public UserUserType(String nmUser, String nmUserType) {
+	public UserUserType(String idUser, String nmUser, String nmUserType) {
+		this.idUser = idUser;
 		this.nmUser = nmUser;
 		this.nmUserType = nmUserType;
+	}
+
+	public User getUser() {
+		if(null == this.User) {
+			this.User = UserFinder.findByPrimaryKeySilent(this.idUser);
+		}
+		return(this.User);
 	}
 
 	/*
 	 * Boring ol' getters
 	 */
+
+	public String getIdUser() { return(this.idUser); }
 
 	public String getNmUser() { return(this.nmUser); }
 
@@ -42,6 +56,7 @@ public class UserUserType extends ViewBase {
 	public String toString() {
 		return(new StringBuilder()
 			.append("Model: 'UserUserType'\n")
+			.append("  Field: 'idUser:").append(this.idUser).append("'\n")
 			.append("  Field: 'nmUser:").append(this.nmUser).append("'\n")
 			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
 			.toString());
@@ -62,6 +77,7 @@ public class UserUserType extends ViewBase {
 		jsonObject.put("name", "UserUserType");
 		JSONObject fieldsObject = new JSONObject();
 
+		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUser", this.getIdUser());
 		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUser", this.getNmUser());
 		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
 
@@ -86,6 +102,7 @@ public class UserUserType extends ViewBase {
 	 */
 	public String toXMLString() {
 		return("<user_user_type>" + 
+			String.format("<id_user null=\"%b\">%s</id_user>", (this.getIdUser() == null), (this.getIdUser() != null ? XmlHelper.escapeXml(this.getIdUser()) : "")) + 
 			String.format("<nm_user null=\"%b\">%s</nm_user>", (this.getNmUser() == null), (this.getNmUser() != null ? XmlHelper.escapeXml(this.getNmUser()) : "")) + 
 			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XmlHelper.escapeXml(this.getNmUserType()) : "")) + 
 			"</user_user_type>");
