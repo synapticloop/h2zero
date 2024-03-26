@@ -78,13 +78,11 @@ public class UserType  {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-			.append("{\"UserType\": {\n")
-			.append("\"idUserType\":\"").append(this.idUserType).append("\"")
-			.append("\"nmUserType\":\"").append(this.nmUserType).append("\"")
-			.append("}");
-		return(stringBuilder.toString());
+		return(
+			"{\"UserType\": {" +
+			"\"idUserType\":\"") + this.idUserType + "\"" +
+			"\"nmUserType\":\"") + this.nmUserType + "\"" +
+			"}");
 	}
 	public JSONObject getToJSON() {
 		return(toJSON());

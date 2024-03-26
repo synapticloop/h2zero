@@ -752,40 +752,38 @@ public class AllTypes extends ModelBase {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-			.append("{\"AllTypes\": {\n")
-			.append("\"idAllTypes\":\"").append(this.idAllTypes).append("\"")
-			.append("\"testBigint\":\"").append(this.testBigint).append("\"")
-			.append("\"testBlob\":\"").append(this.testBlob).append("\"")
-			.append("\"testBool\":\"").append(this.testBool).append("\"")
-			.append("\"testChar\":\"").append(this.testChar).append("\"")
-			.append("\"testBoolean\":\"").append(this.testBoolean).append("\"")
-			.append("\"testBinary\":\"").append(this.testBinary).append("\"")
-			.append("\"testVarbinary\":\"").append(this.testVarbinary).append("\"")
-			.append("\"testDate\":\"").append(this.testDate).append("\"")
-			.append("\"testDatetime\":\"").append(this.testDatetime).append("\"")
-			.append("\"testDec\":\"").append(this.testDec).append("\"")
-			.append("\"testDecimal\":\"").append(this.testDecimal).append("\"")
-			.append("\"testDouble\":\"").append(this.testDouble).append("\"")
-			.append("\"testFloat\":\"").append(this.testFloat).append("\"")
-			.append("\"testInt\":\"").append(this.testInt).append("\"")
-			.append("\"testInteger\":\"").append(this.testInteger).append("\"")
-			.append("\"testLongtext\":\"").append(this.testLongtext).append("\"")
-			.append("\"testMediumblob\":\"").append(this.testMediumblob).append("\"")
-			.append("\"testMediumint\":\"").append(this.testMediumint).append("\"")
-			.append("\"testMediumtext\":\"").append(this.testMediumtext).append("\"")
-			.append("\"testNumeric\":\"").append(this.testNumeric).append("\"")
-			.append("\"testSmallint\":\"").append(this.testSmallint).append("\"")
-			.append("\"testTime\":\"").append(this.testTime).append("\"")
-			.append("\"testText\":\"").append(this.testText).append("\"")
-			.append("\"testTimestamp\":\"").append(this.testTimestamp).append("\"")
-			.append("\"testTinyint\":\"").append(this.testTinyint).append("\"")
-			.append("\"testTinytext\":\"").append(this.testTinytext).append("\"")
-			.append("\"testVarchar\":\"").append(this.testVarchar).append("\"")
-			.append("\"testYear\":\"").append(this.testYear).append("\"")
-			.append("}");
-		return(stringBuilder.toString());
+		return(
+			"{\"AllTypes\": {" +
+			"\"idAllTypes\":\"") + this.idAllTypes + "\"" +
+			"\"testBigint\":\"") + this.testBigint + "\"" +
+			"\"testBlob\":\"") + this.testBlob + "\"" +
+			"\"testBool\":\"") + this.testBool + "\"" +
+			"\"testChar\":\"") + this.testChar + "\"" +
+			"\"testBoolean\":\"") + this.testBoolean + "\"" +
+			"\"testBinary\":\"") + this.testBinary + "\"" +
+			"\"testVarbinary\":\"") + this.testVarbinary + "\"" +
+			"\"testDate\":\"") + this.testDate + "\"" +
+			"\"testDatetime\":\"") + this.testDatetime + "\"" +
+			"\"testDec\":\"") + this.testDec + "\"" +
+			"\"testDecimal\":\"") + this.testDecimal + "\"" +
+			"\"testDouble\":\"") + this.testDouble + "\"" +
+			"\"testFloat\":\"") + this.testFloat + "\"" +
+			"\"testInt\":\"") + this.testInt + "\"" +
+			"\"testInteger\":\"") + this.testInteger + "\"" +
+			"\"testLongtext\":\"") + this.testLongtext + "\"" +
+			"\"testMediumblob\":\"") + this.testMediumblob + "\"" +
+			"\"testMediumint\":\"") + this.testMediumint + "\"" +
+			"\"testMediumtext\":\"") + this.testMediumtext + "\"" +
+			"\"testNumeric\":\"") + this.testNumeric + "\"" +
+			"\"testSmallint\":\"") + this.testSmallint + "\"" +
+			"\"testTime\":\"") + this.testTime + "\"" +
+			"\"testText\":\"") + this.testText + "\"" +
+			"\"testTimestamp\":\"") + this.testTimestamp + "\"" +
+			"\"testTinyint\":\"") + this.testTinyint + "\"" +
+			"\"testTinytext\":\"") + this.testTinytext + "\"" +
+			"\"testVarchar\":\"") + this.testVarchar + "\"" +
+			"\"testYear\":\"") + this.testYear + "\"" +
+			"}");
 	}
 	public JSONObject getToJSON() {
 		return(toJSON());

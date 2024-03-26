@@ -4,13 +4,16 @@ package synapticloop.sample.h2zero.mysql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import org.json.JSONObject;
-import synapticloop.h2zero.base.model.ModelBaseHelper;
-import synapticloop.h2zero.util.XmlHelper;
-import synapticloop.sample.h2zero.mysql.model.util.Constants;
-
 import java.util.HashMap;
+
 import java.util.Map;
+
+
+import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
+
+import synapticloop.h2zero.base.model.ModelBaseHelper;
+import synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 
 /**
@@ -78,14 +81,12 @@ public class UserTitle  {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-			.append("{\"UserTitle\": {\n")
-			.append("\"idUserTitle\":\"").append(this.idUserTitle).append("\"")
-			.append("\"nmUserTitle\":\"").append(this.nmUserTitle).append("\"")
-			.append("\"numOrderBy\":\"").append(this.numOrderBy).append("\"")
-			.append("}");
-		return(stringBuilder.toString());
+		return(
+			"{\"UserTitle\": {" +
+			"\"idUserTitle\":\"") + this.idUserTitle + "\"" +
+			"\"nmUserTitle\":\"") + this.nmUserTitle + "\"" +
+			"\"numOrderBy\":\"") + this.numOrderBy + "\"" +
+			"}");
 	}
 	public JSONObject getToJSON() {
 		return(toJSON());

@@ -363,17 +363,15 @@ public class Pet extends ModelBase {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-			.append("{\"Pet\": {\n")
-			.append("\"idPet\":\"").append(this.idPet).append("\"")
-			.append("\"nmPet\":\"").append(this.nmPet).append("\"")
-			.append("\"numAge\":\"").append(this.numAge).append("\"")
-			.append("\"fltWeight\":\"").append(this.fltWeight).append("\"")
-			.append("\"dtBirthday\":\"").append(this.dtBirthday).append("\"")
-			.append("\"imgPhoto\":\"").append(this.imgPhoto).append("\"")
-			.append("}");
-		return(stringBuilder.toString());
+		return(
+			"{\"Pet\": {" +
+			"\"idPet\":\"") + this.idPet + "\"" +
+			"\"nmPet\":\"") + this.nmPet + "\"" +
+			"\"numAge\":\"") + this.numAge + "\"" +
+			"\"fltWeight\":\"") + this.fltWeight + "\"" +
+			"\"dtBirthday\":\"") + this.dtBirthday + "\"" +
+			"\"imgPhoto\":\"") + this.imgPhoto + "\"" +
+			"}");
 	}
 	public JSONObject getToJSON() {
 		return(toJSON());

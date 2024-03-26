@@ -305,14 +305,12 @@ public class UserPet extends ModelBase {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-			.append("{\"UserPet\": {\n")
-			.append("\"idUserPet\":\"").append(this.idUserPet).append("\"")
-			.append("\"idUser\":\"").append(this.idUser).append("\"")
-			.append("\"idPet\":\"").append(this.idPet).append("\"")
-			.append("}");
-		return(stringBuilder.toString());
+		return(
+			"{\"UserPet\": {" +
+			"\"idUserPet\":\"") + this.idUserPet + "\"" +
+			"\"idUser\":\"") + this.idUser + "\"" +
+			"\"idPet\":\"") + this.idPet + "\"" +
+			"}");
 	}
 	public JSONObject getToJSON() {
 		return(toJSON());

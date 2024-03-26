@@ -17,18 +17,17 @@ import java.lang.StringBuilder;{\n}
 
 {\n}
 public class Statistics {{{\n}
-	{\t}public static final String getHitCountJson() {{{\n}
-	{\t}{\t}StringBuilder stringBuilder = new StringBuilder("[");{\n}
+	{\t}public static String getHitCountJson() {{{\n}
+	{\t}{\t}return("[" +{\n}
 	{loop database.tables as table}
 		{if !table.isConstant}
-			{\t}{\t}stringBuilder.append({table.javaClassName}.getHitCountJson());{\n}
+			{\t}{\t}{\t}{table.javaClassName}.getHitCountJson() +{\n}
 			{if !tableStatus.last}
-				{\t}{\t}stringBuilder.append(", ");{\n}
+				{\t}{\t}{\t}", " +{\n}
 			{endif}
 		{endif}
 	{endloop}
-	{\t}{\t}stringBuilder.append("]");{\n}
-	{\t}{\t}return(stringBuilder.toString());{\n}
+	{\t}{\t}"]");{\n}
 	{\t}}
 {\n}
 }

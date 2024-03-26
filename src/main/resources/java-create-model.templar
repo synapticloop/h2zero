@@ -767,20 +767,16 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\n}
 	{\t}@Override{\n}
 		{\t}public String toString() {{{\n}
-		{\t}{\t}StringBuilder stringBuilder = new StringBuilder();{\n}
-
-		{\t}{\t}stringBuilder{\n}
-		{\t}{\t}{\t}.append("{{\"{table.javaClassName}\": {{\n"){\n}
+		{\t}{\t}return({\n}
+		{\t}{\t}{\t}"{{\"{table.javaClassName}\": {{" +{\n}
 		{loop table.fields as field}
 			{if field.isSecure}
-				{\t}{\t}{\t}.append("\"{field.javaName}\": \"<**secure**>\"\n"){\n}
+				{\t}{\t}{\t}"\"{field.javaName}\": \"<**secure**>\"" +{\n}
 			{else}
-				{\t}{\t}{\t}.append("\"{field.javaName}\":\"").append(this.{field.javaName}).append("\""){\n}
+				{\t}{\t}{\t}"\"{field.javaName}\":\"" + this.{field.javaName} + "\"" +{\n}
 			{endif}
-			{if fieldStatus.last}{\t}{\t}{\t}.append("}");{\n}{endif}
+			{if fieldStatus.last}{\t}{\t}{\t}"}");{\n}{endif}
 		{endloop}
-
-		{\t}{\t}return(stringBuilder.toString());{\n}
 		{\t}}{\n}
 
 

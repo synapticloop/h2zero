@@ -4,30 +4,21 @@ package synapticloop.sample.h2zero.mysql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
+import org.json.JSONObject;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import synapticloop.h2zero.base.model.ModelBaseHelper;
+import synapticloop.h2zero.base.model.mysql.ModelBase;
+import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.validator.bean.ValidationBean;
 import synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
-import synapticloop.sample.h2zero.mysql.question.UserTypeQuestion;
-import synapticloop.h2zero.base.validator.*;
-import synapticloop.h2zero.base.model.mysql.ModelBase;
-import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
-import synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
-import java.sql.Connection;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import org.json.JSONObject;
 import synapticloop.h2zero.util.XmlHelper;
-
-import synapticloop.h2zero.base.model.ModelBaseHelper;
-import synapticloop.sample.h2zero.mysql.model.util.Constants;
-
 import synapticloop.sample.h2zero.mysql.finder.UserFinder;
+import synapticloop.sample.h2zero.mysql.model.util.Constants;
+import synapticloop.sample.h2zero.mysql.question.UserTypeQuestion;
+
+import java.sql.*;
 
 
 /**
@@ -436,19 +427,17 @@ public class User extends ModelBase {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-			.append("{\"User\": {\n")
-			.append("\"idUser\":\"").append(this.idUser).append("\"")
-			.append("\"idUserType\":\"").append(this.idUserType).append("\"")
-			.append("\"flIsAlive\":\"").append(this.flIsAlive).append("\"")
-			.append("\"numAge\":\"").append(this.numAge).append("\"")
-			.append("\"nmUsername\":\"").append(this.nmUsername).append("\"")
-			.append("\"txtAddressEmail\":\"").append(this.txtAddressEmail).append("\"")
-			.append("\"txtPassword\": \"<**secure**>\"\n")
-			.append("\"dtmSignup\":\"").append(this.dtmSignup).append("\"")
-			.append("}");
-		return(stringBuilder.toString());
+		return(
+			"{\"User\": {" +
+			"\"idUser\":\"" + this.idUser + "\"" +
+			"\"idUserType\":\"" + this.idUserType + "\"" +
+			"\"flIsAlive\":\"" + this.flIsAlive + "\"" +
+			"\"numAge\":\"" + this.numAge + "\"" +
+			"\"nmUsername\":\"" + this.nmUsername + "\"" +
+			"\"txtAddressEmail\":\"" + this.txtAddressEmail + "\"" +
+			"\"txtPassword\": \"<**secure**>\"" +
+			"\"dtmSignup\":\"" + this.dtmSignup + "\"" +
+			"}");
 	}
 	public JSONObject getToJSON() {
 		return(toJSON());

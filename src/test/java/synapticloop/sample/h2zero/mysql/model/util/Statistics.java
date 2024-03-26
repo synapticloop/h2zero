@@ -13,18 +13,17 @@ import synapticloop.sample.h2zero.mysql.model.AllTypes;
 import java.lang.StringBuilder;
 
 public class Statistics {
-	public static final String getHitCountJson() {
-		StringBuilder stringBuilder = new StringBuilder("[");
-		stringBuilder.append(User.getHitCountJson());
-		stringBuilder.append(", ");
-		stringBuilder.append(PetType.getHitCountJson());
-		stringBuilder.append(", ");
-		stringBuilder.append(Pet.getHitCountJson());
-		stringBuilder.append(", ");
-		stringBuilder.append(UserPet.getHitCountJson());
-		stringBuilder.append(", ");
-		stringBuilder.append(AllTypes.getHitCountJson());
-		stringBuilder.append("]");
-		return(stringBuilder.toString());
+	public static String getHitCountJson() {
+		return("[" +
+			User.getHitCountJson() +
+			", " +
+			PetType.getHitCountJson() +
+			", " +
+			Pet.getHitCountJson() +
+			", " +
+			UserPet.getHitCountJson() +
+			", " +
+			AllTypes.getHitCountJson() +
+		"]");
 	}
 }

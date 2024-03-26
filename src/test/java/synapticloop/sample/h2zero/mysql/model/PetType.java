@@ -276,14 +276,12 @@ public class PetType extends ModelBase {
 
 	@Override
 	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder
-			.append("{\"PetType\": {\n")
-			.append("\"idPetType\":\"").append(this.idPetType).append("\"")
-			.append("\"nmPetType\":\"").append(this.nmPetType).append("\"")
-			.append("\"txtDescPetType\":\"").append(this.txtDescPetType).append("\"")
-			.append("}");
-		return(stringBuilder.toString());
+		return(
+			"{\"PetType\": {" +
+			"\"idPetType\":\"") + this.idPetType + "\"" +
+			"\"nmPetType\":\"") + this.nmPetType + "\"" +
+			"\"txtDescPetType\":\"") + this.txtDescPetType + "\"" +
+			"}");
 	}
 	public JSONObject getToJSON() {
 		return(toJSON());
