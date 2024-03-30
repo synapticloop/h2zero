@@ -47,6 +47,7 @@ public class UserPet extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_PET_BINDER;
 
+
 	public static final String PRIMARY_KEY_FIELD = "id_user_pet";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = 
@@ -307,9 +308,9 @@ public class UserPet extends ModelBase {
 	public String toString() {
 		return(
 			"{\"UserPet\": {" +
-			"\"idUserPet\":\"") + this.idUserPet + "\"" +
-			"\"idUser\":\"") + this.idUser + "\"" +
-			"\"idPet\":\"") + this.idPet + "\"" +
+			"\"idUserPet\":\"" + this.idUserPet + "\"" +
+			"\"idUser\":\"" + this.idUser + "\"" +
+			"\"idPet\":\"" + this.idPet + "\"" +
 			"}");
 	}
 	public JSONObject getToJSON() {

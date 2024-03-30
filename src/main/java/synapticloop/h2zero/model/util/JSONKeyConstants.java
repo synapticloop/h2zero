@@ -46,6 +46,7 @@ public class JSONKeyConstants {
 	public static final String FIELD_UPDATERS = "fieldUpdaters";
 
 	public static final String CONSTANTS = "constants";
+	public static final String CONSTANTS_CACHE = "constantsCache";
 
 	public static final String WHERE_FIELDS = "whereFields";
 	public static final String SELECT_FIELDS = "selectFields";

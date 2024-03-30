@@ -6,13 +6,17 @@
 		"for values that do not change."
 	],
 	"fields": [
-		{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },
-		{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false }
+		{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true, "unique": true },
+		{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false, "unique": true }
 	],
 	"constants": [
 		{ "name": "NORMAL", "values": [ 1, "normal" ] },
 		{ "name": "SPECIAL", "values": [ 2, "special" ] },
 		{ "name": "ADMIN", "values": [ 3, "admin" ] },
 		{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }
+	],
+	"constantsCache": [
+		"nm_user_type",
+		"id_user_type"
 	]
 }

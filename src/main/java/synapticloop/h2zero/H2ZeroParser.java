@@ -18,6 +18,38 @@ package synapticloop.h2zero;
  * under the Licence.
  */
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import synapticloop.h2zero.exception.H2ZeroParseException;
+import synapticloop.h2zero.extension.Extension;
+import synapticloop.h2zero.model.Database;
+import synapticloop.h2zero.model.Options;
+import synapticloop.h2zero.model.util.JSONKeyConstants;
+import synapticloop.h2zero.util.SimpleLogger;
+import synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import synapticloop.h2zero.validator.*;
+import synapticloop.h2zero.validator.bean.Message;
+import synapticloop.h2zero.validator.constant.*;
+import synapticloop.h2zero.validator.counter.*;
+import synapticloop.h2zero.validator.database.TableNameDuplicateValidator;
+import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
+import synapticloop.h2zero.validator.deleter.DeleterWhereClauseValidator;
+import synapticloop.h2zero.validator.field.*;
+import synapticloop.h2zero.validator.finder.*;
+import synapticloop.h2zero.validator.inserter.InserterKeyValidator;
+import synapticloop.h2zero.validator.inserter.InserterNameValidator;
+import synapticloop.h2zero.validator.inserter.InserterQueryParameterNameValidator;
+import synapticloop.h2zero.validator.options.OptionsDatabaseDefaultValidator;
+import synapticloop.h2zero.validator.options.OptionsDatabaseTypeValidator;
+import synapticloop.h2zero.validator.question.*;
+import synapticloop.h2zero.validator.table.TableIgnoredKeysValidator;
+import synapticloop.h2zero.validator.table.TablePrimaryKeyExistsValidator;
+import synapticloop.h2zero.validator.table.TablePrimaryKeyNameValidator;
+import synapticloop.h2zero.validator.table.TablePrimaryKeyTypeValidator;
+import synapticloop.h2zero.validator.updater.*;
+import synapticloop.h2zero.validator.view.ViewAsClauseValidator;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -26,77 +58,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import synapticloop.h2zero.exception.H2ZeroParseException;
-import synapticloop.h2zero.extension.Extension;
-import synapticloop.h2zero.model.Database;
-import synapticloop.h2zero.model.Options;
-import synapticloop.h2zero.model.util.JSONKeyConstants;
-import synapticloop.h2zero.util.SimpleLogger;
-import synapticloop.h2zero.util.SimpleLogger.LoggerType;
-import synapticloop.h2zero.validator.BaseValidator;
-import synapticloop.h2zero.validator.ForeignKeyTableValidator;
-import synapticloop.h2zero.validator.OptionsGeneratorsValidator;
-import synapticloop.h2zero.validator.UniqeAndIndexValidator;
-import synapticloop.h2zero.validator.UniqueTableViewNameValidator;
-import synapticloop.h2zero.validator.bean.Message;
-import synapticloop.h2zero.validator.constant.ConstantDeleterValidator;
-import synapticloop.h2zero.validator.constant.ConstantInserterValidator;
-import synapticloop.h2zero.validator.constant.ConstantTableValidator;
-import synapticloop.h2zero.validator.constant.ConstantUpdaterValidator;
-import synapticloop.h2zero.validator.counter.*;
-import synapticloop.h2zero.validator.database.TableNameDuplicateValidator;
-import synapticloop.h2zero.validator.deleter.DeleterNameValidator;
-import synapticloop.h2zero.validator.deleter.DeleterWhereClauseValidator;
-import synapticloop.h2zero.validator.field.FieldDefaultValueValidator;
-import synapticloop.h2zero.validator.field.FieldIgnoredKeysValidator;
-import synapticloop.h2zero.validator.field.FieldNameDuplicateValidator;
-import synapticloop.h2zero.validator.field.FieldNotNullLengthValidator;
-import synapticloop.h2zero.validator.field.FieldPopulateForeignKeyValidator;
-import synapticloop.h2zero.validator.field.FieldPopulatePrimaryKeyValidator;
-import synapticloop.h2zero.validator.field.FieldPrimaryKeyTypeValidator;
-import synapticloop.h2zero.validator.field.FieldSerialNonPrimaryKeyValidator;
-import synapticloop.h2zero.validator.field.SQLite3FieldBlobValidator;
-import synapticloop.h2zero.validator.field.SQLite3FieldClobValidator;
-import synapticloop.h2zero.validator.field.SQLite3FieldPrimaryKeyValidator;
-import synapticloop.h2zero.validator.finder.FinderAutoIndexValidator;
-import synapticloop.h2zero.validator.finder.FinderInQueryValidator;
-import synapticloop.h2zero.validator.finder.FinderNameValidator;
-import synapticloop.h2zero.validator.finder.FinderOrderByClauseValidator;
-import synapticloop.h2zero.validator.finder.FinderQueryParameterNameValidator;
-import synapticloop.h2zero.validator.finder.FinderQueryParameterNumberValidator;
-import synapticloop.h2zero.validator.finder.FinderSelectClauseBeanNameValidator;
-import synapticloop.h2zero.validator.finder.FinderSelectClauseFromValidator;
-import synapticloop.h2zero.validator.finder.FinderSelectClauseValidator;
-import synapticloop.h2zero.validator.finder.FinderSelectFieldValidator;
-import synapticloop.h2zero.validator.finder.FinderWhereClauseIncludesLimitOrOffsetValidator;
-import synapticloop.h2zero.validator.finder.FinderWhereClauseValidator;
-import synapticloop.h2zero.validator.inserter.InserterKeyValidator;
-import synapticloop.h2zero.validator.inserter.InserterNameValidator;
-import synapticloop.h2zero.validator.inserter.InserterQueryParameterNameValidator;
-import synapticloop.h2zero.validator.options.OptionsDatabaseDefaultValidator;
-import synapticloop.h2zero.validator.options.OptionsDatabaseTypeValidator;
-import synapticloop.h2zero.validator.question.QuestionInternalNameValidator;
-import synapticloop.h2zero.validator.question.QuestionJsonUniqueKeyExistsValidator;
-import synapticloop.h2zero.validator.question.QuestionKeyValidator;
-import synapticloop.h2zero.validator.question.QuestionNameValidator;
-import synapticloop.h2zero.validator.question.QuestionQueryParameterNameValidator;
-import synapticloop.h2zero.validator.question.QuestionSelectClauseValidator;
-import synapticloop.h2zero.validator.question.QuestionSelectFieldsValidator;
-import synapticloop.h2zero.validator.table.TableIgnoredKeysValidator;
-import synapticloop.h2zero.validator.table.TablePrimaryKeyExistsValidator;
-import synapticloop.h2zero.validator.table.TablePrimaryKeyNameValidator;
-import synapticloop.h2zero.validator.table.TablePrimaryKeyTypeValidator;
-import synapticloop.h2zero.validator.updater.UpdaterKeyValidator;
-import synapticloop.h2zero.validator.updater.UpdaterNameValidator;
-import synapticloop.h2zero.validator.updater.UpdaterQueryParameterNameValidator;
-import synapticloop.h2zero.validator.updater.UpdaterSetClauseValidator;
-import synapticloop.h2zero.validator.updater.UpdaterWhereClauseValidator;
-import synapticloop.h2zero.validator.view.ViewAsClauseValidator;
 
 /**
  * This is the parser for the h2zero generator
@@ -210,7 +171,7 @@ public class H2ZeroParser {
 		validators.add(new ConstantDeleterValidator());
 		validators.add(new ConstantInserterValidator());
 		validators.add(new ConstantUpdaterValidator());
-
+		validators.add(new ConstantCachesValidator());
 	}
 
 	private static final Map<String, BaseValidator> validatorMap = new HashMap<>();

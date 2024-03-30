@@ -126,7 +126,25 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}};{\n}
 	{\n}
 
+{-- NOW FOR THE CACHE_CONSTANTS--}
+
+	{loop table.constantCaches as cacheConstant}
+	{\t}public static final Map<{cacheConstant.cacheField.javaType}, {table.javaClassName}> {cacheConstant.cacheName} = new HashMap<>();{\n}
+	{endloop}
+
+	{loop table.constantCaches as cacheConstant}
+		{if cacheConstantStatus.first}
+	{\t}static {{{\n}
+		{endif}
+		{loop table.constants as constant}
+			{\t}{\t}{cacheConstant.cacheName}.put({table.javaClassName}.{constant.name}.get{cacheConstant.cacheField.javaAccessorName}(), {table.javaClassName}.{constant.name});{\n}
+		{endloop}{\n}
+		{if cacheConstantStatus.last}
+	{\t}};{\n}
+		{endif}
+	{endloop}
 {endif}
+{\n}
 
 	{loop table.fields as field}
 		{if field.primary}

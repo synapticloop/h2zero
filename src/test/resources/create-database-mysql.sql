@@ -20,7 +20,9 @@ show warnings;
 create table user_type (
 	id_user_type bigint not null auto_increment,
 	nm_user_type varchar(32) not null,
-	primary key(id_user_type)
+	primary key(id_user_type),
+	unique index (id_user_type),
+	unique index (nm_user_type)
 ) engine=innodb default charset=UTF8;
 
 -- show any warnings that are applicable

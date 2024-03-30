@@ -16,26 +16,12 @@ package synapticloop.h2zero.plugin;
  * this source code or binaries.
  */
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.tools.ant.BuildException;
 import org.json.JSONObject;
-
 import synapticloop.h2zero.H2ZeroParser;
 import synapticloop.h2zero.exception.H2ZeroParseException;
 import synapticloop.h2zero.extension.Extension;
-import synapticloop.h2zero.generator.Generator;
-import synapticloop.h2zero.generator.ImpexGenerator;
-import synapticloop.h2zero.generator.JavaGenerator;
-import synapticloop.h2zero.generator.JavaTestGenerator;
-import synapticloop.h2zero.generator.ReportGenerator;
-import synapticloop.h2zero.generator.SqlGenerator;
-import synapticloop.h2zero.generator.UtilGenerator;
+import synapticloop.h2zero.generator.*;
 import synapticloop.h2zero.model.Database;
 import synapticloop.h2zero.model.Options;
 import synapticloop.h2zero.model.Table;
@@ -47,6 +33,9 @@ import synapticloop.templar.exception.ParseException;
 import synapticloop.templar.exception.RenderException;
 import synapticloop.templar.utils.TemplarConfiguration;
 import synapticloop.templar.utils.TemplarContext;
+
+import java.io.File;
+import java.util.*;
 
 public class BaseH2ZeroGenerator {
 	private boolean verbose = false;
@@ -271,12 +260,13 @@ public class BaseH2ZeroGenerator {
 						" [ " + 
 						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", table.getFields().size()) +
 						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", table.getFinders().size()) + 
-						String.format("%" + (Integer.toString(maxDeleters)).length() + "s deleters, ", table.getDeleters().size()) + 
-						String.format("%" + (Integer.toString(maxUpdaters)).length() + "s updaters, ", table.getUpdaters().size()) + 
-						String.format("%" + (Integer.toString(maxInserters)).length() + "s inserters, ", table.getInserters().size()) + 
+						String.format("%" + (Integer.toString(maxDeleters)).length() + "s deleters, ", (table.getIsConstant() ? "-" : table.getDeleters().size())) +
+						String.format("%" + (Integer.toString(maxUpdaters)).length() + "s updaters, ", (table.getIsConstant() ? "-" : table.getUpdaters().size())) +
+						String.format("%" + (Integer.toString(maxInserters)).length() + "s inserters, ", (table.getIsConstant() ? "-" : table.getInserters().size())) +
 						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", table.getQuestions().size()) + 
 						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", table.getCounters().size()) + 
-						" ] ");
+						" ] " +
+						(table.getIsConstant() ? " *CONSTANT*" : ""));
 			}
 
 			for (View view : views) {

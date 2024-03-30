@@ -44,6 +44,7 @@ public class Pet extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_BINDER;
 
+
 	public static final String PRIMARY_KEY_FIELD = "id_pet";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = 
@@ -365,12 +366,12 @@ public class Pet extends ModelBase {
 	public String toString() {
 		return(
 			"{\"Pet\": {" +
-			"\"idPet\":\"") + this.idPet + "\"" +
-			"\"nmPet\":\"") + this.nmPet + "\"" +
-			"\"numAge\":\"") + this.numAge + "\"" +
-			"\"fltWeight\":\"") + this.fltWeight + "\"" +
-			"\"dtBirthday\":\"") + this.dtBirthday + "\"" +
-			"\"imgPhoto\":\"") + this.imgPhoto + "\"" +
+			"\"idPet\":\"" + this.idPet + "\"" +
+			"\"nmPet\":\"" + this.nmPet + "\"" +
+			"\"numAge\":\"" + this.numAge + "\"" +
+			"\"fltWeight\":\"" + this.fltWeight + "\"" +
+			"\"dtBirthday\":\"" + this.dtBirthday + "\"" +
+			"\"imgPhoto\":\"" + this.imgPhoto + "\"" +
 			"}");
 	}
 	public JSONObject getToJSON() {

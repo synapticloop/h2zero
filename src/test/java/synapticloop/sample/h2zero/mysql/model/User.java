@@ -4,21 +4,30 @@ package synapticloop.sample.h2zero.mysql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import org.json.JSONObject;
-import synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import synapticloop.h2zero.base.model.ModelBaseHelper;
-import synapticloop.h2zero.base.model.mysql.ModelBase;
-import synapticloop.h2zero.base.validator.*;
 import synapticloop.h2zero.base.validator.bean.ValidationBean;
 import synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
-import synapticloop.h2zero.util.XmlHelper;
-import synapticloop.sample.h2zero.mysql.finder.UserFinder;
-import synapticloop.sample.h2zero.mysql.model.util.Constants;
 import synapticloop.sample.h2zero.mysql.question.UserTypeQuestion;
+import synapticloop.h2zero.base.validator.*;
+import synapticloop.h2zero.base.model.mysql.ModelBase;
+import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import java.lang.StringBuilder;
+import java.sql.Connection;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-import java.sql.*;
+import org.json.JSONObject;
+import synapticloop.h2zero.util.XmlHelper;
+
+import synapticloop.h2zero.base.model.ModelBaseHelper;
+import synapticloop.sample.h2zero.mysql.model.util.Constants;
+
+import synapticloop.sample.h2zero.mysql.finder.UserFinder;
 
 
 /**
@@ -35,6 +44,7 @@ public class User extends ModelBase {
 	// removing dead code
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_BINDER;
+
 
 	public static final String PRIMARY_KEY_FIELD = "id_user";  // the primary key - a convenience field
 

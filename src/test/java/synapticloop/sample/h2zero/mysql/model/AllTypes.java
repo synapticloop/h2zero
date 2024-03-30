@@ -46,6 +46,7 @@ public class AllTypes extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
+
 	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = 
@@ -754,35 +755,35 @@ public class AllTypes extends ModelBase {
 	public String toString() {
 		return(
 			"{\"AllTypes\": {" +
-			"\"idAllTypes\":\"") + this.idAllTypes + "\"" +
-			"\"testBigint\":\"") + this.testBigint + "\"" +
-			"\"testBlob\":\"") + this.testBlob + "\"" +
-			"\"testBool\":\"") + this.testBool + "\"" +
-			"\"testChar\":\"") + this.testChar + "\"" +
-			"\"testBoolean\":\"") + this.testBoolean + "\"" +
-			"\"testBinary\":\"") + this.testBinary + "\"" +
-			"\"testVarbinary\":\"") + this.testVarbinary + "\"" +
-			"\"testDate\":\"") + this.testDate + "\"" +
-			"\"testDatetime\":\"") + this.testDatetime + "\"" +
-			"\"testDec\":\"") + this.testDec + "\"" +
-			"\"testDecimal\":\"") + this.testDecimal + "\"" +
-			"\"testDouble\":\"") + this.testDouble + "\"" +
-			"\"testFloat\":\"") + this.testFloat + "\"" +
-			"\"testInt\":\"") + this.testInt + "\"" +
-			"\"testInteger\":\"") + this.testInteger + "\"" +
-			"\"testLongtext\":\"") + this.testLongtext + "\"" +
-			"\"testMediumblob\":\"") + this.testMediumblob + "\"" +
-			"\"testMediumint\":\"") + this.testMediumint + "\"" +
-			"\"testMediumtext\":\"") + this.testMediumtext + "\"" +
-			"\"testNumeric\":\"") + this.testNumeric + "\"" +
-			"\"testSmallint\":\"") + this.testSmallint + "\"" +
-			"\"testTime\":\"") + this.testTime + "\"" +
-			"\"testText\":\"") + this.testText + "\"" +
-			"\"testTimestamp\":\"") + this.testTimestamp + "\"" +
-			"\"testTinyint\":\"") + this.testTinyint + "\"" +
-			"\"testTinytext\":\"") + this.testTinytext + "\"" +
-			"\"testVarchar\":\"") + this.testVarchar + "\"" +
-			"\"testYear\":\"") + this.testYear + "\"" +
+			"\"idAllTypes\":\"" + this.idAllTypes + "\"" +
+			"\"testBigint\":\"" + this.testBigint + "\"" +
+			"\"testBlob\":\"" + this.testBlob + "\"" +
+			"\"testBool\":\"" + this.testBool + "\"" +
+			"\"testChar\":\"" + this.testChar + "\"" +
+			"\"testBoolean\":\"" + this.testBoolean + "\"" +
+			"\"testBinary\":\"" + this.testBinary + "\"" +
+			"\"testVarbinary\":\"" + this.testVarbinary + "\"" +
+			"\"testDate\":\"" + this.testDate + "\"" +
+			"\"testDatetime\":\"" + this.testDatetime + "\"" +
+			"\"testDec\":\"" + this.testDec + "\"" +
+			"\"testDecimal\":\"" + this.testDecimal + "\"" +
+			"\"testDouble\":\"" + this.testDouble + "\"" +
+			"\"testFloat\":\"" + this.testFloat + "\"" +
+			"\"testInt\":\"" + this.testInt + "\"" +
+			"\"testInteger\":\"" + this.testInteger + "\"" +
+			"\"testLongtext\":\"" + this.testLongtext + "\"" +
+			"\"testMediumblob\":\"" + this.testMediumblob + "\"" +
+			"\"testMediumint\":\"" + this.testMediumint + "\"" +
+			"\"testMediumtext\":\"" + this.testMediumtext + "\"" +
+			"\"testNumeric\":\"" + this.testNumeric + "\"" +
+			"\"testSmallint\":\"" + this.testSmallint + "\"" +
+			"\"testTime\":\"" + this.testTime + "\"" +
+			"\"testText\":\"" + this.testText + "\"" +
+			"\"testTimestamp\":\"" + this.testTimestamp + "\"" +
+			"\"testTinyint\":\"" + this.testTinyint + "\"" +
+			"\"testTinytext\":\"" + this.testTinytext + "\"" +
+			"\"testVarchar\":\"" + this.testVarchar + "\"" +
+			"\"testYear\":\"" + this.testYear + "\"" +
 			"}");
 	}
 	public JSONObject getToJSON() {

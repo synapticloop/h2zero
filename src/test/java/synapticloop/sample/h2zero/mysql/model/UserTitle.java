@@ -53,6 +53,7 @@ public class UserTitle  {
 
 	};
 
+
 	public static final String PRIMARY_KEY_FIELD = "id_user_title";  // the primary key - a convenience field
 
 
@@ -83,9 +84,9 @@ public class UserTitle  {
 	public String toString() {
 		return(
 			"{\"UserTitle\": {" +
-			"\"idUserTitle\":\"") + this.idUserTitle + "\"" +
-			"\"nmUserTitle\":\"") + this.nmUserTitle + "\"" +
-			"\"numOrderBy\":\"") + this.numOrderBy + "\"" +
+			"\"idUserTitle\":\"" + this.idUserTitle + "\"" +
+			"\"nmUserTitle\":\"" + this.nmUserTitle + "\"" +
+			"\"numOrderBy\":\"" + this.numOrderBy + "\"" +
 			"}");
 	}
 	public JSONObject getToJSON() {

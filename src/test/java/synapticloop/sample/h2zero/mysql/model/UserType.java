@@ -53,6 +53,21 @@ public class UserType  {
 
 	};
 
+	public static final Map<String, UserType> LOOKUP_NM_USER_TYPE = new HashMap<>();
+	public static final Map<Long, UserType> LOOKUP_ID_USER_TYPE = new HashMap<>();
+	static {
+		LOOKUP_NM_USER_TYPE.put(UserType.NORMAL.getNmUserType(), UserType.NORMAL);
+		LOOKUP_NM_USER_TYPE.put(UserType.SPECIAL.getNmUserType(), UserType.SPECIAL);
+		LOOKUP_NM_USER_TYPE.put(UserType.ADMIN.getNmUserType(), UserType.ADMIN);
+		LOOKUP_NM_USER_TYPE.put(UserType.SUPER_ADMIN.getNmUserType(), UserType.SUPER_ADMIN);
+
+		LOOKUP_ID_USER_TYPE.put(UserType.NORMAL.getIdUserType(), UserType.NORMAL);
+		LOOKUP_ID_USER_TYPE.put(UserType.SPECIAL.getIdUserType(), UserType.SPECIAL);
+		LOOKUP_ID_USER_TYPE.put(UserType.ADMIN.getIdUserType(), UserType.ADMIN);
+		LOOKUP_ID_USER_TYPE.put(UserType.SUPER_ADMIN.getIdUserType(), UserType.SUPER_ADMIN);
+
+	};
+
 	public static final String PRIMARY_KEY_FIELD = "id_user_type";  // the primary key - a convenience field
 
 
@@ -80,8 +95,8 @@ public class UserType  {
 	public String toString() {
 		return(
 			"{\"UserType\": {" +
-			"\"idUserType\":\"") + this.idUserType + "\"" +
-			"\"nmUserType\":\"") + this.nmUserType + "\"" +
+			"\"idUserType\":\"" + this.idUserType + "\"" +
+			"\"nmUserType\":\"" + this.nmUserType + "\"" +
 			"}");
 	}
 	public JSONObject getToJSON() {

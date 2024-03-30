@@ -42,6 +42,7 @@ public class PetType extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_TYPE_BINDER;
 
+
 	public static final String PRIMARY_KEY_FIELD = "id_pet_type";  // the primary key - a convenience field
 
 	private static final String SQL_INSERT = 
@@ -278,9 +279,9 @@ public class PetType extends ModelBase {
 	public String toString() {
 		return(
 			"{\"PetType\": {" +
-			"\"idPetType\":\"") + this.idPetType + "\"" +
-			"\"nmPetType\":\"") + this.nmPetType + "\"" +
-			"\"txtDescPetType\":\"") + this.txtDescPetType + "\"" +
+			"\"idPetType\":\"" + this.idPetType + "\"" +
+			"\"nmPetType\":\"" + this.nmPetType + "\"" +
+			"\"txtDescPetType\":\"" + this.txtDescPetType + "\"" +
 			"}");
 	}
 	public JSONObject getToJSON() {
