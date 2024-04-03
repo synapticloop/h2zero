@@ -5,7 +5,7 @@ package {database.package}.impex;{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //                 (/impex/importer.templar){\n}
 {\n}
-import synapticloop.h2zero.exception.H2ZeroParseException;{\n}
+import com.synapticloop.h2zero.exception.H2ZeroParseException;{\n}
 {\n}
 import java.io.BufferedReader;{\n}
 import java.io.File;{\n}

@@ -17,10 +17,10 @@ import java.sql.*;{\n}
 import java.math.BigDecimal;{\n}
 import java.util.List;{\n}
 import java.util.ArrayList;{\n}
-import synapticloop.h2zero.util.LruCache;{\n}
+import com.synapticloop.h2zero.util.LruCache;{\n}
 
 {\n}
-import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 
 {\n}
 {import classpath:/snippet/global/java-logger.templar}

@@ -22,7 +22,7 @@ import java.util.Collections;{\n}
 {import classpath:/snippet/global/java-logger.templar}
 
 {\n}
-import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 
 public class DatabaseCheckerHelper {{{\n}
 {\t}{set "DatabaseCheckerHelper" as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}

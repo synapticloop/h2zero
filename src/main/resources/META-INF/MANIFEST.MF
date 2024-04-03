@@ -1,1 +1,1 @@
-Main-Class: synapticloop.h2zero.Main
+Main-Class: com.synapticloop.h2zero.Main

@@ -10,8 +10,8 @@ package {database.package}.listener;{\n}{\n}
 
 import javax.servlet.ServletContextEvent;{\n}
 import javax.servlet.ServletContextListener;{\n}
-import synapticloop.h2zero.base.form.factory.FormBeanFactory;{\n}
-import synapticloop.h2zero.base.form.field.*;{\n}
+import com.synapticloop.h2zero.base.form.factory.FormBeanFactory;{\n}
+import com.synapticloop.h2zero.base.form.field.*;{\n}
 {\n}
 
 public class FormConfigurationListener implements ServletContextListener {{{\n}

@@ -6,7 +6,7 @@ package {database.package}.metrics;{\n}{\n}
 {\n}
 import com.codahale.metrics.MetricRegistry;{\n}
 {\n}
-import synapticloop.h2zero.base.manager.MetricsManager;{\n}
+import com.synapticloop.h2zero.base.manager.MetricsManager;{\n}
 import com.codahale.metrics.Counter;{\n}
 import com.codahale.metrics.RatioGauge;{\n}
 {\n}

@@ -10,8 +10,8 @@ package {database.package}.form;{\n}{\n}
 
 import java.util.LinkedHashMap;{\n}
 
-import synapticloop.h2zero.base.form.FormBean;{\n}
-import synapticloop.h2zero.base.form.field.*;{\n}
+import com.synapticloop.h2zero.base.form.FormBean;{\n}
+import com.synapticloop.h2zero.base.form.field.*;{\n}
 
 {\n}
 

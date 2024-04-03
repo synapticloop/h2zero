@@ -4,7 +4,7 @@ package {database.package}.impex;{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //                 (/impex/impex-exporter.templar){\n}{\n}
 
-import synapticloop.h2zero.exception.H2ZeroParseException;{\n}
+import com.synapticloop.h2zero.exception.H2ZeroParseException;{\n}
 import java.io.BufferedWriter;{\n}
 import {database.package}.finder.{table.javaClassName}Finder;{\n}
 import {database.package}.model.{table.javaClassName};{\n}

@@ -4,8 +4,8 @@ package {database.package}.view;{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}{\n}
 //              (java-create-view-model.templar){\n}{\n}
 
-import synapticloop.h2zero.base.view.ViewBase;{\n}
-import synapticloop.h2zero.util.XmlHelper;{\n}
+import com.synapticloop.h2zero.base.view.ViewBase;{\n}
+import com.synapticloop.h2zero.util.XmlHelper;{\n}
 {\n}
 {if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
 {if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}
@@ -14,7 +14,7 @@ import synapticloop.h2zero.util.XmlHelper;{\n}
 {if fn:requiresImport[table, "Time"]}import java.sql.Time;{\n}{endif}
 import {database.package}.model.util.Constants;{\n}
 import org.json.JSONObject;{\n}
-import synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
+import com.synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
 
 {\n}{\n}
 

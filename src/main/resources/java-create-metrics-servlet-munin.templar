@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;{\n}
 {\n}
 import com.codahale.metrics.MetricRegistry;{\n}
 {\n}
-import synapticloop.h2zero.base.manager.MetricsManager;{\n}
+import com.synapticloop.h2zero.base.manager.MetricsManager;{\n}
 {\n}
 import com.codahale.metrics.Metric;{\n}
 import com.codahale.metrics.Counter;{\n}

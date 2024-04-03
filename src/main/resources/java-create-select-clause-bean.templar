@@ -7,7 +7,7 @@ package {database.package}.bean;{\n}{\n}
 import java.sql.Date;{\n}
 import java.sql.Timestamp;{\n}
 import {database.package}.model.util.Constants;{\n}
-import synapticloop.h2zero.util.XmlHelper;{\n}
+import com.synapticloop.h2zero.util.XmlHelper;{\n}
 {\n}
 
 /**{\n}

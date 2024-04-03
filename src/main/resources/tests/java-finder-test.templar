@@ -8,9 +8,9 @@ import static org.junit.Assert.*;{\n}
 {\n}
 import org.junit.Assert;{\n}
 import org.junit.Test;{\n}
-import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;{\n}
-import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
-import synapticloop.h2zero.base.manager.BaseConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
+import com.synapticloop.h2zero.base.manager.BaseConnectionManager;{\n}
 {\n}
 import java.sql.Connection;{\n}
 import java.sql.SQLException;{\n}

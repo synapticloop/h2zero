@@ -9,8 +9,8 @@ import static org.junit.Assert.*;{\n}
 import com.mchange.v2.c3p0.ComboPooledDataSource;{\n}
 import org.junit.BeforeClass;{\n}
 import org.junit.AfterClass;{\n}
-import synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;{\n}
-import synapticloop.h2zero.base.manager.BaseConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.BaseConnectionManager;{\n}
 {\n}
 import java.beans.PropertyVetoException;{\n}
 import java.io.BufferedReader;{\n}

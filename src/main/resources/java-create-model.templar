@@ -5,11 +5,11 @@ package {database.package}.model;{\n}{\n}
 //                  (java-create-model.templar){\n}{\n}
 
 {if !table.isConstant}
-	import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
-	import synapticloop.h2zero.base.validator.bean.ValidationBean;{\n}
+	import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+	import com.synapticloop.h2zero.base.validator.bean.ValidationBean;{\n}
 
 	{if table.hasForeignKey}
-		import synapticloop.h2zero.base.validator.bean.ValidationFieldBean;{\n}
+		import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;{\n}
 
 		{loop table.foreignKeys as foreignKey}
 			import {database.package}.question.{foreignKey.foreignKeyTableLookup.javaClassName}Question;{\n}
@@ -17,10 +17,10 @@ package {database.package}.model;{\n}{\n}
 
 	{endif}
 
-	import synapticloop.h2zero.base.validator.*;{\n}
-	import synapticloop.h2zero.base.model.{options.database}.ModelBase;{\n}
-	import synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;{\n}
-	import synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
+	import com.synapticloop.h2zero.base.validator.*;{\n}
+	import com.synapticloop.h2zero.base.model.{options.database}.ModelBase;{\n}
+	import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;{\n}
+	import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
 	import java.lang.StringBuilder;{\n}
 	import java.sql.Connection;{\n}
 	{if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
@@ -41,10 +41,10 @@ package {database.package}.model;{\n}{\n}
 
 {\n}
 import org.json.JSONObject;{\n}
-import synapticloop.h2zero.util.XmlHelper;{\n}
+import com.synapticloop.h2zero.util.XmlHelper;{\n}
 {\n}
 
-import synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
+import com.synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
 import {database.package}.model.util.Constants;{\n}
 
 {if !table.isConstant}

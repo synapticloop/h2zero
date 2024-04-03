@@ -12,7 +12,7 @@ plugins {
 }
 
 version = findProperty("h2zero.version")
-group = 'synapticloop'
+group = 'com.synapticloop'
 
 tasks.withType(Javadoc).all { enabled = false }
 
@@ -67,7 +67,7 @@ configurations.all {
 jar {
     manifest {
         attributes(
-                "Main-Class": "synapticloop.h2zero.Main",
+                "Main-Class": "com.synapticloop.h2zero.Main",
                 "Implementation-Version": version
         )
     }
@@ -81,7 +81,7 @@ test {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId "synapticloop"
+            groupId "com.synapticloop"
             artifactId "h2zero"
             version version
 
@@ -100,7 +100,7 @@ gradlePlugin {
     plugins {
         h2zeroPlugin {
             id = "synapticloop.h2zero"
-            implementationClass = "synapticloop.h2zero.plugin.gradle.H2ZeroPlugin"
+            implementationClass = "com.synapticloop.h2zero.plugin.gradle.H2ZeroPlugin"
             displayName = "Synapticloop Gradle h2zero plugin"
             description = "lightweight ORM Java code generator for SQL databases: mysql, sqlite3, postgresql, and cockroach - this utilises the templar templating language"
             tags = ["h2zero", "ORM", "generator"]

@@ -4,7 +4,7 @@ package {database.package}.impex;{\n}{\n}
 //                 (/impex/impex-converter.templar){\n}
 {\n}
 {\n}
-import synapticloop.h2zero.exception.H2ZeroParseException;{\n}
+import com.synapticloop.h2zero.exception.H2ZeroParseException;{\n}
 {\n}
 import java.math.BigDecimal;{\n}
 import java.sql.Date;{\n}

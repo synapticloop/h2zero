@@ -3,7 +3,7 @@ package {database.package};{\n}{\n}
 //    with the use of synapticloop templar templating language{\n}
 //      (java-create-connection-manager-initialise.templar){\n}
 {\n}
-import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 {\n}
 public class ConnectionManagerInitialiser extends ConnectionManager {{{\n}
 {\t}protected static final String CONNECTION_POOL_NAME = "{database.package}.{database.schema}";{\n}

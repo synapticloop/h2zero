@@ -16,7 +16,7 @@ import java.util.Map;{\n}
 import java.util.List;{\n}
 import java.sql.*;{\n}
 {\n}
-import synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 {\n}
 {import classpath:/snippet/global/java-logger.templar}
 {\n}
