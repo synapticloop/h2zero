@@ -74,8 +74,6 @@ public class H2ZeroTask extends DefaultTask {
 
 
 	private boolean areParametersCorrect() {
-		System.out.println(inFiles);
-
 		if(null == outDir || inFiles.size() == 0) {
 			String message = "Both attributes 'inFile' and 'outDir' are required, exiting...";
 			if(null != getProject()) {
