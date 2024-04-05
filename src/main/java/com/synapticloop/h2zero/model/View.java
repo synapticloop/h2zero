@@ -17,20 +17,19 @@ package com.synapticloop.h2zero.model;
  * under the Licence.
  */
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.synapticloop.h2zero.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.model.field.BaseField;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.util.JsonHelper;
+import com.synapticloop.h2zero.util.NamingHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.model.field.BaseField;
-import com.synapticloop.h2zero.util.JsonHelper;
-import com.synapticloop.h2zero.util.NamingHelper;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class View extends BaseSchemaObject {
 	private String asClause;
@@ -113,7 +112,7 @@ public class View extends BaseSchemaObject {
 			if(null != type) {
 				String firstUpper = NamingHelper.getFirstUpper(type);
 				try {
-					Class forName = Class.forName("synapticloop.h2zero.model.field." + firstUpper + "Field");
+					Class forName = Class.forName("com.synapticloop.h2zero.model.field." + firstUpper + "Field");
 					Constructor constructor = forName.getConstructor(JSONObject.class);
 					BaseField baseField = (BaseField)constructor.newInstance(fieldObject);
 

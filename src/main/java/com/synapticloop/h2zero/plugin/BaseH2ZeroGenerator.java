@@ -55,7 +55,7 @@ public class BaseH2ZeroGenerator {
 	public BaseH2ZeroGenerator(File h2ZeroFile, File outFile, boolean verbose) {
 		this.h2ZeroFile = h2ZeroFile;
 		this.outFile = outFile;
-		this.verbose = verbose;
+		BaseH2ZeroGenerator.verbose = verbose;
 	}
 
 	/**
@@ -70,6 +70,7 @@ public class BaseH2ZeroGenerator {
 		Options options = null;
 
 		try {
+			SimpleLogger.logInfo(LoggerType.SUMMARY, "Parsing file: " +h2ZeroFile.getAbsolutePath());
 			h2zeroParser.parse(h2ZeroFile);
 
 			logDatabaseInfo(h2zeroParser);

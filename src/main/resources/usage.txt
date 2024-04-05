@@ -14,7 +14,7 @@ There are three (3) modes of operation, namely:
 
 generate options:
 -----------------
-  -in <arg>   the input file
+  -in <arg>   the input file - or a comma separated list of files
   -out <arg>  the directory to output the generated files
   -verbose    turn on verbose output
 

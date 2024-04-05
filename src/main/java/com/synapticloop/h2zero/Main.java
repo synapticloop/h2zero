@@ -18,16 +18,16 @@
  * under the Licence.
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
+	import com.synapticloop.h2zero.plugin.ant.H2ZeroTask;
+	import com.synapticloop.h2zero.util.SimpleLogger;
+	import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
-import com.synapticloop.h2zero.plugin.ant.H2ZeroTask;
-import com.synapticloop.h2zero.util.SimpleLogger;
-import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+	import java.io.BufferedReader;
+	import java.io.IOException;
+	import java.io.InputStream;
+	import java.io.InputStreamReader;
+	import java.util.HashMap;
+	import java.util.Map;
 
 public class Main {
 	private static final String USAGE_TXT = "/usage.txt";
@@ -88,6 +88,7 @@ public class Main {
 		if(args.length == 0) {
 			usageAndExit(null);
 		}
+
 		// the first argument
 		String mode = args[0];
 		if(!COMMAND_LINE_OPTIONS.containsKey(mode)) {

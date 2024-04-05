@@ -1,25 +1,24 @@
 package com.synapticloop.h2zero.model;
 
-import static org.junit.Assert.*;
-
-import com.synapticloop.h2zero.model.Options;
+import com.synapticloop.h2zero.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.extension.Extension;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.extension.Extension;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class OptionsTest {
 	private Options options;
 	public static String JSONExtensionString = "{\n" + 
 			"	\"options\": {\n" + 
 			"		\"extensions\": [\n" + 
-			"			\"synapticloop.h2zero.extension.BasicExtension\"\n" + 
+			"			\"com.synapticloop.h2zero.extension.BasicExtension\"\n" +
 			"		],\n" + 
 			"\n" + 
-			"		\"synapticloop.h2zero.extension.BasicExtension\": {\n" + 
+			"		\"com.synapticloop.h2zero.extension.BasicExtension\": {\n" +
 			"			\"something\": \"else\",\n" + 
 			"			\"warning\": false\n" + 
 			"		}\n" + 
@@ -29,7 +28,7 @@ public class OptionsTest {
 	public static String JSONMissingExtensionString = "{\n" + 
 			"	\"options\": {\n" + 
 			"		\"extensions\": [\n" + 
-			"			\"synapticloop.h2zero.extension.ThisIsAnExceptionDoesNotExistBasicExtension\"\n" + 
+			"			\"com.synapticloop.h2zero.extension.ThisIsAnExceptionDoesNotExistBasicExtension\"\n" +
 			"		]\n" + 
 			"	}\n" + 
 			"}";

@@ -272,7 +272,7 @@ public class Table extends BaseSchemaObject {
 
       String firstUpper = NamingHelper.getFirstUpper(type);
       try {
-        Class forName = Class.forName("synapticloop.h2zero.model.field." + firstUpper + "Field");
+        Class forName = Class.forName("com.synapticloop.h2zero.model.field." + firstUpper + "Field");
         Constructor constructor = forName.getConstructor(JSONObject.class, boolean.class);
 
         BaseField inBaseField = (BaseField) constructor.newInstance(fieldObject, true);

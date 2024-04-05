@@ -134,7 +134,6 @@ public class SimpleLogger {
 	public static void logWarn(LoggerType loggerType, String message) {
 		log(WARN, loggerType, message);
 	}
-	@SuppressWarnings("rawtypes")
 
 	/**
 	 * Log a warning message to the console
@@ -143,6 +142,7 @@ public class SimpleLogger {
 	 * @param clazz the calling class
 	 * @param message The message to log
 	 */
+	@SuppressWarnings("rawtypes")
 	public static void logWarn(LoggerType loggerType, Class clazz, String message) { log(WARN, loggerType, clazz, message); }
 
 	/**
@@ -184,11 +184,11 @@ public class SimpleLogger {
 	public static void logFatal(LoggerType loggerType, Class clazz, String message) { log(FATAL, loggerType, clazz, message); }
 
 	private static void log(String type, LoggerType loggerType, String message) {
-		System.out.println(String.format("[ %" + maxLength + "s ] [ %s ] %s", loggerType.name(), type, message));
+		System.out.printf("[ %" + maxLength + "s ] [ %s ] %s%n", loggerType.name(), type, message);
 	}
 
 	@SuppressWarnings("rawtypes")
 	private static void log(String type, LoggerType loggerType, Class clazz, String message) {
-		System.out.println(String.format("[ %" + maxLength + "s ] [ %s ] [ %s ] %s", loggerType.name(), type, clazz.getSimpleName(), message));
+		System.out.printf("[ %" + maxLength + "s ] [ %s ] [ %s ] %s%n", loggerType.name(), type, clazz.getSimpleName(), message);
 	}
 }

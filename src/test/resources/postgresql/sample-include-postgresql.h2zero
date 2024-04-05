@@ -22,7 +22,7 @@
 },
 "database": {
 	"schema": "sample",
-	"package": "synapticloop.sample.h2zero.postgresql",
+	"package": "com.synapticloop.sample.h2zero.postgresql",
 	"defaultStatementCacheSize": 1024,
 
 	"tables": [

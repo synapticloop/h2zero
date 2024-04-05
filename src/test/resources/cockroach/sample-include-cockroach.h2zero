@@ -22,7 +22,7 @@
 },
 "database": {
 	"schema": "sample",
-	"package": "synapticloop.sample.h2zero.cockroach",
+	"package": "com.synapticloop.sample.h2zero.cockroach",
 	"defaultStatementCacheSize": 1024,
 
 	"tables": [

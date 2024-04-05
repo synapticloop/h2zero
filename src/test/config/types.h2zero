@@ -4,7 +4,7 @@
 },
 database: {
 	schema: "h2zerotest",
-	package: "synapticloop.h2zerotest",
+	package: "com.synapticloop.h2zerotest",
 	tables: [
 		{
 			name: "one",

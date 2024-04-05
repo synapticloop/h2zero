@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-3.1.6-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
 
-> **This project requires JVM version of at least 1.7**
+> **This project requires JVM version of at least 1.17**
 
 
 

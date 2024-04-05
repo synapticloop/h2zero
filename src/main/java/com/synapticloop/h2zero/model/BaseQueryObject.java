@@ -17,26 +17,18 @@ package com.synapticloop.h2zero.model;
  * under the Licence.
  */
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.synapticloop.h2zero.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.model.field.BaseField;
 import com.synapticloop.h2zero.model.util.FieldLookupHelper;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.util.JsonHelper;
+import com.synapticloop.h2zero.util.NamingHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.model.field.BaseField;
-import com.synapticloop.h2zero.util.JsonHelper;
-import com.synapticloop.h2zero.util.NamingHelper;
+import java.lang.reflect.Constructor;
+import java.util.*;
 
 /**
  * The base query object is the helper methods for all of the actions that can
@@ -285,7 +277,7 @@ public abstract class BaseQueryObject {
 			if (null != type) {
 				String firstUpper = NamingHelper.getFirstUpper(type);
 				try {
-					Class forName = Class.forName("synapticloop.h2zero.model.field." + firstUpper + "Field");
+					Class forName = Class.forName("com.synapticloop.h2zero.model.field." + firstUpper + "Field");
 					Constructor constructor = forName.getConstructor(JSONObject.class);
 					BaseField baseField = (BaseField) constructor.newInstance(fieldObject);
 

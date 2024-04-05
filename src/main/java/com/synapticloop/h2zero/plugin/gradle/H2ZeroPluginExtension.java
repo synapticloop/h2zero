@@ -16,11 +16,12 @@ package com.synapticloop.h2zero.plugin.gradle;
  * this source code or binaries.
  */
 
-public class H2ZeroPluginExtension {
-	public static final String FILE_NAME_H2ZERO = "h2zero.h2zero";
+import java.util.ArrayList;
+import java.util.List;
 
+public class H2ZeroPluginExtension {
 	private boolean verbose = false;
-	private String inFile = FILE_NAME_H2ZERO;
+	private List<String> inFiles = new ArrayList<>();
 	private String outDir = ".";
 
 	/**
@@ -52,17 +53,18 @@ public class H2ZeroPluginExtension {
 	 */
 	public void setVerbose(boolean verbose) { this.verbose = verbose; }
 
-	/**
-	 * Get the h2ZeroFile file name to be parsed (by default this is 'h2zero.h2zero'
-	 * 
-	 * @return the file name to be parsed by h2Zero
-	 */
-	public String getInFile() { return inFile; }
+	public List<String> getInFiles() { return inFiles; }
 
 	/**
 	 * Set the file name to be parsed
 	 * 
 	 * @param inFile the file name to be parsed
 	 */
-	public void setInFile(String inFile) { this.inFile = inFile; }
+	public void setInFile(String inFile) {
+		this.inFiles.add(inFile);
+	}
+
+	public void setInFile(List<String> inFiles) {
+		this.inFiles = inFiles;
+	}
 }

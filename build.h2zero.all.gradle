@@ -25,7 +25,10 @@ repositories {
 }
 
 h2zero {
-	inFile = 'src/test/resources/mysql/sample-include-mysql.h2zero'
+	inFile = [
+			'src/test/resources/sqlite/sample-include-sqlite3.h2zero',
+			'src/test/resources/mysql/sample-include-mysql.h2zero'
+			]
 	outDir = '.'
 	verbose = 'false'
 }

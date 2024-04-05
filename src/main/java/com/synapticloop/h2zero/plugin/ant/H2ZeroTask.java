@@ -25,14 +25,17 @@ import com.synapticloop.h2zero.util.SimpleLogger;
 import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class H2ZeroTask extends Task {
 	private String inFile = null;
+	private final List<String> inFiles = new ArrayList<>();
 	private String outDir = null;
 
 	private boolean verbose = true; // whether to be verbose with the logging
 
-	private File h2ZeroFile = null;
+	private final List<File> h2ZeroFiles = new ArrayList<>();
 	private File outFile = null;
 
 	@Override
@@ -41,12 +44,15 @@ public class H2ZeroTask extends Task {
 			throw new BuildException("Passed in parameters are incorrect.");
 		}
 
-		BaseH2ZeroGenerator baseH2ZeroGenerator = new BaseH2ZeroGenerator(h2ZeroFile, outFile, verbose);
-		baseH2ZeroGenerator.generateH2zero();
+		for(File h2ZeroFile: h2ZeroFiles) {
+			BaseH2ZeroGenerator baseH2ZeroGenerator = new BaseH2ZeroGenerator(h2ZeroFile, outFile, verbose);
+			baseH2ZeroGenerator.generateH2zero();
+		}
 	}
 
 	private boolean areParametersCorrect() {
-		if(null == outDir || null == inFile) {
+		boolean isInError = false;
+		if(null == outDir || (null == inFile && inFiles.size() == 0)) {
 			String message = "Both attributes 'inFile' and 'outDir' are required, exiting...";
 			if(null != getProject()) {
 				getProject().log(message, Project.MSG_ERR);
@@ -56,16 +62,21 @@ public class H2ZeroTask extends Task {
 			return(false);
 		}
 
-		h2ZeroFile = new File(inFile);
-		if(!h2ZeroFile.exists()|| !h2ZeroFile.canRead()) {
-			String message = "h2zero file 'inFile': '" + inFile + "' does not exist, or is not readable, exiting...";
-			if(null != getProject()) {
-				getProject().log(message, Project.MSG_ERR);
+		for(String inFile: inFiles) {
+			File h2ZeroFile = new File(inFile);
+			if (!h2ZeroFile.exists() || !h2ZeroFile.canRead()) {
+				String message = "h2zero file 'inFile': '" + inFile + "' does not exist, or is not readable, exiting...";
+				if (null != getProject()) {
+					getProject().log(message, Project.MSG_ERR);
+				} else {
+					SimpleLogger.logFatal(LoggerType.H2ZERO_GENERATE, message);
+				}
+				return (false);
 			} else {
-				SimpleLogger.logFatal(LoggerType.H2ZERO_GENERATE, message);
+				h2ZeroFiles.add(h2ZeroFile);
 			}
-			return(false);
 		}
+
 
 		outFile = new File(outDir);
 		if(!outFile.exists() || !outFile.isDirectory()) {
@@ -78,15 +89,33 @@ public class H2ZeroTask extends Task {
 			return(false);
 		}
 
-		SimpleLogger.logInfo(LoggerType.OPTIONS, "Parameters are correct, or are they");
-		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tIn file: " + inFile);
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "Parameters are present.");
+		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tIn file(s): ");
+		for(String inFile: inFiles) {
+			SimpleLogger.logInfo(LoggerType.OPTIONS, "\t          - " + inFile);
+		}
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tOut dir: " + outDir);
 
 		return(true);
 	}
 
-	public String getInFile() { return inFile; }
-	public void setInFile(String inFile) { this.inFile = inFile; }
+	public List getInFile() { return inFiles; }
+
+	/**
+	 * The infile may be actually a list of files
+	 *
+	 * @param inFile
+	 */
+	public void setInFile(String inFile) {
+		this.inFile = inFile;
+
+		if(null != inFile) {
+			for (String s : inFile.split(",")) {
+				inFiles.add(s.trim());
+			}
+		}
+	}
+
 	public void setOutDir(String outDir) { this.outDir = outDir; }
 	public String getOutDir() { return outDir; }
 	public boolean getVerbose() { return verbose; }
