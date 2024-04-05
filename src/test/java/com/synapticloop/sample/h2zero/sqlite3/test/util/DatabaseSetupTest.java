@@ -5,18 +5,16 @@ package com.synapticloop.sample.h2zero.sqlite3.test.util;
 //          (tests/java-sqlite3-database-test-base.templar)
 
 
-import static org.junit.Assert.*;
-
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.junit.BeforeClass;
-import org.junit.AfterClass;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
