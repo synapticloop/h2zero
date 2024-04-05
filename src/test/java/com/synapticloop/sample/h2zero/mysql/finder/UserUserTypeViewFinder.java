@@ -517,7 +517,7 @@ public class UserUserTypeViewFinder {
 	private static UserUserType uniqueResult(ResultSet resultSet) throws H2ZeroFinderException, SQLException {
 		if(resultSet.next()) {
 			// we have a result
-			String idUser = ConnectionManager.getNullableResultString(resultSet, 1);
+			Long idUser = ConnectionManager.getNullableResultLong(resultSet, 1);
 			String nmUser = ConnectionManager.getNullableResultString(resultSet, 2);
 			String nmUserType = ConnectionManager.getNullableResultString(resultSet, 3);
 
@@ -548,7 +548,7 @@ public class UserUserTypeViewFinder {
 		List<UserUserType> arrayList = new ArrayList<UserUserType>();
 		while(resultSet.next()) {
 			arrayList.add(new UserUserType(
-					ConnectionManager.getNullableResultString(resultSet, 1),
+					ConnectionManager.getNullableResultLong(resultSet, 1),
 					ConnectionManager.getNullableResultString(resultSet, 2),
 					ConnectionManager.getNullableResultString(resultSet, 3)));
 		}

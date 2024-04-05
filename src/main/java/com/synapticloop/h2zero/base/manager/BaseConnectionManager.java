@@ -874,7 +874,7 @@ public abstract class BaseConnectionManager {
 	 * 
 	 * @param preparedStatement The prepared statement
 	 * @param parameterIndex the index of the parameter
-	 * @param inputStream the input stream to read from
+	 * @param reader the input stream to read from
 	 * 
 	 * @throws SQLException if something went horribly wrong
 	 */

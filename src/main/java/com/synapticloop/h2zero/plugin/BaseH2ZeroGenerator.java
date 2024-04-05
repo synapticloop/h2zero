@@ -29,10 +29,10 @@ import com.synapticloop.h2zero.util.SimpleLogger;
 import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import org.apache.tools.ant.BuildException;
 import org.json.JSONObject;
-import synapticloop.templar.exception.ParseException;
-import synapticloop.templar.exception.RenderException;
-import synapticloop.templar.utils.TemplarConfiguration;
-import synapticloop.templar.utils.TemplarContext;
+import com.synapticloop.templar.exception.ParseException;
+import com.synapticloop.templar.exception.RenderException;
+import com.synapticloop.templar.utils.TemplarConfiguration;
+import com.synapticloop.templar.utils.TemplarContext;
 
 import java.io.File;
 import java.util.*;
@@ -56,6 +56,7 @@ public class BaseH2ZeroGenerator {
 		this.h2ZeroFile = h2ZeroFile;
 		this.outFile = outFile;
 		BaseH2ZeroGenerator.verbose = verbose;
+		SimpleLogger.verbose = verbose;
 	}
 
 	/**

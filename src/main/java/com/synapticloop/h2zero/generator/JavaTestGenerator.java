@@ -20,11 +20,11 @@ package com.synapticloop.h2zero.generator;
 
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
-import synapticloop.templar.Parser;
-import synapticloop.templar.exception.FunctionException;
-import synapticloop.templar.exception.ParseException;
-import synapticloop.templar.exception.RenderException;
-import synapticloop.templar.utils.TemplarContext;
+import com.synapticloop.templar.Parser;
+import com.synapticloop.templar.exception.FunctionException;
+import com.synapticloop.templar.exception.ParseException;
+import com.synapticloop.templar.exception.RenderException;
+import com.synapticloop.templar.utils.TemplarContext;
 
 import java.io.File;
 
@@ -53,7 +53,7 @@ public class JavaTestGenerator extends Generator {
       TemplarContext templarContext = getDefaultTemplarContext();
 			templarContext.add("options", options);
 			templarContext.add("database",database);
-			templarContext.add("dbUrl", outFile + options.getOutputTestResources() + "/test.db");
+			templarContext.add("dbUrl", (outFile + options.getOutputTestResources() + "/test.db").replaceAll("\\\\", "\\\\\\\\"));
 			new File("." + options.getOutputTestResources()).mkdirs();
 			generateDatabaseTestBase(templarContext);
 			generateFinderTest(templarContext);

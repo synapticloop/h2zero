@@ -24,11 +24,11 @@ public class UserUserType extends ViewBase {
 
 	private User User = null;
 
-	private String idUser = null;
+	private Long idUser = null;
 	private String nmUser = null;
 	private String nmUserType = null;
 
-	public UserUserType(String idUser, String nmUser, String nmUserType) {
+	public UserUserType(Long idUser, String nmUser, String nmUserType) {
 		this.idUser = idUser;
 		this.nmUser = nmUser;
 		this.nmUserType = nmUserType;
@@ -45,7 +45,7 @@ public class UserUserType extends ViewBase {
 	 * Boring ol' getters
 	 */
 
-	public String getIdUser() { return(this.idUser); }
+	public Long getIdUser() { return(this.idUser); }
 
 	public String getNmUser() { return(this.nmUser); }
 
@@ -102,7 +102,7 @@ public class UserUserType extends ViewBase {
 	 */
 	public String toXMLString() {
 		return("<user_user_type>" + 
-			String.format("<id_user null=\"%b\">%s</id_user>", (this.getIdUser() == null), (this.getIdUser() != null ? XmlHelper.escapeXml(this.getIdUser()) : "")) + 
+			String.format("<id_user null=\"%b\">%s</id_user>", (this.getIdUser() == null), (this.getIdUser() != null ? this.getIdUser() : "")) + 
 			String.format("<nm_user null=\"%b\">%s</nm_user>", (this.getNmUser() == null), (this.getNmUser() != null ? XmlHelper.escapeXml(this.getNmUser()) : "")) + 
 			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XmlHelper.escapeXml(this.getNmUserType()) : "")) + 
 			"</user_user_type>");

@@ -18,8 +18,6 @@ package com.synapticloop.h2zero.util;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.plugin.BaseH2ZeroGenerator;
-
 /**
  * A super simple logger - so that the package can be as light-weight as 
  * possible - this was integrated explicitly for h2zero
@@ -27,6 +25,8 @@ import com.synapticloop.h2zero.plugin.BaseH2ZeroGenerator;
  * @author synapticloop
  */
 public class SimpleLogger {
+	public static boolean verbose;
+
 	public enum LoggerType {
 		MAIN,
 		OPTIONS,
@@ -82,7 +82,7 @@ public class SimpleLogger {
 	 * @param message The message to log
 	 */
 	public static void logDebug(LoggerType loggerType, String message) {
-		if(BaseH2ZeroGenerator.verbose) {
+		if(verbose) {
 			log(DEBUG, loggerType, message);
 		}
 	}
@@ -97,7 +97,7 @@ public class SimpleLogger {
 	 */
 	@SuppressWarnings("rawtypes")
 	public static void logDebug(LoggerType loggerType, Class clazz, String message) {
-		if(BaseH2ZeroGenerator.verbose) {
+		if(verbose) {
 			log(DEBUG, loggerType, clazz, message);
 		}
 	}

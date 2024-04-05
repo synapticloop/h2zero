@@ -16,7 +16,7 @@
 	],
 	
 	"fields": [
-		{ "name": "id_user", "type": "varchar", "length": "64", "nullable": false, "foreignKey": "user.id_user" },
+		{ "name": "id_user", "type": "bigint", "nullable": false, "foreignKey": "user.id_user" },
 		{ "name": "nm_user", "type": "varchar", "length": "64", "nullable": false },
 		{ "name": "nm_user_type", "type": "varchar", "length": "64", "nullable": false }
 	],

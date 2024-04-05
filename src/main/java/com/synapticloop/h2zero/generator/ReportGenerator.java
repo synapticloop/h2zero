@@ -17,15 +17,15 @@ package com.synapticloop.h2zero.generator;
  * under the Licence.
  */
 
-import java.io.File;
-
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
-import synapticloop.templar.Parser;
-import synapticloop.templar.exception.FunctionException;
-import synapticloop.templar.exception.ParseException;
-import synapticloop.templar.exception.RenderException;
-import synapticloop.templar.utils.TemplarContext;
+import com.synapticloop.templar.Parser;
+import com.synapticloop.templar.exception.FunctionException;
+import com.synapticloop.templar.exception.ParseException;
+import com.synapticloop.templar.exception.RenderException;
+import com.synapticloop.templar.utils.TemplarContext;
+
+import java.io.File;
 
 public class ReportGenerator extends Generator {
 

@@ -5,10 +5,10 @@ import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.validator.BaseValidator;
 import com.synapticloop.h2zero.validator.BasicValidator;
-import synapticloop.templar.Parser;
-import synapticloop.templar.exception.ParseException;
-import synapticloop.templar.exception.RenderException;
-import synapticloop.templar.utils.TemplarContext;
+import com.synapticloop.templar.Parser;
+import com.synapticloop.templar.exception.ParseException;
+import com.synapticloop.templar.exception.RenderException;
+import com.synapticloop.templar.utils.TemplarContext;
 
 import java.io.File;
 import java.util.ArrayList;

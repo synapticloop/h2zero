@@ -33,7 +33,7 @@ public class H2ZeroTask extends DefaultTask {
 	private List<String> inFiles = new ArrayList<>();
 	private String outDir;
 
-	private List<File> h2ZeroFiles = new ArrayList<>();
+	private final List<File> h2ZeroFiles = new ArrayList<>();
 	private File outFile;
 
 	/**

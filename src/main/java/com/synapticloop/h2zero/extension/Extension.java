@@ -25,11 +25,11 @@ import com.synapticloop.h2zero.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.util.SimpleLogger;
 import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import com.synapticloop.h2zero.validator.BaseValidator;
-import synapticloop.templar.Parser;
-import synapticloop.templar.exception.ParseException;
-import synapticloop.templar.exception.RenderException;
-import synapticloop.templar.utils.TemplarConfiguration;
-import synapticloop.templar.utils.TemplarContext;
+import com.synapticloop.templar.Parser;
+import com.synapticloop.templar.exception.ParseException;
+import com.synapticloop.templar.exception.RenderException;
+import com.synapticloop.templar.utils.TemplarConfiguration;
+import com.synapticloop.templar.utils.TemplarContext;
 
 import java.io.File;
 import java.util.HashMap;

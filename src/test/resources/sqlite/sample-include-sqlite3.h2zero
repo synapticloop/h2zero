@@ -7,8 +7,7 @@
 		"java",
 		"sql",
 		"reports",
-		"tests",
-		"impex"
+		"tests"
 	],
 
 	"validators": {

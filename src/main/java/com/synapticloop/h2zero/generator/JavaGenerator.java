@@ -21,11 +21,11 @@ package com.synapticloop.h2zero.generator;
 import com.synapticloop.h2zero.model.*;
 import com.synapticloop.h2zero.util.SimpleLogger;
 import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
-import synapticloop.templar.Parser;
-import synapticloop.templar.exception.FunctionException;
-import synapticloop.templar.exception.ParseException;
-import synapticloop.templar.exception.RenderException;
-import synapticloop.templar.utils.TemplarContext;
+import com.synapticloop.templar.Parser;
+import com.synapticloop.templar.exception.FunctionException;
+import com.synapticloop.templar.exception.ParseException;
+import com.synapticloop.templar.exception.RenderException;
+import com.synapticloop.templar.utils.TemplarContext;
 
 import java.io.File;
 import java.util.List;

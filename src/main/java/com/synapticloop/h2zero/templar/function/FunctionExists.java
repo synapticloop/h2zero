@@ -17,9 +17,9 @@ package com.synapticloop.h2zero.templar.function;
  * under the Licence.
  */
 
-import synapticloop.templar.exception.FunctionException;
-import synapticloop.templar.function.Function;
-import synapticloop.templar.utils.TemplarContext;
+import com.synapticloop.templar.exception.FunctionException;
+import com.synapticloop.templar.function.Function;
+import com.synapticloop.templar.utils.TemplarContext;
 
 public class FunctionExists extends Function {
 	public static final String FUNCTION_NAME = "exists";

@@ -21,11 +21,11 @@ import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.util.SimpleLogger;
-import synapticloop.templar.Parser;
-import synapticloop.templar.exception.FunctionException;
-import synapticloop.templar.exception.ParseException;
-import synapticloop.templar.exception.RenderException;
-import synapticloop.templar.utils.TemplarContext;
+import com.synapticloop.templar.Parser;
+import com.synapticloop.templar.exception.FunctionException;
+import com.synapticloop.templar.exception.ParseException;
+import com.synapticloop.templar.exception.RenderException;
+import com.synapticloop.templar.utils.TemplarContext;
 
 import java.io.File;
 import java.util.List;
