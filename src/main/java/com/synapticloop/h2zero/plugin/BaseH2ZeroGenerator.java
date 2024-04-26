@@ -37,6 +37,9 @@ import com.synapticloop.templar.utils.TemplarContext;
 import java.io.File;
 import java.util.*;
 
+/**
+ * This is the Base h2zero generator
+ */
 public class BaseH2ZeroGenerator {
 	public static boolean verbose = false;
 	private int numTables;
@@ -136,6 +139,7 @@ public class BaseH2ZeroGenerator {
 
 				while (iterator.hasNext()) {
 					Extension extension = iterator.next();
+					SimpleLogger.logInfo(SimpleLogger.LoggerType.EXTENSION_RENDER, "Extension rendering to '" + outFile.getAbsolutePath() +"'.");
 					extension.generate(extensions.get(extension), database, options, outFile, verbose);
 				}
 
@@ -215,7 +219,7 @@ public class BaseH2ZeroGenerator {
 	}
 
 	/**
-	 * Log the database information, which includes all of the tables and the number of fields, questions, 
+	 * Log the database information, which includes all tables and the number of fields, questions,
 	 * counters, finders, deleters etc.
 	 * 
 	 * @param h2zeroParser the h2zero parser

@@ -17,15 +17,14 @@ package com.synapticloop.h2zero.model;
  * under the Licence.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.synapticloop.h2zero.exception.H2ZeroParseException;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Used when the table is a constant - i.e. no need to go to the database to 
@@ -52,7 +51,12 @@ public class Constant {
 				throw new H2ZeroParseException(JSONKeyConstants.NAME + " cannot be null for constant object '" + constantsObject + "'.");
 			}
 
-			this.name = this.name.toUpperCase().replaceAll("[^A-Z]", "_");
+			// we do not allow names to start with a number
+			if("0123456789".contains(this.name.substring(0,1))) {
+				this.name = "_" + this.name;
+			}
+
+			this.name = this.name.toUpperCase().replaceAll("[^A-Z0-9_]", "_");
 
 			JSONArray valuesArray = constantsObject.getJSONArray(JSONKeyConstants.VALUES);
 			for(int i = 0; i < valuesArray.length(); i++) {

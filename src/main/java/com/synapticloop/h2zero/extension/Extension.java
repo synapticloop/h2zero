@@ -121,7 +121,12 @@ public abstract class Extension {
 		if(verbose) {
 			SimpleLogger.logDebug(LoggerType.EXTENSION_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
 		}
-		return(new Parser(this.getClass().getResourceAsStream(templarTemplateFile)));
+		try {
+			return (new Parser(this.getClass().getResourceAsStream(templarTemplateFile)));
+		} catch (ParseException ex) {
+			SimpleLogger.logFatal(LoggerType.EXTENSION_PARSE, "Could not parse templar template '" + templarTemplateFile + "'.");
+			throw ex;
+		}
 	}
 
 	/**
