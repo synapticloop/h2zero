@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Blob;
 
@@ -15,7 +16,7 @@ import java.sql.Blob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 /**

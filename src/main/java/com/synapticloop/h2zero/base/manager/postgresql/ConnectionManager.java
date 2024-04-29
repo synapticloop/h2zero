@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.sqlserver;
+package com.synapticloop.h2zero.base.manager.postgresql;
 
 /*
  * Copyright (c) 2012-2024 synapticloop.

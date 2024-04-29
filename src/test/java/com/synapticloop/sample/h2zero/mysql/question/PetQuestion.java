@@ -8,8 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
+import java.sql.Blob;
 
-import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -17,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
+
+import java.util.List;
 
 /**
  * <p>This class contains all of the questions that are defined in the h2zero

@@ -8,8 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
-import com.synapticloop.h2zero.base.sql.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
 
 
 import org.slf4j.Logger;

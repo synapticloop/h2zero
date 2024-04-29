@@ -8,18 +8,22 @@
 {set fn:length[baseQueryObject.uniqueWhereFields] as whereFieldsLength}
 {set fn:length[baseQueryObject.updateFields] as updateFieldsLength}
 
-{loop baseQueryObject.updateFields as setField}	
+{loop baseQueryObject.updateFields as setField}
 	{if !setFieldStatus.first}, {endif}{if setField.isInField}List<{setField.javaType}>{else}{setField.javaType}{endif} {setField.javaName}{if setField.isInField}List{endif}
 {endloop}
 
 {if baseQueryObject.hasWhereFieldAliases}
-	{if fn:notEqual[updateFieldsLength, "0"]}, {endif}
 	{loop baseQueryObject.whereFields as whereField}
+		{if whereFieldStatus.first}
+			{if fn:notEqual[updateFieldsLength, "0"]}, {endif}
+		{endif}
 		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {else}
-	{if fn:notEqual[updateFieldsLength, "0"]}, {endif}
 	{loop baseQueryObject.uniqueWhereFields as whereField}
+		{if whereFieldStatus.first}
+			{if fn:notEqual[updateFieldsLength, "0"]}, {endif}
+		{endif}
 		{if !whereFieldStatus.first}, {endif}{if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif} {whereField.javaName}{if whereField.isInField}List{endif}
 	{endloop}
 {endif}

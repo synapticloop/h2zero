@@ -17,6 +17,7 @@ import java.sql.Types;{\n}
 import java.sql.Timestamp;{\n}
 {\n}
 import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.sql.{options.database}.Updater;{\n}
 import {database.package}.model.util.Constants;{\n}
 {\n}
 {import classpath:/snippet/global/java-logger.templar}
@@ -58,7 +59,7 @@ public class {table.javaClassName}Updater {{{\n}
 	{\t} * This is the updater for '{updater.name}' and will throw a SQLException on error{\n}
 	{\t} * See the '{updater.name}Silent' method for a non-throwing method.{\n}
 	{\t} * {\n}
-	{\t} * @param connection the connection to the database{\n}
+	{\t} * {\n}
 {loop baseQueryObject.updateFields as setField}
 	{\t} * @param {setField.javaName}{if setField.isInField}List{endif} the field to set as a {if setField.isInField}List<{whereField.javaType}>{else}{setField.javaType}{endif}{\n}
 {endloop}
@@ -72,117 +73,19 @@ public class {table.javaClassName}Updater {{{\n}
 		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - The where clause to set as a {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif}{\n}
 	{endloop}
 {endif}	{\t} * {\n}
-	{\t} * @return The number of rows that were updated{\n}
-	{\t} * @throws SQLException if there was an error in the statement or database connection{\n}
+	{\t} * @return The Updater {\n}
 	{\t} */ {\n}
-	{\t}public static int {updater.name}(Connection connection
-	{--
-		Now for the set and where fields
-	}
-
-		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
-	) throws SQLException {{{\n}
-
-	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_{updater.staticName})) {{{\n}
-
-	{set '0' as updateFieldsIndex}
-	{loop updater.updateFields as updateField}
-		{set updateFieldStatus.index as updateFieldsIndex}
-		{\t}{\t}{\t}ConnectionManager.set{updateField.upperType}(preparedStatement, {updateFieldStatus.index}, {updateField.javaName});{\n}
-	{endloop}
-
-	{loop updater.whereFields as whereField}
-		{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {fn:+[whereFieldStatus.index, updateFieldsIndex]}, {whereField.javaName});{\n}
-	{endloop}
-
 	{\n}
-
-	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
-	{\t}{\t}}{\n}
-
-	{\t}}{\n}
-{\n}
-
-
-
-
-	{\t}/**{\n}
-	{\t} * This is the updater for '{updater.name}' and will throw a SQLException on error{\n}
-	{\t} * See the '{updater.name}Silent' method for a non-throwing method.{\n}
-	{\t} * {\n}
-{loop baseQueryObject.updateFields as setField}
-	{\t} * @param {setField.javaName}{if setField.isInField}List{endif} the field to set as a {if setField.isInField}List<{whereField.javaType}>{else}{setField.javaType}{endif}{\n}
-{endloop}
-
-{if baseQueryObject.hasWhereFieldAliases}
-	{loop baseQueryObject.whereFields as whereField}
-		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - The where clause to set as a {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif}{\n}
-	{endloop}
-{else}
-	{loop baseQueryObject.uniqueWhereFields as whereField}
-		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - The where clause to set as a {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif}{\n}
-	{endloop}
-{endif}	{\t} * {\n}
-	{\t} * @return The number of rows that were updated or -1 on error{\n}
-	{\t} */ {\n}
-
-	{\t}public static int {updater.name}(
-
-		{import classpath:/snippet/global/java-method-parameters.templar}
-
-	) throws SQLException {{{\n}
-
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return({updater.name}(connection{if fn:>[fn:+[updateFieldsLength, whereFieldsLength], '0']}, {endif}
-
-		{import classpath:/snippet/global/java-method-parameters-call.templar}
-
-	));{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-{\n}
-
-
-
-
-
-	{\t}/**{\n}
-	{\t} * This is the updater for '{updater.name}' and will silently swallow any {\n}
-	{\t} * SQLException on error and return a -1 as the number of rows updated.{\n}
-	{\t} * See the '{updater.name}' method for a throwing method.{\n}
-	{\t} * {\n}
-{loop baseQueryObject.updateFields as setField}
-	{\t} * @param {setField.javaName}{if setField.isInField}List{endif} the field to set as a {if setField.isInField}List<{whereField.javaType}>{else}{setField.javaType}{endif}{\n}
-{endloop}
-
-{if baseQueryObject.hasWhereFieldAliases}
-	{loop baseQueryObject.whereFields as whereField}
-		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - The where clause to set as a {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif}{\n}
-	{endloop}
-{else}
-	{loop baseQueryObject.uniqueWhereFields as whereField}
-		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - The where clause to set as a {if whereField.isInField}List<{whereField.javaType}>{else}{whereField.javaType}{endif}{\n}
-	{endloop}
-{endif}	{\t} * {\n}
-	{\t} * @return The number of rows that were updated or -1 on error{\n}
-	{\t} */ {\n}
-
-	{\t}public static int {updater.name}Silent(
-
-		{import classpath:/snippet/global/java-method-parameters.templar}
-
+	{\t}public static Updater {updater.name}(
+{import classpath:/snippet/global/java-method-parameters.templar}
 	) {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return({updater.name}(connection{if fn:>[fn:+[updateFieldsLength, whereFieldsLength], '0']}, {endif}
+	{\t}{\t}return({\n}
+  {\t}{\t}{\t}{\t}new Updater({\n}
+  {\t}{\t}{\t}{\t}LOGGER,{\n}
+  {\t}{\t}{\t}{\t}SQL_{updater.staticName},{\n}
+  {\t}{\t}{\t}{\t}new Object[] {{ {import classpath:/snippet/global/java-method-parameters-call.templar} }{\n}
+  {\t}{\t}));{\n}
+  {\t}}{\n}
 
-		{import classpath:/snippet/global/java-method-parameters-call.templar}
-
-	));{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{import classpath:/snippet/global/exception-sql-log-silent.templar}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-{\n}
 {endloop}
 }

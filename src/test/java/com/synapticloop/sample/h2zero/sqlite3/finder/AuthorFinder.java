@@ -4,13 +4,18 @@ package com.synapticloop.sample.h2zero.sqlite3.finder;
 //    with the use of synapticloop templar templating language
 //                (java-create-finder.templar)
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.util.LruCache;
 
 
 import org.slf4j.Logger;
@@ -21,7 +26,9 @@ import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.Author;
 
-import com.synapticloop.h2zero.base.sql.sqlite3.finder.MultiFinder;import com.synapticloop.h2zero.base.sql.sqlite3.finder.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.sqlite3.MultiFinder;
+import com.synapticloop.h2zero.base.sql.sqlite3.UniqueFinder;
+
 public class AuthorFinder {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for

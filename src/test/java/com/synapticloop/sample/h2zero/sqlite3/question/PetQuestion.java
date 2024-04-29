@@ -8,8 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
 
-import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -17,6 +19,8 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
+
+import java.util.List;
 
 /**
  * <p>This class contains all of the questions that are defined in the h2zero

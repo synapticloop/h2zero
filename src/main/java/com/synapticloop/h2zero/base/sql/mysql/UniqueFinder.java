@@ -17,6 +17,7 @@ package com.synapticloop.h2zero.base.sql.mysql;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import com.synapticloop.h2zero.base.sql.base.LimitOffsetUniqueFinder;
 import org.slf4j.Logger;
 

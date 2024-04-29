@@ -20,12 +20,9 @@ package com.synapticloop.h2zero.base.sql.base;
 import com.synapticloop.h2zero.base.sql.BaseIntegerFinder;
 import org.slf4j.Logger;
 
-import java.sql.ResultSet;
-import java.util.function.Function;
-
 public abstract class OffsetFetchUpdater extends BaseIntegerFinder {
-	public OffsetFetchUpdater(Logger logger, String sqlStatement, Function<ResultSet, Integer> resultsFunction, Object... parameters) {
-		super(logger, sqlStatement, resultsFunction, parameters);
+	public OffsetFetchUpdater(Logger logger, String sqlStatement, Object... parameters) {
+		super(logger, sqlStatement, parameters);
 	}
 
 	@Override protected String getLimitedResultsStatement() {

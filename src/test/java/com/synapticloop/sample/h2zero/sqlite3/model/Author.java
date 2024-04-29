@@ -4,7 +4,7 @@ package com.synapticloop.sample.h2zero.sqlite3.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 import com.synapticloop.sample.h2zero.sqlite3.question.AuthorStatusQuestion;
@@ -12,8 +12,9 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-
+import java.lang.StringBuilder;
 import java.sql.Connection;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -379,7 +380,10 @@ public class Author extends ModelBase {
 			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'Author' when primary key is null.");
 		}
 
-		Author author = AuthorFinder.findByPrimaryKeySilent(connection, this.idAuthor);
+		Author author = AuthorFinder.findByPrimaryKey(this.idAuthor)
+				.withConnection(connection)
+				.executeSilent();
+
 		if(null == author) {
 			throw new H2ZeroFinderException("Could not find the model 'Author' with primaryKey of " + getPrimaryKey());
 		}

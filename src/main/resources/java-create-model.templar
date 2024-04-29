@@ -556,7 +556,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 	{loop table.fields as field}
 		{if field.primary}
-			{\t}{\t}{table.javaClassName} {table.javaFieldName} = {table.javaClassName}Finder.findByPrimaryKeySilent(connection, this.{field.javaName});{\n}
+			{\t}{\t}{table.javaClassName} {table.javaFieldName} = {table.javaClassName}Finder.findByPrimaryKey(this.{field.javaName}){\n}
+			{\t}{\t}{\t}{\t}.withConnection(connection){\n}
+			{\t}{\t}{\t}{\t}.executeSilent();{\n}
+			{\n}
 			{\t}{\t}if(null == {table.javaFieldName}) {{{\n}
 			{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find the model '{table.javaClassName}' with primaryKey of " + getPrimaryKey());{\n}
 			{\t}{\t}}{\n}
@@ -660,7 +663,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 			{if !field.foreignKeyTableLookup.isConstant}
 				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
 
-				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
+				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKey(this.{field.javaName}).executeSilent();{\n}
 
 				{\t}{\t}}{\n}
 

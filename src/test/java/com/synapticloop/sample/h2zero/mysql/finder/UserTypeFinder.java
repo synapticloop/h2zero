@@ -4,12 +4,17 @@ package com.synapticloop.sample.h2zero.mysql.finder;
 //    with the use of synapticloop templar templating language
 //                (java-create-finder.templar)
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.util.LruCache;
 
 
 import org.slf4j.Logger;
@@ -20,7 +25,9 @@ import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import com.synapticloop.sample.h2zero.mysql.model.UserType;
 
-import com.synapticloop.h2zero.base.sql.mysql.finder.MultiFinder;import com.synapticloop.h2zero.base.sql.mysql.finder.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.mysql.MultiFinder;
+import com.synapticloop.h2zero.base.sql.mysql.UniqueFinder;
+
 public class UserTypeFinder {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for

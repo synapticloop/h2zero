@@ -4,7 +4,7 @@ package com.synapticloop.sample.h2zero.mysql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 import com.synapticloop.sample.h2zero.mysql.question.UserTypeQuestion;
@@ -12,8 +12,9 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.mysql.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-
+import java.lang.StringBuilder;
 import java.sql.Connection;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -321,7 +322,10 @@ public class User extends ModelBase {
 			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'User' when primary key is null.");
 		}
 
-		User user = UserFinder.findByPrimaryKeySilent(connection, this.idUser);
+		User user = UserFinder.findByPrimaryKey(this.idUser)
+				.withConnection(connection)
+				.executeSilent();
+
 		if(null == user) {
 			throw new H2ZeroFinderException("Could not find the model 'User' with primaryKey of " + getPrimaryKey());
 		}

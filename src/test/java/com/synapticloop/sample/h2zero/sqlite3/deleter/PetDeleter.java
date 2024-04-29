@@ -5,12 +5,16 @@ package com.synapticloop.sample.h2zero.sqlite3.deleter;
 //                (java-create-deleter.templar)
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import java.sql.*;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
 import com.synapticloop.h2zero.util.LruCache;
 
-import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
 
 import org.slf4j.Logger;

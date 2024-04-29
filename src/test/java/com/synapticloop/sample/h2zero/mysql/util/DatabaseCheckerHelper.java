@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 public class DatabaseCheckerHelper {
 		private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseCheckerHelper.class);
 

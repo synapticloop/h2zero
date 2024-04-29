@@ -4,7 +4,7 @@ package com.synapticloop.sample.h2zero.cockroach.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import com.synapticloop.h2zero.base.sql.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 import com.synapticloop.sample.h2zero.cockroach.question.UserTypeQuestion;
@@ -12,8 +12,9 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.cockroach.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-
+import java.lang.StringBuilder;
 import java.sql.Connection;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -321,7 +322,10 @@ public class UserUser extends ModelBase {
 			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'UserUser' when primary key is null.");
 		}
 
-		UserUser userUser = UserUserFinder.findByPrimaryKeySilent(connection, this.idUserUser);
+		UserUser userUser = UserUserFinder.findByPrimaryKey(this.idUserUser)
+				.withConnection(connection)
+				.executeSilent();
+
 		if(null == userUser) {
 			throw new H2ZeroFinderException("Could not find the model 'UserUser' with primaryKey of " + getPrimaryKey());
 		}

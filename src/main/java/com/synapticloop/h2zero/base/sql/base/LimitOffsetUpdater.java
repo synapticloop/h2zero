@@ -21,13 +21,11 @@ import com.synapticloop.h2zero.base.sql.BaseIntegerFinder;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.function.Function;
 
 public abstract class LimitOffsetUpdater extends BaseIntegerFinder {
-	public LimitOffsetUpdater(Logger logger, String sqlStatement, Function<ResultSet, Integer> resultsFunction, Object... parameters) {
-		super(logger, sqlStatement, resultsFunction, parameters);
+	public LimitOffsetUpdater(Logger logger, String sqlStatement, Object... parameters) {
+		super(logger, sqlStatement, parameters);
 	}
 
 	@Override protected String getLimitedResultsStatement() {

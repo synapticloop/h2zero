@@ -36,7 +36,7 @@ public class UserUserType extends ViewBase {
 
 	public User getUser() {
 		if(null == this.User) {
-			this.User = UserFinder.findByPrimaryKeySilent(this.idUser);
+			this.User = UserFinder.findByPrimaryKey(this.idUser).executeSilent();
 		}
 		return(this.User);
 	}

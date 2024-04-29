@@ -90,7 +90,7 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 			{if !field.foreignKeyTableLookup.isConstant}
 				{\t}{\t}if(null == this.{field.secondaryJavaName}) {{{\n}
 
-				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKeySilent(this.{field.javaName});{\n}
+				{\t}{\t}{\t}this.{field.secondaryJavaName} = {field.foreignKeyTableLookup.javaClassName}Finder.findByPrimaryKey(this.{field.javaName}).executeSilent();{\n}
 
 				{\t}{\t}}{\n}
 

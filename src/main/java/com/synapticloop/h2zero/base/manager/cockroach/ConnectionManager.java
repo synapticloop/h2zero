@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.cockroach;
+package com.synapticloop.h2zero.base.manager.cockroach;
 
 /*
  * Copyright (c) 2012-2024 synapticloop.

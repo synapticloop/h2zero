@@ -4,12 +4,29 @@ package com.synapticloop.sample.h2zero.postgresql.upserter;
 //    with the use of synapticloop templar templating language
 //                (java-create-upserter.templar)
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.ArrayList;
+
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.util.LruCache;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
+import com.synapticloop.sample.h2zero.postgresql.bean.UserUserFindNmUserDtmSignupBean;
+import com.synapticloop.sample.h2zero.postgresql.bean.UserUserFindGroupNumAgeBean;
+
+import com.synapticloop.sample.h2zero.postgresql.model.UserUser;
 
 public class UserUserUpserter {
 	// the binder is unused in code, but will generate compile problems if this 

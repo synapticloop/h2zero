@@ -11,8 +11,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.sql.*;
 
-import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 
 
 import org.slf4j.Logger;

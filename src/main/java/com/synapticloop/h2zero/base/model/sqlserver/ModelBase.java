@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.model.sqlserver;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.sqlserver.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlserver.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.SQLException;

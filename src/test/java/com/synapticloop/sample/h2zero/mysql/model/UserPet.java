@@ -4,7 +4,7 @@ package com.synapticloop.sample.h2zero.mysql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 import com.synapticloop.sample.h2zero.mysql.question.UserQuestion;
@@ -13,14 +13,16 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.mysql.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-
+import java.lang.StringBuilder;
 import java.sql.Connection;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import com.synapticloop.h2zero.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -222,7 +224,10 @@ public class UserPet extends ModelBase {
 			throw new H2ZeroPrimaryKeyException("Cannot refresh model 'UserPet' when primary key is null.");
 		}
 
-		UserPet userPet = UserPetFinder.findByPrimaryKeySilent(connection, this.idUserPet);
+		UserPet userPet = UserPetFinder.findByPrimaryKey(this.idUserPet)
+				.withConnection(connection)
+				.executeSilent();
+
 		if(null == userPet) {
 			throw new H2ZeroFinderException("Could not find the model 'UserPet' with primaryKey of " + getPrimaryKey());
 		}
@@ -253,14 +258,14 @@ public class UserPet extends ModelBase {
 
 	public User getUser() {
 		if(null == this.User) {
-			this.User = UserFinder.findByPrimaryKeySilent(this.idUser);
+			this.User = UserFinder.findByPrimaryKey(this.idUser).executeSilent();
 		}
 		return(this.User);
 	}
 
 	public Pet getPet() {
 		if(null == this.Pet) {
-			this.Pet = PetFinder.findByPrimaryKeySilent(this.idPet);
+			this.Pet = PetFinder.findByPrimaryKey(this.idPet).executeSilent();
 		}
 		return(this.Pet);
 	}

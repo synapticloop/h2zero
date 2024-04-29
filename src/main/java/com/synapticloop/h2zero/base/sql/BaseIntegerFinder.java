@@ -5,18 +5,15 @@ import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public abstract class BaseIntegerFinder extends BaseSQLExecutor {
-	protected final Function<ResultSet, Integer> resultsFunction;
-	public BaseIntegerFinder(Logger logger, String sqlStatement, Function<ResultSet, Integer> resultsFunction, Object... parameters) {
+	public BaseIntegerFinder(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
-		this.resultsFunction = resultsFunction;
 	}
+
 	/**
 	 * <p>Execute the SQL statement.</p>
 	 *
@@ -90,7 +87,7 @@ public abstract class BaseIntegerFinder extends BaseSQLExecutor {
 		}
 
 		// finally execute the statement
-		return(resultsFunction.apply(preparedStatement.executeQuery()));
+		return(preparedStatement.executeUpdate());
 	}
 
 	/**

@@ -8,6 +8,9 @@ package {database.package}.finder;{\n}{\n}
 //               (java-create-view-finder.templar){\n}{\n}
 
 {import classpath:/snippet/global/finder-imports.templar}
+import com.synapticloop.h2zero.base.sql.{options.database}.MultiFinder;{\n}
+import com.synapticloop.h2zero.base.sql.{options.database}.UniqueFinder;{\n}
+{\n}
 
 {\n}
 
