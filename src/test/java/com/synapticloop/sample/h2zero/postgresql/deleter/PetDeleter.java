@@ -5,16 +5,12 @@ package com.synapticloop.sample.h2zero.postgresql.deleter;
 //                (java-create-deleter.templar)
 
 import java.sql.Connection;
-import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.*;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.ArrayList;
+
 import com.synapticloop.h2zero.util.LruCache;
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.cockroach.ConnectionManager;
 
 
 import org.slf4j.Logger;

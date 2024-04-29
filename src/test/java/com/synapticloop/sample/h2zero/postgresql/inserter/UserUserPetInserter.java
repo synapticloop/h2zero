@@ -7,13 +7,12 @@ package com.synapticloop.sample.h2zero.postgresql.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.cockroach.ConnectionManager;
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 
 /**

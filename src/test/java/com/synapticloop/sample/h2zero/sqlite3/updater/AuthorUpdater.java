@@ -7,10 +7,9 @@ package com.synapticloop.sample.h2zero.sqlite3.updater;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.sql.Timestamp;
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 

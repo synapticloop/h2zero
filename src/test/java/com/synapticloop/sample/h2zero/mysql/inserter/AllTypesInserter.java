@@ -18,7 +18,7 @@ import java.sql.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 /**

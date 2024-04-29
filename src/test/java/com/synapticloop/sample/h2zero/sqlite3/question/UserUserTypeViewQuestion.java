@@ -4,22 +4,12 @@ package com.synapticloop.sample.h2zero.sqlite3.question;
 //    with the use of synapticloop templar templating language
 //                (java-create-view-question.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-
-import java.util.List;
 
 public class UserUserTypeViewQuestion {
 	// the binder is unused in code, but will generate compile problems if this 

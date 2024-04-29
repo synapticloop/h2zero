@@ -4,30 +4,12 @@ package com.synapticloop.sample.h2zero.mysql.upserter;
 //    with the use of synapticloop templar templating language
 //                (java-create-upserter.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Date;
-import java.sql.Blob;
-import java.sql.Timestamp;
-import java.sql.Time;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.ArrayList;
-
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import com.synapticloop.h2zero.util.LruCache;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
-
-import com.synapticloop.sample.h2zero.mysql.model.AllTypes;
 
 public class AllTypesUpserter {
 	// the binder is unused in code, but will generate compile problems if this 

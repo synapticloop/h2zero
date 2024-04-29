@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
 public class DatabaseCheckerHelper {
 		private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseCheckerHelper.class);
 

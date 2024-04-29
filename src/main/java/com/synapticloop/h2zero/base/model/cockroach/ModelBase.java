@@ -20,7 +20,7 @@ package com.synapticloop.h2zero.base.model.cockroach;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
 
 public abstract class ModelBase extends com.synapticloop.h2zero.base.model.ModelBase {
 

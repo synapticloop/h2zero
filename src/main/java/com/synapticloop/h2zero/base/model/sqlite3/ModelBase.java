@@ -20,7 +20,7 @@ package com.synapticloop.h2zero.base.model.sqlite3;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
 
 public abstract class ModelBase extends com.synapticloop.h2zero.base.model.ModelBase {
 

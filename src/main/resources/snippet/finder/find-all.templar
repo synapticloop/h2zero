@@ -1,229 +1,43 @@
 {\t}/**{\n}
-{\t} * Find all UserTitle objects with the passed in connection, with limited{\n}
-{\t} * results starting at a particular offset.{\n}
+{\t} * <p>Create a MultiFinder that can find all {tableOrView.javaClassName} rows</p>{\n}
 {\t} * <p>{\n}
-{\t} * If the limit parameter is null, there will be no limit applied.{\n}
-{\t} * <p>{\n}
-{\t} * If the offset is null, then this will be set to 0{\n}
-{\t} * <p>{\n}
-{\t} * If both limit and offset are null, then no limit and no offset will be applied{\n}
-{\t} * to the statement.{\n}
-{\t} * <p>{\n}
-{\t} * The passed in connection object is usable for transactional SQL statements,{\n}
-{\t} * where the connection has already had a transaction started on it.{\n}
-{\t} * <p>{\n}
-{\t} * If the connection object is null an new connection object will be created {\n}
-{\t} * and closed at the end of the method.{\n}
-{\t} * <p>{\n}
-{\t} * If the connection object is not null, then it will not be closed.{\n}
+{\t} * <p>This will return a UniqueFinder, to execute the finder, either call</p>{\n}
 {\t} * {\n}
-{\t} * @param connection - the connection object to use (or null if not part of a transaction){\n}
-{\t} * @param limit - the limit for the result set{\n}
-{\t} * @param offset - the offset for the start of the results.{\n}
+{\t} * <ul>{\n}
+{\t} *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>{\n}
+{\t} *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>{\n}
+{\t} * </ul>{\n}
 {\t} * {\n}
-{\t} * @return a list of all the {tableOrView.javaClassName} objects{\n}
+{\t} * <p>You may also want to pass in a connection, in which case use the following:</p>{\n}
 {\t} * {\n}
-{\t} * @throws SQLException if there was an error in the SQL statement{\n}
-{\t} * @throws H2ZeroFinderException if no results were found{\n}
+{\t} * <pre>{tableOrView.javaClassName}.findAll(){\n}
+{\t} *     .withConnection(connection){\n}
+{\t} *     .execute();</pre>{\n}
+{\t} * {\n}
+{\t} * <p>You may also want to pass in a connection without exceptions being thrown,{\n}
+{\t} * in which case use the following:</p>{\n}
+{\t} * {\n}
+{\t} * <pre>{tableOrView.javaClassName}.findAll(){\n}
+{\t} *     .withConnection(connection){\n}
+{\t} *     .executeSilent();</pre>{\n}
+{\t} * {\n}
+{\t} * <p>Additionally, you can limit and offset this query (with or without a connection)</p>{\n}
+{\t} * {\n}
+{\t} * <pre>{tableOrView.javaClassName}.findAll(){\n}
+{\t} *     .withLimit(limit){\n}
+{\t} *     .withOffset(offset){\n}
+{\t} *     .executeSilent();</pre>{\n}
+{\t} * {\n}
+{\t} * @return the parameterised MultiFinder{\n}
 {\t} */{\n}
 
-{\t}public static List<{tableOrView.javaClassName}> findAll(Connection connection, Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {{{\n}
-
-{\t}{\t}boolean hasConnection = (null != connection);{\n}
-{\t}{\t}String statement = null;{\n}
-
-{\t}{\t}// first find the statement that we want{\n}
-{\n}
-{\t}{\t}String cacheKey = limit + ":" + offset;{\n}
-{\t}{\t}if(!findAll_limit_statement_cache.containsKey(cacheKey)) {{{\n}
-{\t}{\t}{\t}// place the cacheKey in the cache for later use{\n}
-{\n}
-{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(SQL_SELECT_START);{\n}
-{\n}
-{\t}{\t}{\t}if(null != limit) {{{\n}
-{\t}{\t}{\t}{\t}stringBuilder.append(" limit ");{\n}
-{\t}{\t}{\t}{\t}stringBuilder.append(limit);{\n}
-{\t}{\t}{\t}{\t}if(null != offset) {{{\n}
-{\t}{\t}{\t}{\t}{\t}stringBuilder.append(" offset ");{\n}
-{\t}{\t}{\t}{\t}{\t}stringBuilder.append(offset);{\n}
-{\t}{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}}{\n}
-{\n}
-{\n}
-{\t}{\t}{\t}statement = stringBuilder.toString();{\n}
-{\t}{\t}{\t}findAll_limit_statement_cache.put(cacheKey, statement);{\n}
-{\t}{\t}} else {{{\n}
-{\t}{\t}{\t}statement = findAll_limit_statement_cache.get(cacheKey);{\n}
-{\t}{\t}}{\n}
-{\n}
-
-{\t}{\t}// now set up the statement{\n}
-{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-{\t}{\t}ResultSet resultSet = null;{\n}
-{\t}{\t}if(connection == null) {{{\n}
-{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}}{\n}
-{\n}
-
-{\t}{\t}List<{tableOrView.javaClassName}> results = new ArrayList<{tableOrView.javaClassName}>();{\n}
-{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}preparedStatement = connection.prepareStatement(statement);{\n}
-{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-{\t}{\t}{\t}results = list(resultSet);{\n}
-{\t}{\t}} catch(SQLException ex) {{{\n}
-{\t}{\t}{\t}if(LOGGER.isWarnEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException findAll(): " + ex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}{\t}ex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}throw ex;{\n}
-{\t}{\t}} finally {{{\n}
-
-{\t}{\t}{\t}if(hasConnection) {{{\n}
-{\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, null);{\n}
-{\t}{\t}{\t}} else {{{\n}
-{\t}{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement, connection);{\n}
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}}{\n}
-{\n}
-{\t}{\t}if(results.size() == 0) {{{\n}
-{\t}{\t}{\t}throw new H2ZeroFinderException("Could not find any results for findAll");{\n}
-{\t}{\t}}{\n}
-{\t}{\t}return(results);{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
-{\t} * to the findAll(connection, limit, offset) with null parameters.{\n}
-{\t} * {\n}
-{\t} * @return The list of {tableOrView.javaClassName} model objects{\n}
-{\t} * {\n}
-{\t} * @throws SQLException if there was an error in the SQL statement{\n}
-{\t} * @throws H2ZeroFinderException if no results were found{\n}
-{\t} */{\n}
-{\t}public static List<{tableOrView.javaClassName}> findAll() throws SQLException, H2ZeroFinderException {{{\n}
-{\t}{\t}return(findAll(null, null, null));{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
-{\t} * to the findAll(connection, limit, offset) with null limit and offset{\n}
-{\t} * parameters.{\n}
-{\t} * {\n}
-{\t} * @param connection - the connection to be used{\n}
-{\t} * {\n}
-{\t} * @return The list of {tableOrView.javaClassName} model objects{\n}
-{\t} * {\n}
-{\t} * @throws SQLException if there was an error in the SQL statement{\n}
-{\t} * @throws H2ZeroFinderException if no results were found{\n}
-{\t} */{\n}
-{\t}public static List<{tableOrView.javaClassName}> findAll(Connection connection) throws SQLException, H2ZeroFinderException {{{\n}
-{\t}{\t}return(findAll(connection, null, null));{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
-{\t} * to the findAll(connection, limit, offset) with null connection parameter{\n}
-{\t} * {\n}
-{\t} * @param limit - the limit for the number of results to return{\n}
-{\t} * @param offset - the offset from the start of the results{\n}
-{\t} * {\n}
-{\t} * @return The list of {tableOrView.javaClassName} model objects{\n}
-{\t} * {\n}
-{\t} * @throws SQLException if there was an error in the SQL statement{\n}
-{\t} * @throws H2ZeroFinderException if no results were found{\n}
-{\t} */{\n}
-{\t}public static List<{tableOrView.javaClassName}> findAll(Integer limit, Integer offset) throws SQLException, H2ZeroFinderException {{{\n}
-{\t}{\t}return(findAll(null, limit, offset));{\n}
-{\t}}{\n}
-{\n}
-
-
-
-{--
-
-	FIND ALL SILENT
-
-}
-
-
-{\t}/**{\n}
-{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
-{\t} * to the findAll(connection, limit, offset) with null parameters,{\n}
-{\t} * however this method swallows any exceptions and will return an empty list.{\n}
-{\t} * {\n}
-{\t} * {\n}
-{\t} * @param connection - the connection to be used{\n}
-{\t} * @param limit - the limit for the number of results to return{\n}
-{\t} * @param offset - the offset from the start of the results{\n}
-{\t} * {\n}
-{\t} * @return The list of {tableOrView.javaClassName} model objects, or an empty List on error{\n}
-{\t} */{\n}
-
-{\t}public static List<{tableOrView.javaClassName}> findAllSilent(Connection connection, Integer limit, Integer offset) {{{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}return(findAll(connection, limit, offset));{\n}
-{\t}{\t}} catch(SQLException | H2ZeroFinderException ex) {{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isWarnEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("Exception findAllSilent(connection: " + connection + ", limit: " +  limit + ", offset: " + offset + "): " + ex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}{\t}ex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(new ArrayList<{tableOrView.javaClassName}>());{\n}
-{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
-{\t} * to the findAll(connection, limit, offset) with null limit and offset parameters,{\n}
-{\t} * however this method swallows any exceptions and will return an empty list.{\n}
-{\t} * {\n}
-{\t} * @param connection - the connection to be used{\n}
-{\t} * {\n}
-{\t} * @return The list of {tableOrView.javaClassName} model objects, or an empty List on error{\n}
-{\t} */{\n}
-{\t}public static List<{tableOrView.javaClassName}> findAllSilent(Connection connection) {{{\n}
-{\t}{\t}return(findAllSilent(connection, null, null));{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
-{\t} * to the findAll(connection, limit, offset) with null limit and offset parameters,{\n}
-{\t} * however this method swallows any exceptions and will return an empty list.{\n}
-{\t} * {\n}
-{\t} * @param limit - the limit for the number of results to return{\n}
-{\t} * @param offset - the offset from the start of the results{\n}
-{\t} * {\n}
-{\t} * @return The list of {tableOrView.javaClassName} model objects, or an empty List on error{\n}
-{\t} */{\n}
-{\t}public static List<{tableOrView.javaClassName}> findAllSilent(Integer limit, Integer offset) {{{\n}
-{\t}{\t}return(findAllSilent(null, limit, offset));{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Find all the {tableOrView.javaClassName} objects - in effect this chains {\n}
-{\t} * to the findAll(connection, limit, offset) with null parameters,{\n}
-{\t} * however this method swallows any exceptions and will return an empty list.{\n}
-{\t} * {\n}
-{\t} * @return The list of {tableOrView.javaClassName} model objects, or an empty List on error{\n}
-{\t} */{\n}
-{\t}public static List<{tableOrView.javaClassName}> findAllSilent() {{{\n}
-{\t}{\t}return(findAllSilent(null, null, null));{\n}
+{\t}public static MultiFinder<{tableOrView.javaClassName}> findAll() {{{\n}
+{\t}{\t}return({\n}
+{\t}{\t}{\t}{\t}new MultiFinder<{tableOrView.javaClassName}>({\n}
+{\t}{\t}{\t}{\t}LOGGER,{\n}
+{\t}{\t}{\t}{\t}SQL_SELECT_START,{\n}
+{\t}{\t}{\t}{\t}resultSet -> {{ try {{return list(resultSet);} catch (SQLException e) {{ return(null); }},{\n}
+{\t}{\t}{\t}{\t}new Object[] {{}{\n}
+{\t}{\t}));{\n}
 {\t}}{\n}
 {\n}

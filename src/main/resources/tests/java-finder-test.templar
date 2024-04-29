@@ -40,7 +40,7 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
 {\t}{\t}// this shouldn't find anything - and we don't care - only about SQLExceptions{\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(1L);{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(1L).execute();{\n}
 {\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
 {\t}{\t}{\t}// do nothing - don't care{\n}
 {\t}{\t}}{\n}
@@ -71,7 +71,7 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
 {\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(connection, 1L);{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(connection, 1L).execute();{\n}
 {\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
 {\t}{\t}{\t}// do nothing - don't care{\n}
 {\t}{\t}}{\n}
@@ -87,7 +87,7 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
 {\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-{\t}{\t}{\t}Assert.assertNull({table.javaClassName}Finder.findByPrimaryKeySilent(connection, -831486134981L));{\n}
+{\t}{\t}{\t}Assert.assertNull({table.javaClassName}Finder.findByPrimaryKeySilent(connection, -831486134981L).execute());{\n}
 {\t}{\t}}{\n}
 {\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
@@ -111,7 +111,7 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {if table.isConstant}
 {\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().execute().size());{\n}
 {\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
 {endif}
 
@@ -133,9 +133,9 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}try {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).execute().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(1, 0).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(1, 0).execute().size());{\n}
 {\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
 {endif}
 
@@ -159,7 +159,7 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {if table.isConstant}
 {\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAllSilent().size());{\n}
 {else}
-{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAllSilent().size());{\n}
+{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().executeSilent().size());{\n}
 {endif}
 
 {\n}
@@ -178,9 +178,9 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
 
 {if table.isConstant}
-{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAllSilent(1, 0).size());{\n}
+{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).executeSilent().size());{\n}
 {else}
-{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAllSilent(1, 0).size());{\n}
+{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(1, 0).executeSilent().size());{\n}
 {endif}
 
 {\n}
@@ -200,9 +200,9 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(connection).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(connection).execute().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(connection).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(connection).execute().size());{\n}
 {\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
 {endif}
 
@@ -225,9 +225,9 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAllSilent(connection).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(connection).executeSilent().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAllSilent(connection).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(connection).executeSilent().size());{\n}
 {endif}
 
 {\t}{\t}}{\n}
@@ -249,9 +249,9 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(connection, 1, 0).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).withConnection(connection).execute().size());{\n}
 {else}
-{\t}{\t}{\t}{table.javaClassName}Finder.findAll(connection, 1, 0);{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findAll(1, 0).withConnection(connection).execute();{\n}
 {\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
 {endif}
 
@@ -274,9 +274,9 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAllSilent(connection, 1, 0).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).withConnection(connection).executeSilent().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAllSilent(connection, 1, 0).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(1, 0).withConnection().executeSilent().size());{\n}
 {endif}
 
 {\t}{\t}}{\n}
@@ -299,9 +299,9 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(connection, null, 0).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll().withConnection(connection).withLimit(null).withOffset(1).size());{\n}
 {else}
-{\t}{\t}{\t}{table.javaClassName}Finder.findAll(connection, null, 1);{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findAll().withConnection(connection).withLimit(null).withOffset(1);{\n}
 {\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
 {endif}
 

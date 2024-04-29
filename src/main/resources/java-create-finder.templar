@@ -8,13 +8,8 @@ package {database.package}.finder;{\n}{\n}
 //                (java-create-finder.templar){\n}{\n}
 
 {import classpath:/snippet/global/finder-imports.templar}
-{if options.isLimitOffset}
-import com.synapticloop.h2zero.base.finder.limitoffset.MultiFinder;{\n}
-import com.synapticloop.h2zero.base.finder.limitoffset.UniqueFinder;{\n}
-{else}
-import com.synapticloop.h2zero.base.finder.offsetfetch.MultiFinder;{\n}
-import com.synapticloop.h2zero.base.finder.offsetfetch.UniqueFinder;{\n}
-{endif}
+import com.synapticloop.h2zero.base.manager.{options.database}.finder.MultiFinder;
+import com.synapticloop.h2zero.base.manager.{options.database}.finder.UniqueFinder;
 {\n}
 
 
@@ -46,7 +41,7 @@ public class {table.javaClassName}Finder {{{\n}
 {set tableOrView.finders as queryObjects}
 {set tableOrView.defaultStatementCacheSize as statementCacheSize}
 {set "find" as allName}
-{import classpath:/snippet/global/java-query-objects-statement-caches.templar}
+{-- import classpath:/snippet/global/java-query-objects-statement-caches.templar}
 
 {\n}{\t}private {table.javaClassName}Finder() {{}{\n}{\n}
 

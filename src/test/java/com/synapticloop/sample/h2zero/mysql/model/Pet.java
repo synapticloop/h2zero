@@ -4,16 +4,15 @@ package com.synapticloop.sample.h2zero.mysql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.mysql.ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.mysql.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
 import java.sql.Date;
-import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;

@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 /**
