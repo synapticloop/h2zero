@@ -21,6 +21,7 @@ import com.synapticloop.h2zero.util.LruCache;{\n}
 
 {\n}
 import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.sql.{options.database}.Deleter;{\n}
 
 {\n}
 {import classpath:/snippet/global/java-logger.templar}
@@ -96,79 +97,21 @@ The statement caches
 {\t}/**{\n}
 {\t} * Delete a row in the {table.upperName} table by its primary key{\n}
 {\t} * {\n}
-{\t} * @param connection The connection to use - the caller must close this connection{\n}
 {\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
 {\t} * {\n}
 {\t} * @return the number of rows deleted{\n}
 {\t} * {\n}
-{\t} * @throws SQLException if there was an error in the delete{\n}
 {\t} */{\n}
 
-{\t}public static int deleteByPrimaryKey(Connection connection, Long {primaryFieldJavaName}) throws SQLException {{{\n}
-
-	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {{{\n}
-	{\t}{\t}{\t}preparedStatement.setLong(1, {primaryFieldJavaName});{\n}
-	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
-	{\t}{\t}}{\n}
-{\t}}{\n}{\n}
-
-{\t}/**{\n}
-{\t} * Delete a row in the {table.upperName} table by its primary key{\n}
-{\t} * {\n}
-{\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
-{\t} * {\n}
-{\t} * @return the number of rows deleted{\n}
-{\t} * {\n}
-{\t} * @throws SQLException if there was an error in the delete{\n}
-{\t} */{\n}
-
-{\t}public static int deleteByPrimaryKey(Long {primaryFieldJavaName}) throws SQLException {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return(deleteByPrimaryKey(connection, {primaryFieldJavaName}));{\n}
-	{\t}{\t}}{\n}
+{\t}public static Deleter deleteByPrimaryKey(Long {primaryFieldJavaName}) {{{\n}
+{\t}{\t}return({\n}
+{\t}{\t}{\t}{\t}new Deleter({\n}
+{\t}{\t}{\t}{\t}LOGGER,{\n}
+{\t}{\t}{\t}{\t}SQL_BUILTIN_DELETE_BY_PRIMARY_KEY,{\n}
+{\t}{\t}{\t}{\t}new Object[] {{ {primaryFieldJavaName} }{\n}
+{\t}{\t}));{\n}
 {\t}}{\n}
-{\n}
 
-{\t}/**{\n}
-{\t} * Delete a row in the {table.upperName} table by its primary key silently{\n}
-{\t} * (i.e. don't throw an exception if it couldn't be deleted).{\n}
-{\t} * {\n}
-{\t} * @param connection - the connection to use - the caller must close this connection{\n}
-{\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
-{\t} * {\n}
-{\t} * @return the number of rows deleted{\n}
-{\t} */{\n}
-
-
-{\t}public static int deleteByPrimaryKeySilent(Connection connection, Long {primaryFieldJavaName}) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return(deleteByPrimaryKey(connection, {primaryFieldJavaName}));{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Delete a row in the {table.upperName} table by its primary key silently{\n}
-{\t} * (i.e. don't throw an exception if it coudn't be deleted).{\n}
-{\t} * {\n}
-{\t} * @param {primaryFieldJavaName} the primary key to delete{\n}
-{\t} * {\n}
-{\t} * @return the number of rows deleted or -1 if there was an error{\n}
-{\t} */{\n}
-
-
-{\t}public static int deleteByPrimaryKeySilent(Long {primaryFieldJavaName}) {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return(deleteByPrimaryKeySilent(connection, {primaryFieldJavaName}));{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				DELETE ALL STATEMENT
@@ -192,70 +135,17 @@ The statement caches
 	{\t} * This table has no foreign key relationships and consequently can be truncated.{\n}
 {endif}
 {\t} * {\n}
-{\t} * @param connection - the connection to use - the caller must close this connection{\n}
 {\t} * {\n}
 {\t} * @return The number of rows affected by this statement{\n}
 {\t} */{\n}
-{\t}public static int deleteAll(Connection connection) throws SQLException {{{\n}
-
-	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL)) {{{\n}
-
-	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-{\t}}{\n}{\n}
-
-{\t}/**{\n}
-{\t} * Delete all the rows in the {table.upperName} table{\n}
-{\t} * {\n}
-{\t} * @return the number of rows deleted{\n}
-{\t} * {\n}
-{\t} * @throws SQLException if there was an error in the delete{\n}
-{\t} */{\n}
-
-{\t}public static int deleteAll() throws SQLException {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return(deleteAll(connection));{\n}
-	{\t}{\t}}{\n}
+{\t}public static Deleter deleteAll() {{{\n}
+{\t}{\t}return({\n}
+{\t}{\t}{\t}{\t}new Deleter({\n}
+{\t}{\t}{\t}{\t}LOGGER,{\n}
+{\t}{\t}{\t}{\t}SQL_BUILTIN_DELETE_ALL,{\n}
+{\t}{\t}{\t}{\t}new Object[] {{ }{\n}
+{\t}{\t}));{\n}
 {\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Delete all the rows in the {table.upperName} table silently - i.e{\n}
-{\t} * swallow any SQL exceptions{\n}
-{\t} * {\n}
-{\t} * @param connection - the connection to use - the caller must close this connection{\n}
-{\t} * {\n}
-{\t} * @return the number of rows deleted or -1 if there was an error{\n}
-{\t} */{\n}
-
-{\t}public static int deleteAllSilent(Connection connection) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return(deleteAll(connection));{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
-
-{\t}/**{\n}
-{\t} * Delete all the rows in the {table.upperName} table silently - i.e{\n}
-{\t} * swallow any SQL exceptions{\n}
-{\t} * {\n}
-{\t} * @return the number of rows deleted, or -1 if there was an error{\n}
-{\t} */{\n}
-{\t}public static int deleteAllSilent() {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return(deleteAll(connection));{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-{\t}}{\n}
-{\n}
 
 
 
@@ -276,7 +166,6 @@ The statement caches
 {loop table.deleters as deleter}
 	{set fn:length[deleter.whereFields] as deleterFieldsLength}
 
-{if fn:notEqual[options.database, "sqlite3"]}
 {-- SQLITE DOES NOT ALLOW LIMITS ON DELETERS }
 	{\t}// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT{\n}
 	{\t}/**{\n}
@@ -288,527 +177,30 @@ The statement caches
 
 {set deleter as queryObject}
 {set tableOrView.name as tableName}
-{set "true" as hasConnection}
-{set "true" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
-
-	{\t} * {\n}
-	{\t} * @return the number of rows deleted{\n}
-	{\t} * {\n}
-	{\t} * @throws SQLException if there was an error in the deletion{\n}
-	{\t} */{\n}
-	{\t}public static int {deleter.name}(
-		{--
-			Now for the where field parameters
-		}
-
-{set deleter as queryObject}
-{set "true" as hasConnection}
-{set "true" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
-
-) throws SQLException {{{\n}
-
-	{--
-			need to add in the correct cache keys for infields....
-
-			this is a little more complex...  the cacheKey now becomes the values of:
-			<limit>:<num_args in list>:...
-		}
-
-		{\t}{\t}String cacheKey = limit {if deleter.hasInFields} + ":" +{\ }
-			{loop deleter.inWhereFields as whereField}
-				{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
-			{endloop}{endif} + "";{\n}
-
-		{\t}{\t}boolean hasConnection = (null != connection);{\n}
-		{\t}{\t}String statement = null;{\n}
-
-		{\t}{\t}if(!{deleter.name}_limit_statement_cache.containsKey(cacheKey)) {{{\n}
-
-		{\t}{\t}{\t}// place the cacheKey in the cache for later use{\n}
-		{\n}
-
-		{if deleter.hasInFields}
-			{\t}{\t}{\t}String preparedStatementTemp = SQL_{deleter.staticName};{\n}
-			{\t}{\t}{\t}StringBuilder whereFieldStringBuilder = null;{\n}
-			{loop deleter.whereFields as whereField}
-				{if whereField.isInField}
-					{\t}{\t}{\t}whereFieldStringBuilder = new StringBuilder();{\n}
-					{\t}{\t}{\t}for(int i = 0; i < {whereField.javaName}List.size(); i++) {{{\n}
-					{\t}{\t}{\t}{\t}if(i > 0) {{{\n}
-					{\t}{\t}{\t}{\t}{\t}whereFieldStringBuilder.append(", ");{\n}
-					{\t}{\t}{\t}{\t}}{\n}
-					{\t}{\t}{\t}{\t}whereFieldStringBuilder.append("?");{\n}
-					{\t}{\t}{\t}}{\n}
-
-					{\t}{\t}{\t}preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());{\n}
-				{endif}
-			{endloop}
-			{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);{\n}
-		{else}
-			{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(SQL_{deleter.staticName});{\n}
-		{endif}
-
-		{\n}
-		{\t}{\t}{\t}if(null != limit) {{{\n}
-		{\t}{\t}{\t}{\t}stringBuilder.append(" limit ");{\n}
-		{\t}{\t}{\t}{\t}stringBuilder.append(limit);{\n}
-		{\t}{\t}{\t}}{\n}
-		{\n}
-		{\t}{\t}{\t}statement = stringBuilder.toString();{\n}
-		{\t}{\t}{\t}{deleter.name}_limit_statement_cache.put(cacheKey, statement);{\n}
-		{\t}{\t}} else {{{\n}
-		{\t}{\t}{\t}statement = {deleter.name}_limit_statement_cache.get(cacheKey);{\n}
-		{\t}{\t}}{\n}
-		{\n}
-
-
-		{\t}{\t}if(!hasConnection) {{{\n}
-		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-		{\t}{\t}}{\n}
-
-
-		{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {{{\n}
-		{if deleter.hasInFields}
-			{\t}{\t}{\t}int i = 1;{\n}
-			{loop deleter.whereFields as whereField}
-				{if whereField.isInField}
-					{\t}{\t}{\t}for ({whereField.javaType} {whereField.javaName}In : {whereField.javaName}List) {{{\n}
-					{\t}{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName}In);{\n}
-					{\t}{\t}{\t}{\t}i++;{\n}
-					{\t}{\t}{\t}}{\n}
-
-				{else}
-					{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName});{\n}
-					{\t}{\t}{\t}i++;{\n}
-				{endif}
-			{endloop}
-		{else}
-			{loop deleter.whereFields as whereField}
-				{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
-			{endloop}
-		{endif}
-		{\n}
-
-	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
-
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-	{else}
-
-
-	{\t}// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT{\n}
-	{\t}/**{\n}
-	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}{\n}
-	{\t} *{\n}
-	{\t} * This is the main method for all other deleter methods with the same prefix,{\n}
-	{\t} * including the (silent method signatures).  All methods chain to this one.{\n}
-	{\t} * {\n}
-
-{set deleter as queryObject}
-{set tableOrView.name as tableName}
-{set "true" as hasConnection}
-{set "false" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
-
-	{\t} * {\n}
-	{\t} * @return the number of rows deleted{\n}
-	{\t} * {\n}
-	{\t} * @throws SQLException if there was an error in the deletion{\n}
-	{\t} */{\n}
-	{\t}public static int {deleter.name}(
-		{--
-			Now for the where field parameters
-		}
-
-{set deleter as queryObject}
-{set "true" as hasConnection}
-{set "false" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}
-
-) throws SQLException {{{\n}
-
-	{--
-			need to add in the correct cache keys for infields....
-
-			this is a little more complex...  the cacheKey now becomes the values of:
-			<limit>:<num_args in list>:...
-		}
-
-		{\t}{\t}String cacheKey = "cacheKey" {if deleter.hasInFields} + ":" +{\ }
-			{loop deleter.inWhereFields as whereField}
-				{whereField.javaName}List.size() + ":" {if !whereFieldStatus.last} + {endif}
-			{endloop}{endif} + "";{\n}
-
-		{\t}{\t}boolean hasConnection = (null != connection);{\n}
-		{\t}{\t}String statement = null;{\n}
-
-		{\t}{\t}if(!{deleter.name}_limit_statement_cache.containsKey(cacheKey)) {{{\n}
-
-		{\t}{\t}{\t}// place the cacheKey in the cache for later use{\n}
-		{\n}
-
-		{if deleter.hasInFields}
-			{\t}{\t}{\t}String preparedStatementTemp = SQL_{deleter.staticName};{\n}
-			{\t}{\t}{\t}StringBuilder whereFieldStringBuilder = null;{\n}
-			{loop deleter.whereFields as whereField}
-				{if whereField.isInField}
-					{\t}{\t}{\t}whereFieldStringBuilder = new StringBuilder();{\n}
-					{\t}{\t}{\t}for(int i = 0; i < {whereField.javaName}List.size(); i++) {{{\n}
-					{\t}{\t}{\t}{\t}if(i > 0) {{{\n}
-					{\t}{\t}{\t}{\t}{\t}whereFieldStringBuilder.append(", ");{\n}
-					{\t}{\t}{\t}{\t}}{\n}
-					{\t}{\t}{\t}{\t}whereFieldStringBuilder.append("?");{\n}
-					{\t}{\t}{\t}}{\n}
-
-					{\t}{\t}{\t}preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());{\n}
-				{endif}
-			{endloop}
-			{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);{\n}
-		{else}
-			{\t}{\t}{\t}StringBuilder stringBuilder = new StringBuilder(SQL_{deleter.staticName});{\n}
-		{endif}
-
-		{\n}
-		{\t}{\t}{\t}statement = stringBuilder.toString();{\n}
-		{\t}{\t}{\t}{deleter.name}_limit_statement_cache.put(cacheKey, statement);{\n}
-		{\t}{\t}} else {{{\n}
-		{\t}{\t}{\t}statement = {deleter.name}_limit_statement_cache.get(cacheKey);{\n}
-		{\t}{\t}}{\n}
-		{\n}
-
-
-		{\t}{\t}if(!hasConnection) {{{\n}
-		{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-		{\t}{\t}}{\n}
-
-
-		{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {{{\n}
-		{if deleter.hasInFields}
-			{\t}{\t}{\t}int i = 1;{\n}
-			{loop deleter.whereFields as whereField}
-				{if whereField.isInField}
-					{\t}{\t}{\t}for ({whereField.javaType} {whereField.javaName}In : {whereField.javaName}List) {{{\n}
-					{\t}{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName}In);{\n}
-					{\t}{\t}{\t}{\t}i++;{\n}
-					{\t}{\t}{\t}}{\n}
-
-				{else}
-					{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName});{\n}
-					{\t}{\t}{\t}i++;{\n}
-				{endif}
-			{endloop}
-		{else}
-			{loop deleter.whereFields as whereField}
-				{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
-			{endloop}
-		{endif}
-		{\n}
-
-	{\t}{\t}{\t}return(preparedStatement.executeUpdate());{\n}
-
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-
-	{-- SQLITE DOES NOT ALLOW LIMITS ON DELETERS }
-
-  	{\t}// USER DEFINED DELETER CONNECTION, PARAMS SILENT{\n}
-  	{\t}/**{\n}
-  	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}{\n}
-  	{\t} *{\n}
-  	{\t} * This is the main method for all other deleter methods with the same prefix,{\n}
-  	{\t} * including the (silent method signatures).  All methods chain to this one.{\n}
-  	{\t} * {\n}
-
-  {set deleter as queryObject}
-  {set tableOrView.name as tableName}
-  {set "true" as hasConnection}
-  {set "false" as hasLimit}
-  {set "false" as hasOffset}
-  {import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
-
-  	{\t} * {\n}
-  	{\t} * @return the number of rows deleted{\n}
-  	{\t} */{\n}
-  	{\t}public static int {deleter.name}Silent(
-		{--
-			Now for the where field parameters
-		}
-{set deleter as queryObject}
-{set "true" as hasConnection}
-{set "false" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) {{{\n}
-  	{\t}{\t}try {{{\n}
-  	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[fn:length[deleter.whereFields], '0']}, {endif}{loop deleter.whereFields as whereField}
-  		{whereField.javaName}{if whereField.isInField}List{endif}
-  		{if whereFieldStatus.last}{else}, {endif}
-  	{endloop}));{\n}
-  	{\t}{\t}} catch (SQLException ex) {{{\n}
-  	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
-  	{\t}{\t}{\t}return(-1);{\n}
-  	{\t}{\t}}{\n}
-  	{\t}}{\n}
-  	{\n}
-
-
-{endif}
-
-{if fn:notEqual[options.database, "sqlite3"]}
-{-- SQLITE DOES NOT ALLOW LIMITS ON DELETERS }
-
-	{\t}// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT SILENT{\n}
-	{\t}/**{\n}
-	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}{\n}
-	{\t} *{\n}
-	{\t} * This is the main method for all other deleter methods with the same prefix,{\n}
-	{\t} * including the (silent method signatures).  All methods chain to this one.{\n}
-	{\t} * {\n}
-
-{set deleter as queryObject}
-{set tableOrView.name as tableName}
-{set "true" as hasConnection}
-{set "true" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
-
-	{\t} * {\n}
-	{\t} * @return the number of rows deleted{\n}
-	{\t} */{\n}
-	{\t}public static int {deleter.name}Silent(
-{--
-	Now for the where field parameters
-}
-{set deleter as queryObject}
-{set "true" as hasConnection}
-{set "true" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return({deleter.name}(null{if fn:>[fn:length[deleter.whereFields], '0']}, {endif}{loop deleter.whereFields as whereField}
-		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else}, {endif}
-	{endloop}, limit));{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-{endif}
-
-
-{if fn:notEqual[options.database, "sqlite3"]}
-	{\t}// USER DEFINED DELETER - CONNECTION, PARAMS, NULL - LOUD{\n}
-
-	{\t}public static int {deleter.name}(
-	{--
-		Now for the where fields
-	}
-{set deleter as queryObject}
-{set "true" as hasConnection}
-{set "false" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) throws SQLException {{{\n}
-	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
-		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else}, {endif}
-	{endloop}{if fn:notEqual[options.database, "sqlite3"]}, null{endif}));{\n}
-	{\t}}{\n}
-	{\n}
-
-
-	{\t}// USER DEFINED DELETER - CONNECTION, PARAMS, NULL - SILENT{\n}
-
-	{\t}public static int {deleter.name}Silent(
-	{--
-		Now for the where fields
-	}
-{set deleter as queryObject}
-{set "true" as hasConnection}
-{set "false" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) {{{\n}
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
-		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else}, {endif}
-	{endloop}{if fn:notEqual[options.database, "sqlite3"]}, null{endif}));{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-{endif}
-
-
-
-{if fn:notEqual[options.database, "sqlite3"]}
-{-- SQLITE DOES NOT ALLOW LIMITS ON DELETERS }
-
-	{\t}// USER DEFINED DELETER - NULL, PARAMS, LIMIT{\n}
-
-	{\t}/**{\n}
-	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
-	{\t} * {\n}
-
-{set deleter as queryObject}
-{set tableOrView.name as tableName}
-{set "false" as hasConnection}
-{set "true" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
-
-	{\t} * {\n}
-	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
-	{\t} */{\n}
-
-	{\t}public static int {deleter.name}(
-	{--
-		Now for the where fields
-	}
-{set deleter as queryObject}
-{set "false" as hasConnection}
-{set "true" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) throws SQLException {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
-	{\t}{\t}{\t}return({deleter.name}(null{if fn:>[fn:length[deleter.whereFields], '0']}, {endif}{loop deleter.whereFields as whereField}
-		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else}, {endif}
-	{endloop}, limit));{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}// USER DEFINED DELETER - NULL, PARAMS, LIMIT (SILENT){\n}
-
-	{\t}/**{\n}
-	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
-	{\t} * {\n}
-
-{set deleter as queryObject}
-{set tableOrView.name as tableName}
-{set "false" as hasConnection}
-{set "true" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
-
-	{\t} * {\n}
-	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
-	{\t} */{\n}
-
-	{\t}public static int {deleter.name}Silent(
-	{--
-		Now for the where fields
-	}
-{set deleter as queryObject}
-{set "false" as hasConnection}
-{set "true" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
-	{\t}{\t}{\t}return({deleter.name}(null{if fn:>[fn:length[deleter.whereFields], '0']}, {endif}{loop deleter.whereFields as whereField}
-		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else}, {endif}
-	{endloop}, limit));{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-{endif}
-
-	{\t}// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD{\n}
-
-	{\t}/**{\n}
-	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
-	{\t} * This will silently swallow any exceptions.{\n}
-	{\t} * {\n}
-
-{set deleter as queryObject}
-{set tableOrView.name as tableName}
 {set "false" as hasConnection}
 {set "false" as hasLimit}
 {set "false" as hasOffset}
 {import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
 
 	{\t} * {\n}
-	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
-	{\t} */{\n}
-
-  {\n}
-
-	{\t}public static int {deleter.name}(
-{--
-	Now for the where fields
-}
-{set deleter as queryObject}
-{set "false" as hasConnection}
-{set "false" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) throws SQLException {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
-		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else}, {endif}
-	{endloop}{if fn:notEqual[options.database, "sqlite3"]}, null{endif}));{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-{\n}
-
-	{\t}// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT{\n}
-
-	{\t}/**{\n}
-	{\t} * {deleter.name} - {if deleter.isAutoDeleter}from 'fieldDeleters' JSON key{else}from 'deleters' JSON key{endif}.{\n}
-	{\t} * This will silently swallow any exceptions.{\n}
+	{\t} * @return the Deleter{\n}
 	{\t} * {\n}
-
-{set deleter as queryObject}
-{set tableOrView.name as tableName}
-{set "false" as hasConnection}
-{set "false" as hasLimit}
-{set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-comments.templar}
-
-	{\t} * {\n}
-	{\t} * @return the number of rows deleted or -1 if there was an error{\n}
 	{\t} */{\n}
-
-  {\n}
-
-	{\t}public static int {deleter.name}Silent(
-{--
-	Now for the where fields
-}
+	{\t}public static Deleter {deleter.name}(
 {set deleter as queryObject}
 {set "false" as hasConnection}
 {set "false" as hasLimit}
 {set "false" as hasOffset}
-{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar}) {{{\n}
-	{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-	{\t}{\t}{\t}return({deleter.name}(connection{if fn:>[deleterFieldsLength, '0']}, {endif}{loop deleter.whereFields as whereField}
-		{whereField.javaName}{if whereField.isInField}List{endif}
-		{if whereFieldStatus.last}{else}, {endif}
-	{endloop}{if fn:notEqual[options.database, "sqlite3"]}, null{endif}));{\n}
-	{\t}{\t}} catch (SQLException ex) {{{\n}
-	{\t}{\t}{\t}LOGGER.error("Could not {deleter.name}, a SQL Exception occurred.", ex);{\n}
-	{\t}{\t}{\t}return(-1);{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-{\n}
+{import classpath:/snippet/global/java-query-objects-method-where-parameters.templar} ) {{{\n}
+{\t}{\t}return({\n}
+{\t}{\t}{\t}{\t}new Deleter({\n}
+{\t}{\t}{\t}{\t}LOGGER,{\n}
+{\t}{\t}{\t}{\t}SQL_{deleter.staticName},{\n}
+{\t}{\t}{\t}{\t}new Object[] {{
+{loop queryObject.whereFields as whereField}
+	{whereField.javaName}{if whereField.isInField}List{endif}
+	{if whereFieldStatus.last}{else}, {endif}{endloop} }{\n}
+{\t}{\t}));{\n}
+{\t}}{\n}
 {endloop}
-
-
 }

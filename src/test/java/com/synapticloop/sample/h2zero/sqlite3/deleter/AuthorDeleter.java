@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import com.synapticloop.h2zero.util.LruCache;
 
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.sqlite3.Deleter;
 
 
 import org.slf4j.Logger;
@@ -58,134 +59,36 @@ public class AuthorDeleter {
 	/**
 	 * Delete a row in the AUTHOR table by its primary key
 	 * 
-	 * @param connection The connection to use - the caller must close this connection
 	 * @param idAuthor the primary key to delete
 	 * 
 	 * @return the number of rows deleted
 	 * 
-	 * @throws SQLException if there was an error in the delete
 	 */
-	public static int deleteByPrimaryKey(Connection connection, Long idAuthor) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {
-			preparedStatement.setLong(1, idAuthor);
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByPrimaryKey(Long idAuthor) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_BUILTIN_DELETE_BY_PRIMARY_KEY,
+				new Object[] { idAuthor }
+		));
 	}
-
-	/**
-	 * Delete a row in the AUTHOR table by its primary key
-	 * 
-	 * @param idAuthor the primary key to delete
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the delete
-	 */
-	public static int deleteByPrimaryKey(Long idAuthor) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByPrimaryKey(connection, idAuthor));
-		}
-	}
-
-	/**
-	 * Delete a row in the AUTHOR table by its primary key silently
-	 * (i.e. don't throw an exception if it couldn't be deleted).
-	 * 
-	 * @param connection - the connection to use - the caller must close this connection
-	 * @param idAuthor the primary key to delete
-	 * 
-	 * @return the number of rows deleted
-	 */
-	public static int deleteByPrimaryKeySilent(Connection connection, Long idAuthor) {
-		try {
-			return(deleteByPrimaryKey(connection, idAuthor));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	/**
-	 * Delete a row in the AUTHOR table by its primary key silently
-	 * (i.e. don't throw an exception if it coudn't be deleted).
-	 * 
-	 * @param idAuthor the primary key to delete
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByPrimaryKeySilent(Long idAuthor) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByPrimaryKeySilent(connection, idAuthor));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
 	/**
 	 * Delete all of the rows in the table 'author'.
 	 * 
 	 * This database does not have the 'truncate' keyword hence the 'DELETE FROM' SQL
 	 * statement is used
 	 * 
-	 * @param connection - the connection to use - the caller must close this connection
 	 * 
 	 * @return The number of rows affected by this statement
 	 */
-	public static int deleteAll(Connection connection) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL)) {
-			return(preparedStatement.executeUpdate());
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
+	public static Deleter deleteAll() {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_BUILTIN_DELETE_ALL,
+				new Object[] { }
+		));
 	}
-
-	/**
-	 * Delete all the rows in the AUTHOR table
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the delete
-	 */
-	public static int deleteAll() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteAll(connection));
-		}
-	}
-
-	/**
-	 * Delete all the rows in the AUTHOR table silently - i.e
-	 * swallow any SQL exceptions
-	 * 
-	 * @param connection - the connection to use - the caller must close this connection
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteAllSilent(Connection connection) {
-		try {
-			return(deleteAll(connection));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	/**
-	 * Delete all the rows in the AUTHOR table silently - i.e
-	 * swallow any SQL exceptions
-	 * 
-	 * @return the number of rows deleted, or -1 if there was an error
-	 */
-	public static int deleteAllSilent() {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteAll(connection));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
 	 *     USER DEFINED DELETERS FOR THE TABLE: author
@@ -203,249 +106,47 @@ public class AuthorDeleter {
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteInNumber - from 'deleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
 	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
 	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
 	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
 	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteInNumber(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) throws SQLException {
-		String cacheKey = "cacheKey"  + ":" + flIsUpdatingList.size() + ":"  + dtmStartedFollowingList.size() + ":"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteInNumber_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			String preparedStatementTemp = SQL_DELETE_IN_NUMBER;
-			StringBuilder whereFieldStringBuilder = null;
-			whereFieldStringBuilder = new StringBuilder();
-			for(int i = 0; i < flIsUpdatingList.size(); i++) {
-				if(i > 0) {
-					whereFieldStringBuilder.append(", ");
-				}
-				whereFieldStringBuilder.append("?");
-			}
-			preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
-			whereFieldStringBuilder = new StringBuilder();
-			for(int i = 0; i < dtmStartedFollowingList.size(); i++) {
-				if(i > 0) {
-					whereFieldStringBuilder.append(", ");
-				}
-				whereFieldStringBuilder.append("?");
-			}
-			preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
-			StringBuilder stringBuilder = new StringBuilder(preparedStatementTemp);
-
-			statement = stringBuilder.toString();
-			deleteInNumber_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteInNumber_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			int i = 1;
-			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdating);
-			i++;
-			for (Boolean flIsUpdatingIn : flIsUpdatingList) {
-				ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingIn);
-				i++;
-			}
-			for (Timestamp dtmStartedFollowingIn : dtmStartedFollowingList) {
-				ConnectionManager.setDatetime(preparedStatement, i, dtmStartedFollowingIn);
-				i++;
-			}
-			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingOne);
-			i++;
-			ConnectionManager.setBoolean(preparedStatement, i, flIsUpdatingTwo);
-			i++;
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteInNumber(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_IN_NUMBER,
+				new Object[] {flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteInNumber - from 'deleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
-	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
-	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
-	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
-	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteInNumberSilent(Connection connection, Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {
-  		try {
-  			return(deleteInNumber(connection,   flIsUpdating  ,     flIsUpdatingList  ,     dtmStartedFollowingList  ,     flIsUpdatingOne  ,     flIsUpdatingTwo    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteInNumber, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteInNumber - from 'deleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
-	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
-	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
-	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
-	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteInNumber(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteInNumber - from 'deleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param flIsUpdating - maps to the fl_is_updating field (from the where clause)
-	 * @param flIsUpdatingList - maps to the fl_is_updating field (from the where clause)
-	 * @param dtmStartedFollowingList - maps to the dtm_started_following field (from the where clause)
-	 * @param flIsUpdatingOne - maps to the fl_is_updating field (from the where clause)
-	 * @param flIsUpdatingTwo - maps to the fl_is_updating field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteInNumberSilent(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteInNumber(connection, flIsUpdating, flIsUpdatingList, dtmStartedFollowingList, flIsUpdatingOne, flIsUpdatingTwo));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteInNumber, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteAllToBeEvaluated - from 'deleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteAllToBeEvaluated(Connection connection) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteAllToBeEvaluated_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_ALL_TO_BE_EVALUATED);
-
-			statement = stringBuilder.toString();
-			deleteAllToBeEvaluated_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteAllToBeEvaluated_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteAllToBeEvaluated( ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_ALL_TO_BE_EVALUATED,
+				new Object[] { }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteAllToBeEvaluated - from 'deleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteAllToBeEvaluatedSilent(Connection connection) {
-  		try {
-  			return(deleteAllToBeEvaluated(connection));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteAllToBeEvaluated, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteAllToBeEvaluated - from 'deleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteAllToBeEvaluated() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteAllToBeEvaluated(connection));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteAllToBeEvaluated - from 'deleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteAllToBeEvaluatedSilent() {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteAllToBeEvaluated(connection));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAllToBeEvaluated, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
 }

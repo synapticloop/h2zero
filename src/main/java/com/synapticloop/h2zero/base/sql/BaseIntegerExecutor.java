@@ -5,18 +5,15 @@ import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
-public abstract class BaseBooleanFinder extends BaseSQLExecutor {
-	protected final Function<ResultSet, Boolean> resultsFunction;
-	public BaseBooleanFinder(Logger logger, String sqlStatement, Function<ResultSet, Boolean> resultsFunction, Object... parameters) {
+public abstract class BaseIntegerExecutor extends BaseSQLExecutor {
+	public BaseIntegerExecutor(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
-		this.resultsFunction = resultsFunction;
 	}
+
 	/**
 	 * <p>Execute the SQL statement.</p>
 	 *
@@ -36,7 +33,7 @@ public abstract class BaseBooleanFinder extends BaseSQLExecutor {
 	 * @throws SQLException If there was an error executing the SQL statement
 	 * @throws H2ZeroFinderException If no results could be found
 	 */
-	protected Boolean executeInternal() throws SQLException, H2ZeroFinderException {
+	protected Integer executeInternal() throws SQLException, H2ZeroFinderException {
 		if(null == connection) {
 			connection = getConnection();
 		}
@@ -90,7 +87,7 @@ public abstract class BaseBooleanFinder extends BaseSQLExecutor {
 		}
 
 		// finally execute the statement
-		return(resultsFunction.apply(preparedStatement.executeQuery()));
+		return(preparedStatement.executeUpdate());
 	}
 
 	/**
@@ -102,7 +99,7 @@ public abstract class BaseBooleanFinder extends BaseSQLExecutor {
 	 *
 	 * @return List the list of object, or an empty list if none were found.
 	 */
-	protected Boolean executeSilentInternal() {
+	protected Integer executeSilentInternal() {
 		try {
 			return(executeInternal());
 		} catch (SQLException e) {

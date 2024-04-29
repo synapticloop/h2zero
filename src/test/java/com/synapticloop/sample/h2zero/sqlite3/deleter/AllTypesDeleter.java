@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import com.synapticloop.h2zero.util.LruCache;
 
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.sqlite3.Deleter;
 
 
 import org.slf4j.Logger;
@@ -83,134 +84,36 @@ public class AllTypesDeleter {
 	/**
 	 * Delete a row in the ALL_TYPES table by its primary key
 	 * 
-	 * @param connection The connection to use - the caller must close this connection
 	 * @param idAllTypes the primary key to delete
 	 * 
 	 * @return the number of rows deleted
 	 * 
-	 * @throws SQLException if there was an error in the delete
 	 */
-	public static int deleteByPrimaryKey(Connection connection, Long idAllTypes) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {
-			preparedStatement.setLong(1, idAllTypes);
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByPrimaryKey(Long idAllTypes) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_BUILTIN_DELETE_BY_PRIMARY_KEY,
+				new Object[] { idAllTypes }
+		));
 	}
-
-	/**
-	 * Delete a row in the ALL_TYPES table by its primary key
-	 * 
-	 * @param idAllTypes the primary key to delete
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the delete
-	 */
-	public static int deleteByPrimaryKey(Long idAllTypes) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByPrimaryKey(connection, idAllTypes));
-		}
-	}
-
-	/**
-	 * Delete a row in the ALL_TYPES table by its primary key silently
-	 * (i.e. don't throw an exception if it couldn't be deleted).
-	 * 
-	 * @param connection - the connection to use - the caller must close this connection
-	 * @param idAllTypes the primary key to delete
-	 * 
-	 * @return the number of rows deleted
-	 */
-	public static int deleteByPrimaryKeySilent(Connection connection, Long idAllTypes) {
-		try {
-			return(deleteByPrimaryKey(connection, idAllTypes));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	/**
-	 * Delete a row in the ALL_TYPES table by its primary key silently
-	 * (i.e. don't throw an exception if it coudn't be deleted).
-	 * 
-	 * @param idAllTypes the primary key to delete
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByPrimaryKeySilent(Long idAllTypes) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByPrimaryKeySilent(connection, idAllTypes));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
 	/**
 	 * Delete all of the rows in the table 'all_types'.
 	 * 
 	 * This database does not have the 'truncate' keyword hence the 'DELETE FROM' SQL
 	 * statement is used
 	 * 
-	 * @param connection - the connection to use - the caller must close this connection
 	 * 
 	 * @return The number of rows affected by this statement
 	 */
-	public static int deleteAll(Connection connection) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL)) {
-			return(preparedStatement.executeUpdate());
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
+	public static Deleter deleteAll() {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_BUILTIN_DELETE_ALL,
+				new Object[] { }
+		));
 	}
-
-	/**
-	 * Delete all the rows in the ALL_TYPES table
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the delete
-	 */
-	public static int deleteAll() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteAll(connection));
-		}
-	}
-
-	/**
-	 * Delete all the rows in the ALL_TYPES table silently - i.e
-	 * swallow any SQL exceptions
-	 * 
-	 * @param connection - the connection to use - the caller must close this connection
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteAllSilent(Connection connection) {
-		try {
-			return(deleteAll(connection));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	/**
-	 * Delete all the rows in the ALL_TYPES table silently - i.e
-	 * swallow any SQL exceptions
-	 * 
-	 * @return the number of rows deleted, or -1 if there was an error
-	 */
-	public static int deleteAllSilent() {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteAll(connection));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
 	 *     USER DEFINED DELETERS FOR THE TABLE: all_types
@@ -241,1519 +144,304 @@ public class AllTypesDeleter {
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param idAllTypes - maps to the id_all_types field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByIdAllTypes(Connection connection, Long idAllTypes) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByIdAllTypes_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_ID_ALL_TYPES);
-
-			statement = stringBuilder.toString();
-			deleteByIdAllTypes_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByIdAllTypes_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByIdAllTypes(Long idAllTypes ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_ID_ALL_TYPES,
+				new Object[] {idAllTypes }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param idAllTypes - maps to the id_all_types field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByIdAllTypesSilent(Connection connection, Long idAllTypes) {
-  		try {
-  			return(deleteByIdAllTypes(connection,   idAllTypes    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByIdAllTypes, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param idAllTypes - maps to the id_all_types field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByIdAllTypes(Long idAllTypes) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByIdAllTypes(connection, idAllTypes));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByIdAllTypes - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param idAllTypes - maps to the id_all_types field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByIdAllTypesSilent(Long idAllTypes) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByIdAllTypes(connection, idAllTypes));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByIdAllTypes, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestBigint - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testBigint - maps to the test_bigint field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestBigint(Connection connection, Long testBigint) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestBigint_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_BIGINT);
-
-			statement = stringBuilder.toString();
-			deleteByTestBigint_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestBigint_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setBigint(preparedStatement, 1, testBigint);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestBigint(Long testBigint ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_BIGINT,
+				new Object[] {testBigint }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestBigint - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testBigint - maps to the test_bigint field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestBigintSilent(Connection connection, Long testBigint) {
-  		try {
-  			return(deleteByTestBigint(connection,   testBigint    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestBigint, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestBigint - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testBigint - maps to the test_bigint field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestBigint(Long testBigint) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestBigint(connection, testBigint));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestBigint - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testBigint - maps to the test_bigint field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestBigintSilent(Long testBigint) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestBigint(connection, testBigint));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestBigint, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestBoolean - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testBoolean - maps to the test_boolean field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestBoolean(Connection connection, Boolean testBoolean) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestBoolean_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_BOOLEAN);
-
-			statement = stringBuilder.toString();
-			deleteByTestBoolean_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestBoolean_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setBoolean(preparedStatement, 1, testBoolean);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestBoolean(Boolean testBoolean ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_BOOLEAN,
+				new Object[] {testBoolean }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestBoolean - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testBoolean - maps to the test_boolean field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestBooleanSilent(Connection connection, Boolean testBoolean) {
-  		try {
-  			return(deleteByTestBoolean(connection,   testBoolean    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestBoolean, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestBoolean - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testBoolean - maps to the test_boolean field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestBoolean(Boolean testBoolean) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestBoolean(connection, testBoolean));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestBoolean - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testBoolean - maps to the test_boolean field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestBooleanSilent(Boolean testBoolean) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestBoolean(connection, testBoolean));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestBoolean, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestDate - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testDate - maps to the test_date field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestDate(Connection connection, Date testDate) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestDate_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DATE);
-
-			statement = stringBuilder.toString();
-			deleteByTestDate_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestDate_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setDate(preparedStatement, 1, testDate);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestDate(Date testDate ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_DATE,
+				new Object[] {testDate }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestDate - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testDate - maps to the test_date field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestDateSilent(Connection connection, Date testDate) {
-  		try {
-  			return(deleteByTestDate(connection,   testDate    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestDate, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestDate - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testDate - maps to the test_date field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestDate(Date testDate) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestDate(connection, testDate));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestDate - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testDate - maps to the test_date field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestDateSilent(Date testDate) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestDate(connection, testDate));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestDate, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestDatetime - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testDatetime - maps to the test_datetime field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestDatetime(Connection connection, Timestamp testDatetime) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestDatetime_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DATETIME);
-
-			statement = stringBuilder.toString();
-			deleteByTestDatetime_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestDatetime_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setDatetime(preparedStatement, 1, testDatetime);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestDatetime(Timestamp testDatetime ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_DATETIME,
+				new Object[] {testDatetime }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestDatetime - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testDatetime - maps to the test_datetime field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestDatetimeSilent(Connection connection, Timestamp testDatetime) {
-  		try {
-  			return(deleteByTestDatetime(connection,   testDatetime    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestDatetime, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestDatetime - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testDatetime - maps to the test_datetime field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestDatetime(Timestamp testDatetime) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestDatetime(connection, testDatetime));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestDatetime - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testDatetime - maps to the test_datetime field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestDatetimeSilent(Timestamp testDatetime) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestDatetime(connection, testDatetime));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestDatetime, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestDouble - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testDouble - maps to the test_double field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestDouble(Connection connection, Double testDouble) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestDouble_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_DOUBLE);
-
-			statement = stringBuilder.toString();
-			deleteByTestDouble_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestDouble_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setDouble(preparedStatement, 1, testDouble);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestDouble(Double testDouble ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_DOUBLE,
+				new Object[] {testDouble }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestDouble - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testDouble - maps to the test_double field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestDoubleSilent(Connection connection, Double testDouble) {
-  		try {
-  			return(deleteByTestDouble(connection,   testDouble    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestDouble, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestDouble - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testDouble - maps to the test_double field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestDouble(Double testDouble) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestDouble(connection, testDouble));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestDouble - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testDouble - maps to the test_double field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestDoubleSilent(Double testDouble) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestDouble(connection, testDouble));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestDouble, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestFloat - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testFloat - maps to the test_float field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestFloat(Connection connection, Float testFloat) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestFloat_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_FLOAT);
-
-			statement = stringBuilder.toString();
-			deleteByTestFloat_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestFloat_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setFloat(preparedStatement, 1, testFloat);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestFloat(Float testFloat ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_FLOAT,
+				new Object[] {testFloat }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestFloat - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testFloat - maps to the test_float field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestFloatSilent(Connection connection, Float testFloat) {
-  		try {
-  			return(deleteByTestFloat(connection,   testFloat    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestFloat, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestFloat - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testFloat - maps to the test_float field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestFloat(Float testFloat) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestFloat(connection, testFloat));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestFloat - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testFloat - maps to the test_float field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestFloatSilent(Float testFloat) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestFloat(connection, testFloat));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestFloat, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestInt - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testInt - maps to the test_int field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestInt(Connection connection, Integer testInt) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestInt_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_INT);
-
-			statement = stringBuilder.toString();
-			deleteByTestInt_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestInt_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setInt(preparedStatement, 1, testInt);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestInt(Integer testInt ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_INT,
+				new Object[] {testInt }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestInt - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testInt - maps to the test_int field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestIntSilent(Connection connection, Integer testInt) {
-  		try {
-  			return(deleteByTestInt(connection,   testInt    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestInt, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestInt - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testInt - maps to the test_int field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestInt(Integer testInt) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestInt(connection, testInt));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestInt - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testInt - maps to the test_int field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestIntSilent(Integer testInt) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestInt(connection, testInt));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestInt, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestInteger - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testInteger - maps to the test_integer field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestInteger(Connection connection, Integer testInteger) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestInteger_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_INTEGER);
-
-			statement = stringBuilder.toString();
-			deleteByTestInteger_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestInteger_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setInteger(preparedStatement, 1, testInteger);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestInteger(Integer testInteger ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_INTEGER,
+				new Object[] {testInteger }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestInteger - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testInteger - maps to the test_integer field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestIntegerSilent(Connection connection, Integer testInteger) {
-  		try {
-  			return(deleteByTestInteger(connection,   testInteger    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestInteger, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestInteger - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testInteger - maps to the test_integer field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestInteger(Integer testInteger) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestInteger(connection, testInteger));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestInteger - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testInteger - maps to the test_integer field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestIntegerSilent(Integer testInteger) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestInteger(connection, testInteger));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestInteger, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestMediumint - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testMediumint - maps to the test_mediumint field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestMediumint(Connection connection, Integer testMediumint) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestMediumint_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_MEDIUMINT);
-
-			statement = stringBuilder.toString();
-			deleteByTestMediumint_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestMediumint_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setMediumint(preparedStatement, 1, testMediumint);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestMediumint(Integer testMediumint ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_MEDIUMINT,
+				new Object[] {testMediumint }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestMediumint - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testMediumint - maps to the test_mediumint field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestMediumintSilent(Connection connection, Integer testMediumint) {
-  		try {
-  			return(deleteByTestMediumint(connection,   testMediumint    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestMediumint, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestMediumint - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testMediumint - maps to the test_mediumint field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestMediumint(Integer testMediumint) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestMediumint(connection, testMediumint));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestMediumint - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testMediumint - maps to the test_mediumint field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestMediumintSilent(Integer testMediumint) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestMediumint(connection, testMediumint));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestMediumint, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestNumeric - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testNumeric - maps to the test_numeric field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestNumeric(Connection connection, BigDecimal testNumeric) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestNumeric_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_NUMERIC);
-
-			statement = stringBuilder.toString();
-			deleteByTestNumeric_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestNumeric_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setNumeric(preparedStatement, 1, testNumeric);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestNumeric(BigDecimal testNumeric ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_NUMERIC,
+				new Object[] {testNumeric }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestNumeric - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testNumeric - maps to the test_numeric field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestNumericSilent(Connection connection, BigDecimal testNumeric) {
-  		try {
-  			return(deleteByTestNumeric(connection,   testNumeric    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestNumeric, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestNumeric - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testNumeric - maps to the test_numeric field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestNumeric(BigDecimal testNumeric) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestNumeric(connection, testNumeric));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestNumeric - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testNumeric - maps to the test_numeric field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestNumericSilent(BigDecimal testNumeric) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestNumeric(connection, testNumeric));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestNumeric, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestSmallint - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testSmallint - maps to the test_smallint field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestSmallint(Connection connection, Short testSmallint) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestSmallint_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_SMALLINT);
-
-			statement = stringBuilder.toString();
-			deleteByTestSmallint_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestSmallint_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setSmallint(preparedStatement, 1, testSmallint);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestSmallint(Short testSmallint ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_SMALLINT,
+				new Object[] {testSmallint }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestSmallint - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testSmallint - maps to the test_smallint field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestSmallintSilent(Connection connection, Short testSmallint) {
-  		try {
-  			return(deleteByTestSmallint(connection,   testSmallint    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestSmallint, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestSmallint - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testSmallint - maps to the test_smallint field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestSmallint(Short testSmallint) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestSmallint(connection, testSmallint));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestSmallint - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testSmallint - maps to the test_smallint field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestSmallintSilent(Short testSmallint) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestSmallint(connection, testSmallint));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestSmallint, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestText - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testText - maps to the test_text field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestText(Connection connection, String testText) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestText_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_TEXT);
-
-			statement = stringBuilder.toString();
-			deleteByTestText_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestText_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setText(preparedStatement, 1, testText);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestText(String testText ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_TEXT,
+				new Object[] {testText }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestText - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testText - maps to the test_text field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestTextSilent(Connection connection, String testText) {
-  		try {
-  			return(deleteByTestText(connection,   testText    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestText, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestText - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testText - maps to the test_text field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestText(String testText) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestText(connection, testText));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestText - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testText - maps to the test_text field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestTextSilent(String testText) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestText(connection, testText));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestText, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestTinyint - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testTinyint - maps to the test_tinyint field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestTinyint(Connection connection, Boolean testTinyint) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestTinyint_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_TINYINT);
-
-			statement = stringBuilder.toString();
-			deleteByTestTinyint_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestTinyint_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setTinyint(preparedStatement, 1, testTinyint);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestTinyint(Boolean testTinyint ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_TINYINT,
+				new Object[] {testTinyint }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestTinyint - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testTinyint - maps to the test_tinyint field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestTinyintSilent(Connection connection, Boolean testTinyint) {
-  		try {
-  			return(deleteByTestTinyint(connection,   testTinyint    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestTinyint, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestTinyint - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testTinyint - maps to the test_tinyint field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestTinyint(Boolean testTinyint) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestTinyint(connection, testTinyint));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestTinyint - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testTinyint - maps to the test_tinyint field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestTinyintSilent(Boolean testTinyint) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestTinyint(connection, testTinyint));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestTinyint, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	// USER DEFINED DELETER CONNECTION, PARAMS - NO LIMIT - SQLITE3 STATEMENT
+	// USER DEFINED DELETER CONNECTION, PARAMS, LIMIT
 	/**
 	 * deleteByTestVarchar - from 'fieldDeleters' JSON key
 	 *
 	 * This is the main method for all other deleter methods with the same prefix,
 	 * including the (silent method signatures).  All methods chain to this one.
 	 * 
-	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
 	 * @param testVarchar - maps to the test_varchar field (from the where clause)
 	 * 
-	 * @return the number of rows deleted
+	 * @return the Deleter
 	 * 
-	 * @throws SQLException if there was an error in the deletion
 	 */
-	public static int deleteByTestVarchar(Connection connection, String testVarchar) throws SQLException {
-		String cacheKey = "cacheKey"  + "";
-		boolean hasConnection = (null != connection);
-		String statement = null;
-		if(!deleteByTestVarchar_limit_statement_cache.containsKey(cacheKey)) {
-			// place the cacheKey in the cache for later use
-
-			StringBuilder stringBuilder = new StringBuilder(SQL_DELETE_BY_TEST_VARCHAR);
-
-			statement = stringBuilder.toString();
-			deleteByTestVarchar_limit_statement_cache.put(cacheKey, statement);
-		} else {
-			statement = deleteByTestVarchar_limit_statement_cache.get(cacheKey);
-		}
-
-		if(!hasConnection) {
-			connection = ConnectionManager.getConnection();
-		}
-		try (PreparedStatement preparedStatement = connection.prepareStatement(statement)) {
-			ConnectionManager.setVarchar(preparedStatement, 1, testVarchar);
-
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByTestVarchar(String testVarchar ) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_DELETE_BY_TEST_VARCHAR,
+				new Object[] {testVarchar }
+		));
 	}
-
-  	// USER DEFINED DELETER CONNECTION, PARAMS SILENT
-  	/**
-  	 * deleteByTestVarchar - from 'fieldDeleters' JSON key
-  	 *
-  	 * This is the main method for all other deleter methods with the same prefix,
-  	 * including the (silent method signatures).  All methods chain to this one.
-  	 * 
-            	 * @param connection - the connection - the caller __MUST__ close this connection
-	 *        if the caller created this connection. If the passed in connection is 
-	 *        null, then a new connection will be created, utilised, and closed within
-	 *        this method.
-	 * @param testVarchar - maps to the test_varchar field (from the where clause)
-  	 * 
-  	 * @return the number of rows deleted
-  	 */
-  	public static int deleteByTestVarcharSilent(Connection connection, String testVarchar) {
-  		try {
-  			return(deleteByTestVarchar(connection,   testVarchar    ));
-  		} catch (SQLException ex) {
-  			LOGGER.error("Could not deleteByTestVarchar, a SQL Exception occurred.", ex);
-  			return(-1);
-  		}
-  	}
-  
-	// USER DEFINED DELETER - NULL, PARAMS, NULL LOUD
-	/**
-	 * deleteByTestVarchar - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testVarchar - maps to the test_varchar field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestVarchar(String testVarchar) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestVarchar(connection, testVarchar));
-		}
-	}
-
-	// USER DEFINED DELETER - NULL, PARAMS, NULL SILENT
-	/**
-	 * deleteByTestVarchar - from 'fieldDeleters' JSON key.
-	 * This will silently swallow any exceptions.
-	 * 
-	 * @param testVarchar - maps to the test_varchar field (from the where clause)
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-  
-	public static int deleteByTestVarcharSilent(String testVarchar) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByTestVarchar(connection, testVarchar));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByTestVarchar, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
 }

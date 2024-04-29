@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseIntegerFinder;
+import com.synapticloop.h2zero.base.sql.BaseIntegerExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
@@ -25,7 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.function.Function;
 
-public abstract class LimitOffsetCounter extends BaseIntegerFinder {
+public abstract class LimitOffsetCounter extends BaseIntegerExecutor {
 	public LimitOffsetCounter(Logger logger, String sqlStatement, Function<ResultSet, Integer> resultsFunction, Object... parameters) {
 		super(logger, sqlStatement, resultsFunction, parameters);
 	}

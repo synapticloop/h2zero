@@ -17,13 +17,13 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseBooleanFinder;
+import com.synapticloop.h2zero.base.sql.BaseBooleanExecutor;
 import org.slf4j.Logger;
 
 import java.sql.ResultSet;
 import java.util.function.Function;
 
-public abstract class OffsetFetchQuestion extends BaseBooleanFinder {
+public abstract class OffsetFetchQuestion extends BaseBooleanExecutor {
 	public OffsetFetchQuestion(Logger logger, String sqlStatement, Function<ResultSet, Boolean> resultsFunction, Object... parameters) {
 		super(logger, sqlStatement, resultsFunction, parameters);
 	}

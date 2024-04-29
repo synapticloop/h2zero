@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseBooleanFinder;
+import com.synapticloop.h2zero.base.sql.BaseBooleanExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
@@ -25,7 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.function.Function;
 
-public abstract class LimitOffsetQuestion extends BaseBooleanFinder {
+public abstract class LimitOffsetQuestion extends BaseBooleanExecutor {
 	public LimitOffsetQuestion(Logger logger, String sqlStatement, Function<ResultSet, Boolean> resultsFunction, Object... parameters) {
 		super(logger, sqlStatement, resultsFunction, parameters);
 	}

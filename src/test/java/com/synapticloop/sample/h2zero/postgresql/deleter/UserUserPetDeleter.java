@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import com.synapticloop.h2zero.util.LruCache;
 
 import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.cockroach.Deleter;
 
 
 import org.slf4j.Logger;
@@ -52,70 +53,19 @@ public class UserUserPetDeleter {
 	/**
 	 * Delete a row in the USER_USER_PET table by its primary key
 	 * 
-	 * @param connection The connection to use - the caller must close this connection
 	 * @param idUserUserPet the primary key to delete
 	 * 
 	 * @return the number of rows deleted
 	 * 
-	 * @throws SQLException if there was an error in the delete
 	 */
-	public static int deleteByPrimaryKey(Connection connection, Long idUserUserPet) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_BY_PRIMARY_KEY)) {
-			preparedStatement.setLong(1, idUserUserPet);
-			return(preparedStatement.executeUpdate());
-		}
+	public static Deleter deleteByPrimaryKey(Long idUserUserPet) {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_BUILTIN_DELETE_BY_PRIMARY_KEY,
+				new Object[] { idUserUserPet }
+		));
 	}
-
-	/**
-	 * Delete a row in the USER_USER_PET table by its primary key
-	 * 
-	 * @param idUserUserPet the primary key to delete
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the delete
-	 */
-	public static int deleteByPrimaryKey(Long idUserUserPet) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByPrimaryKey(connection, idUserUserPet));
-		}
-	}
-
-	/**
-	 * Delete a row in the USER_USER_PET table by its primary key silently
-	 * (i.e. don't throw an exception if it couldn't be deleted).
-	 * 
-	 * @param connection - the connection to use - the caller must close this connection
-	 * @param idUserUserPet the primary key to delete
-	 * 
-	 * @return the number of rows deleted
-	 */
-	public static int deleteByPrimaryKeySilent(Connection connection, Long idUserUserPet) {
-		try {
-			return(deleteByPrimaryKey(connection, idUserUserPet));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	/**
-	 * Delete a row in the USER_USER_PET table by its primary key silently
-	 * (i.e. don't throw an exception if it coudn't be deleted).
-	 * 
-	 * @param idUserUserPet the primary key to delete
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteByPrimaryKeySilent(Long idUserUserPet) {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteByPrimaryKeySilent(connection, idUserUserPet));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteByPrimaryKey, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
 	/**
 	 * Delete all of the rows in the table 'user_user_pet'.
 	 * 
@@ -123,64 +73,17 @@ public class UserUserPetDeleter {
 	 * method would have been faster, but would fail, hence the 'DELETE FROM' SQL
 	 * statement is used
 	 * 
-	 * @param connection - the connection to use - the caller must close this connection
 	 * 
 	 * @return The number of rows affected by this statement
 	 */
-	public static int deleteAll(Connection connection) throws SQLException {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_DELETE_ALL)) {
-			return(preparedStatement.executeUpdate());
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
+	public static Deleter deleteAll() {
+		return(
+				new Deleter(
+				LOGGER,
+				SQL_BUILTIN_DELETE_ALL,
+				new Object[] { }
+		));
 	}
-
-	/**
-	 * Delete all the rows in the USER_USER_PET table
-	 * 
-	 * @return the number of rows deleted
-	 * 
-	 * @throws SQLException if there was an error in the delete
-	 */
-	public static int deleteAll() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteAll(connection));
-		}
-	}
-
-	/**
-	 * Delete all the rows in the USER_USER_PET table silently - i.e
-	 * swallow any SQL exceptions
-	 * 
-	 * @param connection - the connection to use - the caller must close this connection
-	 * 
-	 * @return the number of rows deleted or -1 if there was an error
-	 */
-	public static int deleteAllSilent(Connection connection) {
-		try {
-			return(deleteAll(connection));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
-	/**
-	 * Delete all the rows in the USER_USER_PET table silently - i.e
-	 * swallow any SQL exceptions
-	 * 
-	 * @return the number of rows deleted, or -1 if there was an error
-	 */
-	public static int deleteAllSilent() {
-		try (Connection connection = ConnectionManager.getConnection()) {
-			return(deleteAll(connection));
-		} catch (SQLException ex) {
-			LOGGER.error("Could not deleteAll, a SQL Exception occurred.", ex);
-			return(-1);
-		}
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * 
 	 *     USER DEFINED DELETERS FOR THE TABLE: user_user_pet
