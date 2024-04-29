@@ -23,6 +23,12 @@ import org.slf4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * This deleter is used for those databases which do not allow offset/limits
+ * in the query. (SQLite3 is an example of this type - unless it has been a
+ * pre-compiled binary with the <code>#define SQLITE_ENABLE_UPDATE_DELETE_LIMIT</code>
+ * flag set).
+ */
 public abstract class NoLimitOffsetDeleter extends BaseIntegerNoLimitOffsetExecutor {
 	public NoLimitOffsetDeleter(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
