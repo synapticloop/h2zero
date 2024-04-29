@@ -17,25 +17,18 @@ package com.synapticloop.h2zero.model;
  * under the Licence.
  */
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.synapticloop.h2zero.model.util.JSONKeyConstants;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.synapticloop.h2zero.exception.H2ZeroParseException;
 import com.synapticloop.h2zero.model.field.BaseField;
+import com.synapticloop.h2zero.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.util.JsonHelper;
 import com.synapticloop.h2zero.util.NamingHelper;
 import com.synapticloop.h2zero.util.SimpleLogger;
 import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.*;
 
 /**
  * This is the database model which contains all of the tables, and views.  

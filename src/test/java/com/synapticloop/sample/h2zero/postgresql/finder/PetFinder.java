@@ -27,6 +27,9 @@ import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 
 import com.synapticloop.sample.h2zero.postgresql.model.Pet;
 
+import com.synapticloop.h2zero.base.finder.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.finder.limitoffset.UniqueFinder;
+
 public class PetFinder {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for

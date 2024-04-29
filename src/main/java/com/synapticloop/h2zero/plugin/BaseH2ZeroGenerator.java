@@ -97,6 +97,8 @@ public class BaseH2ZeroGenerator {
 				throw new BuildException("FATAL: You have not defined an 'options' section, and therefore no generators will be executed. Exiting...");
 			}
 
+			// builder
+
 			generators.add(new SqlGenerator(database, options, outFile, verbose));
 			generators.add(new JavaGenerator(database, options, outFile, verbose));
 			generators.add(new ImpexGenerator(database, options, outFile, verbose));

@@ -58,12 +58,21 @@ public class Options {
 	public static final String DATABASE_COCKROACH = "cockroach";
 	public static final String DATABASE_POSTGRESQL = "postgresql";
 
+
 	private static final Set<String> ALLOWABLE_DATABASES = new HashSet<>();
 	static {
 		ALLOWABLE_DATABASES.add(DATABASE_MYSQL);
 		ALLOWABLE_DATABASES.add(DATABASE_SQLITE3);
 		ALLOWABLE_DATABASES.add(DATABASE_COCKROACH);
 		ALLOWABLE_DATABASES.add(DATABASE_POSTGRESQL);
+	}
+
+	private static final Set<String> LIMIT_OFFSET_DATABASES = new HashSet<>();
+	static {
+		LIMIT_OFFSET_DATABASES.add(DATABASE_MYSQL);
+		LIMIT_OFFSET_DATABASES.add(DATABASE_SQLITE3);
+		LIMIT_OFFSET_DATABASES.add(DATABASE_COCKROACH);
+		LIMIT_OFFSET_DATABASES.add(DATABASE_POSTGRESQL);
 	}
 
 	/*
@@ -296,4 +305,7 @@ public class Options {
 	public String getOutputBuild() { return(outputBuild); }
 	public boolean getIsAllowableDatabase() { return(ALLOWABLE_DATABASES.contains(getDatabase())); }
 	public boolean getIsDefault() { return(this.isDefault); }
+
+	public boolean getIsLimitOffset() { return(LIMIT_OFFSET_DATABASES.contains(getDatabase())); }
+
 }

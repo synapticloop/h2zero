@@ -71,9 +71,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int updateNumFollowers(Long numFollowersSet) throws SQLException {
+	public static int updateNumFollowers(Long numFollowersSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(updateNumFollowers(connection, numFollowersSet));
+			return(updateNumFollowers(connection, numFollowersSet, ));
 		}
 	}
 
@@ -86,9 +86,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int updateNumFollowersSilent(Long numFollowersSet) {
+	public static int updateNumFollowersSilent(Long numFollowersSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(updateNumFollowers(connection, numFollowersSet));
+			return(updateNumFollowers(connection, numFollowersSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException updateNumFollowersSilent(): " + sqlex.getMessage());
@@ -126,9 +126,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int updateIdAuthor(Long idAuthorSet) throws SQLException {
+	public static int updateIdAuthor(Long idAuthorSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(updateIdAuthor(connection, idAuthorSet));
+			return(updateIdAuthor(connection, idAuthorSet, ));
 		}
 	}
 
@@ -141,9 +141,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int updateIdAuthorSilent(Long idAuthorSet) {
+	public static int updateIdAuthorSilent(Long idAuthorSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(updateIdAuthor(connection, idAuthorSet));
+			return(updateIdAuthor(connection, idAuthorSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException updateIdAuthorSilent(): " + sqlex.getMessage());
@@ -184,9 +184,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int updateIdAuthorNumFollowers(Long idAuthorSet, Long numFollowersSet) throws SQLException {
+	public static int updateIdAuthorNumFollowers(Long idAuthorSet, Long numFollowersSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(updateIdAuthorNumFollowers(connection, idAuthorSet, numFollowersSet));
+			return(updateIdAuthorNumFollowers(connection, idAuthorSet, numFollowersSet, ));
 		}
 	}
 
@@ -200,9 +200,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int updateIdAuthorNumFollowersSilent(Long idAuthorSet, Long numFollowersSet) {
+	public static int updateIdAuthorNumFollowersSilent(Long idAuthorSet, Long numFollowersSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(updateIdAuthorNumFollowers(connection, idAuthorSet, numFollowersSet));
+			return(updateIdAuthorNumFollowers(connection, idAuthorSet, numFollowersSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException updateIdAuthorNumFollowersSilent(): " + sqlex.getMessage());
@@ -295,9 +295,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlIsUpdating(Boolean flIsUpdatingSet) throws SQLException {
+	public static int setFlIsUpdating(Boolean flIsUpdatingSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlIsUpdating(connection, flIsUpdatingSet));
+			return(setFlIsUpdating(connection, flIsUpdatingSet, ));
 		}
 	}
 
@@ -310,9 +310,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlIsUpdatingSilent(Boolean flIsUpdatingSet) {
+	public static int setFlIsUpdatingSilent(Boolean flIsUpdatingSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlIsUpdating(connection, flIsUpdatingSet));
+			return(setFlIsUpdating(connection, flIsUpdatingSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException setFlIsUpdatingSilent(): " + sqlex.getMessage());
@@ -350,9 +350,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlIsUpdatingWhereFlAuthorIsFollowedByUser(Boolean flIsUpdatingSet) throws SQLException {
+	public static int setFlIsUpdatingWhereFlAuthorIsFollowedByUser(Boolean flIsUpdatingSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlIsUpdatingWhereFlAuthorIsFollowedByUser(connection, flIsUpdatingSet));
+			return(setFlIsUpdatingWhereFlAuthorIsFollowedByUser(connection, flIsUpdatingSet, ));
 		}
 	}
 
@@ -365,9 +365,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlIsUpdatingWhereFlAuthorIsFollowedByUserSilent(Boolean flIsUpdatingSet) {
+	public static int setFlIsUpdatingWhereFlAuthorIsFollowedByUserSilent(Boolean flIsUpdatingSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlIsUpdatingWhereFlAuthorIsFollowedByUser(connection, flIsUpdatingSet));
+			return(setFlIsUpdatingWhereFlAuthorIsFollowedByUser(connection, flIsUpdatingSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException setFlIsUpdatingWhereFlAuthorIsFollowedByUserSilent(): " + sqlex.getMessage());
@@ -405,9 +405,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlAuthorIsFollowedByUserWhereFlIsUpdating(Boolean flAuthorIsFollowedByUserSet) throws SQLException {
+	public static int setFlAuthorIsFollowedByUserWhereFlIsUpdating(Boolean flAuthorIsFollowedByUserSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlAuthorIsFollowedByUserWhereFlIsUpdating(connection, flAuthorIsFollowedByUserSet));
+			return(setFlAuthorIsFollowedByUserWhereFlIsUpdating(connection, flAuthorIsFollowedByUserSet, ));
 		}
 	}
 
@@ -420,9 +420,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlAuthorIsFollowedByUserWhereFlIsUpdatingSilent(Boolean flAuthorIsFollowedByUserSet) {
+	public static int setFlAuthorIsFollowedByUserWhereFlIsUpdatingSilent(Boolean flAuthorIsFollowedByUserSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlAuthorIsFollowedByUserWhereFlIsUpdating(connection, flAuthorIsFollowedByUserSet));
+			return(setFlAuthorIsFollowedByUserWhereFlIsUpdating(connection, flAuthorIsFollowedByUserSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException setFlAuthorIsFollowedByUserWhereFlIsUpdatingSilent(): " + sqlex.getMessage());
@@ -460,9 +460,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlIsUpdatingWhereFlAuthorIsFollowingUser(Boolean flIsUpdatingSet) throws SQLException {
+	public static int setFlIsUpdatingWhereFlAuthorIsFollowingUser(Boolean flIsUpdatingSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlIsUpdatingWhereFlAuthorIsFollowingUser(connection, flIsUpdatingSet));
+			return(setFlIsUpdatingWhereFlAuthorIsFollowingUser(connection, flIsUpdatingSet, ));
 		}
 	}
 
@@ -475,9 +475,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlIsUpdatingWhereFlAuthorIsFollowingUserSilent(Boolean flIsUpdatingSet) {
+	public static int setFlIsUpdatingWhereFlAuthorIsFollowingUserSilent(Boolean flIsUpdatingSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlIsUpdatingWhereFlAuthorIsFollowingUser(connection, flIsUpdatingSet));
+			return(setFlIsUpdatingWhereFlAuthorIsFollowingUser(connection, flIsUpdatingSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException setFlIsUpdatingWhereFlAuthorIsFollowingUserSilent(): " + sqlex.getMessage());
@@ -515,9 +515,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlAuthorIsFollowingUserWhereFlIsUpdating(Boolean flAuthorIsFollowingUserSet) throws SQLException {
+	public static int setFlAuthorIsFollowingUserWhereFlIsUpdating(Boolean flAuthorIsFollowingUserSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlAuthorIsFollowingUserWhereFlIsUpdating(connection, flAuthorIsFollowingUserSet));
+			return(setFlAuthorIsFollowingUserWhereFlIsUpdating(connection, flAuthorIsFollowingUserSet, ));
 		}
 	}
 
@@ -530,9 +530,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int setFlAuthorIsFollowingUserWhereFlIsUpdatingSilent(Boolean flAuthorIsFollowingUserSet) {
+	public static int setFlAuthorIsFollowingUserWhereFlIsUpdatingSilent(Boolean flAuthorIsFollowingUserSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(setFlAuthorIsFollowingUserWhereFlIsUpdating(connection, flAuthorIsFollowingUserSet));
+			return(setFlAuthorIsFollowingUserWhereFlIsUpdating(connection, flAuthorIsFollowingUserSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException setFlAuthorIsFollowingUserWhereFlIsUpdatingSilent(): " + sqlex.getMessage());
@@ -570,9 +570,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int updateFlIsFollowing(Boolean flIsUpdatingSet) throws SQLException {
+	public static int updateFlIsFollowing(Boolean flIsUpdatingSet, ) throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(updateFlIsFollowing(connection, flIsUpdatingSet));
+			return(updateFlIsFollowing(connection, flIsUpdatingSet, ));
 		}
 	}
 
@@ -585,9 +585,9 @@ public class AuthorUpdater {
 	 * 
 	 * @return The number of rows that were updated or -1 on error
 	 */ 
-	public static int updateFlIsFollowingSilent(Boolean flIsUpdatingSet) {
+	public static int updateFlIsFollowingSilent(Boolean flIsUpdatingSet, ) {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			return(updateFlIsFollowing(connection, flIsUpdatingSet));
+			return(updateFlIsFollowing(connection, flIsUpdatingSet, ));
 		} catch (SQLException sqlex) {
 			if(LOGGER.isWarnEnabled()) {
 				LOGGER.warn("SQLException updateFlIsFollowingSilent(): " + sqlex.getMessage());
