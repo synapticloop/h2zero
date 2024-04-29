@@ -1,14 +1,14 @@
-package com.synapticloop.h2zero.base.sql.sqlite3;
+package com.synapticloop.h2zero.base.sql.sqlite3ol;
 
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.base.NoLimitOffsetDeleter;
+import com.synapticloop.h2zero.base.sql.base.LimitOffsetUpdater;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Deleter extends NoLimitOffsetDeleter {
-	public Deleter(Logger logger, String sqlStatement, Object... parameters) {
+public class Updater extends LimitOffsetUpdater {
+	public Updater(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
 
