@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.cockroach;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.LimitOffsetUniqueFinder;
+import com.synapticloop.h2zero.base.sql.base.finder.LimitOffsetUniqueFinder;
 import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
 import org.slf4j.Logger;
 

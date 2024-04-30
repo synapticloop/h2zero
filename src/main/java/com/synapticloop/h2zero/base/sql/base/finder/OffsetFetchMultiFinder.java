@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.base;
+package com.synapticloop.h2zero.base.sql.base.finder;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,29 +17,31 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseUniqueFinder;
 import org.slf4j.Logger;
 
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.function.Function;
 
-public abstract class OffsetFetchUniqueFinder<T> extends BaseUniqueFinder<T> {
+public abstract class OffsetFetchMultiFinder<T> extends BaseMultiFinderExecutor<T> {
 
 	/**
-	 * <p>Create a new finder - <strong>NOTE</strong> this method should probably
-	 * not be used independently, but through the static Finder methods.</p>
+	 * <p>Create a new multi finder - <strong>NOTE</strong> this method should
+	 * probably not be used independently, but through the static Finder
+	 * methods.</p>
 	 *
-	 * <p>A Finder only ever returns a single result</p>
+	 * <p>A MultiFinder only ever returns multiple results (i.e. a List of
+	 * results).</p>
 	 *
-	 * @param logger the logger for errors
+	 * @param logger the logger for any errors that occur when the executeSilent()
+	 *          method is called.
 	 * @param sqlStatement The SQL statement to execute
 	 * @param resultsFunction The function to call that will return the object
 	 *          created from the result set
 	 * @param parameters the array of parameters that are required to be set
 	 *          on the SQL statement
 	 */
-	public OffsetFetchUniqueFinder(Logger logger, String sqlStatement, Function<ResultSet, List<T>> resultsFunction, Object ... parameters) {
+	public OffsetFetchMultiFinder(Logger logger, String sqlStatement, Function<ResultSet, List<T>> resultsFunction, Object ... parameters) {
 		super(logger, sqlStatement, resultsFunction, parameters);
 	}
 

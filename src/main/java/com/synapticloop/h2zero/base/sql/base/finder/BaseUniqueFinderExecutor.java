@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql;
+package com.synapticloop.h2zero.base.sql.base.finder;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -26,63 +26,36 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Function;
 
-public abstract class BaseMultiFinder<T> extends BaseFinder<T> {
+public abstract class BaseUniqueFinderExecutor<T> extends BaseFinderExecutor<T> {
 
 	/**
-	 * <p>Create a new multi finder - <strong>NOTE</strong> this method should
-	 * probably not be used independently, but through the static Finder
+	 * <p>Create a new finder - <strong>NOTE</strong> this method should probably
+	 * <strong>NOT</strong> be used independently, but through the static Finder
 	 * methods.</p>
 	 *
-	 * <p>A MultiFinder only ever returns multiple results (i.e. a List of
-	 * results).</p>
+	 * <p>A Finder only ever returns a single result</p>
 	 *
-	 * @param logger the logger for any errors that occur when the executeSilent()
-	 *          method is called.
+	 * @param logger the logger for errors
 	 * @param sqlStatement The SQL statement to execute
 	 * @param resultsFunction The function to call that will return the object
 	 *          created from the result set
 	 * @param parameters the array of parameters that are required to be set
 	 *          on the SQL statement
 	 */
-	public BaseMultiFinder(Logger logger, String sqlStatement, Function<ResultSet, List<T>> resultsFunction, Object ... parameters) {
+	public BaseUniqueFinderExecutor(Logger logger, String sqlStatement, Function<ResultSet, List<T>> resultsFunction, Object ... parameters) {
 		super(logger, sqlStatement, resultsFunction, parameters);
 	}
 
 	/**
-	 * Set the offset of the results.
-	 *
-	 * @param offset the offset to start with the results
-	 *
-	 * @return the MultiFinder with the offset set
-	 */
-	public BaseMultiFinder<T> withOffset(Integer offset) {
-		this.offset = offset;
-		return(this);
-	}
-
-	/**
-	 * Set the limit of the results
-	 *
-	 * @param limit the limit of the results
-	 *
-	 * @return the MultiFinder with the limit set
-	 */
-	public BaseMultiFinder<T> withLimit(Integer limit) {
-		this.limit = limit;
-		return(this);
-	}
-
-	/**
-	 * <p>Execute this statement with a connection - this will be used, rather
-	 * than creating a new connection from the connection pool.  This is
-	 * useful when you want to be able to start a transaction and commit
-	 * or rollback.</p>
+	 * Set the connection to be used for this executiion, rather than creating
+	 * a new connection from the connection pool.  This is useful when you want
+	 * to be able to start a transaction and commit or rollback.
 	 *
 	 * @param connection The connection to use
 	 *
 	 * @return The finder with the set connection
 	 */
-	public BaseMultiFinder<T> withConnection(Connection connection) {
+	public BaseUniqueFinderExecutor<T> withConnection(Connection connection) {
 		this.connection = connection;
 		return(this);
 	}
@@ -94,14 +67,18 @@ public abstract class BaseMultiFinder<T> extends BaseFinder<T> {
 	 *
 	 * @throws SQLException If there was an error executing the SQL statement
 	 * @throws H2ZeroFinderException If no results could be found, or if more
-	 *           than one result was found
+	 * 	         than one result was found for the query which, by definition
+	 * 	         should be a unique result.
 	 */
-	public List<T> execute() throws SQLException, H2ZeroFinderException {
+	public T execute() throws SQLException {
 		List<T> ts = super.executeInternal();
-		if(ts.size() > 1) {
-			throw new H2ZeroFinderException("Looking for a single result, found " + ts.size() + ".");
-		} else {
-			return(ts.subList(0, 1));
+		switch(ts.size()) {
+			case 0:
+				return(null);
+			case 1:
+				return(ts.get(0));
+			default:
+				throw new SQLException("Looking for a single result, found " + ts.size() + ", SQL statement was " + sqlStatement);
 		}
 	}
 
@@ -111,7 +88,12 @@ public abstract class BaseMultiFinder<T> extends BaseFinder<T> {
 	 *
 	 * @return List the list of object, or an empty list if none were found.
 	 */
-	public List<T> executeSilent() {
-		return(super.executeSilentInternal());
+	public T executeSilent() {
+		List<T> ts = super.executeSilentInternal();
+		if(ts.size() == 1) {
+			return(ts.get(0));
+		} else {
+			return(null);
+		}
 	}
 }

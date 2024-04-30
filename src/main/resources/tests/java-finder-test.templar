@@ -7,15 +7,17 @@ package {database.package}.test.util;{\n}{\n}
 import static org.junit.Assert.*;{\n}
 {\n}
 import org.junit.Assert;{\n}
+import org.junit.AfterClass;{\n}
+import org.junit.BeforeClass;{\n}
 import org.junit.Test;{\n}
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;{\n}
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;{\n}
+import {database.package}.ConnectionManagerInitialiserOverride;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 {\n}
 import java.sql.Connection;{\n}
 import java.sql.SQLException;{\n}
 import java.util.ArrayList;{\n}
 import java.sql.*;{\n}
+import java.util.List;{\n}
 {\n}
 {\n}
 {loop database.tables as table}
@@ -27,7 +29,7 @@ import {database.package}.finder.{table.javaClassName}Finder;{\n}
  * __NOT__ whether the database actually returns sane results.{\n}
  * {\n}
  * These will also test to ensure that connections are setting closed properly{\n}
- * so that there ar no resource leakages.{\n}
+ * so that there are no resource leakages.{\n}
  */{\n}
 {\n}
 public class FinderTest extends DatabaseSetupTest {{{\n}
@@ -36,18 +38,14 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 {loop database.tables as table}
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindByPrimaryKey() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}// this shouldn't find anything - and we don't care - only about SQLExceptions{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(1L).execute();{\n}
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(1L).execute();{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
@@ -56,43 +54,41 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 }
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindByPrimaryKeySilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}Assert.assertNull({table.javaClassName}Finder.findByPrimaryKeySilent(-831486134981L));{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}Assert.assertNull({table.javaClassName}Finder.findByPrimaryKey(-831486134981L).executeSilent());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindByPrimaryKeyWithConnection() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(connection, 1L).execute();{\n}
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(1L).withConnection(connection).execute();{\n}
 {\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindByPrimaryKeyWithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-{\t}{\t}{\t}Assert.assertNull({table.javaClassName}Finder.findByPrimaryKeySilent(connection, -831486134981L).execute());{\n}
+{\t}{\t}{\t}Assert.assertNull({table.javaClassName}Finder.findByPrimaryKey(-831486134981L).withConnection(connection).executeSilent());{\n}
 {\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
@@ -104,48 +100,46 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAll() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}try {{{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll().size());{\n}
+{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll().execute().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().execute().size());{\n}
-{\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
+{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().execute().size());{\n}
 {endif}
 
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllLimitOffset() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}try {{{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).execute().size());{\n}
+{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(){\n}
+{\t}{\t}{\t}.withLimit(1){\n}
+{\t}{\t}{\t}.withOffset(0){\n}
+{\t}{\t}{\t}.execute(){\n}
+{\t}{\t}{\t}.size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(1, 0).execute().size());{\n}
-{\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
+{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(){\n}
+{\t}{\t}{\t}.withLimit(1){\n}
+{\t}{\t}{\t}.withOffset(0){\n}
+{\t}{\t}{\t}.execute(){\n}
+{\t}{\t}{\t}.size());{\n}
 {endif}
 
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
@@ -153,89 +147,86 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 
 {if table.isConstant}
-{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAllSilent().size());{\n}
+{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll().executeSilent().size());{\n}
 {else}
 {\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().executeSilent().size());{\n}
 {endif}
 
 {\n}
 
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllLimitOffsetSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 
 {if table.isConstant}
-{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).executeSilent().size());{\n}
+{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll().withLimit(1).withOffset(0).executeSilent().size());{\n}
 {else}
-{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(1, 0).executeSilent().size());{\n}
+{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().withLimit(1).withOffset(0).executeSilent().size());{\n}
 {endif}
 
 {\n}
 
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnection() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(connection).execute().size());{\n}
+{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll().withConnection(connection).execute().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(connection).execute().size());{\n}
-{\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
+{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().withConnection(connection).execute().size());{\n}
 {endif}
 
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
 {\t}{\t}}{\n}
 
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 
 {\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(connection).executeSilent().size());{\n}
+{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll().withConnection(connection).executeSilent().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(connection).executeSilent().size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().withConnection(connection).executeSilent().size());{\n}
 {endif}
 
 {\t}{\t}}{\n}
 
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 
 {\n}
@@ -244,47 +235,43 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionLimit() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).withConnection(connection).execute().size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll().withConnection(connection).withLimit(1).withOffset(0).execute().size());{\n}
 {else}
-{\t}{\t}{\t}{table.javaClassName}Finder.findAll(1, 0).withConnection(connection).execute();{\n}
-{\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findAll().withConnection(connection).withLimit(1).withOffset(0).execute();{\n}
 {endif}
-
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
 {\t}{\t}}{\n}
 
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 
 {\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionLimitSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(1, 0).withConnection(connection).executeSilent().size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll().withConnection(connection).withLimit(1).withOffset(0).executeSilent().size());{\n}
 {else}
-{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll(1, 0).withConnection().executeSilent().size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Finder.findAll().withConnection(connection).withLimit(1).withOffset(0).executeSilent().size());{\n}
 {endif}
 
 {\t}{\t}}{\n}
 
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 
 {\n}
@@ -294,48 +281,54 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionOffset() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll().withConnection(connection).withLimit(null).withOffset(1).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(){\n}
+{\t}{\t}{\t}{\t}.withConnection(connection){\n}
+{\t}{\t}{\t}{\t}.withLimit(null){\n}
+{\t}{\t}{\t}{\t}.withOffset(1){\n}
+{\t}{\t}{\t}{\t}.execute(){\n}
+{\t}{\t}{\t}{\t}.size());{\n}
 {else}
-{\t}{\t}{\t}{table.javaClassName}Finder.findAll().withConnection(connection).withLimit(null).withOffset(1);{\n}
-{\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findAll(){\n}
+{\t}{\t}{\t}{\t}.withConnection(connection){\n}
+{\t}{\t}{\t}{\t}.withLimit(null){\n}
+{\t}{\t}{\t}{\t}.withOffset(1){\n}
+{\t}{\t}{\t}{\t}.execute();{\n}
 {endif}
 
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}{\t}Assert.fail("A SQL Exception should have been thrown as there was an offset without a limit set.");
+
+{\t}{\t}} catch(SQLException ignored) {{{\n}
+{\t}{\t}}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 
 {\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionOffsetSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
-{if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(connection, null, 0).size());{\n}
-{else}
-{\t}{\t}{\t}{table.javaClassName}Finder.findAll(connection, null, 1);{\n}
-{\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
-{endif}
-
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findAll(){\n}
+{\t}{\t}{\t}{\t}.withConnection(connection){\n}
+{\t}{\t}{\t}{\t}.withLimit(null){\n}
+{\t}{\t}{\t}{\t}.withOffset(0){\n}
+{\t}{\t}{\t}{\t}.executeSilent();{\n}
+{\n}
 {\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 
 {\n}
@@ -343,47 +336,49 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionLimitOffset() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(connection, 1, 0).size());{\n}
+{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(){\n}
+{\t}{\t}{\t}{\t}.withConnection(connection){\n}
+{\t}{\t}{\t}{\t}.withLimit(1){\n}
+{\t}{\t}{\t}{\t}.withOffset(0){\n}
+{\t}{\t}{\t}{\t}.execute(){\n}
+{\t}{\t}{\t}{\t}.size());{\n}
+
 {else}
-{\t}{\t}{\t}{table.javaClassName}Finder.findAll(connection, 1, 1);{\n}
-{\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.findAll(){\n}
+{\t}{\t}{\t}{\t}.withConnection(connection){\n}
+{\t}{\t}{\t}{\t}.withLimit(1){\n}
+{\t}{\t}{\t}{\t}.withOffset(0){\n}
+{\t}{\t}{\t}{\t}.execute();{\n}
 {endif}
 
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
 {\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 
 {\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithNullConnectionLimitOffset() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}try {{{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {if table.isConstant}
-{\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(null, 1, 0).size());{\n}
+{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll().withConnection(null).withLimit(1).withOffset(0).execute().size());{\n}
 {else}
-{\t}{\t}{\t}{table.javaClassName}Finder.findAll(null, 1, 1);{\n}
-{\t}{\t}{\t}Assert.fail("This method should have thrown an H2ZeroFinderException...");{\n}
+{\t}{\t}{table.javaClassName}Finder.findAll().withConnection(null).withLimit(1).withOffset(0).execute();{\n}
 {endif}
 
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - don't care{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 
 {\n}
@@ -400,189 +395,207 @@ public class FinderTest extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar});{\n}
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - expected condition{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}).execute();{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}Silent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}{table.javaClassName}Finder.{finder.name}Silent({import classpath:/tests/snippet/finder-field-params.templar});{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}).executeSilent();{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
+{if !finder.unique}
+{-- UNIQUE FINDERS DO NOT HAVE LIMITS/OFFSET }
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}LimitOffset() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}0, 0);{\n}
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - expected condition{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}).withLimit(0).withOffset(0).execute();{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}LimitOffsetSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}{table.javaClassName}Finder.{finder.name}Silent({import classpath:/tests/snippet/finder-field-params.templar}{if fn:notEqual[finder.whereFields.size, "0"]}, {endif} 0, 0);{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}{\t}.withLimit(0){\n}
+{\t}{\t}{\t}{\t}.withOffset(0){\n}
+{\t}{\t}{\t}{\t}.executeSilent();{\n}
+{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
+{endif}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithConnection() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}(connection{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/finder-field-params.templar});{\n}
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - expected condition{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}{\t}.withConnection(connection){\n}
+{\t}{\t}{\t}{\t}.execute();{\n}
+{\n}
 {\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}Silent(connection{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/finder-field-params.templar});{\n}
+{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}{\t}.withConnection(connection){\n}
+{\t}{\t}{\t}{\t}.executeSilent();{\n}
+{\n}
 {\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithNullConnection() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}(null{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/finder-field-params.templar});{\n}
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - expected condition{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}.withConnection(null){\n}
+{\t}{\t}{\t}.execute();{\n}
+{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithNullConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}{table.javaClassName}Finder.{finder.name}Silent(null{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/finder-field-params.templar});{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}{\t}.withConnection(null){\n}
+{\t}{\t}{\t}{\t}.executeSilent();{\n}
+{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 
 
+{if !finder.unique}
+{-- UNIQUE FINDERS DO NOT HAVE LIMITS/OFFSET }
+
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithNullConnectionLimitOffset() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}(null{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/finder-field-params.templar}, 0, 0);{\n}
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - expected condition{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}.withConnection(null){\n}
+{\t}{\t}{\t}.withLimit(0){\n}
+{\t}{\t}{\t}.withOffset(0){\n}
+{\t}{\t}{\t}.execute();{\n}
+{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithNullConnectionLimitOffsetSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}{table.javaClassName}Finder.{finder.name}Silent(null{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/finder-field-params.templar}, 0, 0);{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}{\t}.withConnection(null){\n}
+{\t}{\t}{\t}{\t}.withLimit(0){\n}
+{\t}{\t}{\t}{\t}.withOffset(0){\n}
+{\t}{\t}{\t}{\t}.executeSilent();{\n}
+{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 
-
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithNullConnectionNullLimitNullOffset() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}(null{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/finder-field-params.templar}, null, null);{\n}
-{\t}{\t}} catch (H2ZeroFinderException ex) {{{\n}
-{\t}{\t}{\t}// do nothing - expected condition{\n}
-{\t}{\t}}{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}.withConnection(null){\n}
+{\t}{\t}{\t}.withLimit(null){\n}
+{\t}{\t}{\t}.withOffset(null){\n}
+{\t}{\t}{\t}.execute();{\n}
+{\n}
+{\t}{\t}Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
 
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithNullConnectionNullLimitNullOffsetSilent() throws SQLException {{{\n}
-{\t}{\t}int numConnections = BaseConnectionManager.comboPooledDataSource.getNumConnections();{\n}
-{\t}{\t}int numBusyConnections = BaseConnectionManager.comboPooledDataSource.getNumBusyConnections();{\n}
-{\t}{\t}{table.javaClassName}Finder.{finder.name}Silent(null{if fn:notEqual[finder.whereFields.size, "0"]}, {endif}{import classpath:/tests/snippet/finder-field-params.templar}, null, null);{\n}
-{\t}{\t}Assert.assertEquals(numConnections, BaseConnectionManager.comboPooledDataSource.getNumConnections());{\n}
+{\t}{\t}int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();{\n}
+{\t}{\t}int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();{\n}
+{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/tests/snippet/finder-field-params.templar}){\n}
+{\t}{\t}{\t}{\t}.withConnection(null){\n}
+{\t}{\t}{\t}{\t}.withLimit(null){\n}
+{\t}{\t}{\t}{\t}.withOffset(null){\n}
+{\t}{\t}{\t}{\t}.executeSilent();{\n}
+{\n}
 {\t}{\t}// need to sleep to ensure that the connection has time to close - hacky... :({\n}
 {\t}{\t}try {{ Thread.sleep(1); } catch (InterruptedException e) {{ /* do nothing */ }{\n}
-{\t}{\t}Assert.assertEquals(numBusyConnections, BaseConnectionManager.comboPooledDataSource.getNumBusyConnections());{\n}
+{\t}{\t}Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());{\n}
 {\t}}{\n}
 {\n}
-
+{endif}
 	{endloop}
 {endloop}
 

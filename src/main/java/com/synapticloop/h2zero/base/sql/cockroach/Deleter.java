@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.base.sql.cockroach;
 
 import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.base.LimitOffsetDeleter;
+import com.synapticloop.h2zero.base.sql.base.deleter.LimitOffsetDeleter;
 import org.slf4j.Logger;
 
 import java.sql.Connection;

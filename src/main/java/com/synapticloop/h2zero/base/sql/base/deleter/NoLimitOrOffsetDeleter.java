@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.base;
+package com.synapticloop.h2zero.base.sql.base.deleter;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseIntegerNoLimitOffsetExecutor;
+import com.synapticloop.h2zero.base.sql.base.BaseDeleterUpdaterExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
@@ -29,12 +29,27 @@ import java.sql.SQLException;
  * pre-compiled binary with the <code>#define SQLITE_ENABLE_UPDATE_DELETE_LIMIT</code>
  * flag set).
  */
-public abstract class NoLimitOffsetDeleter extends BaseIntegerNoLimitOffsetExecutor {
-	public NoLimitOffsetDeleter(Logger logger, String sqlStatement, Object... parameters) {
+public abstract class NoLimitOrOffsetDeleter extends BaseDeleterUpdaterExecutor {
+	public NoLimitOrOffsetDeleter(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
 
-	@Override protected String getLimitedResultsStatement() {
+	/**
+	 * <p>Execute this statement with a connection - this will be used, rather
+	 * than creating a new connection from the connection pool.  This is
+	 * useful when you want to be able to start a transaction and commit
+	 * or rollback.</p>
+	 *
+	 * @param connection The connection to use
+	 *
+	 * @return The finder with the set connection
+	 */
+	public NoLimitOrOffsetDeleter withConnection(Connection connection) {
+		this.connection = connection;
+		return(this);
+	}
+
+	@Override protected String getLimitedResultsStatement() throws SQLException {
 		return(super.getLimitOffsetStatement());
 	}
 

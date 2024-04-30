@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.postgresql;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.LimitOffsetUniqueFinder;
+import com.synapticloop.h2zero.base.sql.base.finder.LimitOffsetUniqueFinder;
 import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 import org.slf4j.Logger;
 

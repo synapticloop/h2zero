@@ -1,7 +1,7 @@
 {if finder.hasInFields}
 	{loop finder.whereFields as whereField}
 		{if whereField.isInField}
-			new ArrayList<{whereField.javaType}>()
+			List.of({whereField.sqlTestValue})
 		{else}
 			{whereField.sqlTestValue}
 		{endif}

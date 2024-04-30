@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.sqlserver;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.OffsetFetchMultiFinder;
+import com.synapticloop.h2zero.base.sql.base.finder.OffsetFetchMultiFinder;
 import com.synapticloop.h2zero.base.manager.sqlserver.ConnectionManager;
 import org.slf4j.Logger;
 

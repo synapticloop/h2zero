@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.base;
+package com.synapticloop.h2zero.base.sql.base.updater;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,22 +17,15 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseBooleanExecutor;
+import com.synapticloop.h2zero.base.sql.base.BaseDeleterUpdaterExecutor;
 import org.slf4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.function.Function;
-
-public abstract class LimitOffsetQuestion extends BaseBooleanExecutor {
-	public LimitOffsetQuestion(Logger logger, String sqlStatement, Function<ResultSet, Boolean> resultsFunction, Object... parameters) {
-		super(logger, sqlStatement, resultsFunction, parameters);
+public abstract class OffsetFetchUpdater extends BaseDeleterUpdaterExecutor {
+	public OffsetFetchUpdater(Logger logger, String sqlStatement, Object... parameters) {
+		super(logger, sqlStatement, parameters);
 	}
 
 	@Override protected String getLimitedResultsStatement() {
-		return(super.getLimitOffsetStatement());
+		return(getOffsetFetchStatement());
 	}
-
-	@Override protected abstract Connection getConnection() throws SQLException;
 }

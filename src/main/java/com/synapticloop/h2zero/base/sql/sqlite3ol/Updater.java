@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.base.sql.sqlite3ol;
 
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.base.LimitOffsetUpdater;
+import com.synapticloop.h2zero.base.sql.base.updater.LimitOffsetUpdater;
 import org.slf4j.Logger;
 
 import java.sql.Connection;

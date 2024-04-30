@@ -1,7 +1,7 @@
 {if deleter.hasInFields}
 	{loop deleter.whereFields as whereField}
 		{if whereField.isInField}
-			new ArrayList<{whereField.javaType}>()
+			List.of({whereField.sqlTestValue})
 		{else}
 			{whereField.sqlTestValue}
 		{endif}

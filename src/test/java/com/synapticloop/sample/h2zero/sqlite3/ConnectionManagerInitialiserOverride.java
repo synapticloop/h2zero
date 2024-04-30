@@ -5,7 +5,19 @@ package com.synapticloop.sample.h2zero.sqlite3;
 //  (java-create-connection-manager-initialise-override.templar)
 
 
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiser;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.sample.h2zero.sqlite3.test.util.DatabaseSetupTest;
+
+import java.beans.PropertyVetoException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * <p>
@@ -46,29 +58,77 @@ import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiser;
  * </pre>
  */
 public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {
+	private static String testDbPath;
 
 	public static void initialise() {
-//		// create a new combo pool
-//		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();
-//		// configure the combopool
-//		try {
-//			myComboPooledDataSource.setDriverClass("db.driver.class");
-//		} catch (PropertyVetoException e) { // runtime exception
-//			throw new RuntimeException(e);
-//		}
-//
-//		try {
-//			myComboPooledDataSource.setLoginTimeout(1);
-//		} catch (SQLException e) {
-//			throw new RuntimeException(e);
-//		}
-//
-//		myComboPooledDataSource.setAcquireIncrement(1);
-//
-//		myComboPooledDataSource.setJdbcUrl("jdbc://");
-//		myComboPooledDataSource.setUser("username");
-//		myComboPooledDataSource.setPassword("password");
-//
-//		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
+		// create a new combo pool
+		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();
+		// configure the combopool
+		try {
+			myComboPooledDataSource.setDriverClass("org.sqlite.JDBC");
+		} catch (PropertyVetoException e) { // runtime exception
+			throw new RuntimeException(e);
+		}
+		String tmpDir = "." + File.separator;
+		try {
+			tmpDir = Files.createTempDirectory("sqlite3").toFile().getAbsolutePath();
+		} catch (IOException e) {
+		}
+
+		testDbPath = tmpDir + File.separator + "test.db";
+		myComboPooledDataSource.setJdbcUrl("jdbc:sqlite:" + testDbPath);
+
+		try {
+			myComboPooledDataSource.setLoginTimeout(1);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
+
+		createDatabase();
+	}
+
+	public static void destroy() {
+		if(null != comboPooledDataSource) {
+			comboPooledDataSource.close();
+		}
+		File dbFile = new File(testDbPath);
+		dbFile.delete();
+	}
+
+	private static void createDatabase() {
+		PreparedStatement preparedStatement = null;
+
+		try (
+				Connection connection = ConnectionManager.getConnection();
+				InputStreamReader inputStreamReader = new InputStreamReader(DatabaseSetupTest.class.getResourceAsStream("/create-database-sqlite3.sql"));
+				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		) {
+			String line = null;
+			StringBuilder query = new StringBuilder();
+
+			while ((line = bufferedReader.readLine()) != null) {
+				if (!line.startsWith("--") && !line.trim().isEmpty()) {
+					query.append(line);
+				} else {
+					continue;
+				}
+
+				if (line.trim().endsWith(";")) {
+					if (line.trim().isEmpty()) {
+						continue;
+					}
+					preparedStatement = connection.prepareStatement(query.toString());
+					preparedStatement.execute();
+					preparedStatement.close();
+					query.setLength(0);
+				}
+			}
+
+		} catch (IOException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionManager.closeAll(preparedStatement);
+		}
 	}
 }

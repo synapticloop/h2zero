@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql;
+package com.synapticloop.h2zero.base.sql.base.finder;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,7 +17,8 @@ package com.synapticloop.h2zero.base.sql;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
+import com.synapticloop.h2zero.base.sql.BaseSQLExecutor;
 import org.slf4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -33,7 +34,7 @@ import java.util.function.Function;
  * @param <T> The type of result to return, either as a single object, or a
  *          list of results
  */
-public abstract class BaseFinder<T> extends BaseSQLExecutor {
+public abstract class BaseFinderExecutor<T> extends BaseSQLExecutor {
 	protected final Function<ResultSet, List<T>> resultsFunction;
 
 	/**
@@ -48,7 +49,7 @@ public abstract class BaseFinder<T> extends BaseSQLExecutor {
 	 * @param parameters the array of parameters that are required to be set
 	 *                   on the SQL statement
 	 */
-	protected BaseFinder(Logger logger, String sqlStatement, Function<ResultSet, List<T>> resultsFunction, Object ... parameters) {
+	protected BaseFinderExecutor(Logger logger, String sqlStatement, Function<ResultSet, List<T>> resultsFunction, Object ... parameters) {
 		super(logger, sqlStatement, parameters);
 		this.resultsFunction = resultsFunction;
 	}
@@ -70,63 +71,37 @@ public abstract class BaseFinder<T> extends BaseSQLExecutor {
 	 * @return the object, or null if one wasn't found
 	 *
 	 * @throws SQLException If there was an error executing the SQL statement
-	 * @throws H2ZeroFinderException If no results could be found
 	 */
-	protected List<T> executeInternal() throws SQLException, H2ZeroFinderException {
-		if(null == connection) {
-			connection = getConnection();
-		}
+	protected List<T> executeInternal() throws SQLException {
+		List<T> results = new ArrayList<>();
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
 
-		// we are going to add the limit/offset or offset/fetch statement first,
-		// which may be a blank string
-		String preparedStatementTemp = sqlStatement + getLimitedResultsStatement();
+		// whether we have a connection provided - i.e. we don't need to create
+		// or cleanup the connection - this is left to the user
+		boolean hasProvidedConnection = true;
 
-		// look for any parameters which are a list - this means that they are in fields
-		List<Integer> inFieldOffsets = new ArrayList<>();
-
-		int i = 0;
-		for(Object object: parameters) {
-			if(object instanceof List<?>) {
-				inFieldOffsets.add(i);
+		try {
+			if (null == connection) {
+				connection = getConnection();
+				hasProvidedConnection = false;
 			}
-			i++;
-		}
 
-		if(inFieldOffsets.size() != 0) {
-			for(Integer offset: inFieldOffsets) {
-				StringBuilder whereFieldStringBuilder = null;
-				whereFieldStringBuilder = new StringBuilder();
-				int size = ((List<?>) parameters[offset]).size();
-				for(int j = 0; j < size; j++) {
-					if(j > 0) {
-						whereFieldStringBuilder.append(", ");
-					}
-					whereFieldStringBuilder.append("?");
-				}
+			preparedStatement = prepareStatement(connection, sqlStatement + getLimitedResultsStatement());
 
-				preparedStatementTemp = preparedStatementTemp.replaceFirst("\\.\\.\\.", whereFieldStringBuilder.toString());
+			// finally execute the statement
+			resultSet = preparedStatement.executeQuery();
+			results = resultsFunction.apply(resultSet);
+		} finally {
+			if(hasProvidedConnection) {
+				// the caller has provided a connection - so they must close it themselves
+				BaseConnectionManager.closeAll(resultSet, preparedStatement, null);
+			} else {
+				BaseConnectionManager.closeAll(resultSet, preparedStatement, connection);
 			}
 		}
 
-		// now we prepare the statement
-		PreparedStatement preparedStatement = connection.prepareStatement(preparedStatementTemp);
-
-		// now we set all of the parameters
-		int k = 1;
-		for(Object object: parameters) {
-			preparedStatement.setObject(k, object);
-			k++;
-
-			if(object instanceof List<?> listObjects) {
-				for(Object listObject: listObjects) {
-					preparedStatement.setObject(i, listObject);
-					k++;
-				}
-			}
-		}
-
-		// finally execute the statement
-		return(resultsFunction.apply(preparedStatement.executeQuery()));
+		return results;
 	}
 
 	/**
@@ -143,11 +118,10 @@ public abstract class BaseFinder<T> extends BaseSQLExecutor {
 			return(executeInternal());
 		} catch (SQLException e) {
 			logger.error("SQLException executing statement '{}'", sqlStatement);
-		} catch (H2ZeroFinderException ignored) {
 		}
 
 		return(new ArrayList<T>());
 	}
 
-	protected abstract String getLimitedResultsStatement();
+	protected abstract String getLimitedResultsStatement() throws SQLException;
 }

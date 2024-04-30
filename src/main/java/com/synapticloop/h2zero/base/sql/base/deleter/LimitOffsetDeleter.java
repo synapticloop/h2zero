@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.base;
+package com.synapticloop.h2zero.base.sql.base.deleter;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,20 +17,42 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseIntegerExecutor;
+import com.synapticloop.h2zero.base.sql.base.BaseDeleterUpdaterExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.function.Function;
 
-public abstract class LimitOffsetCounter extends BaseIntegerExecutor {
-	public LimitOffsetCounter(Logger logger, String sqlStatement, Function<ResultSet, Integer> resultsFunction, Object... parameters) {
-		super(logger, sqlStatement, resultsFunction, parameters);
+public abstract class LimitOffsetDeleter extends BaseDeleterUpdaterExecutor {
+	public LimitOffsetDeleter(Logger logger, String sqlStatement, Object... parameters) {
+		super(logger, sqlStatement, parameters);
 	}
 
-	@Override protected String getLimitedResultsStatement() {
+	/**
+	 * Set the offset of the results.
+	 *
+	 * @param offset the offset to start with the results
+	 *
+	 * @return the MultiFinder with the offset set
+	 */
+	public BaseDeleterUpdaterExecutor withOffset(Integer offset) {
+		this.offset = offset;
+		return(this);
+	}
+
+	/**
+	 * Set the limit of the results
+	 *
+	 * @param limit the limit of the results
+	 *
+	 * @return the MultiFinder with the limit set
+	 */
+	public BaseDeleterUpdaterExecutor withLimit(Integer limit) {
+		this.limit = limit;
+		return(this);
+	}
+
+	@Override protected String getLimitedResultsStatement() throws SQLException {
 		return(super.getLimitOffsetStatement());
 	}
 

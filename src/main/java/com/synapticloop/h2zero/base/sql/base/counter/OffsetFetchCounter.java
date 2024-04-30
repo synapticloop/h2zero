@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.base;
+package com.synapticloop.h2zero.base.sql.base.counter;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,15 +17,11 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseBooleanExecutor;
 import org.slf4j.Logger;
 
-import java.sql.ResultSet;
-import java.util.function.Function;
-
-public abstract class OffsetFetchQuestion extends BaseBooleanExecutor {
-	public OffsetFetchQuestion(Logger logger, String sqlStatement, Function<ResultSet, Boolean> resultsFunction, Object... parameters) {
-		super(logger, sqlStatement, resultsFunction, parameters);
+public abstract class OffsetFetchCounter extends BaseCounterExecutor {
+	public OffsetFetchCounter(Logger logger, String sqlStatement, Object... parameters) {
+		super(logger, sqlStatement, parameters);
 	}
 
 	@Override protected String getLimitedResultsStatement() {

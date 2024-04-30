@@ -102,7 +102,7 @@ public class BaseH2ZeroGenerator {
 			generators.add(new SqlGenerator(database, options, outFile, verbose));
 			generators.add(new JavaGenerator(database, options, outFile, verbose));
 			generators.add(new ImpexGenerator(database, options, outFile, verbose));
-//			generators.add(new JavaTestGenerator(database, options, outFile, verbose));
+			generators.add(new JavaTestGenerator(database, options, outFile, verbose));
 			generators.add(new UtilGenerator(database, options, outFile, verbose));
 			generators.add(new ReportGenerator(database, options, outFile, verbose));
 

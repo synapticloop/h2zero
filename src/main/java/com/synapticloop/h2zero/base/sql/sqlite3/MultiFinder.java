@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.sqlite3;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.LimitOffsetMultiFinder;
+import com.synapticloop.h2zero.base.sql.base.finder.LimitOffsetMultiFinder;
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import org.slf4j.Logger;
 

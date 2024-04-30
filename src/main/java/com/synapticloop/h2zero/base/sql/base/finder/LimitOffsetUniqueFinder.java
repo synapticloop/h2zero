@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.base;
+package com.synapticloop.h2zero.base.sql.base.finder;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,36 +17,34 @@ package com.synapticloop.h2zero.base.sql.base;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.BaseMultiFinder;
 import org.slf4j.Logger;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Function;
 
-public abstract class LimitOffsetMultiFinder<T> extends BaseMultiFinder<T> {
+public abstract class LimitOffsetUniqueFinder<T> extends BaseUniqueFinderExecutor<T> {
 
 	/**
-	 * <p>Create a new multi finder - <strong>NOTE</strong> this method should
-	 * probably not be used independently, but through the static Finder
-	 * methods.</p>
+	 * <p>Create a new finder - <strong>NOTE</strong> this method should probably
+	 * not be used independently, but through the static Finder methods.</p>
 	 *
-	 * <p>A MultiFinder only ever returns multiple results (i.e. a List of
-	 * results).</p>
+	 * <p>A Finder only ever returns a single result</p>
 	 *
-	 * @param logger the logger for any errors that occur when the executeSilent()
-	 *          method is called.
+	 * @param logger the logger for errors
 	 * @param sqlStatement The SQL statement to execute
 	 * @param resultsFunction The function to call that will return the object
 	 *          created from the result set
 	 * @param parameters the array of parameters that are required to be set
 	 *          on the SQL statement
 	 */
-	public LimitOffsetMultiFinder(Logger logger, String sqlStatement, Function<ResultSet, List<T>> resultsFunction, Object ... parameters) {
+	public LimitOffsetUniqueFinder(Logger logger, String sqlStatement, Function<ResultSet, List<T>> resultsFunction, Object ... parameters) {
 		super(logger, sqlStatement, resultsFunction, parameters);
 	}
 
-	@Override protected String getLimitedResultsStatement() {
+	@Override protected String getLimitedResultsStatement() throws SQLException {
+		// TODO - this is not allowed
 		return(super.getLimitOffsetStatement());
 	}
 }

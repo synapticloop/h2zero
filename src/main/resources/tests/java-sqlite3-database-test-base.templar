@@ -6,81 +6,23 @@ package {database.package}.test.util;{\n}{\n}
 {\n}
 import static org.junit.Assert.*;{\n}
 {\n}
+import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
+import {database.package}.ConnectionManagerInitialiserOverride;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 import com.mchange.v2.c3p0.ComboPooledDataSource;{\n}
-import org.junit.BeforeClass;{\n}
 import org.junit.AfterClass;{\n}
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;{\n}
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;{\n}
-{\n}
-import java.beans.PropertyVetoException;{\n}
-import java.io.BufferedReader;{\n}
-import java.io.IOException;{\n}
-import java.io.File;{\n}
-import java.io.InputStreamReader;{\n}
-import java.sql.Connection;{\n}
-import java.sql.PreparedStatement;{\n}
-import java.sql.SQLException;{\n}
+import org.junit.BeforeClass;{\n}
 {\n}
 public class DatabaseSetupTest extends BaseConnectionManager {{{\n}
 {\t}private static final String DB_DRIVER_CLASS = "org.sqlite.JDBC";{\n}
 {\n}
 {\t}@BeforeClass{\n}
-{\t}public static void setup() {{{\n}
-{\t}{\t}try {{{\n}
-{\t}{\t}{\t}BaseConnectionManager.comboPooledDataSource = new ComboPooledDataSource();{\n}
-{\t}{\t}{\t}comboPooledDataSource.setDriverClass(DB_DRIVER_CLASS);{\n}
-{\t}{\t}} catch (PropertyVetoException e) {{ // runtime exception{\n}
-{\t}{\t}{\t}throw new RuntimeException(e);{\n}
-{\t}{\t}}{\n}
-{\n}
-{\t}{\t}comboPooledDataSource.setJdbcUrl("jdbc:sqlite:/{dbUrl}");{\n}
-
-{\t}{\t}createDatabase();{\n}
+{\t}public static void beforeClass() {{{\n}
+{\t}{\t}ConnectionManagerInitialiserOverride.initialise();{\n}
 {\t}}{\n}
 {\n}
 {\t}@AfterClass{\n}
 {\t}public static void teardown() {{{\n}
-{\t}{\t}if(null != comboPooledDataSource) {{{\n}
-{\t}{\t}{\t}comboPooledDataSource.close();{\n}
-{\t}{\t}}{\n}
-{\t}{\t}File dbFile = new File(".{options.outputTestResources}/test.db");{\n}
-{\t}{\t}dbFile.delete();{\n}
+{\t}{\t}// ConnectionManagerInitialiserOverride.destroy();{\n}
 {\t}}{\n}
-{\n}
-{\t}private static void createDatabase() {{{\n}
-{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-{\n}
-{\t}{\t}try ({\n}
-{\t}{\t}{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
-{\t}{\t}{\t}{\t}BufferedReader bufferedReader = new BufferedReader({\n}
-{\t}{\t}{\t}{\t}{\t}{\t}new InputStreamReader({\n}
-{\t}{\t}{\t}{\t}{\t}{\t}{\t}{\t}DatabaseSetupTest.class.getResourceAsStream("/create-database-sqlite3.sql")));{\n}
-{\t}{\t}) {{{\n}
-{\t}{\t}{\t}String line = null;{\n}
-{\t}{\t}{\t}StringBuilder query = new StringBuilder();{\n}
-{\n}
-{\t}{\t}{\t}while ((line = bufferedReader.readLine()) != null) {{{\n}
-{\t}{\t}{\t}{\t}if (!line.startsWith("--") && !line.trim().isEmpty()) {{{\n}
-{\t}{\t}{\t}{\t}{\t}query.append(line);{\n}
-{\t}{\t}{\t}{\t}} else {{{\n}
-{\t}{\t}{\t}{\t}{\t}continue;{\n}
-{\t}{\t}{\t}{\t}}{\n}
-{\n}
-{\t}{\t}{\t}{\t}if (line.trim().endsWith(";")) {{{\n}
-{\t}{\t}{\t}{\t}{\t}if (line.trim().isEmpty()) {{{\n}
-{\t}{\t}{\t}{\t}{\t}{\t}continue;{\n}
-{\t}{\t}{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement(query.toString());{\n}
-{\t}{\t}{\t}{\t}{\t}preparedStatement.execute();{\n}
-{\t}{\t}{\t}{\t}{\t}preparedStatement.close();{\n}
-{\t}{\t}{\t}{\t}{\t}query.setLength(0);{\n}
-{\t}{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}}{\n}
-{\n}
-{\t}{\t}} catch (IOException | SQLException e) {{{\n}
-{\t}{\t}{\t}e.printStackTrace();{\n}
-{\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
-{\t}{\t}}{\n}
-{\t}}
 }{\n}
