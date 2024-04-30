@@ -7,7 +7,7 @@ package com.synapticloop.sample.h2zero.sqlite3;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import com.synapticloop.sample.h2zero.sqlite3.test.util.DatabaseSetupTest;
+import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;

@@ -28,8 +28,8 @@ import com.synapticloop.sample.h2zero.cockroach.bean.UserUserFindGroupNumAgeBean
 
 import com.synapticloop.sample.h2zero.cockroach.model.UserUser;
 
-import com.synapticloop.h2zero.base.sql.cockroach.MultiFinder;
-import com.synapticloop.h2zero.base.sql.cockroach.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
 
 public class UserUserFinder {
 	// the binder is unused in code, but will generate compile problems if this 

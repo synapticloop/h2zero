@@ -26,8 +26,8 @@ import com.synapticloop.sample.h2zero.mysql.bean.UserTitleFindIdUserTitleNmUserT
 
 import com.synapticloop.sample.h2zero.mysql.model.UserTitle;
 
-import com.synapticloop.h2zero.base.sql.mysql.MultiFinder;
-import com.synapticloop.h2zero.base.sql.mysql.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
 
 public class UserTitleFinder {
 	// the binder is unused in code, but will generate compile problems if this 

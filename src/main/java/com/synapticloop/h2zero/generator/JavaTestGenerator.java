@@ -2,7 +2,7 @@ package com.synapticloop.h2zero.generator;
 
 /*
  * Copyright (c) 2023 - 2024 synapticloop.
- * 
+ *
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -20,6 +20,7 @@ package com.synapticloop.h2zero.generator;
 
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
+import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.templar.Parser;
 import com.synapticloop.templar.exception.FunctionException;
 import com.synapticloop.templar.exception.ParseException;
@@ -30,7 +31,7 @@ import java.io.File;
 
 /**
  * This class generates all things that are java (i.e. ends in a .java extension)
- * 
+ *
  * @author synapticloop
  */
 public class JavaTestGenerator extends Generator {
@@ -50,34 +51,47 @@ public class JavaTestGenerator extends Generator {
 		}
 
 		try {
-      TemplarContext templarContext = getDefaultTemplarContext();
+			TemplarContext templarContext = getDefaultTemplarContext();
 			templarContext.add("options", options);
 			templarContext.add("database",database);
-			templarContext.add("dbUrl", (outFile + options.getOutputTestResources() + "/test.db").replaceAll("\\\\", "\\\\\\\\"));
 			new File("." + options.getOutputTestResources()).mkdirs();
 			generateDatabaseTestBase(templarContext);
-			generateFinderTest(templarContext);
-			generateDeleterTest(templarContext);
+
+			for(Table table: database.getTables()) {
+				templarContext.add("table", table);
+				generateFinderTest(templarContext, table);
+				generateDeleterTest(templarContext, table);
+			}
 		} catch (FunctionException fex) {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
 	}
 
 	private void generateDatabaseTestBase(TemplarContext templarContext) throws ParseException, RenderException {
-		Parser javaGenerateDatabaseTestBaseParser = getParser("/tests/java-sqlite3-database-test-base.templar");
-		String pathname = outFile + options.getOutputTestCode() + database.getPackagePath() + "/test/util/DatabaseSetupTest.java";
+		Parser javaGenerateDatabaseTestBaseParser = getParser("/java/test/java-database-test-base.templar");
+		String pathname = outFile + options.getOutputTestCode() + database.getPackagePath() + "/test/DatabaseSetupTest.java";
 		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
 	}
 
-	private void generateFinderTest(TemplarContext templarContext) throws ParseException, RenderException {
-		Parser javaGenerateDatabaseTestBaseParser = getParser("/tests/java-finder-test.templar");
-		String pathname = outFile + options.getOutputTestCode() + database.getPackagePath() + "/test/util/FinderTest.java";
+	private void generateFinderTest(TemplarContext templarContext, Table table) throws ParseException, RenderException {
+		Parser javaGenerateDatabaseTestBaseParser = getParser("/java/test/java-finder-test.templar");
+		String pathname = outFile +
+				options.getOutputTestCode() +
+				database.getPackagePath() +
+				"/test/finder/" +
+				table.getJavaClassName() +
+				"Test.java";
 		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
 	}
 
-	private void generateDeleterTest(TemplarContext templarContext) throws ParseException, RenderException {
-		Parser javaGenerateDatabaseTestBaseParser = getParser("/tests/java-deleter-test.templar");
-		String pathname = outFile + options.getOutputTestCode() + database.getPackagePath() + "/test/util/DeleterTest.java";
+	private void generateDeleterTest(TemplarContext templarContext, Table table) throws ParseException, RenderException {
+		Parser javaGenerateDatabaseTestBaseParser = getParser("/java/test/java-deleter-test.templar");
+		String pathname = outFile +
+				options.getOutputTestCode() +
+				database.getPackagePath() +
+				"/test/deleter/" +
+				table.getJavaClassName() +
+				"Test.java";
 		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
 	}
 

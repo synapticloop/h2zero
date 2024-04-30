@@ -26,8 +26,8 @@ import com.synapticloop.sample.h2zero.cockroach.bean.UserTitleFindIdUserTitleNmU
 
 import com.synapticloop.sample.h2zero.cockroach.model.UserTitle;
 
-import com.synapticloop.h2zero.base.sql.cockroach.MultiFinder;
-import com.synapticloop.h2zero.base.sql.cockroach.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
 
 public class UserTitleFinder {
 	// the binder is unused in code, but will generate compile problems if this 

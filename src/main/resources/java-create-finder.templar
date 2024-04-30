@@ -8,8 +8,8 @@ package {database.package}.finder;{\n}{\n}
 //                (java-create-finder.templar){\n}{\n}
 
 {import classpath:/snippet/global/finder-imports.templar}
-import com.synapticloop.h2zero.base.sql.{options.database}.MultiFinder;{\n}
-import com.synapticloop.h2zero.base.sql.{options.database}.UniqueFinder;{\n}
+import com.synapticloop.h2zero.base.sql.{options.limitOffsetType}.MultiFinder;{\n}
+import com.synapticloop.h2zero.base.sql.{options.limitOffsetType}.UniqueFinder;{\n}
 {\n}
 
 

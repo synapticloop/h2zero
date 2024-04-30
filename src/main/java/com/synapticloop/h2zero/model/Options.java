@@ -306,6 +306,11 @@ public class Options {
 	public boolean getIsAllowableDatabase() { return(ALLOWABLE_DATABASES.contains(getDatabase())); }
 	public boolean getIsDefault() { return(this.isDefault); }
 
-	public boolean getIsLimitOffset() { return(LIMIT_OFFSET_DATABASES.contains(getDatabase())); }
-
+	public String getLimitOffsetType() {
+		if(LIMIT_OFFSET_DATABASES.contains(getDatabase())) {
+			return("limitoffset");
+		} else {
+			return("offsetfetch");
+		}
+	}
 }

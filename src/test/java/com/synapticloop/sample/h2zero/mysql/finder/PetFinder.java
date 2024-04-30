@@ -27,8 +27,8 @@ import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import com.synapticloop.sample.h2zero.mysql.model.Pet;
 
-import com.synapticloop.h2zero.base.sql.mysql.MultiFinder;
-import com.synapticloop.h2zero.base.sql.mysql.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
 
 public class PetFinder {
 	// the binder is unused in code, but will generate compile problems if this 

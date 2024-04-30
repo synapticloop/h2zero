@@ -26,8 +26,8 @@ import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.Pet;
 
-import com.synapticloop.h2zero.base.sql.sqlite3.MultiFinder;
-import com.synapticloop.h2zero.base.sql.sqlite3.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
 
 public class PetFinder {
 	// the binder is unused in code, but will generate compile problems if this 

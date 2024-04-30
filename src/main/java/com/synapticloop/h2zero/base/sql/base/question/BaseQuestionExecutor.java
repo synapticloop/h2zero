@@ -76,7 +76,7 @@ public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
 		try {
 			return (executeInternal());
 		} catch (SQLException e) {
-			logger.error("SQLException executing statement '{}'", sqlStatement);
+			logger.error("SQLException executing statement '{}', with limit '{}', with offset '{}'.", sqlStatement, limit, offset);
 		} catch (H2ZeroFinderException ignored) {
 		}
 

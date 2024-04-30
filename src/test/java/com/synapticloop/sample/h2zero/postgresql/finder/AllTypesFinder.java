@@ -25,8 +25,8 @@ import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 
 import com.synapticloop.sample.h2zero.postgresql.model.AllTypes;
 
-import com.synapticloop.h2zero.base.sql.cockroach.MultiFinder;
-import com.synapticloop.h2zero.base.sql.cockroach.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
 
 public class AllTypesFinder {
 	// the binder is unused in code, but will generate compile problems if this 
