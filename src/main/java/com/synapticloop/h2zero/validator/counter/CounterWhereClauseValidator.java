@@ -17,6 +17,7 @@ package com.synapticloop.h2zero.validator.counter;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.validator.BaseValidator;
 import com.synapticloop.h2zero.model.Counter;
 import com.synapticloop.h2zero.model.Database;
@@ -25,6 +26,7 @@ import com.synapticloop.h2zero.model.Table;
 
 import java.util.List;
 
+@H2ZeroValidator
 public class CounterWhereClauseValidator extends BaseValidator {
 
 	@Override

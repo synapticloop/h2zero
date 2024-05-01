@@ -35,7 +35,6 @@ import java.io.File;
  * @author synapticloop
  */
 public class JavaTestGenerator extends Generator {
-
 	public JavaTestGenerator(Database database, Options options, File outFile, boolean verbose) {
 		super(database, options, outFile, verbose);
 	}

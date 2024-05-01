@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 import com.synapticloop.h2zero.util.LruCache;
 
 

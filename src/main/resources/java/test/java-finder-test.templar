@@ -661,20 +661,4 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 {\n}
 {endif}
 {endloop}
-
-
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	Now for the user finders with a select clause
-
-	these are subtly different as they return a bean or a list of beans, but
-	the same
-
-  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -}
-{loop table.finders as finder}
-	{if fn:notNull[finder.selectClause]}
-	{endif}
-{endloop}
-
-
 }{\n}

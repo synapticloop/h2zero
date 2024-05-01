@@ -25,8 +25,8 @@ import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 import com.synapticloop.sample.h2zero.mysql.view.UserUserType;
 
-import com.synapticloop.h2zero.base.sql.mysql.MultiFinder;
-import com.synapticloop.h2zero.base.sql.mysql.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
 
 
 public class UserUserTypeViewFinder {

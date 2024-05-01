@@ -546,21 +546,21 @@ public class AllTypes extends ModelBase {
 		jsonObject.put("name", "AllTypes");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAllTypes", this.getIdAllTypes());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBigint", this.getTestBigint());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testBoolean", this.getTestBoolean());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDate", this.getTestDate());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDatetime", this.getTestDatetime());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testDouble", this.getTestDouble());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testFloat", this.getTestFloat());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testInt", this.getTestInt());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testInteger", this.getTestInteger());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testMediumint", this.getTestMediumint());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testNumeric", this.getTestNumeric());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testSmallint", this.getTestSmallint());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testText", this.getTestText());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testTinyint", this.getTestTinyint());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "testVarchar", this.getTestVarchar());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idAllTypes", this.getIdAllTypes());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testBigint", this.getTestBigint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testBoolean", this.getTestBoolean());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testDate", this.getTestDate());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testDatetime", this.getTestDatetime());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testDouble", this.getTestDouble());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testFloat", this.getTestFloat());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testInt", this.getTestInt());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testInteger", this.getTestInteger());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testMediumint", this.getTestMediumint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testNumeric", this.getTestNumeric());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testSmallint", this.getTestSmallint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testText", this.getTestText());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testTinyint", this.getTestTinyint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "testVarchar", this.getTestVarchar());
 
 		jsonObject.put("fields", fieldsObject);
 

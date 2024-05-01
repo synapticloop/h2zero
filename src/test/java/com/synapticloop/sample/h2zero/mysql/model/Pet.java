@@ -388,12 +388,12 @@ public class Pet extends ModelBase {
 		jsonObject.put("name", "Pet");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idPet", this.getIdPet());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmPet", this.getNmPet());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numAge", this.getNumAge());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "fltWeight", this.getFltWeight());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "dtBirthday", this.getDtBirthday());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "imgPhoto", this.getImgPhoto());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmPet", this.getNmPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numAge", this.getNumAge());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "fltWeight", this.getFltWeight());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "dtBirthday", this.getDtBirthday());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "imgPhoto", this.getImgPhoto());
 
 		jsonObject.put("fields", fieldsObject);
 

@@ -100,9 +100,9 @@ public class AuthorStatus  {
 		jsonObject.put("name", "AuthorStatus");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAuthorStatus", this.getIdAuthorStatus());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtAuthorStatus", this.getTxtAuthorStatus());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtDescAuthorStatus", this.getTxtDescAuthorStatus());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idAuthorStatus", this.getIdAuthorStatus());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "txtAuthorStatus", this.getTxtAuthorStatus());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "txtDescAuthorStatus", this.getTxtDescAuthorStatus());
 
 		jsonObject.put("fields", fieldsObject);
 

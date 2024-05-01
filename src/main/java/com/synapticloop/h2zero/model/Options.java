@@ -17,16 +17,17 @@ package com.synapticloop.h2zero.model;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.model.util.JSONKeyConstants;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import com.synapticloop.h2zero.H2ZeroParser;
 import com.synapticloop.h2zero.exception.H2ZeroParseException;
 import com.synapticloop.h2zero.extension.Extension;
+import com.synapticloop.h2zero.model.record.DatabaseTypeProperty;
+import com.synapticloop.h2zero.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.util.JsonHelper;
 import com.synapticloop.h2zero.util.SimpleLogger;
 import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
 import com.synapticloop.h2zero.validator.BaseValidator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -42,8 +43,6 @@ public class Options {
 	public static final String OPTION_REPORTS = "reports";
 	public static final String OPTION_IMPEX = "impex";
 
-	public static final String OPTION_OUTPUT = "output";
-
 	private final static Set<String> ALLOWABLE_GENERATORS = new HashSet<>();
 	static {
 		ALLOWABLE_GENERATORS.add(OPTION_SQL);
@@ -53,26 +52,57 @@ public class Options {
 		ALLOWABLE_GENERATORS.add(OPTION_IMPEX);
 	}
 
-	public static final String DATABASE_MYSQL = "mysql";
-	public static final String DATABASE_SQLITE3 = "sqlite3";
 	public static final String DATABASE_COCKROACH = "cockroach";
+	public static final String DATABASE_MARIADB = "mariadb";
+	public static final String DATABASE_MYSQL = "mysql";
 	public static final String DATABASE_POSTGRESQL = "postgresql";
+	public static final String DATABASE_SQLITE3 = "sqlite3";
+	public static final String DATABASE_SQLSERVER = "sqlserver";
 
 
-	private static final Set<String> ALLOWABLE_DATABASES = new HashSet<>();
+	private static final Map<String, DatabaseTypeProperty> DATABASE_TYPE_PROPERTIES = new HashMap<>();
 	static {
-		ALLOWABLE_DATABASES.add(DATABASE_MYSQL);
-		ALLOWABLE_DATABASES.add(DATABASE_SQLITE3);
-		ALLOWABLE_DATABASES.add(DATABASE_COCKROACH);
-		ALLOWABLE_DATABASES.add(DATABASE_POSTGRESQL);
-	}
+		DATABASE_TYPE_PROPERTIES.put(DATABASE_COCKROACH,
+				new DatabaseTypeProperty(
+						DATABASE_COCKROACH,
+						"jdbc:postgresql://localhost:5432/h2zero-test",
+						"org.postgresql.Driver",
+						true));
 
-	private static final Set<String> LIMIT_OFFSET_DATABASES = new HashSet<>();
-	static {
-		LIMIT_OFFSET_DATABASES.add(DATABASE_MYSQL);
-		LIMIT_OFFSET_DATABASES.add(DATABASE_SQLITE3);
-		LIMIT_OFFSET_DATABASES.add(DATABASE_COCKROACH);
-		LIMIT_OFFSET_DATABASES.add(DATABASE_POSTGRESQL);
+		DATABASE_TYPE_PROPERTIES.put(DATABASE_MARIADB,
+				new DatabaseTypeProperty(
+						DATABASE_MARIADB,
+						"jdbc:mariadb://localhost:3306/h2zero-test",
+						"org.mariadb.jdbc.Driver",
+						true));
+
+		DATABASE_TYPE_PROPERTIES.put(DATABASE_MYSQL,
+				new DatabaseTypeProperty(
+						DATABASE_MYSQL,
+						"jdbc:mysql://127.0.0.1:3306/h2zero-test",
+						"com.mysql.cj.jdbc.Driver",
+						true));
+
+		DATABASE_TYPE_PROPERTIES.put(DATABASE_POSTGRESQL,
+				new DatabaseTypeProperty(
+						DATABASE_POSTGRESQL,
+						"jdbc:postgresql://localhost:5432/h2zero-test",
+						"org.postgresql.Driver",
+						true));
+
+		DATABASE_TYPE_PROPERTIES.put(DATABASE_SQLITE3,
+				new DatabaseTypeProperty(
+						DATABASE_SQLITE3,
+						"jdbc:sqlite:./h2zero-test.db",
+						"org.sqlite.JDBC",
+						true));
+
+		DATABASE_TYPE_PROPERTIES.put(DATABASE_SQLSERVER,
+				new DatabaseTypeProperty(
+						DATABASE_SQLSERVER,
+						"jdbc:sqlserver://localhost:1433\\H2ZERO;encrypt=false;databaseName=h2zero-test;integratedSecurity=false;",
+						"com.microsoft.sqlserver.jdbc.SQLServerDriver",
+						false));
 	}
 
 	/*
@@ -218,8 +248,7 @@ public class Options {
 		// here we add all generators to the disabled generators, then when we 
 		// iterate over the generators and print whether they are enabled, we
 		// remove the enabled generator from the disabledGenerator list
-		Set<String> disabledGenerators = new HashSet<>();
-		disabledGenerators.addAll(ALLOWABLE_GENERATORS);
+		Set<String> disabledGenerators = new HashSet<>(ALLOWABLE_GENERATORS);
 
     for (String next : generators) {
       SimpleLogger.logInfo(LoggerType.GENERATORS, "[ ENABLED  ] Generator '" + next + "'");
@@ -295,7 +324,9 @@ public class Options {
 	public Map<Extension, JSONObject> getExtensions() { return(extensions); }
 	public boolean hasGenerator(String generator) { return(generators.contains(generator)); }
 	public boolean hasGenerators() { return(!generators.isEmpty()); }
-	public String getDatabase() { return database; }
+	public String getDatabase() {
+		return(DATABASE_TYPE_PROPERTIES.get(database).databaseType());
+	}
 	public void setDatabase(String database) { this.database = database; }
 
 	public String getOutputCode() { return(outputCode); }
@@ -303,14 +334,24 @@ public class Options {
 	public String getOutputTestCode() { return(outputTestCode); }
 	public String getOutputTestResources() { return(outputTestResource); }
 	public String getOutputBuild() { return(outputBuild); }
-	public boolean getIsAllowableDatabase() { return(ALLOWABLE_DATABASES.contains(getDatabase())); }
+	public boolean getIsAllowableDatabase() {
+		return(DATABASE_TYPE_PROPERTIES.containsKey(database));
+	}
 	public boolean getIsDefault() { return(this.isDefault); }
 
 	public String getLimitOffsetType() {
-		if(LIMIT_OFFSET_DATABASES.contains(getDatabase())) {
+		if(DATABASE_TYPE_PROPERTIES.get(database).isLimitOffset()) {
 			return("limitoffset");
 		} else {
 			return("offsetfetch");
 		}
+	}
+
+	public String getJdbcUrl() {
+		return(DATABASE_TYPE_PROPERTIES.get(database).jdbcUrl());
+	}
+
+	public String getDriverClassName() {
+		return(DATABASE_TYPE_PROPERTIES.get(database).driverClassName());
 	}
 }

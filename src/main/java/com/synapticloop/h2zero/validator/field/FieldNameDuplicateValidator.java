@@ -22,12 +22,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.field.BaseField;
 import com.synapticloop.h2zero.validator.BaseValidator;
 
+@H2ZeroValidator
 public class FieldNameDuplicateValidator extends BaseValidator {
 	private Set<String> names = new HashSet<String>();
 

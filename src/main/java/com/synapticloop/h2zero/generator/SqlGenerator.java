@@ -17,8 +17,6 @@ package com.synapticloop.h2zero.generator;
  * under the Licence.
  */
 
-import java.io.File;
-
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.util.SimpleLogger;
@@ -28,6 +26,8 @@ import com.synapticloop.templar.exception.FunctionException;
 import com.synapticloop.templar.exception.ParseException;
 import com.synapticloop.templar.exception.RenderException;
 import com.synapticloop.templar.utils.TemplarContext;
+
+import java.io.File;
 
 /**
  * The SQL Generator generates the database schema to the create-database.sql script.
@@ -55,13 +55,12 @@ public class SqlGenerator extends Generator {
 		}
 
 		String databaseType = options.getDatabase();
-		Parser sqlCreateDatabaseTypeParser = getParser("/sql-create-database-" + databaseType+ ".templar");
+		Parser sqlCreateDatabaseTypeParser = getParser("/sql-create-database-" + databaseType + ".templar");
 
 		SimpleLogger.logInfo(LoggerType.GENERATE_SQL, "Generating for database '" + database.getSchema() + "', of type '" + databaseType + ".");
 
 		// first up the database creation script
-		String pathname = outFile.getAbsolutePath() + options.getOutputResources() + "/create-database-" + databaseType + ".sql";
+		String pathname = outFile.getAbsolutePath() + options.getOutputResources() + "/create-database-" + databaseType + "-" + database.getSchema() + ".sql";
 		renderToFile(templarContext, sqlCreateDatabaseTypeParser, pathname);
 	}
-
 }

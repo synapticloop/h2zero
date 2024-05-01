@@ -20,12 +20,14 @@ package com.synapticloop.h2zero.validator.finder;
 
 import java.util.List;
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.field.BaseField;
 import com.synapticloop.h2zero.validator.BaseValidator;
 
+@H2ZeroValidator
 public class FinderAutoIndexValidator extends BaseValidator {
 	public void validate(Database database, Options options) {
 		List<Table> tables = database.getTables();

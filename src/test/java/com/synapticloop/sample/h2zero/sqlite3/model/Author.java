@@ -528,19 +528,19 @@ public class Author extends ModelBase {
 		jsonObject.put("name", "Author");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAuthor", this.getIdAuthor());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAuthorStatus", this.getIdAuthorStatus());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtIdAuthor", this.getTxtIdAuthor());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmAuthor", this.getNmAuthor());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtBio", this.getTxtBio());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtUrlCacheImage", this.getTxtUrlCacheImage());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numFollowing", this.getNumFollowing());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numFollowers", this.getNumFollowers());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "dtmStartedFollowing", this.getDtmStartedFollowing());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "flIsUpdating", this.getFlIsUpdating());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "flAuthorIsFollowingUser", this.getFlAuthorIsFollowingUser());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "flAuthorIsFollowedByUser", this.getFlAuthorIsFollowedByUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idAuthor", this.getIdAuthor());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idAuthorStatus", this.getIdAuthorStatus());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "txtIdAuthor", this.getTxtIdAuthor());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmAuthor", this.getNmAuthor());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "txtBio", this.getTxtBio());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "txtUrlCacheImage", this.getTxtUrlCacheImage());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numFollowing", this.getNumFollowing());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numFollowers", this.getNumFollowers());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "dtmStartedFollowing", this.getDtmStartedFollowing());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "flIsUpdating", this.getFlIsUpdating());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "flAuthorIsFollowingUser", this.getFlAuthorIsFollowingUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "flAuthorIsFollowedByUser", this.getFlAuthorIsFollowedByUser());
 
 		jsonObject.put("fields", fieldsObject);
 

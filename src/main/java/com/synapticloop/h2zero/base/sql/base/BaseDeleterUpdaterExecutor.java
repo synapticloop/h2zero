@@ -1,6 +1,22 @@
 package com.synapticloop.h2zero.base.sql.base;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+/*
+ * Copyright (c) 2024 synapticloop.
+ * All rights reserved.
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENCE shipped with
+ * this source code or binaries.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * Licence for the specific language governing permissions and limitations
+ * under the Licence.
+ */
+
 import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
 import com.synapticloop.h2zero.base.sql.BaseSQLExecutor;
 import org.slf4j.Logger;
@@ -11,6 +27,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public abstract class BaseDeleterUpdaterExecutor extends BaseSQLExecutor {
+	/**
+	 * Instantiate an Updater
+	 *
+	 * @param logger The logger to use for any messages
+	 * @param sqlStatement The SQL statement to execute
+	 * @param parameters The parameters to set on the SQL statement
+	 */
 	public BaseDeleterUpdaterExecutor(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
@@ -29,7 +52,6 @@ public abstract class BaseDeleterUpdaterExecutor extends BaseSQLExecutor {
 	 *
 	 * @return The number of rows that were updated
 	 * @throws SQLException          If there was an error executing the SQL statement
-	 * @throws H2ZeroFinderException If no results could be found
 	 */
 	protected int executeInternal() throws SQLException {
 		ResultSet resultSet = null;
@@ -101,8 +123,6 @@ public abstract class BaseDeleterUpdaterExecutor extends BaseSQLExecutor {
 	 * @return the object, or null if one wasn't found
 	 *
 	 * @throws SQLException If there was an error executing the SQL statement
-	 * @throws H2ZeroFinderException If no results could be found, or if more
-	 *           than one result was found
 	 */
 	public int execute() throws SQLException {
 		return(executeInternal());
@@ -117,6 +137,16 @@ public abstract class BaseDeleterUpdaterExecutor extends BaseSQLExecutor {
 	public int executeSilent() {
 		return(executeSilentInternal());
 	}
+
+	/**
+	 * Get the limited results statement for the specific SQL dialect - e.g.
+	 * either limit offset or offset fetch next.
+	 *
+	 * @return The limited results statement for the SQL dialect
+	 *
+	 * @throws SQLException if there was an error setting the limit or offset of
+	 *     the statement
+	 */
 	protected abstract String getLimitedResultsStatement() throws SQLException;
 
 	protected abstract Connection getConnection() throws SQLException;

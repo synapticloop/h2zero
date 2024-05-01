@@ -21,7 +21,7 @@ import com.synapticloop.h2zero.util.LruCache;{\n}
 
 {\n}
 import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
-import com.synapticloop.h2zero.base.sql.{options.database}.Deleter;{\n}
+import com.synapticloop.h2zero.base.sql.{options.limitOffsetType}.Deleter;{\n}
 
 {\n}
 {import classpath:/snippet/global/java-logger.templar}

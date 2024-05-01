@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 
 
 import org.slf4j.Logger;

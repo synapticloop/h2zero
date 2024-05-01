@@ -17,10 +17,12 @@ package com.synapticloop.h2zero.validator.options;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.validator.BaseValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 
+@H2ZeroValidator
 public class OptionsDatabaseTypeValidator extends BaseValidator {
 	@Override
 	public void validate(Database database, Options options) {

@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.validator;
+package com.synapticloop.h2zero.validator.table;
 
 /*
  * Copyright (c) 2013-2024 synapticloop.
@@ -17,38 +17,28 @@ package com.synapticloop.h2zero.validator;
  * under the Licence.
  */
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
-import com.synapticloop.h2zero.model.View;
+import com.synapticloop.h2zero.model.field.BaseField;
+import com.synapticloop.h2zero.validator.BaseValidator;
 
-public class UniqueTableViewNameValidator extends BaseValidator {
+import java.util.List;
+
+@H2ZeroValidator
+public class ForeignKeyTableValidator extends BaseValidator {
 
 	public void validate(Database database, Options options) {
-		Set<String> tableViewNames = new HashSet<String>();
-
 		List<Table> tables = database.getTables();
+
 		for (Table table : tables) {
-			String name = table.getName();
-			if(tableViewNames.contains(name)) {
-				addFatalMessage("Table with name '" + name + "' already exists.");
+			List<BaseField> baseFields = table.getFields();
+			for (BaseField baseField : baseFields) {
+				if(null != baseField.getForeignKeyTable() && null == baseField.getForeignKeyTableLookup()) {
+					addFatalMessage("'" + table.getName() + "." + baseField.getName() + "' foreign key references table '" + baseField.getForeignKeyTable() + "', which does not exist.");
+				}
 			}
-			tableViewNames.add(name);
 		}
-
-		List<View> views = database.getViews();
-		for (View view : views) {
-			String name = view.getName();
-			if(tableViewNames.contains(name)) {
-				addFatalMessage("View with name '" + name + "' already exists as a table or view.");
-			}
-			tableViewNames.add(name);
-		}
-
 	}
-
 }

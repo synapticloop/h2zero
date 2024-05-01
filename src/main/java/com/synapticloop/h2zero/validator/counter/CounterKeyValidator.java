@@ -19,12 +19,14 @@ package com.synapticloop.h2zero.validator.counter;
 
 import java.util.List;
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Counter;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.validator.BaseKeyValidator;
 
+@H2ZeroValidator
 public class CounterKeyValidator extends BaseKeyValidator {
 
 	@Override

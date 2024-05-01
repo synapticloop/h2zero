@@ -17,6 +17,7 @@ package com.synapticloop.h2zero.validator.constant;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.validator.BaseValidator;
 import com.synapticloop.h2zero.model.ConstantCache;
 import com.synapticloop.h2zero.model.Database;
@@ -33,7 +34,7 @@ import java.util.List;
  * @author synapticloop
  *
  */
-
+@H2ZeroValidator
 public class ConstantCachesValidator extends BaseValidator {
 
 	@Override

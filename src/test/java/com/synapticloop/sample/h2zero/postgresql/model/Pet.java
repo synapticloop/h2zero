@@ -4,10 +4,10 @@ package com.synapticloop.sample.h2zero.postgresql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.*;
-import com.synapticloop.h2zero.base.model.cockroach.ModelBase;
+import com.synapticloop.h2zero.base.model.postgresql.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import java.lang.StringBuilder;
@@ -388,12 +388,12 @@ public class Pet extends ModelBase {
 		jsonObject.put("name", "Pet");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idPet", this.getIdPet());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmPet", this.getNmPet());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numAge", this.getNumAge());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "fltWeight", this.getFltWeight());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "dtBirthday", this.getDtBirthday());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "imgPhoto", this.getImgPhoto());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmPet", this.getNmPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numAge", this.getNumAge());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "fltWeight", this.getFltWeight());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "dtBirthday", this.getDtBirthday());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "imgPhoto", this.getImgPhoto());
 
 		jsonObject.put("fields", fieldsObject);
 

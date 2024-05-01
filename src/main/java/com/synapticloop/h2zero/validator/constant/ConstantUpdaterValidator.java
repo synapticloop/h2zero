@@ -17,13 +17,14 @@ package com.synapticloop.h2zero.validator.constant;
  * under the Licence.
  */
 
-import java.util.List;
-
-import com.synapticloop.h2zero.validator.BaseValidator;
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.validator.BaseValidator;
+
+import java.util.List;
 
 /**
  * Validate that a constant table does not have any 'updater' objects on it.  This will add a FATAL warning to the 
@@ -33,6 +34,7 @@ import com.synapticloop.h2zero.model.util.JSONKeyConstants;
  *
  */
 
+@H2ZeroValidator
 public class ConstantUpdaterValidator extends BaseValidator {
 
 	@Override

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 
 
 import org.slf4j.Logger;

@@ -28,7 +28,6 @@ import com.synapticloop.templar.utils.TemplarContext;
 import java.io.File;
 
 public class ReportGenerator extends Generator {
-
 	public ReportGenerator(Database database, Options options, File outFile, boolean verbose) {
 		super(database, options, outFile, verbose);
 	}

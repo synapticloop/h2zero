@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import com.synapticloop.h2zero.util.LruCache;
 
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.sqlite3.Deleter;
+import com.synapticloop.h2zero.base.sql.limitoffset.Deleter;
 
 
 import org.slf4j.Logger;

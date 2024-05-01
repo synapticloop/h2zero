@@ -42,7 +42,6 @@ public abstract class Generator {
 	protected Database database;
 	protected Options options;
 	protected File outFile;
-
 	protected boolean verbose = false;
 
 	private Map<String, Integer> numFilesHashMap = new HashMap<String, Integer>();
@@ -71,6 +70,14 @@ public abstract class Generator {
 	 * @throws ParseException if there was an error parsing the templar template file
 	 */
 	public abstract void generate() throws RenderException, ParseException;
+
+	public void generate(Database database, Options options, File outFile, boolean verbose) throws RenderException, ParseException {
+		this.database = database;
+		this.options = options;
+		this.outFile = outFile;
+		this.verbose = verbose;
+		generate();
+	}
 
 	/**
 	 * Get the default templar context, which contains the database and the 

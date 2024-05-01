@@ -97,6 +97,22 @@ create table user_user_pet (
 	foreign key (id_pet) references pet (id_pet)
 );
 
+drop table if exists all_types;
+create table all_types (
+	id_all_types bigserial not null,
+	num_smallint smallint null,
+	num_integer integer null,
+	num_bigint bigint null,
+	num_decimal decimal null,
+	num_numeric numeric null,
+	flt_real real null,
+	dbl_real double precision null,
+	num_serial serial not null,
+	num_smallserial smallserial not null,
+	num_bigserial bigserial not null,
+	primary key(id_all_types)
+);
+
 drop view if exists user_user_type;
 
 create view user_user_type as  select uu.nm_username, ut.nm_user_type from user_user uu, user_type ut where uu.id_user_type = ut.id_user_type;

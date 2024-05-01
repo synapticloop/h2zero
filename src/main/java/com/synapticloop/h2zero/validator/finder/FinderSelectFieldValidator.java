@@ -18,6 +18,7 @@ package com.synapticloop.h2zero.validator.finder;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Finder;
 import com.synapticloop.h2zero.model.Options;
@@ -26,6 +27,7 @@ import com.synapticloop.h2zero.model.field.BaseField;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.validator.BaseValidator;
 
+@H2ZeroValidator
 public class FinderSelectFieldValidator extends BaseValidator {
 
 	@Override

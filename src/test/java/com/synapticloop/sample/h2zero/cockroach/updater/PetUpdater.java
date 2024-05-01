@@ -11,7 +11,7 @@ import java.sql.Types;
 import java.sql.Timestamp;
 
 import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.cockroach.Updater;
+import com.synapticloop.h2zero.base.sql.limitoffset.Updater;
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
 
 

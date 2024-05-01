@@ -17,15 +17,17 @@ package com.synapticloop.h2zero.validator.database;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
+import com.synapticloop.h2zero.model.Database;
+import com.synapticloop.h2zero.model.Options;
+import com.synapticloop.h2zero.model.Table;
+import com.synapticloop.h2zero.validator.BaseValidator;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.synapticloop.h2zero.validator.BaseValidator;
-import com.synapticloop.h2zero.model.Database;
-import com.synapticloop.h2zero.model.Options;
-import com.synapticloop.h2zero.model.Table;
-
+@H2ZeroValidator
 public class TableNameDuplicateValidator extends BaseValidator {
 	private Set<String> names = new HashSet<String>();
 

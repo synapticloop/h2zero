@@ -17,8 +17,7 @@ package com.synapticloop.h2zero.validator.counter;
  * under the Licence.
  */
 
-import java.util.List;
-
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Counter;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
@@ -26,6 +25,9 @@ import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.validator.BaseValidator;
 
+import java.util.List;
+
+@H2ZeroValidator
 public class CounterSelectFieldsValidator extends BaseValidator {
 
 	@Override

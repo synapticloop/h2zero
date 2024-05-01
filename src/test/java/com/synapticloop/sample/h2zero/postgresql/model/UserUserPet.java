@@ -4,13 +4,13 @@ package com.synapticloop.sample.h2zero.postgresql.model;
 //    with the use of synapticloop templar templating language
 //                  (java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 import com.synapticloop.sample.h2zero.postgresql.question.UserUserQuestion;
 import com.synapticloop.sample.h2zero.postgresql.question.PetQuestion;
 import com.synapticloop.h2zero.base.validator.*;
-import com.synapticloop.h2zero.base.model.cockroach.ModelBase;
+import com.synapticloop.h2zero.base.model.postgresql.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import java.lang.StringBuilder;
@@ -327,9 +327,9 @@ public class UserUserPet extends ModelBase {
 		jsonObject.put("name", "UserUserPet");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserUserPet", this.getIdUserUserPet());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserUser", this.getIdUserUser());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserUserPet", this.getIdUserUserPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserUser", this.getIdUserUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idPet", this.getIdPet());
 
 		jsonObject.put("fields", fieldsObject);
 

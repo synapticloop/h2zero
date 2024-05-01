@@ -298,9 +298,9 @@ public class PetType extends ModelBase {
 		jsonObject.put("name", "PetType");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idPetType", this.getIdPetType());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmPetType", this.getNmPetType());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtDescPetType", this.getTxtDescPetType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idPetType", this.getIdPetType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmPetType", this.getNmPetType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "txtDescPetType", this.getTxtDescPetType());
 
 		jsonObject.put("fields", fieldsObject);
 

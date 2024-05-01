@@ -17,8 +17,7 @@ package com.synapticloop.h2zero.validator.counter;
  * under the Licence.
  */
 
-import java.util.List;
-
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Counter;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
@@ -26,11 +25,14 @@ import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.validator.BaseValidator;
 
+import java.util.List;
+
 /**
  * Validate that there isn't a 'unique' key on the counter json object, the result of a counter is always a single
  * result (and therefore a unique result).  THis will add a 'WARN' message to the validation stream.
  *
  */
+@H2ZeroValidator
 public class CounterJsonUniqueKeyExistsValidator extends BaseValidator {
 
 	@Override

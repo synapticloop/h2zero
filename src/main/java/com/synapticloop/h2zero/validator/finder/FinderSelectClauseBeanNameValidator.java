@@ -18,10 +18,7 @@ package com.synapticloop.h2zero.validator.finder;
  * under the Licence.
  */
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Finder;
 import com.synapticloop.h2zero.model.Options;
@@ -29,6 +26,11 @@ import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.field.BaseField;
 import com.synapticloop.h2zero.validator.BaseValidator;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@H2ZeroValidator
 public class FinderSelectClauseBeanNameValidator extends BaseValidator {
 
 	@Override

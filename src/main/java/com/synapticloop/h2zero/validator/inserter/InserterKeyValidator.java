@@ -20,12 +20,14 @@ package com.synapticloop.h2zero.validator.inserter;
 
 import java.util.List;
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.validator.BaseKeyValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Inserter;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 
+@H2ZeroValidator
 public class InserterKeyValidator extends BaseKeyValidator {
 
 	@Override

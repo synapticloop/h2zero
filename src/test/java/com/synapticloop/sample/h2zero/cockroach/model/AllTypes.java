@@ -478,17 +478,17 @@ public class AllTypes extends ModelBase {
 		jsonObject.put("name", "AllTypes");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idAllTypes", this.getIdAllTypes());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numSmallint", this.getNumSmallint());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numInteger", this.getNumInteger());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numBigint", this.getNumBigint());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numDecimal", this.getNumDecimal());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numNumeric", this.getNumNumeric());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "fltReal", this.getFltReal());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "dblReal", this.getDblReal());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numSerial", this.getNumSerial());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numSmallserial", this.getNumSmallserial());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numBigserial", this.getNumBigserial());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idAllTypes", this.getIdAllTypes());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numSmallint", this.getNumSmallint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numInteger", this.getNumInteger());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numBigint", this.getNumBigint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numDecimal", this.getNumDecimal());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numNumeric", this.getNumNumeric());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "fltReal", this.getFltReal());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "dblReal", this.getDblReal());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numSerial", this.getNumSerial());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numSmallserial", this.getNumSmallserial());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numBigserial", this.getNumBigserial());
 
 		jsonObject.put("fields", fieldsObject);
 

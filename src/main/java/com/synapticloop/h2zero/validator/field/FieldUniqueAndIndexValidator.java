@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.validator;
+package com.synapticloop.h2zero.validator.field;
 
 /*
  * Copyright (c) 2013-2024 synapticloop.
@@ -17,14 +17,17 @@ package com.synapticloop.h2zero.validator;
  * under the Licence.
  */
 
-import java.util.List;
-
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.field.BaseField;
+import com.synapticloop.h2zero.validator.BaseValidator;
 
-public class UniqeAndIndexValidator extends BaseValidator {
+import java.util.List;
+
+@H2ZeroValidator
+public class FieldUniqueAndIndexValidator extends BaseValidator {
 
 	public void validate(Database database, Options options) {
 		List<Table> tables = database.getTables();

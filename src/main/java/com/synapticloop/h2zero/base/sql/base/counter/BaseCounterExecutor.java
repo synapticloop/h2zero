@@ -1,6 +1,22 @@
 package com.synapticloop.h2zero.base.sql.base.counter;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+/*
+ * Copyright (c) 2024 synapticloop.
+ * All rights reserved.
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENCE shipped with
+ * this source code or binaries.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * Licence for the specific language governing permissions and limitations
+ * under the Licence.
+ */
+
 import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
 import com.synapticloop.h2zero.base.sql.BaseSQLExecutor;
 import org.slf4j.Logger;
@@ -29,9 +45,8 @@ public abstract class BaseCounterExecutor extends BaseSQLExecutor {
 	 *
 	 * @return the object, or null if one wasn't found
 	 * @throws SQLException          If there was an error executing the SQL statement
-	 * @throws H2ZeroFinderException If no results could be found
 	 */
-	protected Integer executeInternal() throws SQLException, H2ZeroFinderException {
+	protected Integer executeInternal() throws SQLException {
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 
@@ -75,7 +90,6 @@ public abstract class BaseCounterExecutor extends BaseSQLExecutor {
 			return (executeInternal());
 		} catch (SQLException e) {
 			logger.error("SQLException executing statement '{}', with limit '{}', with offset '{}'.", sqlStatement, limit, offset);
-		} catch (H2ZeroFinderException ignored) {
 		}
 
 		return (null);

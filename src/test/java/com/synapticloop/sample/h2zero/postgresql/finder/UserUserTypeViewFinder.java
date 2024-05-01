@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 import com.synapticloop.h2zero.util.LruCache;
 
 
@@ -25,8 +25,8 @@ import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 
 import com.synapticloop.sample.h2zero.postgresql.view.UserUserType;
 
-import com.synapticloop.h2zero.base.sql.cockroach.MultiFinder;
-import com.synapticloop.h2zero.base.sql.cockroach.UniqueFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.MultiFinder;
+import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
 
 
 public class UserUserTypeViewFinder {

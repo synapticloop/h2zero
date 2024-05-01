@@ -11,7 +11,7 @@ import java.sql.Types;
 import java.sql.Timestamp;
 
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.sqlite3.Updater;
+import com.synapticloop.h2zero.base.sql.limitoffset.Updater;
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 

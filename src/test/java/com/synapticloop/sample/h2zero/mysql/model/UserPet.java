@@ -327,9 +327,9 @@ public class UserPet extends ModelBase {
 		jsonObject.put("name", "UserPet");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserPet", this.getIdUserPet());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUser", this.getIdUser());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserPet", this.getIdUserPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUser", this.getIdUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idPet", this.getIdPet());
 
 		jsonObject.put("fields", fieldsObject);
 

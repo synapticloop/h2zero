@@ -16,7 +16,7 @@ import java.sql.Blob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 
 /**

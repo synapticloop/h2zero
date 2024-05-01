@@ -12,7 +12,7 @@ import java.sql.Date;
 import java.sql.Blob;
 
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 
 
 import org.slf4j.Logger;

@@ -18,6 +18,7 @@ package com.synapticloop.h2zero;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.exception.H2ZeroParseException;
 import com.synapticloop.h2zero.extension.Extension;
 import com.synapticloop.h2zero.model.Database;
@@ -25,39 +26,19 @@ import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.util.SimpleLogger;
 import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
-import com.synapticloop.h2zero.validator.*;
+import com.synapticloop.h2zero.validator.BaseValidator;
 import com.synapticloop.h2zero.validator.bean.Message;
-import com.synapticloop.h2zero.validator.constant.*;
-import com.synapticloop.h2zero.validator.counter.*;
-import com.synapticloop.h2zero.validator.database.TableNameDuplicateValidator;
-import com.synapticloop.h2zero.validator.deleter.DeleterNameValidator;
-import com.synapticloop.h2zero.validator.deleter.DeleterWhereClauseValidator;
-import com.synapticloop.h2zero.validator.field.*;
-import com.synapticloop.h2zero.validator.finder.*;
-import com.synapticloop.h2zero.validator.inserter.InserterKeyValidator;
-import com.synapticloop.h2zero.validator.inserter.InserterNameValidator;
-import com.synapticloop.h2zero.validator.inserter.InserterQueryParameterNameValidator;
-import com.synapticloop.h2zero.validator.options.OptionsDatabaseDefaultValidator;
-import com.synapticloop.h2zero.validator.options.OptionsDatabaseTypeValidator;
-import com.synapticloop.h2zero.validator.question.*;
-import com.synapticloop.h2zero.validator.table.TableIgnoredKeysValidator;
-import com.synapticloop.h2zero.validator.table.TablePrimaryKeyExistsValidator;
-import com.synapticloop.h2zero.validator.table.TablePrimaryKeyNameValidator;
-import com.synapticloop.h2zero.validator.table.TablePrimaryKeyTypeValidator;
-import com.synapticloop.h2zero.validator.updater.*;
-import com.synapticloop.h2zero.validator.view.ViewAsClauseValidator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.reflections.Reflections;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * This is the parser for the h2zero generator
@@ -75,129 +56,152 @@ public class H2ZeroParser {
 
 	private static final String H2ZERO_KEY_INCLUDE = "include";
 
-	private static final List<BaseValidator> validators = new ArrayList<>();
+	private static final List<BaseValidator> VALIDATORS = new ArrayList<>();
+	/*
 	static {
 		// options
-		validators.add(new OptionsGeneratorsValidator());
-		validators.add(new OptionsDatabaseDefaultValidator());
-		validators.add(new OptionsDatabaseTypeValidator());
+		VALIDATORS.add(new OptionsGeneratorsValidator());
+		VALIDATORS.add(new OptionsDatabaseDefaultValidator());
+		VALIDATORS.add(new OptionsDatabaseTypeValidator());
 
 		// overall validators
-		validators.add(new UniqueTableViewNameValidator());
-		validators.add(new ForeignKeyTableValidator());
-		validators.add(new UniqeAndIndexValidator());
+		VALIDATORS.add(new UniqueTableViewNameValidator());
+		VALIDATORS.add(new ForeignKeyTableValidator());
+		VALIDATORS.add(new UniqeAndIndexValidator());
 
 		// table validators
-		validators.add(new TableNameDuplicateValidator());
-		validators.add(new TablePrimaryKeyExistsValidator());
-		validators.add(new TablePrimaryKeyNameValidator());
-		validators.add(new TablePrimaryKeyTypeValidator());
-		validators.add(new TableIgnoredKeysValidator());
+		VALIDATORS.add(new TableNameDuplicateValidator());
+		VALIDATORS.add(new TablePrimaryKeyExistsValidator());
+		VALIDATORS.add(new TablePrimaryKeyNameValidator());
+		VALIDATORS.add(new TablePrimaryKeyTypeValidator());
+		VALIDATORS.add(new TableIgnoredKeysValidator());
 
 		// view validators
-		validators.add(new ViewAsClauseValidator());
+		VALIDATORS.add(new ViewAsClauseValidator());
 
 		// field validators
-		validators.add(new FieldDefaultValueValidator());
-		validators.add(new FieldPopulatePrimaryKeyValidator());
-		validators.add(new FieldPopulateForeignKeyValidator());
-		validators.add(new FieldNameDuplicateValidator());
-		validators.add(new FieldIgnoredKeysValidator());
-		validators.add(new FieldNotNullLengthValidator());
-		validators.add(new FieldPrimaryKeyTypeValidator());
-		validators.add(new FieldSerialNonPrimaryKeyValidator());
+		VALIDATORS.add(new FieldDefaultValueValidator());
+		VALIDATORS.add(new FieldPopulatePrimaryKeyValidator());
+		VALIDATORS.add(new FieldPopulateForeignKeyValidator());
+		VALIDATORS.add(new FieldNameDuplicateValidator());
+		VALIDATORS.add(new FieldIgnoredKeysValidator());
+		VALIDATORS.add(new FieldNotNullLengthValidator());
+		VALIDATORS.add(new FieldPrimaryKeyTypeValidator());
+		VALIDATORS.add(new FieldSerialNonPrimaryKeyValidator());
 
-		validators.add(new SQLite3FieldBlobValidator());
-		validators.add(new SQLite3FieldClobValidator());
-		validators.add(new SQLite3FieldPrimaryKeyValidator());
+		VALIDATORS.add(new SQLite3FieldBlobValidator());
+		VALIDATORS.add(new SQLite3FieldClobValidator());
+		VALIDATORS.add(new SQLite3FieldPrimaryKeyValidator());
 
 
 		// Finder validators
-		validators.add(new FinderInQueryValidator());
-		validators.add(new FinderNameValidator());
-		validators.add(new FinderWhereClauseValidator());
-		validators.add(new FinderWhereClauseIncludesLimitOrOffsetValidator());
-		validators.add(new FinderOrderByClauseValidator());
-		validators.add(new FinderSelectClauseValidator());
-		validators.add(new FinderSelectFieldValidator());
-		validators.add(new FinderSelectClauseFromValidator());
-		validators.add(new FinderSelectClauseBeanNameValidator());
-		validators.add(new FinderAutoIndexValidator());
-		validators.add(new FinderQueryParameterNameValidator());
-		validators.add(new FinderQueryParameterNumberValidator());
+		VALIDATORS.add(new FinderInQueryValidator());
+		VALIDATORS.add(new FinderNameValidator());
+		VALIDATORS.add(new FinderWhereClauseValidator());
+		VALIDATORS.add(new FinderWhereClauseIncludesLimitOrOffsetValidator());
+		VALIDATORS.add(new FinderOrderByClauseValidator());
+		VALIDATORS.add(new FinderSelectClauseValidator());
+		VALIDATORS.add(new FinderSelectFieldValidator());
+		VALIDATORS.add(new FinderSelectClauseFromValidator());
+		VALIDATORS.add(new FinderSelectClauseBeanNameValidator());
+		VALIDATORS.add(new FinderAutoIndexValidator());
+		VALIDATORS.add(new FinderQueryParameterNameValidator());
+		VALIDATORS.add(new FinderQueryParameterNumberValidator());
 
 
 		// inserter validators
-		validators.add(new InserterQueryParameterNameValidator());
-		validators.add(new InserterNameValidator());
-		validators.add(new InserterKeyValidator());
+		VALIDATORS.add(new InserterQueryParameterNameValidator());
+		VALIDATORS.add(new InserterNameValidator());
+		VALIDATORS.add(new InserterKeyValidator());
 
 
 		// deleter validators
-		validators.add(new DeleterNameValidator());
-		validators.add(new DeleterWhereClauseValidator());
+		VALIDATORS.add(new DeleterNameValidator());
+		VALIDATORS.add(new DeleterWhereClauseValidator());
 
 
 		// updater validators
-		validators.add(new UpdaterQueryParameterNameValidator());
-		validators.add(new UpdaterNameValidator());
-		validators.add(new UpdaterWhereClauseValidator());
-		validators.add(new UpdaterSetClauseValidator());
-		validators.add(new UpdaterKeyValidator());
+		VALIDATORS.add(new UpdaterQueryParameterNameValidator());
+		VALIDATORS.add(new UpdaterNameValidator());
+		VALIDATORS.add(new UpdaterWhereClauseValidator());
+		VALIDATORS.add(new UpdaterSetClauseValidator());
+		VALIDATORS.add(new UpdaterKeyValidator());
 
 
 		// counter validators
-		validators.add(new CounterQueryParameterNameValidator());
-		validators.add(new CounterSelectClauseValidator());
-		validators.add(new CounterSelectFieldsValidator());
-		validators.add(new CounterJsonUniqueKeyExistsValidator());
-		validators.add(new CounterKeyValidator());
-		validators.add(new CounterNameValidator());
-		validators.add(new CounterWhereClauseValidator());
+		VALIDATORS.add(new CounterQueryParameterNameValidator());
+		VALIDATORS.add(new CounterSelectClauseValidator());
+		VALIDATORS.add(new CounterSelectFieldsValidator());
+		VALIDATORS.add(new CounterJsonUniqueKeyExistsValidator());
+		VALIDATORS.add(new CounterKeyValidator());
+		VALIDATORS.add(new CounterNameValidator());
+		VALIDATORS.add(new CounterWhereClauseValidator());
 
 
 		// question validators
-		validators.add(new QuestionQueryParameterNameValidator());
-		validators.add(new QuestionSelectClauseValidator());
-		validators.add(new QuestionSelectFieldsValidator());
-		validators.add(new QuestionJsonUniqueKeyExistsValidator());
-		validators.add(new QuestionInternalNameValidator());
-		validators.add(new QuestionKeyValidator());
-		validators.add(new QuestionNameValidator());
+		VALIDATORS.add(new QuestionQueryParameterNameValidator());
+		VALIDATORS.add(new QuestionSelectClauseValidator());
+		VALIDATORS.add(new QuestionSelectFieldsValidator());
+		VALIDATORS.add(new QuestionJsonUniqueKeyExistsValidator());
+		VALIDATORS.add(new QuestionInternalNameValidator());
+		VALIDATORS.add(new QuestionKeyValidator());
+		VALIDATORS.add(new QuestionNameValidator());
 
 
 		// constant validators
-		validators.add(new ConstantTableValidator());
-		validators.add(new ConstantDeleterValidator());
-		validators.add(new ConstantInserterValidator());
-		validators.add(new ConstantUpdaterValidator());
-		validators.add(new ConstantCachesValidator());
+		VALIDATORS.add(new ConstantTableValidator());
+		VALIDATORS.add(new ConstantDeleterValidator());
+		VALIDATORS.add(new ConstantInserterValidator());
+		VALIDATORS.add(new ConstantUpdaterValidator());
+		VALIDATORS.add(new ConstantCachesValidator());
 	}
+	*/
 
-	private static final Map<String, BaseValidator> validatorMap = new HashMap<>();
+	private static final Map<String, BaseValidator> VALIDATOR_MAP = new HashMap<>();
+	/*
 	static {
-		for (BaseValidator validator : validators) {
-			validatorMap.put(validator.getClass().getSimpleName(), validator);
+		for (BaseValidator validator : VALIDATORS) {
+			VALIDATOR_MAP.put(validator.getClass().getSimpleName(), validator);
 		}
 	}
-
+	*/
 	/*
 	 * The following is used to determine the max width of the validators, for 
 	 * logging out the information through the SimpleLogger
 	 */
 	private static int maxValidatorClassNameLength = 0;
+	/*
 	static {
-		for (BaseValidator validator : validators) {
+		for (BaseValidator validator : VALIDATORS) {
 			int validatorSimpleNameLength = validator.getClass().getSimpleName().length();
 			if(validatorSimpleNameLength > maxValidatorClassNameLength) {
 				maxValidatorClassNameLength = validatorSimpleNameLength;
 			}
 		}
-	}
+	}*/
 	
 	private static final List<String> FATAL_MESSAGES = new ArrayList<>();
 
-	public H2ZeroParser() {};
+	public H2ZeroParser() {
+		Reflections reflections = new Reflections("com.synapticloop.h2zero");
+
+		for (Class<?> aClass : reflections.getTypesAnnotatedWith(H2ZeroValidator.class)) {
+			try {
+				BaseValidator baseValidator = (BaseValidator) (aClass.getDeclaredConstructor().newInstance());
+				VALIDATORS.add(baseValidator);
+				String simpleName = baseValidator.getClass().getSimpleName();
+				VALIDATOR_MAP.put(simpleName, baseValidator);
+				if(simpleName.length() > maxValidatorClassNameLength) {
+					maxValidatorClassNameLength = simpleName.length();
+				}
+			} catch (InstantiationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		// now we are going to sort the validators
+		VALIDATORS.sort((o1, o2) -> o1.getClass().getSimpleName().compareTo(o2.getClass().getSimpleName()));
+
+	}
 
 	/**
 	 * Parse a .h2zero file
@@ -225,7 +229,7 @@ public class H2ZeroParser {
 		for (Extension extension : extensions.keySet()) {
 			List<BaseValidator> extensionValidators = extension.getValidators();
 			if (null != extensionValidators) {
-				validators.addAll(extensionValidators);
+				VALIDATORS.addAll(extensionValidators);
 			}
 		}
 
@@ -240,7 +244,7 @@ public class H2ZeroParser {
 	private boolean checkAndLogValidators() {
 		boolean isValid = true;
 
-		for (BaseValidator validator : validators) {
+		for (BaseValidator validator : VALIDATORS) {
 			validator.validate(database, options);
 
 			if(!validator.isValid()) {
@@ -254,7 +258,7 @@ public class H2ZeroParser {
 			List<Message> messages = validator.getFormattedMessages();
 			for (Message message: messages) {
 				switch (message.getType()) {
-					case SimpleLogger.INFO ->
+					case SimpleLogger.DEBUG ->
 							SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
 					case SimpleLogger.WARN ->
 							SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
@@ -387,5 +391,5 @@ public class H2ZeroParser {
 	 * 
 	 * @return The validator
 	 */
-	public static BaseValidator getValidatorByName(String name) { return(validatorMap.get(name)); }
+	public static BaseValidator getValidatorByName(String name) { return(VALIDATOR_MAP.get(name)); }
 }

@@ -100,9 +100,9 @@ public class UserTitle  {
 		jsonObject.put("name", "UserTitle");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserTitle", this.getIdUserTitle());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUserTitle", this.getNmUserTitle());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numOrderBy", this.getNumOrderBy());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserTitle", this.getIdUserTitle());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUserTitle", this.getNmUserTitle());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numOrderBy", this.getNumOrderBy());
 
 		jsonObject.put("fields", fieldsObject);
 

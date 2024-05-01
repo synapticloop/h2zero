@@ -77,9 +77,9 @@ public class UserUserType extends ViewBase {
 		jsonObject.put("name", "UserUserType");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUser", this.getIdUser());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUser", this.getNmUser());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUser", this.getIdUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUser", this.getNmUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
 
 		jsonObject.put("fields", fieldsObject);
 

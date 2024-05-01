@@ -463,13 +463,13 @@ public class UserUser extends ModelBase {
 		jsonObject.put("name", "UserUser");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserUser", this.getIdUserUser());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserType", this.getIdUserType());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "flIsAlive", this.getFlIsAlive());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "numAge", this.getNumAge());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "txtAddressEmail", this.getTxtAddressEmail());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "tsSignup", this.getTsSignup());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserUser", this.getIdUserUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserType", this.getIdUserType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "flIsAlive", this.getFlIsAlive());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "numAge", this.getNumAge());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "txtAddressEmail", this.getTxtAddressEmail());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "tsSignup", this.getTsSignup());
 
 		jsonObject.put("fields", fieldsObject);
 

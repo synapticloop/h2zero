@@ -30,6 +30,7 @@ import com.synapticloop.templar.utils.TemplarContext;
 import java.io.File;
 
 public class UtilGenerator extends Generator {
+
 	public UtilGenerator(Database database, Options options, File outFile, boolean verbose) {
 		super(database, options, outFile, verbose);
 	}

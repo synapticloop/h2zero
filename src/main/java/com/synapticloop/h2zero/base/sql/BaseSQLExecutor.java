@@ -1,5 +1,22 @@
 package com.synapticloop.h2zero.base.sql;
 
+/*
+ * Copyright (c) 2024 synapticloop.
+ * All rights reserved.
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENCE shipped with
+ * this source code or binaries.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * Licence for the specific language governing permissions and limitations
+ * under the Licence.
+ */
+
 import org.slf4j.Logger;
 
 import java.sql.Connection;
@@ -16,6 +33,13 @@ public abstract class BaseSQLExecutor {
 	protected Integer limit = null;
 	protected Integer offset = null;
 
+	/**
+	 * <p>This is the base SQL executor that executes the SQL statement.</p>
+	 *
+	 * @param logger The logger to output messages to
+	 * @param sqlStatement The SQL statement to execute
+	 * @param parameters The parameters to set on the SQL statement
+	 */
 	public BaseSQLExecutor(Logger logger, String sqlStatement, Object ... parameters) {
 		this.logger = logger;
 		this.sqlStatement = sqlStatement;
@@ -23,7 +47,8 @@ public abstract class BaseSQLExecutor {
 	}
 
 	/**
-	 * Get the limit and offset statement for the database type.
+	 * <p>Get the limit and offset statement for the database type. For example
+	 * LIMIT x OFFSET y, or FETCH x ROWS FETCH NEXT y ROWS ONLY.</p>
 	 *
 	 * @return the limit and offset statement with the prepared variables set, or
 	 *   an empty string if the limit and offset are both null
@@ -31,7 +56,8 @@ public abstract class BaseSQLExecutor {
 	protected abstract String getLimitedResultsStatement() throws SQLException;
 
 	/**
-	 * Get a connection from the connection manager.
+	 * <p>Get a connection from the connection manager for the specific database
+	 * type.</p>
 	 *
 	 * @return The connection from the correct connection manager
 	 */
@@ -49,6 +75,7 @@ public abstract class BaseSQLExecutor {
 	 *
 	 * @param connection The connection to be used
 	 * @param sqlStatement The SQL statement to prepare
+	 *
 	 * @return The prepared statement
 	 *
 	 * @throws SQLException If there was an error in the statement
@@ -123,7 +150,6 @@ public abstract class BaseSQLExecutor {
 			stringBuilder.append(" OFFSET ");
 			stringBuilder.append(offset);
 		}
-
 
 		return(stringBuilder.toString());
 	}

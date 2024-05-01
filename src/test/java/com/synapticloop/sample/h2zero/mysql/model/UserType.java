@@ -110,8 +110,8 @@ public class UserType  {
 		jsonObject.put("name", "UserType");
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "idUserType", this.getIdUserType());
-		ModelBaseHelper.addtoJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserType", this.getIdUserType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
 
 		jsonObject.put("fields", fieldsObject);
 

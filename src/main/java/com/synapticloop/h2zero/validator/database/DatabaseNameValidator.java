@@ -20,10 +20,12 @@ package com.synapticloop.h2zero.validator.database;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.validator.BaseValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 
+@H2ZeroValidator
 public class DatabaseNameValidator extends BaseValidator {
 	private Set<String> names = new HashSet<String>();
 

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import com.synapticloop.h2zero.util.LruCache;
 
 import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.mysql.Deleter;
+import com.synapticloop.h2zero.base.sql.limitoffset.Deleter;
 
 
 import org.slf4j.Logger;

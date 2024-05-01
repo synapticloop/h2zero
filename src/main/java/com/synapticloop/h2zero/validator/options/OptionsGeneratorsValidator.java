@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.validator;
+package com.synapticloop.h2zero.validator.options;
 
 /*
  * Copyright (c) 2013-2024 synapticloop.
@@ -19,6 +19,7 @@ package com.synapticloop.h2zero.validator;
 
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
+import com.synapticloop.h2zero.validator.BaseValidator;
 
 public class OptionsGeneratorsValidator extends BaseValidator {
 

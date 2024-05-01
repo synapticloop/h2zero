@@ -817,7 +817,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\n}
 	{loop table.fields as field}
 		{if !field.isSecure}
-			{\t}{\t}ModelBaseHelper.addtoJSONObject(fieldsObject, "{field.javaName}", this.get{field.javaAccessorName}());{\n}
+			{\t}{\t}ModelBaseHelper.addToJSONObject(fieldsObject, "{field.javaName}", this.get{field.javaAccessorName}());{\n}
 		{endif}
 	{endloop}
 {\n}

@@ -17,15 +17,16 @@ package com.synapticloop.h2zero.validator.constant;
  * under the Licence.
  */
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import com.synapticloop.h2zero.validator.BaseValidator;
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Constant;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
+import com.synapticloop.h2zero.validator.BaseValidator;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Validate that values to be inserted into the constant table do not have duplicate primary key or duplicate 
@@ -34,6 +35,7 @@ import com.synapticloop.h2zero.model.Table;
  * @author synapticloop
  *
  */
+@H2ZeroValidator
 public class ConstantTableValidator extends BaseValidator {
 	private Set<String> primaryKeyValues = new HashSet<String>();
 	private Set<String> names = new HashSet<String>();

@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.ArrayList;
 import com.synapticloop.h2zero.util.LruCache;
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.cockroach.Deleter;
+import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.limitoffset.Deleter;
 
 
 import org.slf4j.Logger;

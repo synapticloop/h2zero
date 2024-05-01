@@ -18,15 +18,17 @@ package com.synapticloop.h2zero.validator.inserter;
  * under the Licence.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.synapticloop.h2zero.validator.BaseNameValidator;
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Inserter;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
+import com.synapticloop.h2zero.validator.BaseNameValidator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@H2ZeroValidator
 public class InserterNameValidator extends BaseNameValidator {
 	public InserterNameValidator() {
 		super("Inserter");

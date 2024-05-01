@@ -47,7 +47,6 @@ import java.sql.SQLException;
  * </p>
  *
  * <pre>
- *
  * NOTE: ONCE GENERATED - THIS FILE WILL __NEVER__ BE OVER-WRITTEN BY AN h2zero
  *       RE-GENERATION.
  *
@@ -84,8 +83,6 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 			throw new RuntimeException(e);
 		}
 		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
-
-		createDatabase();
 	}
 
 	public static void destroy() {
@@ -96,7 +93,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		dbFile.delete();
 	}
 
-	private static void createDatabase() {
+	public static void createDatabase() {
 		PreparedStatement preparedStatement = null;
 
 		try (

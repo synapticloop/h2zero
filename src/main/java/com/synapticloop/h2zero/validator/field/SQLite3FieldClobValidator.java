@@ -18,8 +18,7 @@ package com.synapticloop.h2zero.validator.field;
  * under the Licence.
  */
 
-import java.util.Iterator;
-import java.util.List;
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
@@ -27,6 +26,10 @@ import com.synapticloop.h2zero.model.field.BaseField;
 import com.synapticloop.h2zero.model.field.ClobField;
 import com.synapticloop.h2zero.validator.BaseValidator;
 
+import java.util.Iterator;
+import java.util.List;
+
+@H2ZeroValidator
 public class SQLite3FieldClobValidator extends BaseValidator {
 	public void validate(Database database, Options options) {
 		if ("sqlite3".equals(options.getDatabase())) {

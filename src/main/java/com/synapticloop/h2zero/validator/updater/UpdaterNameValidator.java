@@ -17,17 +17,18 @@ package com.synapticloop.h2zero.validator.updater;
  * under the Licence.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.synapticloop.h2zero.validator.BaseNameValidator;
-import org.json.JSONObject;
-
+import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.Updater;
+import com.synapticloop.h2zero.validator.BaseNameValidator;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@H2ZeroValidator
 public class UpdaterNameValidator extends BaseNameValidator {
 
 	public UpdaterNameValidator() {

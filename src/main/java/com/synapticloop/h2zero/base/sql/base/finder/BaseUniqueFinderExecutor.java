@@ -17,7 +17,6 @@ package com.synapticloop.h2zero.base.sql.base.finder;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
@@ -66,9 +65,6 @@ public abstract class BaseUniqueFinderExecutor<T> extends BaseFinderExecutor<T> 
 	 * @return the object, or null if one wasn't found
 	 *
 	 * @throws SQLException If there was an error executing the SQL statement
-	 * @throws H2ZeroFinderException If no results could be found, or if more
-	 * 	         than one result was found for the query which, by definition
-	 * 	         should be a unique result.
 	 */
 	public T execute() throws SQLException {
 		List<T> ts = super.executeInternal();
