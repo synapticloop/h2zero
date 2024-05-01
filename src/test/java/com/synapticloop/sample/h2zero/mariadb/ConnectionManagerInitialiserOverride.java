@@ -5,8 +5,8 @@ package com.synapticloop.sample.h2zero.mariadb;
 // (/java/java-create-connection-manager-initialise-override.templar)
 
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
+import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiser;
+import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
@@ -73,18 +73,10 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		}
 	}
 
-	public static void initialiseFromProperties() {
-		if(null != properties) {
-			return;
-		}
-		properties = new Properties();
-		try {
-			// !!! NOTE !!!
-			// If you are loading the properties file from the file system - you will need
-			// to ensure that this file exists
-			properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.mariadb.sample.properties"));
-		} catch (IOException e) {
-			throw new RuntimeException("Could not load the properties file.", e);
+	public static void initialiseFromProperties() throws SQLException {
+
+		if(null == properties) {
+			initialisePropertiesFile();
 		}
 
 		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();

@@ -73,16 +73,10 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		}
 	}
 
-	public static void initialiseFromProperties() {
-		initialiseFromProperties();
+	public static void initialiseFromProperties() throws SQLException {
 
-		try {
-			// !!! NOTE !!!
-			// If you are loading the properties file from the file system - you will need
-			// to ensure that this file exists
-			properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.sqlite3.sample.properties"));
-		} catch (IOException e) {
-			throw new RuntimeException("Could not load the properties file.", e);
+		if(null == properties) {
+			initialisePropertiesFile();
 		}
 
 		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();

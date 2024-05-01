@@ -5,8 +5,8 @@ package com.synapticloop.sample.h2zero.mysql;
 // (/java/java-create-connection-manager-initialise-override.templar)
 
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.sample.h2zero.mysql.ConnectionManagerInitialiser;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
@@ -73,15 +73,10 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		}
 	}
 
-	public static void initialiseFromProperties() {
+	public static void initialiseFromProperties() throws SQLException {
 
-		try {
-			// !!! NOTE !!!
-			// If you are loading the properties file from the file system - you will need
-			// to ensure that this file exists
-			properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.mysql.sample.properties"));
-		} catch (IOException e) {
-			throw new RuntimeException("Could not load the properties file.", e);
+		if(null == properties) {
+			initialisePropertiesFile();
 		}
 
 		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();
