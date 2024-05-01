@@ -53,6 +53,18 @@ public class PetUpserter {
 		"""
 			where nm_pet = ? and num_age = ?
 		""";
+	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + 
+		"""
+			where num_age = ?
+		""";
+	private static final String SQL_FIND_AGE_BETWEEN = SQL_SELECT_START + 
+		"""
+			where num_age >= ? and num_age <= ?
+		""";
+	private static final String SQL_FIND_BIRTHDAYS_BETWEEN = SQL_SELECT_START + 
+		"""
+			where dt_birthday >= ? and dt_birthday <= ?
+		""";
 
 	private PetUpserter() {}
 

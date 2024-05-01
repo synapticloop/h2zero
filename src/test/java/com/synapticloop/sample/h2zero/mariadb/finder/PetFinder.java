@@ -56,6 +56,18 @@ public class PetFinder {
 		"""
 			where nm_pet = ? and num_age = ?
 		""";
+	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + 
+		"""
+			where num_age = ?
+		""";
+	private static final String SQL_FIND_AGE_BETWEEN = SQL_SELECT_START + 
+		"""
+			where num_age >= ? and num_age <= ?
+		""";
+	private static final String SQL_FIND_BIRTHDAYS_BETWEEN = SQL_SELECT_START + 
+		"""
+			where dt_birthday >= ? and dt_birthday <= ?
+		""";
 
 	private PetFinder() {}
 
@@ -143,11 +155,14 @@ public class PetFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 1 defined finders on the pet table, of those finders
+	 * There are 4 defined finders on the pet table, of those finders
 	 * the following are the regular finders, either defined through the
 	 * 'finders' or 'fieldFinders' JSON key
 	 * 
 	 * - findByNmPetNumAge - Generated from the 'fieldFinders' JSON key
+	 * - findByNumAge - Generated from the 'fieldFinders' JSON key
+	 * - findAgeBetween - Generated from the 'finders' JSON key
+	 * - findBirthdaysBetween - Generated from the 'finders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -201,6 +216,152 @@ public class PetFinder {
 		));
 	}
 	/**
+	 * This is the <code>findByNumAge</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<Pet> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>Pet.findByNumAge(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>Pet.findByNumAge(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>Pet.findByNumAge(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param numAge - maps to the num_age field
+	 * 
+	 * @return the MultiFinder<Pet>()
+	 * 
+	 */
+	public static MultiFinder<Pet> findByNumAge(Integer numAge) {
+		return(
+				new MultiFinder<Pet>(
+				LOGGER,
+				SQL_FIND_BY_NUM_AGE,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {numAge}
+		));
+	}
+	/**
+	 * This is the <code>findAgeBetween</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<Pet> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>Pet.findAgeBetween(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>Pet.findAgeBetween(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>Pet.findAgeBetween(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param numAgeStart - maps to the num_age field
+	 * @param numAgeEnd - maps to the num_age field
+	 * 
+	 * @return the MultiFinder<Pet>()
+	 * 
+	 */
+	public static MultiFinder<Pet> findAgeBetween(Integer numAgeStart, Integer numAgeEnd) {
+		return(
+				new MultiFinder<Pet>(
+				LOGGER,
+				SQL_FIND_AGE_BETWEEN,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {numAgeStart, numAgeEnd}
+		));
+	}
+	/**
+	 * This is the <code>findBirthdaysBetween</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<Pet> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>Pet.findBirthdaysBetween(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>Pet.findBirthdaysBetween(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>Pet.findBirthdaysBetween(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param dtBirthdayStart - maps to the dt_birthday field
+	 * @param dtBirthdayEnd - maps to the dt_birthday field
+	 * 
+	 * @return the MultiFinder<Pet>()
+	 * 
+	 */
+	public static MultiFinder<Pet> findBirthdaysBetween(Date dtBirthdayStart, Date dtBirthdayEnd) {
+		return(
+				new MultiFinder<Pet>(
+				LOGGER,
+				SQL_FIND_BIRTHDAYS_BETWEEN,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {dtBirthdayStart, dtBirthdayEnd}
+		));
+	}
+	/**
 	 * Return the results as a list of Pet, this will be empty if
 	 * none are found.
 	 * 
@@ -234,7 +395,7 @@ public class PetFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 1 defined finders on the pet table, of those finders
+	 * There are 4 defined finders on the pet table, of those finders
 	 * the following are the select clause finders:
 	 * 
 	 * 

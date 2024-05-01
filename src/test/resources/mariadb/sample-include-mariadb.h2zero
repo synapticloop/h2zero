@@ -26,17 +26,17 @@
 	"defaultStatementCacheSize": 1024,
 
 	"tables": [
-		{ "include": "./user_type.json" },
-		{ "include": "./user_title.json" },
-		{ "include": "./user.json" },
-		{ "include": "./pet_type.json" },
-		{ "include": "./pet.json" },
-		{ "include": "./user_pet.json" },
-		{ "include": "./all_types.mysql.json" }
+		{ "include": "../common/user_type.json" },
+		{ "include": "../common/user_title.json" },
+		{ "include": "../common/user.json" },
+		{ "include": "../common/pet_type.json" },
+		{ "include": "../common/pet.json" },
+		{ "include": "../common/user_pet.json" },
+		{ "include": "./all_types.mariadb.json" }
 	],
 
 	"views": [
-		{ "include": "./view-pet.json" },
+		{ "include": "../common/view_pet.json" },
 	],
 
 	"forms": {
