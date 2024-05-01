@@ -3,7 +3,7 @@
 	"database": "mariadb",
 	"metrics": false,
 
-	"generators": [ "java", "sql", "reports" ],
+	"generators": [ "java", "sql", "reports", "tests" ],
 
 	"validators": {
 		"UpdaterNameValidator": {

@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.base.deleter;
+package com.synapticloop.h2zero.base.sql.nolimitoffset;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,15 +17,24 @@ package com.synapticloop.h2zero.base.sql.base.deleter;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.BaseDeleterExecutor;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.base.deleter.NoLimitDeleter;
 import org.slf4j.Logger;
 
-public abstract class OffsetFetchDeleter extends BaseDeleterExecutor {
-	public OffsetFetchDeleter(Logger logger, String sqlStatement, Object... parameters) {
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class Deleter extends NoLimitDeleter {
+	public Deleter(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
 
-	@Override protected String getLimitedResultsStatement() {
-		return(getOffsetFetchStatement());
+	public NoLimitDeleter withConnection(Connection connection) {
+		this.connection = connection;
+		return(this);
+	}
+
+	@Override protected Connection getConnection() throws SQLException {
+		return(ConnectionManager.getConnection());
 	}
 }

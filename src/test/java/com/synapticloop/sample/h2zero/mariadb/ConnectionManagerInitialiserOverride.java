@@ -5,14 +5,15 @@ package com.synapticloop.sample.h2zero.mariadb;
 // (/java/java-create-connection-manager-initialise-override.templar)
 
 
-import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiser;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -57,17 +58,22 @@ import java.util.Properties;
  * </pre>
  */
 public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {
+	public static Properties properties;
 
-	public static void initialiseFromProperties() {
-		Properties properties = new Properties();
+	private static void initialisePropertiesFile() throws SQLException {
+		properties = new Properties();
 		try {
 			// !!! NOTE !!!
 			// If you are loading the properties file from the file system - you will need
 			// to ensure that this file exists
 			properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.mariadb.sample.properties"));
 		} catch (IOException e) {
-			throw new RuntimeException("Could not load the properties file.", e);
+			throw new RuntimeException("Could not load the properties file '/application.mariadb.sample.properties' there shall be no SQL for you.", e);
 		}
+	}
+
+	public static void initialiseFromProperties() throws SQLException {
+		initialisePropertiesFile();
 
 		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();
 		try {
@@ -119,11 +125,26 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 //		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
 	}
 
-	public static void createDatabase() {
+	/**
+	 * Creating the database requires a separate JDBC URL if the database has
+	 * never been setup before
+	 *
+	 * @throws SQLException If there was an error connecting to the database
+	 *   or executing the SQL creation statements.
+	 */
+	public static void createDatabase() throws SQLException {
+		if(null == properties) {
+			initialiseFromProperties();
+		}
+
 		PreparedStatement preparedStatement = null;
 
 		try (
-				Connection connection = ConnectionManager.getConnection();
+				Connection connection = DriverManager.getConnection(
+						properties.getProperty("db.initial.jdbcUrl"),
+						properties.getProperty("db.initial.user"),
+						properties.getProperty("db.initial.password"));
+
 				InputStreamReader inputStreamReader = new InputStreamReader(ConnectionManagerInitialiser.class.getResourceAsStream("/create-database-mariadb-sample.sql"));
 				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		) {
@@ -138,9 +159,6 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 				}
 
 				if (line.trim().endsWith(";")) {
-					if (line.trim().isEmpty()) {
-						continue;
-					}
 					preparedStatement = connection.prepareStatement(query.toString());
 					preparedStatement.execute();
 					preparedStatement.close();
@@ -148,9 +166,12 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 				}
 			}
 
-		} catch (IOException | SQLException e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			throw new SQLException("Could not load the /create-database-mariadb-sample.sql file, original message was: " + e.getMessage(), e);
+		} catch (SQLException e) {
+			throw(e);
 		} finally {
 			ConnectionManager.closeAll(preparedStatement);
 		}
-	}}
+	}
+}

@@ -26,7 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class BaseDeleterUpdaterExecutor extends BaseSQLExecutor {
+public abstract class BaseUpdaterExecutor extends BaseSQLExecutor {
 	/**
 	 * Instantiate an Updater
 	 *
@@ -34,7 +34,7 @@ public abstract class BaseDeleterUpdaterExecutor extends BaseSQLExecutor {
 	 * @param sqlStatement The SQL statement to execute
 	 * @param parameters The parameters to set on the SQL statement
 	 */
-	public BaseDeleterUpdaterExecutor(Logger logger, String sqlStatement, Object... parameters) {
+	public BaseUpdaterExecutor(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
 
@@ -112,8 +112,13 @@ public abstract class BaseDeleterUpdaterExecutor extends BaseSQLExecutor {
 	 *
 	 * @return The finder with the set connection
 	 */
-	public BaseDeleterUpdaterExecutor withConnection(Connection connection) {
+	public BaseUpdaterExecutor withConnection(Connection connection) {
 		this.connection = connection;
+		return(this);
+	}
+
+	public BaseUpdaterExecutor withLimit(Integer limit) {
+		this.limit = limit;
 		return(this);
 	}
 

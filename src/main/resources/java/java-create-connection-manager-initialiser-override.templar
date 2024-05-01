@@ -57,9 +57,23 @@ import java.util.Properties;{\n}
  * </pre>{\n}
  */{\n}
 public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {{{\n}
+{\t}public static Properties properties;{\n}
+{\n}
+{\t}private static void initialisePropertiesFile() throws SQLException {{{\n}
+{\t}{\t}properties = new Properties();{\n}
+{\t}{\t}try {{{\n}
+{\t}{\t}{\t}// !!! NOTE !!!{\n}
+{\t}{\t}{\t}// If you are loading the properties file from the file system - you will need{\n}
+{\t}{\t}{\t}// to ensure that this file exists{\n}
+{\t}{\t}{\t}properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.{options.database}.{database.schema}.properties"));{\n}
+{\t}{\t}} catch (IOException e) {{{\n}
+{\t}{\t}{\t}throw new RuntimeException("Could not load the properties file '/application.{options.database}.{database.schema}.properties' there shall be no SQL for you.", e);{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
 {\n}
 {\t}public static void initialiseFromProperties() {{{\n}
-{\t}{\t}Properties properties = new Properties();{\n}
+{\t}{\t}initialiseFromProperties();{\n}
+{\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}// !!! NOTE !!!{\n}
 {\t}{\t}{\t}// If you are loading the properties file from the file system - you will need{\n}
@@ -94,7 +108,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);{\n}
 {\t}}{\n}
 {\n}
-{\t}public static void initialise() {{{\n}
+{\t}public static void initialise() throws SQLException {{{\n}
 //{\t}{\t}// create a new combo pool{\n}
 //{\t}{\t}ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();{\n}
 //{\t}{\t}// configure the combopool{\n}
@@ -119,11 +133,28 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 //{\t}{\t}addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);{\n}
 {\t}}{\n}
 {\n}
-{\t}public static void createDatabase() {{{\n}
+
+{\n}
+{\t}/**{\n}
+{\t} * Creating the database requires a separate JDBC URL if the database has{\n}
+{\t} * never been setup before{\n}
+{\t} *{\n}
+{\t} * @throws SQLException If there was an error connecting to the database{\n}
+{\t} *   or executing the SQL creation statements.{\n}
+{\t} */{\n}
+{\t}public static void createDatabase() throws SQLException {{{\n}
+{\t}{\t}if(null == properties) {{{\n}
+{\t}{\t}{\t}initialiseFromProperties();{\n}
+{\t}{\t}}{\n}
+{\n}
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\n}
 {\t}{\t}try ({\n}
-{\t}{\t}{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}{\t}Connection connection = DriverManager.getConnection({\n}
+{\t}{\t}{\t}{\t}{\t}{\t}properties.getProperty("db.initial.jdbcUrl"),{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}properties.getProperty("db.initial.user"),{\n}
+{\t}{\t}{\t}{\t}{\t}{\t}properties.getProperty("db.initial.password"));{\n}
+{\n}
 {\t}{\t}{\t}{\t}InputStreamReader inputStreamReader = new InputStreamReader(ConnectionManagerInitialiser.class.getResourceAsStream("/create-database-{options.database}-{database.schema}.sql"));{\n}
 {\t}{\t}{\t}{\t}BufferedReader bufferedReader = new BufferedReader(inputStreamReader);{\n}
 {\t}{\t}) {{{\n}
@@ -138,9 +169,6 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}{\t}{\t}}{\n}
 {\n}
 {\t}{\t}{\t}{\t}if (line.trim().endsWith(";")) {{{\n}
-{\t}{\t}{\t}{\t}{\t}if (line.trim().isEmpty()) {{{\n}
-{\t}{\t}{\t}{\t}{\t}{\t}continue;{\n}
-{\t}{\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}{\t}{\t}preparedStatement = connection.prepareStatement(query.toString());{\n}
 {\t}{\t}{\t}{\t}{\t}preparedStatement.execute();{\n}
 {\t}{\t}{\t}{\t}{\t}preparedStatement.close();{\n}
@@ -148,10 +176,12 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}}{\n}
 {\n}
-{\t}{\t}} catch (IOException | SQLException e) {{{\n}
-{\t}{\t}{\t}e.printStackTrace();{\n}
+{\t}{\t}} catch (IOException e) {{{\n}
+{\t}{\t}{\t}throw new SQLException("Could not load the /create-database-{options.database}-{database.schema}.sql file, original message was: " + e.getMessage(), e);{\n}
+{\t}{\t}} catch (SQLException e) {{{\n}
+{\t}{\t}{\t}throw(e);{\n}
 {\t}{\t}} finally {{{\n}
 {\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
 {\t}{\t}}{\n}
-{\t}}
+{\t}}{\n}
 }{\n}

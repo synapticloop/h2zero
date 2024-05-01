@@ -45,9 +45,9 @@ public class JavaTestGenerator extends Generator {
 			return;
 		}
 
-		if(!options.getDatabase().equals("sqlite3")) {
-			throw new RenderException("Generating tests is only available for sqlite3 databases at the moment.");
-		}
+//		if(!options.getDatabase().equals("sqlite3")) {
+//			throw new RenderException("Generating tests is only available for sqlite3 databases at the moment.");
+//		}
 
 		try {
 			TemplarContext templarContext = getDefaultTemplarContext();

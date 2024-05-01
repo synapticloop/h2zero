@@ -17,15 +17,36 @@ package com.synapticloop.h2zero.base.sql.base.updater;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.BaseDeleterExecutor;
+import com.synapticloop.h2zero.base.sql.base.BaseDeleterNoLimitExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class LimitOffsetUpdater extends BaseDeleterExecutor {
-	public LimitOffsetUpdater(Logger logger, String sqlStatement, Object... parameters) {
+/**
+ * This deleter is used for those databases which do not allow offset/limits
+ * in the query. (SQLite3 is an example of this type - unless it has been a
+ * pre-compiled binary with the <code>#define SQLITE_ENABLE_UPDATE_DELETE_LIMIT</code>
+ * flag set).
+ */
+public abstract class NoLimitUpdater extends BaseDeleterNoLimitExecutor {
+	public NoLimitUpdater(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
+	}
+
+	/**
+	 * <p>Execute this statement with a connection - this will be used, rather
+	 * than creating a new connection from the connection pool.  This is
+	 * useful when you want to be able to start a transaction and commit
+	 * or rollback.</p>
+	 *
+	 * @param connection The connection to use
+	 *
+	 * @return The finder with the set connection
+	 */
+	public NoLimitUpdater withConnection(Connection connection) {
+		this.connection = connection;
+		return(this);
 	}
 
 	@Override protected String getLimitedResultsStatement() throws SQLException {

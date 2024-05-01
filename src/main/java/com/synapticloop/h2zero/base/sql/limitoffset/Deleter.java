@@ -29,6 +29,11 @@ public class Deleter extends LimitOffsetDeleter {
 		super(logger, sqlStatement, parameters);
 	}
 
+	public LimitOffsetDeleter withConnection(Connection connection) {
+		this.connection = connection;
+		return(this);
+	}
+
 	@Override protected Connection getConnection() throws SQLException {
 		return(ConnectionManager.getConnection());
 	}

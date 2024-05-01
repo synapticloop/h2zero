@@ -89,3 +89,11 @@ libs/
 /synapticloop/
 src/test/sqlite-db/*.sqlite3
 /default.profraw
+
+src/test/resources/application.sqlite3.sample.properties
+src/test/resources/application.mysql.sample.properties
+src/test/resources/application.mariadb.sample.properties
+src/test/resources/application.postgresql.sample.properties
+src/test/resources/application.sqlserver.sample.properties
+
+sample.db

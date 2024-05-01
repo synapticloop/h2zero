@@ -17,13 +17,13 @@ package com.synapticloop.h2zero.base.sql.base.deleter;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.BaseDeleterUpdaterExecutor;
+import com.synapticloop.h2zero.base.sql.base.BaseDeleterExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class LimitOffsetDeleter extends BaseDeleterUpdaterExecutor {
+public abstract class LimitOffsetDeleter extends BaseDeleterExecutor {
 	public LimitOffsetDeleter(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
@@ -35,7 +35,7 @@ public abstract class LimitOffsetDeleter extends BaseDeleterUpdaterExecutor {
 	 *
 	 * @return the MultiFinder with the offset set
 	 */
-	public BaseDeleterUpdaterExecutor withOffset(Integer offset) {
+	public BaseDeleterExecutor withOffset(Integer offset) {
 		this.offset = offset;
 		return(this);
 	}
@@ -47,7 +47,7 @@ public abstract class LimitOffsetDeleter extends BaseDeleterUpdaterExecutor {
 	 *
 	 * @return the MultiFinder with the limit set
 	 */
-	public BaseDeleterUpdaterExecutor withLimit(Integer limit) {
+	public BaseDeleterExecutor withLimit(Integer limit) {
 		this.limit = limit;
 		return(this);
 	}

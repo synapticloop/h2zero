@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.base.deleter;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.BaseDeleterUpdaterExecutor;
+import com.synapticloop.h2zero.base.sql.base.BaseDeleterNoLimitExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
@@ -29,8 +29,8 @@ import java.sql.SQLException;
  * pre-compiled binary with the <code>#define SQLITE_ENABLE_UPDATE_DELETE_LIMIT</code>
  * flag set).
  */
-public abstract class NoLimitOrOffsetDeleter extends BaseDeleterUpdaterExecutor {
-	public NoLimitOrOffsetDeleter(Logger logger, String sqlStatement, Object... parameters) {
+public abstract class NoLimitDeleter extends BaseDeleterNoLimitExecutor {
+	public NoLimitDeleter(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
 
@@ -44,7 +44,7 @@ public abstract class NoLimitOrOffsetDeleter extends BaseDeleterUpdaterExecutor 
 	 *
 	 * @return The finder with the set connection
 	 */
-	public NoLimitOrOffsetDeleter withConnection(Connection connection) {
+	public NoLimitDeleter withConnection(Connection connection) {
 		this.connection = connection;
 		return(this);
 	}

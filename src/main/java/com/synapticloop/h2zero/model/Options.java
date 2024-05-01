@@ -66,6 +66,7 @@ public class Options {
 				new DatabaseTypeProperty(
 						DATABASE_COCKROACH,
 						"jdbc:postgresql://localhost:5432/h2zero-test",
+						"jdbc:postgresql://localhost:5432/",
 						"org.postgresql.Driver",
 						true));
 
@@ -73,6 +74,7 @@ public class Options {
 				new DatabaseTypeProperty(
 						DATABASE_MARIADB,
 						"jdbc:mariadb://localhost:3306/h2zero-test",
+						"jdbc:mariadb://localhost:3306/",
 						"org.mariadb.jdbc.Driver",
 						true));
 
@@ -80,6 +82,7 @@ public class Options {
 				new DatabaseTypeProperty(
 						DATABASE_MYSQL,
 						"jdbc:mysql://127.0.0.1:3306/h2zero-test",
+						"jdbc:mysql://127.0.0.1:3306/",
 						"com.mysql.cj.jdbc.Driver",
 						true));
 
@@ -87,12 +90,14 @@ public class Options {
 				new DatabaseTypeProperty(
 						DATABASE_POSTGRESQL,
 						"jdbc:postgresql://localhost:5432/h2zero-test",
+						"jdbc:postgresql://localhost:5432/",
 						"org.postgresql.Driver",
 						true));
 
 		DATABASE_TYPE_PROPERTIES.put(DATABASE_SQLITE3,
 				new DatabaseTypeProperty(
 						DATABASE_SQLITE3,
+						"jdbc:sqlite:./h2zero-test.db",
 						"jdbc:sqlite:./h2zero-test.db",
 						"org.sqlite.JDBC",
 						true));
@@ -101,6 +106,7 @@ public class Options {
 				new DatabaseTypeProperty(
 						DATABASE_SQLSERVER,
 						"jdbc:sqlserver://localhost:1433\\H2ZERO;encrypt=false;databaseName=h2zero-test;integratedSecurity=false;",
+						"jdbc:sqlserver://localhost:1433\\H2ZERO;encrypt=false;integratedSecurity=false;",
 						"com.microsoft.sqlserver.jdbc.SQLServerDriver",
 						false));
 	}
@@ -349,6 +355,10 @@ public class Options {
 
 	public String getJdbcUrl() {
 		return(DATABASE_TYPE_PROPERTIES.get(database).jdbcUrl());
+	}
+
+	public String getInitialJdbcUrl() {
+		return(DATABASE_TYPE_PROPERTIES.get(database).initialJdbcUrl());
 	}
 
 	public String getDriverClassName() {

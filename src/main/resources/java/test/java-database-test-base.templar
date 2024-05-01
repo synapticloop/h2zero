@@ -12,12 +12,14 @@ import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager
 import com.mchange.v2.c3p0.ComboPooledDataSource;{\n}
 import org.junit.AfterClass;{\n}
 import org.junit.BeforeClass;{\n}
+import java.sql.SQLException;{\n}
 {\n}
 public class DatabaseSetupTest extends BaseConnectionManager {{{\n}
 {\n}
 {\t}@BeforeClass{\n}
-{\t}public static void beforeClass() {{{\n}
+{\t}public static void beforeClass() throws SQLException {{{\n}
 {\t}{\t}ConnectionManagerInitialiserOverride.initialiseFromProperties();{\n}
+{\t}{\t}ConnectionManagerInitialiserOverride.createDatabase();{\n}
 {\t}}{\n}
 {\n}
 {\t}@AfterClass{\n}

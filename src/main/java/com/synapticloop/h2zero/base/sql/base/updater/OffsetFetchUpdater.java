@@ -17,10 +17,10 @@ package com.synapticloop.h2zero.base.sql.base.updater;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.BaseDeleterUpdaterExecutor;
+import com.synapticloop.h2zero.base.sql.base.BaseDeleterExecutor;
 import org.slf4j.Logger;
 
-public abstract class OffsetFetchUpdater extends BaseDeleterUpdaterExecutor {
+public abstract class OffsetFetchUpdater extends BaseDeleterExecutor {
 	public OffsetFetchUpdater(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
