@@ -29,16 +29,16 @@ public class UserFindNmUserDtmSignupBean {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_findNmUserDtmSignup_BINDER;
 
-	private String nmUser = null; // maps to nm_user
+	private String nmUsername = null; // maps to nm_username
 	private Timestamp dtmSignup = null; // maps to dtm_signup
 
-	public UserFindNmUserDtmSignupBean(String nmUser, Timestamp dtmSignup) {
-		this.nmUser = nmUser;
+	public UserFindNmUserDtmSignupBean(String nmUsername, Timestamp dtmSignup) {
+		this.nmUsername = nmUsername;
 		this.dtmSignup = dtmSignup;
 	}
 
-	public String getNmUser() { return(this.nmUser); }
-	public void setNmUser(String nmUser) { this.nmUser = nmUser; }
+	public String getNmUsername() { return(this.nmUsername); }
+	public void setNmUsername(String nmUsername) { this.nmUsername = nmUsername; }
 	public Timestamp getDtmSignup() { return(this.dtmSignup); }
 	public void setDtmSignup(Timestamp dtmSignup) { this.dtmSignup = dtmSignup; }
 
@@ -56,7 +56,7 @@ public class UserFindNmUserDtmSignupBean {
 	 */
 	public String toXMLString() {
 		return("<user>" + 
-			String.format("<nm_user null=\"%b\">%s</nm_user>", (this.getNmUser() == null), (this.getNmUser() != null ? XmlHelper.escapeXml(this.getNmUser()) : "")) + 
+			String.format("<nm_username null=\"%b\">%s</nm_username>", (this.getNmUsername() == null), (this.getNmUsername() != null ? XmlHelper.escapeXml(this.getNmUsername()) : "")) + 
 			String.format("<dtm_signup null=\"%b\">%s</dtm_signup>", (this.getDtmSignup() == null), (this.getDtmSignup() != null ? this.getDtmSignup() : "")) + 
 			"</user>");
 	}

@@ -75,11 +75,11 @@ public class UserFinder {
 		""";
 	private static final String SQL_FIND_NM_USER_DTM_SIGNUP =
 		"""
-			select nm_user, dtm_signup from user
+			select nm_username, dtm_signup from user
 		""";
 	private static final String SQL_FIND_GROUP_NUM_AGE =
 		"""
-			select count(*) as num_count, num_age from user group by num_count
+			select count(*) as num_count, num_age from user group by num_age
 		""";
 	private static final String SQL_FIND_BY_NUM_AGE_IN = SQL_SELECT_START + 
 		"""

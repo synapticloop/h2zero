@@ -13,6 +13,7 @@ import java.io.BufferedReader;{\n}
 import java.io.IOException;{\n}
 import java.io.InputStreamReader;{\n}
 import java.sql.Connection;{\n}
+import java.sql.DriverManager;{\n}
 import java.sql.PreparedStatement;{\n}
 import java.sql.SQLException;{\n}
 import java.util.Properties;{\n}
@@ -57,7 +58,8 @@ import java.util.Properties;{\n}
  * </pre>{\n}
  */{\n}
 public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {{{\n}
-{\t}public static Properties properties;{\n}
+{\t}private static boolean hasCreatedDatabase = false;{\n}
+{\t}private static Properties properties;{\n}
 {\n}
 {\t}private static void initialisePropertiesFile() throws SQLException {{{\n}
 {\t}{\t}properties = new Properties();{\n}
@@ -72,7 +74,6 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}}{\n}
 {\n}
 {\t}public static void initialiseFromProperties() {{{\n}
-{\t}{\t}initialiseFromProperties();{\n}
 {\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}// !!! NOTE !!!{\n}
@@ -147,6 +148,10 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}{\t}initialiseFromProperties();{\n}
 {\t}{\t}}{\n}
 {\n}
+{\t}{\t}if(hasCreatedDatabase) {{{\n}
+{\t}{\t}{\t}return;{\n}
+{\t}{\t}}{\n}
+{\n}
 {\t}{\t}PreparedStatement preparedStatement = null;{\n}
 {\n}
 {\t}{\t}try ({\n}
@@ -164,6 +169,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}{\t}while ((line = bufferedReader.readLine()) != null) {{{\n}
 {\t}{\t}{\t}{\t}if (!line.startsWith("--") && !line.trim().isEmpty()) {{{\n}
 {\t}{\t}{\t}{\t}{\t}query.append(line);{\n}
+{\t}{\t}{\t}{\t}{\t}query.append(" ");{\n}
 {\t}{\t}{\t}{\t}} else {{{\n}
 {\t}{\t}{\t}{\t}{\t}continue;{\n}
 {\t}{\t}{\t}{\t}}{\n}
@@ -183,5 +189,6 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}} finally {{{\n}
 {\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
 {\t}{\t}}{\n}
+{\t}{\t}hasCreatedDatabase = true;{\n}
 {\t}}{\n}
 }{\n}

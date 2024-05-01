@@ -5,7 +5,7 @@
 	],
 	"asClause": [
 		" select ",
-		"u.nm_user, ",
+		"u.nm_username, ",
 		"u.id_user, ",
 		"ut.nm_user_type",
 		"from ",
@@ -17,15 +17,15 @@
 	
 	"fields": [
 		{ "name": "id_user", "type": "bigint", "nullable": false, "foreignKey": "user.id_user" },
-		{ "name": "nm_user", "type": "varchar", "length": "64", "nullable": false },
+		{ "name": "nm_username", "type": "varchar", "length": "64", "nullable": false },
 		{ "name": "nm_user_type", "type": "varchar", "length": "64", "nullable": false }
 	],
 	"finders": [
 		{
 			"name": "findByNmUser",
-			"whereClause": "where nm_user = ?",
+			"whereClause": "where nm_username = ?",
 			"whereFields": [
-				"nm_user"
+				"nm_username"
 			]
 		}
 	]

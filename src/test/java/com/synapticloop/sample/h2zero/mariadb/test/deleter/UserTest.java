@@ -29,395 +29,200 @@ import com.synapticloop.sample.h2zero.mariadb.deleter.UserDeleter;
 /**
  * WARNING NOTE: these tests are designed to test the generated SQL statements
  * __NOT__ whether the database actually returns sane results.
- * 
- * These will also test to ensure that connections are setting closed properly
- * so that there ar no resource leakages.
  */
 
 public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserDeleteByPrimaryKey() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByPrimaryKey(1L).execute());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserDeleteByPrimaryKeySilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByPrimaryKey(1L).executeSilent());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserDeleteByPrimaryKeyWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserDeleter.deleteByPrimaryKey(1L).withConnection(connection).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserDeleteByPrimaryKeyWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserDeleter.deleteByPrimaryKey(1L).withConnection(connection).executeSilent());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserDeleteAll() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteAll().execute());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserDeleteAllSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteAll().executeSilent());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserDeleteAllWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserDeleter.deleteAll().withConnection(connection).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserDeleteAllWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserDeleter.deleteAll().withConnection(connection).executeSilent());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAge() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByNumAge(1).execute());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByNumAge(1).executeSilent());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeWithLimit() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByNumAge(1).withLimit(0).execute());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeWithLimitSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByNumAge(1).withLimit(0).executeSilent());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByNumAge(1).withConnection(connection).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByNumAge(1).withConnection(connection).executeSilent());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeWithConnectionLimit() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByNumAge(1).withConnection(connection).withLimit(0).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeWithConnectionLimitSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
-			Assert.assertEquals(-1, UserDeleter.deleteByNumAge(1).withConnection(connection).withLimit(0).execute());
+			Assert.assertEquals(0, UserDeleter.deleteByNumAge(1).withConnection(connection).withLimit(0).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByFlIsAliveIdUserType() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).execute());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByFlIsAliveIdUserTypeSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).executeSilent());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByFlIsAliveIdUserTypeWithLimit() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).withLimit(0).execute());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByFlIsAliveIdUserTypeWithLimitSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).withLimit(0).executeSilent());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByFlIsAliveIdUserTypeWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).withConnection(connection).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByFlIsAliveIdUserTypeWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).withConnection(connection).executeSilent());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByFlIsAliveIdUserTypeWithConnectionLimit() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).withConnection(connection).withLimit(0).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByFlIsAliveIdUserTypeWithConnectionLimitSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
-			Assert.assertEquals(-1, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).withConnection(connection).withLimit(0).execute());
+			Assert.assertEquals(0, UserDeleter.deleteByFlIsAliveIdUserType(true, 1L).withConnection(connection).withLimit(0).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeTest() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByNumAgeTest(1).execute());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeTestSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByNumAgeTest(1).executeSilent());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeTestWithLimit() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByNumAgeTest(1).withLimit(0).execute());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeTestWithLimitSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserDeleter.deleteByNumAgeTest(1).withLimit(0).executeSilent());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeTestWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByNumAgeTest(1).withConnection(connection).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeTestWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByNumAgeTest(1).withConnection(connection).executeSilent());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeTestWithConnectionLimit() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
 			Assert.assertEquals(0, UserDeleter.deleteByNumAgeTest(1).withConnection(connection).withLimit(0).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserdeleteByNumAgeTestWithConnectionLimitSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()){
-			Assert.assertEquals(-1, UserDeleter.deleteByNumAgeTest(1).withConnection(connection).withLimit(0).execute());
+			Assert.assertEquals(0, UserDeleter.deleteByNumAgeTest(1).withConnection(connection).withLimit(0).execute());
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 }

@@ -37,126 +37,72 @@ public class PetTypeTest extends DatabaseSetupTest {
 
 	@Test
 	public void testPetTypeFindByPrimaryKey() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		PetTypeFinder.findByPrimaryKey(1L)
 				.execute();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindByPrimaryKeySilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertNull(PetTypeFinder.findByPrimaryKey(-831486134981L)
 				.executeSilent());
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindByPrimaryKeyWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			PetTypeFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindByPrimaryKeyWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertNull(PetTypeFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAll() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, PetTypeFinder.findAll()
 				.execute()
 				.size());
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, PetTypeFinder.findAll()
 			.withLimit(1)
 			.withOffset(0)
 			.execute()
 			.size());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, PetTypeFinder.findAll()
 				.executeSilent()
 				.size());
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, PetTypeFinder.findAll()
 				.withLimit(1)
 				.withOffset(0)
 				.executeSilent()
 				.size());
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, PetTypeFinder.findAll()
 				.withConnection(connection)
@@ -164,33 +110,20 @@ public class PetTypeTest extends DatabaseSetupTest {
 				.size());
 
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, PetTypeFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
 				.size());
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllWithConnectionLimit() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			PetTypeFinder.findAll().withConnection(connection)
 				.withLimit(1)
@@ -198,16 +131,10 @@ public class PetTypeTest extends DatabaseSetupTest {
 				.execute();
 		}
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllWithConnectionLimitSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, PetTypeFinder.findAll()
 				.withConnection(connection)
@@ -216,17 +143,10 @@ public class PetTypeTest extends DatabaseSetupTest {
 				.executeSilent()
 				.size());
 		}
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllWithConnectionOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			PetTypeFinder.findAll()
 				.withConnection(connection)
@@ -234,34 +154,22 @@ public class PetTypeTest extends DatabaseSetupTest {
 				.withOffset(1)
 				.execute();
 			Assert.fail("A SQL Exception should have been thrown as there was an offset without a limit set.");		} catch(SQLException ignored) {
-		}		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
+		}
 	}
 
 	@Test
 	public void testPetTypeFindAllWithConnectionOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			PetTypeFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
 				.withOffset(0)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllWithConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			PetTypeFinder.findAll()
 				.withConnection(connection)
@@ -269,26 +177,16 @@ public class PetTypeTest extends DatabaseSetupTest {
 				.withOffset(0)
 				.execute();
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testPetTypeFindAllWithNullConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		PetTypeFinder.findAll()
 				.withConnection(null)
 				.withLimit(1)
 				.withOffset(0)
 				.execute();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 }

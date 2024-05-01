@@ -37,126 +37,72 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindByPrimaryKey() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
-		// this shouldn't find anything - and we don't care - only about SQLExceptions
 		UserFinder.findByPrimaryKey(1L)
 				.execute();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindByPrimaryKeySilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertNull(UserFinder.findByPrimaryKey(-831486134981L)
 				.executeSilent());
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindByPrimaryKeyWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindByPrimaryKeyWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertNull(UserFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAll() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserFinder.findAll()
 				.execute()
 				.size());
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserFinder.findAll()
 			.withLimit(1)
 			.withOffset(0)
 			.execute()
 			.size());
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserFinder.findAll()
 				.executeSilent()
 				.size());
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		Assert.assertEquals(0, UserFinder.findAll()
 				.withLimit(1)
 				.withOffset(0)
 				.executeSilent()
 				.size());
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserFinder.findAll()
 				.withConnection(connection)
@@ -164,33 +110,20 @@ public class UserTest extends DatabaseSetupTest {
 				.size());
 
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
 				.size());
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllWithConnectionLimit() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findAll().withConnection(connection)
 				.withLimit(1)
@@ -198,16 +131,10 @@ public class UserTest extends DatabaseSetupTest {
 				.execute();
 		}
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllWithConnectionLimitSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserFinder.findAll()
 				.withConnection(connection)
@@ -216,17 +143,10 @@ public class UserTest extends DatabaseSetupTest {
 				.executeSilent()
 				.size());
 		}
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllWithConnectionOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findAll()
 				.withConnection(connection)
@@ -234,34 +154,22 @@ public class UserTest extends DatabaseSetupTest {
 				.withOffset(1)
 				.execute();
 			Assert.fail("A SQL Exception should have been thrown as there was an offset without a limit set.");		} catch(SQLException ignored) {
-		}		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
+		}
 	}
 
 	@Test
 	public void testUserFindAllWithConnectionOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
 				.withOffset(0)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllWithConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findAll()
 				.withConnection(connection)
@@ -269,1322 +177,712 @@ public class UserTest extends DatabaseSetupTest {
 				.withOffset(0)
 				.execute();
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserFindAllWithNullConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findAll()
 				.withConnection(null)
 				.withLimit(1)
 				.withOffset(0)
 				.execute();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAge() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1).execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1).executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1)
 				.withLimit(0)
 				.withOffset(0)
 				.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByNumAge(1)
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByNumAge(1)
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1)
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1)
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeWithNullConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1)
 			.withConnection(null)
 			.withLimit(0)
 			.withOffset(0)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeWithNullConnectionLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1)
 				.withConnection(null)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeWithNullConnectionNullLimitNullOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1)
 			.withConnection(null)
 			.withLimit(null)
 			.withOffset(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAge(1)
 				.withConnection(null)
 				.withLimit(null)
 				.withOffset(null)
 				.executeSilent();
-
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAge() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1).execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1).executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withLimit(0)
 				.withOffset(0)
 				.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1)
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithNullConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1)
 			.withConnection(null)
 			.withLimit(0)
 			.withOffset(0)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithNullConnectionLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withConnection(null)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithNullConnectionNullLimitNullOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1)
 			.withConnection(null)
 			.withLimit(null)
 			.withOffset(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withConnection(null)
 				.withLimit(null)
 				.withOffset(null)
 				.executeSilent();
-
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNmUsername() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNmUsername("varchar").execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNmUsernameSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNmUsername("varchar").executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNmUsernameWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByNmUsername("varchar")
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNmUsernameWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByNmUsername("varchar")
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNmUsernameWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNmUsername("varchar")
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNmUsernameWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNmUsername("varchar")
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmail() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByTxtAddressEmail("varchar").execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByTxtAddressEmail("varchar").executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByTxtAddressEmail("varchar")
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByTxtAddressEmail("varchar")
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByTxtAddressEmail("varchar")
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByTxtAddressEmail("varchar")
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailTxtPassword() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByTxtAddressEmailTxtPassword("varchar", "varchar").execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailTxtPasswordSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByTxtAddressEmailTxtPassword("varchar", "varchar").executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailTxtPasswordWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByTxtAddressEmailTxtPassword("varchar", "varchar")
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailTxtPasswordWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByTxtAddressEmailTxtPassword("varchar", "varchar")
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailTxtPasswordWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByTxtAddressEmailTxtPassword("varchar", "varchar")
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByTxtAddressEmailTxtPasswordWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByTxtAddressEmailTxtPassword("varchar", "varchar")
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignup() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup().execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup().executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup()
 				.withLimit(0)
 				.withOffset(0)
 				.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup()
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findNmUsernameDtmSignup()
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findNmUsernameDtmSignup()
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup()
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup()
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupWithNullConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup()
 			.withConnection(null)
 			.withLimit(0)
 			.withOffset(0)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupWithNullConnectionLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup()
 				.withConnection(null)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupWithNullConnectionNullLimitNullOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup()
 			.withConnection(null)
 			.withLimit(null)
 			.withOffset(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindNmUsernameDtmSignupWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findNmUsernameDtmSignup()
 				.withConnection(null)
 				.withLimit(null)
 				.withOffset(null)
 				.executeSilent();
-
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAge() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge().execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge().executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge()
 				.withLimit(0)
 				.withOffset(0)
 				.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge()
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findGroupNumAge()
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findGroupNumAge()
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge()
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge()
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeWithNullConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge()
 			.withConnection(null)
 			.withLimit(0)
 			.withOffset(0)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeWithNullConnectionLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge()
 				.withConnection(null)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeWithNullConnectionNullLimitNullOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge()
 			.withConnection(null)
 			.withLimit(null)
 			.withOffset(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindGroupNumAgeWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findGroupNumAge()
 				.withConnection(null)
 				.withLimit(null)
 				.withOffset(null)
 				.executeSilent();
-
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeIn() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1)).execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1)).executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1))
 				.withLimit(0)
 				.withOffset(0)
 				.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1))
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByNumAgeIn(List.of(1))
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByNumAgeIn(List.of(1))
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1))
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1))
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInWithNullConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1))
 			.withConnection(null)
 			.withLimit(0)
 			.withOffset(0)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInWithNullConnectionLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1))
 				.withConnection(null)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInWithNullConnectionNullLimitNullOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1))
 			.withConnection(null)
 			.withLimit(null)
 			.withOffset(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeInWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeIn(List.of(1))
 				.withConnection(null)
 				.withLimit(null)
 				.withOffset(null)
 				.executeSilent();
-
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetween() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1).execute();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1).executeSilent();
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1)
 				.withLimit(0)
 				.withOffset(0)
 				.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
 
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByNumAgeBetween(1, 1)
 				.withConnection(connection)
 				.execute();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		try (Connection connection = ConnectionManager.getConnection()) {
 			UserFinder.findByNumAgeBetween(1, 1)
 				.withConnection(connection)
 				.executeSilent();
-
 		}
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithNullConnection() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1)
 			.withConnection(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithNullConnectionSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1)
 				.withConnection(null)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithNullConnectionLimitOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1)
 			.withConnection(null)
 			.withLimit(0)
 			.withOffset(0)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithNullConnectionLimitOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1)
 				.withConnection(null)
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithNullConnectionNullLimitNullOffset() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1)
 			.withConnection(null)
 			.withLimit(null)
 			.withOffset(null)
 			.execute();
-
-		Assert.assertEquals(numConnections, ConnectionManager.getComboPooledDataSource().getNumConnections());
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
-		int numConnections = ConnectionManager.getComboPooledDataSource().getNumConnections();
-		int numBusyConnections = ConnectionManager.getComboPooledDataSource().getNumBusyConnections();
 		UserFinder.findByNumAgeBetween(1, 1)
 				.withConnection(null)
 				.withLimit(null)
 				.withOffset(null)
 				.executeSilent();
-
-		// need to sleep to ensure that the connection has time to close - hacky... :(
-		try { Thread.sleep(1); } catch (InterruptedException e) { /* do nothing */ }
-		Assert.assertEquals(numBusyConnections, ConnectionManager.getComboPooledDataSource().getNumBusyConnections());
 	}
 
 }

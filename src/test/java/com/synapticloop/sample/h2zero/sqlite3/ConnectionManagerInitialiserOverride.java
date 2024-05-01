@@ -5,14 +5,15 @@ package com.synapticloop.sample.h2zero.sqlite3;
 // (/java/java-create-connection-manager-initialise-override.templar)
 
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiser;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -57,9 +58,24 @@ import java.util.Properties;
  * </pre>
  */
 public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {
+	private static boolean hasCreatedDatabase = false;
+	private static Properties properties;
+
+	private static void initialisePropertiesFile() throws SQLException {
+		properties = new Properties();
+		try {
+			// !!! NOTE !!!
+			// If you are loading the properties file from the file system - you will need
+			// to ensure that this file exists
+			properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.sqlite3.sample.properties"));
+		} catch (IOException e) {
+			throw new RuntimeException("Could not load the properties file '/application.sqlite3.sample.properties' there shall be no SQL for you.", e);
+		}
+	}
 
 	public static void initialiseFromProperties() {
-		Properties properties = new Properties();
+		initialiseFromProperties();
+
 		try {
 			// !!! NOTE !!!
 			// If you are loading the properties file from the file system - you will need
@@ -94,7 +110,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
 	}
 
-	public static void initialise() {
+	public static void initialise() throws SQLException {
 //		// create a new combo pool
 //		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();
 //		// configure the combopool
@@ -119,11 +135,31 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 //		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
 	}
 
-	public static void createDatabase() {
+
+	/**
+	 * Creating the database requires a separate JDBC URL if the database has
+	 * never been setup before
+	 *
+	 * @throws SQLException If there was an error connecting to the database
+	 *   or executing the SQL creation statements.
+	 */
+	public static void createDatabase() throws SQLException {
+		if(null == properties) {
+			initialiseFromProperties();
+		}
+
+		if(hasCreatedDatabase) {
+			return;
+		}
+
 		PreparedStatement preparedStatement = null;
 
 		try (
-				Connection connection = ConnectionManager.getConnection();
+				Connection connection = DriverManager.getConnection(
+						properties.getProperty("db.initial.jdbcUrl"),
+						properties.getProperty("db.initial.user"),
+						properties.getProperty("db.initial.password"));
+
 				InputStreamReader inputStreamReader = new InputStreamReader(ConnectionManagerInitialiser.class.getResourceAsStream("/create-database-sqlite3-sample.sql"));
 				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		) {
@@ -133,14 +169,12 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 			while ((line = bufferedReader.readLine()) != null) {
 				if (!line.startsWith("--") && !line.trim().isEmpty()) {
 					query.append(line);
+					query.append(" ");
 				} else {
 					continue;
 				}
 
 				if (line.trim().endsWith(";")) {
-					if (line.trim().isEmpty()) {
-						continue;
-					}
 					preparedStatement = connection.prepareStatement(query.toString());
 					preparedStatement.execute();
 					preparedStatement.close();
@@ -148,9 +182,13 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 				}
 			}
 
-		} catch (IOException | SQLException e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			throw new SQLException("Could not load the /create-database-sqlite3-sample.sql file, original message was: " + e.getMessage(), e);
+		} catch (SQLException e) {
+			throw(e);
 		} finally {
 			ConnectionManager.closeAll(preparedStatement);
 		}
-	}}
+		hasCreatedDatabase = true;
+	}
+}

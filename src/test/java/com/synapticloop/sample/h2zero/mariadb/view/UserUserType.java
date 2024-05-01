@@ -25,12 +25,12 @@ public class UserUserType extends ViewBase {
 	private User User = null;
 
 	private Long idUser = null;
-	private String nmUser = null;
+	private String nmUsername = null;
 	private String nmUserType = null;
 
-	public UserUserType(Long idUser, String nmUser, String nmUserType) {
+	public UserUserType(Long idUser, String nmUsername, String nmUserType) {
 		this.idUser = idUser;
-		this.nmUser = nmUser;
+		this.nmUsername = nmUsername;
 		this.nmUserType = nmUserType;
 	}
 
@@ -47,7 +47,7 @@ public class UserUserType extends ViewBase {
 
 	public Long getIdUser() { return(this.idUser); }
 
-	public String getNmUser() { return(this.nmUser); }
+	public String getNmUsername() { return(this.nmUsername); }
 
 	public String getNmUserType() { return(this.nmUserType); }
 
@@ -57,7 +57,7 @@ public class UserUserType extends ViewBase {
 		return(new StringBuilder()
 			.append("Model: 'UserUserType'\n")
 			.append("  Field: 'idUser:").append(this.idUser).append("'\n")
-			.append("  Field: 'nmUser:").append(this.nmUser).append("'\n")
+			.append("  Field: 'nmUsername:").append(this.nmUsername).append("'\n")
 			.append("  Field: 'nmUserType:").append(this.nmUserType).append("'\n")
 			.toString());
 	}
@@ -78,7 +78,7 @@ public class UserUserType extends ViewBase {
 		JSONObject fieldsObject = new JSONObject();
 
 		ModelBaseHelper.addToJSONObject(fieldsObject, "idUser", this.getIdUser());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUser", this.getNmUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
 		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
 
 		jsonObject.put("fields", fieldsObject);
@@ -103,7 +103,7 @@ public class UserUserType extends ViewBase {
 	public String toXMLString() {
 		return("<user_user_type>" + 
 			String.format("<id_user null=\"%b\">%s</id_user>", (this.getIdUser() == null), (this.getIdUser() != null ? this.getIdUser() : "")) + 
-			String.format("<nm_user null=\"%b\">%s</nm_user>", (this.getNmUser() == null), (this.getNmUser() != null ? XmlHelper.escapeXml(this.getNmUser()) : "")) + 
+			String.format("<nm_username null=\"%b\">%s</nm_username>", (this.getNmUsername() == null), (this.getNmUsername() != null ? XmlHelper.escapeXml(this.getNmUsername()) : "")) + 
 			String.format("<nm_user_type null=\"%b\">%s</nm_user_type>", (this.getNmUserType() == null), (this.getNmUserType() != null ? XmlHelper.escapeXml(this.getNmUserType()) : "")) + 
 			"</user_user_type>");
 	}

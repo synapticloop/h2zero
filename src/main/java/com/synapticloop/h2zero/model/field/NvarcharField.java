@@ -51,4 +51,5 @@ public class NvarcharField extends BaseField {
 
 	@Override public String getSqlTestValue() { return("\"Nvarchar\""); }
 
+	@Override public boolean getRequiresLength() { return(true); }
 }

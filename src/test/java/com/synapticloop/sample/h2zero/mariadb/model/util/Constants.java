@@ -109,7 +109,7 @@ public class Constants {
 
 	// Field constants for the user_user_type view
 	public static final String USER_USER_TYPE_ID_USER = "idUser";
-	public static final String USER_USER_TYPE_NM_USER = "nmUser";
+	public static final String USER_USER_TYPE_NM_USERNAME = "nmUsername";
 	public static final String USER_USER_TYPE_NM_USER_TYPE = "nmUserType";
 
 

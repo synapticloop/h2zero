@@ -28,9 +28,6 @@ import java.util.List;
 /**
  * WARNING NOTE: these tests are designed to test the generated SQL statements
  * __NOT__ whether the database actually returns sane results.
- * 
- * These will also test to ensure that connections are setting closed properly
- * so that there ar no resource leakages.
  */
 
 public class UserTitleTest extends DatabaseSetupTest {

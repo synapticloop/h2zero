@@ -41,7 +41,7 @@ public class UserUserTypeViewFinder {
 		"""
 			select 
 				id_user, 
-				nm_user, 
+				nm_username, 
 				nm_user_type
 			from 
 				user_user_type
@@ -50,7 +50,7 @@ public class UserUserTypeViewFinder {
 
 	private static final String SQL_FIND_BY_NM_USER = SQL_SELECT_START + 
 		"""
-			where nm_user = ?
+			where nm_username = ?
 		""";
 	// now for the statement limit cache(s)
 	private static final LruCache<String, String> findAll_limit_statement_cache = new LruCache<>(1024);
@@ -184,18 +184,18 @@ public class UserUserTypeViewFinder {
 	 *     .executeSilent();</pre>
 	 * 
 	 * @return the parameterised MultiFinder
-	 * @param nmUser - maps to the nm_user field
+	 * @param nmUsername - maps to the nm_username field
 	 * 
 	 * @return the MultiFinder<UserUserType>()
 	 * 
 	 */
-	public static MultiFinder<UserUserType> findByNmUser(String nmUser) {
+	public static MultiFinder<UserUserType> findByNmUser(String nmUsername) {
 		return(
 				new MultiFinder<UserUserType>(
 				LOGGER,
 				SQL_FIND_BY_NM_USER,
 				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
-				new Object[] {nmUser}
+				new Object[] {nmUsername}
 		));
 	}
 	/**

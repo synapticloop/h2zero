@@ -728,7 +728,7 @@ public class AllTypes extends ModelBase {
 		validationBean.addValidationFieldBean(new CharValidator("test_char", testChar.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new BooleanValidator("test_boolean", testBoolean.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new BinaryValidator("test_binary", testBinary.toString(), 0, 0, true).validate());
-		validationBean.addValidationFieldBean(new VarbinaryValidator("test_varbinary", testVarbinary.toString(), 0, 0, true).validate());
+		validationBean.addValidationFieldBean(new VarbinaryValidator("test_varbinary", testVarbinary.toString(), 0, 128, true).validate());
 		validationBean.addValidationFieldBean(new DateValidator("test_date", testDate.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new DatetimeValidator("test_datetime", testDatetime.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new DecValidator("test_dec", testDec.toString(), 0, 0, true).validate());
@@ -748,7 +748,7 @@ public class AllTypes extends ModelBase {
 		validationBean.addValidationFieldBean(new TimestampValidator("test_timestamp", testTimestamp.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new TinyintValidator("test_tinyint", testTinyint.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new TinytextValidator("test_tinytext", testTinytext.toString(), 0, 0, true).validate());
-		validationBean.addValidationFieldBean(new VarcharValidator("test_varchar", testVarchar.toString(), 0, 0, true).validate());
+		validationBean.addValidationFieldBean(new VarcharValidator("test_varchar", testVarchar.toString(), 0, 128, true).validate());
 		validationBean.addValidationFieldBean(new YearValidator("test_year", testYear.toString(), 0, 0, true).validate());
 		return(validationBean);
 	}

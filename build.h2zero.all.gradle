@@ -33,5 +33,5 @@ h2zero {
 			'src/test/resources/mariadb/sample-include-mariadb.h2zero'
 	]
 	outDir = '.'
-	verbose = false
+	verbose = true
 }

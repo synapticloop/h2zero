@@ -58,7 +58,8 @@ import java.util.Properties;
  * </pre>
  */
 public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {
-	public static Properties properties;
+	private static boolean hasCreatedDatabase = false;
+	private static Properties properties;
 
 	private static void initialisePropertiesFile() throws SQLException {
 		properties = new Properties();
@@ -72,8 +73,19 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		}
 	}
 
-	public static void initialiseFromProperties() throws SQLException {
-		initialisePropertiesFile();
+	public static void initialiseFromProperties() {
+		if(null != properties) {
+			return;
+		}
+		properties = new Properties();
+		try {
+			// !!! NOTE !!!
+			// If you are loading the properties file from the file system - you will need
+			// to ensure that this file exists
+			properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.mariadb.sample.properties"));
+		} catch (IOException e) {
+			throw new RuntimeException("Could not load the properties file.", e);
+		}
 
 		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();
 		try {
@@ -100,7 +112,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
 	}
 
-	public static void initialise() {
+	public static void initialise() throws SQLException {
 //		// create a new combo pool
 //		ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();
 //		// configure the combopool
@@ -125,6 +137,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 //		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
 	}
 
+
 	/**
 	 * Creating the database requires a separate JDBC URL if the database has
 	 * never been setup before
@@ -135,6 +148,10 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 	public static void createDatabase() throws SQLException {
 		if(null == properties) {
 			initialiseFromProperties();
+		}
+
+		if(hasCreatedDatabase) {
+			return;
 		}
 
 		PreparedStatement preparedStatement = null;
@@ -154,6 +171,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 			while ((line = bufferedReader.readLine()) != null) {
 				if (!line.startsWith("--") && !line.trim().isEmpty()) {
 					query.append(line);
+					query.append(" ");
 				} else {
 					continue;
 				}
@@ -173,5 +191,6 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		} finally {
 			ConnectionManager.closeAll(preparedStatement);
 		}
+		hasCreatedDatabase = true;
 	}
 }

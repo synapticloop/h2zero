@@ -17,25 +17,18 @@ package com.synapticloop.h2zero.model.field;
  * under the Licence.
  */
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.synapticloop.h2zero.exception.H2ZeroParseException;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.util.JSONKeyConstants;
-import org.json.JSONObject;
-
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
 import com.synapticloop.h2zero.util.AssertionHelper;
 import com.synapticloop.h2zero.util.JsonHelper;
 import com.synapticloop.h2zero.util.NamingHelper;
+import org.json.JSONObject;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 
 public abstract class BaseField {
@@ -103,6 +96,7 @@ public abstract class BaseField {
 	private String alias = null; // the alias of the field to use
 	protected String type = null; // the type of the field
 	protected int length = 0; // the length of the field
+	protected boolean requiresLength = false; // whether the field requires a length key
 	protected boolean nullable = true; // whether the field is nullable
 	protected int decimalLength = 0; // the decimal length - if required for the fields
 	protected String defaultValue = null; // the default value
@@ -373,4 +367,12 @@ public abstract class BaseField {
 
 	public String getComment() { return comment; }
 	public void setComment(String comment) { this.comment = comment; }
+
+	public int getLength() {
+		return(length);
+	}
+
+	public boolean getRequiresLength() {
+		return(requiresLength);
+	}
 }

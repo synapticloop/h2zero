@@ -30,16 +30,16 @@
 		},
 		{
 			"name": "findNmUserDtmSignup",
-			"selectClause": "select nm_user, dtm_signup from user",
+			"selectClause": "select nm_username, dtm_signup from user",
 			"selectFields": [
-				{ "name": "nm_user", "type": "varchar" },
+				{ "name": "nm_username", "type": "varchar" },
 				{ "name": "dtm_signup", "type": "datetime" }
 			],
 			"unique": false
 		},
 		{
 			"name": "findGroupNumAge",
-			"selectClause": "select count(*) as num_count, num_age from user group by num_count",
+			"selectClause": "select count(*) as num_count, num_age from user group by num_age",
 			"selectFields": [
 				{ "name": "num_count", "type": "int" },
 				{ "name": "num_age", "type": "int" }

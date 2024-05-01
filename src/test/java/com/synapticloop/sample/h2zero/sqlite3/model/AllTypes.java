@@ -509,7 +509,7 @@ public class AllTypes extends ModelBase {
 		validationBean.addValidationFieldBean(new SmallintValidator("test_smallint", testSmallint.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new TextValidator("test_text", testText.toString(), 0, 0, true).validate());
 		validationBean.addValidationFieldBean(new TinyintValidator("test_tinyint", testTinyint.toString(), 0, 0, true).validate());
-		validationBean.addValidationFieldBean(new VarcharValidator("test_varchar", testVarchar.toString(), 0, 0, true).validate());
+		validationBean.addValidationFieldBean(new VarcharValidator("test_varchar", testVarchar.toString(), 0, 128, true).validate());
 		return(validationBean);
 	}
 
