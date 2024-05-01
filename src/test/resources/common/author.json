@@ -36,7 +36,14 @@
 		},
 		{
 			"name": "findAllToBeEvaluated",
-			"whereClause": "where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ? ",
+			"whereClause": [
+				"where ",
+				"id_author_status = ",
+				"(select id_author_status from",
+				"author_status",
+				"where",
+				"txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ? "
+			],
 			"whereFields": [
 				"dtm_started_following"
 			],
@@ -106,7 +113,7 @@
 		},
 		{
 			"name": "setFlIsUpdating",
-			"setClause": "fl_is_updating = ?",
+			"setClause": "set fl_is_updating = ?",
 			"setFields": [
 				"fl_is_updating"
 			]
@@ -125,7 +132,7 @@
 			"setFields": [
 				"fl_author_is_followed_by_user"
 			],
-			"whereClause": "fl_is_updating = 1"
+			"whereClause": "where fl_is_updating = 1"
 		},
 		{
 			"name": "setFlIsUpdatingWhereFlAuthorIsFollowingUser",
@@ -141,7 +148,7 @@
 			"setFields": [
 				"fl_author_is_following_user"
 			],
-			"whereClause": "fl_is_updating = 1"
+			"whereClause": "where fl_is_updating = 1"
 		},
 		{
 			"name": "updateFlIsFollowing",

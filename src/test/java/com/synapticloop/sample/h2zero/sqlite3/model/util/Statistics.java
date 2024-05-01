@@ -4,26 +4,29 @@ package com.synapticloop.sample.h2zero.sqlite3.model.util;
 //    with the use of synapticloop templar templating language
 //            (java-create-model-statistics.templar)
 
-import com.synapticloop.sample.h2zero.sqlite3.model.AllTypes;
-import com.synapticloop.sample.h2zero.sqlite3.model.Author;
 import com.synapticloop.sample.h2zero.sqlite3.model.User;
+import com.synapticloop.sample.h2zero.sqlite3.model.PetType;
 import com.synapticloop.sample.h2zero.sqlite3.model.Pet;
 import com.synapticloop.sample.h2zero.sqlite3.model.UserPet;
+import com.synapticloop.sample.h2zero.sqlite3.model.Author;
+import com.synapticloop.sample.h2zero.sqlite3.model.AllTypes;
 
 import java.lang.StringBuilder;
 
 public class Statistics {
 	public static String getHitCountJson() {
 		return("[" +
-			AllTypes.getHitCountJson() +
-			", " +
-			Author.getHitCountJson() +
-			", " +
 			User.getHitCountJson() +
+			", " +
+			PetType.getHitCountJson() +
 			", " +
 			Pet.getHitCountJson() +
 			", " +
 			UserPet.getHitCountJson() +
+			", " +
+			Author.getHitCountJson() +
+			", " +
+			AllTypes.getHitCountJson() +
 		"]");
 	}
 }

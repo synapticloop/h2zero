@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-import com.synapticloop.sample.h2zero.sqlite3.bean.UserFindNmUsernameDtmSignupBean;
+import com.synapticloop.sample.h2zero.sqlite3.bean.UserFindNmUserDtmSignupBean;
 import com.synapticloop.sample.h2zero.sqlite3.bean.UserFindGroupNumAgeBean;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.User;
@@ -73,7 +73,7 @@ public class UserFinder {
 		"""
 			where txt_address_email = ? and txt_password = ?
 		""";
-	private static final String SQL_FIND_NM_USERNAME_DTM_SIGNUP =
+	private static final String SQL_FIND_NM_USER_DTM_SIGNUP =
 		"""
 			select nm_username, dtm_signup from user
 		""";
@@ -577,17 +577,17 @@ public class UserFinder {
 	 * There are 9 defined finders on the user table, of those finders
 	 * the following are the select clause finders:
 	 * 
-	 * - findNmUsernameDtmSignup
+	 * - findNmUserDtmSignup
 	 * - findGroupNumAge
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	public static MultiFinder<UserFindNmUsernameDtmSignupBean> findNmUsernameDtmSignup() {
+	public static MultiFinder<UserFindNmUserDtmSignupBean> findNmUserDtmSignup() {
 		return(
-				new MultiFinder<UserFindNmUsernameDtmSignupBean>(
+				new MultiFinder<UserFindNmUserDtmSignupBean>(
 				LOGGER,
-				SQL_FIND_NM_USERNAME_DTM_SIGNUP,
-				resultSet -> { try {return listFindNmUsernameDtmSignupBean(resultSet);} catch (SQLException e) { return(null); }},
+				SQL_FIND_NM_USER_DTM_SIGNUP,
+				resultSet -> { try {return listFindNmUserDtmSignupBean(resultSet);} catch (SQLException e) { return(null); }},
 				new Object[] {}
 		));
 	}
@@ -601,19 +601,19 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of UserFindNmUsernameDtmSignupBeans, this will be empty if
+	 * Return the results as a list of UserFindNmUserDtmSignupBeans, this will be empty if
 	 * none are found.
 	 * 
-	 * @param resultSet the results as a list of UserFindNmUsernameDtmSignupBean
+	 * @param resultSet the results as a list of UserFindNmUserDtmSignupBean
 	 * 
 	 * @return the list of results
 	 * 
 	 * @throws SQLException if there was a problem retrieving the results
 	 */
-	private static List<UserFindNmUsernameDtmSignupBean> listFindNmUsernameDtmSignupBean(ResultSet resultSet) throws SQLException {
-		List<UserFindNmUsernameDtmSignupBean> arrayList = new ArrayList<UserFindNmUsernameDtmSignupBean>();
+	private static List<UserFindNmUserDtmSignupBean> listFindNmUserDtmSignupBean(ResultSet resultSet) throws SQLException {
+		List<UserFindNmUserDtmSignupBean> arrayList = new ArrayList<UserFindNmUserDtmSignupBean>();
 		while(resultSet.next()) {
-			arrayList.add(new UserFindNmUsernameDtmSignupBean(
+			arrayList.add(new UserFindNmUserDtmSignupBean(
 					resultSet.getString(1),
 					resultSet.getTimestamp(2)));
 		}

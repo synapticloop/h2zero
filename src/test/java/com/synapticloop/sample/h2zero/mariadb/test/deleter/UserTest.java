@@ -17,6 +17,7 @@ import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
 
 
+import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.*;

@@ -15,6 +15,7 @@ import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
 import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 import {database.package}.test.DatabaseSetupTest;{\n}{\n}
 {\n}
+import java.math.*;{\n}
 import java.sql.Connection;{\n}
 import java.sql.SQLException;{\n}
 import java.sql.*;{\n}

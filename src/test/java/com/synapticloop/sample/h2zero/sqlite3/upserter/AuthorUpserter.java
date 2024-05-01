@@ -77,7 +77,12 @@ public class AuthorUpserter {
 		""";
 	private static final String SQL_FIND_ALL_TO_BE_EVALUATED = SQL_SELECT_START + 
 		"""
-			where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ? 
+			where
+			id_author_status =
+			(select id_author_status from
+			author_status
+			where
+			txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ?
 		""";
 	private static final String SQL_FIND_FIRST_TO_BE_EVALUATED = SQL_SELECT_START + 
 		"""

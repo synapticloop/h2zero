@@ -14,7 +14,7 @@ import com.synapticloop.h2zero.util.XmlHelper;
  * 
  * <p>table name: <code>user</code></p>
  * 
- * <p>finder name: <code>findNmUsernameDtmSignup</code></p>
+ * <p>finder name: <code>findNmUserDtmSignup</code></p>
  * 
  * <p>and is returned either as a single object, or a list of objects</p>
  * 
@@ -22,17 +22,17 @@ import com.synapticloop.h2zero.util.XmlHelper;
  * 
  * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
-public class UserFindNmUsernameDtmSignupBean {
+public class UserFindNmUserDtmSignupBean {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
 	@SuppressWarnings("unused")
-	private static final String BINDER = Constants.USER_findNmUsernameDtmSignup_BINDER;
+	private static final String BINDER = Constants.USER_findNmUserDtmSignup_BINDER;
 
 	private String nmUsername = null; // maps to nm_username
 	private Timestamp dtmSignup = null; // maps to dtm_signup
 
-	public UserFindNmUsernameDtmSignupBean(String nmUsername, Timestamp dtmSignup) {
+	public UserFindNmUserDtmSignupBean(String nmUsername, Timestamp dtmSignup) {
 		this.nmUsername = nmUsername;
 		this.dtmSignup = dtmSignup;
 	}
@@ -44,9 +44,9 @@ public class UserFindNmUsernameDtmSignupBean {
 
 	/**
 	 * <p>Return an XML representation of the select clause bean for the call to the 
-	 * <code>UserFinder.FindNmUsernameDtmSignup()</code> finder as a <code>String</code>.</p>
+	 * <code>UserFinder.FindNmUserDtmSignup()</code> finder as a <code>String</code>.</p>
 	 * 
-	 * <p>The root node is name of the select clause finder - i.e. <code>&lt;FindNmUsernameDtmSignup /&gt;</code>
+	 * <p>The root node is name of the select clause finder - i.e. <code>&lt;FindNmUserDtmSignup /&gt;</code>
 	 * and the child nodes the name of the fields.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> Any field marked as secure will not be included as

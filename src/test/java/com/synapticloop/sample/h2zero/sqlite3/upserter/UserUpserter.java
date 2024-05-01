@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-import com.synapticloop.sample.h2zero.sqlite3.bean.UserFindNmUsernameDtmSignupBean;
+import com.synapticloop.sample.h2zero.sqlite3.bean.UserFindNmUserDtmSignupBean;
 import com.synapticloop.sample.h2zero.sqlite3.bean.UserFindGroupNumAgeBean;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.User;
@@ -70,7 +70,7 @@ public class UserUpserter {
 		"""
 			where txt_address_email = ? and txt_password = ?
 		""";
-	private static final String SQL_FIND_NM_USERNAME_DTM_SIGNUP =
+	private static final String SQL_FIND_NM_USER_DTM_SIGNUP =
 		"""
 			select nm_username, dtm_signup from user
 		""";

@@ -37,19 +37,21 @@
 	"defaultStatementCacheSize": 1024,
 
 	"tables": [
-		{ "include": "./all_types.sqlite3.json" },
-		{ "include": "./author_status.json" },
-		{ "include": "./author.json" },
-		{ "include": "./user_type.json" },
-		{ "include": "./user_title.json" },
-		{ "include": "./user.json" },
-		{ "include": "./pet.json" },
-		{ "include": "./user_pet.json" }
+		{ "include": "../common/user_type.json" },
+		{ "include": "../common/user_title.json" },
+		{ "include": "../common/user.json" },
+		{ "include": "../common/pet_type.json" },
+		{ "include": "../common/pet.json" },
+		{ "include": "../common/user_pet.json" },
+		{ "include": "../common/author_status.json" },
+		{ "include": "../common/author.json" },
+
+		{ "include": "./all_types.sqlite3.json" }
 	],
 
 
 	"views": [
-		{ "include": "./view_pet.json" },
+		{ "include": "../common/view_pet.json" },
 	],
 }
 }

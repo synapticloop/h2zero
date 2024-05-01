@@ -14,6 +14,7 @@ import java.lang.StringBuilder;
 import java.sql.Connection;
 import java.sql.Date;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -53,8 +54,10 @@ public class Pet extends ModelBase {
 				nm_pet,
 				num_age,
 				flt_weight,
-				dt_birthday
+				dt_birthday,
+				img_photo
 			) values (
+				?,
 				?,
 				?,
 				?,
@@ -69,7 +72,8 @@ public class Pet extends ModelBase {
 				nm_pet = ?,
 				num_age = ?,
 				flt_weight = ?,
-				dt_birthday = ?
+				dt_birthday = ?,
+				img_photo = ?
 			where
 		"""
 			+ PRIMARY_KEY_FIELD + 
@@ -77,7 +81,7 @@ public class Pet extends ModelBase {
 			= ?
 		""";
 	private static final String SQL_DELETE = "delete from pet where " + PRIMARY_KEY_FIELD + " = ?";
-	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ?";
+	private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from pet where nm_pet = ? and num_age = ? and flt_weight = ? and dt_birthday = ? and img_photo = ?";
 
 
 	// Static lookups for fields in the hit counter.
@@ -90,12 +94,13 @@ public class Pet extends ModelBase {
 	public static final int HIT_NUM_AGE = 3;
 	public static final int HIT_FLT_WEIGHT = 4;
 	public static final int HIT_DT_BIRTHDAY = 5;
+	public static final int HIT_IMG_PHOTO = 6;
 
 
 	// the list of fields for the hit - starting with 'TOTAL'
-	private static final String[] HIT_FIELDS = { "TOTAL", "id_pet", "nm_pet", "num_age", "flt_weight", "dt_birthday" };
+	private static final String[] HIT_FIELDS = { "TOTAL", "id_pet", "nm_pet", "num_age", "flt_weight", "dt_birthday", "img_photo" };
 	// the number of read-hits for a particular field
-	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0 };
+	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0 };
 
 
 	private Long idPet = null; // maps to the id_pet field
@@ -103,13 +108,15 @@ public class Pet extends ModelBase {
 	private Integer numAge = null; // maps to the num_age field
 	private Float fltWeight = null; // maps to the flt_weight field
 	private Date dtBirthday = null; // maps to the dt_birthday field
+	private Blob imgPhoto = null; // maps to the img_photo field
 
-	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday) {
+	public Pet(Long idPet, String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
 		this.numAge = numAge;
 		this.fltWeight = fltWeight;
 		this.dtBirthday = dtBirthday;
+		this.imgPhoto = imgPhoto;
 	}
 
 	public Pet(Long idPet, String nmPet, Integer numAge) {
@@ -118,6 +125,7 @@ public class Pet extends ModelBase {
 		this.numAge = numAge;
 		this.fltWeight = null;
 		this.dtBirthday = null;
+		this.imgPhoto = null;
 	}
 
 	/**
@@ -136,18 +144,20 @@ public class Pet extends ModelBase {
 	 * @param numAge - maps to the <code>num_age</code> field.
 	 * @param fltWeight - maps to the <code>flt_weight</code> field.
 	 * @param dtBirthday - maps to the <code>dt_birthday</code> field.
+	 * @param imgPhoto - maps to the <code>img_photo</code> field.
 	 * 
 	 * @return Either the existing pet with updated field values,
 	 *   or a new Pet with the field values set.
 	 */
-	public static Pet getOrSet(Pet pet,String nmPet, Integer numAge, Float fltWeight, Date dtBirthday) {
+	public static Pet getOrSet(Pet pet,String nmPet, Integer numAge, Float fltWeight, Date dtBirthday, Blob imgPhoto) {
 		if(null == pet) {
-			return (new Pet(null, nmPet, numAge, fltWeight, dtBirthday));
+			return (new Pet(null, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
 		} else {
 			pet.setNmPet(nmPet);
 			pet.setNumAge(numAge);
 			pet.setFltWeight(fltWeight);
 			pet.setDtBirthday(dtBirthday);
+			pet.setImgPhoto(imgPhoto);
 
 			return(pet);
 		}
@@ -202,6 +212,7 @@ public class Pet extends ModelBase {
 			ConnectionManager.setInt(preparedStatement, 2, numAge);
 			ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 			ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+			ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 			preparedStatement.executeUpdate();
 			resultSet = preparedStatement.getGeneratedKeys();
 			if(resultSet.next()) {
@@ -225,6 +236,7 @@ public class Pet extends ModelBase {
 			ConnectionManager.setInt(preparedStatement, 2, numAge);
 			ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 			ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+			ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				this.idPet = resultSet.getLong(1);
@@ -250,8 +262,9 @@ public class Pet extends ModelBase {
 				ConnectionManager.setInt(preparedStatement, 2, numAge);
 				ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
 				ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+				ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 				// now set the primary key
-				preparedStatement.setLong(5, idPet);
+				preparedStatement.setLong(6, idPet);
 				preparedStatement.executeUpdate();
 			} finally {
 				isDirty = false;
@@ -288,6 +301,7 @@ public class Pet extends ModelBase {
 		this.numAge = pet.getNumAge();
 		this.fltWeight = pet.getFltWeight();
 		this.dtBirthday = pet.getDtBirthday();
+		this.imgPhoto = pet.getImgPhoto();
 	}
 
 	public static String[] getHitFields() { return(HIT_FIELDS); }
@@ -306,6 +320,7 @@ public class Pet extends ModelBase {
 	 * <p>{@link #HIT_NUM_AGE Use <code>Pet.HIT_NUM_AGE</code> to retrieve the hit count for the <code>num_age</code> field}</p>
 	 * <p>{@link #HIT_FLT_WEIGHT Use <code>Pet.HIT_FLT_WEIGHT</code> to retrieve the hit count for the <code>flt_weight</code> field}</p>
 	 * <p>{@link #HIT_DT_BIRTHDAY Use <code>Pet.HIT_DT_BIRTHDAY</code> to retrieve the hit count for the <code>dt_birthday</code> field}</p>
+	 * <p>{@link #HIT_IMG_PHOTO Use <code>Pet.HIT_IMG_PHOTO</code> to retrieve the hit count for the <code>img_photo</code> field}</p>
 
 	 */
 	public static int getHitCountForField(int hitCountField) { return(HIT_COUNTS[hitCountField]); }
@@ -334,6 +349,8 @@ public class Pet extends ModelBase {
 	public void setFltWeight(Float fltWeight) { if(isDifferent(this.fltWeight, fltWeight)) { this.fltWeight = fltWeight;this.isDirty = true; }}
 	public Date getDtBirthday() { updateHitCount(5); return(this.dtBirthday); }
 	public void setDtBirthday(Date dtBirthday) { if(isDifferent(this.dtBirthday, dtBirthday)) { this.dtBirthday = dtBirthday;this.isDirty = true; }}
+	public Blob getImgPhoto() { updateHitCount(6); return(this.imgPhoto); }
+	public void setImgPhoto(Blob imgPhoto) { if(isDifferent(this.imgPhoto, imgPhoto)) { this.imgPhoto = imgPhoto;this.isDirty = true; }}
 
 	@Override
 	public ValidationBean validate() {
@@ -343,6 +360,7 @@ public class Pet extends ModelBase {
 		validationBean.addValidationFieldBean(new IntValidator("num_age", numAge.toString(), 0, 0, false).validate());
 		validationBean.addValidationFieldBean(new FloatValidator("flt_weight", fltWeight.toString(), 0, 6, true).validate());
 		validationBean.addValidationFieldBean(new DateValidator("dt_birthday", dtBirthday.toString(), 0, 0, true).validate());
+		validationBean.addValidationFieldBean(new BlobValidator("img_photo", imgPhoto.toString(), 0, 0, true).validate());
 		return(validationBean);
 	}
 
@@ -356,6 +374,7 @@ public class Pet extends ModelBase {
 			"\"numAge\":\"" + this.numAge + "\"" +
 			"\"fltWeight\":\"" + this.fltWeight + "\"" +
 			"\"dtBirthday\":\"" + this.dtBirthday + "\"" +
+			"\"imgPhoto\":\"" + this.imgPhoto + "\"" +
 			"}");
 	}
 	public JSONObject getToJSON() {
@@ -374,6 +393,7 @@ public class Pet extends ModelBase {
 		ModelBaseHelper.addToJSONObject(fieldsObject, "numAge", this.getNumAge());
 		ModelBaseHelper.addToJSONObject(fieldsObject, "fltWeight", this.getFltWeight());
 		ModelBaseHelper.addToJSONObject(fieldsObject, "dtBirthday", this.getDtBirthday());
+		ModelBaseHelper.addToJSONObject(fieldsObject, "imgPhoto", this.getImgPhoto());
 
 		jsonObject.put("fields", fieldsObject);
 
@@ -406,6 +426,7 @@ public class Pet extends ModelBase {
 			String.format("<num_age null=\"%b\">%s</num_age>", (this.getNumAge() == null), (this.getNumAge() != null ? this.getNumAge() : "")) + 
 			String.format("<flt_weight null=\"%b\">%s</flt_weight>", (this.getFltWeight() == null), (this.getFltWeight() != null ? this.getFltWeight() : "")) + 
 			String.format("<dt_birthday null=\"%b\">%s</dt_birthday>", (this.getDtBirthday() == null), (this.getDtBirthday() != null ? this.getDtBirthday() : "")) + 
+			String.format("<img_photo null=\"%b\">%s</img_photo>", (this.getImgPhoto() == null), (this.getImgPhoto() != null ? this.getImgPhoto() : "")) + 
 			"</pet>");
 	}
 
@@ -424,6 +445,7 @@ public class Pet extends ModelBase {
 		jsonObject.put("numAge", HIT_COUNTS[3]);
 		jsonObject.put("fltWeight", HIT_COUNTS[4]);
 		jsonObject.put("dtBirthday", HIT_COUNTS[5]);
+		jsonObject.put("imgPhoto", HIT_COUNTS[6]);
 		return(jsonObject.toString());
 	}
 

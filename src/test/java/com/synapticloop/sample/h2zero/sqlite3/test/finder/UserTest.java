@@ -16,6 +16,7 @@ import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
+import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -506,26 +507,26 @@ public class UserTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignup() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup().execute();
+	public void testUserfindNmUserDtmSignup() throws SQLException {
+		UserFinder.findNmUserDtmSignup().execute();
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupSilent() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup().executeSilent();
+	public void testUserfindNmUserDtmSignupSilent() throws SQLException {
+		UserFinder.findNmUserDtmSignup().executeSilent();
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupLimitOffset() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup()
+	public void testUserfindNmUserDtmSignupLimitOffset() throws SQLException {
+		UserFinder.findNmUserDtmSignup()
 				.withLimit(0)
 				.withOffset(0)
 				.execute();
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupLimitOffsetSilent() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup()
+	public void testUserfindNmUserDtmSignupLimitOffsetSilent() throws SQLException {
+		UserFinder.findNmUserDtmSignup()
 				.withLimit(0)
 				.withOffset(0)
 				.executeSilent();
@@ -533,40 +534,40 @@ public class UserTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupWithConnection() throws SQLException {
+	public void testUserfindNmUserDtmSignupWithConnection() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			UserFinder.findNmUsernameDtmSignup()
+			UserFinder.findNmUserDtmSignup()
 				.withConnection(connection)
 				.execute();
 		}
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupWithConnectionSilent() throws SQLException {
+	public void testUserfindNmUserDtmSignupWithConnectionSilent() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			UserFinder.findNmUsernameDtmSignup()
+			UserFinder.findNmUserDtmSignup()
 				.withConnection(connection)
 				.executeSilent();
 		}
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupWithNullConnection() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup()
+	public void testUserfindNmUserDtmSignupWithNullConnection() throws SQLException {
+		UserFinder.findNmUserDtmSignup()
 			.withConnection(null)
 			.execute();
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupWithNullConnectionSilent() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup()
+	public void testUserfindNmUserDtmSignupWithNullConnectionSilent() throws SQLException {
+		UserFinder.findNmUserDtmSignup()
 				.withConnection(null)
 				.executeSilent();
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupWithNullConnectionLimitOffset() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup()
+	public void testUserfindNmUserDtmSignupWithNullConnectionLimitOffset() throws SQLException {
+		UserFinder.findNmUserDtmSignup()
 			.withConnection(null)
 			.withLimit(0)
 			.withOffset(0)
@@ -574,8 +575,8 @@ public class UserTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupWithNullConnectionLimitOffsetSilent() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup()
+	public void testUserfindNmUserDtmSignupWithNullConnectionLimitOffsetSilent() throws SQLException {
+		UserFinder.findNmUserDtmSignup()
 				.withConnection(null)
 				.withLimit(0)
 				.withOffset(0)
@@ -583,8 +584,8 @@ public class UserTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupWithNullConnectionNullLimitNullOffset() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup()
+	public void testUserfindNmUserDtmSignupWithNullConnectionNullLimitNullOffset() throws SQLException {
+		UserFinder.findNmUserDtmSignup()
 			.withConnection(null)
 			.withLimit(null)
 			.withOffset(null)
@@ -592,8 +593,8 @@ public class UserTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserfindNmUsernameDtmSignupWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
-		UserFinder.findNmUsernameDtmSignup()
+	public void testUserfindNmUserDtmSignupWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		UserFinder.findNmUserDtmSignup()
 				.withConnection(null)
 				.withLimit(null)
 				.withOffset(null)

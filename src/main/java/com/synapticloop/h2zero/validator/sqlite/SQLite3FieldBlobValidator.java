@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.validator.field;
+package com.synapticloop.h2zero.validator.sqlite;
 
 /*
  * Copyright (c) 2013-2024 synapticloop.
@@ -18,29 +18,28 @@ package com.synapticloop.h2zero.validator.field;
  * under the Licence.
  */
 
-
-import java.util.Iterator;
-import java.util.List;
-
-import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.field.BaseField;
-import com.synapticloop.h2zero.model.field.IntegerField;
+import com.synapticloop.h2zero.model.field.BlobField;
 import com.synapticloop.h2zero.validator.BaseValidator;
 
-@H2ZeroValidator
-public class SQLite3FieldPrimaryKeyValidator extends BaseValidator {
+import java.util.Iterator;
+import java.util.List;
+
+//@H2ZeroValidator
+public class SQLite3FieldBlobValidator extends BaseValidator {
 	public void validate(Database database, Options options) {
 		if ("sqlite3".equals(options.getDatabase())) {
 			List<Table> tables = database.getTables();
 			for (Iterator<Table> tableIterator = tables.iterator(); tableIterator.hasNext();) {
-				Table table = (Table)tableIterator.next();
+				Table table = tableIterator.next();
 				List<BaseField> fields = table.getFields();
 				for (BaseField baseField : fields) {
-					if ((baseField.getPrimary()) && (!(baseField instanceof IntegerField))) {
-						addWarnMessage(new String[] { "Table field '" + table.getName() + "." + baseField.getName() + "' is a primary key of type '" + baseField.getType() + "' - which will be converted to an INTEGER upon table creation, you should update this to 'int' type." });
+					if ((baseField instanceof BlobField)) {
+						this.isValid = false;
+						addFatalMessage(new String[] { "Table field '" + table.getName() + "." + baseField.getName() + "' is a BLOB - which, alas, is __NOT__ supported by the sqlite3 JDBC driver - apologies." });
 					}
 				}
 			}

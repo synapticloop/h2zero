@@ -16,6 +16,7 @@ import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
 
 
+import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -187,6 +188,2381 @@ public class AllTypesTest extends DatabaseSetupTest {
 				.withOffset(0)
 				.execute();
 
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypes() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesSilent() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesLimitOffset() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByIdAllTypes(1L)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByIdAllTypes(1L)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesWithNullConnection() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByIdAllTypesWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByIdAllTypes(1L)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigint() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintSilent() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestBigint(1L)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestBigint(1L)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBigintWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBigint(1L)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBool() throws SQLException {
+		AllTypesFinder.findByTestBool(true).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolSilent() throws SQLException {
+		AllTypesFinder.findByTestBool(true).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestBool(true)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBool(true)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestBool(true)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestBool(true)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestBool(true)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestBool(true)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestBool(true)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBool(true)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestBool(true)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBool(true)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestChar() throws SQLException {
+		AllTypesFinder.findByTestChar("X").execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharSilent() throws SQLException {
+		AllTypesFinder.findByTestChar("X").executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestChar("X")
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestChar("X")
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestChar("X")
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestChar("X")
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestChar("X")
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestChar("X")
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestChar("X")
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestChar("X")
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestChar("X")
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestCharWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestChar("X")
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBoolean() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanSilent() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestBoolean(true)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestBoolean(true)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestBooleanWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestBoolean(true)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDate() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis())).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateSilent() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis())).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDateWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetime() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis())).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeSilent() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis())).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDatetimeWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDec() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0)).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecSilent() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0)).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimal() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0)).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalSilent() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0)).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDecimalWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDouble() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleSilent() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDouble(0.0)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestDouble(0.0)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestDoubleWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestDouble(0.0)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloat() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatSilent() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestFloat(0.0f)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestFloat(0.0f)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestFloatWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestFloat(0.0f)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestInt() throws SQLException {
+		AllTypesFinder.findByTestInt(1).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntSilent() throws SQLException {
+		AllTypesFinder.findByTestInt(1).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestInt(1)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestInt(1)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestInt(1)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestInt(1)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestInt(1)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestInt(1)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestInt(1)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestInt(1)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestInt(1)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestInt(1)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestInteger() throws SQLException {
+		AllTypesFinder.findByTestInteger(1).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerSilent() throws SQLException {
+		AllTypesFinder.findByTestInteger(1).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestInteger(1)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestInteger(1)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestInteger(1)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestInteger(1)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestInteger(1)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestInteger(1)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestInteger(1)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestInteger(1)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestInteger(1)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestIntegerWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestInteger(1)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtext() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext").execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextSilent() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext").executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext")
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext")
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestLongtext("longtext")
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestLongtext("longtext")
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext")
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext")
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext")
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext")
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext")
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestLongtextWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestLongtext("longtext")
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumint() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestMediumint(1)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestMediumint(1)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumintWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumint(1)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtext() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext").execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext").executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext")
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext")
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestMediumtext("mediumtext")
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestMediumtext("mediumtext")
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext")
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext")
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext")
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext")
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext")
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestMediumtextWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestMediumtext("mediumtext")
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumeric() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0")).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericSilent() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0")).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestNumericWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallint() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintSilent() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestSmallint((short) 0)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestSmallint((short) 0)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestSmallintWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestSmallint((short) 0)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTime() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis())).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeSilent() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis())).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimeWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestText() throws SQLException {
+		AllTypesFinder.findByTestText("text").execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextSilent() throws SQLException {
+		AllTypesFinder.findByTestText("text").executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestText("text")
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestText("text")
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestText("text")
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestText("text")
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestText("text")
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestText("text")
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestText("text")
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestText("text")
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestText("text")
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTextWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestText("text")
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestamp() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis())).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampSilent() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis())).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTimestampWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyint() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintSilent() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestTinyint(true)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestTinyint(true)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinyintWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTinyint(true)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytext() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext").execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextSilent() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext").executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext")
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext")
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestTinytext("tinytext")
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestTinytext("tinytext")
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext")
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext")
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext")
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext")
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext")
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestTinytextWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestTinytext("tinytext")
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarchar() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar").execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharSilent() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar").executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar")
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar")
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestVarchar("varchar")
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestVarchar("varchar")
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar")
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar")
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar")
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar")
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar")
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestVarcharWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestVarchar("varchar")
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYear() throws SQLException {
+		AllTypesFinder.findByTestYear(0).execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearSilent() throws SQLException {
+		AllTypesFinder.findByTestYear(0).executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestYear(0)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestYear(0)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestYear(0)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			AllTypesFinder.findByTestYear(0)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearWithNullConnection() throws SQLException {
+		AllTypesFinder.findByTestYear(0)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearWithNullConnectionSilent() throws SQLException {
+		AllTypesFinder.findByTestYear(0)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearWithNullConnectionLimitOffset() throws SQLException {
+		AllTypesFinder.findByTestYear(0)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearWithNullConnectionLimitOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestYear(0)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearWithNullConnectionNullLimitNullOffset() throws SQLException {
+		AllTypesFinder.findByTestYear(0)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testAllTypesfindByTestYearWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		AllTypesFinder.findByTestYear(0)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
 	}
 
 }

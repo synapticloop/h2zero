@@ -77,6 +77,106 @@ public class AllTypesFinder {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
+	private static final String SQL_FIND_BY_ID_ALL_TYPES = SQL_SELECT_START + 
+		"""
+			where id_all_types = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_BIGINT = SQL_SELECT_START + 
+		"""
+			where test_bigint = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_BOOL = SQL_SELECT_START + 
+		"""
+			where test_bool = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_CHAR = SQL_SELECT_START + 
+		"""
+			where test_char = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_BOOLEAN = SQL_SELECT_START + 
+		"""
+			where test_boolean = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DATE = SQL_SELECT_START + 
+		"""
+			where test_date = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DATETIME = SQL_SELECT_START + 
+		"""
+			where test_datetime = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DEC = SQL_SELECT_START + 
+		"""
+			where test_dec = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DECIMAL = SQL_SELECT_START + 
+		"""
+			where test_decimal = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DOUBLE = SQL_SELECT_START + 
+		"""
+			where test_double = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_FLOAT = SQL_SELECT_START + 
+		"""
+			where test_float = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_INT = SQL_SELECT_START + 
+		"""
+			where test_int = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_INTEGER = SQL_SELECT_START + 
+		"""
+			where test_integer = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_LONGTEXT = SQL_SELECT_START + 
+		"""
+			where test_longtext = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_MEDIUMINT = SQL_SELECT_START + 
+		"""
+			where test_mediumint = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_MEDIUMTEXT = SQL_SELECT_START + 
+		"""
+			where test_mediumtext = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_NUMERIC = SQL_SELECT_START + 
+		"""
+			where test_numeric = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_SMALLINT = SQL_SELECT_START + 
+		"""
+			where test_smallint = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TIME = SQL_SELECT_START + 
+		"""
+			where test_time = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TEXT = SQL_SELECT_START + 
+		"""
+			where test_text = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TIMESTAMP = SQL_SELECT_START + 
+		"""
+			where test_timestamp = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TINYINT = SQL_SELECT_START + 
+		"""
+			where test_tinyint = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TINYTEXT = SQL_SELECT_START + 
+		"""
+			where test_tinytext = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_VARCHAR = SQL_SELECT_START + 
+		"""
+			where test_varchar = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_YEAR = SQL_SELECT_START + 
+		"""
+			where test_year = ?
+		""";
 
 	private AllTypesFinder() {}
 
@@ -164,13 +264,1238 @@ public class AllTypesFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 0 defined finders on the all_types table, of those finders
+	 * There are 25 defined finders on the all_types table, of those finders
 	 * the following are the regular finders, either defined through the
 	 * 'finders' or 'fieldFinders' JSON key
 	 * 
+	 * - findByIdAllTypes - Generated from the 'fieldFinders' JSON key
+	 * - findByTestBigint - Generated from the 'fieldFinders' JSON key
+	 * - findByTestBool - Generated from the 'fieldFinders' JSON key
+	 * - findByTestChar - Generated from the 'fieldFinders' JSON key
+	 * - findByTestBoolean - Generated from the 'fieldFinders' JSON key
+	 * - findByTestDate - Generated from the 'fieldFinders' JSON key
+	 * - findByTestDatetime - Generated from the 'fieldFinders' JSON key
+	 * - findByTestDec - Generated from the 'fieldFinders' JSON key
+	 * - findByTestDecimal - Generated from the 'fieldFinders' JSON key
+	 * - findByTestDouble - Generated from the 'fieldFinders' JSON key
+	 * - findByTestFloat - Generated from the 'fieldFinders' JSON key
+	 * - findByTestInt - Generated from the 'fieldFinders' JSON key
+	 * - findByTestInteger - Generated from the 'fieldFinders' JSON key
+	 * - findByTestLongtext - Generated from the 'fieldFinders' JSON key
+	 * - findByTestMediumint - Generated from the 'fieldFinders' JSON key
+	 * - findByTestMediumtext - Generated from the 'fieldFinders' JSON key
+	 * - findByTestNumeric - Generated from the 'fieldFinders' JSON key
+	 * - findByTestSmallint - Generated from the 'fieldFinders' JSON key
+	 * - findByTestTime - Generated from the 'fieldFinders' JSON key
+	 * - findByTestText - Generated from the 'fieldFinders' JSON key
+	 * - findByTestTimestamp - Generated from the 'fieldFinders' JSON key
+	 * - findByTestTinyint - Generated from the 'fieldFinders' JSON key
+	 * - findByTestTinytext - Generated from the 'fieldFinders' JSON key
+	 * - findByTestVarchar - Generated from the 'fieldFinders' JSON key
+	 * - findByTestYear - Generated from the 'fieldFinders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+	/**
+	 * This is the <code>findByIdAllTypes</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByIdAllTypes(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByIdAllTypes(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByIdAllTypes(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param idAllTypes - maps to the id_all_types field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByIdAllTypes(Long idAllTypes) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_ID_ALL_TYPES,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {idAllTypes}
+		));
+	}
+	/**
+	 * This is the <code>findByTestBigint</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestBigint(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestBigint(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestBigint(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testBigint - maps to the test_bigint field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestBigint(Long testBigint) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_BIGINT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testBigint}
+		));
+	}
+	/**
+	 * This is the <code>findByTestBool</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestBool(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestBool(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestBool(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testBool - maps to the test_bool field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestBool(Boolean testBool) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_BOOL,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testBool}
+		));
+	}
+	/**
+	 * This is the <code>findByTestChar</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestChar(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestChar(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestChar(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testChar - maps to the test_char field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestChar(String testChar) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_CHAR,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testChar}
+		));
+	}
+	/**
+	 * This is the <code>findByTestBoolean</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestBoolean(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestBoolean(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestBoolean(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testBoolean - maps to the test_boolean field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestBoolean(Boolean testBoolean) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_BOOLEAN,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testBoolean}
+		));
+	}
+	/**
+	 * This is the <code>findByTestDate</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDate(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDate(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestDate(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testDate - maps to the test_date field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestDate(Date testDate) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_DATE,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testDate}
+		));
+	}
+	/**
+	 * This is the <code>findByTestDatetime</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDatetime(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDatetime(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestDatetime(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testDatetime - maps to the test_datetime field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestDatetime(Timestamp testDatetime) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_DATETIME,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testDatetime}
+		));
+	}
+	/**
+	 * This is the <code>findByTestDec</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDec(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDec(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestDec(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testDec - maps to the test_dec field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestDec(BigDecimal testDec) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_DEC,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testDec}
+		));
+	}
+	/**
+	 * This is the <code>findByTestDecimal</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDecimal(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDecimal(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestDecimal(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testDecimal - maps to the test_decimal field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestDecimal(BigDecimal testDecimal) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_DECIMAL,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testDecimal}
+		));
+	}
+	/**
+	 * This is the <code>findByTestDouble</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDouble(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestDouble(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestDouble(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testDouble - maps to the test_double field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestDouble(Double testDouble) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_DOUBLE,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testDouble}
+		));
+	}
+	/**
+	 * This is the <code>findByTestFloat</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestFloat(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestFloat(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestFloat(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testFloat - maps to the test_float field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestFloat(Float testFloat) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_FLOAT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testFloat}
+		));
+	}
+	/**
+	 * This is the <code>findByTestInt</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestInt(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestInt(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestInt(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testInt - maps to the test_int field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestInt(Integer testInt) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_INT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testInt}
+		));
+	}
+	/**
+	 * This is the <code>findByTestInteger</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestInteger(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestInteger(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestInteger(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testInteger - maps to the test_integer field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestInteger(Integer testInteger) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_INTEGER,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testInteger}
+		));
+	}
+	/**
+	 * This is the <code>findByTestLongtext</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestLongtext(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestLongtext(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestLongtext(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testLongtext - maps to the test_longtext field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestLongtext(String testLongtext) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_LONGTEXT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testLongtext}
+		));
+	}
+	/**
+	 * This is the <code>findByTestMediumint</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestMediumint(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestMediumint(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestMediumint(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testMediumint - maps to the test_mediumint field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestMediumint(Integer testMediumint) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_MEDIUMINT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testMediumint}
+		));
+	}
+	/**
+	 * This is the <code>findByTestMediumtext</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestMediumtext(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestMediumtext(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestMediumtext(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testMediumtext - maps to the test_mediumtext field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestMediumtext(String testMediumtext) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_MEDIUMTEXT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testMediumtext}
+		));
+	}
+	/**
+	 * This is the <code>findByTestNumeric</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestNumeric(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestNumeric(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestNumeric(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testNumeric - maps to the test_numeric field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestNumeric(BigDecimal testNumeric) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_NUMERIC,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testNumeric}
+		));
+	}
+	/**
+	 * This is the <code>findByTestSmallint</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestSmallint(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestSmallint(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestSmallint(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testSmallint - maps to the test_smallint field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestSmallint(Short testSmallint) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_SMALLINT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testSmallint}
+		));
+	}
+	/**
+	 * This is the <code>findByTestTime</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestTime(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestTime(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestTime(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testTime - maps to the test_time field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestTime(Time testTime) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_TIME,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testTime}
+		));
+	}
+	/**
+	 * This is the <code>findByTestText</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestText(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestText(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestText(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testText - maps to the test_text field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestText(String testText) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_TEXT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testText}
+		));
+	}
+	/**
+	 * This is the <code>findByTestTimestamp</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestTimestamp(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestTimestamp(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestTimestamp(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testTimestamp - maps to the test_timestamp field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestTimestamp(Timestamp testTimestamp) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_TIMESTAMP,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testTimestamp}
+		));
+	}
+	/**
+	 * This is the <code>findByTestTinyint</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestTinyint(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestTinyint(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestTinyint(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testTinyint - maps to the test_tinyint field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestTinyint(Boolean testTinyint) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_TINYINT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testTinyint}
+		));
+	}
+	/**
+	 * This is the <code>findByTestTinytext</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestTinytext(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestTinytext(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestTinytext(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testTinytext - maps to the test_tinytext field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestTinytext(String testTinytext) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_TINYTEXT,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testTinytext}
+		));
+	}
+	/**
+	 * This is the <code>findByTestVarchar</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestVarchar(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestVarchar(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestVarchar(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testVarchar - maps to the test_varchar field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestVarchar(String testVarchar) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_VARCHAR,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testVarchar}
+		));
+	}
+	/**
+	 * This is the <code>findByTestYear</code> finder.
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AllTypes> Finder
+	 * that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestYear(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AllTypes.findByTestYear(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AllTypes.findByTestYear(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * @return the parameterised MultiFinder
+	 * @param testYear - maps to the test_year field
+	 * 
+	 * @return the MultiFinder<AllTypes>()
+	 * 
+	 */
+	public static MultiFinder<AllTypes> findByTestYear(Integer testYear) {
+		return(
+				new MultiFinder<AllTypes>(
+				LOGGER,
+				SQL_FIND_BY_TEST_YEAR,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {testYear}
+		));
+	}
 	/**
 	 * Return the results as a list of AllTypes, this will be empty if
 	 * none are found.
@@ -228,7 +1553,7 @@ public class AllTypesFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 0 defined finders on the all_types table, of those finders
+	 * There are 25 defined finders on the all_types table, of those finders
 	 * the following are the select clause finders:
 	 * 
 	 * 

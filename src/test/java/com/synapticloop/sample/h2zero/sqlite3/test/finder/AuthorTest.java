@@ -16,6 +16,7 @@ import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
+import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;

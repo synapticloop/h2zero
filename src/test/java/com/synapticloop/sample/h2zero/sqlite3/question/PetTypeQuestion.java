@@ -8,8 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
-import java.sql.Blob;
 
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
@@ -28,40 +26,40 @@ import java.util.List;
  * file</p>
  * <p>A question returns a simple true/false response from a query.</p>
  * 
- * <p>Table name: <code>pet</code></p>
+ * <p>Table name: <code>pet_type</code></p>
  * 
  * 
  * @author synapticloop h2zero
  * 
  * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
-public class PetQuestion {
+public class PetTypeQuestion {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
 	@SuppressWarnings("unused")
-	private static final String BINDER = Constants.PET_BINDER;
+	private static final String BINDER = Constants.PET_TYPE_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PetQuestion.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PetTypeQuestion.class);
 
 
 	// this is an internal SQL question select statement used by the validator
-	private static final String SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST = "SELECT (COUNT(*) = 1) WHERE id_pet = ?";
+	private static final String SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST = "SELECT (COUNT(*) = 1) WHERE id_pet_type = ?";
 
 
 
 	/** Private to deter instantiation */
-	private PetQuestion() {}
+	private PetTypeQuestion() {}
 
 	/**
 	 * An internal method to check whether a specific primary key exists, 
 	 * generated as part of the validation methods
 	 * 
-	 * @param idPet The primary key for this model
+	 * @param idPetType The primary key for this model
 	 * 
 	 * @return whether the primary key exists
 	 */
-	public static boolean internalDoesPrimaryKeyExist(Long idPet) {
+	public static boolean internalDoesPrimaryKeyExist(Long idPetType) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -71,7 +69,7 @@ public class PetQuestion {
 		try {
 			connection = ConnectionManager.getConnection();
 			preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
-			ConnectionManager.setBigint(preparedStatement, 1, idPet);
+			ConnectionManager.setBigint(preparedStatement, 1, idPetType);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {

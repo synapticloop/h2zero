@@ -16,6 +16,7 @@ import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
+import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -278,6 +279,291 @@ public class PetTest extends DatabaseSetupTest {
 	@Test
 	public void testPetfindByNmPetNumAgeWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
 		PetFinder.findByNmPetNumAge("varchar", 1)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindByNumAge() throws SQLException {
+		PetFinder.findByNumAge(1).execute();
+	}
+
+	@Test
+	public void testPetfindByNumAgeSilent() throws SQLException {
+		PetFinder.findByNumAge(1).executeSilent();
+	}
+
+	@Test
+	public void testPetfindByNumAgeLimitOffset() throws SQLException {
+		PetFinder.findByNumAge(1)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testPetfindByNumAgeLimitOffsetSilent() throws SQLException {
+		PetFinder.findByNumAge(1)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testPetfindByNumAgeWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			PetFinder.findByNumAge(1)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testPetfindByNumAgeWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			PetFinder.findByNumAge(1)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testPetfindByNumAgeWithNullConnection() throws SQLException {
+		PetFinder.findByNumAge(1)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindByNumAgeWithNullConnectionSilent() throws SQLException {
+		PetFinder.findByNumAge(1)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindByNumAgeWithNullConnectionLimitOffset() throws SQLException {
+		PetFinder.findByNumAge(1)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindByNumAgeWithNullConnectionLimitOffsetSilent() throws SQLException {
+		PetFinder.findByNumAge(1)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindByNumAgeWithNullConnectionNullLimitNullOffset() throws SQLException {
+		PetFinder.findByNumAge(1)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindByNumAgeWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		PetFinder.findByNumAge(1)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindAgeBetween() throws SQLException {
+		PetFinder.findAgeBetween(1, 1).execute();
+	}
+
+	@Test
+	public void testPetfindAgeBetweenSilent() throws SQLException {
+		PetFinder.findAgeBetween(1, 1).executeSilent();
+	}
+
+	@Test
+	public void testPetfindAgeBetweenLimitOffset() throws SQLException {
+		PetFinder.findAgeBetween(1, 1)
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testPetfindAgeBetweenLimitOffsetSilent() throws SQLException {
+		PetFinder.findAgeBetween(1, 1)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testPetfindAgeBetweenWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			PetFinder.findAgeBetween(1, 1)
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testPetfindAgeBetweenWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			PetFinder.findAgeBetween(1, 1)
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testPetfindAgeBetweenWithNullConnection() throws SQLException {
+		PetFinder.findAgeBetween(1, 1)
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindAgeBetweenWithNullConnectionSilent() throws SQLException {
+		PetFinder.findAgeBetween(1, 1)
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindAgeBetweenWithNullConnectionLimitOffset() throws SQLException {
+		PetFinder.findAgeBetween(1, 1)
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindAgeBetweenWithNullConnectionLimitOffsetSilent() throws SQLException {
+		PetFinder.findAgeBetween(1, 1)
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindAgeBetweenWithNullConnectionNullLimitNullOffset() throws SQLException {
+		PetFinder.findAgeBetween(1, 1)
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindAgeBetweenWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		PetFinder.findAgeBetween(1, 1)
+				.withConnection(null)
+				.withLimit(null)
+				.withOffset(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetween() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis())).execute();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenSilent() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis())).executeSilent();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenLimitOffset() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.execute();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenLimitOffsetSilent() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenWithConnection() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(connection)
+				.execute();
+		}
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenWithConnectionSilent() throws SQLException {
+		try (Connection connection = ConnectionManager.getConnection()) {
+			PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(connection)
+				.executeSilent();
+		}
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenWithNullConnection() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+			.withConnection(null)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenWithNullConnectionSilent() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(null)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenWithNullConnectionLimitOffset() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(0)
+			.withOffset(0)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenWithNullConnectionLimitOffsetSilent() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+				.withConnection(null)
+				.withLimit(0)
+				.withOffset(0)
+				.executeSilent();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenWithNullConnectionNullLimitNullOffset() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
+			.withConnection(null)
+			.withLimit(null)
+			.withOffset(null)
+			.execute();
+	}
+
+	@Test
+	public void testPetfindBirthdaysBetweenWithNullConnectionNullLimitNullOffsetSilent() throws SQLException {
+		PetFinder.findBirthdaysBetween(new java.sql.Date(System.currentTimeMillis()), new java.sql.Date(System.currentTimeMillis()))
 				.withConnection(null)
 				.withLimit(null)
 				.withOffset(null)

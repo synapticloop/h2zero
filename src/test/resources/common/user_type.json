@@ -16,7 +16,6 @@
 		{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }
 	],
 	"constantsCache": [
-		"nm_user_type",
-		"id_user_type"
+		"nm_user_type"
 	]
 }

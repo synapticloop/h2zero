@@ -74,6 +74,106 @@ public class AllTypesUpserter {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
+	private static final String SQL_FIND_BY_ID_ALL_TYPES = SQL_SELECT_START + 
+		"""
+			where id_all_types = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_BIGINT = SQL_SELECT_START + 
+		"""
+			where test_bigint = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_BOOL = SQL_SELECT_START + 
+		"""
+			where test_bool = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_CHAR = SQL_SELECT_START + 
+		"""
+			where test_char = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_BOOLEAN = SQL_SELECT_START + 
+		"""
+			where test_boolean = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DATE = SQL_SELECT_START + 
+		"""
+			where test_date = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DATETIME = SQL_SELECT_START + 
+		"""
+			where test_datetime = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DEC = SQL_SELECT_START + 
+		"""
+			where test_dec = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DECIMAL = SQL_SELECT_START + 
+		"""
+			where test_decimal = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_DOUBLE = SQL_SELECT_START + 
+		"""
+			where test_double = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_FLOAT = SQL_SELECT_START + 
+		"""
+			where test_float = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_INT = SQL_SELECT_START + 
+		"""
+			where test_int = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_INTEGER = SQL_SELECT_START + 
+		"""
+			where test_integer = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_LONGTEXT = SQL_SELECT_START + 
+		"""
+			where test_longtext = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_MEDIUMINT = SQL_SELECT_START + 
+		"""
+			where test_mediumint = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_MEDIUMTEXT = SQL_SELECT_START + 
+		"""
+			where test_mediumtext = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_NUMERIC = SQL_SELECT_START + 
+		"""
+			where test_numeric = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_SMALLINT = SQL_SELECT_START + 
+		"""
+			where test_smallint = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TIME = SQL_SELECT_START + 
+		"""
+			where test_time = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TEXT = SQL_SELECT_START + 
+		"""
+			where test_text = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TIMESTAMP = SQL_SELECT_START + 
+		"""
+			where test_timestamp = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TINYINT = SQL_SELECT_START + 
+		"""
+			where test_tinyint = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_TINYTEXT = SQL_SELECT_START + 
+		"""
+			where test_tinytext = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_VARCHAR = SQL_SELECT_START + 
+		"""
+			where test_varchar = ?
+		""";
+	private static final String SQL_FIND_BY_TEST_YEAR = SQL_SELECT_START + 
+		"""
+			where test_year = ?
+		""";
 
 	private AllTypesUpserter() {}
 

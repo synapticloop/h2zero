@@ -14,6 +14,7 @@ import {database.package}.ConnectionManagerInitialiserOverride;{\n}
 import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 import {database.package}.test.DatabaseSetupTest;{\n}{\n}
 {\n}
+import java.math.*;{\n}
 import java.sql.Connection;{\n}
 import java.sql.SQLException;{\n}
 import java.util.ArrayList;{\n}

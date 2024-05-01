@@ -8,8 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
-import java.sql.Blob;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
@@ -25,47 +23,32 @@ import org.slf4j.LoggerFactory;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
-import com.synapticloop.sample.h2zero.sqlite3.model.Pet;
+import com.synapticloop.sample.h2zero.sqlite3.model.PetType;
 
-public class PetUpserter {
+public class PetTypeUpserter {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
 	@SuppressWarnings("unused")
-	private static final String BINDER = Constants.PET_BINDER;
+	private static final String BINDER = Constants.PET_TYPE_BINDER;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PetUpserter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PetTypeUpserter.class);
 	private static final String SQL_SELECT_START = 
 		"""
 			select 
-				id_pet, 
-				nm_pet, 
-				num_age, 
-				flt_weight, 
-				dt_birthday, 
-				img_photo
+				id_pet_type, 
+				nm_pet_type, 
+				txt_desc_pet_type
 			from 
-				pet
+				pet_type
 		""";
-	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
+	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet_type = ?";
 
-	private static final String SQL_FIND_BY_NM_PET_NUM_AGE = SQL_SELECT_START + 
-		"""
-			where nm_pet = ? and num_age = ?
-		""";
-	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + 
-		"""
-			where num_age = ?
-		""";
-	private static final String SQL_FIND_AGE_BETWEEN = SQL_SELECT_START + 
-		"""
-			where num_age >= ? and num_age <= ?
-		""";
-	private static final String SQL_FIND_BIRTHDAYS_BETWEEN = SQL_SELECT_START + 
-		"""
-			where dt_birthday >= ? and dt_birthday <= ?
-		""";
 
-	private PetUpserter() {}
+	private PetTypeUpserter() {}
+
+	public static boolean upsertByNmPetType() {
+		return(false);
+	}
 
 }

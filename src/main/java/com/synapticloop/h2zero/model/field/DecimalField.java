@@ -66,7 +66,7 @@ public class DecimalField extends BaseField {
 		return false;
 	}
 
-	@Override public String getSqlTestValue() { return("0.0"); }
+	@Override public String getSqlTestValue() { return("BigDecimal.valueOf(0.0)"); }
 
 
 }

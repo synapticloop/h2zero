@@ -24,7 +24,7 @@ import java.sql.*;
 import java.util.List;
 
 
-import com.synapticloop.sample.h2zero.sqlite3.finder.UserPetFinder;
+import com.synapticloop.sample.h2zero.sqlite3.finder.PetTypeFinder;
 
 /**
  * WARNING NOTE: these tests are designed to test the generated SQL statements
@@ -34,51 +34,51 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.UserPetFinder;
  * so that there are no resource leakages.
  */
 
-public class UserPetTest extends DatabaseSetupTest {
+public class PetTypeTest extends DatabaseSetupTest {
 
 	@Test
-	public void testUserPetFindByPrimaryKey() throws SQLException {
-		UserPetFinder.findByPrimaryKey(1L)
+	public void testPetTypeFindByPrimaryKey() throws SQLException {
+		PetTypeFinder.findByPrimaryKey(1L)
 				.execute();
 
 	}
 
 	@Test
-	public void testUserPetFindByPrimaryKeySilent() throws SQLException {
-		Assert.assertNull(UserPetFinder.findByPrimaryKey(-831486134981L)
+	public void testPetTypeFindByPrimaryKeySilent() throws SQLException {
+		Assert.assertNull(PetTypeFinder.findByPrimaryKey(-831486134981L)
 				.executeSilent());
 
 	}
 
 	@Test
-	public void testUserPetFindByPrimaryKeyWithConnection() throws SQLException {
+	public void testPetTypeFindByPrimaryKeyWithConnection() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			UserPetFinder.findByPrimaryKey(1L)
+			PetTypeFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
 		}
 	}
 
 	@Test
-	public void testUserPetFindByPrimaryKeyWithConnectionSilent() throws SQLException {
+	public void testPetTypeFindByPrimaryKeyWithConnectionSilent() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			Assert.assertNull(UserPetFinder.findByPrimaryKey(-831486134981L)
+			Assert.assertNull(PetTypeFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
 		}
 	}
 
 	@Test
-	public void testUserPetFindAll() throws SQLException {
-		Assert.assertEquals(0, UserPetFinder.findAll()
+	public void testPetTypeFindAll() throws SQLException {
+		Assert.assertEquals(0, PetTypeFinder.findAll()
 				.execute()
 				.size());
 
 	}
 
 	@Test
-	public void testUserPetFindAllLimitOffset() throws SQLException {
-		Assert.assertEquals(0, UserPetFinder.findAll()
+	public void testPetTypeFindAllLimitOffset() throws SQLException {
+		Assert.assertEquals(0, PetTypeFinder.findAll()
 			.withLimit(1)
 			.withOffset(0)
 			.execute()
@@ -86,16 +86,16 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllSilent() throws SQLException {
-		Assert.assertEquals(0, UserPetFinder.findAll()
+	public void testPetTypeFindAllSilent() throws SQLException {
+		Assert.assertEquals(0, PetTypeFinder.findAll()
 				.executeSilent()
 				.size());
 
 	}
 
 	@Test
-	public void testUserPetFindAllLimitOffsetSilent() throws SQLException {
-		Assert.assertEquals(0, UserPetFinder.findAll()
+	public void testPetTypeFindAllLimitOffsetSilent() throws SQLException {
+		Assert.assertEquals(0, PetTypeFinder.findAll()
 				.withLimit(1)
 				.withOffset(0)
 				.executeSilent()
@@ -103,9 +103,9 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllWithConnection() throws SQLException {
+	public void testPetTypeFindAllWithConnection() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			Assert.assertEquals(0, UserPetFinder.findAll()
+			Assert.assertEquals(0, PetTypeFinder.findAll()
 				.withConnection(connection)
 				.execute()
 				.size());
@@ -114,9 +114,9 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllWithConnectionSilent() throws SQLException {
+	public void testPetTypeFindAllWithConnectionSilent() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			Assert.assertEquals(0, UserPetFinder.findAll()
+			Assert.assertEquals(0, PetTypeFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
 				.size());
@@ -124,9 +124,9 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllWithConnectionLimit() throws SQLException {
+	public void testPetTypeFindAllWithConnectionLimit() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			UserPetFinder.findAll().withConnection(connection)
+			PetTypeFinder.findAll().withConnection(connection)
 				.withLimit(1)
 				.withOffset(0)
 				.execute();
@@ -135,9 +135,9 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllWithConnectionLimitSilent() throws SQLException {
+	public void testPetTypeFindAllWithConnectionLimitSilent() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			Assert.assertEquals(0, UserPetFinder.findAll()
+			Assert.assertEquals(0, PetTypeFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
 				.withOffset(0)
@@ -147,9 +147,9 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllWithConnectionOffset() throws SQLException {
+	public void testPetTypeFindAllWithConnectionOffset() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			UserPetFinder.findAll()
+			PetTypeFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
 				.withOffset(1)
@@ -159,9 +159,9 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllWithConnectionOffsetSilent() throws SQLException {
+	public void testPetTypeFindAllWithConnectionOffsetSilent() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			UserPetFinder.findAll()
+			PetTypeFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
 				.withOffset(0)
@@ -170,9 +170,9 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllWithConnectionLimitOffset() throws SQLException {
+	public void testPetTypeFindAllWithConnectionLimitOffset() throws SQLException {
 		try (Connection connection = ConnectionManager.getConnection()) {
-			UserPetFinder.findAll()
+			PetTypeFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
 				.withOffset(0)
@@ -181,8 +181,8 @@ public class UserPetTest extends DatabaseSetupTest {
 	}
 
 	@Test
-	public void testUserPetFindAllWithNullConnectionLimitOffset() throws SQLException {
-		UserPetFinder.findAll()
+	public void testPetTypeFindAllWithNullConnectionLimitOffset() throws SQLException {
+		PetTypeFinder.findAll()
 				.withConnection(null)
 				.withLimit(1)
 				.withOffset(0)

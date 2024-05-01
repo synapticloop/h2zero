@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.validator.field;
+package com.synapticloop.h2zero.validator.sqlite;
 
 /*
  * Copyright (c) 2013-2024 synapticloop.
@@ -18,7 +18,6 @@ package com.synapticloop.h2zero.validator.field;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.model.Table;
@@ -29,7 +28,7 @@ import com.synapticloop.h2zero.validator.BaseValidator;
 import java.util.Iterator;
 import java.util.List;
 
-@H2ZeroValidator
+//@H2ZeroValidator
 public class SQLite3FieldClobValidator extends BaseValidator {
 	public void validate(Database database, Options options) {
 		if ("sqlite3".equals(options.getDatabase())) {
