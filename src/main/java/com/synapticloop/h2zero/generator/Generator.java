@@ -32,6 +32,7 @@ import com.synapticloop.templar.utils.TemplarConfiguration;
 import com.synapticloop.templar.utils.TemplarContext;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,7 +123,13 @@ public abstract class Generator {
 		if(verbose) {
 			SimpleLogger.logDebug(LoggerType.TEMPLAR_LOAD, "Loading templar template '" + templarTemplateFile + "'.");
 		}
-		return(new Parser(this.getClass().getResourceAsStream(templarTemplateFile)));
+
+		InputStream inputStream = this.getClass().getResourceAsStream(templarTemplateFile);
+		if(null == inputStream) {
+			throw new ParseException("Could not load the templar template '" + templarTemplateFile + "' resource.");
+		}
+
+		return(new Parser(inputStream));
 	}
 
 	/**

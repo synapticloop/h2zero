@@ -59,8 +59,8 @@ public class JavaGenerator extends Generator {
 
 	private void generateTables(TemplarContext templarContext) throws ParseException, RenderException {
 		Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
-		Parser javaCreateConnectionManagerInitialiser = getParser("/java-create-connection-manager-initialiser.templar");
-		Parser javaCreateConnectionManagerInitialiserOverride = getParser("/java-create-connection-manager-initialiser-override.templar");
+		Parser javaCreateConnectionManagerInitialiser = getParser("/java/java-create-connection-manager-initialiser.templar");
+		Parser javaCreateConnectionManagerInitialiserOverride = getParser("/java/java-create-connection-manager-initialiser-override.templar");
 
 		// The model
 		Parser javaCreateModelParser = getParser("/java-create-model.templar");

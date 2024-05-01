@@ -14,11 +14,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 public class DatabaseSetupTest extends BaseConnectionManager {
-	private static final String DB_DRIVER_CLASS = "org.sqlite.JDBC";
 
 	@BeforeClass
 	public static void beforeClass() {
-		ConnectionManagerInitialiserOverride.initialise();
+		ConnectionManagerInitialiserOverride.initialiseFromProperties();
 	}
 
 	@AfterClass

@@ -84,6 +84,7 @@ public class DatabaseFieldTypeConfirm {
 		// mysqlSet.add("set");
 		// add in spatial sets
 		FIELD_VALIDATION_LOOKUP.put("mysql", mysqlSet);
+		FIELD_VALIDATION_LOOKUP.put("mariadb", mysqlSet);
 
 		Set<String> cockroachSet = new HashSet<>();
 		cockroachSet.add("serial");

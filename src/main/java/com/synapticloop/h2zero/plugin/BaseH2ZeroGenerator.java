@@ -74,9 +74,20 @@ public class BaseH2ZeroGenerator {
 		Options options = null;
 
 		try {
-			SimpleLogger.logInfo(LoggerType.SUMMARY, "Parsing file: " +h2ZeroFile.getAbsolutePath());
+			SimpleLogger.logInfo(LoggerType.SUMMARY, "Parsing file: " + h2ZeroFile.getAbsolutePath());
 			h2zeroParser.parse(h2ZeroFile);
+		} catch (H2ZeroParseException h2zpex) {
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
+			List<String> fatalMessages = h2zeroParser.getFatalMessages();
+			for (String fatalMessage : fatalMessages) {
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + fatalMessage);
+			}
+			throw new BuildException(h2zpex);
+		}
 
+		try {
 			logDatabaseInfo(h2zeroParser);
 
 			templarConfiguration = new TemplarConfiguration();
@@ -111,15 +122,6 @@ public class BaseH2ZeroGenerator {
 				generator.generate();
 			}
 
-		} catch (H2ZeroParseException h2zpex) {
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
-			List<String> fatalMessages = h2zeroParser.getFatalMessages();
-			for (String fatalMessage : fatalMessages) {
-				SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + fatalMessage);
-			}
-			throw new BuildException(h2zpex);
 		} catch (ParseException pex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "The message was:");

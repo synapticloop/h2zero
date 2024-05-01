@@ -1,0 +1,17 @@
+{
+	"name": "pet",
+	"comments": [
+		"This model maps to the pet table in the database"
+	],
+	"fields": [
+		{ "name": "id_pet", "type": "bigint", "nullable": false, "primary": true },
+		{ "name": "nm_pet", "type": "varchar", "length": "64", "nullable": false },
+		{ "name": "num_age", "type": "int", "nullable": false },
+		{ "name": "flt_weight", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
+		{ "name": "dt_birthday", "type": "date", "nullable": true },
+		{ "name": "img_photo", "type": "blob", "nullable": true }
+	],
+	"fieldFinders": [
+		{ "nm_pet,num_age": "multiple" }
+	]
+}

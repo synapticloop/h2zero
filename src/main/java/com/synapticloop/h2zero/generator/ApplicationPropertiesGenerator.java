@@ -50,7 +50,7 @@ public class ApplicationPropertiesGenerator extends Generator {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
 
-		String pathname = outFile.getAbsolutePath() + options.getOutputResources() + "/application." + database.getSchema() + "." + options.getDatabase() + ".example.properties";
+		String pathname = outFile.getAbsolutePath() + options.getOutputResources() + "/application." + options.getDatabase() + "." + database.getSchema() + ".example.properties";
 		SimpleLogger.logInfo(LoggerType.GENERATE_JAVA_PROPERTIES, "Generating for 'Application properties'.");
 		renderToFile(templarContext, javaApplicationProperties, pathname);
 	}

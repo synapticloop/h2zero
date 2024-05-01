@@ -17,10 +17,13 @@ c3p0.user=root{\n}
 c3p0.password=password{\n}
 c3p0.jdbcUrl={options.jdbcUrl}{\n}
 c3p0.maxPoolSize=20{\n}
+c3p0.minPoolSize=20{\n}
+c3p0.initialPoolSize=20{\n}
+{\n}
+c3p0.acquireIncrement=3{\n}
+{\n}
 c3p0.maxStatements=0{\n}
 c3p0.maxStatementsPerConnection=0{\n}
-c3p0.minPoolSize=20{\n}
-c3p0.acquireIncrement=3{\n}
-c3p0.initialPoolSize=20{\n}
+{\n}
 c3p0.acquireRetryAttempts=1{\n}
 c3p0.debugUnreturnedConnectionStackTraces=true{\n}

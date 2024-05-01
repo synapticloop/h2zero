@@ -55,12 +55,12 @@ public class SqlGenerator extends Generator {
 		}
 
 		String databaseType = options.getDatabase();
-		Parser sqlCreateDatabaseTypeParser = getParser("/sql-create-database-" + databaseType + ".templar");
+		Parser sqlCreateDatabaseTypeParser = getParser("/sql/sql-create-database-" + databaseType + ".templar");
 
 		SimpleLogger.logInfo(LoggerType.GENERATE_SQL, "Generating for database '" + database.getSchema() + "', of type '" + databaseType + ".");
 
 		// first up the database creation script
-		String pathname = outFile.getAbsolutePath() + options.getOutputResources() + "/create-database-" + databaseType + "-" + database.getSchema() + ".sql";
+		String pathname = outFile.getAbsolutePath() + options.getOutputResources() + "/sql/create-database-" + databaseType + "-" + database.getSchema() + ".sql";
 		renderToFile(templarContext, sqlCreateDatabaseTypeParser, pathname);
 	}
 }

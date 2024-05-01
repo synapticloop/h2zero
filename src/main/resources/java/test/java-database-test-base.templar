@@ -14,11 +14,10 @@ import org.junit.AfterClass;{\n}
 import org.junit.BeforeClass;{\n}
 {\n}
 public class DatabaseSetupTest extends BaseConnectionManager {{{\n}
-{\t}private static final String DB_DRIVER_CLASS = "org.sqlite.JDBC";{\n}
 {\n}
 {\t}@BeforeClass{\n}
 {\t}public static void beforeClass() {{{\n}
-{\t}{\t}ConnectionManagerInitialiserOverride.initialise();{\n}
+{\t}{\t}ConnectionManagerInitialiserOverride.initialiseFromProperties();{\n}
 {\t}}{\n}
 {\n}
 {\t}@AfterClass{\n}
