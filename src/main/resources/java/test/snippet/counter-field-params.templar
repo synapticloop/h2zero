@@ -1,0 +1,15 @@
+{if counter.hasInFields}
+	{loop counter.whereFields as whereField}
+		{if whereField.isInField}
+			List.of({whereField.sqlTestValue})
+		{else}
+			{whereField.sqlTestValue}
+		{endif}
+		{if !whereFieldStatus.last}, {endif}
+	{endloop}
+{else}
+	{loop counter.whereFields as whereField}
+		{whereField.sqlTestValue}
+		{if !whereFieldStatus.last}, {endif}
+	{endloop}
+{endif}

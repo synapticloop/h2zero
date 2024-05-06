@@ -70,7 +70,7 @@ public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
 			if(resultSet.next()) {
 				return(resultSet.getBoolean(1));
 			} else {
-				throw new SQLException("Result set returned no rows");
+				throw new SQLException("Result set returned no rows, expecting exactly one.");
 			}
 		} finally {
 			if (hasProvidedConnection) {
@@ -101,25 +101,7 @@ public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
 		return (null);
 	}
 
-	public Boolean execute() throws SQLException {
-		return(executeInternal());
-	}
-
-	public Boolean executeSilent() {
-		return(executeSilentInternal());
-	}
-
 	protected abstract String getLimitedResultsStatement() throws SQLException;
 
 	protected abstract Connection getConnection() throws SQLException;
-
-	/**
-	 * Set the connection to be used for this query
-	 *
-	 * @param connection the connection to use for this query
-	 */
-	public BaseQuestionExecutor withConnection(Connection connection) {
-		this.connection = connection;
-		return(this);
-	}
 }

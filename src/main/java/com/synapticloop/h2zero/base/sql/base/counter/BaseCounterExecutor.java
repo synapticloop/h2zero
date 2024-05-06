@@ -60,11 +60,15 @@ public abstract class BaseCounterExecutor extends BaseSQLExecutor {
 				hasProvidedConnection = false;
 			}
 
-			preparedStatement = prepareStatement(connection, sqlStatement + getLimitedResultsStatement());
+			preparedStatement = prepareStatement(connection, sqlStatement);
 
 			resultSet = preparedStatement.executeQuery();
 			// for a counting operation - there should only be one field - which is the count
-			return(resultSet.getInt(1));
+			if(resultSet.next()) {
+				return (resultSet.getInt(1));
+			} else {
+				throw new SQLException("Result set returned no rows, expecting exactly one.");
+			}
 
 		} finally {
 			if (hasProvidedConnection) {

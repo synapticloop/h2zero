@@ -19,7 +19,7 @@ import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager
 import com.synapticloop.h2zero.util.LruCache;{\n}
 
 {\n}
-{import classpath:/java/snippet/global/java-logger.templar}
+{import classpath:/java/snippet/global/java-logger-import.templar}
 {\n}
 import {database.package}.model.util.Constants;{\n}
 

@@ -69,10 +69,12 @@ public class JavaGenerator extends Generator {
 		// The table actions
 		Parser javaCreateFinderParser = getParser("/java-create-finder.templar");
 		Parser javaCreateInserterParser = getParser("/java-create-inserter.templar");
-		Parser javaCreateCounterParser = getParser("/java-create-counter.templar");
+
+		Parser javaCreateCounterParser = getParser("/java/counter/java-create-counter.templar");
 		Parser javaCreateQuestionParser = getParser("/java/question/java-create-question.templar");
+		Parser javaCreateDeleterParser = getParser("/java/deleter/java-create-deleter.templar");
+
 		Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
-		Parser javaCreateDeleterParser = getParser("/java-create-deleter.templar");
 		Parser javaCreateUpserterParser = getParser("/java-create-upserter.templar");
 
 		// the select clause bean
@@ -159,7 +161,7 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
 		Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
-		Parser javaCreateViewCounterParser = getParser("/java-create-view-counter.templar");
+		Parser javaCreateViewCounterParser = getParser("/java/counter/java-create-view-counter.templar");
 		Parser javaCreateViewQuestionParser = getParser("/java-create-view-question.templar");
 
 		String pathname;

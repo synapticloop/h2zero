@@ -61,6 +61,7 @@ public class JavaTestGenerator extends Generator {
 				generateFinderTest(templarContext, table);
 				generateDeleterTest(templarContext, table);
 				generateQuestionTest(templarContext, table);
+				generateCounterTest(templarContext, table);
 			}
 		} catch (FunctionException fex) {
 			throw new RenderException("Could not instantiate the function.", fex);
@@ -101,6 +102,17 @@ public class JavaTestGenerator extends Generator {
 				options.getOutputTestCode() +
 				database.getPackagePath() +
 				"/test/question/" +
+				table.getJavaClassName() +
+				"Test.java";
+		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);
+	}
+
+	private void generateCounterTest(TemplarContext templarContext, Table table) throws ParseException, RenderException {
+		Parser javaGenerateDatabaseTestBaseParser = getParser("/java/test/java-counter-test.templar");
+		String pathname = outFile +
+				options.getOutputTestCode() +
+				database.getPackagePath() +
+				"/test/counter/" +
 				table.getJavaClassName() +
 				"Test.java";
 		renderToFile(templarContext, javaGenerateDatabaseTestBaseParser, pathname);

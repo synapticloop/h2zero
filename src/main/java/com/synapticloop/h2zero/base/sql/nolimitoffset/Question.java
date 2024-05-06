@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.sql.offsetfetch;
+package com.synapticloop.h2zero.base.sql.nolimitoffset;
 
 /*
  * Copyright (c) 2024 synapticloop.
@@ -17,19 +17,37 @@ package com.synapticloop.h2zero.base.sql.offsetfetch;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.sqlserver.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.base.counter.OffsetFetchCounter;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.base.question.BaseQuestionExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Counter extends OffsetFetchCounter {
-	public Counter(Logger logger, String sqlStatement, Object... parameters) {
+public class Question extends BaseQuestionExecutor {
+	public Question(Logger logger, String sqlStatement,Object... parameters) {
 		super(logger, sqlStatement, parameters);
+	}
+
+	@Override protected String getLimitedResultsStatement() throws SQLException {
+		return("");
 	}
 
 	@Override protected Connection getConnection() throws SQLException {
 		return(ConnectionManager.getConnection());
 	}
+
+	public Question withConnection(Connection connection) {
+		this.connection = connection;
+		return(this);
+	}
+
+	public Boolean execute() throws SQLException {
+		return(executeInternal());
+	}
+
+	public Boolean executeSilent() {
+		return(executeSilentInternal());
+	}
+
 }
