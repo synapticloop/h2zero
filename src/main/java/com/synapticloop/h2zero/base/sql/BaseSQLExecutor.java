@@ -111,7 +111,7 @@ public abstract class BaseSQLExecutor {
 		// now we prepare the statement
 		PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement);
 
-		// now we set all of the parameters
+		// now we set all the parameters
 		int k = 1;
 		for (Object object : parameters) {
 			if (object instanceof List<?> listObjects) {

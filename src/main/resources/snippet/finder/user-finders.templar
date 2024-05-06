@@ -71,7 +71,6 @@
 		{\t} *     .withOffset(offset){\n}
 		{\t} *     .executeSilent();</pre>{\n}
 		{\t} * {\n}
-		{\t} * @return the parameterised MultiFinder{\n}
 
 
 		{loop finder.comments as comment}
@@ -95,9 +94,9 @@
 	{endif}
 		{\t} * {\n}
 			{if finder.unique}
-		{\t} * @return the UniqueFinder<{tableOrView.javaClassName}>(){\n}
+		{\t} * @return the parameterised UniqueFinder<{tableOrView.javaClassName}>(){\n}
 			{else}
-		{\t} * @return the MultiFinder<{tableOrView.javaClassName}>(){\n}
+		{\t} * @return the parameterised MultiFinder<{tableOrView.javaClassName}>(){\n}
 			{endif}
 		{\t} * {\n}
 		{\t} */{\n}

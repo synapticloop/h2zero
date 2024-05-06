@@ -241,10 +241,9 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param idAuthorStatus - maps to the id_author_status field
 	 * 
-	 * @return the MultiFinder<Author>()
+	 * @return the parameterised MultiFinder<Author>()
 	 * 
 	 */
 	public static MultiFinder<Author> findByIdAuthorStatus(Long idAuthorStatus) {
@@ -289,10 +288,9 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param flIsUpdating - maps to the fl_is_updating field
 	 * 
-	 * @return the MultiFinder<Author>()
+	 * @return the parameterised MultiFinder<Author>()
 	 * 
 	 */
 	public static MultiFinder<Author> findByFlIsUpdating(Boolean flIsUpdating) {
@@ -337,11 +335,10 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param txtIdAuthor - maps to the txt_id_author field
 	 * @param idAuthorStatus - maps to the id_author_status field
 	 * 
-	 * @return the MultiFinder<Author>()
+	 * @return the parameterised MultiFinder<Author>()
 	 * 
 	 */
 	public static MultiFinder<Author> findByTxtIdAuthorIdAuthorStatus(String txtIdAuthor, Long idAuthorStatus) {
@@ -386,10 +383,9 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param txtIdAuthor - maps to the txt_id_author field
 	 * 
-	 * @return the UniqueFinder<Author>()
+	 * @return the parameterised UniqueFinder<Author>()
 	 * 
 	 */
 	public static UniqueFinder<Author> findByTxtIdAuthor(String txtIdAuthor) {
@@ -434,10 +430,9 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param idAuthorStatusList - maps to the id_author_status field
 	 * 
-	 * @return the MultiFinder<Author>()
+	 * @return the parameterised MultiFinder<Author>()
 	 * 
 	 */
 	public static MultiFinder<Author> findInStatus(List<Long> idAuthorStatusList) {
@@ -482,10 +477,9 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param dtmStartedFollowing - maps to the dtm_started_following field
 	 * 
-	 * @return the MultiFinder<Author>()
+	 * @return the parameterised MultiFinder<Author>()
 	 * 
 	 */
 	public static MultiFinder<Author> findAllToBeEvaluated(Timestamp dtmStartedFollowing) {
@@ -530,10 +524,9 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param dtmStartedFollowing - maps to the dtm_started_following field
 	 * 
-	 * @return the UniqueFinder<Author>()
+	 * @return the parameterised UniqueFinder<Author>()
 	 * 
 	 */
 	public static UniqueFinder<Author> findFirstToBeEvaluated(Timestamp dtmStartedFollowing) {
@@ -578,10 +571,9 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param dtmStartedFollowing - maps to the dtm_started_following field
 	 * 
-	 * @return the MultiFinder<Author>()
+	 * @return the parameterised MultiFinder<Author>()
 	 * 
 	 */
 	public static MultiFinder<Author> findLimitedToBeEvaluated(Timestamp dtmStartedFollowing) {
@@ -626,14 +618,13 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param flIsUpdating - maps to the fl_is_updating field
 	 * @param flIsUpdatingList - maps to the fl_is_updating field
 	 * @param dtmStartedFollowingList - maps to the dtm_started_following field
 	 * @param flIsUpdatingOne - maps to the fl_is_updating field
 	 * @param flIsUpdatingTwo - maps to the fl_is_updating field
 	 * 
-	 * @return the MultiFinder<Author>()
+	 * @return the parameterised MultiFinder<Author>()
 	 * 
 	 */
 	public static MultiFinder<Author> findInNumber(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {

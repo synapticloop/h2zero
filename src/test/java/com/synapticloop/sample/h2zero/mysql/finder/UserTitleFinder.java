@@ -181,9 +181,8 @@ public class UserTitleFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * 
-	 * @return the MultiFinder<UserTitle>()
+	 * @return the parameterised MultiFinder<UserTitle>()
 	 * 
 	 */
 	public static MultiFinder<UserTitle> findAllOrdered() {

@@ -199,11 +199,10 @@ public class PetFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param nmPet - maps to the nm_pet field
 	 * @param numAge - maps to the num_age field
 	 * 
-	 * @return the MultiFinder<Pet>()
+	 * @return the parameterised MultiFinder<Pet>()
 	 * 
 	 */
 	public static MultiFinder<Pet> findByNmPetNumAge(String nmPet, Integer numAge) {
@@ -248,10 +247,9 @@ public class PetFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param numAge - maps to the num_age field
 	 * 
-	 * @return the MultiFinder<Pet>()
+	 * @return the parameterised MultiFinder<Pet>()
 	 * 
 	 */
 	public static MultiFinder<Pet> findByNumAge(Integer numAge) {
@@ -296,11 +294,10 @@ public class PetFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param numAgeStart - maps to the num_age field
 	 * @param numAgeEnd - maps to the num_age field
 	 * 
-	 * @return the MultiFinder<Pet>()
+	 * @return the parameterised MultiFinder<Pet>()
 	 * 
 	 */
 	public static MultiFinder<Pet> findAgeBetween(Integer numAgeStart, Integer numAgeEnd) {
@@ -345,11 +342,10 @@ public class PetFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param dtBirthdayStart - maps to the dt_birthday field
 	 * @param dtBirthdayEnd - maps to the dt_birthday field
 	 * 
-	 * @return the MultiFinder<Pet>()
+	 * @return the parameterised MultiFinder<Pet>()
 	 * 
 	 */
 	public static MultiFinder<Pet> findBirthdaysBetween(Date dtBirthdayStart, Date dtBirthdayEnd) {

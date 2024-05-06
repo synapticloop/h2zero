@@ -263,10 +263,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param idAllTypes - maps to the id_all_types field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByIdAllTypes(Long idAllTypes) {
@@ -311,10 +310,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testBigint - maps to the test_bigint field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestBigint(Long testBigint) {
@@ -359,10 +357,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testBoolean - maps to the test_boolean field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestBoolean(Boolean testBoolean) {
@@ -407,10 +404,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testDate - maps to the test_date field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestDate(Date testDate) {
@@ -455,10 +451,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testDatetime - maps to the test_datetime field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestDatetime(Timestamp testDatetime) {
@@ -503,10 +498,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testDouble - maps to the test_double field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestDouble(Double testDouble) {
@@ -551,10 +545,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testFloat - maps to the test_float field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestFloat(Float testFloat) {
@@ -599,10 +592,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testInt - maps to the test_int field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestInt(Integer testInt) {
@@ -647,10 +639,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testInteger - maps to the test_integer field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestInteger(Integer testInteger) {
@@ -695,10 +686,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testMediumint - maps to the test_mediumint field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestMediumint(Integer testMediumint) {
@@ -743,10 +733,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testNumeric - maps to the test_numeric field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestNumeric(BigDecimal testNumeric) {
@@ -791,10 +780,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testSmallint - maps to the test_smallint field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestSmallint(Short testSmallint) {
@@ -839,10 +827,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testText - maps to the test_text field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestText(String testText) {
@@ -887,10 +874,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testTinyint - maps to the test_tinyint field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestTinyint(Boolean testTinyint) {
@@ -935,10 +921,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testVarchar - maps to the test_varchar field
 	 * 
-	 * @return the UniqueFinder<AllTypes>()
+	 * @return the parameterised UniqueFinder<AllTypes>()
 	 * 
 	 */
 	public static UniqueFinder<AllTypes> findByTestVarchar(String testVarchar) {

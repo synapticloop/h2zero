@@ -245,6 +245,7 @@ public class H2ZeroParser {
 		boolean isValid = true;
 
 		for (BaseValidator validator : VALIDATORS) {
+			validator.reset();
 			validator.validate(database, options);
 
 			if(!validator.isValid()) {
@@ -259,7 +260,7 @@ public class H2ZeroParser {
 			for (Message message: messages) {
 				switch (message.getType()) {
 					case SimpleLogger.DEBUG ->
-							SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
+							SimpleLogger.logDebug(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
 					case SimpleLogger.WARN ->
 							SimpleLogger.logWarn(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
 					case SimpleLogger.FATAL -> {

@@ -50,7 +50,6 @@ public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
 	 * @throws SQLException          If there was an error executing the SQL statement
 	 */
 	protected Boolean executeInternal() throws SQLException {
-		Boolean results = null;
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 
@@ -64,11 +63,15 @@ public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
 				hasProvidedConnection = false;
 			}
 
-			preparedStatement = prepareStatement(connection, sqlStatement + getLimitedResultsStatement());
+			preparedStatement = prepareStatement(connection, sqlStatement);
 
 			// finally execute the statement
 			resultSet = preparedStatement.executeQuery();
-			return(resultSet.getBoolean(1));
+			if(resultSet.next()) {
+				return(resultSet.getBoolean(1));
+			} else {
+				throw new SQLException("Result set returned no rows");
+			}
 		} finally {
 			if (hasProvidedConnection) {
 				// the caller has provided a connection - so they must close it themselves
@@ -98,7 +101,25 @@ public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
 		return (null);
 	}
 
+	public Boolean execute() throws SQLException {
+		return(executeInternal());
+	}
+
+	public Boolean executeSilent() {
+		return(executeSilentInternal());
+	}
+
 	protected abstract String getLimitedResultsStatement() throws SQLException;
 
 	protected abstract Connection getConnection() throws SQLException;
+
+	/**
+	 * Set the connection to be used for this query
+	 *
+	 * @param connection the connection to use for this query
+	 */
+	public BaseQuestionExecutor withConnection(Connection connection) {
+		this.connection = connection;
+		return(this);
+	}
 }

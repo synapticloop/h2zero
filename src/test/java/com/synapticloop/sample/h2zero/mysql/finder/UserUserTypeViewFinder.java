@@ -183,10 +183,9 @@ public class UserUserTypeViewFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param nmUser - maps to the nm_user field
 	 * 
-	 * @return the MultiFinder<UserUserType>()
+	 * @return the parameterised MultiFinder<UserUserType>()
 	 * 
 	 */
 	public static MultiFinder<UserUserType> findByNmUser(String nmUser) {

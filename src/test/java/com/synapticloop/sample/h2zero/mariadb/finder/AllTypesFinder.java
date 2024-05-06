@@ -329,10 +329,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param idAllTypes - maps to the id_all_types field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByIdAllTypes(Long idAllTypes) {
@@ -377,10 +376,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testBigint - maps to the test_bigint field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestBigint(Long testBigint) {
@@ -425,10 +423,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testBool - maps to the test_bool field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestBool(Boolean testBool) {
@@ -473,10 +470,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testChar - maps to the test_char field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestChar(String testChar) {
@@ -521,10 +517,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testBoolean - maps to the test_boolean field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestBoolean(Boolean testBoolean) {
@@ -569,10 +564,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testDate - maps to the test_date field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestDate(Date testDate) {
@@ -617,10 +611,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testDatetime - maps to the test_datetime field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestDatetime(Timestamp testDatetime) {
@@ -665,10 +658,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testDec - maps to the test_dec field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestDec(BigDecimal testDec) {
@@ -713,10 +705,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testDecimal - maps to the test_decimal field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestDecimal(BigDecimal testDecimal) {
@@ -761,10 +752,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testDouble - maps to the test_double field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestDouble(Double testDouble) {
@@ -809,10 +799,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testFloat - maps to the test_float field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestFloat(Float testFloat) {
@@ -857,10 +846,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testInt - maps to the test_int field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestInt(Integer testInt) {
@@ -905,10 +893,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testInteger - maps to the test_integer field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestInteger(Integer testInteger) {
@@ -953,10 +940,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testLongtext - maps to the test_longtext field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestLongtext(String testLongtext) {
@@ -1001,10 +987,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testMediumint - maps to the test_mediumint field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestMediumint(Integer testMediumint) {
@@ -1049,10 +1034,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testMediumtext - maps to the test_mediumtext field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestMediumtext(String testMediumtext) {
@@ -1097,10 +1081,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testNumeric - maps to the test_numeric field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestNumeric(BigDecimal testNumeric) {
@@ -1145,10 +1128,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testSmallint - maps to the test_smallint field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestSmallint(Short testSmallint) {
@@ -1193,10 +1175,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testTime - maps to the test_time field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestTime(Time testTime) {
@@ -1241,10 +1222,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testText - maps to the test_text field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestText(String testText) {
@@ -1289,10 +1269,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testTimestamp - maps to the test_timestamp field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestTimestamp(Timestamp testTimestamp) {
@@ -1337,10 +1316,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testTinyint - maps to the test_tinyint field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestTinyint(Boolean testTinyint) {
@@ -1385,10 +1363,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testTinytext - maps to the test_tinytext field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestTinytext(String testTinytext) {
@@ -1433,10 +1410,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testVarchar - maps to the test_varchar field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestVarchar(String testVarchar) {
@@ -1481,10 +1457,9 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param testYear - maps to the test_year field
 	 * 
-	 * @return the MultiFinder<AllTypes>()
+	 * @return the parameterised MultiFinder<AllTypes>()
 	 * 
 	 */
 	public static MultiFinder<AllTypes> findByTestYear(Integer testYear) {

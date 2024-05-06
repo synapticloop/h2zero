@@ -17,15 +17,14 @@ package com.synapticloop.h2zero.validator;
  * under the Licence.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.synapticloop.h2zero.validator.bean.Message;
-import org.json.JSONObject;
-
 import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Options;
 import com.synapticloop.h2zero.util.SimpleLogger;
+import com.synapticloop.h2zero.validator.bean.Message;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseValidator {
 	protected boolean isValid = true;
@@ -145,4 +144,12 @@ public abstract class BaseValidator {
 	public int getNumInfo() { return(numInfo); }
 	public int getNumWarn() {return(numWarn); }
 	public int getNumFatal() { return(numFatal); }
+
+	public void reset() {
+		numWarn = 0;
+		numInfo = 0;
+		numFatal = 0;
+
+		messages.clear();
+	}
 }

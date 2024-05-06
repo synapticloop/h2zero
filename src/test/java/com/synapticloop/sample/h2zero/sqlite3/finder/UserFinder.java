@@ -223,10 +223,9 @@ public class UserFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param numAge - maps to the num_age field
 	 * 
-	 * @return the MultiFinder<User>()
+	 * @return the parameterised MultiFinder<User>()
 	 * 
 	 */
 	public static MultiFinder<User> findByNumAge(Integer numAge) {
@@ -271,11 +270,10 @@ public class UserFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param flIsAlive - maps to the fl_is_alive field
 	 * @param numAge - maps to the num_age field
 	 * 
-	 * @return the MultiFinder<User>()
+	 * @return the parameterised MultiFinder<User>()
 	 * 
 	 */
 	public static MultiFinder<User> findByFlIsAliveNumAge(Boolean flIsAlive, Integer numAge) {
@@ -320,10 +318,9 @@ public class UserFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param nmUsername - maps to the nm_username field
 	 * 
-	 * @return the UniqueFinder<User>()
+	 * @return the parameterised UniqueFinder<User>()
 	 * 
 	 */
 	public static UniqueFinder<User> findByNmUsername(String nmUsername) {
@@ -368,10 +365,9 @@ public class UserFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param txtAddressEmail - maps to the txt_address_email field
 	 * 
-	 * @return the UniqueFinder<User>()
+	 * @return the parameterised UniqueFinder<User>()
 	 * 
 	 */
 	public static UniqueFinder<User> findByTxtAddressEmail(String txtAddressEmail) {
@@ -416,11 +412,10 @@ public class UserFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param txtAddressEmail - maps to the txt_address_email field
 	 * @param txtPassword - maps to the txt_password field
 	 * 
-	 * @return the UniqueFinder<User>()
+	 * @return the parameterised UniqueFinder<User>()
 	 * 
 	 */
 	public static UniqueFinder<User> findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword) {
@@ -465,10 +460,9 @@ public class UserFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param numAgeList - maps to the num_age field
 	 * 
-	 * @return the MultiFinder<User>()
+	 * @return the parameterised MultiFinder<User>()
 	 * 
 	 */
 	public static MultiFinder<User> findByNumAgeIn(List<Integer> numAgeList) {
@@ -513,11 +507,10 @@ public class UserFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param numAgeMin - maps to the num_age field
 	 * @param numAgeMax - maps to the num_age field
 	 * 
-	 * @return the MultiFinder<User>()
+	 * @return the parameterised MultiFinder<User>()
 	 * 
 	 */
 	public static MultiFinder<User> findByNumAgeBetween(Integer numAgeMin, Integer numAgeMax) {

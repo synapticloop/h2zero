@@ -70,7 +70,7 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateFinderParser = getParser("/java-create-finder.templar");
 		Parser javaCreateInserterParser = getParser("/java-create-inserter.templar");
 		Parser javaCreateCounterParser = getParser("/java-create-counter.templar");
-		Parser javaCreateQuestionParser = getParser("/java-create-question.templar");
+		Parser javaCreateQuestionParser = getParser("/java/question/java-create-question.templar");
 		Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
 		Parser javaCreateDeleterParser = getParser("/java-create-deleter.templar");
 		Parser javaCreateUpserterParser = getParser("/java-create-upserter.templar");

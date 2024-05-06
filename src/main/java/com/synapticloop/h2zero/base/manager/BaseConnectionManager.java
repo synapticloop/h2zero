@@ -133,6 +133,9 @@ public abstract class BaseConnectionManager {
 		closeAll(null, null, connection);
 	}
 
+	public static void closeAll(ResultSet resultSet) {
+		closeAll(resultSet, null, null);
+	}
 	/**
 	 * Close resources safely - i.e. without throwing any exceptions
 	 * 

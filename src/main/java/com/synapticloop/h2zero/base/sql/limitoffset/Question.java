@@ -18,15 +18,19 @@ package com.synapticloop.h2zero.base.sql.limitoffset;
  */
 
 import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.base.question.LimitOffsetQuestion;
+import com.synapticloop.h2zero.base.sql.base.question.BaseQuestionExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Question extends LimitOffsetQuestion {
+public class Question extends BaseQuestionExecutor {
 	public Question(Logger logger, String sqlStatement,Object... parameters) {
 		super(logger, sqlStatement, parameters);
+	}
+
+	@Override protected String getLimitedResultsStatement() throws SQLException {
+		return("");
 	}
 
 	@Override protected Connection getConnection() throws SQLException {

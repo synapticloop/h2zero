@@ -184,11 +184,10 @@ public class PetFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @return the parameterised MultiFinder
 	 * @param nmPet - maps to the nm_pet field
 	 * @param numAge - maps to the num_age field
 	 * 
-	 * @return the MultiFinder<Pet>()
+	 * @return the parameterised MultiFinder<Pet>()
 	 * 
 	 */
 	public static MultiFinder<Pet> findByNmPetNumAge(String nmPet, Integer numAge) {
