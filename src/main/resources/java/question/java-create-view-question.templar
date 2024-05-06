@@ -75,8 +75,8 @@ import java.util.List;{\n}
  */{\n}
 public class {table.javaClassName}ViewQuestion {{{\n}
 	{set view as baseSchemaObject}
-	{import classpath:/snippet/global/java-binder-declaration.templar}
-	{\t}{set "ViewQuestion" as classType}{set baseSchemaObject.javaClassName as loggerClass}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}{\n}
+	{import classpath:/java/snippet/global/java-binder-declaration.templar}
+	{set "ViewQuestion" as classType}{set baseSchemaObject.javaClassName as loggerClass}{import classpath:/java/snippet/global/java-logger-declaration.templar}{\n}{\n}
 	{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -90,16 +90,6 @@ public class {table.javaClassName}ViewQuestion {{{\n}
 {endloop}
 {\n}
 
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				THE Question FINDERS FOR THE SELECT CLAUSES CACHES
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
-
-{loop table.questions as question}
-	{if question.hasInFields}
-		{\t}private static Map<String, String> {question.name}_statement_cache = new HashMap<String, String>();{\n}
-	{endif}
-{endloop}
-
 {\t}private {table.javaClassName}ViewQuestion() {{}{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -108,86 +98,54 @@ public class {table.javaClassName}ViewQuestion {{{\n}
 
 {loop table.questions as question}
 	{set question as baseQueryObject}
+{\t}/**{\n}
+{\t} * <p>Return the question object (optionally setting a connection) for this query,{\n}
+{\t} * ready for execution.</p>{\n}
+{\t} *{\n}
+{\t} * <p>A <code>Connection</code> object may optionally be set for this query.{\n}
+{\t} * Note that if no connection is set, one will automatically be retrieved from{\n}
+{\t} * the connection pool.</p>{\n}
+{\t} *{\n}
+{\t} * <p><code>.withConnection(connection)</code></p>{\n}
+{\t} *{\n}
+{\t} * <p>And then can be executed with the following call:</p>{\n}
+{\t} *{\n}
+{\t} * <p><code>.execute()</code></p>{\n}
+{\t} *{\n}
+{\t} * <p>Alternatively the call can be executed silently (i.e. any exceptions that{\n}
+{\t} * may have been thrown will be silently swallowed and the error logged.)</p>{\n}
+{\t} *{\n}
+{\t} * <p><code>.executeSilent()</code></p>{\n}
+{\t} *{\n}
+{\t} * <p>This question executes the following sql statement:</p>{\n}
+{\t} *{\n}
+{\t} * <pre>{question.selectClause}{\n}
+{if fn:notNull[question.whereClause]}{\t} * {question.whereClause}{\n}{endif}
+{if fn:notNull[question.orderBy]}{\t} * order by {question.orderBy}{\n}{endif}
+{\t} * </pre>{\n}
+{\t} *{\n}
+{loop question.whereFields as whereField}
+{if whereField.isInField}
+	{\t} * @param {whereField.javaName}List The list of <code>{whereField.name}<code> fields to be {\n}
+	{\t} *        set on the prepared SQL statement which is part of an 'in' clause.{\n}
+{else}
+	{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} maps to the <code>{whereField.name}<code> field{\n}
+{endif}
+{endloop}
+{\t} *{\n}
+{\t} * @return The question object (optionally setting a connection) ready for {\n}
+{\t} *    and execution.{\n}
+{\t} */{\n}
 
-	{\t}public static boolean {question.name}(Connection connection
-		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
-	) throws SQLException {{{\n}
-
-	{\t}{\t}PreparedStatement preparedStatement = null;{\n}
-	{\t}{\t}ResultSet resultSet = null;{\n}
-	{\t}{\t}boolean answer = false;{\n}
-
-
-	{\t}{\t}try {{{\n}
-
-	{import classpath:/snippet/global/java-sql-parameter-setting.templar}
-
-	{\n}
-	{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-	{\t}{\t}{\t}if(resultSet.next()) {{{\n}
-	{\t}{\t}{\t}{\t}answer = resultSet.getBoolean(1);{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}throw sqlex;{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
-	{\t}{\t}}{\n}
-	{\t}{\t}return(answer);{\n}
-	{\t}}{\n}
-{\n}
-
-	{\t}public static boolean {question.name}(
-		{import classpath:/snippet/global/java-method-parameters.templar}
-	) throws SQLException {{{\n}
-
-	{\t}{\t}Connection connection = null;{\n}
-	{\n}
-
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
-	{\t}{\t}{\t}return({question.name}(connection
-		{import classpath:/snippet/global/java-method-parameters-call-with-connection.templar}
-		));{\n}
-	{\t}{\t}} catch (SQLException sqlex) {{{\n}
-	{\t}{\t}{\t}throw sqlex;{\n}
-	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(connection);{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-{\n}
-
-	{\t}public static boolean {question.name}Silent(Connection connection
-		{import classpath:/snippet/global/java-method-parameters-with-connection.templar}
-	) {{{\n}
-
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return({question.name}(connection
-		{import classpath:/snippet/global/java-method-parameters-call-with-connection.templar}
-		));{\n}
-
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-		{import classpath:/snippet/global/exception-sql-log-silent.templar}
-	{\t}{\t}{\t}return(false);{\n}
-	{\t}{\t}}{\n}
-
-	{\t}}{\n}
-{\n}
-
-	{\t}public static boolean {question.name}Silent(
-		{import classpath:/snippet/global/java-method-parameters.templar}
-	) {{{\n}
-
-	{\t}{\t}try {{{\n}
-	{\t}{\t}{\t}return({question.name}(
-		{import classpath:/snippet/global/java-method-parameters-call.templar}
-		));{\n}
-
-	{\t}{\t}} catch(SQLException sqlex) {{{\n}
-		{import classpath:/snippet/global/exception-sql-log-silent.templar}
-	{\t}{\t}{\t}return(false);{\n}
-	{\t}{\t}}{\n}
-
-	{\t}}{\n}
+{\t}public static Question {question.name}(
+	{import classpath:/java/snippet/global/java-method-parameters.templar}
+) {{{\n}
+{\t}{\t}return({\n}
+{\t}{\t}{\t}{\t}new Question({\n}
+{\t}{\t}{\t}{\t}{\t}{\t}LOGGER, {\n}
+{\t}{\t}{\t}{\t}{\t}{\t}SQL_{question.staticName}, {\n}
+{\t}{\t}{\t}{\t}{\t}{\t}new Object[] {{ {import classpath:/java/snippet/global/java-method-parameters-call.templar} } ));{\n}
+{\t}}{\n}
 {\n}
 
 {endloop}

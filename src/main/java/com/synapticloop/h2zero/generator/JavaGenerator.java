@@ -161,8 +161,9 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
 		Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
+
 		Parser javaCreateViewCounterParser = getParser("/java/counter/java-create-view-counter.templar");
-		Parser javaCreateViewQuestionParser = getParser("/java-create-view-question.templar");
+		Parser javaCreateViewQuestionParser = getParser("/java/question/java-create-view-question.templar");
 
 		String pathname;
 

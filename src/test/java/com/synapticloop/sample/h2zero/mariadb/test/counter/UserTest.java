@@ -5,14 +5,26 @@ package com.synapticloop.sample.h2zero.mariadb.test.counter;
 //            (java/test/java-counter-test.templar)
 
 
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
-import com.synapticloop.sample.h2zero.mariadb.counter.UserCounter;
-import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
+import org.junit.Assert;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiserOverride;
+import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
+import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
+
+
+import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.sql.*;
 import java.util.List;
+
+
+import com.synapticloop.sample.h2zero.mariadb.counter.UserCounter;
 
 /**
  * <p><strong>WARNING NOTE:</strong> these tests are designed to test the generated SQL statements
