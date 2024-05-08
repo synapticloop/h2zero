@@ -41,7 +41,7 @@ public class UtilGenerator extends Generator {
 			return;
 		}
 
-		Parser javaCreateDatabaseCheckerHelperParser = getParser("/java-create-database-checker-helper.templar");
+		Parser javaCreateDatabaseCheckerHelperParser = getParser("/java/util/java-create-database-checker-helper.templar");
 
 		TemplarContext templarContext = null;
 		try {

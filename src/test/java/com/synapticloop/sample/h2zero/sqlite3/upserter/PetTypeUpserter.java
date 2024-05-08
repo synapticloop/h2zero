@@ -47,7 +47,7 @@ public class PetTypeUpserter {
 
 	private PetTypeUpserter() {}
 
-	public static boolean upsertByNmPetType() {
+	public static boolean upsertByNmPetType(List<Integer> numAgeList) {
 		return(false);
 	}
 

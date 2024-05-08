@@ -230,8 +230,28 @@ public abstract class BaseField {
 	 * @return the field name
 	 */
 	public String getName() { return(name); }
+
+	/**
+	 * Get the field as uppercase
+	 *
+	 * @return the field as uppercase
+	 */
 	public String getUpperName() { return(name.toUpperCase()); }
+
+	/**
+	 * Return the type of the field
+	 *
+	 * @return the type of the field
+	 */
 	public String getType() { return(type); }
+
+	/**
+	 * Get the postgresql type for an h2zero type
+	 *
+	 * @param originalType the original type
+	 *
+	 * @return the PostgreSQL type
+	 */
 	public boolean setPostgreSQLType(String originalType) {
 		if(PRIMARY_KEY_POSTGRESQL_REPLACE.containsKey(originalType)) {
 			this.type = PRIMARY_KEY_POSTGRESQL_REPLACE.get(originalType);
@@ -240,13 +260,61 @@ public abstract class BaseField {
 			return(false);
 		}
 	}
+
+	/**
+	 * Get the type of the field, with the first letter uppercased
+	 *
+	 * @return The type of the field
+	 */
 	public String getUpperType() { return(NamingHelper.getFirstUpper(type)); }
+
+	/**
+	 * Get whether this field is nullable
+	 *
+	 * @return whether this field is nullable
+	 */
 	public boolean getNullable() { return(nullable); }
+
+	/**
+	 * Get the default value for this field
+	 *
+	 * @return the default value for this field
+	 */
 	public String getDefault() { return(defaultValue); }
+
+	/**
+	 * Get whether this field is a primary key
+	 *
+	 * @return whether this field is a primary key
+	 */
 	public boolean getPrimary() { return(primary); }
+
+	/**
+	 * Return the index of this field in the list of fields
+	 *
+	 * @return the index of this field
+	 */
 	public boolean getIndex() { return(index); }
+
+	/**
+	 * Get whether this field is unique
+	 *
+	 * @return whether this field is unique
+	 */
 	public boolean getUnique() {return(unique); }
+
+	/**
+	 * Return whether to populate this field on initial load
+	 *
+	 * @return whether to populate this field on initial load
+	 */
 	public boolean getPopulate() { return populate; }
+
+	/**
+	 * Set whether to populate this field on initial load
+	 *
+	 * @param populate whether to populate this field on initial load
+	 */
 	public void setPopulate(boolean populate) { this.populate = populate; }
 	public boolean getIsSecure() { return isSecure; }
 	public boolean getIsInField() { return isInField; }
@@ -365,13 +433,34 @@ public abstract class BaseField {
 		return(baseField);
 	}
 
+	/**
+	 * Get the comment for this field
+	 *
+	 * @return The comment for this field
+	 */
 	public String getComment() { return comment; }
+
+	/**
+	 * Set the comment for this field
+	 * 
+	 * @param comment The comment for this field
+	 */
 	public void setComment(String comment) { this.comment = comment; }
 
+	/**
+	 * Get the length of the field
+	 * 
+	 * @return the length of the field
+	 */
 	public int getLength() {
 		return(length);
 	}
 
+	/**
+	 * Return whether this field requires a length 
+	 * 
+	 * @return Whether the field requires a length
+	 */
 	public boolean getRequiresLength() {
 		return(requiresLength);
 	}

@@ -25,6 +25,10 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is the base connection manager
+ * @author synapticloop
+ */
 public abstract class BaseConnectionManager {
 	protected static ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 	private static final Map<String, ComboPooledDataSource> COMBO_POOLED_DATA_SOURCE_MAP = new HashMap<>();
@@ -975,7 +979,7 @@ public abstract class BaseConnectionManager {
 
 	/**
 	 * Get a Boolean result from the resultSet as a value or null.  In the case where the resulting value is null, this will 
-	 * be set to 0 (zero) by the JDBC driver.  Consequently the resultSet is checked to see whether it was null.  If so, 
+	 * be set to 0 (zero) by the JDBC driver.  Consequently, the resultSet is checked to see whether it was null.  If so,
 	 * null is returned, else the actual value
 	 * 
 	 * @param resultSet The resultSet to get the value from

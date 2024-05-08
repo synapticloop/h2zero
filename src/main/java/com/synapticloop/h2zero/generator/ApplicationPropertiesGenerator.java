@@ -41,7 +41,7 @@ public class ApplicationPropertiesGenerator extends Generator {
 			return;
 		}
 
-		Parser javaApplicationProperties = getParser("/java/properties-create-application-properties-example.templar");
+		Parser javaApplicationProperties = getParser("/java/util/properties-create-application-properties-example.templar");
 
 		TemplarContext templarContext = null;
 		try {

@@ -58,24 +58,25 @@ public class JavaGenerator extends Generator {
 	}
 
 	private void generateTables(TemplarContext templarContext) throws ParseException, RenderException {
-		Parser javaCreateConstantsParser = getParser("/java-create-constants.templar");
-		Parser javaCreateConnectionManagerInitialiser = getParser("/java/java-create-connection-manager-initialiser.templar");
-		Parser javaCreateConnectionManagerInitialiserOverride = getParser("/java/java-create-connection-manager-initialiser-override.templar");
+		Parser javaCreateConstantsParser = getParser("/java/constants/java-create-constants.templar");
+		Parser javaCreateConnectionManagerInitialiser = getParser("/java/util/java-create-connection-manager-initialiser.templar");
+		Parser javaCreateConnectionManagerInitialiserOverride = getParser("/java/util/java-create-connection-manager-initialiser-override.templar");
 
 		// The model
-		Parser javaCreateModelParser = getParser("/java-create-model.templar");
+		Parser javaCreateModelParser = getParser("/java/model/java-create-model.templar");
 		Parser javaCreateModelStatisticsParser = getParser("/java-create-model-statistics.templar");
 
 		// The table actions
-		Parser javaCreateFinderParser = getParser("/java-create-finder.templar");
-		Parser javaCreateInserterParser = getParser("/java-create-inserter.templar");
+		Parser javaCreateFinderParser = getParser("/java/finder/java-create-finder.templar");
+
+		Parser javaCreateInserterParser = getParser("/java/inserter/java-create-inserter.templar");
 
 		Parser javaCreateCounterParser = getParser("/java/counter/java-create-counter.templar");
 		Parser javaCreateQuestionParser = getParser("/java/question/java-create-question.templar");
 		Parser javaCreateDeleterParser = getParser("/java/deleter/java-create-deleter.templar");
 
-		Parser javaCreateUpdaterParser = getParser("/java-create-updater.templar");
-		Parser javaCreateUpserterParser = getParser("/java-create-upserter.templar");
+		Parser javaCreateUpdaterParser = getParser("/java/updater/java-create-updater.templar");
+		Parser javaCreateUpserterParser = getParser("/java/upserter/java-create-upserter.templar");
 
 		// the select clause bean
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
@@ -158,8 +159,8 @@ public class JavaGenerator extends Generator {
 	}
 
 	private void generateViews(TemplarContext templarContext) throws ParseException, RenderException {
-		Parser javaCreateViewModelParser = getParser("/java-create-view-model.templar");
-		Parser javaCreateViewFinderParser = getParser("/java-create-view-finder.templar");
+		Parser javaCreateViewModelParser = getParser("/java/model/java-create-view-model.templar");
+		Parser javaCreateViewFinderParser = getParser("/java/finder/java-create-view-finder.templar");
 		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
 
 		Parser javaCreateViewCounterParser = getParser("/java/counter/java-create-view-counter.templar");

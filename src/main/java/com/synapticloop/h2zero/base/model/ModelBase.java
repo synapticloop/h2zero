@@ -403,7 +403,7 @@ public abstract class ModelBase {
 		}
 	}
 
-	protected void addtoJSONObject(JSONObject jsonObject, String key, Object object) {
+	protected void addToJSONObject(JSONObject jsonObject, String key, Object object) {
 		jsonObject.put(key, object);
 	}
 
