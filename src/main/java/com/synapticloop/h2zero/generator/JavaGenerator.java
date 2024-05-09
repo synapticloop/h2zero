@@ -64,7 +64,7 @@ public class JavaGenerator extends Generator {
 
 		// The model
 		Parser javaCreateModelParser = getParser("/java/model/java-create-model.templar");
-		Parser javaCreateModelStatisticsParser = getParser("/java-create-model-statistics.templar");
+		Parser javaCreateModelStatisticsParser = getParser("/java/model/java-create-model-statistics.templar");
 
 		// The table actions
 		Parser javaCreateFinderParser = getParser("/java/finder/java-create-finder.templar");
@@ -79,7 +79,7 @@ public class JavaGenerator extends Generator {
 		Parser javaCreateUpserterParser = getParser("/java/upserter/java-create-upserter.templar");
 
 		// the select clause bean
-		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
+		Parser javaCreateSelectClauseBeanParser = getParser("/java/finder/java-create-select-clause-bean.templar");
 
 		String pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/model/util/Constants.java";
 		renderToFile(templarContext, javaCreateConstantsParser, pathname);
@@ -141,7 +141,7 @@ public class JavaGenerator extends Generator {
 
         // don't forget the beans for the selectClause finders
         if (null != finder.getSelectClause()) {
-          pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/bean/" + table.getJavaClassName() + finder.getTagName() + "Bean.java";
+          pathname = outFile + options.getOutputCode() + database.getPackagePath() + "/finder/bean/" + table.getJavaClassName() + finder.getTagName() + "Bean.java";
           renderToFile(templarContext, javaCreateSelectClauseBeanParser, pathname);
         }
       }
@@ -161,7 +161,7 @@ public class JavaGenerator extends Generator {
 	private void generateViews(TemplarContext templarContext) throws ParseException, RenderException {
 		Parser javaCreateViewModelParser = getParser("/java/model/java-create-view-model.templar");
 		Parser javaCreateViewFinderParser = getParser("/java/finder/java-create-view-finder.templar");
-		Parser javaCreateSelectClauseBeanParser = getParser("/java-create-select-clause-bean.templar");
+		Parser javaCreateSelectClauseBeanParser = getParser("/java/finder/java-create-select-clause-bean.templar");
 
 		Parser javaCreateViewCounterParser = getParser("/java/counter/java-create-view-counter.templar");
 		Parser javaCreateViewQuestionParser = getParser("/java/question/java-create-view-question.templar");

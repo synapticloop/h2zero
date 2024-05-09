@@ -73,7 +73,11 @@ public abstract class ModelBase {
 	public abstract void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 
 	/**
-	 * Persist the model object to the database
+	 * <p>Persist the model object to the database.</p>
+	 *
+	 * <p>In effect this is a chained call to the <code>insert(Connection connection)</code>
+	 * method, creating a new connection, executing the call, and then closing the
+	 * connection</p>
 	 *
 	 * @throws SQLException if there was an error in the SQL expression
 	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key

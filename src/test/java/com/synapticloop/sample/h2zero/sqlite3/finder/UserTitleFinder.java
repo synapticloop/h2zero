@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-import com.synapticloop.sample.h2zero.sqlite3.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
+import com.synapticloop.sample.h2zero.sqlite3.finder.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.UserTitle;
 

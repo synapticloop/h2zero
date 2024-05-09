@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
-import com.synapticloop.sample.h2zero.mariadb.bean.UserFindNmUserDtmSignupBean;
-import com.synapticloop.sample.h2zero.mariadb.bean.UserFindGroupNumAgeBean;
+import com.synapticloop.sample.h2zero.mariadb.finder.bean.UserFindNmUserDtmSignupBean;
+import com.synapticloop.sample.h2zero.mariadb.finder.bean.UserFindGroupNumAgeBean;
 
 import com.synapticloop.sample.h2zero.mariadb.model.User;
 

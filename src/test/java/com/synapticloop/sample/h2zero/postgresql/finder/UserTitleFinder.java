@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
-import com.synapticloop.sample.h2zero.postgresql.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
+import com.synapticloop.sample.h2zero.postgresql.finder.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
 
 import com.synapticloop.sample.h2zero.postgresql.model.UserTitle;
 

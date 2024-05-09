@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
-import com.synapticloop.sample.h2zero.mysql.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
+import com.synapticloop.sample.h2zero.mysql.finder.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
 
 import com.synapticloop.sample.h2zero.mysql.model.UserTitle;
 

@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
-import com.synapticloop.sample.h2zero.cockroach.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
+import com.synapticloop.sample.h2zero.cockroach.finder.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
 
 import com.synapticloop.sample.h2zero.cockroach.model.UserTitle;
 

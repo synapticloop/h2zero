@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
-import com.synapticloop.sample.h2zero.mariadb.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
+import com.synapticloop.sample.h2zero.mariadb.finder.bean.UserTitleFindIdUserTitleNmUserTitleOrderedBean;
 
 import com.synapticloop.sample.h2zero.mariadb.model.UserTitle;
 

@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-import com.synapticloop.sample.h2zero.sqlite3.bean.UserFindNmUserDtmSignupBean;
-import com.synapticloop.sample.h2zero.sqlite3.bean.UserFindGroupNumAgeBean;
+import com.synapticloop.sample.h2zero.sqlite3.finder.bean.UserFindNmUserDtmSignupBean;
+import com.synapticloop.sample.h2zero.sqlite3.finder.bean.UserFindGroupNumAgeBean;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.User;
 

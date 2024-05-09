@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
-import com.synapticloop.sample.h2zero.postgresql.bean.UserUserFindNmUserDtmSignupBean;
-import com.synapticloop.sample.h2zero.postgresql.bean.UserUserFindGroupNumAgeBean;
+import com.synapticloop.sample.h2zero.postgresql.finder.bean.UserUserFindNmUserDtmSignupBean;
+import com.synapticloop.sample.h2zero.postgresql.finder.bean.UserUserFindGroupNumAgeBean;
 
 import com.synapticloop.sample.h2zero.postgresql.model.UserUser;
 

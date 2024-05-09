@@ -10,14 +10,21 @@ plugins {
 version = findProperty("h2zero.version")
 group = 'com.synapticloop'
 
-tasks.withType(Javadoc).all { enabled = false }
+tasks.withType(Javadoc).all { enabled = true }
 
 allprojects {
-    tasks.withType(Javadoc).all { enabled = false }
+    tasks.withType(Javadoc).all { enabled = true }
 }
 repositories {
     mavenLocal()
     mavenCentral()
+}
+
+task testJavadoc(type: Javadoc) {
+    source = sourceSets.test.allJava
+    classpath = sourceSets.test.compileClasspath
+    // if not changed the destinationDir, the javadoc for production code is overridden.
+    destinationDir = file("${buildDir}/docs/testjavadoc")
 }
 
 java {
