@@ -134,10 +134,9 @@ public class UserType  {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new UserType:</p>
-	 * 
 	 * 
 	 * <pre>new UserType(
 	 *     Long idUserType,  // id_user_type 
@@ -173,14 +172,14 @@ public class UserType  {
 	/**
 	 * <p>Return the value of the id_user_type, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_user_type which may be null.
+	 * @return the value of the id_user_type which may NOT be null.
 	 */
 	public Long getIdUserType() {return(this.idUserType); }
 
 	/**
 	 * <p>Return the value of the nm_user_type, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the nm_user_type which may be null.
+	 * @return the value of the nm_user_type which may NOT be null.
 	 */
 	public String getNmUserType() {return(this.nmUserType); }
 

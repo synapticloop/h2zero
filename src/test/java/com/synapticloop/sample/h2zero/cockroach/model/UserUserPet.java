@@ -149,10 +149,9 @@ public class UserUserPet extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new UserUserPet:</p>
-	 * 
 	 * 
 	 * <pre>new UserUserPet(
 	 *     Long idUserUserPet,  // id_user_user_pet 
@@ -417,7 +416,7 @@ public class UserUserPet extends ModelBase {
 	/**
 	 * <p>Return the value of the id_user_user_pet, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_user_user_pet which may be null.
+	 * @return the value of the id_user_user_pet which may NOT be null.
 	 */
 	public Long getIdUserUserPet() {updateHitCount(1); return(this.idUserUserPet); }
 
@@ -430,14 +429,14 @@ public class UserUserPet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_user_user_pet value to be set
+	 * @param idUserUserPet the id_user_user_pet value to be set
 	 */
 	public void setIdUserUserPet(Long idUserUserPet) {if(isDifferent(this.idUserUserPet, idUserUserPet)) { this.idUserUserPet = idUserUserPet; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the id_user_user, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_user_user which may be null.
+	 * @return the value of the id_user_user which may NOT be null.
 	 */
 	public Long getIdUserUser() {updateHitCount(2); return(this.idUserUser); }
 
@@ -450,14 +449,14 @@ public class UserUserPet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_user_user value to be set
+	 * @param idUserUser the id_user_user value to be set
 	 */
 	public void setIdUserUser(Long idUserUser) {if(isDifferent(this.idUserUser, idUserUser)) { this.idUserUser = idUserUser; this.isDirty = true;this.UserUser = null;}}
 
 	/**
 	 * <p>Return the value of the id_pet, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_pet which may be null.
+	 * @return the value of the id_pet which may NOT be null.
 	 */
 	public Long getIdPet() {updateHitCount(3); return(this.idPet); }
 
@@ -470,7 +469,7 @@ public class UserUserPet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_pet value to be set
+	 * @param idPet the id_pet value to be set
 	 */
 	public void setIdPet(Long idPet) {if(isDifferent(this.idPet, idPet)) { this.idPet = idPet; this.isDirty = true;this.Pet = null;}}
 

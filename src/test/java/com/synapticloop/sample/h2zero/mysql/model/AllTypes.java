@@ -484,10 +484,9 @@ public class AllTypes extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new AllTypes:</p>
-	 * 
 	 * 
 	 * <pre>new AllTypes(
 	 *     Long idAllTypes,  // id_all_types 
@@ -563,13 +562,11 @@ public class AllTypes extends ModelBase {
 	 * 
 	 * <p>Creating a new AllTypes:</p>
 	 * 
-	 * 
 	 * <pre>new AllTypes(
 	 *     Long idAllTypes // id_all_types
 	 * );</pre>
 	 * 
 	 */
-
 	public AllTypes(Long idAllTypes) {
 		this.idAllTypes = idAllTypes;
 		this.testBigint = null;
@@ -1013,7 +1010,7 @@ public class AllTypes extends ModelBase {
 	/**
 	 * <p>Return the value of the id_all_types, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_all_types which may be null.
+	 * @return the value of the id_all_types which may NOT be null.
 	 */
 	public Long getIdAllTypes() {updateHitCount(1); return(this.idAllTypes); }
 
@@ -1026,14 +1023,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_all_types value to be set
+	 * @param idAllTypes the id_all_types value to be set
 	 */
 	public void setIdAllTypes(Long idAllTypes) {if(isDifferent(this.idAllTypes, idAllTypes)) { this.idAllTypes = idAllTypes; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_bigint, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_bigint which may NOT be null.
+	 * @return the value of the test_bigint which may be null.
 	 */
 	public Long getTestBigint() {updateHitCount(2); return(this.testBigint); }
 
@@ -1046,14 +1043,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_bigint value to be set
+	 * @param testBigint the test_bigint value to be set
 	 */
 	public void setTestBigint(Long testBigint) {if(isDifferent(this.testBigint, testBigint)) { this.testBigint = testBigint; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_blob, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_blob which may NOT be null.
+	 * @return the value of the test_blob which may be null.
 	 */
 	public Blob getTestBlob() {updateHitCount(3); return(this.testBlob); }
 
@@ -1066,14 +1063,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_blob value to be set
+	 * @param testBlob the test_blob value to be set
 	 */
 	public void setTestBlob(Blob testBlob) {if(isDifferent(this.testBlob, testBlob)) { this.testBlob = testBlob; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_bool, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_bool which may NOT be null.
+	 * @return the value of the test_bool which may be null.
 	 */
 	public Boolean getTestBool() {updateHitCount(4); return(this.testBool); }
 
@@ -1086,14 +1083,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_bool value to be set
+	 * @param testBool the test_bool value to be set
 	 */
 	public void setTestBool(Boolean testBool) {if(isDifferent(this.testBool, testBool)) { this.testBool = testBool; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_char, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_char which may NOT be null.
+	 * @return the value of the test_char which may be null.
 	 */
 	public String getTestChar() {updateHitCount(5); return(this.testChar); }
 
@@ -1106,14 +1103,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_char value to be set
+	 * @param testChar the test_char value to be set
 	 */
 	public void setTestChar(String testChar) {if(isDifferent(this.testChar, testChar)) { this.testChar = testChar; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_boolean, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_boolean which may NOT be null.
+	 * @return the value of the test_boolean which may be null.
 	 */
 	public Boolean getTestBoolean() {updateHitCount(6); return(this.testBoolean); }
 
@@ -1126,14 +1123,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_boolean value to be set
+	 * @param testBoolean the test_boolean value to be set
 	 */
 	public void setTestBoolean(Boolean testBoolean) {if(isDifferent(this.testBoolean, testBoolean)) { this.testBoolean = testBoolean; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_binary, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_binary which may NOT be null.
+	 * @return the value of the test_binary which may be null.
 	 */
 	public String getTestBinary() {updateHitCount(7); return(this.testBinary); }
 
@@ -1146,14 +1143,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_binary value to be set
+	 * @param testBinary the test_binary value to be set
 	 */
 	public void setTestBinary(String testBinary) {if(isDifferent(this.testBinary, testBinary)) { this.testBinary = testBinary; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_varbinary, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_varbinary which may NOT be null.
+	 * @return the value of the test_varbinary which may be null.
 	 */
 	public String getTestVarbinary() {updateHitCount(8); return(this.testVarbinary); }
 
@@ -1166,14 +1163,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_varbinary value to be set
+	 * @param testVarbinary the test_varbinary value to be set
 	 */
 	public void setTestVarbinary(String testVarbinary) {if(isDifferent(this.testVarbinary, testVarbinary)) { this.testVarbinary = testVarbinary; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_date, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_date which may NOT be null.
+	 * @return the value of the test_date which may be null.
 	 */
 	public Date getTestDate() {updateHitCount(9); return(this.testDate); }
 
@@ -1186,14 +1183,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_date value to be set
+	 * @param testDate the test_date value to be set
 	 */
 	public void setTestDate(Date testDate) {if(isDifferent(this.testDate, testDate)) { this.testDate = testDate; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_datetime, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_datetime which may NOT be null.
+	 * @return the value of the test_datetime which may be null.
 	 */
 	public Timestamp getTestDatetime() {updateHitCount(10); return(this.testDatetime); }
 
@@ -1206,14 +1203,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_datetime value to be set
+	 * @param testDatetime the test_datetime value to be set
 	 */
 	public void setTestDatetime(Timestamp testDatetime) {if(isDifferent(this.testDatetime, testDatetime)) { this.testDatetime = testDatetime; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_dec, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_dec which may NOT be null.
+	 * @return the value of the test_dec which may be null.
 	 */
 	public BigDecimal getTestDec() {updateHitCount(11); return(this.testDec); }
 
@@ -1226,14 +1223,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_dec value to be set
+	 * @param testDec the test_dec value to be set
 	 */
 	public void setTestDec(BigDecimal testDec) {if(isDifferent(this.testDec, testDec)) { this.testDec = testDec; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_decimal, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_decimal which may NOT be null.
+	 * @return the value of the test_decimal which may be null.
 	 */
 	public BigDecimal getTestDecimal() {updateHitCount(12); return(this.testDecimal); }
 
@@ -1246,14 +1243,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_decimal value to be set
+	 * @param testDecimal the test_decimal value to be set
 	 */
 	public void setTestDecimal(BigDecimal testDecimal) {if(isDifferent(this.testDecimal, testDecimal)) { this.testDecimal = testDecimal; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_double, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_double which may NOT be null.
+	 * @return the value of the test_double which may be null.
 	 */
 	public Double getTestDouble() {updateHitCount(13); return(this.testDouble); }
 
@@ -1266,14 +1263,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_double value to be set
+	 * @param testDouble the test_double value to be set
 	 */
 	public void setTestDouble(Double testDouble) {if(isDifferent(this.testDouble, testDouble)) { this.testDouble = testDouble; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_float, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_float which may NOT be null.
+	 * @return the value of the test_float which may be null.
 	 */
 	public Float getTestFloat() {updateHitCount(14); return(this.testFloat); }
 
@@ -1286,14 +1283,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_float value to be set
+	 * @param testFloat the test_float value to be set
 	 */
 	public void setTestFloat(Float testFloat) {if(isDifferent(this.testFloat, testFloat)) { this.testFloat = testFloat; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_int, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_int which may NOT be null.
+	 * @return the value of the test_int which may be null.
 	 */
 	public Integer getTestInt() {updateHitCount(15); return(this.testInt); }
 
@@ -1306,14 +1303,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_int value to be set
+	 * @param testInt the test_int value to be set
 	 */
 	public void setTestInt(Integer testInt) {if(isDifferent(this.testInt, testInt)) { this.testInt = testInt; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_integer, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_integer which may NOT be null.
+	 * @return the value of the test_integer which may be null.
 	 */
 	public Integer getTestInteger() {updateHitCount(16); return(this.testInteger); }
 
@@ -1326,14 +1323,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_integer value to be set
+	 * @param testInteger the test_integer value to be set
 	 */
 	public void setTestInteger(Integer testInteger) {if(isDifferent(this.testInteger, testInteger)) { this.testInteger = testInteger; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_longtext, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_longtext which may NOT be null.
+	 * @return the value of the test_longtext which may be null.
 	 */
 	public String getTestLongtext() {updateHitCount(17); return(this.testLongtext); }
 
@@ -1346,14 +1343,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_longtext value to be set
+	 * @param testLongtext the test_longtext value to be set
 	 */
 	public void setTestLongtext(String testLongtext) {if(isDifferent(this.testLongtext, testLongtext)) { this.testLongtext = testLongtext; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_mediumblob, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_mediumblob which may NOT be null.
+	 * @return the value of the test_mediumblob which may be null.
 	 */
 	public Blob getTestMediumblob() {updateHitCount(18); return(this.testMediumblob); }
 
@@ -1366,14 +1363,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_mediumblob value to be set
+	 * @param testMediumblob the test_mediumblob value to be set
 	 */
 	public void setTestMediumblob(Blob testMediumblob) {if(isDifferent(this.testMediumblob, testMediumblob)) { this.testMediumblob = testMediumblob; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_mediumint, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_mediumint which may NOT be null.
+	 * @return the value of the test_mediumint which may be null.
 	 */
 	public Integer getTestMediumint() {updateHitCount(19); return(this.testMediumint); }
 
@@ -1386,14 +1383,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_mediumint value to be set
+	 * @param testMediumint the test_mediumint value to be set
 	 */
 	public void setTestMediumint(Integer testMediumint) {if(isDifferent(this.testMediumint, testMediumint)) { this.testMediumint = testMediumint; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_mediumtext, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_mediumtext which may NOT be null.
+	 * @return the value of the test_mediumtext which may be null.
 	 */
 	public String getTestMediumtext() {updateHitCount(20); return(this.testMediumtext); }
 
@@ -1406,14 +1403,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_mediumtext value to be set
+	 * @param testMediumtext the test_mediumtext value to be set
 	 */
 	public void setTestMediumtext(String testMediumtext) {if(isDifferent(this.testMediumtext, testMediumtext)) { this.testMediumtext = testMediumtext; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_numeric, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_numeric which may NOT be null.
+	 * @return the value of the test_numeric which may be null.
 	 */
 	public BigDecimal getTestNumeric() {updateHitCount(21); return(this.testNumeric); }
 
@@ -1426,14 +1423,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_numeric value to be set
+	 * @param testNumeric the test_numeric value to be set
 	 */
 	public void setTestNumeric(BigDecimal testNumeric) {if(isDifferent(this.testNumeric, testNumeric)) { this.testNumeric = testNumeric; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_smallint, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_smallint which may NOT be null.
+	 * @return the value of the test_smallint which may be null.
 	 */
 	public Short getTestSmallint() {updateHitCount(22); return(this.testSmallint); }
 
@@ -1446,14 +1443,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_smallint value to be set
+	 * @param testSmallint the test_smallint value to be set
 	 */
 	public void setTestSmallint(Short testSmallint) {if(isDifferent(this.testSmallint, testSmallint)) { this.testSmallint = testSmallint; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_time, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_time which may NOT be null.
+	 * @return the value of the test_time which may be null.
 	 */
 	public Time getTestTime() {updateHitCount(23); return(this.testTime); }
 
@@ -1466,14 +1463,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_time value to be set
+	 * @param testTime the test_time value to be set
 	 */
 	public void setTestTime(Time testTime) {if(isDifferent(this.testTime, testTime)) { this.testTime = testTime; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_text, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_text which may NOT be null.
+	 * @return the value of the test_text which may be null.
 	 */
 	public String getTestText() {updateHitCount(24); return(this.testText); }
 
@@ -1486,14 +1483,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_text value to be set
+	 * @param testText the test_text value to be set
 	 */
 	public void setTestText(String testText) {if(isDifferent(this.testText, testText)) { this.testText = testText; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_timestamp, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_timestamp which may NOT be null.
+	 * @return the value of the test_timestamp which may be null.
 	 */
 	public Timestamp getTestTimestamp() {updateHitCount(25); return(this.testTimestamp); }
 
@@ -1506,14 +1503,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_timestamp value to be set
+	 * @param testTimestamp the test_timestamp value to be set
 	 */
 	public void setTestTimestamp(Timestamp testTimestamp) {if(isDifferent(this.testTimestamp, testTimestamp)) { this.testTimestamp = testTimestamp; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_tinyint, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_tinyint which may NOT be null.
+	 * @return the value of the test_tinyint which may be null.
 	 */
 	public Boolean getTestTinyint() {updateHitCount(26); return(this.testTinyint); }
 
@@ -1526,14 +1523,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_tinyint value to be set
+	 * @param testTinyint the test_tinyint value to be set
 	 */
 	public void setTestTinyint(Boolean testTinyint) {if(isDifferent(this.testTinyint, testTinyint)) { this.testTinyint = testTinyint; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_tinytext, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_tinytext which may NOT be null.
+	 * @return the value of the test_tinytext which may be null.
 	 */
 	public String getTestTinytext() {updateHitCount(27); return(this.testTinytext); }
 
@@ -1546,14 +1543,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_tinytext value to be set
+	 * @param testTinytext the test_tinytext value to be set
 	 */
 	public void setTestTinytext(String testTinytext) {if(isDifferent(this.testTinytext, testTinytext)) { this.testTinytext = testTinytext; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_varchar, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_varchar which may NOT be null.
+	 * @return the value of the test_varchar which may be null.
 	 */
 	public String getTestVarchar() {updateHitCount(28); return(this.testVarchar); }
 
@@ -1566,14 +1563,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_varchar value to be set
+	 * @param testVarchar the test_varchar value to be set
 	 */
 	public void setTestVarchar(String testVarchar) {if(isDifferent(this.testVarchar, testVarchar)) { this.testVarchar = testVarchar; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the test_year, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the test_year which may NOT be null.
+	 * @return the value of the test_year which may be null.
 	 */
 	public Integer getTestYear() {updateHitCount(29); return(this.testYear); }
 
@@ -1586,7 +1583,7 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the test_year value to be set
+	 * @param testYear the test_year value to be set
 	 */
 	public void setTestYear(Integer testYear) {if(isDifferent(this.testYear, testYear)) { this.testYear = testYear; this.isDirty = true;}}
 

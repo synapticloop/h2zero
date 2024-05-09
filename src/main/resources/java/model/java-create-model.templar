@@ -339,7 +339,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} * some of which can be null.</p>{\n}
 	{\t} * {\n}
 	{\t} * <p><strong>NOTE:</strong> this does not insert the object into the database{\n}
-	{\t} * the <code>.insert()</code> method must be called to insert this object</p>{\n}
+	{\t} * the <code>.insert()</code> method must be called to insert this object.</p>{\n}
 	{\t} * {\n}
 	{\t} * <p>Creating a new {table.javaClassName}:</p>{\n}
 	{\t} * {\n}
@@ -892,7 +892,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}/**{\n}
 		{\t} * <p>Return the value of the {field.name}, updating the hit count for this field.</p>{\n}
 		{\t} * {\n}
-		{\t} * @return the value of the {field.name} which may {if field.nullable}NOT {endif}be null.{\n}
+		{\t} * @return the value of the {field.name} which may {if !field.nullable}NOT {endif}be null.{\n}
 		{\t} */{\n}
 		{\t}public {field.javaType} get{field.javaAccessorName}() {{
 
@@ -921,7 +921,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 			{\t} * <p>If the field value differs in value to the passed in parameter, then {\n}
 			{\t} * the field will be set and this model will be marked as 'dirty'.</p>{\n}
 			{\t} *{\n}
-			{\t} * @param idUser the {field.name} value to be set{\n}
+			{\t} * @param {field.javaName} the {field.name} value to be set{\n}
 			{\t} */{\n}
 			{\t}public void set{field.javaAccessorName}({field.javaType} {field.javaName}) {{
 				if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 

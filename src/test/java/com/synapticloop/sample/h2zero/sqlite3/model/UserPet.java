@@ -149,10 +149,9 @@ public class UserPet extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new UserPet:</p>
-	 * 
 	 * 
 	 * <pre>new UserPet(
 	 *     Long idUserPet,  // id_user_pet 
@@ -417,7 +416,7 @@ public class UserPet extends ModelBase {
 	/**
 	 * <p>Return the value of the id_user_pet, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_user_pet which may be null.
+	 * @return the value of the id_user_pet which may NOT be null.
 	 */
 	public Long getIdUserPet() {updateHitCount(1); return(this.idUserPet); }
 
@@ -430,14 +429,14 @@ public class UserPet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_user_pet value to be set
+	 * @param idUserPet the id_user_pet value to be set
 	 */
 	public void setIdUserPet(Long idUserPet) {if(isDifferent(this.idUserPet, idUserPet)) { this.idUserPet = idUserPet; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the id_user, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_user which may be null.
+	 * @return the value of the id_user which may NOT be null.
 	 */
 	public Long getIdUser() {updateHitCount(2); return(this.idUser); }
 
@@ -457,7 +456,7 @@ public class UserPet extends ModelBase {
 	/**
 	 * <p>Return the value of the id_pet, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_pet which may be null.
+	 * @return the value of the id_pet which may NOT be null.
 	 */
 	public Long getIdPet() {updateHitCount(3); return(this.idPet); }
 
@@ -470,7 +469,7 @@ public class UserPet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_pet value to be set
+	 * @param idPet the id_pet value to be set
 	 */
 	public void setIdPet(Long idPet) {if(isDifferent(this.idPet, idPet)) { this.idPet = idPet; this.isDirty = true;this.Pet = null;}}
 

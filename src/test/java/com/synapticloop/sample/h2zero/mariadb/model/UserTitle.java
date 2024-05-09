@@ -147,10 +147,9 @@ public class UserTitle  {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new UserTitle:</p>
-	 * 
 	 * 
 	 * <pre>new UserTitle(
 	 *     Long idUserTitle,  // id_user_title 
@@ -188,21 +187,21 @@ public class UserTitle  {
 	/**
 	 * <p>Return the value of the id_user_title, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_user_title which may be null.
+	 * @return the value of the id_user_title which may NOT be null.
 	 */
 	public Long getIdUserTitle() {return(this.idUserTitle); }
 
 	/**
 	 * <p>Return the value of the nm_user_title, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the nm_user_title which may be null.
+	 * @return the value of the nm_user_title which may NOT be null.
 	 */
 	public String getNmUserTitle() {return(this.nmUserTitle); }
 
 	/**
 	 * <p>Return the value of the num_order_by, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_order_by which may be null.
+	 * @return the value of the num_order_by which may NOT be null.
 	 */
 	public Integer getNumOrderBy() {return(this.numOrderBy); }
 

@@ -147,10 +147,9 @@ public class AuthorStatus  {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new AuthorStatus:</p>
-	 * 
 	 * 
 	 * <pre>new AuthorStatus(
 	 *     Long idAuthorStatus,  // id_author_status 
@@ -188,21 +187,21 @@ public class AuthorStatus  {
 	/**
 	 * <p>Return the value of the id_author_status, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_author_status which may be null.
+	 * @return the value of the id_author_status which may NOT be null.
 	 */
 	public Long getIdAuthorStatus() {return(this.idAuthorStatus); }
 
 	/**
 	 * <p>Return the value of the txt_author_status, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the txt_author_status which may be null.
+	 * @return the value of the txt_author_status which may NOT be null.
 	 */
 	public String getTxtAuthorStatus() {return(this.txtAuthorStatus); }
 
 	/**
 	 * <p>Return the value of the txt_desc_author_status, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the txt_desc_author_status which may be null.
+	 * @return the value of the txt_desc_author_status which may NOT be null.
 	 */
 	public String getTxtDescAuthorStatus() {return(this.txtDescAuthorStatus); }
 

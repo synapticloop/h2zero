@@ -142,10 +142,9 @@ public class PetType extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new PetType:</p>
-	 * 
 	 * 
 	 * <pre>new PetType(
 	 *     Long idPetType,  // id_pet_type 
@@ -366,7 +365,7 @@ public class PetType extends ModelBase {
 	/**
 	 * <p>Return the value of the id_pet_type, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_pet_type which may be null.
+	 * @return the value of the id_pet_type which may NOT be null.
 	 */
 	public Long getIdPetType() {updateHitCount(1); return(this.idPetType); }
 
@@ -379,14 +378,14 @@ public class PetType extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_pet_type value to be set
+	 * @param idPetType the id_pet_type value to be set
 	 */
 	public void setIdPetType(Long idPetType) {if(isDifferent(this.idPetType, idPetType)) { this.idPetType = idPetType; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the nm_pet_type, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the nm_pet_type which may be null.
+	 * @return the value of the nm_pet_type which may NOT be null.
 	 */
 	public String getNmPetType() {updateHitCount(2); return(this.nmPetType); }
 
@@ -399,14 +398,14 @@ public class PetType extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the nm_pet_type value to be set
+	 * @param nmPetType the nm_pet_type value to be set
 	 */
 	public void setNmPetType(String nmPetType) {if(isDifferent(this.nmPetType, nmPetType)) { this.nmPetType = nmPetType; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the txt_desc_pet_type, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the txt_desc_pet_type which may be null.
+	 * @return the value of the txt_desc_pet_type which may NOT be null.
 	 */
 	public String getTxtDescPetType() {updateHitCount(3); return(this.txtDescPetType); }
 
@@ -419,7 +418,7 @@ public class PetType extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the txt_desc_pet_type value to be set
+	 * @param txtDescPetType the txt_desc_pet_type value to be set
 	 */
 	public void setTxtDescPetType(String txtDescPetType) {if(isDifferent(this.txtDescPetType, txtDescPetType)) { this.txtDescPetType = txtDescPetType; this.isDirty = true;}}
 

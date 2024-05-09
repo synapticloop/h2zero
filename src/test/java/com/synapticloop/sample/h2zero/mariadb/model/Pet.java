@@ -183,10 +183,9 @@ public class Pet extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new Pet:</p>
-	 * 
 	 * 
 	 * <pre>new Pet(
 	 *     Long idPet,  // id_pet 
@@ -216,7 +215,6 @@ public class Pet extends ModelBase {
 	 * 
 	 * <p>Creating a new Pet:</p>
 	 * 
-	 * 
 	 * <pre>new Pet(
 	 *     Long idPet,  // id_pet
 	 *     String nmPet,  // nm_pet
@@ -224,7 +222,6 @@ public class Pet extends ModelBase {
 	 * );</pre>
 	 * 
 	 */
-
 	public Pet(Long idPet, String nmPet, Integer numAge) {
 		this.idPet = idPet;
 		this.nmPet = nmPet;
@@ -488,7 +485,7 @@ public class Pet extends ModelBase {
 	/**
 	 * <p>Return the value of the id_pet, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_pet which may be null.
+	 * @return the value of the id_pet which may NOT be null.
 	 */
 	public Long getIdPet() {updateHitCount(1); return(this.idPet); }
 
@@ -501,14 +498,14 @@ public class Pet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_pet value to be set
+	 * @param idPet the id_pet value to be set
 	 */
 	public void setIdPet(Long idPet) {if(isDifferent(this.idPet, idPet)) { this.idPet = idPet; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the nm_pet, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the nm_pet which may be null.
+	 * @return the value of the nm_pet which may NOT be null.
 	 */
 	public String getNmPet() {updateHitCount(2); return(this.nmPet); }
 
@@ -521,14 +518,14 @@ public class Pet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the nm_pet value to be set
+	 * @param nmPet the nm_pet value to be set
 	 */
 	public void setNmPet(String nmPet) {if(isDifferent(this.nmPet, nmPet)) { this.nmPet = nmPet; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_age, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_age which may be null.
+	 * @return the value of the num_age which may NOT be null.
 	 */
 	public Integer getNumAge() {updateHitCount(3); return(this.numAge); }
 
@@ -541,14 +538,14 @@ public class Pet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_age value to be set
+	 * @param numAge the num_age value to be set
 	 */
 	public void setNumAge(Integer numAge) {if(isDifferent(this.numAge, numAge)) { this.numAge = numAge; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the flt_weight, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the flt_weight which may NOT be null.
+	 * @return the value of the flt_weight which may be null.
 	 */
 	public Float getFltWeight() {updateHitCount(4); return(this.fltWeight); }
 
@@ -561,14 +558,14 @@ public class Pet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the flt_weight value to be set
+	 * @param fltWeight the flt_weight value to be set
 	 */
 	public void setFltWeight(Float fltWeight) {if(isDifferent(this.fltWeight, fltWeight)) { this.fltWeight = fltWeight; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the dt_birthday, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the dt_birthday which may NOT be null.
+	 * @return the value of the dt_birthday which may be null.
 	 */
 	public Date getDtBirthday() {updateHitCount(5); return(this.dtBirthday); }
 
@@ -581,14 +578,14 @@ public class Pet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the dt_birthday value to be set
+	 * @param dtBirthday the dt_birthday value to be set
 	 */
 	public void setDtBirthday(Date dtBirthday) {if(isDifferent(this.dtBirthday, dtBirthday)) { this.dtBirthday = dtBirthday; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the img_photo, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the img_photo which may NOT be null.
+	 * @return the value of the img_photo which may be null.
 	 */
 	public Blob getImgPhoto() {updateHitCount(6); return(this.imgPhoto); }
 
@@ -601,7 +598,7 @@ public class Pet extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the img_photo value to be set
+	 * @param imgPhoto the img_photo value to be set
 	 */
 	public void setImgPhoto(Blob imgPhoto) {if(isDifferent(this.imgPhoto, imgPhoto)) { this.imgPhoto = imgPhoto; this.isDirty = true;}}
 

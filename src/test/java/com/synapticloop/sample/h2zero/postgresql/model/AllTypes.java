@@ -246,10 +246,9 @@ public class AllTypes extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new AllTypes:</p>
-	 * 
 	 * 
 	 * <pre>new AllTypes(
 	 *     Long idAllTypes,  // id_all_types 
@@ -289,7 +288,6 @@ public class AllTypes extends ModelBase {
 	 * 
 	 * <p>Creating a new AllTypes:</p>
 	 * 
-	 * 
 	 * <pre>new AllTypes(
 	 *     Long idAllTypes,  // id_all_types
 	 *     Integer numSerial,  // num_serial
@@ -298,7 +296,6 @@ public class AllTypes extends ModelBase {
 	 * );</pre>
 	 * 
 	 */
-
 	public AllTypes(Long idAllTypes, Integer numSerial, Short numSmallserial, Long numBigserial) {
 		this.idAllTypes = idAllTypes;
 		this.numSmallint = null;
@@ -604,7 +601,7 @@ public class AllTypes extends ModelBase {
 	/**
 	 * <p>Return the value of the id_all_types, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_all_types which may be null.
+	 * @return the value of the id_all_types which may NOT be null.
 	 */
 	public Long getIdAllTypes() {updateHitCount(1); return(this.idAllTypes); }
 
@@ -617,14 +614,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_all_types value to be set
+	 * @param idAllTypes the id_all_types value to be set
 	 */
 	public void setIdAllTypes(Long idAllTypes) {if(isDifferent(this.idAllTypes, idAllTypes)) { this.idAllTypes = idAllTypes; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_smallint, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_smallint which may NOT be null.
+	 * @return the value of the num_smallint which may be null.
 	 */
 	public Short getNumSmallint() {updateHitCount(2); return(this.numSmallint); }
 
@@ -637,14 +634,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_smallint value to be set
+	 * @param numSmallint the num_smallint value to be set
 	 */
 	public void setNumSmallint(Short numSmallint) {if(isDifferent(this.numSmallint, numSmallint)) { this.numSmallint = numSmallint; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_integer, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_integer which may NOT be null.
+	 * @return the value of the num_integer which may be null.
 	 */
 	public Integer getNumInteger() {updateHitCount(3); return(this.numInteger); }
 
@@ -657,14 +654,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_integer value to be set
+	 * @param numInteger the num_integer value to be set
 	 */
 	public void setNumInteger(Integer numInteger) {if(isDifferent(this.numInteger, numInteger)) { this.numInteger = numInteger; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_bigint, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_bigint which may NOT be null.
+	 * @return the value of the num_bigint which may be null.
 	 */
 	public Long getNumBigint() {updateHitCount(4); return(this.numBigint); }
 
@@ -677,14 +674,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_bigint value to be set
+	 * @param numBigint the num_bigint value to be set
 	 */
 	public void setNumBigint(Long numBigint) {if(isDifferent(this.numBigint, numBigint)) { this.numBigint = numBigint; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_decimal, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_decimal which may NOT be null.
+	 * @return the value of the num_decimal which may be null.
 	 */
 	public BigDecimal getNumDecimal() {updateHitCount(5); return(this.numDecimal); }
 
@@ -697,14 +694,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_decimal value to be set
+	 * @param numDecimal the num_decimal value to be set
 	 */
 	public void setNumDecimal(BigDecimal numDecimal) {if(isDifferent(this.numDecimal, numDecimal)) { this.numDecimal = numDecimal; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_numeric, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_numeric which may NOT be null.
+	 * @return the value of the num_numeric which may be null.
 	 */
 	public BigDecimal getNumNumeric() {updateHitCount(6); return(this.numNumeric); }
 
@@ -717,14 +714,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_numeric value to be set
+	 * @param numNumeric the num_numeric value to be set
 	 */
 	public void setNumNumeric(BigDecimal numNumeric) {if(isDifferent(this.numNumeric, numNumeric)) { this.numNumeric = numNumeric; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the flt_real, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the flt_real which may NOT be null.
+	 * @return the value of the flt_real which may be null.
 	 */
 	public Double getFltReal() {updateHitCount(7); return(this.fltReal); }
 
@@ -737,14 +734,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the flt_real value to be set
+	 * @param fltReal the flt_real value to be set
 	 */
 	public void setFltReal(Double fltReal) {if(isDifferent(this.fltReal, fltReal)) { this.fltReal = fltReal; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the dbl_real, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the dbl_real which may NOT be null.
+	 * @return the value of the dbl_real which may be null.
 	 */
 	public Double getDblReal() {updateHitCount(8); return(this.dblReal); }
 
@@ -757,14 +754,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the dbl_real value to be set
+	 * @param dblReal the dbl_real value to be set
 	 */
 	public void setDblReal(Double dblReal) {if(isDifferent(this.dblReal, dblReal)) { this.dblReal = dblReal; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_serial, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_serial which may be null.
+	 * @return the value of the num_serial which may NOT be null.
 	 */
 	public Integer getNumSerial() {updateHitCount(9); return(this.numSerial); }
 
@@ -777,14 +774,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_serial value to be set
+	 * @param numSerial the num_serial value to be set
 	 */
 	public void setNumSerial(Integer numSerial) {if(isDifferent(this.numSerial, numSerial)) { this.numSerial = numSerial; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_smallserial, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_smallserial which may be null.
+	 * @return the value of the num_smallserial which may NOT be null.
 	 */
 	public Short getNumSmallserial() {updateHitCount(10); return(this.numSmallserial); }
 
@@ -797,14 +794,14 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_smallserial value to be set
+	 * @param numSmallserial the num_smallserial value to be set
 	 */
 	public void setNumSmallserial(Short numSmallserial) {if(isDifferent(this.numSmallserial, numSmallserial)) { this.numSmallserial = numSmallserial; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_bigserial, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_bigserial which may be null.
+	 * @return the value of the num_bigserial which may NOT be null.
 	 */
 	public Long getNumBigserial() {updateHitCount(11); return(this.numBigserial); }
 
@@ -817,7 +814,7 @@ public class AllTypes extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_bigserial value to be set
+	 * @param numBigserial the num_bigserial value to be set
 	 */
 	public void setNumBigserial(Long numBigserial) {if(isDifferent(this.numBigserial, numBigserial)) { this.numBigserial = numBigserial; this.isDirty = true;}}
 

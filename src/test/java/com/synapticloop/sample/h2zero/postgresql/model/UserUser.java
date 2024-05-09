@@ -212,10 +212,9 @@ public class UserUser extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new UserUser:</p>
-	 * 
 	 * 
 	 * <pre>new UserUser(
 	 *     Long idUserUser,  // id_user_user 
@@ -249,7 +248,6 @@ public class UserUser extends ModelBase {
 	 * 
 	 * <p>Creating a new UserUser:</p>
 	 * 
-	 * 
 	 * <pre>new UserUser(
 	 *     Long idUserUser,  // id_user_user
 	 *     Long idUserType,  // id_user_type
@@ -260,7 +258,6 @@ public class UserUser extends ModelBase {
 	 * );</pre>
 	 * 
 	 */
-
 	public UserUser(Long idUserUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
 		this.idUserUser = idUserUser;
 		this.idUserType = idUserType;
@@ -587,7 +584,7 @@ public class UserUser extends ModelBase {
 	/**
 	 * <p>Return the value of the id_user_user, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_user_user which may be null.
+	 * @return the value of the id_user_user which may NOT be null.
 	 */
 	public Long getIdUserUser() {updateHitCount(1); return(this.idUserUser); }
 
@@ -600,14 +597,14 @@ public class UserUser extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_user_user value to be set
+	 * @param idUserUser the id_user_user value to be set
 	 */
 	public void setIdUserUser(Long idUserUser) {if(isDifferent(this.idUserUser, idUserUser)) { this.idUserUser = idUserUser; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the id_user_type, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_user_type which may be null.
+	 * @return the value of the id_user_type which may NOT be null.
 	 */
 	public Long getIdUserType() {updateHitCount(2); return(this.idUserType); }
 
@@ -620,14 +617,14 @@ public class UserUser extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_user_type value to be set
+	 * @param idUserType the id_user_type value to be set
 	 */
 	public void setIdUserType(Long idUserType) {if(isDifferent(this.idUserType, idUserType)) { this.idUserType = idUserType; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the fl_is_alive, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the fl_is_alive which may NOT be null.
+	 * @return the value of the fl_is_alive which may be null.
 	 */
 	public Boolean getFlIsAlive() {updateHitCount(3); return(this.flIsAlive); }
 
@@ -640,14 +637,14 @@ public class UserUser extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the fl_is_alive value to be set
+	 * @param flIsAlive the fl_is_alive value to be set
 	 */
 	public void setFlIsAlive(Boolean flIsAlive) {if(isDifferent(this.flIsAlive, flIsAlive)) { this.flIsAlive = flIsAlive; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_age, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_age which may be null.
+	 * @return the value of the num_age which may NOT be null.
 	 */
 	public Integer getNumAge() {updateHitCount(4); if(!isHydrated) { hydrateSilent(); this.isHydrated = true; } return(this.numAge); }
 
@@ -660,14 +657,14 @@ public class UserUser extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_age value to be set
+	 * @param numAge the num_age value to be set
 	 */
 	public void setNumAge(Integer numAge) {if(isDifferent(this.numAge, numAge)) { this.numAge = numAge; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the nm_username, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the nm_username which may be null.
+	 * @return the value of the nm_username which may NOT be null.
 	 */
 	public String getNmUsername() {updateHitCount(5); return(this.nmUsername); }
 
@@ -680,14 +677,14 @@ public class UserUser extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the nm_username value to be set
+	 * @param nmUsername the nm_username value to be set
 	 */
 	public void setNmUsername(String nmUsername) {if(isDifferent(this.nmUsername, nmUsername)) { this.nmUsername = nmUsername; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the txt_address_email, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the txt_address_email which may be null.
+	 * @return the value of the txt_address_email which may NOT be null.
 	 */
 	public String getTxtAddressEmail() {updateHitCount(6); return(this.txtAddressEmail); }
 
@@ -700,14 +697,14 @@ public class UserUser extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the txt_address_email value to be set
+	 * @param txtAddressEmail the txt_address_email value to be set
 	 */
 	public void setTxtAddressEmail(String txtAddressEmail) {if(isDifferent(this.txtAddressEmail, txtAddressEmail)) { this.txtAddressEmail = txtAddressEmail; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the txt_password, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the txt_password which may be null.
+	 * @return the value of the txt_password which may NOT be null.
 	 */
 	public String getTxtPassword() {updateHitCount(7); return(this.txtPassword); }
 
@@ -720,14 +717,14 @@ public class UserUser extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the txt_password value to be set
+	 * @param txtPassword the txt_password value to be set
 	 */
 	public void setTxtPassword(String txtPassword) {if(isDifferent(this.txtPassword, txtPassword)) { this.txtPassword = txtPassword; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the ts_signup, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the ts_signup which may NOT be null.
+	 * @return the value of the ts_signup which may be null.
 	 */
 	public Timestamp getTsSignup() {updateHitCount(8); if(!isHydrated) { hydrateSilent(); this.isHydrated = true; } return(this.tsSignup); }
 
@@ -740,7 +737,7 @@ public class UserUser extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the ts_signup value to be set
+	 * @param tsSignup the ts_signup value to be set
 	 */
 	public void setTsSignup(Timestamp tsSignup) {if(isDifferent(this.tsSignup, tsSignup)) { this.tsSignup = tsSignup; this.isDirty = true;}}
 

@@ -275,10 +275,9 @@ public class Author extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> method must be called to insert this object.</p>
 	 * 
 	 * <p>Creating a new Author:</p>
-	 * 
 	 * 
 	 * <pre>new Author(
 	 *     Long idAuthor,  // id_author 
@@ -322,7 +321,6 @@ public class Author extends ModelBase {
 	 * 
 	 * <p>Creating a new Author:</p>
 	 * 
-	 * 
 	 * <pre>new Author(
 	 *     Long idAuthor,  // id_author
 	 *     String txtIdAuthor,  // txt_id_author
@@ -333,7 +331,6 @@ public class Author extends ModelBase {
 	 * );</pre>
 	 * 
 	 */
-
 	public Author(Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) {
 		this.idAuthor = idAuthor;
 		this.idAuthorStatus = null;
@@ -676,7 +673,7 @@ public class Author extends ModelBase {
 	/**
 	 * <p>Return the value of the id_author, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_author which may be null.
+	 * @return the value of the id_author which may NOT be null.
 	 */
 	public Long getIdAuthor() {updateHitCount(1); return(this.idAuthor); }
 
@@ -689,14 +686,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_author value to be set
+	 * @param idAuthor the id_author value to be set
 	 */
 	public void setIdAuthor(Long idAuthor) {if(isDifferent(this.idAuthor, idAuthor)) { this.idAuthor = idAuthor; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the id_author_status, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the id_author_status which may NOT be null.
+	 * @return the value of the id_author_status which may be null.
 	 */
 	public Long getIdAuthorStatus() {updateHitCount(2); return(this.idAuthorStatus); }
 
@@ -709,14 +706,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the id_author_status value to be set
+	 * @param idAuthorStatus the id_author_status value to be set
 	 */
 	public void setIdAuthorStatus(Long idAuthorStatus) {if(isDifferent(this.idAuthorStatus, idAuthorStatus)) { this.idAuthorStatus = idAuthorStatus; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the txt_id_author, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the txt_id_author which may be null.
+	 * @return the value of the txt_id_author which may NOT be null.
 	 */
 	public String getTxtIdAuthor() {updateHitCount(3); return(this.txtIdAuthor); }
 
@@ -729,14 +726,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the txt_id_author value to be set
+	 * @param txtIdAuthor the txt_id_author value to be set
 	 */
 	public void setTxtIdAuthor(String txtIdAuthor) {if(isDifferent(this.txtIdAuthor, txtIdAuthor)) { this.txtIdAuthor = txtIdAuthor; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the nm_author, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the nm_author which may be null.
+	 * @return the value of the nm_author which may NOT be null.
 	 */
 	public String getNmAuthor() {updateHitCount(4); return(this.nmAuthor); }
 
@@ -749,14 +746,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the nm_author value to be set
+	 * @param nmAuthor the nm_author value to be set
 	 */
 	public void setNmAuthor(String nmAuthor) {if(isDifferent(this.nmAuthor, nmAuthor)) { this.nmAuthor = nmAuthor; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the nm_username, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the nm_username which may be null.
+	 * @return the value of the nm_username which may NOT be null.
 	 */
 	public String getNmUsername() {updateHitCount(5); return(this.nmUsername); }
 
@@ -769,14 +766,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the nm_username value to be set
+	 * @param nmUsername the nm_username value to be set
 	 */
 	public void setNmUsername(String nmUsername) {if(isDifferent(this.nmUsername, nmUsername)) { this.nmUsername = nmUsername; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the txt_bio, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the txt_bio which may be null.
+	 * @return the value of the txt_bio which may NOT be null.
 	 */
 	public String getTxtBio() {updateHitCount(6); return(this.txtBio); }
 
@@ -789,14 +786,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the txt_bio value to be set
+	 * @param txtBio the txt_bio value to be set
 	 */
 	public void setTxtBio(String txtBio) {if(isDifferent(this.txtBio, txtBio)) { this.txtBio = txtBio; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the txt_url_cache_image, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the txt_url_cache_image which may be null.
+	 * @return the value of the txt_url_cache_image which may NOT be null.
 	 */
 	public String getTxtUrlCacheImage() {updateHitCount(7); return(this.txtUrlCacheImage); }
 
@@ -809,14 +806,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the txt_url_cache_image value to be set
+	 * @param txtUrlCacheImage the txt_url_cache_image value to be set
 	 */
 	public void setTxtUrlCacheImage(String txtUrlCacheImage) {if(isDifferent(this.txtUrlCacheImage, txtUrlCacheImage)) { this.txtUrlCacheImage = txtUrlCacheImage; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_following, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_following which may NOT be null.
+	 * @return the value of the num_following which may be null.
 	 */
 	public Long getNumFollowing() {updateHitCount(8); return(this.numFollowing); }
 
@@ -829,14 +826,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_following value to be set
+	 * @param numFollowing the num_following value to be set
 	 */
 	public void setNumFollowing(Long numFollowing) {if(isDifferent(this.numFollowing, numFollowing)) { this.numFollowing = numFollowing; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the num_followers, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the num_followers which may NOT be null.
+	 * @return the value of the num_followers which may be null.
 	 */
 	public Long getNumFollowers() {updateHitCount(9); return(this.numFollowers); }
 
@@ -849,14 +846,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the num_followers value to be set
+	 * @param numFollowers the num_followers value to be set
 	 */
 	public void setNumFollowers(Long numFollowers) {if(isDifferent(this.numFollowers, numFollowers)) { this.numFollowers = numFollowers; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the dtm_started_following, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the dtm_started_following which may NOT be null.
+	 * @return the value of the dtm_started_following which may be null.
 	 */
 	public Timestamp getDtmStartedFollowing() {updateHitCount(10); return(this.dtmStartedFollowing); }
 
@@ -869,14 +866,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the dtm_started_following value to be set
+	 * @param dtmStartedFollowing the dtm_started_following value to be set
 	 */
 	public void setDtmStartedFollowing(Timestamp dtmStartedFollowing) {if(isDifferent(this.dtmStartedFollowing, dtmStartedFollowing)) { this.dtmStartedFollowing = dtmStartedFollowing; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the fl_is_updating, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the fl_is_updating which may NOT be null.
+	 * @return the value of the fl_is_updating which may be null.
 	 */
 	public Boolean getFlIsUpdating() {updateHitCount(11); return(this.flIsUpdating); }
 
@@ -889,14 +886,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the fl_is_updating value to be set
+	 * @param flIsUpdating the fl_is_updating value to be set
 	 */
 	public void setFlIsUpdating(Boolean flIsUpdating) {if(isDifferent(this.flIsUpdating, flIsUpdating)) { this.flIsUpdating = flIsUpdating; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the fl_author_is_following_user, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the fl_author_is_following_user which may NOT be null.
+	 * @return the value of the fl_author_is_following_user which may be null.
 	 */
 	public Boolean getFlAuthorIsFollowingUser() {updateHitCount(12); return(this.flAuthorIsFollowingUser); }
 
@@ -909,14 +906,14 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the fl_author_is_following_user value to be set
+	 * @param flAuthorIsFollowingUser the fl_author_is_following_user value to be set
 	 */
 	public void setFlAuthorIsFollowingUser(Boolean flAuthorIsFollowingUser) {if(isDifferent(this.flAuthorIsFollowingUser, flAuthorIsFollowingUser)) { this.flAuthorIsFollowingUser = flAuthorIsFollowingUser; this.isDirty = true;}}
 
 	/**
 	 * <p>Return the value of the fl_author_is_followed_by_user, updating the hit count for this field.</p>
 	 * 
-	 * @return the value of the fl_author_is_followed_by_user which may NOT be null.
+	 * @return the value of the fl_author_is_followed_by_user which may be null.
 	 */
 	public Boolean getFlAuthorIsFollowedByUser() {updateHitCount(13); return(this.flAuthorIsFollowedByUser); }
 
@@ -929,7 +926,7 @@ public class Author extends ModelBase {
 	 * <p>If the field value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 *
-	 * @param idUser the fl_author_is_followed_by_user value to be set
+	 * @param flAuthorIsFollowedByUser the fl_author_is_followed_by_user value to be set
 	 */
 	public void setFlAuthorIsFollowedByUser(Boolean flAuthorIsFollowedByUser) {if(isDifferent(this.flAuthorIsFollowedByUser, flAuthorIsFollowedByUser)) { this.flAuthorIsFollowedByUser = flAuthorIsFollowedByUser; this.isDirty = true;}}
 
