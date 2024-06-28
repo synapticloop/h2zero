@@ -913,7 +913,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{if !table.isConstant}
 			{\n}
 			{\t}/**{\n}
-			{\t} * <p>Set the {field.name} value.</p>{\n}
+			{\t} * <p>Set the <code>{field.name}</code> value setting the 'isDirty' flag{\n}
+			{\t} * if the value has changed.  The 'isDirty' flag is used when the model is{\n}
+			{\t} * updated - and the update call will be ignored if the 'isDirty' flag is{\n}
+			{\t} * not set.</p>{\n}
 			{\t} * {\n}
 			{\t} * <p>If the field value has the same value as the passed in parameter, then {\n}
 			{\t} * nothing will be done.</p>{\n}

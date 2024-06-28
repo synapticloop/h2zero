@@ -12,9 +12,8 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -22,7 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import com.synapticloop.h2zero.util.XmlHelper;
+import com.synapticloop.h2zero.generator.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
@@ -678,7 +677,10 @@ public class Author extends ModelBase {
 	public Long getIdAuthor() {updateHitCount(1); return(this.idAuthor); }
 
 	/**
-	 * <p>Set the id_author value.</p>
+	 * <p>Set the <code>id_author</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -698,7 +700,10 @@ public class Author extends ModelBase {
 	public Long getIdAuthorStatus() {updateHitCount(2); return(this.idAuthorStatus); }
 
 	/**
-	 * <p>Set the id_author_status value.</p>
+	 * <p>Set the <code>id_author_status</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -718,7 +723,10 @@ public class Author extends ModelBase {
 	public String getTxtIdAuthor() {updateHitCount(3); return(this.txtIdAuthor); }
 
 	/**
-	 * <p>Set the txt_id_author value.</p>
+	 * <p>Set the <code>txt_id_author</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -738,7 +746,10 @@ public class Author extends ModelBase {
 	public String getNmAuthor() {updateHitCount(4); return(this.nmAuthor); }
 
 	/**
-	 * <p>Set the nm_author value.</p>
+	 * <p>Set the <code>nm_author</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -758,7 +769,10 @@ public class Author extends ModelBase {
 	public String getNmUsername() {updateHitCount(5); return(this.nmUsername); }
 
 	/**
-	 * <p>Set the nm_username value.</p>
+	 * <p>Set the <code>nm_username</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -778,7 +792,10 @@ public class Author extends ModelBase {
 	public String getTxtBio() {updateHitCount(6); return(this.txtBio); }
 
 	/**
-	 * <p>Set the txt_bio value.</p>
+	 * <p>Set the <code>txt_bio</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -798,7 +815,10 @@ public class Author extends ModelBase {
 	public String getTxtUrlCacheImage() {updateHitCount(7); return(this.txtUrlCacheImage); }
 
 	/**
-	 * <p>Set the txt_url_cache_image value.</p>
+	 * <p>Set the <code>txt_url_cache_image</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -818,7 +838,10 @@ public class Author extends ModelBase {
 	public Long getNumFollowing() {updateHitCount(8); return(this.numFollowing); }
 
 	/**
-	 * <p>Set the num_following value.</p>
+	 * <p>Set the <code>num_following</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -838,7 +861,10 @@ public class Author extends ModelBase {
 	public Long getNumFollowers() {updateHitCount(9); return(this.numFollowers); }
 
 	/**
-	 * <p>Set the num_followers value.</p>
+	 * <p>Set the <code>num_followers</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -858,7 +884,10 @@ public class Author extends ModelBase {
 	public Timestamp getDtmStartedFollowing() {updateHitCount(10); return(this.dtmStartedFollowing); }
 
 	/**
-	 * <p>Set the dtm_started_following value.</p>
+	 * <p>Set the <code>dtm_started_following</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -878,7 +907,10 @@ public class Author extends ModelBase {
 	public Boolean getFlIsUpdating() {updateHitCount(11); return(this.flIsUpdating); }
 
 	/**
-	 * <p>Set the fl_is_updating value.</p>
+	 * <p>Set the <code>fl_is_updating</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -898,7 +930,10 @@ public class Author extends ModelBase {
 	public Boolean getFlAuthorIsFollowingUser() {updateHitCount(12); return(this.flAuthorIsFollowingUser); }
 
 	/**
-	 * <p>Set the fl_author_is_following_user value.</p>
+	 * <p>Set the <code>fl_author_is_following_user</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -918,7 +953,10 @@ public class Author extends ModelBase {
 	public Boolean getFlAuthorIsFollowedByUser() {updateHitCount(13); return(this.flAuthorIsFollowedByUser); }
 
 	/**
-	 * <p>Set the fl_author_is_followed_by_user value.</p>
+	 * <p>Set the <code>fl_author_is_followed_by_user</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>

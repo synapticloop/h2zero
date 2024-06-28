@@ -18,7 +18,7 @@ package com.synapticloop.h2zero.base.sql.base;
  */
 
 import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
-import com.synapticloop.h2zero.base.sql.BaseSQLExecutor;
+import com.synapticloop.h2zero.base.sql.BaseSQLLimitedExecutor;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
@@ -26,7 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class BaseUpdaterExecutor extends BaseSQLExecutor {
+public abstract class BaseUpdaterExecutor extends BaseSQLLimitedExecutor {
 	/**
 	 * Instantiate an Updater
 	 *

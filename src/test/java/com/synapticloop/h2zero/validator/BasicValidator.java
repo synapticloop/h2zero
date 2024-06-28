@@ -2,11 +2,11 @@ package com.synapticloop.h2zero.validator;
 
 import java.util.List;
 
-import com.synapticloop.h2zero.validator.BaseValidator;
-import com.synapticloop.h2zero.model.Database;
-import com.synapticloop.h2zero.model.Options;
-import com.synapticloop.h2zero.model.Table;
-import com.synapticloop.h2zero.model.View;
+import com.synapticloop.h2zero.generator.model.Database;
+import com.synapticloop.h2zero.generator.model.Options;
+import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.model.View;
+import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 public class BasicValidator extends BaseValidator {
 

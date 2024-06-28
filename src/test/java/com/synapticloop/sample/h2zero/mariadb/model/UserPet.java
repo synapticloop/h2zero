@@ -13,16 +13,14 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.mariadb.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import com.synapticloop.h2zero.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
@@ -421,7 +419,10 @@ public class UserPet extends ModelBase {
 	public Long getIdUserPet() {updateHitCount(1); return(this.idUserPet); }
 
 	/**
-	 * <p>Set the id_user_pet value.</p>
+	 * <p>Set the <code>id_user_pet</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -441,7 +442,10 @@ public class UserPet extends ModelBase {
 	public Long getIdUser() {updateHitCount(2); return(this.idUser); }
 
 	/**
-	 * <p>Set the id_user value.</p>
+	 * <p>Set the <code>id_user</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -461,7 +465,10 @@ public class UserPet extends ModelBase {
 	public Long getIdPet() {updateHitCount(3); return(this.idPet); }
 
 	/**
-	 * <p>Set the id_pet value.</p>
+	 * <p>Set the <code>id_pet</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>

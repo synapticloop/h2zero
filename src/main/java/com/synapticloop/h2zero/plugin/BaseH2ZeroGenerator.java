@@ -17,16 +17,16 @@ package com.synapticloop.h2zero.plugin;
  */
 
 import com.synapticloop.h2zero.H2ZeroParser;
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.extension.Extension;
-import com.synapticloop.h2zero.generator.*;
-import com.synapticloop.h2zero.model.Database;
-import com.synapticloop.h2zero.model.Options;
-import com.synapticloop.h2zero.model.Table;
-import com.synapticloop.h2zero.model.View;
-import com.synapticloop.h2zero.model.util.JSONKeyConstants;
-import com.synapticloop.h2zero.util.SimpleLogger;
-import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.extension.Extension;
+import com.synapticloop.h2zero.generator.generator.*;
+import com.synapticloop.h2zero.generator.model.Database;
+import com.synapticloop.h2zero.generator.model.Options;
+import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.model.View;
+import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
 import org.apache.tools.ant.BuildException;
 import org.json.JSONObject;
 import com.synapticloop.templar.exception.ParseException;

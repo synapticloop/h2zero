@@ -27,8 +27,8 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 import com.synapticloop.h2zero.revenge.ModelBuilder;
-import com.synapticloop.h2zero.util.SimpleLogger;
-import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
 
 public class H2ZeroRevengeTask extends Task {
 	private String outFile = null;

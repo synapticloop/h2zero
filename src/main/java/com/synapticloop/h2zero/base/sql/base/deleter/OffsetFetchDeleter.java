@@ -17,7 +17,6 @@ package com.synapticloop.h2zero.base.sql.base.deleter;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.sql.base.BaseDeleterExecutor;
 import org.slf4j.Logger;
 
 public abstract class OffsetFetchDeleter extends BaseDeleterExecutor {

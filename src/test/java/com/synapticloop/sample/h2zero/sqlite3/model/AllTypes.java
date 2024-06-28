@@ -10,7 +10,7 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.math.BigDecimal;
@@ -21,7 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import com.synapticloop.h2zero.util.XmlHelper;
+import com.synapticloop.h2zero.generator.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
@@ -691,7 +691,10 @@ public class AllTypes extends ModelBase {
 	public Long getIdAllTypes() {updateHitCount(1); return(this.idAllTypes); }
 
 	/**
-	 * <p>Set the id_all_types value.</p>
+	 * <p>Set the <code>id_all_types</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -711,7 +714,10 @@ public class AllTypes extends ModelBase {
 	public Long getTestBigint() {updateHitCount(2); return(this.testBigint); }
 
 	/**
-	 * <p>Set the test_bigint value.</p>
+	 * <p>Set the <code>test_bigint</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -731,7 +737,10 @@ public class AllTypes extends ModelBase {
 	public Boolean getTestBoolean() {updateHitCount(3); return(this.testBoolean); }
 
 	/**
-	 * <p>Set the test_boolean value.</p>
+	 * <p>Set the <code>test_boolean</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -751,7 +760,10 @@ public class AllTypes extends ModelBase {
 	public Date getTestDate() {updateHitCount(4); return(this.testDate); }
 
 	/**
-	 * <p>Set the test_date value.</p>
+	 * <p>Set the <code>test_date</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -771,7 +783,10 @@ public class AllTypes extends ModelBase {
 	public Timestamp getTestDatetime() {updateHitCount(5); return(this.testDatetime); }
 
 	/**
-	 * <p>Set the test_datetime value.</p>
+	 * <p>Set the <code>test_datetime</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -791,7 +806,10 @@ public class AllTypes extends ModelBase {
 	public Double getTestDouble() {updateHitCount(6); return(this.testDouble); }
 
 	/**
-	 * <p>Set the test_double value.</p>
+	 * <p>Set the <code>test_double</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -811,7 +829,10 @@ public class AllTypes extends ModelBase {
 	public Float getTestFloat() {updateHitCount(7); return(this.testFloat); }
 
 	/**
-	 * <p>Set the test_float value.</p>
+	 * <p>Set the <code>test_float</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -831,7 +852,10 @@ public class AllTypes extends ModelBase {
 	public Integer getTestInt() {updateHitCount(8); return(this.testInt); }
 
 	/**
-	 * <p>Set the test_int value.</p>
+	 * <p>Set the <code>test_int</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -851,7 +875,10 @@ public class AllTypes extends ModelBase {
 	public Integer getTestInteger() {updateHitCount(9); return(this.testInteger); }
 
 	/**
-	 * <p>Set the test_integer value.</p>
+	 * <p>Set the <code>test_integer</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -871,7 +898,10 @@ public class AllTypes extends ModelBase {
 	public Integer getTestMediumint() {updateHitCount(10); return(this.testMediumint); }
 
 	/**
-	 * <p>Set the test_mediumint value.</p>
+	 * <p>Set the <code>test_mediumint</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -891,7 +921,10 @@ public class AllTypes extends ModelBase {
 	public BigDecimal getTestNumeric() {updateHitCount(11); return(this.testNumeric); }
 
 	/**
-	 * <p>Set the test_numeric value.</p>
+	 * <p>Set the <code>test_numeric</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -911,7 +944,10 @@ public class AllTypes extends ModelBase {
 	public Short getTestSmallint() {updateHitCount(12); return(this.testSmallint); }
 
 	/**
-	 * <p>Set the test_smallint value.</p>
+	 * <p>Set the <code>test_smallint</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -931,7 +967,10 @@ public class AllTypes extends ModelBase {
 	public String getTestText() {updateHitCount(13); return(this.testText); }
 
 	/**
-	 * <p>Set the test_text value.</p>
+	 * <p>Set the <code>test_text</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -951,7 +990,10 @@ public class AllTypes extends ModelBase {
 	public Boolean getTestTinyint() {updateHitCount(14); return(this.testTinyint); }
 
 	/**
-	 * <p>Set the test_tinyint value.</p>
+	 * <p>Set the <code>test_tinyint</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -971,7 +1013,10 @@ public class AllTypes extends ModelBase {
 	public String getTestVarchar() {updateHitCount(15); return(this.testVarchar); }
 
 	/**
-	 * <p>Set the test_varchar value.</p>
+	 * <p>Set the <code>test_varchar</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>

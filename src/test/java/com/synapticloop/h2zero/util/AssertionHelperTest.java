@@ -1,9 +1,9 @@
 package com.synapticloop.h2zero.util;
 
-import com.synapticloop.h2zero.util.AssertionHelper;
+import com.synapticloop.h2zero.generator.util.AssertionHelper;
 import org.junit.Test;
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
 
 public class AssertionHelperTest {
 	@Test(expected = H2ZeroParseException.class)

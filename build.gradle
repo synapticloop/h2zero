@@ -10,10 +10,10 @@ plugins {
 version = findProperty("h2zero.version")
 group = 'com.synapticloop'
 
-tasks.withType(Javadoc).all { enabled = true }
+tasks.withType(Javadoc).all { enabled = false }
 
 allprojects {
-    tasks.withType(Javadoc).all { enabled = true }
+    tasks.withType(Javadoc).all { enabled = false }
 }
 repositories {
     mavenLocal()

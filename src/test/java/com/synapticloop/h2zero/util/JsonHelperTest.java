@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.util;
 import static org.junit.Assert.*;
 
-import com.synapticloop.h2zero.util.JsonHelper;
+import com.synapticloop.h2zero.generator.util.JsonHelper;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;

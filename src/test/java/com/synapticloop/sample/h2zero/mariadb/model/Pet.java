@@ -10,10 +10,9 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.mariadb.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
 import java.sql.Date;
-import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -21,7 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import com.synapticloop.h2zero.util.XmlHelper;
+import com.synapticloop.h2zero.generator.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
@@ -490,7 +489,10 @@ public class Pet extends ModelBase {
 	public Long getIdPet() {updateHitCount(1); return(this.idPet); }
 
 	/**
-	 * <p>Set the id_pet value.</p>
+	 * <p>Set the <code>id_pet</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -510,7 +512,10 @@ public class Pet extends ModelBase {
 	public String getNmPet() {updateHitCount(2); return(this.nmPet); }
 
 	/**
-	 * <p>Set the nm_pet value.</p>
+	 * <p>Set the <code>nm_pet</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -530,7 +535,10 @@ public class Pet extends ModelBase {
 	public Integer getNumAge() {updateHitCount(3); return(this.numAge); }
 
 	/**
-	 * <p>Set the num_age value.</p>
+	 * <p>Set the <code>num_age</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -550,7 +558,10 @@ public class Pet extends ModelBase {
 	public Float getFltWeight() {updateHitCount(4); return(this.fltWeight); }
 
 	/**
-	 * <p>Set the flt_weight value.</p>
+	 * <p>Set the <code>flt_weight</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -570,7 +581,10 @@ public class Pet extends ModelBase {
 	public Date getDtBirthday() {updateHitCount(5); return(this.dtBirthday); }
 
 	/**
-	 * <p>Set the dt_birthday value.</p>
+	 * <p>Set the <code>dt_birthday</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -590,7 +604,10 @@ public class Pet extends ModelBase {
 	public Blob getImgPhoto() {updateHitCount(6); return(this.imgPhoto); }
 
 	/**
-	 * <p>Set the img_photo value.</p>
+	 * <p>Set the <code>img_photo</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>

@@ -2,11 +2,11 @@ package com.synapticloop.h2zero.model.util;
 
 import static org.junit.Assert.*;
 
-import com.synapticloop.h2zero.model.util.DatabaseFieldTypeConfirm;
+import com.synapticloop.h2zero.generator.model.util.DatabaseFieldTypeConfirm;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.synapticloop.h2zero.model.Options;
+import com.synapticloop.h2zero.generator.model.Options;
 
 public class DatabaseFieldTypeConfirmTest {
 	@Before

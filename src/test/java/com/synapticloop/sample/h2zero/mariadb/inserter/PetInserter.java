@@ -4,20 +4,13 @@ package com.synapticloop.sample.h2zero.mariadb.inserter;
 //    with the use of synapticloop templar templating language
 //            (java/java-create-inserter.templar)
 
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Blob;
-
-
+import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
+import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
-import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
+import java.io.InputStream;
+import java.sql.*;
 
 /**
  * This model maps to the pet table in the database

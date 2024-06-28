@@ -1,0 +1,29 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        classpath 'com.synapticloop:h2zero:' + findProperty("h2zero.version")
+    }
+}
+
+plugins {
+    id 'java'
+    id 'eclipse'
+}
+
+apply plugin: 'synapticloop.h2zero'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://jitpack.io/" }
+}
+
+h2zero {
+    inFile = "src/test/resources/book/book.h2zero"
+    outDir = '.'
+    verbose = false
+}

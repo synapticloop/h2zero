@@ -25,7 +25,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseSQLExecutor {
+/**
+ * <p>The base SQL Executor holds all of the information required to prepare a
+ * statement.</p>
+ *
+ * <p><strong>NOTE:</strong> This does not include any <code>LIMIT ... OFFSET</code>
+ * or <code>OFFSET n ROWS ... FETCH NEXT n ROWS ONLY</code> SQL statements.</p>
+ *
+ * <p>If you want to have the results limited see the <code>BaseSQLLimitedExecutor</code>
+ * class, which will automatically add the correct limited results SQL statement,</p>
+ *
+ * @author synapticloop
+ *
+ * @see BaseSQLLimitedExecutor which will add a limit and offset to the statement
+ * in the correct format for the database
+ */
+public abstract class BaseSQLExecutor<T> {
 	protected final Logger logger;
 	protected final String sqlStatement;
 	protected final Object[] parameters;
@@ -36,32 +51,15 @@ public abstract class BaseSQLExecutor {
 	/**
 	 * <p>This is the base SQL executor that executes the SQL statement.</p>
 	 *
-	 * @param logger The logger to output messages to
+	 * @param logger       The logger to output messages to
 	 * @param sqlStatement The SQL statement to execute
-	 * @param parameters The parameters to set on the SQL statement
+	 * @param parameters   The parameters to set on the SQL statement
 	 */
-	public BaseSQLExecutor(Logger logger, String sqlStatement, Object ... parameters) {
+	public BaseSQLExecutor(Logger logger, String sqlStatement, Object... parameters) {
 		this.logger = logger;
 		this.sqlStatement = sqlStatement;
 		this.parameters = parameters;
 	}
-
-	/**
-	 * <p>Get the limit and offset statement for the database type. For example
-	 * LIMIT x OFFSET y, or FETCH x ROWS FETCH NEXT y ROWS ONLY.</p>
-	 *
-	 * @return the limit and offset statement with the prepared variables set, or
-	 *   an empty string if the limit and offset are both null
-	 */
-	protected abstract String getLimitedResultsStatement() throws SQLException;
-
-	/**
-	 * <p>Get a connection from the connection manager for the specific database
-	 * type.</p>
-	 *
-	 * @return The connection from the correct connection manager
-	 */
-	protected abstract Connection getConnection() throws SQLException;
 
 	/**
 	 * <p>Prepare a statement ready for execution.  The following is performed
@@ -73,11 +71,9 @@ public abstract class BaseSQLExecutor {
 	 *   <li>Safely add all of the parameters to the prepared statement.</li>
 	 * </ol>
 	 *
-	 * @param connection The connection to be used
+	 * @param connection   The connection to be used
 	 * @param sqlStatement The SQL statement to prepare
-	 *
 	 * @return The prepared statement
-	 *
 	 * @throws SQLException If there was an error in the statement
 	 */
 	protected PreparedStatement prepareStatement(Connection connection, String sqlStatement) throws SQLException {
@@ -124,57 +120,58 @@ public abstract class BaseSQLExecutor {
 			k++;
 		}
 
-		return(preparedStatement);
+		return (preparedStatement);
 	}
 
 	/**
-	 * Return the SQL statement with a limit and offset clause
+	 * Execute the SQL statement.
 	 *
-	 * @return the SQL statement limit and offset
+	 * @return the number of rows deleted
 	 *
-	 * @throws SQLException if an offset was set, but no limit was set
+	 * @throws SQLException If there was an error executing the SQL statement
 	 */
-	protected String getLimitOffsetStatement() throws SQLException {
-		if(null != offset && null == limit) {
-			throw new SQLException("Cannot have an offset without a limit.");
-		}
-		// if offset is set, limit is mandatory - this will be caught
-		// when the SQL statement execution is attempted to be performed
-		StringBuilder stringBuilder = new StringBuilder();
-		if(null != limit) {
-			stringBuilder.append(" LIMIT ");
-			stringBuilder.append(limit);
-		}
-
-		if(null != offset) {
-			stringBuilder.append(" OFFSET ");
-			stringBuilder.append(offset);
-		}
-
-		return(stringBuilder.toString());
+	public T execute() throws SQLException {
+		return(executeInternal());
 	}
 
 	/**
-	 * <p>Return the SQL statement with the offset/fetch next clause</p>
+	 * Execute the statement, swallowing any exceptions - <strong>NOTE</strong>
+	 * that if a SQL exception is caught - then it will be logged as an error.
 	 *
-	 * @return the SQL statement with an OFFSET/Fetch Next clause
+	 * @return The number of rows deleted, or null if there was an error.
 	 */
-	protected String getOffsetFetchStatement() {
-		// offset is optional, but, limit is mandatory - this will be caught
-		// when the SQL statement execution is attempted to be performed
-		StringBuilder stringBuilder = new StringBuilder();
-		if(null != offset) {
-			stringBuilder.append(" OFFSET ");
-			stringBuilder.append(offset);
-			stringBuilder.append(" ROWS ");
-		}
+	public T executeSilent() {
+		return(executeSilentInternal());
+	}
+	/**
+	 * Get a connection from the connection manager.
+	 *
+	 * @return The connection from the correct connection manager
+	 */
+	protected abstract Connection getConnection() throws SQLException;
 
-		if(null != limit) {
-			stringBuilder.append(" FETCH NEXT ");
-			stringBuilder.append(limit);
-			stringBuilder.append(" ROWS ONLY ");
-		}
+	protected abstract T executeInternal() throws SQLException;
 
-		return(stringBuilder.toString());
+	/**
+	 * <p>Execute the statement, swallowing any exceptions - <strong>NOTE</strong>
+	 * that if a SQL exception is caught - then it will be logged as an error.</p>
+	 *
+	 * <p>This is just a chain of the call to the <code>executeInternal</code>
+	 * catching any exceptions, and logging them where necessary.</p>
+	 *
+	 * @return T the object, or null if there was an error.  If the return type
+	 * is a List, then an empty list will be returned.
+	 */
+	protected T executeSilentInternal() {
+		try {
+			return(executeInternal());
+		} catch (SQLException e) {
+			logger.error(
+					"Exception executing the SQL statement, message was: {}.  SQL statement was: {}",
+					e.getMessage(),
+					sqlStatement,
+					e);
+			return(null);
+		}
 	}
 }

@@ -1,6 +1,6 @@
 package com.synapticloop.h2zero.exception;
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -19,12 +19,14 @@
 		{ "name": "fl_author_is_following_user", "type": "boolean", "nullable": true, "default": "'0'" },
 		{ "name": "fl_author_is_followed_by_user", "type": "boolean", "nullable": true, "default": "'0'" }
 	],
+
 	"fieldFinders": [
 		{ "txt_id_author": "unique" },
 		{ "id_author_status": "multiple" },
 		{ "fl_is_updating": "multiple" },
 		{ "txt_id_author, id_author_status": "multiple" }
 	],
+
 	"finders": [
 		{
 			"name": "findInStatus",
@@ -87,11 +89,13 @@
 			]
 		}
 	],
+
 	"fieldUpdaters": [
 		"num_followers",
 		"id_author",
 		"id_author,num_followers"
 	],
+
 	"updaters": [
 		{
 			"name": "resetAuthorsToBeFollowed",
@@ -170,6 +174,7 @@
 			]
 		}
 	],
+
 	"deleters": [
 		{
 			"name": "deleteInNumber",

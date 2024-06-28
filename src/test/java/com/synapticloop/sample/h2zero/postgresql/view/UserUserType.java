@@ -5,13 +5,64 @@ package com.synapticloop.sample.h2zero.postgresql.view;
 //              (/java/model/java-create-view-model.templar)
 
 import com.synapticloop.h2zero.base.view.ViewBase;
-import com.synapticloop.h2zero.util.XmlHelper;
+import com.synapticloop.h2zero.generator.util.XmlHelper;
 
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 import org.json.JSONObject;
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 
 
+/**
+ * <p>This is the model for the <code>UserUserType</code> which maps to the <code>user_user_type</code> database view.</p>
+ * 
+ * <p>This model maps all of the fields from the database as defined in the
+ * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>
+ * 
+ * <p><strong>NOTE:</strong> This is a view which cannot be changed and no CRUD methods are available.</p>
+ * 
+ * <p>This view was created with the following SQL select statement:</p>
+ * <pre>
+ *  select uu.nm_username, ut.nm_user_type from user_user uu, user_type ut where uu.id_user_type = ut.id_user_type
+</pre>
+ * 
+ * With the following fields defined
+ * 
+ * 
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <th>Field name</th>
+ *       <th>SQL type</th>
+ *       <th>Field length<br />(min:max)</th>
+ *       <th>Nullable?</th>
+ *       <th>Keys</th>
+ *       <th>Comments</th>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>nm_username</code></td>
+ *       <td>varchar</td>
+ *       <td>(0:64)</td>
+ *       <td>false</td>
+ *       <td></td>
+ *       <td> -- </td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>nm_user_type</code></td>
+ *       <td>varchar</td>
+ *       <td>(0:64)</td>
+ *       <td>false</td>
+ *       <td></td>
+ *       <td> -- </td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ * 
+ * @author synapticloop h2zero
+ * 
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
+ */
 public class UserUserType extends ViewBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -32,8 +83,18 @@ public class UserUserType extends ViewBase {
 	 * Boring ol' getters
 	 */
 
+	/**
+	 * <p>Return the value of the nm_username, updating the hit count for this field.</p>
+	 * 
+	 * @return the value of the nm_username which may NOT be null.
+	 */
 	public String getNmUsername() { return(this.nmUsername); }
 
+	/**
+	 * <p>Return the value of the nm_user_type, updating the hit count for this field.</p>
+	 * 
+	 * @return the value of the nm_user_type which may NOT be null.
+	 */
 	public String getNmUserType() { return(this.nmUserType); }
 
 

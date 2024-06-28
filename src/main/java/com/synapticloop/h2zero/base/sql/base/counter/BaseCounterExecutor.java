@@ -26,7 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class BaseCounterExecutor extends BaseSQLExecutor {
+public abstract class BaseCounterExecutor<T> extends BaseSQLExecutor<Integer> {
 	public BaseCounterExecutor(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
@@ -44,7 +44,7 @@ public abstract class BaseCounterExecutor extends BaseSQLExecutor {
 	 * </ol>
 	 *
 	 * @return the object, or null if one wasn't found
-	 * @throws SQLException          If there was an error executing the SQL statement
+	 * @throws SQLException If there was an error executing the SQL statement
 	 */
 	protected Integer executeInternal() throws SQLException {
 		ResultSet resultSet = null;
@@ -64,7 +64,7 @@ public abstract class BaseCounterExecutor extends BaseSQLExecutor {
 
 			resultSet = preparedStatement.executeQuery();
 			// for a counting operation - there should only be one field - which is the count
-			if(resultSet.next()) {
+			if (resultSet.next()) {
 				return (resultSet.getInt(1));
 			} else {
 				throw new SQLException("Result set returned no rows, expecting exactly one.");
@@ -81,25 +81,19 @@ public abstract class BaseCounterExecutor extends BaseSQLExecutor {
 	}
 
 	/**
-	 * <p>Execute the statement, swallowing any exceptions - <strong>NOTE</strong>
-	 * that if a SQL exception is caught - then it will be logged as an error.</p>
+	 * <p>Execute this statement with a connection - this will be used, rather
+	 * than creating a new connection from the connection pool.  This is
+	 * useful when you want to be able to start a transaction and commit
+	 * or rollback.</p>
 	 *
-	 * <p>This is just a chain of the call to the <code>executeInternal</code>
-	 * catching any exceptions, and logging them where necessary.</p>
+	 * @param connection The connection to use
 	 *
-	 * @return List the list of object, or an empty list if none were found.
+	 * @return The counter with the set connection
 	 */
-	protected Integer executeSilentInternal() {
-		try {
-			return (executeInternal());
-		} catch (SQLException e) {
-			logger.error("SQLException executing statement '{}', with limit '{}', with offset '{}'.", sqlStatement, limit, offset);
-		}
-
-		return (null);
+	public BaseCounterExecutor<T> withConnection(Connection connection) {
+		this.connection = connection;
+		return(this);
 	}
-
-	protected abstract String getLimitedResultsStatement() throws SQLException;
 
 	protected abstract Connection getConnection() throws SQLException;
 }

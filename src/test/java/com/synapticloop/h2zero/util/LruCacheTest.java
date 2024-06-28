@@ -2,7 +2,7 @@ package com.synapticloop.h2zero.util;
 
 import static org.junit.Assert.*;
 
-import com.synapticloop.h2zero.util.LruCache;
+import com.synapticloop.h2zero.generator.util.LruCache;
 import org.junit.Before;
 import org.junit.Test;
 

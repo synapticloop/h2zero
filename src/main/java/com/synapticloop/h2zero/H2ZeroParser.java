@@ -18,16 +18,16 @@ package com.synapticloop.h2zero;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.annotation.H2ZeroValidator;
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.extension.Extension;
-import com.synapticloop.h2zero.model.Database;
-import com.synapticloop.h2zero.model.Options;
-import com.synapticloop.h2zero.model.util.JSONKeyConstants;
-import com.synapticloop.h2zero.util.SimpleLogger;
-import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
-import com.synapticloop.h2zero.validator.BaseValidator;
-import com.synapticloop.h2zero.validator.bean.Message;
+import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.extension.Extension;
+import com.synapticloop.h2zero.generator.model.Database;
+import com.synapticloop.h2zero.generator.model.Options;
+import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
+import com.synapticloop.h2zero.generator.validator.BaseValidator;
+import com.synapticloop.h2zero.generator.validator.bean.Message;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

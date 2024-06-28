@@ -1,0 +1,66 @@
+{
+  "options": {
+    "database": "sqlite3",
+    "generators": [
+      "java",
+      "sql",
+      "reports",
+      "tests"
+    ],
+    "output": {
+      "code": "src/test/java/",
+      "resources": "src/test/resources/"
+    }
+  },
+  "database": {
+    "schema": "book",
+    "package": "com.synapticloop.book.h2zero.sqlite3",
+	  "tables": [
+			{
+				"name": "user_type",
+				"comments": [
+					"This is the user type table, which is a constant-generated table",
+					"for all the user types.  This enables quick and easy lookups from",
+					"within the code for values that are referenced, but do not change."
+				],
+				"fields": [
+					{ "name": "id_user_type", "type": "bigint", "nullable": false, "primary": true },
+					{ "name": "nm_user_type", "type": "varchar", "length": "32", "nullable": false }
+				],
+				"constants": [
+					{ "name": "NORMAL", "values": [ 1, "normal" ] },
+					{ "name": "SPECIAL", "values": [ 2, "special" ] },
+					{ "name": "ADMIN", "values": [ 3, "admin" ] },
+					{ "name": "SUPER_ADMIN", "values": [ 4, "super admin" ] }
+				]
+			},
+	    {
+	      "name": "user",
+	      "fields": [
+					{ "name": "id_user", "type": "bigint", "nullable": false, "primary": true },
+					{ "name": "id_user_type", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user_type.id_user_type" },
+					{ "name": "txt_address_email", "type": "varchar", "length": "256", "nullable": false, "unique": true, "index": true },
+					{ "name": "nm_user", "type": "varchar", "length": "64", "nullable": false },
+					{ "name": "num_age", "type": "int", "nullable": false },
+					{ "name": "fl_is_active", "type": "boolean", "nullable": true, "default": "'1'", "index": true },
+					{ "name": "dtm_signup", "type": "datetime", "nullable": true, "populate": false }
+	      ]
+	    },
+	    {
+	      "name": "pet",
+	      "fields": [
+					{ "name": "id_pet", "type": "bigint", "nullable": false, "primary": true },
+					{ "name": "id_user", "type": "bigint", "nullable": false, "index": true, "foreignKey": "user.id_user" },
+					{ "name": "nm_pet", "type": "varchar", "length": "64", "nullable": false, "unique": true },
+					{ "name": "dt_birthday", "type": "datetime", "nullable": true}
+	      ],
+	      "fieldFinders": [
+	        { "nm_pet": "multiple" },
+	        { "id_user": "multiple" },
+	        { "id_user,nm_pet": "multiple" },
+	        { "user.nm_user,nm_pet": "multiple" }
+	      ]
+	    }
+	  ]
+	}
+}

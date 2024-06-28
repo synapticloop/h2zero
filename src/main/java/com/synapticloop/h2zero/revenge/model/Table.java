@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.synapticloop.h2zero.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
 
 public class Table {
 	private static final String SQL_SELECT_COLUMNS = "select * from COLUMNS where TABLE_SCHEMA = ? and TABLE_NAME = ? order by ORDINAL_POSITION asc";

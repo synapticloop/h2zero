@@ -2,7 +2,7 @@ package com.synapticloop.h2zero.model.field.validator;
 
 import static org.junit.Assert.*;
 
-import com.synapticloop.h2zero.model.field.validator.ValidatorEmail;
+import com.synapticloop.h2zero.generator.model.field.validator.ValidatorEmail;
 import org.junit.Before;
 import org.junit.Test;
 

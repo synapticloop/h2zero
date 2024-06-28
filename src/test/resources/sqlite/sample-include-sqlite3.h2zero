@@ -51,7 +51,7 @@
 
 
 	"views": [
-		{ "include": "../common/view_pet.json" },
+		{ "include": "../common/user_user_type.json" },
 	],
 }
 }

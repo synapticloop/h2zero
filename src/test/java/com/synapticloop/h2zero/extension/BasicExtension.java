@@ -1,9 +1,10 @@
 package com.synapticloop.h2zero.extension;
 
+import com.synapticloop.h2zero.generator.extension.Extension;
 import org.json.JSONObject;
-import com.synapticloop.h2zero.model.Database;
-import com.synapticloop.h2zero.model.Options;
-import com.synapticloop.h2zero.validator.BaseValidator;
+import com.synapticloop.h2zero.generator.model.Database;
+import com.synapticloop.h2zero.generator.model.Options;
+import com.synapticloop.h2zero.generator.validator.BaseValidator;
 import com.synapticloop.h2zero.validator.BasicValidator;
 import com.synapticloop.templar.Parser;
 import com.synapticloop.templar.exception.ParseException;

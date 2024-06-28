@@ -4,10 +4,9 @@ package com.synapticloop.sample.h2zero.mysql.finder.bean;
 //          with the use of synapticloop templar templating language
 //            (/java/finder/java-create-select-clause-bean.templar)
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
-import com.synapticloop.h2zero.util.XmlHelper;
+import com.synapticloop.h2zero.generator.util.XmlHelper;
 
 /**
  * <p>This is the generated bean for the selectClause finder from</p>

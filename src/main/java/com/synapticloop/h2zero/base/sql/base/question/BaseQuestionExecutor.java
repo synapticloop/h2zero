@@ -101,7 +101,5 @@ public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
 		return (null);
 	}
 
-	protected abstract String getLimitedResultsStatement() throws SQLException;
-
 	protected abstract Connection getConnection() throws SQLException;
 }

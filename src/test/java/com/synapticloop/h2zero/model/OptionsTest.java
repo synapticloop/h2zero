@@ -1,7 +1,8 @@
 package com.synapticloop.h2zero.model;
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.extension.Extension;
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.extension.Extension;
+import com.synapticloop.h2zero.generator.model.Options;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;

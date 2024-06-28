@@ -4,21 +4,29 @@ package com.synapticloop.sample.h2zero.mariadb.model;
 //          with the use of synapticloop templar templating language
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
-import com.synapticloop.h2zero.base.model.ModelBaseHelper;
-import com.synapticloop.h2zero.base.model.mariadb.ModelBase;
-import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
-import com.synapticloop.h2zero.util.XmlHelper;
-import com.synapticloop.sample.h2zero.mariadb.finder.UserFinder;
-import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
 import com.synapticloop.sample.h2zero.mariadb.question.UserTypeQuestion;
-import org.json.JSONObject;
+import com.synapticloop.h2zero.base.validator.*;
+import com.synapticloop.h2zero.base.model.mariadb.ModelBase;
+import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Timestamp;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import org.json.JSONObject;
+import com.synapticloop.h2zero.generator.util.XmlHelper;
+
+import com.synapticloop.h2zero.base.model.ModelBaseHelper;
+import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
+
+import com.synapticloop.sample.h2zero.mariadb.finder.UserFinder;
 
 
 /**
@@ -580,7 +588,10 @@ public class User extends ModelBase {
 	public Long getIdUser() {updateHitCount(1); return(this.idUser); }
 
 	/**
-	 * <p>Set the id_user value.</p>
+	 * <p>Set the <code>id_user</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -600,7 +611,10 @@ public class User extends ModelBase {
 	public Long getIdUserType() {updateHitCount(2); return(this.idUserType); }
 
 	/**
-	 * <p>Set the id_user_type value.</p>
+	 * <p>Set the <code>id_user_type</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -620,7 +634,10 @@ public class User extends ModelBase {
 	public Boolean getFlIsAlive() {updateHitCount(3); return(this.flIsAlive); }
 
 	/**
-	 * <p>Set the fl_is_alive value.</p>
+	 * <p>Set the <code>fl_is_alive</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -640,7 +657,10 @@ public class User extends ModelBase {
 	public Integer getNumAge() {updateHitCount(4); if(!isHydrated) { hydrateSilent(); this.isHydrated = true; } return(this.numAge); }
 
 	/**
-	 * <p>Set the num_age value.</p>
+	 * <p>Set the <code>num_age</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -660,7 +680,10 @@ public class User extends ModelBase {
 	public String getNmUsername() {updateHitCount(5); return(this.nmUsername); }
 
 	/**
-	 * <p>Set the nm_username value.</p>
+	 * <p>Set the <code>nm_username</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -680,7 +703,10 @@ public class User extends ModelBase {
 	public String getTxtAddressEmail() {updateHitCount(6); return(this.txtAddressEmail); }
 
 	/**
-	 * <p>Set the txt_address_email value.</p>
+	 * <p>Set the <code>txt_address_email</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -700,7 +726,10 @@ public class User extends ModelBase {
 	public String getTxtPassword() {updateHitCount(7); return(this.txtPassword); }
 
 	/**
-	 * <p>Set the txt_password value.</p>
+	 * <p>Set the <code>txt_password</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -720,7 +749,10 @@ public class User extends ModelBase {
 	public Timestamp getDtmSignup() {updateHitCount(8); if(!isHydrated) { hydrateSilent(); this.isHydrated = true; } return(this.dtmSignup); }
 
 	/**
-	 * <p>Set the dtm_signup value.</p>
+	 * <p>Set the <code>dtm_signup</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>

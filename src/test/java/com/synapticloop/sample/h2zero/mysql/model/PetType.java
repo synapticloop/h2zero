@@ -10,16 +10,15 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.mysql.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import com.synapticloop.h2zero.util.XmlHelper;
+import com.synapticloop.h2zero.generator.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
@@ -370,7 +369,10 @@ public class PetType extends ModelBase {
 	public Long getIdPetType() {updateHitCount(1); return(this.idPetType); }
 
 	/**
-	 * <p>Set the id_pet_type value.</p>
+	 * <p>Set the <code>id_pet_type</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -390,7 +392,10 @@ public class PetType extends ModelBase {
 	public String getNmPetType() {updateHitCount(2); return(this.nmPetType); }
 
 	/**
-	 * <p>Set the nm_pet_type value.</p>
+	 * <p>Set the <code>nm_pet_type</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>
@@ -410,7 +415,10 @@ public class PetType extends ModelBase {
 	public String getTxtDescPetType() {updateHitCount(3); return(this.txtDescPetType); }
 
 	/**
-	 * <p>Set the txt_desc_pet_type value.</p>
+	 * <p>Set the <code>txt_desc_pet_type</code> value setting the 'isDirty' flag
+	 * if the value has changed.  The 'isDirty' flag is used when the model is
+	 * updated - and the update call will be ignored if the 'isDirty' flag is
+	 * not set.</p>
 	 * 
 	 * <p>If the field value has the same value as the passed in parameter, then 
 	 * nothing will be done.</p>

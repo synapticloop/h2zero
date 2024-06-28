@@ -4,17 +4,8 @@ package com.synapticloop.sample.h2zero.mariadb.deleter;
 //    with the use of synapticloop templar templating language
 //         (/java/deleter/java-create-deleter.templar)
 
-import java.sql.Connection;
-import java.sql.Timestamp;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.*;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.ArrayList;
-import com.synapticloop.h2zero.util.LruCache;
+import com.synapticloop.h2zero.generator.util.LruCache;
 
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 import com.synapticloop.h2zero.base.sql.limitoffset.Deleter;
 
 

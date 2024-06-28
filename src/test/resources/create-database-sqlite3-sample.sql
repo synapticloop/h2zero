@@ -173,5 +173,5 @@ create table all_types (
 
 drop view if exists user_user_type;
 
-create view user_user_type as  select  u.nm_username,  u.id_user,  ut.nm_user_type from  user u,  user_type ut  where  u.id_user_type = ut.id_user_type ;
+create view user_user_type as select    u.nm_username,    u.id_user,    ut.nm_user_type from    user u,    user_type ut where    u.id_user_type = ut.id_user_type ;
 

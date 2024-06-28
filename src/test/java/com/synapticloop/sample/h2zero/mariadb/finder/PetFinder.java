@@ -4,19 +4,13 @@ package com.synapticloop.sample.h2zero.mariadb.finder;
 //    with the use of synapticloop templar templating language
 //           (/java/finder/java-create-finder.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
-import java.sql.Blob;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
-import com.synapticloop.h2zero.util.LruCache;
 
 
 import org.slf4j.Logger;

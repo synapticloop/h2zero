@@ -18,7 +18,7 @@ package com.synapticloop.h2zero.base.sql.base.finder;
  */
 
 import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
-import com.synapticloop.h2zero.base.sql.BaseSQLExecutor;
+import com.synapticloop.h2zero.base.sql.BaseSQLLimitedExecutor;
 import org.slf4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -34,7 +34,7 @@ import java.util.function.Function;
  * @param <T> The type of result to return, either as a single object, or a
  *          list of results
  */
-public abstract class BaseFinderExecutor<T> extends BaseSQLExecutor {
+public abstract class BaseFinderExecutor<T> extends BaseSQLLimitedExecutor {
 	protected final Function<ResultSet, List<T>> resultsFunction;
 
 	/**
@@ -87,7 +87,7 @@ public abstract class BaseFinderExecutor<T> extends BaseSQLExecutor {
 				hasProvidedConnection = false;
 			}
 
-			preparedStatement = prepareStatement(connection, sqlStatement + getLimitedResultsStatement());
+			preparedStatement = prepareStatement(connection, sqlStatement);
 
 			// finally execute the statement
 			resultSet = preparedStatement.executeQuery();

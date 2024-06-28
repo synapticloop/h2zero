@@ -4,29 +4,12 @@ package com.synapticloop.sample.h2zero.sqlite3.upserter;
 //          with the use of synapticloop templar templating language
 //               (/java/upserter/java-create-upserter.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.ArrayList;
-
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import com.synapticloop.h2zero.util.LruCache;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-import com.synapticloop.sample.h2zero.sqlite3.finder.bean.UserFindNmUserDtmSignupBean;
-import com.synapticloop.sample.h2zero.sqlite3.finder.bean.UserFindGroupNumAgeBean;
-
-import com.synapticloop.sample.h2zero.sqlite3.model.User;
 
 public class UserUpserter {
 	// the binder is unused in code, but will generate compile problems if this 

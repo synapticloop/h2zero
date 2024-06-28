@@ -29,6 +29,53 @@ import com.synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
 	{endif}
 {endloop}
 
+/**{\n}
+ * <p>This is the model for the <code>{view.javaClassName}</code> which maps to the <code>{view.name}</code> database view.</p>{\n}
+ * {\n}
+ * <p>This model maps all of the fields from the database as defined in the{\n}
+ * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>{\n}
+ * {\n}
+ * <p><strong>NOTE:</strong> This is a view which cannot be changed and no CRUD methods are available.</p>{\n}
+ * {\n}
+ * <p>This view was created with the following SQL select statement:</p>{\n}
+ * <pre>{\n}{loop view.asClauseLines as asClauseLine}
+ * {asClauseLine}{\n}{endloop}</pre>{\n}
+ * {\n}
+ * <p>With the following fields defined:</p>{\n}
+ * {\n}
+ * <table>{\n}
+ *   <thead>{\n}
+ *     <tr>{\n}
+ *       <th>Field name</th>{\n}
+ *       <th>SQL type</th>{\n}
+ *       <th>Field length<br />(min:max)</th>{\n}
+ *       <th>Nullable?</th>{\n}
+ *       <th>Keys</th>{\n}
+ *       <th>Comments</th>{\n}
+ *     </tr>{\n}
+ *   </thead>{\n}
+ *   <tbody>{\n}
+
+{loop view.fields as field}
+ *     <tr>{\n}
+ *       <td><code>{field.name}</code></td>{\n}
+ *       <td>{field.type}</td>{\n}
+ *       <td>{if !fn:=[field.maxLength, "0"]}({field.minLength}:{field.maxLength}){else} -- {endif}</td>{\n}
+ *       <td>{field.nullable}</td>{\n}
+ *       <td>{if field.primary}<code>primary</code>{endif}
+{if field.unique} <primary>unique</primary>{endif}
+{if fn:notNull[field.foreignKeyTable]} <code>foreign -> {field.foreignKeyTable}.{field.foreignKeyField}</code>{endif}</td>{\n}
+ *       <td>{if fn:null[field.comment]} -- {else}{field.comment}{endif}</td>{\n}
+ *     </tr>{\n}
+{endloop}
+
+ *   </tbody>{\n}
+ * </table>{\n}
+ * {\n}
+ * @author synapticloop h2zero{\n}
+ * {\n}
+ * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>{\n}
+ */{\n}
 public class {view.javaClassName} extends ViewBase {{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}
 {\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
@@ -118,6 +165,11 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 {\n}
 
 {loop view.fields as field}
+		{\t}/**{\n}
+		{\t} * <p>Return the value of the {field.name}, updating the hit count for this field.</p>{\n}
+		{\t} * {\n}
+		{\t} * @return the value of the {field.name} which may {if !field.nullable}NOT {endif}be null.{\n}
+		{\t} */{\n}
 	{\t}public {field.javaType} get{field.javaAccessorName}() {{ return(this.{field.javaName}); }{\n}{\n}
 {endloop}
 

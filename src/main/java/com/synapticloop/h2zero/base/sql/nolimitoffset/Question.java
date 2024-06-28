@@ -29,10 +29,6 @@ public class Question extends BaseQuestionExecutor {
 		super(logger, sqlStatement, parameters);
 	}
 
-	@Override protected String getLimitedResultsStatement() throws SQLException {
-		return("");
-	}
-
 	@Override protected Connection getConnection() throws SQLException {
 		return(ConnectionManager.getConnection());
 	}
