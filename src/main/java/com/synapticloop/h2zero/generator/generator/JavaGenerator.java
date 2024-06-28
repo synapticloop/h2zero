@@ -19,7 +19,6 @@ package com.synapticloop.h2zero.generator.generator;
  */
 
 import com.synapticloop.h2zero.generator.model.*;
-import com.synapticloop.h2zero.model.*;
 import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
 import com.synapticloop.templar.Parser;
