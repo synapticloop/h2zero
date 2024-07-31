@@ -5,7 +5,7 @@ package com.synapticloop.sample.h2zero.mysql.view;
 //              (/java/model/java-create-view-model.templar)
 
 import com.synapticloop.h2zero.base.view.ViewBase;
-import com.synapticloop.h2zero.generator.util.XmlHelper;
+import com.synapticloop.h2zero.util.XmlHelper;
 
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 import org.json.JSONObject;
@@ -35,8 +35,7 @@ import com.synapticloop.sample.h2zero.mysql.model.User;
  * u.id_user_type = ut.id_user_type
 </pre>
  * 
- * With the following fields defined
- * 
+ * <p>With the following fields defined:</p>
  * 
  * <table>
  *   <thead>

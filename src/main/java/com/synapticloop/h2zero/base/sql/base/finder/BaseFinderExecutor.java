@@ -123,5 +123,5 @@ public abstract class BaseFinderExecutor<T> extends BaseSQLLimitedExecutor {
 		return(new ArrayList<T>());
 	}
 
-	protected abstract String getLimitedResultsStatement() throws SQLException;
+	protected abstract String getLimitedResultsStatement();
 }

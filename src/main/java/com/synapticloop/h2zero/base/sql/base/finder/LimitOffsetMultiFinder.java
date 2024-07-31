@@ -20,7 +20,6 @@ package com.synapticloop.h2zero.base.sql.base.finder;
 import org.slf4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Function;
 
@@ -46,7 +45,7 @@ public abstract class LimitOffsetMultiFinder<T> extends BaseMultiFinderExecutor<
 		super(logger, sqlStatement, resultsFunction, parameters);
 	}
 
-	@Override protected String getLimitedResultsStatement() throws SQLException {
+	@Override protected String getLimitedResultsStatement() {
 		return(super.getLimitOffsetStatement());
 	}
 }

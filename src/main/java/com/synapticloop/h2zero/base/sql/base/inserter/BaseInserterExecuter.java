@@ -3,7 +3,7 @@ package com.synapticloop.h2zero.base.sql.base.inserter;
 import com.synapticloop.h2zero.base.sql.BaseSQLExecutor;
 import org.slf4j.Logger;
 
-public abstract class BaseInserterExecuter extends BaseSQLExecutor {
+public abstract class BaseInserterExecuter<T> extends BaseSQLExecutor<Integer> {
 
 	/**
 	 * <p>This is the base SQL executor that executes the SQL statement.</p>

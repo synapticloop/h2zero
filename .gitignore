@@ -97,3 +97,4 @@ src/test/resources/application.postgresql.sample.properties
 src/test/resources/application.sqlserver.sample.properties
 
 sample.db
+/h2zero-test.db

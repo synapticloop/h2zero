@@ -26,7 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
+public abstract class BaseQuestionExecutor<T> extends BaseSQLExecutor<Boolean> {
 	public BaseQuestionExecutor(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
@@ -68,6 +68,7 @@ public abstract class BaseQuestionExecutor extends BaseSQLExecutor {
 			// finally execute the statement
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
+
 				return(resultSet.getBoolean(1));
 			} else {
 				throw new SQLException("Result set returned no rows, expecting exactly one.");

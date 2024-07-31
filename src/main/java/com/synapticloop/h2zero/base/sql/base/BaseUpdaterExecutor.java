@@ -53,7 +53,7 @@ public abstract class BaseUpdaterExecutor extends BaseSQLLimitedExecutor {
 	 * @return The number of rows that were updated
 	 * @throws SQLException          If there was an error executing the SQL statement
 	 */
-	protected int executeInternal() throws SQLException {
+	protected Integer executeInternal() throws SQLException {
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
 
@@ -129,7 +129,7 @@ public abstract class BaseUpdaterExecutor extends BaseSQLLimitedExecutor {
 	 *
 	 * @throws SQLException If there was an error executing the SQL statement
 	 */
-	public int execute() throws SQLException {
+	public Integer execute() throws SQLException {
 		return(executeInternal());
 	}
 
@@ -139,7 +139,7 @@ public abstract class BaseUpdaterExecutor extends BaseSQLLimitedExecutor {
 	 *
 	 * @return List the list of object, or an empty list if none were found.
 	 */
-	public int executeSilent() {
+	public Integer executeSilent() {
 		return(executeSilentInternal());
 	}
 
@@ -149,10 +149,8 @@ public abstract class BaseUpdaterExecutor extends BaseSQLLimitedExecutor {
 	 *
 	 * @return The limited results statement for the SQL dialect
 	 *
-	 * @throws SQLException if there was an error setting the limit or offset of
-	 *     the statement
 	 */
-	protected abstract String getLimitedResultsStatement() throws SQLException;
+	protected abstract String getLimitedResultsStatement();
 
 	protected abstract Connection getConnection() throws SQLException;
 }

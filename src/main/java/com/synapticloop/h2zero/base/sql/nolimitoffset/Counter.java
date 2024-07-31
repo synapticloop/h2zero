@@ -24,20 +24,16 @@ import org.slf4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Counter extends BaseCounterExecutor {
+public class Counter<T> extends BaseCounterExecutor<Integer> {
 	public Counter(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
-	}
-
-	@Override protected String getLimitedResultsStatement() throws SQLException {
-		return("");
 	}
 
 	@Override protected Connection getConnection() throws SQLException {
 		return(ConnectionManager.getConnection());
 	}
 
-	public Counter withConnection(Connection connection) {
+	public Counter<T> withConnection(Connection connection) {
 		this.connection = connection;
 		return(this);
 	}
@@ -47,7 +43,7 @@ public class Counter extends BaseCounterExecutor {
 	}
 
 	public Integer executeSilent() {
-		return(executeSilentInternal());
+		return (Integer) executeSilentInternal();
 	}
 
 }

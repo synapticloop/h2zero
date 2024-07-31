@@ -49,7 +49,7 @@ public abstract class NoLimitDeleter extends BaseDeleterNoLimitExecutor {
 		return(this);
 	}
 
-	@Override protected String getLimitedResultsStatement() throws SQLException {
+	@Override protected String getLimitedResultsStatement() {
 		return(super.getLimitOffsetStatement());
 	}
 

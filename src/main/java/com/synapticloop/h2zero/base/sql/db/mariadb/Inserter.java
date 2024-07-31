@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Inserter extends BaseInserterExecuter {
+public class Inserter extends BaseInserterExecuter<Integer> {
 	/**
 	 * <p>This is the base SQL executor that executes the SQL statement.</p>
 	 *
@@ -19,11 +19,11 @@ public class Inserter extends BaseInserterExecuter {
 		super(logger, sqlStatement, parameters);
 	}
 
-	@Override protected String getLimitedResultsStatement() throws SQLException {
-		return("");
-	}
-
 	@Override protected Connection getConnection() throws SQLException {
 		return(ConnectionManager.getConnection());
+	}
+
+	@Override protected Integer executeInternal() throws SQLException {
+		return null;
 	}
 }

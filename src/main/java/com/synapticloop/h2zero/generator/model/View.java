@@ -112,7 +112,7 @@ public class View extends BaseSchemaObject {
 			if(null != type) {
 				String firstUpper = NamingHelper.getFirstUpper(type);
 				try {
-					Class forName = Class.forName("com.synapticloop.h2zero.model.field." + firstUpper + "Field");
+					Class forName = Class.forName("com.synapticloop.h2zero.generator.model.field." + firstUpper + "Field");
 					Constructor constructor = forName.getConstructor(JSONObject.class);
 					BaseField baseField = (BaseField)constructor.newInstance(fieldObject);
 

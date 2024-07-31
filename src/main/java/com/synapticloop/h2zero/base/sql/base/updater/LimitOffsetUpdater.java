@@ -28,7 +28,7 @@ public abstract class LimitOffsetUpdater extends BaseDeleterExecutor {
 		super(logger, sqlStatement, parameters);
 	}
 
-	@Override protected String getLimitedResultsStatement() throws SQLException {
+	@Override protected String getLimitedResultsStatement() {
 		return(super.getLimitOffsetStatement());
 	}
 

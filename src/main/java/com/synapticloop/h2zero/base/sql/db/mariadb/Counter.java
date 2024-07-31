@@ -42,8 +42,8 @@ public class Counter extends BaseCounterExecutor<Integer> {
 		return(executeInternal());
 	}
 
-	public Integer executeSilent() throws SQLException {
-		return(executeInternalSilent());
+	public Integer executeSilent() {
+		return(executeSilentInternal());
 	}
 
 }
