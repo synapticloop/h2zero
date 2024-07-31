@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class LimitOffsetUpdater extends BaseDeleterExecutor {
+public abstract class LimitOffsetUpdater<T> extends BaseDeleterExecutor<Integer> {
 	public LimitOffsetUpdater(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}

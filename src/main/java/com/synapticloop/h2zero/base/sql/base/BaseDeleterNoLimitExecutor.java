@@ -26,7 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class BaseDeleterNoLimitExecutor extends BaseSQLLimitedExecutor {
+public abstract class BaseDeleterNoLimitExecutor<T> extends BaseSQLLimitedExecutor<Integer> {
 	/**
 	 * Instantiate an Updater
 	 *
@@ -112,7 +112,7 @@ public abstract class BaseDeleterNoLimitExecutor extends BaseSQLLimitedExecutor 
 	 *
 	 * @return The finder with the set connection
 	 */
-	public BaseDeleterNoLimitExecutor withConnection(Connection connection) {
+	public BaseDeleterNoLimitExecutor<T> withConnection(Connection connection) {
 		this.connection = connection;
 		return(this);
 	}

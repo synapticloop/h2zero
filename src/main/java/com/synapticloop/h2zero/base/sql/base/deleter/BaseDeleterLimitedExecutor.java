@@ -96,7 +96,7 @@ public abstract class BaseDeleterLimitedExecutor<T> extends BaseDeleterExecutor<
 		return(this);
 	}
 
-	public BaseDeleterLimitedExecutor withLimit(Integer limit) {
+	public BaseDeleterLimitedExecutor<T> withLimit(Integer limit) {
 		this.limit = limit;
 		return(this);
 	}

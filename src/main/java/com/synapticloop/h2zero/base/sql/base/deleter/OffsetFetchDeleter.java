@@ -19,7 +19,7 @@ package com.synapticloop.h2zero.base.sql.base.deleter;
 
 import org.slf4j.Logger;
 
-public abstract class OffsetFetchDeleter extends BaseDeleterExecutor {
+public abstract class OffsetFetchDeleter<T> extends BaseDeleterExecutor<Integer> {
 	public OffsetFetchDeleter(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}

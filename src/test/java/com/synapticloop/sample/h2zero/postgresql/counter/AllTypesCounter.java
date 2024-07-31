@@ -87,13 +87,13 @@ public class AllTypesCounter {
 	private AllTypesCounter() {}
 
 	/**
-	 * Find the count of all AllTypes objects
+	 * <p>Find the count of all AllTypes objects</p>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */
-	public static Counter countAll() {
+	public static Counter<Integer> countAll() {
 	return(
-		new Counter(
+		new Counter<>(
 				LOGGER,
 				SQL_BUILTIN_COUNT_ALL));
 	}

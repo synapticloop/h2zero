@@ -87,13 +87,13 @@ public class UserTitleCounter {
 	private UserTitleCounter() {}
 
 	/**
-	 * Find the count of all UserTitle objects
+	 * <p>Find the count of all UserTitle objects</p>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */
-	public static Counter countAll() {
+	public static Counter<Integer> countAll() {
 	return(
-		new Counter(
+		new Counter<>(
 				LOGGER,
 				SQL_BUILTIN_COUNT_ALL));
 	}

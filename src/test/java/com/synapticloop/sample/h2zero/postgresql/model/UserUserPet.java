@@ -22,7 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import com.synapticloop.h2zero.util.XmlHelper;
+import com.synapticloop.h2zero.base.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
@@ -409,7 +409,7 @@ public class UserUserPet extends ModelBase {
 	 * <p>If the primary key value differs in value to the passed in parameter, then 
 	 * the field will be set and this model will be marked as 'dirty'.</p>
 	 * 
-	 * @param idUser The primary key field to update
+	 * @param idUserUserPet The primary key field to update
 	 */
 	public void setPrimaryKey(Long idUserUserPet) {if(isDifferent(this.idUserUserPet, idUserUserPet)) { this.idUserUserPet = idUserUserPet; this.isDirty = true;}}
 

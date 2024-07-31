@@ -99,13 +99,13 @@ public class UserCounter {
 	private UserCounter() {}
 
 	/**
-	 * Find the count of all User objects
+	 * <p>Find the count of all User objects</p>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */
-	public static Counter countAll() {
+	public static Counter<Integer> countAll() {
 	return(
-		new Counter(
+		new Counter<>(
 				LOGGER,
 				SQL_BUILTIN_COUNT_ALL));
 	}
@@ -138,9 +138,9 @@ public class UserCounter {
 	 * @return The counter object (optionally setting a connection) ready for 
 	 *    and execution.
 	 */
-	public static Counter countNumberOfUsers() {
+	public static Counter<Integer> countNumberOfUsers() {
 		return(
-				new Counter(
+				new Counter<>(
 						LOGGER, 
 						SQL_COUNT_NUMBER_OF_USERS, 
 						new Object[] {  } ));
@@ -176,9 +176,9 @@ public class UserCounter {
 	 * @return The counter object (optionally setting a connection) ready for 
 	 *    and execution.
 	 */
-	public static Counter countNumberOfUsersOverAge(Integer numAge) {
+	public static Counter<Integer> countNumberOfUsersOverAge(Integer numAge) {
 		return(
-				new Counter(
+				new Counter<>(
 						LOGGER, 
 						SQL_COUNT_NUMBER_OF_USERS_OVER_AGE, 
 						new Object[] { numAge } ));
@@ -215,9 +215,9 @@ public class UserCounter {
 	 * @return The counter object (optionally setting a connection) ready for 
 	 *    and execution.
 	 */
-	public static Counter countNumberOfUsersBetweenAge(Integer numAgeFrom, Integer numAgeTo) {
+	public static Counter<Integer> countNumberOfUsersBetweenAge(Integer numAgeFrom, Integer numAgeTo) {
 		return(
-				new Counter(
+				new Counter<>(
 						LOGGER, 
 						SQL_COUNT_NUMBER_OF_USERS_BETWEEN_AGE, 
 						new Object[] { numAgeFrom, numAgeTo } ));
@@ -254,9 +254,9 @@ public class UserCounter {
 	 * @return The counter object (optionally setting a connection) ready for 
 	 *    and execution.
 	 */
-	public static Counter countUsersInAges(List<Integer> numAgeList) {
+	public static Counter<Integer> countUsersInAges(List<Integer> numAgeList) {
 		return(
-				new Counter(
+				new Counter<>(
 						LOGGER, 
 						SQL_COUNT_USERS_IN_AGES, 
 						new Object[] { numAgeList } ));

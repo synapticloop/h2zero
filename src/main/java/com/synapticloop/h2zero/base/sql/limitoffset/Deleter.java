@@ -24,12 +24,12 @@ import org.slf4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Deleter extends LimitOffsetDeleter {
+public class Deleter<T> extends LimitOffsetDeleter<Integer> {
 	public Deleter(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
 
-	public LimitOffsetDeleter withConnection(Connection connection) {
+	public LimitOffsetDeleter<Integer> withConnection(Connection connection) {
 		this.connection = connection;
 		return(this);
 	}

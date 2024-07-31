@@ -38,9 +38,9 @@ import {database.package}.model.util.Constants;{\n}
 	{endloop}
  * {\n}
 {endif}
- * This class contains the methods to insert new rows into the: {\n}
+ * <p>This class contains the methods to insert new rows into the: {\n}
  *   <code>{database.schema}.{table.name}</code>{\n}
- * table.  The fields that are available are as follows:{\n}
+ * table.  The fields that are available are as follows:</p>{\n}
  * {\n}
  * <ul>{\n}
 {loop table.fields as field}
@@ -107,7 +107,7 @@ public class {table.javaClassName}Inserter {{{\n}
 				INSERTER WITH DEFAULT VALUES
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 {\t}/**{\n}
-{\t} * Insert a new {table.javaClassName} into the database utilising the passed in connection.{\n}
+{\t} * <p>Insert a new <code>{table.javaClassName}</code> into the database utilising the passed in connection.</p>{\n}
 {\t} * {\n}
 {\t} * @param connection the connection to use for the database, this __MUST__ be {\n}
 {\t} *   closed by the calling function.{\n}
@@ -142,8 +142,8 @@ public class {table.javaClassName}Inserter {{{\n}
 
 {if table.hasNullableFields}
 	{\t}/**{\n}
-	{\t} * Insert a new {table.javaClassName} into the database utilising the passed in connection {\n}
-	{\t} * with only the fields that are allowed to be not null.{\n}
+	{\t} * <p>Insert a new {table.javaClassName} into the database utilising the passed in connection {\n}
+	{\t} * with only the fields that are allowed to be not null.</p>{\n}
 	{\t} * {\n}
 	{\t} * @param connection the connection to use for the database, this __MUST__ be {\n}
 	{\t} *   closed by the calling function.{\n}
@@ -187,8 +187,8 @@ public class {table.javaClassName}Inserter {{{\n}
 
 
 {\t}/**{\n}
-{\t} * Insert a new {table.javaClassName} into the database a new connection will be retrieved {\n}
-{\t} * from the pool, used and then closed.{\n}
+{\t} * <p>Insert a new {table.javaClassName} into the database a new connection will be retrieved {\n}
+{\t} * from the pool, used and then closed.</p>{\n}
 {\t} * {\n}
 	{loop table.fields as field}
 		{\t} * @param {field.javaName} {if fn:notNull[field.comment]}{comment}{else} maps to {field.name}{endif}{\n}
@@ -215,8 +215,8 @@ public class {table.javaClassName}Inserter {{{\n}
 
 {if table.hasNullableFields}
 	{\t}/**{\n}
-	{\t} * Insert a new {table.javaClassName} into the database a new connection will be retrieved {\n}
-	{\t} * from the pool, used and then closed. This is for fields which have a nullable allowed default{\n}
+	{\t} * <p>Insert a new {table.javaClassName} into the database a new connection will be retrieved {\n}
+	{\t} * from the pool, used and then closed. This is for fields which have a nullable allowed default.</p>{\n}
 	{\t} * {\n}
 		{loop table.nonNullFields as field}
 			{\t} * @param {field.javaName} {if fn:notNull[field.comment]}{comment}{else} maps to {field.name}{endif}{\n}

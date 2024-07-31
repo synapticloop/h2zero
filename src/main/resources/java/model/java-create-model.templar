@@ -41,7 +41,7 @@ package {database.package}.model;{\n}{\n}
 
 {\n}
 import org.json.JSONObject;{\n}
-import com.synapticloop.h2zero.util.XmlHelper;{\n}
+import com.synapticloop.h2zero.base.util.XmlHelper;{\n}
 {\n}
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
@@ -869,7 +869,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 				{\t} * <p>If the primary key value differs in value to the passed in parameter, then {\n}
 				{\t} * the field will be set and this model will be marked as 'dirty'.</p>{\n}
 				{\t} * {\n}
-				{\t} * @param idUser The primary key field to update{\n}
+				{\t} * @param {field.javaName} The primary key field to update{\n}
 				{\t} */{\n}
 				{\t}public void setPrimaryKey({field.javaType} {field.javaName}) {{
 					if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 

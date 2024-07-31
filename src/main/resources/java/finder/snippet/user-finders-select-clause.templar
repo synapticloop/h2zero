@@ -60,8 +60,8 @@
 {loop tableOrView.finders as finder}
 	{if fn:notNull[finder.selectClause]}
 			{\t}/**{\n}
-			{\t} * Return the results as a list of {table.javaClassName}{finder.tagName}Beans, this will be empty if{\n}
-			{\t} * none are found.{\n}
+			{\t} * <p>Return the results as a list of {table.javaClassName}{finder.tagName}Beans, this will be empty if{\n}
+			{\t} * none are found.</p>{\n}
 			{\t} * {\n}
 			{\t} * @param resultSet the results as a list of {table.javaClassName}{finder.tagName}Bean{\n}
 			{\t} * {\n}

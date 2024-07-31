@@ -5,7 +5,7 @@ package com.synapticloop.sample.h2zero.cockroach.view;
 //              (/java/model/java-create-view-model.templar)
 
 import com.synapticloop.h2zero.base.view.ViewBase;
-import com.synapticloop.h2zero.util.XmlHelper;
+import com.synapticloop.h2zero.base.util.XmlHelper;
 
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
 import org.json.JSONObject;

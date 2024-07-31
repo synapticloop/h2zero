@@ -5,7 +5,7 @@ package {database.package}.view;{\n}{\n}
 //              (/java/model/java-create-view-model.templar){\n}{\n}
 
 import com.synapticloop.h2zero.base.view.ViewBase;{\n}
-import com.synapticloop.h2zero.util.XmlHelper;{\n}
+import com.synapticloop.h2zero.base.util.XmlHelper;{\n}
 {\n}
 {if fn:requiresImport[table, "Date"]}import java.sql.Date;{\n}{endif}
 {if fn:requiresImport[table, "Clob"]}import java.sql.Clob;{\n}{endif}

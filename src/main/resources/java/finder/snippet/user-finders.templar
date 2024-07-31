@@ -35,7 +35,7 @@
 	{if fn:null[finder.selectClause]}
 
 		{\t}/**{\n}
-		{\t} * This is the <code>{finder.name}</code> finder.{\n}
+		{\t} * <p>This is the <code>{finder.name}</code> finder.</p>{\n}
 		{\t} * {\n}
 {if fn:true[finder.isAutoFinder]}
 		{\t} * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>{\n}
@@ -43,7 +43,7 @@
 		{\t} * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>{\n}
 {endif}
 		{\t} * {\n}
-		{\t} * <p>Create a {if finder.unique}UniqueFinder{else}MultiFinder{endif}<{tableOrView.javaClassName}> Finder{\n}
+		{\t} * <p>Create a {if finder.unique}UniqueFinder{else}MultiFinder{endif}<{tableOrView.javaClassName}> Finder
 		{\t} * that can be invoked through:</p>{\n}
 		{\t} * {\n}
 		{\t} * <ul>{\n}
@@ -132,8 +132,8 @@
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {\t}/**{\n}
-{\t} * Return the results as a list of {tableOrView.javaClassName}, this will be empty if{\n}
-{\t} * none are found.{\n}
+{\t} * <p>Return the results as a list of {tableOrView.javaClassName}, this will be empty if{\n}
+{\t} * none are found.</p>{\n}
 {\t} * {\n}
 {\t} * @param resultSet the results as a list of {tableOrView.javaClassName}{\n}
 {\t} * {\n}

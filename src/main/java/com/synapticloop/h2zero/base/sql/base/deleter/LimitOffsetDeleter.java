@@ -34,7 +34,7 @@ public abstract class LimitOffsetDeleter<T> extends BaseDeleterExecutor<Integer>
 	 *
 	 * @return the MultiFinder with the offset set
 	 */
-	public BaseDeleterExecutor withOffset(Integer offset) {
+	public LimitOffsetDeleter<T> withOffset(Integer offset) {
 		this.offset = offset;
 		return(this);
 	}

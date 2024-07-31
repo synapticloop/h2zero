@@ -12,7 +12,7 @@ import java.sql.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
-import com.synapticloop.h2zero.generator.util.LruCache;
+import com.synapticloop.h2zero.base.util.LruCache;
 
 import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
 import com.synapticloop.h2zero.base.sql.limitoffset.Deleter;

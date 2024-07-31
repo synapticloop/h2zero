@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
 import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
-import com.synapticloop.h2zero.generator.util.LruCache;
+import com.synapticloop.h2zero.base.util.LruCache;
 
 
 import org.slf4j.Logger;

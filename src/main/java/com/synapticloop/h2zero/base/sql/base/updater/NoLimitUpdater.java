@@ -29,7 +29,7 @@ import java.sql.SQLException;
  * pre-compiled binary with the <code>#define SQLITE_ENABLE_UPDATE_DELETE_LIMIT</code>
  * flag set).
  */
-public abstract class NoLimitUpdater extends BaseDeleterNoLimitExecutor {
+public abstract class NoLimitUpdater<T> extends BaseDeleterNoLimitExecutor<Integer> {
 	public NoLimitUpdater(Logger logger, String sqlStatement, Object... parameters) {
 		super(logger, sqlStatement, parameters);
 	}
@@ -44,7 +44,7 @@ public abstract class NoLimitUpdater extends BaseDeleterNoLimitExecutor {
 	 *
 	 * @return The finder with the set connection
 	 */
-	public NoLimitUpdater withConnection(Connection connection) {
+	public NoLimitUpdater<T> withConnection(Connection connection) {
 		this.connection = connection;
 		return(this);
 	}

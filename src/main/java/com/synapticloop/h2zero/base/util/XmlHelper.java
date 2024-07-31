@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.generator.util;
+package com.synapticloop.h2zero.base.util;
 
 /*
  * Copyright (c) 2012-2024 synapticloop.

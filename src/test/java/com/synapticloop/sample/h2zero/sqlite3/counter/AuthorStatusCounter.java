@@ -87,13 +87,13 @@ public class AuthorStatusCounter {
 	private AuthorStatusCounter() {}
 
 	/**
-	 * Find the count of all AuthorStatus objects
+	 * <p>Find the count of all AuthorStatus objects</p>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */
-	public static Counter countAll() {
+	public static Counter<Integer> countAll() {
 	return(
-		new Counter(
+		new Counter<>(
 				LOGGER,
 				SQL_BUILTIN_COUNT_ALL));
 	}

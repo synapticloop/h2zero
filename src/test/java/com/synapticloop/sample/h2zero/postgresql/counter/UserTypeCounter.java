@@ -87,13 +87,13 @@ public class UserTypeCounter {
 	private UserTypeCounter() {}
 
 	/**
-	 * Find the count of all UserType objects
+	 * <p>Find the count of all UserType objects</p>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */
-	public static Counter countAll() {
+	public static Counter<Integer> countAll() {
 	return(
-		new Counter(
+		new Counter<>(
 				LOGGER,
 				SQL_BUILTIN_COUNT_ALL));
 	}

@@ -100,7 +100,7 @@ public abstract class BaseDeleterExecutor<T> extends BaseSQLLimitedExecutor<Inte
 		return(this);
 	}
 
-	public BaseDeleterExecutor withLimit(Integer limit) {
+	public BaseDeleterExecutor<T> withLimit(Integer limit) {
 		this.limit = limit;
 		return(this);
 	}

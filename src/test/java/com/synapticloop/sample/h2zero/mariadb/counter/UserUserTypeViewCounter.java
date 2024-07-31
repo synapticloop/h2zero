@@ -87,15 +87,15 @@ public class UserUserTypeViewCounter {
 	private UserUserTypeViewCounter() {}
 
 	/**
-	 * Find the count of all UserUserType objects
+	 * <p>Find the count of all UserUserType objects</p>
 	 * 
 	 * @return the count of UserUserType objects
 	 * 
 	 * @throws SQLException if there was an error in the SQL statement
 	 */
-	public static Counter countAll() throws SQLException {
+	public static Counter<Integer> countAll() throws SQLException {
 	return(
-		new Counter(
+		new Counter<>(
 				LOGGER,
 				SQL_BUILTIN_COUNT_ALL));
 	}

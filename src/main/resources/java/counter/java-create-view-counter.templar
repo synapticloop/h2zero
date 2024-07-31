@@ -118,16 +118,16 @@ public class {table.javaClassName}ViewCounter {{{\n}
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {\t}/**{\n}
-{\t} * Find the count of all {table.javaClassName} objects{\n}
+{\t} * <p>Find the count of all {table.javaClassName} objects</p>{\n}
 {\t} * {\n}
 {\t} * @return the count of {table.javaClassName} objects{\n}
 {\t} * {\n}
 {\t} * @throws SQLException if there was an error in the SQL statement{\n}
 {\t} */{\n}
 
-{\t}public static Counter countAll() throws SQLException {{{\n}
+{\t}public static Counter<Integer> countAll() throws SQLException {{{\n}
 {\t}return({\n}
-{\t}{\t}new Counter({\n}
+{\t}{\t}new Counter<>({\n}
 {\t}{\t}{\t}{\t}LOGGER,{\n}
 {\t}{\t}{\t}{\t}SQL_BUILTIN_COUNT_ALL));{\n}
 {\t}}{\n}
@@ -178,11 +178,11 @@ public class {table.javaClassName}ViewCounter {{{\n}
 {\t} *    and execution.{\n}
 {\t} */{\n}
 
-{\t}public static Counter {counter.name}(
+{\t}public static Counter<Integer> {counter.name}(
 	{import classpath:/java/snippet/global/java-method-parameters.templar}
 ) {{{\n}
 {\t}{\t}return({\n}
-{\t}{\t}{\t}{\t}new Counter({\n}
+{\t}{\t}{\t}{\t}new Counter<>({\n}
 {\t}{\t}{\t}{\t}{\t}{\t}LOGGER, {\n}
 {\t}{\t}{\t}{\t}{\t}{\t}SQL_{counter.staticName}, {\n}
 {\t}{\t}{\t}{\t}{\t}{\t}new Object[] {{ {import classpath:/java/snippet/global/java-method-parameters-call.templar} } ));{\n}

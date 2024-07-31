@@ -87,13 +87,13 @@ public class PetCounter {
 	private PetCounter() {}
 
 	/**
-	 * Find the count of all Pet objects
+	 * <p>Find the count of all Pet objects</p>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */
-	public static Counter countAll() {
+	public static Counter<Integer> countAll() {
 	return(
-		new Counter(
+		new Counter<>(
 				LOGGER,
 				SQL_BUILTIN_COUNT_ALL));
 	}

@@ -96,13 +96,13 @@ public class AuthorCounter {
 	private AuthorCounter() {}
 
 	/**
-	 * Find the count of all Author objects
+	 * <p>Find the count of all Author objects</p>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */
-	public static Counter countAll() {
+	public static Counter<Integer> countAll() {
 	return(
-		new Counter(
+		new Counter<>(
 				LOGGER,
 				SQL_BUILTIN_COUNT_ALL));
 	}
@@ -138,9 +138,9 @@ public class AuthorCounter {
 	 * @return The counter object (optionally setting a connection) ready for 
 	 *    and execution.
 	 */
-	public static Counter countAllByFlIsUpdatingNumFollowers(Boolean flIsUpdating, Long numFollowers) {
+	public static Counter<Integer> countAllByFlIsUpdatingNumFollowers(Boolean flIsUpdating, Long numFollowers) {
 		return(
-				new Counter(
+				new Counter<>(
 						LOGGER, 
 						SQL_COUNT_ALL_BY_FL_IS_UPDATING_NUM_FOLLOWERS, 
 						new Object[] { flIsUpdating, numFollowers } ));
@@ -176,9 +176,9 @@ public class AuthorCounter {
 	 * @return The counter object (optionally setting a connection) ready for 
 	 *    and execution.
 	 */
-	public static Counter countAllToBeEvaluated(Timestamp dtmStartedFollowing) {
+	public static Counter<Integer> countAllToBeEvaluated(Timestamp dtmStartedFollowing) {
 		return(
-				new Counter(
+				new Counter<>(
 						LOGGER, 
 						SQL_COUNT_ALL_TO_BE_EVALUATED, 
 						new Object[] { dtmStartedFollowing } ));
@@ -214,9 +214,9 @@ public class AuthorCounter {
 	 * @return The counter object (optionally setting a connection) ready for 
 	 *    and execution.
 	 */
-	public static Counter countByStatus(Long idAuthorStatus) {
+	public static Counter<Integer> countByStatus(Long idAuthorStatus) {
 		return(
-				new Counter(
+				new Counter<>(
 						LOGGER, 
 						SQL_COUNT_BY_STATUS, 
 						new Object[] { idAuthorStatus } ));
