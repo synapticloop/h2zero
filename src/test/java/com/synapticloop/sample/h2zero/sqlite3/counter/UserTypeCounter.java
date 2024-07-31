@@ -87,7 +87,27 @@ public class UserTypeCounter {
 	private UserTypeCounter() {}
 
 	/**
-	 * <p>Find the count of all UserType objects</p>
+	 * <p>Create a counter for the <code>UserType</code> database	 * table that will count all results.</p>
+	 * 
+	 * <p>This will return a Counter object, to execute the counter, either call</p>
+	 * 
+	 * <ul>
+	 *   <li><code>counter.execute();</code> to execute the counter with exceptions thrown</li>
+	 *   <li><code>counter.executeSilent();</code> to execute the counter no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>UserTypeCounter.countAll()
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>UserTypeCounter.findAll()
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */

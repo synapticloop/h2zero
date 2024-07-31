@@ -51,7 +51,7 @@ public class UserUserTypeViewFinder {
 	private UserUserTypeViewFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a UserUserType by its primary key</p>
+	 * <p>Create a Finder that can find a <code>UserUserType</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -62,14 +62,14 @@ public class UserUserTypeViewFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findByPrimaryKey(primaryKey)
+	 * <pre>UserUserTypeFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findByPrimaryKey(primaryKey)
+	 * <pre>UserUserTypeFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -98,20 +98,20 @@ public class UserUserTypeViewFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findAll()
+	 * <pre>UserUserTypeFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findAll()
+	 * <pre>UserUserTypeFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>UserUserType.findAll()
+	 * <pre>UserUserTypeFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -142,8 +142,8 @@ public class UserUserTypeViewFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Return the results as a list of UserUserType, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of UserUserType, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of UserUserType
 	 * 

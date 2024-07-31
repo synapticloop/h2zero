@@ -74,102 +74,177 @@ public class AllTypesUpserter {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByIdAllTypes</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_ID_ALL_TYPES = SQL_SELECT_START + 
 		"""
 			where id_all_types = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestBigint</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_BIGINT = SQL_SELECT_START + 
 		"""
 			where test_bigint = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestBool</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_BOOL = SQL_SELECT_START + 
 		"""
 			where test_bool = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestChar</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_CHAR = SQL_SELECT_START + 
 		"""
 			where test_char = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestBoolean</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_BOOLEAN = SQL_SELECT_START + 
 		"""
 			where test_boolean = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestDate</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_DATE = SQL_SELECT_START + 
 		"""
 			where test_date = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestDatetime</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_DATETIME = SQL_SELECT_START + 
 		"""
 			where test_datetime = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestDec</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_DEC = SQL_SELECT_START + 
 		"""
 			where test_dec = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestDecimal</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_DECIMAL = SQL_SELECT_START + 
 		"""
 			where test_decimal = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestDouble</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_DOUBLE = SQL_SELECT_START + 
 		"""
 			where test_double = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestFloat</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_FLOAT = SQL_SELECT_START + 
 		"""
 			where test_float = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestInt</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_INT = SQL_SELECT_START + 
 		"""
 			where test_int = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestInteger</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_INTEGER = SQL_SELECT_START + 
 		"""
 			where test_integer = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestLongtext</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_LONGTEXT = SQL_SELECT_START + 
 		"""
 			where test_longtext = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestMediumint</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_MEDIUMINT = SQL_SELECT_START + 
 		"""
 			where test_mediumint = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestMediumtext</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_MEDIUMTEXT = SQL_SELECT_START + 
 		"""
 			where test_mediumtext = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestNumeric</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_NUMERIC = SQL_SELECT_START + 
 		"""
 			where test_numeric = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestSmallint</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_SMALLINT = SQL_SELECT_START + 
 		"""
 			where test_smallint = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestTime</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_TIME = SQL_SELECT_START + 
 		"""
 			where test_time = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestText</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_TEXT = SQL_SELECT_START + 
 		"""
 			where test_text = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestTimestamp</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_TIMESTAMP = SQL_SELECT_START + 
 		"""
 			where test_timestamp = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestTinyint</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_TINYINT = SQL_SELECT_START + 
 		"""
 			where test_tinyint = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestTinytext</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_TINYTEXT = SQL_SELECT_START + 
 		"""
 			where test_tinytext = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestVarchar</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_VARCHAR = SQL_SELECT_START + 
 		"""
 			where test_varchar = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestYear</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_YEAR = SQL_SELECT_START + 
 		"""
 			where test_year = ?

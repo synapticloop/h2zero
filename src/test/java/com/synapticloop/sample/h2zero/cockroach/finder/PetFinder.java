@@ -52,6 +52,9 @@ public class PetFinder {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNmPetNumAge</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NM_PET_NUM_AGE = SQL_SELECT_START + 
 		"""
 			where nm_pet = ? and num_age = ?
@@ -60,7 +63,7 @@ public class PetFinder {
 	private PetFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a Pet by its primary key</p>
+	 * <p>Create a Finder that can find a <code>Pet</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -71,14 +74,14 @@ public class PetFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Pet.findByPrimaryKey(primaryKey)
+	 * <pre>PetFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Pet.findByPrimaryKey(primaryKey)
+	 * <pre>PetFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -107,20 +110,20 @@ public class PetFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Pet.findAll()
+	 * <pre>PetFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Pet.findAll()
+	 * <pre>PetFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Pet.findAll()
+	 * <pre>PetFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -152,12 +155,11 @@ public class PetFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * This is the <code>findByNmPetNumAge</code> finder.
+	 * <p>This is the <code>findByNmPetNumAge</code> finder for the <code>PET table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<Pet> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<Pet> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -166,30 +168,31 @@ public class PetFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Pet.findByNmPetNumAge(...)
+	 * <pre>PetFinder.findByNmPetNumAge(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Pet.findByNmPetNumAge(...)
+	 * <pre>PetFinder.findByNmPetNumAge(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Pet.findByNmPetNumAge(...)
+	 * <pre>PetFinder.findByNmPetNumAge(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param nmPet - maps to the nm_pet field
-	 * @param numAge - maps to the num_age field
+	 * @param nmPet - maps to the <code>PET.nm_pet</code> field
+	 * @param numAge - maps to the <code>PET.num_age</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<Pet> findByNmPetNumAge(String nmPet, Integer numAge) {
 		return(
 				new MultiFinder<Pet>(
@@ -200,8 +203,8 @@ public class PetFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of Pet, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of Pet, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of Pet
 	 * 

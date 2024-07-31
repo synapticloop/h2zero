@@ -48,6 +48,9 @@ public class UserUserTypeViewFinder {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNmUser</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NM_USER = SQL_SELECT_START + 
 		"""
 			where nm_user = ?
@@ -56,7 +59,7 @@ public class UserUserTypeViewFinder {
 	private UserUserTypeViewFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a UserUserType by its primary key</p>
+	 * <p>Create a Finder that can find a <code>UserUserType</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -67,14 +70,14 @@ public class UserUserTypeViewFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findByPrimaryKey(primaryKey)
+	 * <pre>UserUserTypeFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findByPrimaryKey(primaryKey)
+	 * <pre>UserUserTypeFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -103,20 +106,20 @@ public class UserUserTypeViewFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findAll()
+	 * <pre>UserUserTypeFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findAll()
+	 * <pre>UserUserTypeFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>UserUserType.findAll()
+	 * <pre>UserUserTypeFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -148,12 +151,11 @@ public class UserUserTypeViewFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * This is the <code>findByNmUser</code> finder.
+	 * <p>This is the <code>findByNmUser</code> finder for the <code>USER_USER_TYPE table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<UserUserType> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<UserUserType> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -162,29 +164,30 @@ public class UserUserTypeViewFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findByNmUser(...)
+	 * <pre>UserUserTypeFinder.findByNmUser(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserUserType.findByNmUser(...)
+	 * <pre>UserUserTypeFinder.findByNmUser(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>UserUserType.findByNmUser(...)
+	 * <pre>UserUserTypeFinder.findByNmUser(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param nmUser - maps to the nm_user field
+	 * @param nmUser - maps to the <code>USER_USER_TYPE.nm_user</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<UserUserType> findByNmUser(String nmUser) {
 		return(
 				new MultiFinder<UserUserType>(
@@ -195,8 +198,8 @@ public class UserUserTypeViewFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of UserUserType, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of UserUserType, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of UserUserType
 	 * 

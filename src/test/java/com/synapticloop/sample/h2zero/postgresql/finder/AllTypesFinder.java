@@ -59,7 +59,7 @@ public class AllTypesFinder {
 	private AllTypesFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a AllTypes by its primary key</p>
+	 * <p>Create a Finder that can find a <code>AllTypes</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -70,14 +70,14 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByPrimaryKey(primaryKey)
+	 * <pre>AllTypesFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByPrimaryKey(primaryKey)
+	 * <pre>AllTypesFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -106,20 +106,20 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findAll()
+	 * <pre>AllTypesFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findAll()
+	 * <pre>AllTypesFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findAll()
+	 * <pre>AllTypesFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -150,8 +150,8 @@ public class AllTypesFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Return the results as a list of AllTypes, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of AllTypes, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of AllTypes
 	 * 

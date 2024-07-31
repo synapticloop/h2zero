@@ -118,7 +118,28 @@ public class {table.javaClassName}Counter {{{\n}
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {\t}/**{\n}
-{\t} * <p>Find the count of all {table.javaClassName} objects</p>{\n}
+{\t} * <p>Create a counter for the <code>{table.javaClassName}</code> database
+{\t} * table that will count all results.</p>{\n}
+{\t} * {\n}
+{\t} * <p>This will return a Counter object, to execute the counter, either call</p>{\n}
+{\t} * {\n}
+{\t} * <ul>{\n}
+{\t} *   <li><code>counter.execute();</code> to execute the counter with exceptions thrown</li>{\n}
+{\t} *   <li><code>counter.executeSilent();</code> to execute the counter no exceptions (i.e. they are caught, swallowed and logged)</li>{\n}
+{\t} * </ul>{\n}
+{\t} * {\n}
+{\t} * <p>You may also want to pass in a connection, in which case use the following:</p>{\n}
+{\t} * {\n}
+{\t} * <pre>{tableOrView.javaClassName}Counter.countAll(){\n}
+{\t} *     .withConnection(connection){\n}
+{\t} *     .execute();</pre>{\n}
+{\t} * {\n}
+{\t} * <p>You may also want to pass in a connection without exceptions being thrown,{\n}
+{\t} * in which case use the following:</p>{\n}
+{\t} * {\n}
+{\t} * <pre>{tableOrView.javaClassName}Counter.findAll(){\n}
+{\t} *     .withConnection(connection){\n}
+{\t} *     .executeSilent();</pre>{\n}
 {\t} * {\n}
 {\t} * @return the Counter ready to be executed {\n}
 {\t} */{\n}
@@ -140,8 +161,7 @@ public class {table.javaClassName}Counter {{{\n}
 	{set counter as baseQueryObject}
 
 {\t}/**{\n}
-{\t} * <p>Return the counter object (optionally setting a connection) for this query,{\n}
-{\t} * ready for execution.</p>{\n}
+{\t} * <p>Return the counter object for this query, ready for execution.</p>{\n}
 {\t} *{\n}
 {\t} * <p>A <code>Connection</code> object may optionally be set for this query.{\n}
 {\t} * Note that if no connection is set, one will automatically be retrieved from{\n}

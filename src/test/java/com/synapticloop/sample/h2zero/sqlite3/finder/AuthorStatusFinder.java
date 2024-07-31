@@ -51,7 +51,7 @@ public class AuthorStatusFinder {
 	private AuthorStatusFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a AuthorStatus by its primary key</p>
+	 * <p>Create a Finder that can find a <code>AuthorStatus</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -62,14 +62,14 @@ public class AuthorStatusFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AuthorStatus.findByPrimaryKey(primaryKey)
+	 * <pre>AuthorStatusFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AuthorStatus.findByPrimaryKey(primaryKey)
+	 * <pre>AuthorStatusFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -98,20 +98,20 @@ public class AuthorStatusFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AuthorStatus.findAll()
+	 * <pre>AuthorStatusFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AuthorStatus.findAll()
+	 * <pre>AuthorStatusFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AuthorStatus.findAll()
+	 * <pre>AuthorStatusFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -142,8 +142,8 @@ public class AuthorStatusFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Return the results as a list of AuthorStatus, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of AuthorStatus, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of AuthorStatus
 	 * 

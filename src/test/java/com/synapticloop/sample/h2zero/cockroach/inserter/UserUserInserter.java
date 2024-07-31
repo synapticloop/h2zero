@@ -18,9 +18,9 @@ import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
 
 /**
- * This class contains the methods to insert new rows into the: 
+ * <p>This class contains the methods to insert new rows into the: 
  *   <code>sample.user_user</code>
- * table.  The fields that are available are as follows:
+ * table.  The fields that are available are as follows:</p>
  * 
  * <ul>
  *  <li><code>id_user_user</code> (bigint)  <strong>NOT</strong> nullable  (PRIMARY)</li>
@@ -53,7 +53,7 @@ public class UserUserInserter {
 	private UserUserInserter() {}
 
 	/**
-	 * Insert a new UserUser into the database utilising the passed in connection.
+	 * <p>Insert a new <code>UserUser</code> into the database utilising the passed in connection.</p>
 	 * 
 	 * @param connection the connection to use for the database, this __MUST__ be 
 	 *   closed by the calling function.
@@ -85,8 +85,8 @@ public class UserUserInserter {
 	}
 
 	/**
-	 * Insert a new UserUser into the database utilising the passed in connection 
-	 * with only the fields that are allowed to be not null.
+	 * <p>Insert a new UserUser into the database utilising the passed in connection 
+	 * with only the fields that are allowed to be not null.</p>
 	 * 
 	 * @param connection the connection to use for the database, this __MUST__ be 
 	 *   closed by the calling function.
@@ -116,8 +116,8 @@ public class UserUserInserter {
 	}
 
 	/**
-	 * Insert a new UserUser into the database a new connection will be retrieved 
-	 * from the pool, used and then closed.
+	 * <p>Insert a new UserUser into the database a new connection will be retrieved 
+	 * from the pool, used and then closed.</p>
 	 * 
 	 * @param idUserUser  maps to id_user_user
 	 * @param idUserType  maps to id_user_type
@@ -139,8 +139,8 @@ public class UserUserInserter {
 	}
 
 	/**
-	 * Insert a new UserUser into the database a new connection will be retrieved 
-	 * from the pool, used and then closed. This is for fields which have a nullable allowed default
+	 * <p>Insert a new UserUser into the database a new connection will be retrieved 
+	 * from the pool, used and then closed. This is for fields which have a nullable allowed default.</p>
 	 * 
 	 * @param idUserUser  maps to id_user_user
 	 * @param idUserType  maps to id_user_type

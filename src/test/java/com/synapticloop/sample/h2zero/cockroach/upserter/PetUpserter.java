@@ -49,6 +49,9 @@ public class PetUpserter {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_pet = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNmPetNumAge</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NM_PET_NUM_AGE = SQL_SELECT_START + 
 		"""
 			where nm_pet = ? and num_age = ?

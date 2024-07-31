@@ -61,62 +61,107 @@ public class AllTypesFinder {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_all_types = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByIdAllTypes</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_ID_ALL_TYPES = SQL_SELECT_START + 
 		"""
 			where id_all_types = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestBigint</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_BIGINT = SQL_SELECT_START + 
 		"""
 			where test_bigint = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestBoolean</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_BOOLEAN = SQL_SELECT_START + 
 		"""
 			where test_boolean = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestDate</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_DATE = SQL_SELECT_START + 
 		"""
 			where test_date = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestDatetime</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_DATETIME = SQL_SELECT_START + 
 		"""
 			where test_datetime = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestDouble</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_DOUBLE = SQL_SELECT_START + 
 		"""
 			where test_double = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestFloat</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_FLOAT = SQL_SELECT_START + 
 		"""
 			where test_float = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestInt</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_INT = SQL_SELECT_START + 
 		"""
 			where test_int = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestInteger</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_INTEGER = SQL_SELECT_START + 
 		"""
 			where test_integer = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestMediumint</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_MEDIUMINT = SQL_SELECT_START + 
 		"""
 			where test_mediumint = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestNumeric</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_NUMERIC = SQL_SELECT_START + 
 		"""
 			where test_numeric = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestSmallint</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_SMALLINT = SQL_SELECT_START + 
 		"""
 			where test_smallint = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestText</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_TEXT = SQL_SELECT_START + 
 		"""
 			where test_text = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestTinyint</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_TINYINT = SQL_SELECT_START + 
 		"""
 			where test_tinyint = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTestVarchar</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TEST_VARCHAR = SQL_SELECT_START + 
 		"""
 			where test_varchar = ?
@@ -125,7 +170,7 @@ public class AllTypesFinder {
 	private AllTypesFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a AllTypes by its primary key</p>
+	 * <p>Create a Finder that can find a <code>AllTypes</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -136,14 +181,14 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByPrimaryKey(primaryKey)
+	 * <pre>AllTypesFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByPrimaryKey(primaryKey)
+	 * <pre>AllTypesFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -172,20 +217,20 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findAll()
+	 * <pre>AllTypesFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findAll()
+	 * <pre>AllTypesFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findAll()
+	 * <pre>AllTypesFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -231,12 +276,11 @@ public class AllTypesFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * This is the <code>findByIdAllTypes</code> finder.
+	 * <p>This is the <code>findByIdAllTypes</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -245,29 +289,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByIdAllTypes(...)
+	 * <pre>AllTypesFinder.findByIdAllTypes(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByIdAllTypes(...)
+	 * <pre>AllTypesFinder.findByIdAllTypes(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByIdAllTypes(...)
+	 * <pre>AllTypesFinder.findByIdAllTypes(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param idAllTypes - maps to the id_all_types field
+	 * @param idAllTypes - maps to the <code>ALL_TYPES.id_all_types</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByIdAllTypes(Long idAllTypes) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -278,12 +323,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestBigint</code> finder.
+	 * <p>This is the <code>findByTestBigint</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -292,29 +336,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestBigint(...)
+	 * <pre>AllTypesFinder.findByTestBigint(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestBigint(...)
+	 * <pre>AllTypesFinder.findByTestBigint(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestBigint(...)
+	 * <pre>AllTypesFinder.findByTestBigint(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testBigint - maps to the test_bigint field
+	 * @param testBigint - maps to the <code>ALL_TYPES.test_bigint</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestBigint(Long testBigint) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -325,12 +370,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestBoolean</code> finder.
+	 * <p>This is the <code>findByTestBoolean</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -339,29 +383,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestBoolean(...)
+	 * <pre>AllTypesFinder.findByTestBoolean(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestBoolean(...)
+	 * <pre>AllTypesFinder.findByTestBoolean(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestBoolean(...)
+	 * <pre>AllTypesFinder.findByTestBoolean(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testBoolean - maps to the test_boolean field
+	 * @param testBoolean - maps to the <code>ALL_TYPES.test_boolean</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestBoolean(Boolean testBoolean) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -372,12 +417,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestDate</code> finder.
+	 * <p>This is the <code>findByTestDate</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -386,29 +430,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestDate(...)
+	 * <pre>AllTypesFinder.findByTestDate(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestDate(...)
+	 * <pre>AllTypesFinder.findByTestDate(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestDate(...)
+	 * <pre>AllTypesFinder.findByTestDate(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testDate - maps to the test_date field
+	 * @param testDate - maps to the <code>ALL_TYPES.test_date</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestDate(Date testDate) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -419,12 +464,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestDatetime</code> finder.
+	 * <p>This is the <code>findByTestDatetime</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -433,29 +477,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestDatetime(...)
+	 * <pre>AllTypesFinder.findByTestDatetime(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestDatetime(...)
+	 * <pre>AllTypesFinder.findByTestDatetime(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestDatetime(...)
+	 * <pre>AllTypesFinder.findByTestDatetime(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testDatetime - maps to the test_datetime field
+	 * @param testDatetime - maps to the <code>ALL_TYPES.test_datetime</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestDatetime(Timestamp testDatetime) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -466,12 +511,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestDouble</code> finder.
+	 * <p>This is the <code>findByTestDouble</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -480,29 +524,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestDouble(...)
+	 * <pre>AllTypesFinder.findByTestDouble(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestDouble(...)
+	 * <pre>AllTypesFinder.findByTestDouble(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestDouble(...)
+	 * <pre>AllTypesFinder.findByTestDouble(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testDouble - maps to the test_double field
+	 * @param testDouble - maps to the <code>ALL_TYPES.test_double</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestDouble(Double testDouble) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -513,12 +558,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestFloat</code> finder.
+	 * <p>This is the <code>findByTestFloat</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -527,29 +571,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestFloat(...)
+	 * <pre>AllTypesFinder.findByTestFloat(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestFloat(...)
+	 * <pre>AllTypesFinder.findByTestFloat(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestFloat(...)
+	 * <pre>AllTypesFinder.findByTestFloat(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testFloat - maps to the test_float field
+	 * @param testFloat - maps to the <code>ALL_TYPES.test_float</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestFloat(Float testFloat) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -560,12 +605,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestInt</code> finder.
+	 * <p>This is the <code>findByTestInt</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -574,29 +618,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestInt(...)
+	 * <pre>AllTypesFinder.findByTestInt(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestInt(...)
+	 * <pre>AllTypesFinder.findByTestInt(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestInt(...)
+	 * <pre>AllTypesFinder.findByTestInt(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testInt - maps to the test_int field
+	 * @param testInt - maps to the <code>ALL_TYPES.test_int</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestInt(Integer testInt) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -607,12 +652,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestInteger</code> finder.
+	 * <p>This is the <code>findByTestInteger</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -621,29 +665,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestInteger(...)
+	 * <pre>AllTypesFinder.findByTestInteger(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestInteger(...)
+	 * <pre>AllTypesFinder.findByTestInteger(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestInteger(...)
+	 * <pre>AllTypesFinder.findByTestInteger(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testInteger - maps to the test_integer field
+	 * @param testInteger - maps to the <code>ALL_TYPES.test_integer</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestInteger(Integer testInteger) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -654,12 +699,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestMediumint</code> finder.
+	 * <p>This is the <code>findByTestMediumint</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -668,29 +712,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestMediumint(...)
+	 * <pre>AllTypesFinder.findByTestMediumint(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestMediumint(...)
+	 * <pre>AllTypesFinder.findByTestMediumint(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestMediumint(...)
+	 * <pre>AllTypesFinder.findByTestMediumint(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testMediumint - maps to the test_mediumint field
+	 * @param testMediumint - maps to the <code>ALL_TYPES.test_mediumint</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestMediumint(Integer testMediumint) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -701,12 +746,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestNumeric</code> finder.
+	 * <p>This is the <code>findByTestNumeric</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -715,29 +759,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestNumeric(...)
+	 * <pre>AllTypesFinder.findByTestNumeric(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestNumeric(...)
+	 * <pre>AllTypesFinder.findByTestNumeric(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestNumeric(...)
+	 * <pre>AllTypesFinder.findByTestNumeric(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testNumeric - maps to the test_numeric field
+	 * @param testNumeric - maps to the <code>ALL_TYPES.test_numeric</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestNumeric(BigDecimal testNumeric) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -748,12 +793,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestSmallint</code> finder.
+	 * <p>This is the <code>findByTestSmallint</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -762,29 +806,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestSmallint(...)
+	 * <pre>AllTypesFinder.findByTestSmallint(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestSmallint(...)
+	 * <pre>AllTypesFinder.findByTestSmallint(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestSmallint(...)
+	 * <pre>AllTypesFinder.findByTestSmallint(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testSmallint - maps to the test_smallint field
+	 * @param testSmallint - maps to the <code>ALL_TYPES.test_smallint</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestSmallint(Short testSmallint) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -795,12 +840,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestText</code> finder.
+	 * <p>This is the <code>findByTestText</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -809,29 +853,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestText(...)
+	 * <pre>AllTypesFinder.findByTestText(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestText(...)
+	 * <pre>AllTypesFinder.findByTestText(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestText(...)
+	 * <pre>AllTypesFinder.findByTestText(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testText - maps to the test_text field
+	 * @param testText - maps to the <code>ALL_TYPES.test_text</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestText(String testText) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -842,12 +887,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestTinyint</code> finder.
+	 * <p>This is the <code>findByTestTinyint</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -856,29 +900,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestTinyint(...)
+	 * <pre>AllTypesFinder.findByTestTinyint(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestTinyint(...)
+	 * <pre>AllTypesFinder.findByTestTinyint(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestTinyint(...)
+	 * <pre>AllTypesFinder.findByTestTinyint(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testTinyint - maps to the test_tinyint field
+	 * @param testTinyint - maps to the <code>ALL_TYPES.test_tinyint</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestTinyint(Boolean testTinyint) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -889,12 +934,11 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTestVarchar</code> finder.
+	 * <p>This is the <code>findByTestVarchar</code> finder for the <code>ALL_TYPES table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<AllTypes> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<AllTypes> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -903,29 +947,30 @@ public class AllTypesFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestVarchar(...)
+	 * <pre>AllTypesFinder.findByTestVarchar(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AllTypes.findByTestVarchar(...)
+	 * <pre>AllTypesFinder.findByTestVarchar(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>AllTypes.findByTestVarchar(...)
+	 * <pre>AllTypesFinder.findByTestVarchar(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param testVarchar - maps to the test_varchar field
+	 * @param testVarchar - maps to the <code>ALL_TYPES.test_varchar</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<AllTypes> findByTestVarchar(String testVarchar) {
 		return(
 				new UniqueFinder<AllTypes>(
@@ -936,8 +981,8 @@ public class AllTypesFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of AllTypes, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of AllTypes, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of AllTypes
 	 * 

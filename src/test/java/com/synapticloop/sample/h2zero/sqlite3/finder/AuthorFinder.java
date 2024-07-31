@@ -58,26 +58,44 @@ public class AuthorFinder {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_author = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByIdAuthorStatus</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_ID_AUTHOR_STATUS = SQL_SELECT_START + 
 		"""
 			where id_author_status = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByFlIsUpdating</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_FL_IS_UPDATING = SQL_SELECT_START + 
 		"""
 			where fl_is_updating = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTxtIdAuthorIdAuthorStatus</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TXT_ID_AUTHOR_ID_AUTHOR_STATUS = SQL_SELECT_START + 
 		"""
 			where txt_id_author = ? and id_author_status = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTxtIdAuthor</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TXT_ID_AUTHOR = SQL_SELECT_START + 
 		"""
 			where txt_id_author = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findInStatus</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_IN_STATUS = SQL_SELECT_START + 
 		"""
 			where id_author_status in (...)
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findAllToBeEvaluated</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_ALL_TO_BE_EVALUATED = SQL_SELECT_START + 
 		"""
 			where
@@ -87,16 +105,25 @@ public class AuthorFinder {
 			where
 			txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following <= ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findFirstToBeEvaluated</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_FIRST_TO_BE_EVALUATED = SQL_SELECT_START + 
 		"""
 			where id_author_status =
 			(select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and
 			dtm_started_following < ? order by dtm_started_following asc
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findLimitedToBeEvaluated</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_LIMITED_TO_BE_EVALUATED = SQL_SELECT_START + 
 		"""
 			where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? order by dtm_started_following
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findInNumber</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_IN_NUMBER = SQL_SELECT_START + 
 		"""
 			where fl_is_updating = ? and
@@ -109,7 +136,7 @@ public class AuthorFinder {
 	private AuthorFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a Author by its primary key</p>
+	 * <p>Create a Finder that can find a <code>Author</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -120,14 +147,14 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByPrimaryKey(primaryKey)
+	 * <pre>AuthorFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByPrimaryKey(primaryKey)
+	 * <pre>AuthorFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -156,20 +183,20 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findAll()
+	 * <pre>AuthorFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findAll()
+	 * <pre>AuthorFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findAll()
+	 * <pre>AuthorFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -209,12 +236,11 @@ public class AuthorFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * This is the <code>findByIdAuthorStatus</code> finder.
+	 * <p>This is the <code>findByIdAuthorStatus</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -223,29 +249,30 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByIdAuthorStatus(...)
+	 * <pre>AuthorFinder.findByIdAuthorStatus(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByIdAuthorStatus(...)
+	 * <pre>AuthorFinder.findByIdAuthorStatus(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findByIdAuthorStatus(...)
+	 * <pre>AuthorFinder.findByIdAuthorStatus(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param idAuthorStatus - maps to the id_author_status field
+	 * @param idAuthorStatus - maps to the <code>AUTHOR.id_author_status</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<Author> findByIdAuthorStatus(Long idAuthorStatus) {
 		return(
 				new MultiFinder<Author>(
@@ -256,12 +283,11 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByFlIsUpdating</code> finder.
+	 * <p>This is the <code>findByFlIsUpdating</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -270,29 +296,30 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByFlIsUpdating(...)
+	 * <pre>AuthorFinder.findByFlIsUpdating(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByFlIsUpdating(...)
+	 * <pre>AuthorFinder.findByFlIsUpdating(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findByFlIsUpdating(...)
+	 * <pre>AuthorFinder.findByFlIsUpdating(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param flIsUpdating - maps to the fl_is_updating field
+	 * @param flIsUpdating - maps to the <code>AUTHOR.fl_is_updating</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<Author> findByFlIsUpdating(Boolean flIsUpdating) {
 		return(
 				new MultiFinder<Author>(
@@ -303,12 +330,11 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTxtIdAuthorIdAuthorStatus</code> finder.
+	 * <p>This is the <code>findByTxtIdAuthorIdAuthorStatus</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -317,30 +343,31 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByTxtIdAuthorIdAuthorStatus(...)
+	 * <pre>AuthorFinder.findByTxtIdAuthorIdAuthorStatus(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByTxtIdAuthorIdAuthorStatus(...)
+	 * <pre>AuthorFinder.findByTxtIdAuthorIdAuthorStatus(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findByTxtIdAuthorIdAuthorStatus(...)
+	 * <pre>AuthorFinder.findByTxtIdAuthorIdAuthorStatus(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param txtIdAuthor - maps to the txt_id_author field
-	 * @param idAuthorStatus - maps to the id_author_status field
+	 * @param txtIdAuthor - maps to the <code>AUTHOR.txt_id_author</code> field
+	 * @param idAuthorStatus - maps to the <code>AUTHOR.id_author_status</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<Author> findByTxtIdAuthorIdAuthorStatus(String txtIdAuthor, Long idAuthorStatus) {
 		return(
 				new MultiFinder<Author>(
@@ -351,12 +378,11 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTxtIdAuthor</code> finder.
+	 * <p>This is the <code>findByTxtIdAuthor</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -365,29 +391,30 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByTxtIdAuthor(...)
+	 * <pre>AuthorFinder.findByTxtIdAuthor(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findByTxtIdAuthor(...)
+	 * <pre>AuthorFinder.findByTxtIdAuthor(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findByTxtIdAuthor(...)
+	 * <pre>AuthorFinder.findByTxtIdAuthor(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param txtIdAuthor - maps to the txt_id_author field
+	 * @param txtIdAuthor - maps to the <code>AUTHOR.txt_id_author</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<Author> findByTxtIdAuthor(String txtIdAuthor) {
 		return(
 				new UniqueFinder<Author>(
@@ -398,12 +425,11 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * This is the <code>findInStatus</code> finder.
+	 * <p>This is the <code>findInStatus</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -412,29 +438,30 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findInStatus(...)
+	 * <pre>AuthorFinder.findInStatus(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findInStatus(...)
+	 * <pre>AuthorFinder.findInStatus(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findInStatus(...)
+	 * <pre>AuthorFinder.findInStatus(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param idAuthorStatusList - maps to the id_author_status field
+	 * @param idAuthorStatusList - maps to the <code>AUTHOR.id_author_status</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<Author> findInStatus(List<Long> idAuthorStatusList) {
 		return(
 				new MultiFinder<Author>(
@@ -445,12 +472,11 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * This is the <code>findAllToBeEvaluated</code> finder.
+	 * <p>This is the <code>findAllToBeEvaluated</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -459,29 +485,30 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findAllToBeEvaluated(...)
+	 * <pre>AuthorFinder.findAllToBeEvaluated(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findAllToBeEvaluated(...)
+	 * <pre>AuthorFinder.findAllToBeEvaluated(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findAllToBeEvaluated(...)
+	 * <pre>AuthorFinder.findAllToBeEvaluated(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param dtmStartedFollowing - maps to the dtm_started_following field
+	 * @param dtmStartedFollowing - maps to the <code>AUTHOR.dtm_started_following</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<Author> findAllToBeEvaluated(Timestamp dtmStartedFollowing) {
 		return(
 				new MultiFinder<Author>(
@@ -492,12 +519,11 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * This is the <code>findFirstToBeEvaluated</code> finder.
+	 * <p>This is the <code>findFirstToBeEvaluated</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -506,29 +532,30 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findFirstToBeEvaluated(...)
+	 * <pre>AuthorFinder.findFirstToBeEvaluated(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findFirstToBeEvaluated(...)
+	 * <pre>AuthorFinder.findFirstToBeEvaluated(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findFirstToBeEvaluated(...)
+	 * <pre>AuthorFinder.findFirstToBeEvaluated(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param dtmStartedFollowing - maps to the dtm_started_following field
+	 * @param dtmStartedFollowing - maps to the <code>AUTHOR.dtm_started_following</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<Author> findFirstToBeEvaluated(Timestamp dtmStartedFollowing) {
 		return(
 				new UniqueFinder<Author>(
@@ -539,12 +566,11 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * This is the <code>findLimitedToBeEvaluated</code> finder.
+	 * <p>This is the <code>findLimitedToBeEvaluated</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -553,29 +579,30 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findLimitedToBeEvaluated(...)
+	 * <pre>AuthorFinder.findLimitedToBeEvaluated(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findLimitedToBeEvaluated(...)
+	 * <pre>AuthorFinder.findLimitedToBeEvaluated(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findLimitedToBeEvaluated(...)
+	 * <pre>AuthorFinder.findLimitedToBeEvaluated(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param dtmStartedFollowing - maps to the dtm_started_following field
+	 * @param dtmStartedFollowing - maps to the <code>AUTHOR.dtm_started_following</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<Author> findLimitedToBeEvaluated(Timestamp dtmStartedFollowing) {
 		return(
 				new MultiFinder<Author>(
@@ -586,12 +613,11 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * This is the <code>findInNumber</code> finder.
+	 * <p>This is the <code>findInNumber</code> finder for the <code>AUTHOR table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<Author> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<Author> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -600,33 +626,34 @@ public class AuthorFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>Author.findInNumber(...)
+	 * <pre>AuthorFinder.findInNumber(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>Author.findInNumber(...)
+	 * <pre>AuthorFinder.findInNumber(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>Author.findInNumber(...)
+	 * <pre>AuthorFinder.findInNumber(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param flIsUpdating - maps to the fl_is_updating field
-	 * @param flIsUpdatingList - maps to the fl_is_updating field
-	 * @param dtmStartedFollowingList - maps to the dtm_started_following field
-	 * @param flIsUpdatingOne - maps to the fl_is_updating field
-	 * @param flIsUpdatingTwo - maps to the fl_is_updating field
+	 * @param flIsUpdating - maps to the <code>AUTHOR.fl_is_updating</code> field
+	 * @param flIsUpdatingList - maps to the <code>AUTHOR.fl_is_updating</code> field
+	 * @param dtmStartedFollowingList - maps to the <code>AUTHOR.dtm_started_following</code> field
+	 * @param flIsUpdatingOne - maps to the <code>AUTHOR.fl_is_updating</code> field
+	 * @param flIsUpdatingTwo - maps to the <code>AUTHOR.fl_is_updating</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<Author> findInNumber(Boolean flIsUpdating, List<Boolean> flIsUpdatingList, List<Timestamp> dtmStartedFollowingList, Boolean flIsUpdatingOne, Boolean flIsUpdatingTwo) {
 		return(
 				new MultiFinder<Author>(
@@ -637,8 +664,8 @@ public class AuthorFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of Author, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of Author, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of Author
 	 * 

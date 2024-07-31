@@ -3,7 +3,7 @@
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {\t}/**{\n}
-{\t} * <p>Create a UniqueFinder that can find a {tableOrView.javaClassName} by its primary key</p>{\n}
+{\t} * <p>Create a Finder that can find a <code>{tableOrView.javaClassName}</code> by its primary key.</p>{\n}
 {\t} * {\n}
 {\t} * <p>This will return a UniqueFinder, to execute the finder, either call</p>{\n}
 {\t} * {\n}
@@ -14,14 +14,14 @@
 {\t} * {\n}
 {\t} * <p>You may also want to pass in a connection, in which case use the following:</p>{\n}
 {\t} * {\n}
-{\t} * <pre>{tableOrView.javaClassName}.findByPrimaryKey(primaryKey){\n}
+{\t} * <pre>{tableOrView.javaClassName}Finder.findByPrimaryKey(primaryKey){\n}
 {\t} *     .withConnection(connection){\n}
 {\t} *     .execute();</pre>{\n}
 {\t} * {\n}
 {\t} * <p>You may also want to pass in a connection without exceptions being thrown,{\n}
 {\t} * in which case use the following:</p>{\n}
 {\t} * {\n}
-{\t} * <pre>{tableOrView.javaClassName}.findByPrimaryKey(primaryKey){\n}
+{\t} * <pre>{tableOrView.javaClassName}Finder.findByPrimaryKey(primaryKey){\n}
 {\t} *     .withConnection(connection){\n}
 {\t} *     .executeSilent();</pre>{\n}
 {\t} * {\n}

@@ -48,16 +48,22 @@ public class UserTitleFinder {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user_title = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findIdUserTitleNmUserTitleOrdered</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_ID_USER_TITLE_NM_USER_TITLE_ORDERED =
 		"""
 			select id_user_title, nm_user_title from user_title order by num_order_by
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findAllOrdered</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_ALL_ORDERED = SQL_SELECT_START + " order by num_order_by";
 
 	private UserTitleFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a UserTitle by its primary key</p>
+	 * <p>Create a Finder that can find a <code>UserTitle</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -68,14 +74,14 @@ public class UserTitleFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserTitle.findByPrimaryKey(primaryKey)
+	 * <pre>UserTitleFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserTitle.findByPrimaryKey(primaryKey)
+	 * <pre>UserTitleFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -104,20 +110,20 @@ public class UserTitleFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserTitle.findAll()
+	 * <pre>UserTitleFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserTitle.findAll()
+	 * <pre>UserTitleFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>UserTitle.findAll()
+	 * <pre>UserTitleFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -149,12 +155,11 @@ public class UserTitleFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * This is the <code>findAllOrdered</code> finder.
+	 * <p>This is the <code>findAllOrdered</code> finder for the <code>USER_TITLE table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<UserTitle> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<UserTitle> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -163,20 +168,20 @@ public class UserTitleFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserTitle.findAllOrdered(...)
+	 * <pre>UserTitleFinder.findAllOrdered(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserTitle.findAllOrdered(...)
+	 * <pre>UserTitleFinder.findAllOrdered(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>UserTitle.findAllOrdered(...)
+	 * <pre>UserTitleFinder.findAllOrdered(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -185,6 +190,7 @@ public class UserTitleFinder {
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<UserTitle> findAllOrdered() {
 		return(
 				new MultiFinder<UserTitle>(
@@ -195,8 +201,8 @@ public class UserTitleFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of UserTitle, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of UserTitle, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of UserTitle
 	 * 
@@ -242,8 +248,8 @@ public class UserTitleFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of UserTitleFindIdUserTitleNmUserTitleOrderedBeans, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of UserTitleFindIdUserTitleNmUserTitleOrderedBeans, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of UserTitleFindIdUserTitleNmUserTitleOrderedBean
 	 * 

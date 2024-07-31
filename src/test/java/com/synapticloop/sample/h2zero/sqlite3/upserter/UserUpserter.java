@@ -50,38 +50,65 @@ public class UserUpserter {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumAge</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + 
 		"""
 			where num_age = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByFlIsAliveNumAge</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_FL_IS_ALIVE_NUM_AGE = SQL_SELECT_START + 
 		"""
 			where fl_is_alive = ? and num_age = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNmUsername</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START + 
 		"""
 			where nm_username = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTxtAddressEmail</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL = SQL_SELECT_START + 
 		"""
 			where txt_address_email = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTxtAddressEmailTxtPassword</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START + 
 		"""
 			where txt_address_email = ? and txt_password = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findNmUserDtmSignup</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_NM_USER_DTM_SIGNUP =
 		"""
 			select nm_username, dtm_signup from user
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findGroupNumAge</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_GROUP_NUM_AGE =
 		"""
 			select count(*) as num_count, num_age from user group by num_age
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumAgeIn</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NUM_AGE_IN = SQL_SELECT_START + 
 		"""
 			where num_age in (...)
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumAgeBetween</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NUM_AGE_BETWEEN = SQL_SELECT_START + 
 		"""
 			where num_age > ? and num_age < ?

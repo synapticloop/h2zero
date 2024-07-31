@@ -96,7 +96,27 @@ public class AuthorCounter {
 	private AuthorCounter() {}
 
 	/**
-	 * <p>Find the count of all Author objects</p>
+	 * <p>Create a counter for the <code>Author</code> database	 * table that will count all results.</p>
+	 * 
+	 * <p>This will return a Counter object, to execute the counter, either call</p>
+	 * 
+	 * <ul>
+	 *   <li><code>counter.execute();</code> to execute the counter with exceptions thrown</li>
+	 *   <li><code>counter.executeSilent();</code> to execute the counter no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AuthorCounter.countAll()
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AuthorCounter.findAll()
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
 	 * 
 	 * @return the Counter ready to be executed 
 	 */
@@ -108,8 +128,7 @@ public class AuthorCounter {
 	}
 
 	/**
-	 * <p>Return the counter object (optionally setting a connection) for this query,
-	 * ready for execution.</p>
+	 * <p>Return the counter object for this query, ready for execution.</p>
 	 *
 	 * <p>A <code>Connection</code> object may optionally be set for this query.
 	 * Note that if no connection is set, one will automatically be retrieved from
@@ -147,8 +166,7 @@ public class AuthorCounter {
 	}
 
 	/**
-	 * <p>Return the counter object (optionally setting a connection) for this query,
-	 * ready for execution.</p>
+	 * <p>Return the counter object for this query, ready for execution.</p>
 	 *
 	 * <p>A <code>Connection</code> object may optionally be set for this query.
 	 * Note that if no connection is set, one will automatically be retrieved from
@@ -185,8 +203,7 @@ public class AuthorCounter {
 	}
 
 	/**
-	 * <p>Return the counter object (optionally setting a connection) for this query,
-	 * ready for execution.</p>
+	 * <p>Return the counter object for this query, ready for execution.</p>
 	 *
 	 * <p>A <code>Connection</code> object may optionally be set for this query.
 	 * Note that if no connection is set, one will automatically be retrieved from

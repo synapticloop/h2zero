@@ -51,7 +51,7 @@ public class UserUserPetFinder {
 	private UserUserPetFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a UserUserPet by its primary key</p>
+	 * <p>Create a Finder that can find a <code>UserUserPet</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -62,14 +62,14 @@ public class UserUserPetFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserUserPet.findByPrimaryKey(primaryKey)
+	 * <pre>UserUserPetFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserUserPet.findByPrimaryKey(primaryKey)
+	 * <pre>UserUserPetFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -98,20 +98,20 @@ public class UserUserPetFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>UserUserPet.findAll()
+	 * <pre>UserUserPetFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserUserPet.findAll()
+	 * <pre>UserUserPetFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>UserUserPet.findAll()
+	 * <pre>UserUserPetFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -142,8 +142,8 @@ public class UserUserPetFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * Return the results as a list of UserUserPet, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of UserUserPet, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of UserUserPet
 	 * 

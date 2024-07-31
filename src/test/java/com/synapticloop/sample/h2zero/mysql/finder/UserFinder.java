@@ -53,38 +53,65 @@ public class UserFinder {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_user = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumAge</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NUM_AGE = SQL_SELECT_START + 
 		"""
 			where num_age = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByFlIsAliveNumAge</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_FL_IS_ALIVE_NUM_AGE = SQL_SELECT_START + 
 		"""
 			where fl_is_alive = ? and num_age = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNmUsername</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NM_USERNAME = SQL_SELECT_START + 
 		"""
 			where nm_username = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTxtAddressEmail</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL = SQL_SELECT_START + 
 		"""
 			where txt_address_email = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByTxtAddressEmailTxtPassword</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_TXT_ADDRESS_EMAIL_TXT_PASSWORD = SQL_SELECT_START + 
 		"""
 			where txt_address_email = ? and txt_password = ?
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findNmUserDtmSignup</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_NM_USER_DTM_SIGNUP =
 		"""
 			select nm_user, dtm_signup from user
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findGroupNumAge</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_GROUP_NUM_AGE =
 		"""
 			select count(*) as num_count, num_age from user group by num_count
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumAgeIn</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NUM_AGE_IN = SQL_SELECT_START + 
 		"""
 			where num_age in (...)
 		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumAgeBetween</code> definition for <code>finders</code> JSON key in the h2zero file.</p>
+	 */
 	private static final String SQL_FIND_BY_NUM_AGE_BETWEEN = SQL_SELECT_START + 
 		"""
 			where num_age > ? and num_age < ?
@@ -93,7 +120,7 @@ public class UserFinder {
 	private UserFinder() {}
 
 	/**
-	 * <p>Create a UniqueFinder that can find a User by its primary key</p>
+	 * <p>Create a Finder that can find a <code>User</code> by its primary key.</p>
 	 * 
 	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
 	 * 
@@ -104,14 +131,14 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findByPrimaryKey(primaryKey)
+	 * <pre>UserFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findByPrimaryKey(primaryKey)
+	 * <pre>UserFinder.findByPrimaryKey(primaryKey)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
@@ -140,20 +167,20 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findAll()
+	 * <pre>UserFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findAll()
+	 * <pre>UserFinder.findAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>User.findAll()
+	 * <pre>UserFinder.findAll()
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
@@ -191,12 +218,11 @@ public class UserFinder {
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
-	 * This is the <code>findByNumAge</code> finder.
+	 * <p>This is the <code>findByNumAge</code> finder for the <code>USER table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<User> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<User> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -205,29 +231,30 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findByNumAge(...)
+	 * <pre>UserFinder.findByNumAge(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findByNumAge(...)
+	 * <pre>UserFinder.findByNumAge(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>User.findByNumAge(...)
+	 * <pre>UserFinder.findByNumAge(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param numAge - maps to the num_age field
+	 * @param numAge - maps to the <code>USER.num_age</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<User> findByNumAge(Integer numAge) {
 		return(
 				new MultiFinder<User>(
@@ -238,12 +265,11 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByFlIsAliveNumAge</code> finder.
+	 * <p>This is the <code>findByFlIsAliveNumAge</code> finder for the <code>USER table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<User> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<User> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -252,30 +278,31 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findByFlIsAliveNumAge(...)
+	 * <pre>UserFinder.findByFlIsAliveNumAge(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findByFlIsAliveNumAge(...)
+	 * <pre>UserFinder.findByFlIsAliveNumAge(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>User.findByFlIsAliveNumAge(...)
+	 * <pre>UserFinder.findByFlIsAliveNumAge(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param flIsAlive - maps to the fl_is_alive field
-	 * @param numAge - maps to the num_age field
+	 * @param flIsAlive - maps to the <code>USER.fl_is_alive</code> field
+	 * @param numAge - maps to the <code>USER.num_age</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<User> findByFlIsAliveNumAge(Boolean flIsAlive, Integer numAge) {
 		return(
 				new MultiFinder<User>(
@@ -286,12 +313,11 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByNmUsername</code> finder.
+	 * <p>This is the <code>findByNmUsername</code> finder for the <code>USER table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<User> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<User> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -300,29 +326,30 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findByNmUsername(...)
+	 * <pre>UserFinder.findByNmUsername(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findByNmUsername(...)
+	 * <pre>UserFinder.findByNmUsername(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>User.findByNmUsername(...)
+	 * <pre>UserFinder.findByNmUsername(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param nmUsername - maps to the nm_username field
+	 * @param nmUsername - maps to the <code>USER.nm_username</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<User> findByNmUsername(String nmUsername) {
 		return(
 				new UniqueFinder<User>(
@@ -333,12 +360,11 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTxtAddressEmail</code> finder.
+	 * <p>This is the <code>findByTxtAddressEmail</code> finder for the <code>USER table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<User> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<User> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -347,29 +373,30 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findByTxtAddressEmail(...)
+	 * <pre>UserFinder.findByTxtAddressEmail(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findByTxtAddressEmail(...)
+	 * <pre>UserFinder.findByTxtAddressEmail(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>User.findByTxtAddressEmail(...)
+	 * <pre>UserFinder.findByTxtAddressEmail(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param txtAddressEmail - maps to the txt_address_email field
+	 * @param txtAddressEmail - maps to the <code>USER.txt_address_email</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<User> findByTxtAddressEmail(String txtAddressEmail) {
 		return(
 				new UniqueFinder<User>(
@@ -380,12 +407,11 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByTxtAddressEmailTxtPassword</code> finder.
+	 * <p>This is the <code>findByTxtAddressEmailTxtPassword</code> finder for the <code>USER table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a UniqueFinder<User> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a UniqueFinder<User> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -394,30 +420,31 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findByTxtAddressEmailTxtPassword(...)
+	 * <pre>UserFinder.findByTxtAddressEmailTxtPassword(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findByTxtAddressEmailTxtPassword(...)
+	 * <pre>UserFinder.findByTxtAddressEmailTxtPassword(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>User.findByTxtAddressEmailTxtPassword(...)
+	 * <pre>UserFinder.findByTxtAddressEmailTxtPassword(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param txtAddressEmail - maps to the txt_address_email field
-	 * @param txtPassword - maps to the txt_password field
+	 * @param txtAddressEmail - maps to the <code>USER.txt_address_email</code> field
+	 * @param txtPassword - maps to the <code>USER.txt_password</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
 	 * 
 	 */
+
 	public static UniqueFinder<User> findByTxtAddressEmailTxtPassword(String txtAddressEmail, String txtPassword) {
 		return(
 				new UniqueFinder<User>(
@@ -428,12 +455,11 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByNumAgeIn</code> finder.
+	 * <p>This is the <code>findByNumAgeIn</code> finder for the <code>USER table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<User> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<User> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -442,29 +468,30 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findByNumAgeIn(...)
+	 * <pre>UserFinder.findByNumAgeIn(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findByNumAgeIn(...)
+	 * <pre>UserFinder.findByNumAgeIn(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>User.findByNumAgeIn(...)
+	 * <pre>UserFinder.findByNumAgeIn(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param numAgeList - maps to the num_age field
+	 * @param numAgeList - maps to the <code>USER.num_age</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<User> findByNumAgeIn(List<Integer> numAgeList) {
 		return(
 				new MultiFinder<User>(
@@ -475,12 +502,11 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * This is the <code>findByNumAgeBetween</code> finder.
+	 * <p>This is the <code>findByNumAgeBetween</code> finder for the <code>USER table.</code></p>
 	 * 
 	 * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>
 	 * 
-	 * <p>Create a MultiFinder<User> Finder
-	 * that can be invoked through:</p>
+	 * <p>Create a MultiFinder<User> Finder that can be invoked through:</p>
 	 * 
 	 * <ul>
 	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
@@ -489,30 +515,31 @@ public class UserFinder {
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
 	 * 
-	 * <pre>User.findByNumAgeBetween(...)
+	 * <pre>UserFinder.findByNumAgeBetween(...)
 	 *     .withConnection(connection)
 	 *     .execute();</pre>
 	 * 
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>User.findByNumAgeBetween(...)
+	 * <pre>UserFinder.findByNumAgeBetween(...)
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
 	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
 	 * 
-	 * <pre>User.findByNumAgeBetween(...)
+	 * <pre>UserFinder.findByNumAgeBetween(...)
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
-	 * @param numAgeMin - maps to the num_age field
-	 * @param numAgeMax - maps to the num_age field
+	 * @param numAgeMin - maps to the <code>USER.num_age</code> field
+	 * @param numAgeMax - maps to the <code>USER.num_age</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
 	 * 
 	 */
+
 	public static MultiFinder<User> findByNumAgeBetween(Integer numAgeMin, Integer numAgeMax) {
 		return(
 				new MultiFinder<User>(
@@ -523,8 +550,8 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of User, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of User, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of User
 	 * 
@@ -594,8 +621,8 @@ public class UserFinder {
 		));
 	}
 	/**
-	 * Return the results as a list of UserFindNmUserDtmSignupBeans, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of UserFindNmUserDtmSignupBeans, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of UserFindNmUserDtmSignupBean
 	 * 
@@ -614,8 +641,8 @@ public class UserFinder {
 	}
 
 	/**
-	 * Return the results as a list of UserFindGroupNumAgeBeans, this will be empty if
-	 * none are found.
+	 * <p>Return the results as a list of UserFindGroupNumAgeBeans, this will be empty if
+	 * none are found.</p>
 	 * 
 	 * @param resultSet the results as a list of UserFindGroupNumAgeBean
 	 * 

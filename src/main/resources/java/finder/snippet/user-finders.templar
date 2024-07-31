@@ -35,7 +35,7 @@
 	{if fn:null[finder.selectClause]}
 
 		{\t}/**{\n}
-		{\t} * <p>This is the <code>{finder.name}</code> finder.</p>{\n}
+		{\t} * <p>This is the <code>{finder.name}</code> finder for the <code>{tableOrView.upperName} table.</code></p>{\n}
 		{\t} * {\n}
 {if fn:true[finder.isAutoFinder]}
 		{\t} * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>{\n}
@@ -43,8 +43,7 @@
 		{\t} * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>{\n}
 {endif}
 		{\t} * {\n}
-		{\t} * <p>Create a {if finder.unique}UniqueFinder{else}MultiFinder{endif}<{tableOrView.javaClassName}> Finder
-		{\t} * that can be invoked through:</p>{\n}
+		{\t} * <p>Create a {if finder.unique}UniqueFinder{else}MultiFinder{endif}<{tableOrView.javaClassName}> Finder that can be invoked through:</p>{\n}
 		{\t} * {\n}
 		{\t} * <ul>{\n}
 		{\t} *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>{\n}
@@ -53,20 +52,20 @@
 		{\t} * {\n}
 		{\t} * <p>You may also want to pass in a connection, in which case use the following:</p>{\n}
 		{\t} * {\n}
-		{\t} * <pre>{tableOrView.javaClassName}.{finder.name}(...){\n}
+		{\t} * <pre>{tableOrView.javaClassName}Finder.{finder.name}(...){\n}
 		{\t} *     .withConnection(connection){\n}
 		{\t} *     .execute();</pre>{\n}
 		{\t} * {\n}
 		{\t} * <p>You may also want to pass in a connection without exceptions being thrown,{\n}
 		{\t} * in which case use the following:</p>{\n}
 		{\t} * {\n}
-		{\t} * <pre>{tableOrView.javaClassName}.{finder.name}(...){\n}
+		{\t} * <pre>{tableOrView.javaClassName}Finder.{finder.name}(...){\n}
 		{\t} *     .withConnection(connection){\n}
 		{\t} *     .executeSilent();</pre>{\n}
 		{\t} * {\n}
 		{\t} * <p>Additionally, you can limit and offset this query (with or without a connection)</p>{\n}
 		{\t} * {\n}
-		{\t} * <pre>{tableOrView.javaClassName}.{finder.name}(...){\n}
+		{\t} * <pre>{tableOrView.javaClassName}Finder.{finder.name}(...){\n}
 		{\t} *     .withLimit(limit){\n}
 		{\t} *     .withOffset(offset){\n}
 		{\t} *     .executeSilent();</pre>{\n}
@@ -85,11 +84,11 @@
 
 	{if finder.hasWhereFieldAliases}
 		{loop finder.whereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
+			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the <code>{tableOrView.upperName}.{whereField.name}</code> field{\n}
 		{endloop}
 	{else}
 		{loop finder.uniqueWhereFields as whereField}
-			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field{\n}
+			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the <code>{tableOrView.upperName}.{whereField.name}</code> field{\n}
 		{endloop}
 	{endif}
 		{\t} * {\n}
@@ -100,7 +99,7 @@
 			{endif}
 		{\t} * {\n}
 		{\t} */{\n}
-
+{\n}
 {--
 
 	START OF DEFAULT FINDER - NOT SELECT CLAUSE

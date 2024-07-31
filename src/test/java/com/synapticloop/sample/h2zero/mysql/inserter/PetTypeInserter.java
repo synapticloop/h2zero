@@ -19,9 +19,9 @@ import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 /**
  * This model maps to the pet type table in the database
  * 
- * This class contains the methods to insert new rows into the: 
+ * <p>This class contains the methods to insert new rows into the: 
  *   <code>sample.pet_type</code>
- * table.  The fields that are available are as follows:
+ * table.  The fields that are available are as follows:</p>
  * 
  * <ul>
  *  <li><code>id_pet_type</code> (bigint)  <strong>NOT</strong> nullable  (PRIMARY)</li>
@@ -49,7 +49,7 @@ public class PetTypeInserter {
 	private PetTypeInserter() {}
 
 	/**
-	 * Insert a new PetType into the database utilising the passed in connection.
+	 * <p>Insert a new <code>PetType</code> into the database utilising the passed in connection.</p>
 	 * 
 	 * @param connection the connection to use for the database, this __MUST__ be 
 	 *   closed by the calling function.
@@ -71,8 +71,8 @@ public class PetTypeInserter {
 	}
 
 	/**
-	 * Insert a new PetType into the database a new connection will be retrieved 
-	 * from the pool, used and then closed.
+	 * <p>Insert a new PetType into the database a new connection will be retrieved 
+	 * from the pool, used and then closed.</p>
 	 * 
 	 * @param idPetType  maps to id_pet_type
 	 * @param nmPetType  maps to nm_pet_type

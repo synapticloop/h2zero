@@ -18,9 +18,9 @@ import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 /**
- * This class contains the methods to insert new rows into the: 
+ * <p>This class contains the methods to insert new rows into the: 
  *   <code>sample.author</code>
- * table.  The fields that are available are as follows:
+ * table.  The fields that are available are as follows:</p>
  * 
  * <ul>
  *  <li><code>id_author</code> (bigint)  <strong>NOT</strong> nullable  (PRIMARY)</li>
@@ -58,7 +58,7 @@ public class AuthorInserter {
 	private AuthorInserter() {}
 
 	/**
-	 * Insert a new Author into the database utilising the passed in connection.
+	 * <p>Insert a new <code>Author</code> into the database utilising the passed in connection.</p>
 	 * 
 	 * @param connection the connection to use for the database, this __MUST__ be 
 	 *   closed by the calling function.
@@ -100,8 +100,8 @@ public class AuthorInserter {
 	}
 
 	/**
-	 * Insert a new Author into the database utilising the passed in connection 
-	 * with only the fields that are allowed to be not null.
+	 * <p>Insert a new Author into the database utilising the passed in connection 
+	 * with only the fields that are allowed to be not null.</p>
 	 * 
 	 * @param connection the connection to use for the database, this __MUST__ be 
 	 *   closed by the calling function.
@@ -136,8 +136,8 @@ public class AuthorInserter {
 	}
 
 	/**
-	 * Insert a new Author into the database a new connection will be retrieved 
-	 * from the pool, used and then closed.
+	 * <p>Insert a new Author into the database a new connection will be retrieved 
+	 * from the pool, used and then closed.</p>
 	 * 
 	 * @param idAuthor  maps to id_author
 	 * @param idAuthorStatus  maps to id_author_status
@@ -164,8 +164,8 @@ public class AuthorInserter {
 	}
 
 	/**
-	 * Insert a new Author into the database a new connection will be retrieved 
-	 * from the pool, used and then closed. This is for fields which have a nullable allowed default
+	 * <p>Insert a new Author into the database a new connection will be retrieved 
+	 * from the pool, used and then closed. This is for fields which have a nullable allowed default.</p>
 	 * 
 	 * @param idAuthor  maps to id_author
 	 * @param txtIdAuthor  maps to txt_id_author
