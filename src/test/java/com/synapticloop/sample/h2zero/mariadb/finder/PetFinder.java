@@ -84,13 +84,13 @@ public class PetFinder {
 	private PetFinder() {}
 
 	/**
-	 * <p>Create a Finder that can find a <code>Pet</code> by its primary key.</p>
+	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.Table@5800c863</code> table or view by its primary key.</p>
 	 * 
-	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
+	 * <p>This will return a <code>UniqueFinder</code> instance.  To execute the finder, either call:</p>
 	 * 
 	 * <ul>
-	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
-	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown, or</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed, and logged)</li>
 	 * </ul>
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
@@ -106,12 +106,23 @@ public class PetFinder {
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>All of the above methods will either:</p>
+
+	 * 
+	 * <ul>
+	 *   <li>Return a <code>Pet</code> object, or</li>
+	 *   <li>Return <code>null</code> if the row could not be found, or</li>
+	 *   <li>Throw an exception if there was an error executing the query (if not executed silently).</li>
+	 * </ul>
+	 * 
+	 * <p>See {@link #SQL_BUILTIN_FIND_BY_PRIMARY_KEY the SQL statement that is executed} (<code>SQL_BUILTIN_FIND_BY_PRIMARY_KEY</code>)</p>
+	 * 
 	 * @param idPet the primary key
 	 * 
-	 * @return the parameterised UniqueFinder
+	 * @return the parameterised <code>UniqueFinder</code>
 	 */
 	public static UniqueFinder<Pet> findByPrimaryKey(Long idPet) {
-		return(new UniqueFinder<Pet>(
+		return(new UniqueFinder<>(
 				LOGGER,
 				SQL_BUILTIN_FIND_BY_PRIMARY_KEY,
 				resultSet -> { try { return list(resultSet); } catch (SQLException e) { return(null); }},
@@ -210,6 +221,8 @@ public class PetFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_NM_PET_NUM_AGE the SQL statement that is executed} (<code>SQL_FIND_BY_NM_PET_NUM_AGE</code>)</p>
+	 * 
 	 * @param nmPet - maps to the <code>PET.nm_pet</code> field
 	 * @param numAge - maps to the <code>PET.num_age</code> field
 	 * 
@@ -258,6 +271,8 @@ public class PetFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_NUM_AGE the SQL statement that is executed} (<code>SQL_FIND_BY_NUM_AGE</code>)</p>
+	 * 
 	 * @param numAge - maps to the <code>PET.num_age</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
@@ -304,6 +319,8 @@ public class PetFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_AGE_BETWEEN the SQL statement that is executed} (<code>SQL_FIND_AGE_BETWEEN</code>)</p>
 	 * 
 	 * @param numAgeStart - maps to the <code>PET.num_age</code> field
 	 * @param numAgeEnd - maps to the <code>PET.num_age</code> field
@@ -352,6 +369,8 @@ public class PetFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BIRTHDAYS_BETWEEN the SQL statement that is executed} (<code>SQL_FIND_BIRTHDAYS_BETWEEN</code>)</p>
 	 * 
 	 * @param dtBirthdayStart - maps to the <code>PET.dt_birthday</code> field
 	 * @param dtBirthdayEnd - maps to the <code>PET.dt_birthday</code> field

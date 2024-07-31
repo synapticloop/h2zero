@@ -136,13 +136,13 @@ public class AuthorFinder {
 	private AuthorFinder() {}
 
 	/**
-	 * <p>Create a Finder that can find a <code>Author</code> by its primary key.</p>
+	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.Table@77891eeb</code> table or view by its primary key.</p>
 	 * 
-	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
+	 * <p>This will return a <code>UniqueFinder</code> instance.  To execute the finder, either call:</p>
 	 * 
 	 * <ul>
-	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
-	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown, or</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed, and logged)</li>
 	 * </ul>
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
@@ -158,12 +158,23 @@ public class AuthorFinder {
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>All of the above methods will either:</p>
+
+	 * 
+	 * <ul>
+	 *   <li>Return a <code>Author</code> object, or</li>
+	 *   <li>Return <code>null</code> if the row could not be found, or</li>
+	 *   <li>Throw an exception if there was an error executing the query (if not executed silently).</li>
+	 * </ul>
+	 * 
+	 * <p>See {@link #SQL_BUILTIN_FIND_BY_PRIMARY_KEY the SQL statement that is executed} (<code>SQL_BUILTIN_FIND_BY_PRIMARY_KEY</code>)</p>
+	 * 
 	 * @param idAuthor the primary key
 	 * 
-	 * @return the parameterised UniqueFinder
+	 * @return the parameterised <code>UniqueFinder</code>
 	 */
 	public static UniqueFinder<Author> findByPrimaryKey(Long idAuthor) {
-		return(new UniqueFinder<Author>(
+		return(new UniqueFinder<>(
 				LOGGER,
 				SQL_BUILTIN_FIND_BY_PRIMARY_KEY,
 				resultSet -> { try { return list(resultSet); } catch (SQLException e) { return(null); }},
@@ -267,6 +278,8 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_ID_AUTHOR_STATUS the SQL statement that is executed} (<code>SQL_FIND_BY_ID_AUTHOR_STATUS</code>)</p>
+	 * 
 	 * @param idAuthorStatus - maps to the <code>AUTHOR.id_author_status</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
@@ -314,6 +327,8 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_FL_IS_UPDATING the SQL statement that is executed} (<code>SQL_FIND_BY_FL_IS_UPDATING</code>)</p>
+	 * 
 	 * @param flIsUpdating - maps to the <code>AUTHOR.fl_is_updating</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
@@ -360,6 +375,8 @@ public class AuthorFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_TXT_ID_AUTHOR_ID_AUTHOR_STATUS the SQL statement that is executed} (<code>SQL_FIND_BY_TXT_ID_AUTHOR_ID_AUTHOR_STATUS</code>)</p>
 	 * 
 	 * @param txtIdAuthor - maps to the <code>AUTHOR.txt_id_author</code> field
 	 * @param idAuthorStatus - maps to the <code>AUTHOR.id_author_status</code> field
@@ -409,6 +426,8 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_TXT_ID_AUTHOR the SQL statement that is executed} (<code>SQL_FIND_BY_TXT_ID_AUTHOR</code>)</p>
+	 * 
 	 * @param txtIdAuthor - maps to the <code>AUTHOR.txt_id_author</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -455,6 +474,8 @@ public class AuthorFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_IN_STATUS the SQL statement that is executed} (<code>SQL_FIND_IN_STATUS</code>)</p>
 	 * 
 	 * @param idAuthorStatusList - maps to the <code>AUTHOR.id_author_status</code> field
 	 * 
@@ -503,6 +524,8 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_ALL_TO_BE_EVALUATED the SQL statement that is executed} (<code>SQL_FIND_ALL_TO_BE_EVALUATED</code>)</p>
+	 * 
 	 * @param dtmStartedFollowing - maps to the <code>AUTHOR.dtm_started_following</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
@@ -549,6 +572,8 @@ public class AuthorFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_FIRST_TO_BE_EVALUATED the SQL statement that is executed} (<code>SQL_FIND_FIRST_TO_BE_EVALUATED</code>)</p>
 	 * 
 	 * @param dtmStartedFollowing - maps to the <code>AUTHOR.dtm_started_following</code> field
 	 * 
@@ -597,6 +622,8 @@ public class AuthorFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_LIMITED_TO_BE_EVALUATED the SQL statement that is executed} (<code>SQL_FIND_LIMITED_TO_BE_EVALUATED</code>)</p>
+	 * 
 	 * @param dtmStartedFollowing - maps to the <code>AUTHOR.dtm_started_following</code> field
 	 * 
 	 * @return the parameterised MultiFinder()
@@ -643,6 +670,8 @@ public class AuthorFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_IN_NUMBER the SQL statement that is executed} (<code>SQL_FIND_IN_NUMBER</code>)</p>
 	 * 
 	 * @param flIsUpdating - maps to the <code>AUTHOR.fl_is_updating</code> field
 	 * @param flIsUpdatingList - maps to the <code>AUTHOR.fl_is_updating</code> field

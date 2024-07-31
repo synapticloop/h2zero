@@ -82,6 +82,9 @@
 			{endif}
 		{endloop}
 
+		{\t} * <p>See {{@link #SQL_{finder.staticName} the SQL statement that is executed} (<code>SQL_{finder.staticName}</code>)</p>{\n}
+		{\t} * {\n}
+
 	{if finder.hasWhereFieldAliases}
 		{loop finder.whereFields as whereField}
 			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the <code>{tableOrView.upperName}.{whereField.name}</code> field{\n}

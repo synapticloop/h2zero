@@ -170,13 +170,13 @@ public class AllTypesFinder {
 	private AllTypesFinder() {}
 
 	/**
-	 * <p>Create a Finder that can find a <code>AllTypes</code> by its primary key.</p>
+	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.Table@4d04e41e</code> table or view by its primary key.</p>
 	 * 
-	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
+	 * <p>This will return a <code>UniqueFinder</code> instance.  To execute the finder, either call:</p>
 	 * 
 	 * <ul>
-	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
-	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown, or</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed, and logged)</li>
 	 * </ul>
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
@@ -192,12 +192,23 @@ public class AllTypesFinder {
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>All of the above methods will either:</p>
+
+	 * 
+	 * <ul>
+	 *   <li>Return a <code>AllTypes</code> object, or</li>
+	 *   <li>Return <code>null</code> if the row could not be found, or</li>
+	 *   <li>Throw an exception if there was an error executing the query (if not executed silently).</li>
+	 * </ul>
+	 * 
+	 * <p>See {@link #SQL_BUILTIN_FIND_BY_PRIMARY_KEY the SQL statement that is executed} (<code>SQL_BUILTIN_FIND_BY_PRIMARY_KEY</code>)</p>
+	 * 
 	 * @param idAllTypes the primary key
 	 * 
-	 * @return the parameterised UniqueFinder
+	 * @return the parameterised <code>UniqueFinder</code>
 	 */
 	public static UniqueFinder<AllTypes> findByPrimaryKey(Long idAllTypes) {
-		return(new UniqueFinder<AllTypes>(
+		return(new UniqueFinder<>(
 				LOGGER,
 				SQL_BUILTIN_FIND_BY_PRIMARY_KEY,
 				resultSet -> { try { return list(resultSet); } catch (SQLException e) { return(null); }},
@@ -307,6 +318,8 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_ID_ALL_TYPES the SQL statement that is executed} (<code>SQL_FIND_BY_ID_ALL_TYPES</code>)</p>
+	 * 
 	 * @param idAllTypes - maps to the <code>ALL_TYPES.id_all_types</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -353,6 +366,8 @@ public class AllTypesFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_BIGINT the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_BIGINT</code>)</p>
 	 * 
 	 * @param testBigint - maps to the <code>ALL_TYPES.test_bigint</code> field
 	 * 
@@ -401,6 +416,8 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_BOOLEAN the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_BOOLEAN</code>)</p>
+	 * 
 	 * @param testBoolean - maps to the <code>ALL_TYPES.test_boolean</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -447,6 +464,8 @@ public class AllTypesFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_DATE the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_DATE</code>)</p>
 	 * 
 	 * @param testDate - maps to the <code>ALL_TYPES.test_date</code> field
 	 * 
@@ -495,6 +514,8 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_DATETIME the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_DATETIME</code>)</p>
+	 * 
 	 * @param testDatetime - maps to the <code>ALL_TYPES.test_datetime</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -541,6 +562,8 @@ public class AllTypesFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_DOUBLE the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_DOUBLE</code>)</p>
 	 * 
 	 * @param testDouble - maps to the <code>ALL_TYPES.test_double</code> field
 	 * 
@@ -589,6 +612,8 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_FLOAT the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_FLOAT</code>)</p>
+	 * 
 	 * @param testFloat - maps to the <code>ALL_TYPES.test_float</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -635,6 +660,8 @@ public class AllTypesFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_INT the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_INT</code>)</p>
 	 * 
 	 * @param testInt - maps to the <code>ALL_TYPES.test_int</code> field
 	 * 
@@ -683,6 +710,8 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_INTEGER the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_INTEGER</code>)</p>
+	 * 
 	 * @param testInteger - maps to the <code>ALL_TYPES.test_integer</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -729,6 +758,8 @@ public class AllTypesFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_MEDIUMINT the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_MEDIUMINT</code>)</p>
 	 * 
 	 * @param testMediumint - maps to the <code>ALL_TYPES.test_mediumint</code> field
 	 * 
@@ -777,6 +808,8 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_NUMERIC the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_NUMERIC</code>)</p>
+	 * 
 	 * @param testNumeric - maps to the <code>ALL_TYPES.test_numeric</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -823,6 +856,8 @@ public class AllTypesFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_SMALLINT the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_SMALLINT</code>)</p>
 	 * 
 	 * @param testSmallint - maps to the <code>ALL_TYPES.test_smallint</code> field
 	 * 
@@ -871,6 +906,8 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_TEXT the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_TEXT</code>)</p>
+	 * 
 	 * @param testText - maps to the <code>ALL_TYPES.test_text</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -918,6 +955,8 @@ public class AllTypesFinder {
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_TINYINT the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_TINYINT</code>)</p>
+	 * 
 	 * @param testTinyint - maps to the <code>ALL_TYPES.test_tinyint</code> field
 	 * 
 	 * @return the parameterised UniqueFinder()
@@ -964,6 +1003,8 @@ public class AllTypesFinder {
 	 *     .withLimit(limit)
 	 *     .withOffset(offset)
 	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_TEST_VARCHAR the SQL statement that is executed} (<code>SQL_FIND_BY_TEST_VARCHAR</code>)</p>
 	 * 
 	 * @param testVarchar - maps to the <code>ALL_TYPES.test_varchar</code> field
 	 * 

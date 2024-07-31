@@ -51,13 +51,13 @@ public class UserPetFinder {
 	private UserPetFinder() {}
 
 	/**
-	 * <p>Create a Finder that can find a <code>UserPet</code> by its primary key.</p>
+	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.Table@64a11840</code> table or view by its primary key.</p>
 	 * 
-	 * <p>This will return a UniqueFinder, to execute the finder, either call</p>
+	 * <p>This will return a <code>UniqueFinder</code> instance.  To execute the finder, either call:</p>
 	 * 
 	 * <ul>
-	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
-	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown, or</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed, and logged)</li>
 	 * </ul>
 	 * 
 	 * <p>You may also want to pass in a connection, in which case use the following:</p>
@@ -73,12 +73,23 @@ public class UserPetFinder {
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 
+	 * <p>All of the above methods will either:</p>
+
+	 * 
+	 * <ul>
+	 *   <li>Return a <code>UserPet</code> object, or</li>
+	 *   <li>Return <code>null</code> if the row could not be found, or</li>
+	 *   <li>Throw an exception if there was an error executing the query (if not executed silently).</li>
+	 * </ul>
+	 * 
+	 * <p>See {@link #SQL_BUILTIN_FIND_BY_PRIMARY_KEY the SQL statement that is executed} (<code>SQL_BUILTIN_FIND_BY_PRIMARY_KEY</code>)</p>
+	 * 
 	 * @param idUserPet the primary key
 	 * 
-	 * @return the parameterised UniqueFinder
+	 * @return the parameterised <code>UniqueFinder</code>
 	 */
 	public static UniqueFinder<UserPet> findByPrimaryKey(Long idUserPet) {
-		return(new UniqueFinder<UserPet>(
+		return(new UniqueFinder<>(
 				LOGGER,
 				SQL_BUILTIN_FIND_BY_PRIMARY_KEY,
 				resultSet -> { try { return list(resultSet); } catch (SQLException e) { return(null); }},
