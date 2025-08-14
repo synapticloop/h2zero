@@ -97,7 +97,17 @@ public class Options {
 			isDefault = true;
 		}
 
-		this.database = optionsJson.optString(JSONKeyConstants.DATABASE, DATABASE_MYSQL);
+		this.database = optionsJson.optString(JSONKeyConstants.DATABASE, null);
+		if(null == this.database || !ALLOWABLE_DATABASES.contains(this.database)) {
+			SimpleLogger.logFatal(LoggerType.OPTIONS, "Invalid database type of '" + this.database + "'.");
+			Iterator<String> iterator = ALLOWABLE_DATABASES.iterator();
+			SimpleLogger.logFatal(LoggerType.OPTIONS, "Available database types are:");
+			while(iterator.hasNext()) {
+				SimpleLogger.logFatal(LoggerType.OPTIONS, "    " + iterator.next());
+			}
+			throw new H2ZeroParseException("Invalid database type of '" + this.database + "'.");
+		}
+
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "Generating for database type '" + database + "'.");
 
 		parseExtensions(optionsJson);
