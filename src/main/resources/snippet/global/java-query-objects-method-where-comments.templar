@@ -22,11 +22,11 @@
 
 {if queryObject.hasWhereFieldAliases}
 	{loop queryObject.whereFields as whereField}
-		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field (from the where clause){\n}
+		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the <code>{whereField.name}</code> field (from the where clause){\n}
 	{endloop}
 {else}
 	{loop queryObject.uniqueWhereFields as whereField}
-		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the {whereField.name} field (from the where clause){\n}
+		{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the <code>{whereField.name}</code> field (from the where clause){\n}
 	{endloop}
 {endif}
 

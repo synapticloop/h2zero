@@ -1,0 +1,27 @@
+ * <table border="1" cellspacing="0" cellpadding="4">{\n}
+ *   <caption>Details for the {table.name} table</caption>{\n}
+ *   <thead>{\n}
+ *     <tr>{\n}
+ *       <th>Name</th>{\n}
+ *       <th>Type</th>{\n}
+ *       <th colspan="2">Length<br />(min/max)</th>{\n}
+ *       <th>Key</th>{\n}
+ *       <th>Index</th>{\n}
+ *       <th>Nullable?</th>{\n}
+ *       <th>Comments</th>{\n}
+ *     </tr>{\n}
+ *   </thead>{\n}
+ *   <tbody>{\n}
+{loop table.fields as field}
+ *     <tr>{\n}
+ *       <td><code>{field.name}</code></td>{\n}
+ *       <td>{field.type}</td>{\n}
+ *       <td>{field.minLength}</td>{\n}
+ *       <td>{field.maxLength}</td>{\n}
+ *       <td>{if field.primary}PRIMARY{else}{if field.isForeignKey}FOREIGN{endif}{endif}</td>{\n}
+ *       <td>{if fn:or[field.index, field.primary]}INDEXED{endif}</td>{\n}
+ *       <td>{if field.nullable}NULLABLE{endif}</td>{\n}
+ *     </tr>{\n}
+{endloop}
+ *   </tbody>{\n}
+ * </table>{\n}

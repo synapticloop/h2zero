@@ -3,7 +3,7 @@ package com.synapticloop.h2zero.base.validator;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 
 /*
- * Copyright (c) 2013-2024 synapticloop.
+ * Copyright (c) 2013-2025 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and

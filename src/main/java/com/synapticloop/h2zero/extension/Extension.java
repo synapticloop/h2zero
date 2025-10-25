@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.extension;
 
 /*
- * Copyright (c) 2018 - 2024 synapticloop.
+ * Copyright (c) 2018 - 2025 synapticloop.
  * 
  * All rights reserved.
  *

@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.plugin;
 
 /*
- * Copyright (c) 2016-2024 synapticloop.
+ * Copyright (c) 2016-2025 synapticloop.
  * 
  * All rights reserved.
  * 
@@ -43,6 +43,7 @@ import java.util.*;
 public class BaseH2ZeroGenerator {
 	public static boolean verbose = false;
 	private int numTables;
+	private int numViews;
 
 	private final List<Generator> generators = new ArrayList<>();
 	private final File h2ZeroFile;
@@ -87,6 +88,7 @@ public class BaseH2ZeroGenerator {
 
 			database = h2zeroParser.getDatabase();
 			numTables = database.getTables().size();
+			numViews = database.getViews().size();
 
 			templarContext.add(JSONKeyConstants.DATABASE, database);
 
@@ -203,6 +205,7 @@ public class BaseH2ZeroGenerator {
       }
 
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just generated code for %d tables!", numTables));
+			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just generated code for %d views!", numViews));
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just saved you typing %d files!  Messages [ warn: %3d, fatal: %3d ]", numFiles, h2zeroParser.getNumWarn(), h2zeroParser.getNumFatal()));
 
       for (String key : numFilesHashMap.keySet()) {

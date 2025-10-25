@@ -22,6 +22,166 @@ import org.slf4j.LoggerFactory;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
+/**
+ * <p>The <code>AllTypesCounter</code> contains all Counter methods for the <code>all_types</code> table.</p>
+ * 
+ * <p>The following user-defined Counters have been defined:
+ * 
+ * 
+ * <table border="1" cellspacing="0" cellpadding="4">
+ *   <caption>Details for the all_types table</caption>
+ *   <thead>
+ *     <tr>
+ *       <th>Name</th>
+ *       <th>Type</th>
+ *       <th colspan="2">Length<br />(min/max)</th>
+ *       <th>Key</th>
+ *       <th>Index</th>
+ *       <th>Nullable?</th>
+ *       <th>Comments</th>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>id_all_types</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td>PRIMARY</td>
+ *       <td>INDEXED</td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_bigint</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_boolean</code></td>
+ *       <td>boolean</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_date</code></td>
+ *       <td>date</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_datetime</code></td>
+ *       <td>datetime</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_double</code></td>
+ *       <td>double</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_float</code></td>
+ *       <td>float</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_int</code></td>
+ *       <td>int</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_integer</code></td>
+ *       <td>integer</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_mediumint</code></td>
+ *       <td>mediumint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_numeric</code></td>
+ *       <td>numeric</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_smallint</code></td>
+ *       <td>smallint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_text</code></td>
+ *       <td>text</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_tinyint</code></td>
+ *       <td>tinyint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>test_varchar</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ * 
+ * @author Synapticloop
+ */
 public class AllTypesCounter {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -29,7 +189,7 @@ public class AllTypesCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
-		private static final Logger LOGGER = LoggerFactory.getLogger(AllTypesCounter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AllTypesCounter.class);
 
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from all_types";
@@ -58,14 +218,6 @@ public class AllTypesCounter {
 			if(resultSet.next()) {
 				return(resultSet.getInt(1));
 			}
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -84,39 +236,38 @@ public class AllTypesCounter {
 
 		try (Connection connection = ConnectionManager.getConnection()) {
 			return(countAll(connection));
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		}
 	}
 
 	/**
-	 * Find the count of all AllTypes objects and if there is an error
-	 * fail silently and log the error.
+	 * <p>Find the count of the rows of the AllTypes table.</p>
+	 * 
+	 * <p>This will execute the following SQL Statement:</p>
+	 * 
+	 * <pre>
+	 * select count(*) from all_types
+	 * </pre>
+	 * 
+	 * <p><strong>IMPORTANT:</strong></p> If an exception occurred, this method will fail 
+	 * silently (i.e. catch an log the exception} and return <code>-1</code>.
 	 * 
 	 * @param connection the passed in connection object, useful for queries within
 	 * a transaction.
 	 * 
-	 * @return the count of AllTypes objects
+	 * @return the count of the rows of the AllTypes table, or -1 if there
+	 *   was an SQL Exception.
+	 * 
+	 * @see #SQL_BUILTIN_COUNT_ALL SQL_BUILTIN_COUNT_ALL the (private) static 
+	 * String which holds the SQL query.
 	 * 
 	 */
 	public static int countAllSilent(Connection connection) {
 		try {
 			return(countAll(connection));
 		} catch(SQLException sqlex){
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			return(-1);
+			LOGGER.error("SQLException countAllSilent(connection), message was: {}", sqlex.getMessage(), sqlex);
 		}
+		return(-1);
 	}
 
 	/**

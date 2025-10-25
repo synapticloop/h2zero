@@ -1,0 +1,29 @@
+{--
+  This is the comment which counts the user generated query objects, either
+  through fieldFinders/deleters/updaters etc or plain finders/deleters/updaters
+
+	required:
+		classType: the type of the action
+		queryObjects: The tableOrView finder/deleters/updaters etc
+}
+
+/**{\n}
+ * <p>The <code>{table.javaClassName}{classType}</code> contains all {classType} methods for the <code>{table.name}</code> table.</p>{\n}
+ * {\n}
+ * <p>The following user-defined {classType}s have been defined:{\n}
+ * {\n}
+{loop queryObjects as queryObject}
+ * <p><code>{queryObject.name}()</code></p>{\n}
+ * {\n}
+ * {\n}
+ * <p>This will execute the following SQL Statement:</p>{\n}
+ * {\n}
+ * <pre>{\n}
+ * sql here{\n}
+ * </pre>{\n}
+{endloop}
+ * {\n}
+{import classpath:/snippet/global/java-class-comment-table-details.templar}
+ * {\n}
+ * @author Synapticloop{\n}
+ */{\n}

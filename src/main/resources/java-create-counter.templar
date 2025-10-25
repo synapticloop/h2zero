@@ -23,14 +23,17 @@ import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager
 import {database.package}.model.util.Constants;{\n}
 {\n}
 
+{set "Counter" as classType}
+{set table.counters as queryObjects}
+{import classpath:/snippet/global/java-class-comment.templar}
+
 public class {table.javaClassName}Counter {{{\n}
 
 	{set table as baseSchemaObject}
 	{import classpath:/snippet/global/java-binder-declaration.templar}
 
-	{set "Counter" as classType}
 	{set baseSchemaObject.javaClassName as loggerClass}
-	{\t}{import classpath:/snippet/global/java-logger-declaration.templar}{\n}
+	{import classpath:/snippet/global/java-logger-declaration.templar}{\n}
 	{\n}
 
 {\t}private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from {table.name}";{\n}
@@ -40,7 +43,7 @@ public class {table.javaClassName}Counter {{{\n}
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {loop table.counters as counter}
-	{\t}private static final String SQL_{counter.staticName} = "{counter.selectClause}"
+	{\t}private static final String SQL_{counter.staticName} = SQL_BUILTIN_COUNT_ALL
 	{if fn:notNull[counter.whereClause]} + " {counter.whereClause}"{endif}
 	{if fn:notNull[counter.orderBy]} + " order by {counter.orderBy}"{endif};{\n}
 {endloop}
@@ -85,16 +88,6 @@ public class {table.javaClassName}Counter {{{\n}
 {\t}{\t}{\t}if(resultSet.next()) {{{\n}
 {\t}{\t}{\t}{\t}return(resultSet.getInt(1));{\n}
 {\t}{\t}{\t}}{\n}
-{\t}{\t}} catch(SQLException sqlex) {{{\n}
-{\t}{\t}{\t}if(LOGGER.isWarnEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}throw sqlex;{\n}
 {\t}{\t}} finally {{{\n}
 {\t}{\t}{\t}ConnectionManager.closeAll(resultSet, preparedStatement);{\n}
 {\t}{\t}}{\n}
@@ -117,28 +110,30 @@ public class {table.javaClassName}Counter {{{\n}
 {\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
 {\t}{\t}{\t}return(countAll(connection));{\n}
-{\t}{\t}} catch(SQLException sqlex) {{{\n}
-{\t}{\t}{\t}if(LOGGER.isWarnEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-{\t}{\t}{\t}throw sqlex;{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
 {\n}
 
 {\t}/**{\n}
-{\t} * Find the count of all {table.javaClassName} objects and if there is an error{\n}
-{\t} * fail silently and log the error.{\n}
+{\t} * <p>Find the count of the rows of the {table.javaClassName} table.</p>{\n}
+{\t} * {\n}
+{\t} * <p>This will execute the following SQL Statement:</p>{\n}
+{\t} * {\n}
+{\t} * <pre>{\n}
+{\t} * select count(*) from {table.name}{\n}
+{\t} * </pre>{\n}
+{\t} * {\n}
+{\t} * <p><strong>IMPORTANT:</strong></p> If an exception occurred, this method will fail {\n}
+{\t} * silently (i.e. catch an log the exception} and return <code>-1</code>.{\n}
 {\t} * {\n}
 {\t} * @param connection the passed in connection object, useful for queries within{\n}
 {\t} * a transaction.{\n}
 {\t} * {\n}
-{\t} * @return the count of {table.javaClassName} objects{\n}
+{\t} * @return the count of the rows of the {table.javaClassName} table, or -1 if there{\n}
+{\t} *   was an SQL Exception.{\n}
+{\t} * {\n}
+{\t} * @see #SQL_BUILTIN_COUNT_ALL SQL_BUILTIN_COUNT_ALL the (private) static {\n}
+{\t} * String which holds the SQL query.{\n}
 {\t} * {\n}
 {\t} */{\n}
 
@@ -146,18 +141,9 @@ public class {table.javaClassName}Counter {{{\n}
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}return(countAll(connection));{\n}
 {\t}{\t}} catch(SQLException sqlex){{{\n}
-
-{\t}{\t}{\t}if(LOGGER.isWarnEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());{\n}
-
-{\t}{\t}{\t}{\t}if(LOGGER.isDebugEnabled()) {{{\n}
-{\t}{\t}{\t}{\t}{\t}sqlex.printStackTrace();{\n}
-{\t}{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}}{\n}
-
-{\t}{\t}{\t}return(-1);{\n}
+{\t}{\t}{\t}LOGGER.error("SQLException countAllSilent(connection), message was: {{}", sqlex.getMessage(), sqlex);{\n}
 {\t}{\t}}{\n}
+{\t}{\t}return(-1);{\n}
 {\t}}{\n}
 {\n}
 

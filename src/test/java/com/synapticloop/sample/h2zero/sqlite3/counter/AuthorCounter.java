@@ -22,6 +22,172 @@ import org.slf4j.LoggerFactory;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
+/**
+ * <p>The <code>AuthorCounter</code> contains all Counter methods for the <code>author</code> table.</p>
+ * 
+ * <p>The following user-defined Counters have been defined:
+ * 
+ * <p><code>countAllByFlIsUpdatingNumFollowers()</code></p>
+ * 
+ * 
+ * <p>This will execute the following SQL Statement:</p>
+ * 
+ * <pre>
+ * sql here
+ * </pre>
+ * <p><code>countAllToBeEvaluated()</code></p>
+ * 
+ * 
+ * <p>This will execute the following SQL Statement:</p>
+ * 
+ * <pre>
+ * sql here
+ * </pre>
+ * <p><code>countByStatus()</code></p>
+ * 
+ * 
+ * <p>This will execute the following SQL Statement:</p>
+ * 
+ * <pre>
+ * sql here
+ * </pre>
+ * 
+ * <table border="1" cellspacing="0" cellpadding="4">
+ *   <caption>Details for the author table</caption>
+ *   <thead>
+ *     <tr>
+ *       <th>Name</th>
+ *       <th>Type</th>
+ *       <th colspan="2">Length<br />(min/max)</th>
+ *       <th>Key</th>
+ *       <th>Index</th>
+ *       <th>Nullable?</th>
+ *       <th>Comments</th>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>id_author</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td>PRIMARY</td>
+ *       <td>INDEXED</td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>id_author_status</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td>FOREIGN</td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>txt_id_author</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>256</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>nm_author</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>256</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>nm_username</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>256</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>txt_bio</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>512</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>txt_url_cache_image</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>512</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>num_following</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>num_followers</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>dtm_started_following</code></td>
+ *       <td>datetime</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>fl_is_updating</code></td>
+ *       <td>boolean</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>fl_author_is_following_user</code></td>
+ *       <td>boolean</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>fl_author_is_followed_by_user</code></td>
+ *       <td>boolean</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ * 
+ * @author Synapticloop
+ */
 public class AuthorCounter {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -29,14 +195,14 @@ public class AuthorCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.AUTHOR_BINDER;
 
-		private static final Logger LOGGER = LoggerFactory.getLogger(AuthorCounter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthorCounter.class);
 
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from author";
 
-	private static final String SQL_COUNT_ALL_BY_FL_IS_UPDATING_NUM_FOLLOWERS = "select count(*) from author " + " where fl_is_updating = ? and num_followers = ?";
-	private static final String SQL_COUNT_ALL_TO_BE_EVALUATED = "select count(*) from author " + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? ";
-	private static final String SQL_COUNT_BY_STATUS = "select count(*) from author " + " where id_author_status = ?";
+	private static final String SQL_COUNT_ALL_BY_FL_IS_UPDATING_NUM_FOLLOWERS = SQL_BUILTIN_COUNT_ALL + " where fl_is_updating = ? and num_followers = ?";
+	private static final String SQL_COUNT_ALL_TO_BE_EVALUATED = SQL_BUILTIN_COUNT_ALL + " where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? ";
+	private static final String SQL_COUNT_BY_STATUS = SQL_BUILTIN_COUNT_ALL + " where id_author_status = ?";
 
 
 	private AuthorCounter() {}
@@ -61,14 +227,6 @@ public class AuthorCounter {
 			if(resultSet.next()) {
 				return(resultSet.getInt(1));
 			}
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -87,39 +245,38 @@ public class AuthorCounter {
 
 		try (Connection connection = ConnectionManager.getConnection()) {
 			return(countAll(connection));
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		}
 	}
 
 	/**
-	 * Find the count of all Author objects and if there is an error
-	 * fail silently and log the error.
+	 * <p>Find the count of the rows of the Author table.</p>
+	 * 
+	 * <p>This will execute the following SQL Statement:</p>
+	 * 
+	 * <pre>
+	 * select count(*) from author
+	 * </pre>
+	 * 
+	 * <p><strong>IMPORTANT:</strong></p> If an exception occurred, this method will fail 
+	 * silently (i.e. catch an log the exception} and return <code>-1</code>.
 	 * 
 	 * @param connection the passed in connection object, useful for queries within
 	 * a transaction.
 	 * 
-	 * @return the count of Author objects
+	 * @return the count of the rows of the Author table, or -1 if there
+	 *   was an SQL Exception.
+	 * 
+	 * @see #SQL_BUILTIN_COUNT_ALL SQL_BUILTIN_COUNT_ALL the (private) static 
+	 * String which holds the SQL query.
 	 * 
 	 */
 	public static int countAllSilent(Connection connection) {
 		try {
 			return(countAll(connection));
 		} catch(SQLException sqlex){
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			return(-1);
+			LOGGER.error("SQLException countAllSilent(connection), message was: {}", sqlex.getMessage(), sqlex);
 		}
+		return(-1);
 	}
 
 	/**

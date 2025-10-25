@@ -5,16 +5,18 @@ package com.synapticloop.sample.h2zero.sqlite3.test.util;
 //          (tests/java-sqlite3-database-test-base.templar)
 
 
+import static org.junit.Assert.*;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.AfterClass;
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,7 +34,7 @@ public class DatabaseSetupTest extends BaseConnectionManager {
 			throw new RuntimeException(e);
 		}
 
-		comboPooledDataSource.setJdbcUrl("jdbc:sqlite:/C:\\Users\\strata\\IdeaProjects\\h2zero\\./src/test/resources//test.db");
+		comboPooledDataSource.setJdbcUrl("jdbc:sqlite:/C:\\Users\\Admin\\IdeaProjects\\h2zero\\./src/test/resources//test.db");
 		createDatabase();
 	}
 
@@ -80,5 +82,4 @@ public class DatabaseSetupTest extends BaseConnectionManager {
 		} finally {
 			ConnectionManager.closeAll(preparedStatement);
 		}
-	}
-}
+	}}

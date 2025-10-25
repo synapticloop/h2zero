@@ -22,6 +22,58 @@ import org.slf4j.LoggerFactory;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
+/**
+ * <p>The <code>AuthorStatusCounter</code> contains all Counter methods for the <code>author_status</code> table.</p>
+ * 
+ * <p>The following user-defined Counters have been defined:
+ * 
+ * 
+ * <table border="1" cellspacing="0" cellpadding="4">
+ *   <caption>Details for the author_status table</caption>
+ *   <thead>
+ *     <tr>
+ *       <th>Name</th>
+ *       <th>Type</th>
+ *       <th colspan="2">Length<br />(min/max)</th>
+ *       <th>Key</th>
+ *       <th>Index</th>
+ *       <th>Nullable?</th>
+ *       <th>Comments</th>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>id_author_status</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td>PRIMARY</td>
+ *       <td>INDEXED</td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>txt_author_status</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>256</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>txt_desc_author_status</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>256</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ * 
+ * @author Synapticloop
+ */
 public class AuthorStatusCounter {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -29,7 +81,7 @@ public class AuthorStatusCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.AUTHOR_STATUS_BINDER;
 
-		private static final Logger LOGGER = LoggerFactory.getLogger(AuthorStatusCounter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthorStatusCounter.class);
 
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from author_status";
@@ -58,14 +110,6 @@ public class AuthorStatusCounter {
 			if(resultSet.next()) {
 				return(resultSet.getInt(1));
 			}
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -84,39 +128,38 @@ public class AuthorStatusCounter {
 
 		try (Connection connection = ConnectionManager.getConnection()) {
 			return(countAll(connection));
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		}
 	}
 
 	/**
-	 * Find the count of all AuthorStatus objects and if there is an error
-	 * fail silently and log the error.
+	 * <p>Find the count of the rows of the AuthorStatus table.</p>
+	 * 
+	 * <p>This will execute the following SQL Statement:</p>
+	 * 
+	 * <pre>
+	 * select count(*) from author_status
+	 * </pre>
+	 * 
+	 * <p><strong>IMPORTANT:</strong></p> If an exception occurred, this method will fail 
+	 * silently (i.e. catch an log the exception} and return <code>-1</code>.
 	 * 
 	 * @param connection the passed in connection object, useful for queries within
 	 * a transaction.
 	 * 
-	 * @return the count of AuthorStatus objects
+	 * @return the count of the rows of the AuthorStatus table, or -1 if there
+	 *   was an SQL Exception.
+	 * 
+	 * @see #SQL_BUILTIN_COUNT_ALL SQL_BUILTIN_COUNT_ALL the (private) static 
+	 * String which holds the SQL query.
 	 * 
 	 */
 	public static int countAllSilent(Connection connection) {
 		try {
 			return(countAll(connection));
 		} catch(SQLException sqlex){
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			return(-1);
+			LOGGER.error("SQLException countAllSilent(connection), message was: {}", sqlex.getMessage(), sqlex);
 		}
+		return(-1);
 	}
 
 	/**

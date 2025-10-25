@@ -22,6 +22,58 @@ import org.slf4j.LoggerFactory;
 
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
 
+/**
+ * <p>The <code>UserTitleCounter</code> contains all Counter methods for the <code>user_title</code> table.</p>
+ * 
+ * <p>The following user-defined Counters have been defined:
+ * 
+ * 
+ * <table border="1" cellspacing="0" cellpadding="4">
+ *   <caption>Details for the user_title table</caption>
+ *   <thead>
+ *     <tr>
+ *       <th>Name</th>
+ *       <th>Type</th>
+ *       <th colspan="2">Length<br />(min/max)</th>
+ *       <th>Key</th>
+ *       <th>Index</th>
+ *       <th>Nullable?</th>
+ *       <th>Comments</th>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>id_user_title</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td>PRIMARY</td>
+ *       <td>INDEXED</td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>nm_user_title</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>32</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>num_order_by</code></td>
+ *       <td>int</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ * 
+ * @author Synapticloop
+ */
 public class UserTitleCounter {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -29,7 +81,7 @@ public class UserTitleCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_TITLE_BINDER;
 
-		private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleCounter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTitleCounter.class);
 
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from user_title";
@@ -58,14 +110,6 @@ public class UserTitleCounter {
 			if(resultSet.next()) {
 				return(resultSet.getInt(1));
 			}
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -84,39 +128,38 @@ public class UserTitleCounter {
 
 		try (Connection connection = ConnectionManager.getConnection()) {
 			return(countAll(connection));
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		}
 	}
 
 	/**
-	 * Find the count of all UserTitle objects and if there is an error
-	 * fail silently and log the error.
+	 * <p>Find the count of the rows of the UserTitle table.</p>
+	 * 
+	 * <p>This will execute the following SQL Statement:</p>
+	 * 
+	 * <pre>
+	 * select count(*) from user_title
+	 * </pre>
+	 * 
+	 * <p><strong>IMPORTANT:</strong></p> If an exception occurred, this method will fail 
+	 * silently (i.e. catch an log the exception} and return <code>-1</code>.
 	 * 
 	 * @param connection the passed in connection object, useful for queries within
 	 * a transaction.
 	 * 
-	 * @return the count of UserTitle objects
+	 * @return the count of the rows of the UserTitle table, or -1 if there
+	 *   was an SQL Exception.
+	 * 
+	 * @see #SQL_BUILTIN_COUNT_ALL SQL_BUILTIN_COUNT_ALL the (private) static 
+	 * String which holds the SQL query.
 	 * 
 	 */
 	public static int countAllSilent(Connection connection) {
 		try {
 			return(countAll(connection));
 		} catch(SQLException sqlex){
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			return(-1);
+			LOGGER.error("SQLException countAllSilent(connection), message was: {}", sqlex.getMessage(), sqlex);
 		}
+		return(-1);
 	}
 
 	/**

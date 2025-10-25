@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.validator.field;
 
 /*
- * Copyright (c) 2012-2024 synapticloop.
+ * Copyright (c) 2012-2025 synapticloop.
  * 
  * All rights reserved.
  *

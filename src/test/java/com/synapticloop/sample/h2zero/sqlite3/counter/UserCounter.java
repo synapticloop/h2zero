@@ -22,6 +22,135 @@ import org.slf4j.LoggerFactory;
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
+/**
+ * <p>The <code>UserCounter</code> contains all Counter methods for the <code>user</code> table.</p>
+ * 
+ * <p>The following user-defined Counters have been defined:
+ * 
+ * <p><code>countNumberOfUsers()</code></p>
+ * 
+ * 
+ * <p>This will execute the following SQL Statement:</p>
+ * 
+ * <pre>
+ * sql here
+ * </pre>
+ * <p><code>countNumberOfUsersOverAge()</code></p>
+ * 
+ * 
+ * <p>This will execute the following SQL Statement:</p>
+ * 
+ * <pre>
+ * sql here
+ * </pre>
+ * <p><code>countNumberOfUsersBetweenAge()</code></p>
+ * 
+ * 
+ * <p>This will execute the following SQL Statement:</p>
+ * 
+ * <pre>
+ * sql here
+ * </pre>
+ * <p><code>countUsersInAges()</code></p>
+ * 
+ * 
+ * <p>This will execute the following SQL Statement:</p>
+ * 
+ * <pre>
+ * sql here
+ * </pre>
+ * 
+ * <table border="1" cellspacing="0" cellpadding="4">
+ *   <caption>Details for the user table</caption>
+ *   <thead>
+ *     <tr>
+ *       <th>Name</th>
+ *       <th>Type</th>
+ *       <th colspan="2">Length<br />(min/max)</th>
+ *       <th>Key</th>
+ *       <th>Index</th>
+ *       <th>Nullable?</th>
+ *       <th>Comments</th>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>id_user</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td>PRIMARY</td>
+ *       <td>INDEXED</td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>id_user_type</code></td>
+ *       <td>bigint</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td>FOREIGN</td>
+ *       <td>INDEXED</td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>fl_is_alive</code></td>
+ *       <td>boolean</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td>INDEXED</td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>num_age</code></td>
+ *       <td>int</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>nm_username</code></td>
+ *       <td>varchar</td>
+ *       <td>0</td>
+ *       <td>64</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>txt_address_email</code></td>
+ *       <td>varchar</td>
+ *       <td>6</td>
+ *       <td>256</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>txt_password</code></td>
+ *       <td>varchar</td>
+ *       <td>8</td>
+ *       <td>32</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>dtm_signup</code></td>
+ *       <td>datetime</td>
+ *       <td>0</td>
+ *       <td>0</td>
+ *       <td></td>
+ *       <td></td>
+ *       <td>NULLABLE</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ * 
+ * @author Synapticloop
+ */
 public class UserCounter {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
@@ -29,15 +158,15 @@ public class UserCounter {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_BINDER;
 
-		private static final Logger LOGGER = LoggerFactory.getLogger(UserCounter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserCounter.class);
 
 
 	private static final String SQL_BUILTIN_COUNT_ALL = "select count(*) from user";
 
-	private static final String SQL_COUNT_NUMBER_OF_USERS = "select count(*) from user";
-	private static final String SQL_COUNT_NUMBER_OF_USERS_OVER_AGE = "select count(*) from user" + " where num_age > ?";
-	private static final String SQL_COUNT_NUMBER_OF_USERS_BETWEEN_AGE = "select count(*) from user" + " where num_age > ? and num_age < ?";
-	private static final String SQL_COUNT_USERS_IN_AGES = "select count(*) from user" + " where num_age in (...)";
+	private static final String SQL_COUNT_NUMBER_OF_USERS = SQL_BUILTIN_COUNT_ALL;
+	private static final String SQL_COUNT_NUMBER_OF_USERS_OVER_AGE = SQL_BUILTIN_COUNT_ALL + " where num_age > ?";
+	private static final String SQL_COUNT_NUMBER_OF_USERS_BETWEEN_AGE = SQL_BUILTIN_COUNT_ALL + " where num_age > ? and num_age < ?";
+	private static final String SQL_COUNT_USERS_IN_AGES = SQL_BUILTIN_COUNT_ALL + " where num_age in (...)";
 
 	private static Map<String, String> countUsersInAges_statement_cache = new HashMap<String, String>();
 
@@ -63,14 +192,6 @@ public class UserCounter {
 			if(resultSet.next()) {
 				return(resultSet.getInt(1));
 			}
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		} finally {
 			ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
@@ -89,39 +210,38 @@ public class UserCounter {
 
 		try (Connection connection = ConnectionManager.getConnection()) {
 			return(countAll(connection));
-		} catch(SQLException sqlex) {
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAll(): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			throw sqlex;
 		}
 	}
 
 	/**
-	 * Find the count of all User objects and if there is an error
-	 * fail silently and log the error.
+	 * <p>Find the count of the rows of the User table.</p>
+	 * 
+	 * <p>This will execute the following SQL Statement:</p>
+	 * 
+	 * <pre>
+	 * select count(*) from user
+	 * </pre>
+	 * 
+	 * <p><strong>IMPORTANT:</strong></p> If an exception occurred, this method will fail 
+	 * silently (i.e. catch an log the exception} and return <code>-1</code>.
 	 * 
 	 * @param connection the passed in connection object, useful for queries within
 	 * a transaction.
 	 * 
-	 * @return the count of User objects
+	 * @return the count of the rows of the User table, or -1 if there
+	 *   was an SQL Exception.
+	 * 
+	 * @see #SQL_BUILTIN_COUNT_ALL SQL_BUILTIN_COUNT_ALL the (private) static 
+	 * String which holds the SQL query.
 	 * 
 	 */
 	public static int countAllSilent(Connection connection) {
 		try {
 			return(countAll(connection));
 		} catch(SQLException sqlex){
-			if(LOGGER.isWarnEnabled()) {
-				LOGGER.warn("SQLException countAllSilent(connection): " + sqlex.getMessage());
-				if(LOGGER.isDebugEnabled()) {
-					sqlex.printStackTrace();
-				}
-			}
-			return(-1);
+			LOGGER.error("SQLException countAllSilent(connection), message was: {}", sqlex.getMessage(), sqlex);
 		}
+		return(-1);
 	}
 
 	/**

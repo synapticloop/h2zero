@@ -1,28 +1,7 @@
 package com.synapticloop.h2zero.model.util;
 
 /*
- * Copyright (c) 2012-2024 synapticloop.
- * All rights reserved.
- *
- * This source code and any derived binaries are covered by the terms and
- * conditions of the Licence agreement ("the Licence").  You may not use this
- * source code or any derived binaries except in compliance with the Licence.
- * A copy of the Licence is available in the file named LICENCE shipped with
- * this source code or binaries.
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * Licence for the specific language governing permissions and limitations
- * under the Licence.
- */
-
-import java.util.HashSet;
-import java.util.Set;
-
-/*
- * Copyright (c) 2015-2018 synapticloop.
- * 
+ * Copyright (c) 2012-2025 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -43,10 +22,16 @@ import com.synapticloop.h2zero.model.Database;
 import com.synapticloop.h2zero.model.Table;
 import com.synapticloop.h2zero.model.field.BaseField;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class FieldLookupHelper {
 	private static final String IN_DESIGNATOR = "in:";
 
 	private FieldLookupHelper() {}
+	private static final Map<String, Table> TABLE_CACHE = new HashMap<>();
 	private static final Set<String> TABLE_FIELD_CACHE = new HashSet<>();
 
 	/**
@@ -105,9 +90,24 @@ public class FieldLookupHelper {
 		return(fieldName.startsWith(IN_DESIGNATOR));
 	}
 
+	/**
+	 * <p>Add the table to the table cache so that we can lookup tables</p>
+	 *
+	 * @param tableName The name of the table
+	 * @param table The table object
+	 */
+	public static void addToTableCache(String tableName, Table table) {
+		TABLE_CACHE.put(tableName, table);
+	}
+
+	public static Table getFromTableCache(String tableName) {
+		return(TABLE_CACHE.get(tableName));
+	}
+
 	public static void addToTableFieldCache(String tableName, String fieldName) {
 		TABLE_FIELD_CACHE.add(tableName + ":" + fieldName);
 	}
+
 
 	public static boolean hasTableField(String tableName, String fieldName) {
 		return(TABLE_FIELD_CACHE.contains(tableName + ":" + fieldName));
