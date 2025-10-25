@@ -152,7 +152,9 @@ public abstract class BaseQueryObject {
 			return(stringBuffer.toString());
 		} else {
 			String stringValue = JsonHelper.getStringValue(jsonObject, jsonKey, null);
-			clausesList.add(stringValue);
+			if(stringValue != null) {
+				clausesList.add(stringValue);
+			}
 			return stringValue;
 		}
 	}

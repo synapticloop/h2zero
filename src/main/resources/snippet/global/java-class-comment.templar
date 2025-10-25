@@ -13,13 +13,15 @@
  * <p>The following user-defined {classType}s have been defined:{\n}
  * {\n}
 {loop queryObjects as queryObject}
- * <p><code>{queryObject.name}()</code></p>{\n}
- * {\n}
- * {\n}
- * <p>This will execute the following SQL Statement:</p>{\n}
+ * <p><code>{queryObject.name}()</code> which will execute the following SQL statement</p>{\n}
  * {\n}
  * <pre>{\n}
- * sql here{\n}
+{loop queryObject.selectClauses as selectClause}
+ * {selectClause}{\n}
+{endloop}
+{loop queryObject.whereClauses as whereClause}
+ * {whereClause}{\n}
+{endloop}
  * </pre>{\n}
 {endloop}
  * {\n}

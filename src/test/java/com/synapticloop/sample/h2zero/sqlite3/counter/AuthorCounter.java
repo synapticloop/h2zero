@@ -27,29 +27,20 @@ import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
  * 
  * <p>The following user-defined Counters have been defined:
  * 
- * <p><code>countAllByFlIsUpdatingNumFollowers()</code></p>
- * 
- * 
- * <p>This will execute the following SQL Statement:</p>
+ * <p><code>countAllByFlIsUpdatingNumFollowers()</code> which will execute the following SQL statement</p>
  * 
  * <pre>
- * sql here
+ * where fl_is_updating = ? and num_followers = ?
  * </pre>
- * <p><code>countAllToBeEvaluated()</code></p>
- * 
- * 
- * <p>This will execute the following SQL Statement:</p>
+ * <p><code>countAllToBeEvaluated()</code> which will execute the following SQL statement</p>
  * 
  * <pre>
- * sql here
+ * where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? 
  * </pre>
- * <p><code>countByStatus()</code></p>
- * 
- * 
- * <p>This will execute the following SQL Statement:</p>
+ * <p><code>countByStatus()</code> which will execute the following SQL statement</p>
  * 
  * <pre>
- * sql here
+ * where id_author_status = ?
  * </pre>
  * 
  * <table border="1" cellspacing="0" cellpadding="4">

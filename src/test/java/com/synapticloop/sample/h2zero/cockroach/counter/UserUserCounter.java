@@ -27,37 +27,28 @@ import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
  * 
  * <p>The following user-defined Counters have been defined:
  * 
- * <p><code>countNumberOfUsers()</code></p>
- * 
- * 
- * <p>This will execute the following SQL Statement:</p>
+ * <p><code>countNumberOfUsers()</code> which will execute the following SQL statement</p>
  * 
  * <pre>
- * sql here
+ * select count(*) from user
  * </pre>
- * <p><code>countNumberOfUsersOverAge()</code></p>
- * 
- * 
- * <p>This will execute the following SQL Statement:</p>
+ * <p><code>countNumberOfUsersOverAge()</code> which will execute the following SQL statement</p>
  * 
  * <pre>
- * sql here
+ * select count(*) from user
+ * where num_age > ?
  * </pre>
- * <p><code>countNumberOfUsersBetweenAge()</code></p>
- * 
- * 
- * <p>This will execute the following SQL Statement:</p>
+ * <p><code>countNumberOfUsersBetweenAge()</code> which will execute the following SQL statement</p>
  * 
  * <pre>
- * sql here
+ * select count(*) from user
+ * where num_age > ? and num_age < ?
  * </pre>
- * <p><code>countUsersInAges()</code></p>
- * 
- * 
- * <p>This will execute the following SQL Statement:</p>
+ * <p><code>countUsersInAges()</code> which will execute the following SQL statement</p>
  * 
  * <pre>
- * sql here
+ * select count(*) from user
+ * where num_age in (...)
  * </pre>
  * 
  * <table border="1" cellspacing="0" cellpadding="4">
