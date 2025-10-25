@@ -22,20 +22,27 @@ import {database.package}.model.util.Constants;{\n}
 import com.synapticloop.h2zero.base.sql.nolimitoffset.Counter;{\n}
 {\n}
 /**{\n}
- * <p>This class contains all of the counters that are defined in the h2zero{\n}
- * file.</p>{\n}
+ * <p>The {table.javaClassName}Counter contains all counters that are defined{\n}
+ * in the h2zero file for the <code>{table.name}</code> table.  These counters{\n}
+ * are defined either in the <code>"finders"</code> or the <code>"fieldFinders"</code>{\n}
+ * JSON array keys.</p>{\n}
  * {\n}
- * <p>A counter may only return a simple integer (i.e. the count) response{\n}
- * from a query.</p>{\n}
- * {\n}
- * <p>Table name: <code>{table.name}</code></p>{\n}
+ * <p><string>IMPORTANT:</strong> A counter will only ever return a simple integer {\n}
+ * (i.e. the count) response from any query.</p>{\n}
  * {\n}
 {loop table.counters as counter}
 	{if counterStatus.first}
  * <p>Counters defined:{\n}
  * <ul>{\n}
 	{endif}
- * <li><code>{counter.name}</code> - SQL query run {{@link #SQL_{counter.staticName}}</li>{\n}
+ * <li><code>{counter.name}</code><br />SQL query run {{@link #SQL_{counter.staticName}}<br /><br />{\n}
+{loop counter.selectClauses as selectClause}
+ * <code>{selectClause}</code><br />{\n}
+{endloop}
+{loop counter.whereClauses as whereClause}
+ * <code>{whereClause}</code><br />{\n}
+{endloop}
+ * </li>{\n}
 	{if counterStatus.last}
  * </ul>{\n}
 	{endif}
@@ -137,7 +144,7 @@ public class {table.javaClassName}Counter {{{\n}
 {\t} * <p>You may also want to pass in a connection without exceptions being thrown,{\n}
 {\t} * in which case use the following:</p>{\n}
 {\t} * {\n}
-{\t} * <pre>{tableOrView.javaClassName}Counter.findAll(){\n}
+{\t} * <pre>{tableOrView.javaClassName}Counter.countAll(){\n}
 {\t} *     .withConnection(connection){\n}
 {\t} *     .executeSilent();</pre>{\n}
 {\t} * {\n}

@@ -23,7 +23,7 @@
 {loop table.fields as field}
 {\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index}){if !fieldStatus.last}, {endif}{\n}
 {endloop}{\t}{\t}{\t}{\t});{\n}
-{\t}{\t}{\t}{\t}// now set all of the fields that we have{\n}
+{\t}{\t}{\t}{\t}// now set all fields that we have{\n}
 {loop table.fields as field}
 {endloop}
 

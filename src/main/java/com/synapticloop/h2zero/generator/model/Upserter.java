@@ -18,9 +18,8 @@ package com.synapticloop.h2zero.generator.model;
  * under the Licence.
  */
 
-import org.json.JSONObject;
-
 import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+import org.json.JSONObject;
 
 public class Upserter extends BaseQueryObject {
 	private static final String MODEL_TYPE = "Upserter";

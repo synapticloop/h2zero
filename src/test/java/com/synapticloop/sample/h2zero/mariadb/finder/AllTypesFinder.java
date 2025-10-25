@@ -256,7 +256,7 @@ public class AllTypesFinder {
 	private AllTypesFinder() {}
 
 	/**
-	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.Table@1eef3471</code> table or view by its primary key.</p>
+	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.Table@6c93cbcb</code> table or view by its primary key.</p>
 	 * 
 	 * <p>This will return a <code>UniqueFinder</code> instance.  To execute the finder, either call:</p>
 	 * 

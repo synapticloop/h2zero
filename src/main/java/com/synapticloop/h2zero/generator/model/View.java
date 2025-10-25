@@ -18,8 +18,8 @@ package com.synapticloop.h2zero.generator.model;
  */
 
 import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
+import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
 import com.synapticloop.h2zero.generator.util.JsonHelper;
 import com.synapticloop.h2zero.generator.util.NamingHelper;
 import org.json.JSONArray;

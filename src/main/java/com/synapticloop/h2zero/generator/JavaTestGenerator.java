@@ -18,8 +18,9 @@ package com.synapticloop.h2zero.generator;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.model.Database;
-import com.synapticloop.h2zero.model.Options;
+import com.synapticloop.h2zero.generator.generator.Generator;
+import com.synapticloop.h2zero.generator.model.Database;
+import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.templar.Parser;
 import com.synapticloop.templar.exception.FunctionException;
 import com.synapticloop.templar.exception.ParseException;
@@ -50,7 +51,7 @@ public class JavaTestGenerator extends Generator {
 		}
 
 		try {
-      TemplarContext templarContext = getDefaultTemplarContext();
+			TemplarContext templarContext = getDefaultTemplarContext();
 			templarContext.add("options", options);
 			templarContext.add("database",database);
 			templarContext.add("dbUrl", (outFile + options.getOutputTestResources() + "/test.db").replaceAll("\\\\", "\\\\\\\\"));

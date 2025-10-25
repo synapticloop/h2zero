@@ -25,20 +25,31 @@ import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 import com.synapticloop.h2zero.base.sql.nolimitoffset.Counter;
 
 /**
- * <p>This class contains all of the counters that are defined in the h2zero
- * file.</p>
+ * <p>The UserCounter contains all counters that are defined
+ * in the h2zero file for the <code>user</code> table.  These counters
+ * are defined either in the <code>"finders"</code> or the <code>"fieldFinders"</code>
+ * JSON array keys.</p>
  * 
- * <p>A counter may only return a simple integer (i.e. the count) response
- * from a query.</p>
- * 
- * <p>Table name: <code>user</code></p>
+ * <p><string>IMPORTANT:</strong> A counter will only ever return a simple integer 
+ * (i.e. the count) response from any query.</p>
  * 
  * <p>Counters defined:
  * <ul>
- * <li><code>countNumberOfUsers</code> - SQL query run {@link #SQL_COUNT_NUMBER_OF_USERS}</li>
- * <li><code>countNumberOfUsersOverAge</code> - SQL query run {@link #SQL_COUNT_NUMBER_OF_USERS_OVER_AGE}</li>
- * <li><code>countNumberOfUsersBetweenAge</code> - SQL query run {@link #SQL_COUNT_NUMBER_OF_USERS_BETWEEN_AGE}</li>
- * <li><code>countUsersInAges</code> - SQL query run {@link #SQL_COUNT_USERS_IN_AGES}</li>
+ * <li><code>countNumberOfUsers</code><br />SQL query run {@link #SQL_COUNT_NUMBER_OF_USERS}<br /><br />
+ * <code>select count(*) from user</code><br />
+ * </li>
+ * <li><code>countNumberOfUsersOverAge</code><br />SQL query run {@link #SQL_COUNT_NUMBER_OF_USERS_OVER_AGE}<br /><br />
+ * <code>select count(*) from user</code><br />
+ * <code>where num_age > ?</code><br />
+ * </li>
+ * <li><code>countNumberOfUsersBetweenAge</code><br />SQL query run {@link #SQL_COUNT_NUMBER_OF_USERS_BETWEEN_AGE}<br /><br />
+ * <code>select count(*) from user</code><br />
+ * <code>where num_age > ? and num_age < ?</code><br />
+ * </li>
+ * <li><code>countUsersInAges</code><br />SQL query run {@link #SQL_COUNT_USERS_IN_AGES}<br /><br />
+ * <code>select count(*) from user</code><br />
+ * <code>where num_age in (...)</code><br />
+ * </li>
  * </ul>
  * 
 * <p>To execute any counter SQL query, you may optionally pass in a connection, and execute it (silently if desired)</p>

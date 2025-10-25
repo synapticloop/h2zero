@@ -17,19 +17,20 @@ package com.synapticloop.h2zero.generator.model;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.model.field.BaseField;
 import com.synapticloop.h2zero.generator.model.util.DatabaseFieldTypeConfirm;
 import com.synapticloop.h2zero.generator.model.util.FieldLookupHelper;
 import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.generator.model.field.BaseField;
 import com.synapticloop.h2zero.generator.util.JsonHelper;
 import com.synapticloop.h2zero.generator.util.KeyHelper;
 import com.synapticloop.h2zero.generator.util.NamingHelper;
 import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
+import com.synapticloop.h2zero.generator.model.BaseSchemaObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

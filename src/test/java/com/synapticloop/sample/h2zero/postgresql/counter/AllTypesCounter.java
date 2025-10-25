@@ -25,13 +25,13 @@ import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 import com.synapticloop.h2zero.base.sql.nolimitoffset.Counter;
 
 /**
- * <p>This class contains all of the counters that are defined in the h2zero
- * file.</p>
+ * <p>The AllTypesCounter contains all counters that are defined
+ * in the h2zero file for the <code>all_types</code> table.  These counters
+ * are defined either in the <code>"finders"</code> or the <code>"fieldFinders"</code>
+ * JSON array keys.</p>
  * 
- * <p>A counter may only return a simple integer (i.e. the count) response
- * from a query.</p>
- * 
- * <p>Table name: <code>all_types</code></p>
+ * <p><string>IMPORTANT:</strong> A counter will only ever return a simple integer 
+ * (i.e. the count) response from any query.</p>
  * 
  * 
 * <p>To execute any counter SQL query, you may optionally pass in a connection, and execute it (silently if desired)</p>

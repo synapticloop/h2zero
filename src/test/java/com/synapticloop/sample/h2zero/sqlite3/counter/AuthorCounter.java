@@ -25,19 +25,25 @@ import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 import com.synapticloop.h2zero.base.sql.nolimitoffset.Counter;
 
 /**
- * <p>This class contains all of the counters that are defined in the h2zero
- * file.</p>
+ * <p>The AuthorCounter contains all counters that are defined
+ * in the h2zero file for the <code>author</code> table.  These counters
+ * are defined either in the <code>"finders"</code> or the <code>"fieldFinders"</code>
+ * JSON array keys.</p>
  * 
- * <p>A counter may only return a simple integer (i.e. the count) response
- * from a query.</p>
- * 
- * <p>Table name: <code>author</code></p>
+ * <p><string>IMPORTANT:</strong> A counter will only ever return a simple integer 
+ * (i.e. the count) response from any query.</p>
  * 
  * <p>Counters defined:
  * <ul>
- * <li><code>countAllByFlIsUpdatingNumFollowers</code> - SQL query run {@link #SQL_COUNT_ALL_BY_FL_IS_UPDATING_NUM_FOLLOWERS}</li>
- * <li><code>countAllToBeEvaluated</code> - SQL query run {@link #SQL_COUNT_ALL_TO_BE_EVALUATED}</li>
- * <li><code>countByStatus</code> - SQL query run {@link #SQL_COUNT_BY_STATUS}</li>
+ * <li><code>countAllByFlIsUpdatingNumFollowers</code><br />SQL query run {@link #SQL_COUNT_ALL_BY_FL_IS_UPDATING_NUM_FOLLOWERS}<br /><br />
+ * <code>where fl_is_updating = ? and num_followers = ?</code><br />
+ * </li>
+ * <li><code>countAllToBeEvaluated</code><br />SQL query run {@link #SQL_COUNT_ALL_TO_BE_EVALUATED}<br /><br />
+ * <code>where id_author_status = (select id_author_status from author_status where txt_author_status = 'TO_BE_EVALUATED') and dtm_started_following < ? </code><br />
+ * </li>
+ * <li><code>countByStatus</code><br />SQL query run {@link #SQL_COUNT_BY_STATUS}<br /><br />
+ * <code>where id_author_status = ?</code><br />
+ * </li>
  * </ul>
  * 
 * <p>To execute any counter SQL query, you may optionally pass in a connection, and execute it (silently if desired)</p>

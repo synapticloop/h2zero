@@ -59,7 +59,7 @@ public class UserUserTypeViewFinder {
 	private UserUserTypeViewFinder() {}
 
 	/**
-	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.View@623d5723</code> table or view by its primary key.</p>
+	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.View@31b4472e</code> table or view by its primary key.</p>
 	 * 
 	 * <p>This will return a <code>UniqueFinder</code> instance.  To execute the finder, either call:</p>
 	 * 

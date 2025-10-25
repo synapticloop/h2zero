@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.model;
+package com.synapticloop.h2zero.generator.model;
 
 /*
  * Copyright (c) 2012-2025 synapticloop.
@@ -17,24 +17,17 @@ package com.synapticloop.h2zero.model;
  * under the Licence.
  */
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.model.field.BaseField;
 import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.util.JsonHelper;
+import com.synapticloop.h2zero.generator.util.NamingHelper;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.generator.model.field.BaseField;
-import com.synapticloop.h2zero.generator.util.JsonHelper;
-import com.synapticloop.h2zero.generator.util.NamingHelper;
-import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import java.util.*;
 
 /**
  * The base schema object is either a table or view and contains common 

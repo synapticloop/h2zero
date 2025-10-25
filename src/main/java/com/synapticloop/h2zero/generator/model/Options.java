@@ -59,6 +59,15 @@ public class Options {
 	public static final String DATABASE_SQLITE3 = "sqlite3";
 	public static final String DATABASE_SQLSERVER = "sqlserver";
 
+	private static final Set<String> ALLOWABLE_DATABASES = new LinkedHashSet<>();
+	static {
+		ALLOWABLE_DATABASES.add(DATABASE_COCKROACH);
+		ALLOWABLE_DATABASES.add(DATABASE_MARIADB);
+		ALLOWABLE_DATABASES.add(DATABASE_MYSQL);
+		ALLOWABLE_DATABASES.add(DATABASE_POSTGRESQL);
+		ALLOWABLE_DATABASES.add(DATABASE_SQLITE3);
+		ALLOWABLE_DATABASES.add(DATABASE_SQLSERVER);
+	}
 
 	private static final Map<String, DatabaseTypeProperty> DATABASE_TYPE_PROPERTIES = new HashMap<>();
 	static {

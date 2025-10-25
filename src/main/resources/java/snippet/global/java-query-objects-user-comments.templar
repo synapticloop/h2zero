@@ -11,7 +11,7 @@
 
 {\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
 {\t} * {\n}
-{\t} *     USER DEFINED {type.toUpperCase}S FOR THE TABLE: {tableName}{\n}
+{\t} *     USER DEFINED {fn:uppercase[type]}S FOR THE TABLE: {tableName}{\n}
 {\t} * {\n}
 {\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
 {\t} * {\n}

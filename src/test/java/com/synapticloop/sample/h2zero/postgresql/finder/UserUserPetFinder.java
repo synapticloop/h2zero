@@ -51,7 +51,7 @@ public class UserUserPetFinder {
 	private UserUserPetFinder() {}
 
 	/**
-	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.Table@17a0c67a</code> table or view by its primary key.</p>
+	 * <p>Create a Finder that can find a unique row of the <code>com.synapticloop.h2zero.generator.model.Table@e63cf4</code> table or view by its primary key.</p>
 	 * 
 	 * <p>This will return a <code>UniqueFinder</code> instance.  To execute the finder, either call:</p>
 	 * 

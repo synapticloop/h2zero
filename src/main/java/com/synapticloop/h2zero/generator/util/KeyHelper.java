@@ -17,12 +17,11 @@ package com.synapticloop.h2zero.generator.util;
  * under the Licence.
  */
 
-import java.util.Iterator;
-import java.util.Set;
-
+import com.synapticloop.h2zero.generator.model.BaseSchemaObject;
 import org.json.JSONObject;
 
-import com.synapticloop.h2zero.generator.model.BaseSchemaObject;
+import java.util.Iterator;
+import java.util.Set;
 
 public class KeyHelper {
 
