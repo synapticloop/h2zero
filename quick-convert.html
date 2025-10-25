@@ -31,6 +31,8 @@ $(document).ready(function() {
 
 	$("#convert").on("click", function() {
 		var plain = $("#plaininput").val();
+		plain = plain.replace(/</g, "&lt;");
+		plain = plain.replace(/>/g, "&gt;");
 		plain = plain.replace(/{/g, "{{");
 		plain = plain.replace(/\n/g, "{\\n}\n");
 		plain = plain.replace(/\t/g, "{\\t}");

@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.synapticloop.h2zero.util.SimpleLogger;
-import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
 
 public class Database {
 	private String schema = null;

@@ -1,0 +1,43 @@
+{\t}/**{\n}
+{\t} * <p>Create a MultiFinder that can find all {tableOrView.javaClassName} rows</p>{\n}
+{\t} * <p>{\n}
+{\t} * <p>This will return a UniqueFinder, to execute the finder, either call</p>{\n}
+{\t} * {\n}
+{\t} * <ul>{\n}
+{\t} *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>{\n}
+{\t} *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>{\n}
+{\t} * </ul>{\n}
+{\t} * {\n}
+{\t} * <p>You may also want to pass in a connection, in which case use the following:</p>{\n}
+{\t} * {\n}
+{\t} * <pre>{tableOrView.javaClassName}Finder.findAll(){\n}
+{\t} *     .withConnection(connection){\n}
+{\t} *     .execute();</pre>{\n}
+{\t} * {\n}
+{\t} * <p>You may also want to pass in a connection without exceptions being thrown,{\n}
+{\t} * in which case use the following:</p>{\n}
+{\t} * {\n}
+{\t} * <pre>{tableOrView.javaClassName}Finder.findAll(){\n}
+{\t} *     .withConnection(connection){\n}
+{\t} *     .executeSilent();</pre>{\n}
+{\t} * {\n}
+{\t} * <p>Additionally, you can limit and offset this query (with or without a connection)</p>{\n}
+{\t} * {\n}
+{\t} * <pre>{tableOrView.javaClassName}Finder.findAll(){\n}
+{\t} *     .withLimit(limit){\n}
+{\t} *     .withOffset(offset){\n}
+{\t} *     .executeSilent();</pre>{\n}
+{\t} * {\n}
+{\t} * @return the parameterised MultiFinder{\n}
+{\t} */{\n}
+
+{\t}public static MultiFinder<{tableOrView.javaClassName}> findAll() {{{\n}
+{\t}{\t}return({\n}
+{\t}{\t}{\t}{\t}new MultiFinder<{tableOrView.javaClassName}>({\n}
+{\t}{\t}{\t}{\t}LOGGER,{\n}
+{\t}{\t}{\t}{\t}SQL_SELECT_START,{\n}
+{\t}{\t}{\t}{\t}resultSet -> {{ try {{return list(resultSet);} catch (SQLException e) {{ return(null); }},{\n}
+{\t}{\t}{\t}{\t}new Object[] {{}{\n}
+{\t}{\t}));{\n}
+{\t}}{\n}
+{\n}

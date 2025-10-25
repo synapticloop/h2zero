@@ -1,0 +1,190 @@
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+				AND THE ACTUAL USER DEFINED FINDERS (OR AUTO GENERATED FINDERS)
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
+{\t} * {\n}
+{\t} * This is the start of the user defined finders which are generated{\n}
+{\t} * through either the "finders" JSON key, or the "fieldFinders" JSON{\n}
+{\t} * key.{\n}
+{\t} * {\n}
+{\t} * There are {fn:length[tableOrView.finders]} defined finders on the {tableOrView.name} table, of those finders{\n}
+{\t} * the following are the regular finders, either defined through the{\n}
+{\t} * 'finders' or 'fieldFinders' JSON key{\n}
+{\t} * {\n}
+{loop tableOrView.finders as finder}
+	{if fn:null[finder.selectClause]}
+{\t} * - {finder.name} - Generated from the {if finder.isAutoFinder}'fieldFinders'{else}'finders'{endif} JSON key{\n}
+	{endif}
+{endloop}
+{\t} * {\n}
+{\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}{\n}
+
+{loop tableOrView.finders as finder}
+
+
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	THE NON-SELECT CLAUSE FINDERS
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+	{if fn:null[finder.selectClause]}
+
+		{\t}/**{\n}
+		{\t} * <p>This is the <code>{finder.name}</code> finder for the <code>{tableOrView.upperName} table.</code></p>{\n}
+		{\t} * {\n}
+{if fn:true[finder.isAutoFinder]}
+		{\t} * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>{\n}
+{else}
+		{\t} * <p><em>(This finder was generated through the '<code>finders</code>' JSON key)</em></p>{\n}
+{endif}
+		{\t} * {\n}
+		{\t} * <p>Create a {if finder.unique}UniqueFinder{else}MultiFinder{endif}<{tableOrView.javaClassName}> Finder that can be invoked through:</p>{\n}
+		{\t} * {\n}
+		{\t} * <ul>{\n}
+		{\t} *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>{\n}
+		{\t} *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>{\n}
+		{\t} * </ul>{\n}
+		{\t} * {\n}
+		{\t} * <p>You may also want to pass in a connection, in which case use the following:</p>{\n}
+		{\t} * {\n}
+		{\t} * <pre>{tableOrView.javaClassName}Finder.{finder.name}(...){\n}
+		{\t} *     .withConnection(connection){\n}
+		{\t} *     .execute();</pre>{\n}
+		{\t} * {\n}
+		{\t} * <p>You may also want to pass in a connection without exceptions being thrown,{\n}
+		{\t} * in which case use the following:</p>{\n}
+		{\t} * {\n}
+		{\t} * <pre>{tableOrView.javaClassName}Finder.{finder.name}(...){\n}
+		{\t} *     .withConnection(connection){\n}
+		{\t} *     .executeSilent();</pre>{\n}
+		{\t} * {\n}
+		{\t} * <p>Additionally, you can limit and offset this query (with or without a connection)</p>{\n}
+		{\t} * {\n}
+		{\t} * <pre>{tableOrView.javaClassName}Finder.{finder.name}(...){\n}
+		{\t} *     .withLimit(limit){\n}
+		{\t} *     .withOffset(offset){\n}
+		{\t} *     .executeSilent();</pre>{\n}
+		{\t} * {\n}
+
+
+		{loop finder.comments as comment}
+			{if commentStatus.first}
+				{\t} * <p>Comments from the finder JSON object:</p>{\n}
+			{endif}
+			{\t} * <p>{comment}</p>{\n}
+			{if commentStatus.last}
+				{\t} * {\n}
+			{endif}
+		{endloop}
+
+		{\t} * <p>See {{@link #SQL_{finder.staticName} the SQL statement that is executed} (<code>SQL_{finder.staticName}</code>)</p>{\n}
+		{\t} * {\n}
+
+	{if finder.hasWhereFieldAliases}
+		{loop finder.whereFields as whereField}
+			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the <code>{tableOrView.upperName}.{whereField.name}</code> field{\n}
+		{endloop}
+	{else}
+		{loop finder.uniqueWhereFields as whereField}
+			{\t} * @param {whereField.javaName}{if whereField.isInField}List{endif} - maps to the <code>{tableOrView.upperName}.{whereField.name}</code> field{\n}
+		{endloop}
+	{endif}
+		{\t} * {\n}
+			{if finder.unique}
+		{\t} * @return the parameterised UniqueFinder(){\n}
+			{else}
+		{\t} * @return the parameterised MultiFinder(){\n}
+			{endif}
+		{\t} * {\n}
+		{\t} */{\n}
+{\n}
+{--
+
+	START OF DEFAULT FINDER - NOT SELECT CLAUSE
+
+}
+
+		{\t}public static 
+		{if finder.unique}UniqueFinder{else}MultiFinder{endif}<{tableOrView.javaClassName}> {finder.name}(
+			{import classpath:/snippet/finder/method-parameters.templar}
+		) {{{\n}
+
+{\t}{\t}return({\n}
+{\t}{\t}{\t}{\t}new {if finder.unique}UniqueFinder{else}MultiFinder{endif}<{tableOrView.javaClassName}>({\n}
+{\t}{\t}{\t}{\t}LOGGER,{\n}
+{\t}{\t}{\t}{\t}SQL_{finder.staticName},{\n}
+{\t}{\t}{\t}{\t}resultSet -> {{ try {{return list(resultSet);} catch (SQLException e) {{ return(null); }},{\n}
+{\t}{\t}{\t}{\t}new Object[] {{
+			{import classpath:/snippet/finder/method-parameters-call.templar}
+}{\n}
+{\t}{\t}));{\n}
+{\t}}{\n}
+	{endif}
+{endloop}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+				THE BEAN CREATORS
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{\t}/**{\n}
+{\t} * <p>Return the results as a list of {tableOrView.javaClassName}, this will be empty if{\n}
+{\t} * none are found.</p>{\n}
+{\t} * {\n}
+{\t} * @param resultSet the results as a list of {tableOrView.javaClassName}{\n}
+{\t} * {\n}
+{\t} * @return the list of results{\n}
+{\t} * {\n}
+{\t} * @throws SQLException if there was a problem retrieving the results{\n}
+{\t} */{\n}
+
+{\t}private static List<{tableOrView.javaClassName}> list(ResultSet resultSet) throws SQLException {{{\n}
+{\t}{\t}List<{tableOrView.javaClassName}> arrayList = new ArrayList<{tableOrView.javaClassName}>();{\n}
+{\t}{\t}while(resultSet.next()) {{{\n}
+
+{set fn:length[table.nonPopulateFields] as nonPopulateFieldsLength}
+{if fn:=[nonPopulateFieldsLength, '0']}
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		At this point we are looking at just a normal table that gets hydrated fully
+	}
+
+	{\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
+
+	{loop tableOrView.fields as field}
+			{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
+		{if !fieldStatus.last},{\n}{endif}
+	{endloop}
+	));{\n}
+{else}
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+		we have some fields that won't be hydrated
+
+	}
+
+	{loop tableOrView.populateFields as field}
+			{\t}{\t}{\t}{field.javaType} {field.javaName} = ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index});{\n}
+	{endloop}
+	{loop tableOrView.nonPopulateFields as field}
+			{\t}{\t}{\t}{field.javaType} {field.javaName} = null;{\n}
+	{endloop}
+	{\t}{\t}{\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
+
+	{loop tableOrView.fields as field}
+		{\t}{\t}{\t}{\t}{\t}{field.javaName}{if !fieldStatus.last},{endif}{\n}
+	{endloop}
+	{\t}{\t}{\t}{\t}{\t}));{\n}
+
+{endif}
+
+
+{\t}{\t}}{\n}
+{\t}{\t}return(arrayList);{\n}
+{\t}}{\n}
+{\n}
+

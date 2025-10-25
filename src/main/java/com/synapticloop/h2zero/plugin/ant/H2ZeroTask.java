@@ -21,8 +21,8 @@ import com.synapticloop.h2zero.plugin.BaseH2ZeroGenerator;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
-import com.synapticloop.h2zero.util.SimpleLogger;
-import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
 
 import java.io.File;
 import java.util.ArrayList;

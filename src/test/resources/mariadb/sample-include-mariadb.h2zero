@@ -1,0 +1,46 @@
+{
+"options": {
+	"database": "mariadb",
+	"metrics": false,
+
+	"generators": [ "java", "sql", "reports", "tests" ],
+
+	"validators": {
+		"UpdaterNameValidator": {
+			"allowablePrefixes": "reset,"
+		},
+		"FinderNameValidator": {
+			"allowablePrefixes": "find,calculate"
+		}
+	},
+
+	"output": {
+		"code": "src/test/java/",
+		"resources": "src/test/resources/",
+		"build": "build/"
+	}
+},
+"database": {
+	"schema": "sample",
+	"package": "com.synapticloop.sample.h2zero.mariadb",
+	"defaultStatementCacheSize": 1024,
+
+	"tables": [
+		{ "include": "../common/user_type.json" },
+		{ "include": "../common/user_title.json" },
+		{ "include": "../common/user.json" },
+		{ "include": "../common/pet_type.json" },
+		{ "include": "../common/pet.json" },
+		{ "include": "../common/user_pet.json" },
+		{ "include": "./all_types.mariadb.json" }
+	],
+
+	"views": [
+		{ "include": "../common/user_user_type.json" },
+	],
+
+	"forms": {
+		"a": "b"
+	}
+}
+}

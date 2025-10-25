@@ -17,21 +17,20 @@ package com.synapticloop.h2zero.base.model;
  * under the Licence.
  */
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
+import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
+import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
+import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
-import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
- * This is the base class for all h2zero generated models and defines the required functionality for a working model.
- * It contains methods to insert, update and delete itself.
- *
+ * <p>This is the base class for all h2zero generated models and defines the
+ * required functionality for a working model.  It contains methods to insert,
+ * update and delete itself.</p>
  */
 public abstract class ModelBase {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModelBase.class);
@@ -74,7 +73,11 @@ public abstract class ModelBase {
 	public abstract void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 
 	/**
-	 * Persist the model object to the database
+	 * <p>Persist the model object to the database.</p>
+	 *
+	 * <p>In effect this is a chained call to the <code>insert(Connection connection)</code>
+	 * method, creating a new connection, executing the call, and then closing the
+	 * connection</p>
 	 *
 	 * @throws SQLException if there was an error in the SQL expression
 	 * @throws H2ZeroPrimaryKeyException if the model already has a primary key
@@ -111,9 +114,9 @@ public abstract class ModelBase {
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
-	 * All of the update methods
+	 * All the update methods
 	 *
-	 */
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
 	 * Update the model utilising the passed in connection, the caller must
@@ -404,7 +407,7 @@ public abstract class ModelBase {
 		}
 	}
 
-	protected void addtoJSONObject(JSONObject jsonObject, String key, Object object) {
+	protected void addToJSONObject(JSONObject jsonObject, String key, Object object) {
 		jsonObject.put(key, object);
 	}
 

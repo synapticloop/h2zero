@@ -1,6 +1,6 @@
 {
 "options": {
-	"database": "cockroach",
+	"database": "postgresql",
 	"metrics": false,
 
 	"generators": [ "java", "sql", "reports" ],

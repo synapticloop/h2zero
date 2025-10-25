@@ -2,7 +2,7 @@ package com.synapticloop.h2zero.util;
 
 import static org.junit.Assert.*;
 
-import com.synapticloop.h2zero.util.NamingHelper;
+import com.synapticloop.h2zero.generator.util.NamingHelper;
 import org.junit.Before;
 import org.junit.Test;
 

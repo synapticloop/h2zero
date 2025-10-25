@@ -30,7 +30,7 @@ public class ModelBaseHelper {
 	 * @param key the key to add to the JSON object
 	 * @param object the object to add
 	 */
-	public static void addtoJSONObject(JSONObject jsonObject, String key, Object object) {
+	public static void addToJSONObject(JSONObject jsonObject, String key, Object object) {
 		jsonObject.put(key, object);
 	}
 	
@@ -48,5 +48,4 @@ public class ModelBaseHelper {
 		}
 		return(((ModelBase)object).getToJSON());
 	}
-
 }

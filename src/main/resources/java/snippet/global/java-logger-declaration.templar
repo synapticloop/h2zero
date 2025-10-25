@@ -1,0 +1,10 @@
+{\t}private static final Logger LOGGER = LoggerFactory.getLogger(
+	{if fn:notNull[loggerClass]}
+		{loggerClass}{if fn:notNull[classType]}{classType}{endif}
+	{else}
+		{table.javaClassName}{classType}
+	{endif}
+.class);
+{\n}
+
+

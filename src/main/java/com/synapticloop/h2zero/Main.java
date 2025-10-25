@@ -19,8 +19,8 @@
  */
 
 	import com.synapticloop.h2zero.plugin.ant.H2ZeroTask;
-	import com.synapticloop.h2zero.util.SimpleLogger;
-	import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+	import com.synapticloop.h2zero.generator.util.SimpleLogger;
+	import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
 
 	import java.io.BufferedReader;
 	import java.io.IOException;

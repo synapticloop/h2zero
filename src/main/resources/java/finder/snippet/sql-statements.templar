@@ -1,0 +1,62 @@
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				FIRST UP THE FIELDS
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{\t}private static final String SQL_SELECT_START = {\n}
+{\t}{\t}"""{\n}
+{\t}{\t}{\t}select {\n}
+{loop tableOrView.populateFields as field}
+{\t}{\t}{\t}{\t}{field.name}
+	{if !fieldStatus.last}, {endif}{\n}
+{endloop}
+{\t}{\t}{\t}from {\n}
+{\t}{\t}{\t}{\t}{tableOrView.name}{\n}
+{\t}{\t}""";{\n}
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				THE FINDER FIELDS
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{loop tableOrView.fields as field}
+	{if field.primary}
+		{set field.name as primaryFieldName}
+		{set field.javaName as primaryFieldJavaName}
+	{endif}
+{endloop}
+
+{\t}private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where {primaryFieldName} = ?";{\n}
+{\n}
+
+
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+				THE FINDERS FOR THE SELECT CLAUSES AND NORMAL CLAUSES
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
+
+{loop tableOrView.finders as finder}
+	{\t}/**{\n}
+{if fn:true[finder.isAutoFinder]}
+		{\t} * <p>This SQL statement was generated from the <code>{finder.name}</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>{\n}
+{else}
+		{\t} * <p>This SQL statement was generated from the <code>{finder.name}</code> definition for <code>finders</code> JSON key in the h2zero file.</p>{\n}
+{endif}
+	{\t} */{\n}
+	{if fn:null[finder.selectClause]}
+		{\t}private static final String SQL_{finder.staticName} = SQL_SELECT_START
+	{else}
+		{\t}private static final String SQL_{finder.staticName} ={\n}
+		{\t}{\t}"""{\n}
+		{loop finder.selectClauses as clause}
+			{\t}{\t}{\t}{clause}{\n}
+		{endloop}
+		{\t}{\t}"""
+	{endif}
+
+	{if fn:notNull[finder.whereClause]} + {\n}
+		{\t}{\t}"""{\n}
+		{loop finder.whereClauses as clause}
+			{\t}{\t}{\t}{clause}{\n}
+		{endloop}
+		{\t}{\t}"""{endif}
+
+	{if fn:notNull[finder.orderBy]} + " order by {finder.orderBy}"{endif};{\n}
+{endloop}

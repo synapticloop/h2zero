@@ -17,10 +17,10 @@ package com.synapticloop.h2zero.plugin.gradle;
  */
 
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
 import com.synapticloop.h2zero.plugin.BaseH2ZeroGenerator;
-import com.synapticloop.h2zero.util.SimpleLogger;
-import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
 import org.apache.tools.ant.BuildException;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;

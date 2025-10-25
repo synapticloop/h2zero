@@ -1,32 +1,32 @@
 package com.synapticloop.h2zero.plugin;
 
 /*
- * Copyright (c) 2016-2025 synapticloop.
- * 
+ * Copyright (c) 2016-2024 synapticloop.
+ *
  * All rights reserved.
- * 
- * This code may contain contributions from other parties which, where 
- * applicable, will be listed in the default build file for the project 
+ *
+ * This code may contain contributions from other parties which, where
+ * applicable, will be listed in the default build file for the project
  * ~and/or~ in a file named CONTRIBUTORS.txt in the root of the project.
- * 
- * This source code and any derived binaries are covered by the terms and 
- * conditions of the Licence agreement ("the Licence").  You may not use this 
- * source code or any derived binaries except in compliance with the Licence.  
- * A copy of the Licence is available in the file named LICENSE.txt shipped with 
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENSE.txt shipped with
  * this source code or binaries.
  */
 
 import com.synapticloop.h2zero.H2ZeroParser;
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
-import com.synapticloop.h2zero.extension.Extension;
-import com.synapticloop.h2zero.generator.*;
-import com.synapticloop.h2zero.model.Database;
-import com.synapticloop.h2zero.model.Options;
-import com.synapticloop.h2zero.model.Table;
-import com.synapticloop.h2zero.model.View;
-import com.synapticloop.h2zero.model.util.JSONKeyConstants;
-import com.synapticloop.h2zero.util.SimpleLogger;
-import com.synapticloop.h2zero.util.SimpleLogger.LoggerType;
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.extension.Extension;
+import com.synapticloop.h2zero.generator.generator.*;
+import com.synapticloop.h2zero.generator.model.Database;
+import com.synapticloop.h2zero.generator.model.Options;
+import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.model.View;
+import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
 import org.apache.tools.ant.BuildException;
 import org.json.JSONObject;
 import com.synapticloop.templar.exception.ParseException;
@@ -43,7 +43,6 @@ import java.util.*;
 public class BaseH2ZeroGenerator {
 	public static boolean verbose = false;
 	private int numTables;
-	private int numViews;
 
 	private final List<Generator> generators = new ArrayList<>();
 	private final File h2ZeroFile;
@@ -51,7 +50,7 @@ public class BaseH2ZeroGenerator {
 
 	/**
 	 * Instantiate the generator
-	 * 
+	 *
 	 * @param h2ZeroFile The input file (is not parsed)
 	 * @param outFile The output directory
 	 * @param verbose whether to do verbose logging
@@ -75,9 +74,20 @@ public class BaseH2ZeroGenerator {
 		Options options = null;
 
 		try {
-			SimpleLogger.logInfo(LoggerType.SUMMARY, "Parsing file: " +h2ZeroFile.getAbsolutePath());
+			SimpleLogger.logInfo(LoggerType.SUMMARY, "Parsing file: " + h2ZeroFile.getAbsolutePath());
 			h2zeroParser.parse(h2ZeroFile);
+		} catch (H2ZeroParseException h2zpex) {
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
+			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
+			List<String> fatalMessages = h2zeroParser.getFatalMessages();
+			for (String fatalMessage : fatalMessages) {
+				SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + fatalMessage);
+			}
+			throw new BuildException(h2zpex);
+		}
 
+		try {
 			logDatabaseInfo(h2zeroParser);
 
 			templarConfiguration = new TemplarConfiguration();
@@ -88,7 +98,6 @@ public class BaseH2ZeroGenerator {
 
 			database = h2zeroParser.getDatabase();
 			numTables = database.getTables().size();
-			numViews = database.getViews().size();
 
 			templarContext.add(JSONKeyConstants.DATABASE, database);
 
@@ -99,26 +108,20 @@ public class BaseH2ZeroGenerator {
 				throw new BuildException("FATAL: You have not defined an 'options' section, and therefore no generators will be executed. Exiting...");
 			}
 
+			// builder
+
 			generators.add(new SqlGenerator(database, options, outFile, verbose));
 			generators.add(new JavaGenerator(database, options, outFile, verbose));
 			generators.add(new ImpexGenerator(database, options, outFile, verbose));
 			generators.add(new JavaTestGenerator(database, options, outFile, verbose));
 			generators.add(new UtilGenerator(database, options, outFile, verbose));
 			generators.add(new ReportGenerator(database, options, outFile, verbose));
+			generators.add(new ApplicationPropertiesGenerator(database, options, outFile, verbose));
 
 			for (Generator generator : generators) {
 				generator.generate();
 			}
 
-		} catch (H2ZeroParseException h2zpex) {
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "H2ZeroParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "The message was:");
-			SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + h2zpex.getMessage());
-			List<String> fatalMessages = h2zeroParser.getFatalMessages();
-			for (String fatalMessage : fatalMessages) {
-				SimpleLogger.logFatal(SimpleLogger.LoggerType.PARSE, "  " + fatalMessage);
-			}
-			throw new BuildException(h2zpex);
 		} catch (ParseException pex) {
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "ParseException: There was an error parsing the '" + h2ZeroFile.getName() + "'.");
 			SimpleLogger.logFatal(SimpleLogger.LoggerType.TEMPLAR_PARSE, "The message was:");
@@ -164,7 +167,7 @@ public class BaseH2ZeroGenerator {
 	/**
 	 * Everybody loves statistics (well at least we do) so lets see what we have
 	 * generated and output it
-	 * 
+	 *
 	 * @param h2zeroParser The parser that was used for the generator
 	 */
 	private void logSummaryInformation(H2ZeroParser h2zeroParser) {
@@ -179,43 +182,42 @@ public class BaseH2ZeroGenerator {
 			for (Generator generator : generators) {
 				numFiles += generator.getNumFiles();
 				Map<String, Integer> generatorNumFilesHashMap = generator.getNumFilesHashMap();
-        for (String key : generatorNumFilesHashMap.keySet()) {
-          Integer generatorNumFiles = generatorNumFilesHashMap.get(key);
-          if (numFilesHashMap.containsKey(key)) {
-            numFilesHashMap.put(key, numFilesHashMap.get(key) + generatorNumFiles);
-          } else {
-            numFilesHashMap.put(key, generatorNumFiles);
-          }
-        }
+				for (String key : generatorNumFilesHashMap.keySet()) {
+					Integer generatorNumFiles = generatorNumFilesHashMap.get(key);
+					if (numFilesHashMap.containsKey(key)) {
+						numFilesHashMap.put(key, numFilesHashMap.get(key) + generatorNumFiles);
+					} else {
+						numFilesHashMap.put(key, generatorNumFiles);
+					}
+				}
 			}
 
 			// now go through the extensions and get the summary information
 			Map<Extension, JSONObject> extensions = h2zeroParser.getOptions().getExtensions();
-      for (Extension extension : extensions.keySet()) {
-        numFiles += extension.getNumFiles();
-        Map<String, Integer> extensionNumFilesHashMap = extension.getNumFilesHashMap();
-        for (String key : extensionNumFilesHashMap.keySet()) {
-          Integer extensionNumFiles = extensionNumFilesHashMap.get(key);
-          if (numFilesHashMap.containsKey(key)) {
-            numFilesHashMap.put(key, numFilesHashMap.get(key) + extensionNumFiles);
-          } else {
-            numFilesHashMap.put(key, extensionNumFiles);
-          }
-        }
-      }
+			for (Extension extension : extensions.keySet()) {
+				numFiles += extension.getNumFiles();
+				Map<String, Integer> extensionNumFilesHashMap = extension.getNumFilesHashMap();
+				for (String key : extensionNumFilesHashMap.keySet()) {
+					Integer extensionNumFiles = extensionNumFilesHashMap.get(key);
+					if (numFilesHashMap.containsKey(key)) {
+						numFilesHashMap.put(key, numFilesHashMap.get(key) + extensionNumFiles);
+					} else {
+						numFilesHashMap.put(key, extensionNumFiles);
+					}
+				}
+			}
 
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just generated code for %d tables!", numTables));
-			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just generated code for %d views!", numViews));
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("h2zero just saved you typing %d files!  Messages [ warn: %3d, fatal: %3d ]", numFiles, h2zeroParser.getNumWarn(), h2zeroParser.getNumFatal()));
 
-      for (String key : numFilesHashMap.keySet()) {
-        Integer count = numFilesHashMap.get(key);
-        String multiple = "s";
-        if (count == 1) {
-          multiple = "";
-        }
-        SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("%8d %s file%s", count, key, multiple));
-      }
+			for (String key : numFilesHashMap.keySet()) {
+				Integer count = numFilesHashMap.get(key);
+				String multiple = "s";
+				if (count == 1) {
+					multiple = "";
+				}
+				SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("%8d %s file%s", count, key, multiple));
+			}
 			SimpleLogger.logInfo(LoggerType.SUMMARY, "--------");
 			SimpleLogger.logInfo(LoggerType.SUMMARY, String.format("%8d TOTAL", numFiles));
 		}
@@ -224,7 +226,7 @@ public class BaseH2ZeroGenerator {
 	/**
 	 * Log the database information, which includes all tables and the number of fields, questions,
 	 * counters, finders, deleters etc.
-	 * 
+	 *
 	 * @param h2zeroParser the h2zero parser
 	 */
 	private void logDatabaseInfo(H2ZeroParser h2zeroParser) {
@@ -266,14 +268,14 @@ public class BaseH2ZeroGenerator {
 
 			for (Table table : tables) {
 				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'table' " + String.format("%-" + maxNameLength + "s", table.getName()) +
-						" [ " + 
+						" [ " +
 						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", table.getFields().size()) +
-						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", table.getFinders().size()) + 
+						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", table.getFinders().size()) +
 						String.format("%" + (Integer.toString(maxDeleters)).length() + "s deleters, ", (table.getIsConstant() ? "-" : table.getDeleters().size())) +
 						String.format("%" + (Integer.toString(maxUpdaters)).length() + "s updaters, ", (table.getIsConstant() ? "-" : table.getUpdaters().size())) +
 						String.format("%" + (Integer.toString(maxInserters)).length() + "s inserters, ", (table.getIsConstant() ? "-" : table.getInserters().size())) +
-						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", table.getQuestions().size()) + 
-						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", table.getCounters().size()) + 
+						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", table.getQuestions().size()) +
+						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", table.getCounters().size()) +
 						" ] " +
 						(table.getIsConstant() ? " *CONSTANT*" : ""));
 			}
@@ -281,13 +283,13 @@ public class BaseH2ZeroGenerator {
 			for (View view : views) {
 				SimpleLogger.logDebug(LoggerType.PARSE, "Found 'view'  " + String.format("%-" + maxNameLength + "s", view.getName()) +
 						" [ " +
-						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", view.getFields().size()) + 
+						String.format("%" + (Integer.toString(maxFields)).length() + "s fields, ", view.getFields().size()) +
 						String.format("%" + (Integer.toString(maxFinders)).length() + "s finders, ", view.getFinders().size()) +
 						String.format("%" + (Integer.toString(maxDeleters)).length() + "s deleters, ", "-") +
 						String.format("%" + (Integer.toString(maxUpdaters)).length() + "s updaters, ", "-") +
 						String.format("%" + (Integer.toString(maxInserters)).length() + "s inserters, ", "-") +
 						String.format("%" + (Integer.toString(maxQuestions)).length() + "s questions, ", view.getQuestions().size()) +
-						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", view.getCounters().size()) + 
+						String.format("%" + (Integer.toString(maxCounters)).length() + "s counters", view.getCounters().size()) +
 						" ] ");
 			}
 		}

@@ -17,6 +17,7 @@ package com.synapticloop.h2zero.base.exception;
  * under the Licence.
  */
 
+@Deprecated
 public class H2ZeroFinderException extends H2ZeroException {
 	private static final long serialVersionUID = -8971642529637860734L;
 

@@ -1,12 +1,12 @@
 package com.synapticloop.h2zero.model;
 
-import com.synapticloop.h2zero.model.Options;
-import com.synapticloop.h2zero.model.Table;
+import com.synapticloop.h2zero.generator.model.Options;
+import com.synapticloop.h2zero.generator.model.Table;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.synapticloop.h2zero.exception.H2ZeroParseException;
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
 
 public class TableTest {
 	private Table table;
