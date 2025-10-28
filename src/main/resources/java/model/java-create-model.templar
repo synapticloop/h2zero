@@ -86,6 +86,7 @@ import {database.package}.model.util.Constants;{\n}
  *       <th>Field length<br />(min:max)</th>{\n}
  *       <th>Nullable?</th>{\n}
  *       <th>Keys</th>{\n}
+ *       <th>Index</th>{\n}
  *       <th>Comments</th>{\n}
  *     </tr>{\n}
  *   </thead>{\n}
@@ -98,8 +99,9 @@ import {database.package}.model.util.Constants;{\n}
  *       <td>{if !fn:=[field.maxLength, "0"]}({field.minLength}:{field.maxLength}){else} -- {endif}</td>{\n}
  *       <td>{field.nullable}</td>{\n}
  *       <td>{if field.primary}<code>primary</code>{endif}
-{if field.unique} <primary>unique</primary>{endif}
-{if fn:notNull[field.foreignKeyTable]} <code>foreign -> {field.foreignKeyTable}.{field.foreignKeyField}</code>{endif}</td>{\n}
+{if field.unique} <code>unique</code>{endif}
+{if fn:notNull[field.foreignKeyTable]} <code>foreign -> {field.foreignKeyTable}.{field.foreignKeyField}</code>{else}--{endif}</td>{\n}
+ *       <td>{if field.primary}<code>primary</code>{else}{if field.index}<code>indexed</code>{else}--{endif}{endif}</td>{\n}
  *       <td>{if fn:null[field.comment]} -- {else}{field.comment}{endif}</td>{\n}
  *     </tr>{\n}
 {endloop}
@@ -339,9 +341,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} * some of which can be null.</p>{\n}
 	{\t} * {\n}
 	{\t} * <p><strong>NOTE:</strong> this does not insert the object into the database{\n}
-	{\t} * the <code>.insert()</code> method must be called to insert this object.</p>{\n}
+	{\t} * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called{\n}
+	{\t} * to insert this object.</p>{\n}
 	{\t} * {\n}
-	{\t} * <p>Creating a new {table.javaClassName}:</p>{\n}
+	{\t} * <p>Instantiating a new {table.javaClassName}:</p>{\n}
 	{\t} * {\n}
 	{\t} * <pre>new {table.javaClassName}({\n}
 		{loop table.fields as field}
@@ -370,9 +373,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} * fields that are non-nullable.</p>{\n}
 	{\t} * {\n}
 	{\t} * <p><strong>NOTE:</strong> this does not insert the object into the database{\n}
-	{\t} * the <code>.insert()</code> method must be called to insert this object</p>{\n}
+	{\t} * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called{\n}
+	{\t} * to insert this object.</p>{\n}
 	{\t} * {\n}
-	{\t} * <p>Creating a new {table.javaClassName}:</p>{\n}
+	{\t} * <p>Instantiating a new {table.javaClassName}:</p>{\n}
 	{\t} * {\n}
 	{\t} * <pre>new {table.javaClassName}({\n}
 		{loop table.nonNullFields as field}
@@ -411,12 +415,12 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t} * <p>Get a new {table.javaClassName} model, or set the fields on an existing{\n}
 	{\t} * {table.javaClassName} model.</p>{\n}
 	{\t} * {\n}
-	{\t} * <p>If the passed in {table.javaFieldName} is null, then a new {table.javaClassName}{\n}
-	{\t} * will be created.  If not null, the fields will be updated on the passed in model.</p>{\n}
+	{\t} * <p>If the passed in {table.javaFieldName} is null, then a new {table.javaClassName} will{\n}
+	{\t} * be created.  If not null, the fields will be updated on the passed in model.</p>{\n}
 	{\t} * {\n}
 	{\t} * <p><strong>NOTE:</strong> You will still need to persist this to the database{\n}
-	{\t} * with an <code>upsert()</code> call - this will insert the model if it .{\n}
-	{\t} * doesn't exist, or update the existing model.</p>{\n}
+	{\t} * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will{\n}
+	{\t} * insert the model if it doesn't exist, or update the existing model.</p>{\n}
 	{\t} * {\n}
 	{\t} * @param {table.javaFieldName} the model to check{\n}
 		{loop table.nonPrimaryFields as field}
@@ -451,18 +455,19 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 	{\n}
 	{\t}/**{\n}
-	{\t} * Get a new {table.javaClassName} model, or set the fields on an existing{\n}
-	{\t} * {table.javaClassName} model.{\n}
+	{\t} * <p>Get a new {table.javaClassName} model, or set the non-nullable fields on {\n}
+	{\t} * an existing {table.javaClassName} model.</p>{\n}
 	{\t} * <p>{\n}
-	{\t} * If the passed in {table.javaFieldName} is null, then a new {table.javaClassName}{\n}
-	{\t} * will be created.  If not null, the fields will be updated on the existing model.{\n}
-	{\t} * <p>{\n}
-	{\t} * <strong>NOTE:</strong> You will still need to persist this to the database{\n}
-	{\t} * with an <code>upsert()</code> call.{\n}
+	{\t} * <p>If the passed in {table.javaFieldName} is null, then a new {table.javaClassName} will{\n}
+	{\t} * be created.  If not null, the fields will be updated on the passed in model.</p>{\n}
+	{\t} * {\n}
+	{\t} * <p><strong>NOTE:</strong> You will still need to persist this to the database{\n}
+	{\t} * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will{\n}
+	{\t} * insert the model if it doesn't exist, or update the existing model.</p>{\n}
 	{\t} * {\n}
 	{\t} * @param {table.javaFieldName} the model to check{\n}
 		{loop table.nonPrimaryNullFields as field}
-	{\t} * @param {field.javaName}{\n}
+	{\t} * @param {field.javaName} - maps to the <code>{field.name}</code> field.{\n}
 		{endloop}
 	{\t} * {\n}
 	{\t} * @return Either the existing {table.javaFieldName} with updated field values,{\n}
@@ -498,6 +503,14 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{loop table.fields as field}
 		{if field.primary}
 			{\n}
+			{\t}/**{\n}
+			{\t} * <p>Returns whether a primary key has been set on this document.  If the primary{\n}
+			{\t} * is set, then this {table.javaClassName} Object has been persisted to the database. {\n}
+			{\t} * </p>{\n}
+			{\t} * {\n}
+			{\t} * @return Whether the primary key has been set on this object (i.e. this object has{\n}
+			{\t} *         been persisted to the database.{\n}
+			{\t} */{\n}
 			{\t}@Override{\n}
 			{\t}public boolean primaryKeySet() {{{\n}
 			{\t}{\t}return(null != {field.javaName});{\n}
@@ -510,6 +523,15 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 				C(R)UD METHODS - WITHOUT THE READ
 	}
 
+	{\t}/**{\n}
+	{\t} * <p>Insert the {table.javaClassName} object into the database, setting the {\n}
+	{\t} * primary key once the statement has completed successfully.</p>{\n}
+	{\t} *{\n}
+	{\t} * @param connection The connection to use for this insert{\n}
+	{\t} *{\n}
+	{\t} * @throws SQLException if there was an SQL Exception with the statement{\n}
+	{\t} * @throws H2ZeroPrimaryKeyException if the primary key could not be determined{\n}
+	{\t} */{\n}
 	{\t}@Override{\n}
 	{\t}public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
@@ -528,9 +550,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 	{endloop}
 
-	{\t}{\t}{\t}preparedStatement.executeUpdate();{\n}
+	{\t}{\t}{\t}preparedStatement.executeUpdate();{\n}{\n}
 
-	{\t}{\t}{\t}resultSet = preparedStatement.getGeneratedKeys();{\n}
+	{\t}{\t}{\t}resultSet = preparedStatement.getGeneratedKeys();{\n}{\n}
+
 	{\t}{\t}{\t}if(resultSet.next()) {{{\n}
 
 	{loop table.fields as field}
@@ -552,6 +575,15 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{--
 	    ENSURE
 	}
+	{\t}/**{\n}
+	{\t} * <p>Ensure that the {table.javaClassName} object with all fields exist {\n}
+	{\t} * in the database.</p>{\n}
+	{\t} *{\n}
+	{\t} * @param connection The connection to use for this insert{\n}
+	{\t} *{\n}
+	{\t} * @throws SQLException if there was an SQL Exception with the statement{\n}
+	{\t} * @throws H2ZeroPrimaryKeyException if the primary key could not be determined{\n}
+	{\t} */{\n}
 	{\t}@Override{\n}
 	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 	{\n}
@@ -827,12 +859,12 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{endif}
 
 	{\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
-	{\t} * Boring ol' getters and setters {\n}
+	{\t} * <p>Boring ol' getters and setters</p>{\n}
 	{\t} * {\n}
-	{\t} * Getters will update the hit count upon access.{\n}
+	{\t} * <p>Getters will update the hit count upon access.</p>{\n}
 	{\t} * {\n}
-	{\t} * Setters, if the passed in parameter's value differs will set the{\n}
-	{\t} * 'isDirty' flag{\n}
+	{\t} * <p>Setters, if the passed in parameter's value differs will set the{\n}
+	{\t} * 'isDirty' flag</p>{\n}
 	{\t} * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */{\n}
 	{\n}
 
@@ -969,11 +1001,11 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}{\t}{\t}"{{\"{table.javaClassName}\": {{" +{\n}
 		{loop table.fields as field}
 			{if field.isSecure}
-				{\t}{\t}{\t}"\"{field.javaName}\": \"<**secure**>\"" +{\n}
+				{\t}{\t}{\t}"\"{field.javaName}\": \"<**secure**>\"{if !fieldStatus.last}, {endif}" +{\n}
 			{else}
-				{\t}{\t}{\t}"\"{field.javaName}\":\"" + this.{field.javaName} + "\"" +{\n}
+				{\t}{\t}{\t}"\"{field.javaName}\":\"" + this.{field.javaName} + "\"{if !fieldStatus.last}, {endif}" +{\n}
 			{endif}
-			{if fieldStatus.last}{\t}{\t}{\t}"}");{\n}{endif}
+			{if fieldStatus.last}{\t}{\t}{\t}"}}");{\n}{endif}
 		{endloop}
 		{\t}}{\n}
 
