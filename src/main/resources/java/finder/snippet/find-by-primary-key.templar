@@ -3,7 +3,7 @@
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {\t}/**{\n}
-{\t} * <p>Create a Finder that can find a unique row of the <code>{tableOrView}</code> table or view by its primary key.</p>{\n}
+{\t} * <p>Create a Finder that can find a unique row of the <code>{tableOrView.name}</code> table or view by its primary key.</p>{\n}
 {\t} * {\n}
 {\t} * <p>This will return a <code>UniqueFinder</code> instance.  To execute the finder, either call:</p>{\n}
 {\t} * {\n}
