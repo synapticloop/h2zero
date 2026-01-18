@@ -105,7 +105,7 @@ public class UserTitleCounter {
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserTitleCounter.findAll()
+	 * <pre>UserTitleCounter.countAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 

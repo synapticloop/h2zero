@@ -35,6 +35,15 @@ import java.sql.SQLException;
 public abstract class ModelBase {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModelBase.class);
 
+	protected static final String JSON_KEY_TYPE = "type";
+	protected static final String JSON_KEY_NAME = "name";
+	protected static final String JSON_KEY_FIELDS = "fields";
+	protected static final String JSON_KEY_TOTAL = "total";
+
+	protected static final String JSON_VALUE_TABLE = "table";
+	protected static final String JSON_VALUE_VIEW = "view";
+
+
 	protected boolean isDirty = false; // whether the model has changes to any of its fields or values
 
 	/**
@@ -53,7 +62,7 @@ public abstract class ModelBase {
 
 	/**
 	 * Retrieve a connection from the appropriate connection manager, which is
-	 * delegated to the sub-classes.
+	 * delegated to the subclasses.
 	 *
 	 * @return The connection to the database
 	 *

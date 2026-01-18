@@ -30,7 +30,7 @@ import com.synapticloop.sample.h2zero.mariadb.finder.PetTypeFinder;
 /**
  * <p>This is the model for the <code>PetType</code> which maps to the <code>pet_type</code> database table.</p>
  * 
- * <p>This model maps all of the fields from the database as defined in the
+ * <p>This model maps fields from the database as defined in the
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>
  * 
   * <p>This class contains all the base CRUD (Create, Read, Update, and Delete)
@@ -44,6 +44,7 @@ import com.synapticloop.sample.h2zero.mariadb.finder.PetTypeFinder;
  *       <th>Field length<br />(min:max)</th>
  *       <th>Nullable?</th>
  *       <th>Keys</th>
+ *       <th>Index</th>
  *       <th>Comments</th>
  *     </tr>
  *   </thead>
@@ -53,6 +54,7 @@ import com.synapticloop.sample.h2zero.mariadb.finder.PetTypeFinder;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>false</td>
+ *       <td><code>primary</code>--</td>
  *       <td><code>primary</code></td>
  *       <td> -- </td>
  *     </tr>
@@ -61,7 +63,8 @@ import com.synapticloop.sample.h2zero.mariadb.finder.PetTypeFinder;
  *       <td>varchar</td>
  *       <td>(0:64)</td>
  *       <td>false</td>
- *       <td> <primary>unique</primary></td>
+ *       <td> <code>unique</code>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -69,7 +72,8 @@ import com.synapticloop.sample.h2zero.mariadb.finder.PetTypeFinder;
  *       <td>varchar</td>
  *       <td>(0:64)</td>
  *       <td>false</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *   </tbody>
@@ -86,6 +90,9 @@ public class PetType extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.PET_TYPE_BINDER;
 
+
+	private static final String TABLE_JAVA_NAME = "$PetType";
+	private static final String TABLE_NAME = "$pet_type";
 
 	public static final String PRIMARY_KEY_FIELD = "id_pet_type";  // the primary key - a convenience field
 
@@ -132,6 +139,11 @@ public class PetType extends ModelBase {
 	// the number of read-hits for a particular field
 	private static final int[] HIT_COUNTS = { 0, 0, 0, 0 };
 
+	public static final String PARAM_ID_PET_TYPE = "idPetType"; // static String for the name of the id_pet_type
+	public static final String PARAM_NM_PET_TYPE = "nmPetType"; // static String for the name of the nm_pet_type
+	public static final String PARAM_TXT_DESC_PET_TYPE = "txtDescPetType"; // static String for the name of the txt_desc_pet_type
+
+
 
 	private Long idPetType = null; // maps to the id_pet_type field
 	private String nmPetType = null; // maps to the nm_pet_type field
@@ -142,9 +154,10 @@ public class PetType extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object.</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new PetType:</p>
+	 * <p>Instantiating a new PetType:</p>
 	 * 
 	 * <pre>new PetType(
 	 *     Long idPetType,  // id_pet_type 
@@ -164,12 +177,12 @@ public class PetType extends ModelBase {
 	 * <p>Get a new PetType model, or set the fields on an existing
 	 * PetType model.</p>
 	 * 
-	 * <p>If the passed in petType is null, then a new PetType
-	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * <p>If the passed in petType is null, then a new PetType will
+	 * be created.  If not null, the fields will be updated on the passed in model.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call - this will insert the model if it .
-	 * doesn't exist, or update the existing model.</p>
+	 * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will
+	 * insert the model if it doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param petType the model to check
 	 * @param nmPetType - maps to the <code>nm_pet_type</code> field.
@@ -189,12 +202,29 @@ public class PetType extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Returns whether a primary key has been set on this document.  If the primary
+	 * is set, then this PetType Object has been persisted to the database. 
+	 * </p>
+	 * 
+	 * @return Whether the primary key has been set on this object (i.e. this object has
+	 *         been persisted to the database.
+	 */
 	@Override
 	public boolean primaryKeySet() {
 		return(null != idPetType);
 	}
 
 
+	/**
+	 * <p>Insert the PetType object into the database, setting the 
+	 * primary key once the statement has completed successfully.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(primaryKeySet()) {
@@ -209,7 +239,9 @@ public class PetType extends ModelBase {
 			ConnectionManager.setVarchar(preparedStatement, 1, nmPetType);
 			ConnectionManager.setVarchar(preparedStatement, 2, txtDescPetType);
 			preparedStatement.executeUpdate();
+
 			resultSet = preparedStatement.getGeneratedKeys();
+
 			if(resultSet.next()) {
 				this.idPetType = resultSet.getLong(1);
 			} else {
@@ -220,6 +252,15 @@ public class PetType extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Ensure that the PetType object with all fields exist 
+	 * in the database.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 
@@ -332,12 +373,12 @@ public class PetType extends ModelBase {
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Boring ol' getters and setters 
+	 * <p>Boring ol' getters and setters</p>
 	 * 
-	 * Getters will update the hit count upon access.
+	 * <p>Getters will update the hit count upon access.</p>
 	 * 
-	 * Setters, if the passed in parameter's value differs will set the
-	 * 'isDirty' flag
+	 * <p>Setters, if the passed in parameter's value differs will set the
+	 * 'isDirty' flag</p>
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
@@ -445,11 +486,20 @@ public class PetType extends ModelBase {
 	public String toString() {
 		return(
 			"{\"PetType\": {" +
-			"\"idPetType\":\"" + this.idPetType + "\"" +
-			"\"nmPetType\":\"" + this.nmPetType + "\"" +
+			"\"idPetType\":\"" + this.idPetType + "\", " +
+			"\"nmPetType\":\"" + this.nmPetType + "\", " +
 			"\"txtDescPetType\":\"" + this.txtDescPetType + "\"" +
-			"}");
+			"}}");
 	}
+
+	/**
+  	 * <p>Get this model as a JSON representation - in effect this just calls the
+  	 * <code>toJson()</code> method.</p>
+  	 *
+  	 * @return A JSON Object representation of this object
+  	 * 
+  	 * <p>{@link #toJSON()}</p>
+  	 */
 	public JSONObject getToJSON() {
 		return(toJSON());
 	}
@@ -457,15 +507,15 @@ public class PetType extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "table");
-		jsonObject.put("name", "PetType");
+		jsonObject.put(JSON_KEY_TYPE, JSON_VALUE_TABLE);
+		jsonObject.put(JSON_KEY_NAME, TABLE_JAVA_NAME);
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idPetType", this.getIdPetType());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "nmPetType", this.getNmPetType());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "txtDescPetType", this.getTxtDescPetType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_PET_TYPE, this.getIdPetType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_NM_PET_TYPE, this.getNmPetType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TXT_DESC_PET_TYPE, this.getTxtDescPetType());
 
-		jsonObject.put("fields", fieldsObject);
+		jsonObject.put(JSON_KEY_FIELDS, fieldsObject);
 
 		return(jsonObject);
 	}
@@ -505,11 +555,11 @@ public class PetType extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "PetType");
-		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idPetType", HIT_COUNTS[1]);
-		jsonObject.put("nmPetType", HIT_COUNTS[2]);
-		jsonObject.put("txtDescPetType", HIT_COUNTS[3]);
+		jsonObject.put(JSON_KEY_TYPE, "PetType");
+		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
+		jsonObject.put(PARAM_ID_PET_TYPE, HIT_COUNTS[1]);
+		jsonObject.put(PARAM_NM_PET_TYPE, HIT_COUNTS[2]);
+		jsonObject.put(PARAM_TXT_DESC_PET_TYPE, HIT_COUNTS[3]);
 		return(jsonObject.toString());
 	}
 

@@ -105,7 +105,7 @@ public class PetTypeCounter {
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>PetTypeCounter.findAll()
+	 * <pre>PetTypeCounter.countAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 

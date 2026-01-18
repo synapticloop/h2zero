@@ -105,7 +105,7 @@ public class UserTypeCounter {
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>UserTypeCounter.findAll()
+	 * <pre>UserTypeCounter.countAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 

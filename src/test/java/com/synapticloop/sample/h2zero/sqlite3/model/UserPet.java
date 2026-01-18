@@ -35,7 +35,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
 /**
  * <p>This is the model for the <code>UserPet</code> which maps to the <code>user_pet</code> database table.</p>
  * 
- * <p>This model maps all of the fields from the database as defined in the
+ * <p>This model maps fields from the database as defined in the
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>
  * 
   * <p>This class contains all the base CRUD (Create, Read, Update, and Delete)
@@ -49,6 +49,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
  *       <th>Field length<br />(min:max)</th>
  *       <th>Nullable?</th>
  *       <th>Keys</th>
+ *       <th>Index</th>
  *       <th>Comments</th>
  *     </tr>
  *   </thead>
@@ -58,6 +59,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>false</td>
+ *       <td><code>primary</code>--</td>
  *       <td><code>primary</code></td>
  *       <td> -- </td>
  *     </tr>
@@ -67,6 +69,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
  *       <td> -- </td>
  *       <td>false</td>
  *       <td> <code>foreign -> user.id_user</code></td>
+ *       <td><code>indexed</code></td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -75,6 +78,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.PetFinder;
  *       <td> -- </td>
  *       <td>false</td>
  *       <td> <code>foreign -> pet.id_pet</code></td>
+ *       <td><code>indexed</code></td>
  *       <td> -- </td>
  *     </tr>
  *   </tbody>
@@ -91,6 +95,9 @@ public class UserPet extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_PET_BINDER;
 
+
+	private static final String TABLE_JAVA_NAME = "$UserPet";
+	private static final String TABLE_NAME = "$user_pet";
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_pet";  // the primary key - a convenience field
 
@@ -137,6 +144,11 @@ public class UserPet extends ModelBase {
 	// the number of read-hits for a particular field
 	private static final int[] HIT_COUNTS = { 0, 0, 0, 0 };
 
+	public static final String PARAM_ID_USER_PET = "idUserPet"; // static String for the name of the id_user_pet
+	public static final String PARAM_ID_USER = "idUser"; // static String for the name of the id_user
+	public static final String PARAM_ID_PET = "idPet"; // static String for the name of the id_pet
+
+
 	private User User = null; // maps to the id_user field
 	private Pet Pet = null; // maps to the id_pet field
 
@@ -149,9 +161,10 @@ public class UserPet extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object.</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new UserPet:</p>
+	 * <p>Instantiating a new UserPet:</p>
 	 * 
 	 * <pre>new UserPet(
 	 *     Long idUserPet,  // id_user_pet 
@@ -171,12 +184,12 @@ public class UserPet extends ModelBase {
 	 * <p>Get a new UserPet model, or set the fields on an existing
 	 * UserPet model.</p>
 	 * 
-	 * <p>If the passed in userPet is null, then a new UserPet
-	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * <p>If the passed in userPet is null, then a new UserPet will
+	 * be created.  If not null, the fields will be updated on the passed in model.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call - this will insert the model if it .
-	 * doesn't exist, or update the existing model.</p>
+	 * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will
+	 * insert the model if it doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param userPet the model to check
 	 * @param idUser - maps to the <code>id_user</code> field.
@@ -196,12 +209,29 @@ public class UserPet extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Returns whether a primary key has been set on this document.  If the primary
+	 * is set, then this UserPet Object has been persisted to the database. 
+	 * </p>
+	 * 
+	 * @return Whether the primary key has been set on this object (i.e. this object has
+	 *         been persisted to the database.
+	 */
 	@Override
 	public boolean primaryKeySet() {
 		return(null != idUserPet);
 	}
 
 
+	/**
+	 * <p>Insert the UserPet object into the database, setting the 
+	 * primary key once the statement has completed successfully.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(primaryKeySet()) {
@@ -216,7 +246,9 @@ public class UserPet extends ModelBase {
 			ConnectionManager.setBigint(preparedStatement, 1, idUser);
 			ConnectionManager.setBigint(preparedStatement, 2, idPet);
 			preparedStatement.executeUpdate();
+
 			resultSet = preparedStatement.getGeneratedKeys();
+
 			if(resultSet.next()) {
 				this.idUserPet = resultSet.getLong(1);
 			} else {
@@ -227,6 +259,15 @@ public class UserPet extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Ensure that the UserPet object with all fields exist 
+	 * in the database.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 
@@ -383,12 +424,12 @@ public class UserPet extends ModelBase {
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Boring ol' getters and setters 
+	 * <p>Boring ol' getters and setters</p>
 	 * 
-	 * Getters will update the hit count upon access.
+	 * <p>Getters will update the hit count upon access.</p>
 	 * 
-	 * Setters, if the passed in parameter's value differs will set the
-	 * 'isDirty' flag
+	 * <p>Setters, if the passed in parameter's value differs will set the
+	 * 'isDirty' flag</p>
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
@@ -502,11 +543,20 @@ public class UserPet extends ModelBase {
 	public String toString() {
 		return(
 			"{\"UserPet\": {" +
-			"\"idUserPet\":\"" + this.idUserPet + "\"" +
-			"\"idUser\":\"" + this.idUser + "\"" +
+			"\"idUserPet\":\"" + this.idUserPet + "\", " +
+			"\"idUser\":\"" + this.idUser + "\", " +
 			"\"idPet\":\"" + this.idPet + "\"" +
-			"}");
+			"}}");
 	}
+
+	/**
+  	 * <p>Get this model as a JSON representation - in effect this just calls the
+  	 * <code>toJson()</code> method.</p>
+  	 *
+  	 * @return A JSON Object representation of this object
+  	 * 
+  	 * <p>{@link #toJSON()}</p>
+  	 */
 	public JSONObject getToJSON() {
 		return(toJSON());
 	}
@@ -514,15 +564,15 @@ public class UserPet extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "table");
-		jsonObject.put("name", "UserPet");
+		jsonObject.put(JSON_KEY_TYPE, JSON_VALUE_TABLE);
+		jsonObject.put(JSON_KEY_NAME, TABLE_JAVA_NAME);
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserPet", this.getIdUserPet());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idUser", this.getIdUser());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idPet", this.getIdPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_USER_PET, this.getIdUserPet());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_USER, this.getIdUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_PET, this.getIdPet());
 
-		jsonObject.put("fields", fieldsObject);
+		jsonObject.put(JSON_KEY_FIELDS, fieldsObject);
 
 		return(jsonObject);
 	}
@@ -562,11 +612,11 @@ public class UserPet extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "UserPet");
-		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idUserPet", HIT_COUNTS[1]);
-		jsonObject.put("idUser", HIT_COUNTS[2]);
-		jsonObject.put("idPet", HIT_COUNTS[3]);
+		jsonObject.put(JSON_KEY_TYPE, "UserPet");
+		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
+		jsonObject.put(PARAM_ID_USER_PET, HIT_COUNTS[1]);
+		jsonObject.put(PARAM_ID_USER, HIT_COUNTS[2]);
+		jsonObject.put(PARAM_ID_PET, HIT_COUNTS[3]);
 		return(jsonObject.toString());
 	}
 

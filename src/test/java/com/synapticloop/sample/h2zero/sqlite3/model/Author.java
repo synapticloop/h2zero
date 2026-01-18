@@ -33,7 +33,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
 /**
  * <p>This is the model for the <code>Author</code> which maps to the <code>author</code> database table.</p>
  * 
- * <p>This model maps all of the fields from the database as defined in the
+ * <p>This model maps fields from the database as defined in the
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>
  * 
   * <p>This class contains all the base CRUD (Create, Read, Update, and Delete)
@@ -47,6 +47,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <th>Field length<br />(min:max)</th>
  *       <th>Nullable?</th>
  *       <th>Keys</th>
+ *       <th>Index</th>
  *       <th>Comments</th>
  *     </tr>
  *   </thead>
@@ -56,6 +57,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>false</td>
+ *       <td><code>primary</code>--</td>
  *       <td><code>primary</code></td>
  *       <td> -- </td>
  *     </tr>
@@ -65,6 +67,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td> -- </td>
  *       <td>true</td>
  *       <td> <code>foreign -> author_status.id_author_status</code></td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -72,7 +75,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>varchar</td>
  *       <td>(0:256)</td>
  *       <td>false</td>
- *       <td> <primary>unique</primary></td>
+ *       <td> <code>unique</code>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -80,7 +84,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>varchar</td>
  *       <td>(0:256)</td>
  *       <td>false</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -88,7 +93,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>varchar</td>
  *       <td>(0:256)</td>
  *       <td>false</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -96,7 +102,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>varchar</td>
  *       <td>(0:512)</td>
  *       <td>false</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -104,7 +111,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>varchar</td>
  *       <td>(0:512)</td>
  *       <td>false</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -112,7 +120,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -120,7 +129,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -128,7 +138,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>datetime</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -136,7 +147,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>boolean</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -144,7 +156,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>boolean</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -152,7 +165,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorFinder;
  *       <td>boolean</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *   </tbody>
@@ -169,6 +183,9 @@ public class Author extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.AUTHOR_BINDER;
 
+
+	private static final String TABLE_JAVA_NAME = "$Author";
+	private static final String TABLE_NAME = "$author";
 
 	public static final String PRIMARY_KEY_FIELD = "id_author";  // the primary key - a convenience field
 
@@ -255,6 +272,21 @@ public class Author extends ModelBase {
 	// the number of read-hits for a particular field
 	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+	public static final String PARAM_ID_AUTHOR = "idAuthor"; // static String for the name of the id_author
+	public static final String PARAM_ID_AUTHOR_STATUS = "idAuthorStatus"; // static String for the name of the id_author_status
+	public static final String PARAM_TXT_ID_AUTHOR = "txtIdAuthor"; // static String for the name of the txt_id_author
+	public static final String PARAM_NM_AUTHOR = "nmAuthor"; // static String for the name of the nm_author
+	public static final String PARAM_NM_USERNAME = "nmUsername"; // static String for the name of the nm_username
+	public static final String PARAM_TXT_BIO = "txtBio"; // static String for the name of the txt_bio
+	public static final String PARAM_TXT_URL_CACHE_IMAGE = "txtUrlCacheImage"; // static String for the name of the txt_url_cache_image
+	public static final String PARAM_NUM_FOLLOWING = "numFollowing"; // static String for the name of the num_following
+	public static final String PARAM_NUM_FOLLOWERS = "numFollowers"; // static String for the name of the num_followers
+	public static final String PARAM_DTM_STARTED_FOLLOWING = "dtmStartedFollowing"; // static String for the name of the dtm_started_following
+	public static final String PARAM_FL_IS_UPDATING = "flIsUpdating"; // static String for the name of the fl_is_updating
+	public static final String PARAM_FL_AUTHOR_IS_FOLLOWING_USER = "flAuthorIsFollowingUser"; // static String for the name of the fl_author_is_following_user
+	public static final String PARAM_FL_AUTHOR_IS_FOLLOWED_BY_USER = "flAuthorIsFollowedByUser"; // static String for the name of the fl_author_is_followed_by_user
+
+
 
 	private Long idAuthor = null; // maps to the id_author field
 	private Long idAuthorStatus = null; // maps to the id_author_status field
@@ -275,9 +307,10 @@ public class Author extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object.</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new Author:</p>
+	 * <p>Instantiating a new Author:</p>
 	 * 
 	 * <pre>new Author(
 	 *     Long idAuthor,  // id_author 
@@ -317,9 +350,10 @@ public class Author extends ModelBase {
 	 * fields that are non-nullable.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new Author:</p>
+	 * <p>Instantiating a new Author:</p>
 	 * 
 	 * <pre>new Author(
 	 *     Long idAuthor,  // id_author
@@ -351,12 +385,12 @@ public class Author extends ModelBase {
 	 * <p>Get a new Author model, or set the fields on an existing
 	 * Author model.</p>
 	 * 
-	 * <p>If the passed in author is null, then a new Author
-	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * <p>If the passed in author is null, then a new Author will
+	 * be created.  If not null, the fields will be updated on the passed in model.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call - this will insert the model if it .
-	 * doesn't exist, or update the existing model.</p>
+	 * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will
+	 * insert the model if it doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param author the model to check
 	 * @param idAuthorStatus - maps to the <code>id_author_status</code> field.
@@ -397,21 +431,22 @@ public class Author extends ModelBase {
 	}
 
 	/**
-	 * Get a new Author model, or set the fields on an existing
-	 * Author model.
+	 * <p>Get a new Author model, or set the non-nullable fields on 
+	 * an existing Author model.</p>
 	 * <p>
-	 * If the passed in author is null, then a new Author
-	 * will be created.  If not null, the fields will be updated on the existing model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>If the passed in author is null, then a new Author will
+	 * be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will
+	 * insert the model if it doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param author the model to check
-	 * @param txtIdAuthor
-	 * @param nmAuthor
-	 * @param nmUsername
-	 * @param txtBio
-	 * @param txtUrlCacheImage
+	 * @param txtIdAuthor - maps to the <code>txt_id_author</code> field.
+	 * @param nmAuthor - maps to the <code>nm_author</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtBio - maps to the <code>txt_bio</code> field.
+	 * @param txtUrlCacheImage - maps to the <code>txt_url_cache_image</code> field.
 	 * 
 	 * @return Either the existing author with updated field values,
 	 *   or a new Author with the field values set.
@@ -430,12 +465,29 @@ public class Author extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Returns whether a primary key has been set on this document.  If the primary
+	 * is set, then this Author Object has been persisted to the database. 
+	 * </p>
+	 * 
+	 * @return Whether the primary key has been set on this object (i.e. this object has
+	 *         been persisted to the database.
+	 */
 	@Override
 	public boolean primaryKeySet() {
 		return(null != idAuthor);
 	}
 
 
+	/**
+	 * <p>Insert the Author object into the database, setting the 
+	 * primary key once the statement has completed successfully.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(primaryKeySet()) {
@@ -460,7 +512,9 @@ public class Author extends ModelBase {
 			ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
 			ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
 			preparedStatement.executeUpdate();
+
 			resultSet = preparedStatement.getGeneratedKeys();
+
 			if(resultSet.next()) {
 				this.idAuthor = resultSet.getLong(1);
 			} else {
@@ -471,6 +525,15 @@ public class Author extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Ensure that the Author object with all fields exist 
+	 * in the database.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 
@@ -640,12 +703,12 @@ public class Author extends ModelBase {
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Boring ol' getters and setters 
+	 * <p>Boring ol' getters and setters</p>
 	 * 
-	 * Getters will update the hit count upon access.
+	 * <p>Getters will update the hit count upon access.</p>
 	 * 
-	 * Setters, if the passed in parameter's value differs will set the
-	 * 'isDirty' flag
+	 * <p>Setters, if the passed in parameter's value differs will set the
+	 * 'isDirty' flag</p>
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
@@ -996,21 +1059,30 @@ public class Author extends ModelBase {
 	public String toString() {
 		return(
 			"{\"Author\": {" +
-			"\"idAuthor\":\"" + this.idAuthor + "\"" +
-			"\"idAuthorStatus\":\"" + this.idAuthorStatus + "\"" +
-			"\"txtIdAuthor\":\"" + this.txtIdAuthor + "\"" +
-			"\"nmAuthor\":\"" + this.nmAuthor + "\"" +
-			"\"nmUsername\":\"" + this.nmUsername + "\"" +
-			"\"txtBio\":\"" + this.txtBio + "\"" +
-			"\"txtUrlCacheImage\":\"" + this.txtUrlCacheImage + "\"" +
-			"\"numFollowing\":\"" + this.numFollowing + "\"" +
-			"\"numFollowers\":\"" + this.numFollowers + "\"" +
-			"\"dtmStartedFollowing\":\"" + this.dtmStartedFollowing + "\"" +
-			"\"flIsUpdating\":\"" + this.flIsUpdating + "\"" +
-			"\"flAuthorIsFollowingUser\":\"" + this.flAuthorIsFollowingUser + "\"" +
+			"\"idAuthor\":\"" + this.idAuthor + "\", " +
+			"\"idAuthorStatus\":\"" + this.idAuthorStatus + "\", " +
+			"\"txtIdAuthor\":\"" + this.txtIdAuthor + "\", " +
+			"\"nmAuthor\":\"" + this.nmAuthor + "\", " +
+			"\"nmUsername\":\"" + this.nmUsername + "\", " +
+			"\"txtBio\":\"" + this.txtBio + "\", " +
+			"\"txtUrlCacheImage\":\"" + this.txtUrlCacheImage + "\", " +
+			"\"numFollowing\":\"" + this.numFollowing + "\", " +
+			"\"numFollowers\":\"" + this.numFollowers + "\", " +
+			"\"dtmStartedFollowing\":\"" + this.dtmStartedFollowing + "\", " +
+			"\"flIsUpdating\":\"" + this.flIsUpdating + "\", " +
+			"\"flAuthorIsFollowingUser\":\"" + this.flAuthorIsFollowingUser + "\", " +
 			"\"flAuthorIsFollowedByUser\":\"" + this.flAuthorIsFollowedByUser + "\"" +
-			"}");
+			"}}");
 	}
+
+	/**
+  	 * <p>Get this model as a JSON representation - in effect this just calls the
+  	 * <code>toJson()</code> method.</p>
+  	 *
+  	 * @return A JSON Object representation of this object
+  	 * 
+  	 * <p>{@link #toJSON()}</p>
+  	 */
 	public JSONObject getToJSON() {
 		return(toJSON());
 	}
@@ -1018,25 +1090,25 @@ public class Author extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "table");
-		jsonObject.put("name", "Author");
+		jsonObject.put(JSON_KEY_TYPE, JSON_VALUE_TABLE);
+		jsonObject.put(JSON_KEY_NAME, TABLE_JAVA_NAME);
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idAuthor", this.getIdAuthor());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idAuthorStatus", this.getIdAuthorStatus());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "txtIdAuthor", this.getTxtIdAuthor());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "nmAuthor", this.getNmAuthor());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "txtBio", this.getTxtBio());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "txtUrlCacheImage", this.getTxtUrlCacheImage());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "numFollowing", this.getNumFollowing());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "numFollowers", this.getNumFollowers());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "dtmStartedFollowing", this.getDtmStartedFollowing());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "flIsUpdating", this.getFlIsUpdating());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "flAuthorIsFollowingUser", this.getFlAuthorIsFollowingUser());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "flAuthorIsFollowedByUser", this.getFlAuthorIsFollowedByUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_AUTHOR, this.getIdAuthor());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_AUTHOR_STATUS, this.getIdAuthorStatus());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TXT_ID_AUTHOR, this.getTxtIdAuthor());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_NM_AUTHOR, this.getNmAuthor());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_NM_USERNAME, this.getNmUsername());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TXT_BIO, this.getTxtBio());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TXT_URL_CACHE_IMAGE, this.getTxtUrlCacheImage());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_NUM_FOLLOWING, this.getNumFollowing());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_NUM_FOLLOWERS, this.getNumFollowers());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_DTM_STARTED_FOLLOWING, this.getDtmStartedFollowing());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_FL_IS_UPDATING, this.getFlIsUpdating());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_FL_AUTHOR_IS_FOLLOWING_USER, this.getFlAuthorIsFollowingUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_FL_AUTHOR_IS_FOLLOWED_BY_USER, this.getFlAuthorIsFollowedByUser());
 
-		jsonObject.put("fields", fieldsObject);
+		jsonObject.put(JSON_KEY_FIELDS, fieldsObject);
 
 		return(jsonObject);
 	}
@@ -1086,21 +1158,21 @@ public class Author extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "Author");
-		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idAuthor", HIT_COUNTS[1]);
-		jsonObject.put("idAuthorStatus", HIT_COUNTS[2]);
-		jsonObject.put("txtIdAuthor", HIT_COUNTS[3]);
-		jsonObject.put("nmAuthor", HIT_COUNTS[4]);
-		jsonObject.put("nmUsername", HIT_COUNTS[5]);
-		jsonObject.put("txtBio", HIT_COUNTS[6]);
-		jsonObject.put("txtUrlCacheImage", HIT_COUNTS[7]);
-		jsonObject.put("numFollowing", HIT_COUNTS[8]);
-		jsonObject.put("numFollowers", HIT_COUNTS[9]);
-		jsonObject.put("dtmStartedFollowing", HIT_COUNTS[10]);
-		jsonObject.put("flIsUpdating", HIT_COUNTS[11]);
-		jsonObject.put("flAuthorIsFollowingUser", HIT_COUNTS[12]);
-		jsonObject.put("flAuthorIsFollowedByUser", HIT_COUNTS[13]);
+		jsonObject.put(JSON_KEY_TYPE, "Author");
+		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
+		jsonObject.put(PARAM_ID_AUTHOR, HIT_COUNTS[1]);
+		jsonObject.put(PARAM_ID_AUTHOR_STATUS, HIT_COUNTS[2]);
+		jsonObject.put(PARAM_TXT_ID_AUTHOR, HIT_COUNTS[3]);
+		jsonObject.put(PARAM_NM_AUTHOR, HIT_COUNTS[4]);
+		jsonObject.put(PARAM_NM_USERNAME, HIT_COUNTS[5]);
+		jsonObject.put(PARAM_TXT_BIO, HIT_COUNTS[6]);
+		jsonObject.put(PARAM_TXT_URL_CACHE_IMAGE, HIT_COUNTS[7]);
+		jsonObject.put(PARAM_NUM_FOLLOWING, HIT_COUNTS[8]);
+		jsonObject.put(PARAM_NUM_FOLLOWERS, HIT_COUNTS[9]);
+		jsonObject.put(PARAM_DTM_STARTED_FOLLOWING, HIT_COUNTS[10]);
+		jsonObject.put(PARAM_FL_IS_UPDATING, HIT_COUNTS[11]);
+		jsonObject.put(PARAM_FL_AUTHOR_IS_FOLLOWING_USER, HIT_COUNTS[12]);
+		jsonObject.put(PARAM_FL_AUTHOR_IS_FOLLOWED_BY_USER, HIT_COUNTS[13]);
 		return(jsonObject.toString());
 	}
 

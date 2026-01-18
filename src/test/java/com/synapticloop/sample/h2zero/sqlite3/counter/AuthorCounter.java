@@ -120,7 +120,7 @@ public class AuthorCounter {
 	 * <p>You may also want to pass in a connection without exceptions being thrown,
 	 * in which case use the following:</p>
 	 * 
-	 * <pre>AuthorCounter.findAll()
+	 * <pre>AuthorCounter.countAll()
 	 *     .withConnection(connection)
 	 *     .executeSilent();</pre>
 	 * 

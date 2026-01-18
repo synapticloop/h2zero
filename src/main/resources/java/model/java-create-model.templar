@@ -68,7 +68,7 @@ import {database.package}.model.util.Constants;{\n}
 /**{\n}
  * <p>This is the model for the <code>{table.javaClassName}</code> which maps to the <code>{table.name}</code> database table.</p>{\n}
  * {\n}
- * <p>This model maps all of the fields from the database as defined in the{\n}
+ * <p>This model maps fields from the database as defined in the{\n}
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>{\n}
  * {\n}
  {if table.isConstant}
@@ -212,6 +212,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 {endif}
 {\n}
 
+{\t}private static final String TABLE_JAVA_NAME = "${table.javaClassName}";{\n}
+{\t}private static final String TABLE_NAME = "${table.name}";{\n}
+{\n}
+
 	{loop table.fields as field}
 		{if field.primary}
 			{\t}public static final String PRIMARY_KEY_FIELD = "{field.name}";  // the primary key - a convenience field{\n}{\n}
@@ -310,6 +314,16 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 
 {endif}{-- end of !if.isConstant}
 {\n}
+
+	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+					LIST STATIC CONSTANTS
+	}
+	{loop table.fields as field}
+		{\t}public static final String PARAM_{field.upperName} = "{field.javaName}"; // static String for the name of the {field.name}{\n}
+	{endloop}{\n}
+
+	{\n}
+
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					LIST ALL OF THE JAVA FIELDS
 	}
@@ -1008,9 +1022,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 			{if fieldStatus.last}{\t}{\t}{\t}"}}");{\n}{endif}
 		{endloop}
 		{\t}}{\n}
-
+{\n}
 
 	{-- and the getJSONString - for chaining --}
+	{\t}/**{\n}
+  {\t} * <p>Get this model as a JSON representation - in effect this just calls the{\n}
+  {\t} * <code>toJson()</code> method.</p>{\n}
+  {\t} *{\n}
+  {\t} * @return A JSON Object representation of this object{\n}
+  {\t} * {\n}
+  {\t} * <p>{{@link #toJSON()}</p>{\n}
+  {\t} */{\n}
 	{\t}public JSONObject getToJSON() {{{\n}
 	{\t}{\t}return(toJSON());{\n}
 	{\t}}{\n}
@@ -1020,17 +1042,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 	{\t}public JSONObject toJSON() {{{\n}
 	{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
 	{\n}
-	{\t}{\t}jsonObject.put("type", "table");{\n}
-	{\t}{\t}jsonObject.put("name", "{table.javaClassName}");{\n}
+	{\t}{\t}jsonObject.put(JSON_KEY_TYPE, JSON_VALUE_TABLE);{\n}
+	{\t}{\t}jsonObject.put(JSON_KEY_NAME, TABLE_JAVA_NAME);{\n}
 	{\t}{\t}JSONObject fieldsObject = new JSONObject();{\n}
 	{\n}
 	{loop table.fields as field}
 		{if !field.isSecure}
-			{\t}{\t}ModelBaseHelper.addToJSONObject(fieldsObject, "{field.javaName}", this.get{field.javaAccessorName}());{\n}
+			{\t}{\t}ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_{field.upperName}, this.get{field.javaAccessorName}());{\n}
 		{endif}
 	{endloop}
 {\n}
-	{\t}{\t}jsonObject.put("fields", fieldsObject);{\n}{\n}
+	{\t}{\t}jsonObject.put(JSON_KEY_FIELDS, fieldsObject);{\n}{\n}
 
 	{\t}{\t}return(jsonObject);{\n}
 	{\t}}{\n}
@@ -1090,10 +1112,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif
 		{\t}public static String getHitCountJson() {{{\n}
 
 		{\t}{\t}JSONObject jsonObject = new JSONObject();{\n}
-		{\t}{\t}jsonObject.put("type", "{table.javaClassName}");{\n}
-		{\t}{\t}jsonObject.put("total", HIT_COUNTS[0]);{\n}
+		{\t}{\t}jsonObject.put(JSON_KEY_TYPE, TABLE_JAVA_NAME);{\n}
+		{\t}{\t}jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);{\n}
 		{loop table.fields as field}
-		{\t}{\t}jsonObject.put("{field.javaName}", HIT_COUNTS[{fn:+[field.fieldIndex, '1']}]);{\n}
+		{\t}{\t}jsonObject.put(PARAM_{field.upperName}, HIT_COUNTS[{fn:+[field.fieldIndex, '1']}]);{\n}
 		{endloop}
 		{\t}{\t}return(jsonObject.toString());{\n}
 		{\t}}{\n}

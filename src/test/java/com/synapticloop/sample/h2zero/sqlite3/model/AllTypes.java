@@ -32,7 +32,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
 /**
  * <p>This is the model for the <code>AllTypes</code> which maps to the <code>all_types</code> database table.</p>
  * 
- * <p>This model maps all of the fields from the database as defined in the
+ * <p>This model maps fields from the database as defined in the
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>
  * 
   * <p>This class contains all the base CRUD (Create, Read, Update, and Delete)
@@ -46,6 +46,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <th>Field length<br />(min:max)</th>
  *       <th>Nullable?</th>
  *       <th>Keys</th>
+ *       <th>Index</th>
  *       <th>Comments</th>
  *     </tr>
  *   </thead>
@@ -55,6 +56,7 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>false</td>
+ *       <td><code>primary</code>--</td>
  *       <td><code>primary</code></td>
  *       <td> -- </td>
  *     </tr>
@@ -63,7 +65,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -71,7 +74,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>boolean</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -79,7 +83,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>date</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -87,7 +92,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>datetime</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -95,7 +101,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>double</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -103,7 +110,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>float</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -111,7 +119,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>int</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -119,7 +128,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>integer</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -127,7 +137,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>mediumint</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -135,7 +146,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>numeric</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -143,7 +155,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>smallint</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -151,7 +164,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>text</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -159,7 +173,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>tinyint</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -167,7 +182,8 @@ import com.synapticloop.sample.h2zero.sqlite3.finder.AllTypesFinder;
  *       <td>varchar</td>
  *       <td>(0:128)</td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *   </tbody>
@@ -184,6 +200,9 @@ public class AllTypes extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
+
+	private static final String TABLE_JAVA_NAME = "$AllTypes";
+	private static final String TABLE_NAME = "$all_types";
 
 	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
@@ -278,6 +297,23 @@ public class AllTypes extends ModelBase {
 	// the number of read-hits for a particular field
 	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+	public static final String PARAM_ID_ALL_TYPES = "idAllTypes"; // static String for the name of the id_all_types
+	public static final String PARAM_TEST_BIGINT = "testBigint"; // static String for the name of the test_bigint
+	public static final String PARAM_TEST_BOOLEAN = "testBoolean"; // static String for the name of the test_boolean
+	public static final String PARAM_TEST_DATE = "testDate"; // static String for the name of the test_date
+	public static final String PARAM_TEST_DATETIME = "testDatetime"; // static String for the name of the test_datetime
+	public static final String PARAM_TEST_DOUBLE = "testDouble"; // static String for the name of the test_double
+	public static final String PARAM_TEST_FLOAT = "testFloat"; // static String for the name of the test_float
+	public static final String PARAM_TEST_INT = "testInt"; // static String for the name of the test_int
+	public static final String PARAM_TEST_INTEGER = "testInteger"; // static String for the name of the test_integer
+	public static final String PARAM_TEST_MEDIUMINT = "testMediumint"; // static String for the name of the test_mediumint
+	public static final String PARAM_TEST_NUMERIC = "testNumeric"; // static String for the name of the test_numeric
+	public static final String PARAM_TEST_SMALLINT = "testSmallint"; // static String for the name of the test_smallint
+	public static final String PARAM_TEST_TEXT = "testText"; // static String for the name of the test_text
+	public static final String PARAM_TEST_TINYINT = "testTinyint"; // static String for the name of the test_tinyint
+	public static final String PARAM_TEST_VARCHAR = "testVarchar"; // static String for the name of the test_varchar
+
+
 
 	private Long idAllTypes = null; // maps to the id_all_types field
 	private Long testBigint = null; // maps to the test_bigint field
@@ -300,9 +336,10 @@ public class AllTypes extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object.</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new AllTypes:</p>
+	 * <p>Instantiating a new AllTypes:</p>
 	 * 
 	 * <pre>new AllTypes(
 	 *     Long idAllTypes,  // id_all_types 
@@ -346,9 +383,10 @@ public class AllTypes extends ModelBase {
 	 * fields that are non-nullable.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new AllTypes:</p>
+	 * <p>Instantiating a new AllTypes:</p>
 	 * 
 	 * <pre>new AllTypes(
 	 *     Long idAllTypes // id_all_types
@@ -377,12 +415,12 @@ public class AllTypes extends ModelBase {
 	 * <p>Get a new AllTypes model, or set the fields on an existing
 	 * AllTypes model.</p>
 	 * 
-	 * <p>If the passed in allTypes is null, then a new AllTypes
-	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * <p>If the passed in allTypes is null, then a new AllTypes will
+	 * be created.  If not null, the fields will be updated on the passed in model.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call - this will insert the model if it .
-	 * doesn't exist, or update the existing model.</p>
+	 * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will
+	 * insert the model if it doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param allTypes the model to check
 	 * @param testBigint - maps to the <code>test_bigint</code> field.
@@ -427,14 +465,15 @@ public class AllTypes extends ModelBase {
 	}
 
 	/**
-	 * Get a new AllTypes model, or set the fields on an existing
-	 * AllTypes model.
+	 * <p>Get a new AllTypes model, or set the non-nullable fields on 
+	 * an existing AllTypes model.</p>
 	 * <p>
-	 * If the passed in allTypes is null, then a new AllTypes
-	 * will be created.  If not null, the fields will be updated on the existing model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>If the passed in allTypes is null, then a new AllTypes will
+	 * be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will
+	 * insert the model if it doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param allTypes the model to check
 	 * 
@@ -450,12 +489,29 @@ public class AllTypes extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Returns whether a primary key has been set on this document.  If the primary
+	 * is set, then this AllTypes Object has been persisted to the database. 
+	 * </p>
+	 * 
+	 * @return Whether the primary key has been set on this object (i.e. this object has
+	 *         been persisted to the database.
+	 */
 	@Override
 	public boolean primaryKeySet() {
 		return(null != idAllTypes);
 	}
 
 
+	/**
+	 * <p>Insert the AllTypes object into the database, setting the 
+	 * primary key once the statement has completed successfully.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(primaryKeySet()) {
@@ -482,7 +538,9 @@ public class AllTypes extends ModelBase {
 			ConnectionManager.setTinyint(preparedStatement, 13, testTinyint);
 			ConnectionManager.setVarchar(preparedStatement, 14, testVarchar);
 			preparedStatement.executeUpdate();
+
 			resultSet = preparedStatement.getGeneratedKeys();
+
 			if(resultSet.next()) {
 				this.idAllTypes = resultSet.getLong(1);
 			} else {
@@ -493,6 +551,15 @@ public class AllTypes extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Ensure that the AllTypes object with all fields exist 
+	 * in the database.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 
@@ -653,12 +720,12 @@ public class AllTypes extends ModelBase {
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Boring ol' getters and setters 
+	 * <p>Boring ol' getters and setters</p>
 	 * 
-	 * Getters will update the hit count upon access.
+	 * <p>Getters will update the hit count upon access.</p>
 	 * 
-	 * Setters, if the passed in parameter's value differs will set the
-	 * 'isDirty' flag
+	 * <p>Setters, if the passed in parameter's value differs will set the
+	 * 'isDirty' flag</p>
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
@@ -1054,23 +1121,32 @@ public class AllTypes extends ModelBase {
 	public String toString() {
 		return(
 			"{\"AllTypes\": {" +
-			"\"idAllTypes\":\"" + this.idAllTypes + "\"" +
-			"\"testBigint\":\"" + this.testBigint + "\"" +
-			"\"testBoolean\":\"" + this.testBoolean + "\"" +
-			"\"testDate\":\"" + this.testDate + "\"" +
-			"\"testDatetime\":\"" + this.testDatetime + "\"" +
-			"\"testDouble\":\"" + this.testDouble + "\"" +
-			"\"testFloat\":\"" + this.testFloat + "\"" +
-			"\"testInt\":\"" + this.testInt + "\"" +
-			"\"testInteger\":\"" + this.testInteger + "\"" +
-			"\"testMediumint\":\"" + this.testMediumint + "\"" +
-			"\"testNumeric\":\"" + this.testNumeric + "\"" +
-			"\"testSmallint\":\"" + this.testSmallint + "\"" +
-			"\"testText\":\"" + this.testText + "\"" +
-			"\"testTinyint\":\"" + this.testTinyint + "\"" +
+			"\"idAllTypes\":\"" + this.idAllTypes + "\", " +
+			"\"testBigint\":\"" + this.testBigint + "\", " +
+			"\"testBoolean\":\"" + this.testBoolean + "\", " +
+			"\"testDate\":\"" + this.testDate + "\", " +
+			"\"testDatetime\":\"" + this.testDatetime + "\", " +
+			"\"testDouble\":\"" + this.testDouble + "\", " +
+			"\"testFloat\":\"" + this.testFloat + "\", " +
+			"\"testInt\":\"" + this.testInt + "\", " +
+			"\"testInteger\":\"" + this.testInteger + "\", " +
+			"\"testMediumint\":\"" + this.testMediumint + "\", " +
+			"\"testNumeric\":\"" + this.testNumeric + "\", " +
+			"\"testSmallint\":\"" + this.testSmallint + "\", " +
+			"\"testText\":\"" + this.testText + "\", " +
+			"\"testTinyint\":\"" + this.testTinyint + "\", " +
 			"\"testVarchar\":\"" + this.testVarchar + "\"" +
-			"}");
+			"}}");
 	}
+
+	/**
+  	 * <p>Get this model as a JSON representation - in effect this just calls the
+  	 * <code>toJson()</code> method.</p>
+  	 *
+  	 * @return A JSON Object representation of this object
+  	 * 
+  	 * <p>{@link #toJSON()}</p>
+  	 */
 	public JSONObject getToJSON() {
 		return(toJSON());
 	}
@@ -1078,27 +1154,27 @@ public class AllTypes extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "table");
-		jsonObject.put("name", "AllTypes");
+		jsonObject.put(JSON_KEY_TYPE, JSON_VALUE_TABLE);
+		jsonObject.put(JSON_KEY_NAME, TABLE_JAVA_NAME);
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idAllTypes", this.getIdAllTypes());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testBigint", this.getTestBigint());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testBoolean", this.getTestBoolean());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testDate", this.getTestDate());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testDatetime", this.getTestDatetime());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testDouble", this.getTestDouble());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testFloat", this.getTestFloat());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testInt", this.getTestInt());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testInteger", this.getTestInteger());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testMediumint", this.getTestMediumint());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testNumeric", this.getTestNumeric());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testSmallint", this.getTestSmallint());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testText", this.getTestText());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testTinyint", this.getTestTinyint());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "testVarchar", this.getTestVarchar());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_ALL_TYPES, this.getIdAllTypes());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_BIGINT, this.getTestBigint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_BOOLEAN, this.getTestBoolean());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_DATE, this.getTestDate());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_DATETIME, this.getTestDatetime());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_DOUBLE, this.getTestDouble());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_FLOAT, this.getTestFloat());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_INT, this.getTestInt());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_INTEGER, this.getTestInteger());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_MEDIUMINT, this.getTestMediumint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_NUMERIC, this.getTestNumeric());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_SMALLINT, this.getTestSmallint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_TEXT, this.getTestText());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_TINYINT, this.getTestTinyint());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TEST_VARCHAR, this.getTestVarchar());
 
-		jsonObject.put("fields", fieldsObject);
+		jsonObject.put(JSON_KEY_FIELDS, fieldsObject);
 
 		return(jsonObject);
 	}
@@ -1150,23 +1226,23 @@ public class AllTypes extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "AllTypes");
-		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idAllTypes", HIT_COUNTS[1]);
-		jsonObject.put("testBigint", HIT_COUNTS[2]);
-		jsonObject.put("testBoolean", HIT_COUNTS[3]);
-		jsonObject.put("testDate", HIT_COUNTS[4]);
-		jsonObject.put("testDatetime", HIT_COUNTS[5]);
-		jsonObject.put("testDouble", HIT_COUNTS[6]);
-		jsonObject.put("testFloat", HIT_COUNTS[7]);
-		jsonObject.put("testInt", HIT_COUNTS[8]);
-		jsonObject.put("testInteger", HIT_COUNTS[9]);
-		jsonObject.put("testMediumint", HIT_COUNTS[10]);
-		jsonObject.put("testNumeric", HIT_COUNTS[11]);
-		jsonObject.put("testSmallint", HIT_COUNTS[12]);
-		jsonObject.put("testText", HIT_COUNTS[13]);
-		jsonObject.put("testTinyint", HIT_COUNTS[14]);
-		jsonObject.put("testVarchar", HIT_COUNTS[15]);
+		jsonObject.put(JSON_KEY_TYPE, "AllTypes");
+		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
+		jsonObject.put(PARAM_ID_ALL_TYPES, HIT_COUNTS[1]);
+		jsonObject.put(PARAM_TEST_BIGINT, HIT_COUNTS[2]);
+		jsonObject.put(PARAM_TEST_BOOLEAN, HIT_COUNTS[3]);
+		jsonObject.put(PARAM_TEST_DATE, HIT_COUNTS[4]);
+		jsonObject.put(PARAM_TEST_DATETIME, HIT_COUNTS[5]);
+		jsonObject.put(PARAM_TEST_DOUBLE, HIT_COUNTS[6]);
+		jsonObject.put(PARAM_TEST_FLOAT, HIT_COUNTS[7]);
+		jsonObject.put(PARAM_TEST_INT, HIT_COUNTS[8]);
+		jsonObject.put(PARAM_TEST_INTEGER, HIT_COUNTS[9]);
+		jsonObject.put(PARAM_TEST_MEDIUMINT, HIT_COUNTS[10]);
+		jsonObject.put(PARAM_TEST_NUMERIC, HIT_COUNTS[11]);
+		jsonObject.put(PARAM_TEST_SMALLINT, HIT_COUNTS[12]);
+		jsonObject.put(PARAM_TEST_TEXT, HIT_COUNTS[13]);
+		jsonObject.put(PARAM_TEST_TINYINT, HIT_COUNTS[14]);
+		jsonObject.put(PARAM_TEST_VARCHAR, HIT_COUNTS[15]);
 		return(jsonObject.toString());
 	}
 

@@ -19,7 +19,7 @@ import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
 /**
  * <p>This is the model for the <code>UserType</code> which maps to the <code>user_type</code> database table.</p>
  * 
- * <p>This model maps all of the fields from the database as defined in the
+ * <p>This model maps fields from the database as defined in the
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>
  * 
   * <p><strong>NOTE:</strong> This is a constant table which cannot be changed and no CRUD methods are available.</p>
@@ -32,6 +32,7 @@ import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
  *       <th>Field length<br />(min:max)</th>
  *       <th>Nullable?</th>
  *       <th>Keys</th>
+ *       <th>Index</th>
  *       <th>Comments</th>
  *     </tr>
  *   </thead>
@@ -41,7 +42,8 @@ import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>false</td>
- *       <td><code>primary</code> <primary>unique</primary></td>
+ *       <td><code>primary</code> <code>unique</code>--</td>
+ *       <td><code>primary</code></td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -49,7 +51,8 @@ import com.synapticloop.sample.h2zero.mariadb.model.util.Constants;
  *       <td>varchar</td>
  *       <td>(0:32)</td>
  *       <td>false</td>
- *       <td> <primary>unique</primary></td>
+ *       <td> <code>unique</code>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *   </tbody>
@@ -130,7 +133,14 @@ public class UserType  {
 
 	};
 
+	private static final String TABLE_JAVA_NAME = "$UserType";
+	private static final String TABLE_NAME = "$user_type";
+
 	public static final String PRIMARY_KEY_FIELD = "id_user_type";  // the primary key - a convenience field
+
+
+	public static final String PARAM_ID_USER_TYPE = "idUserType"; // static String for the name of the id_user_type
+	public static final String PARAM_NM_USER_TYPE = "nmUserType"; // static String for the name of the nm_user_type
 
 
 
@@ -142,9 +152,10 @@ public class UserType  {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object.</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new UserType:</p>
+	 * <p>Instantiating a new UserType:</p>
 	 * 
 	 * <pre>new UserType(
 	 *     Long idUserType,  // id_user_type 
@@ -159,12 +170,12 @@ public class UserType  {
 
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Boring ol' getters and setters 
+	 * <p>Boring ol' getters and setters</p>
 	 * 
-	 * Getters will update the hit count upon access.
+	 * <p>Getters will update the hit count upon access.</p>
 	 * 
-	 * Setters, if the passed in parameter's value differs will set the
-	 * 'isDirty' flag
+	 * <p>Setters, if the passed in parameter's value differs will set the
+	 * 'isDirty' flag</p>
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
@@ -195,10 +206,19 @@ public class UserType  {
 	public String toString() {
 		return(
 			"{\"UserType\": {" +
-			"\"idUserType\":\"" + this.idUserType + "\"" +
+			"\"idUserType\":\"" + this.idUserType + "\", " +
 			"\"nmUserType\":\"" + this.nmUserType + "\"" +
-			"}");
+			"}}");
 	}
+
+	/**
+  	 * <p>Get this model as a JSON representation - in effect this just calls the
+  	 * <code>toJson()</code> method.</p>
+  	 *
+  	 * @return A JSON Object representation of this object
+  	 * 
+  	 * <p>{@link #toJSON()}</p>
+  	 */
 	public JSONObject getToJSON() {
 		return(toJSON());
 	}
@@ -206,14 +226,14 @@ public class UserType  {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "table");
-		jsonObject.put("name", "UserType");
+		jsonObject.put(JSON_KEY_TYPE, JSON_VALUE_TABLE);
+		jsonObject.put(JSON_KEY_NAME, TABLE_JAVA_NAME);
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserType", this.getIdUserType());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUserType", this.getNmUserType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_USER_TYPE, this.getIdUserType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_NM_USER_TYPE, this.getNmUserType());
 
-		jsonObject.put("fields", fieldsObject);
+		jsonObject.put(JSON_KEY_FIELDS, fieldsObject);
 
 		return(jsonObject);
 	}

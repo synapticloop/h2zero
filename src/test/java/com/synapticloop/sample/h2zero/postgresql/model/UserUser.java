@@ -33,7 +33,7 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
 /**
  * <p>This is the model for the <code>UserUser</code> which maps to the <code>user_user</code> database table.</p>
  * 
- * <p>This model maps all of the fields from the database as defined in the
+ * <p>This model maps fields from the database as defined in the
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>
  * 
   * <p>This class contains all the base CRUD (Create, Read, Update, and Delete)
@@ -47,6 +47,7 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <th>Field length<br />(min:max)</th>
  *       <th>Nullable?</th>
  *       <th>Keys</th>
+ *       <th>Index</th>
  *       <th>Comments</th>
  *     </tr>
  *   </thead>
@@ -56,6 +57,7 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <td>bigint</td>
  *       <td> -- </td>
  *       <td>false</td>
+ *       <td><code>primary</code>--</td>
  *       <td><code>primary</code></td>
  *       <td> -- </td>
  *     </tr>
@@ -65,6 +67,7 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <td> -- </td>
  *       <td>false</td>
  *       <td> <code>foreign -> user_type.id_user_type</code></td>
+ *       <td><code>indexed</code></td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -72,7 +75,8 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <td>boolean</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td><code>indexed</code></td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -80,7 +84,8 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <td>int</td>
  *       <td> -- </td>
  *       <td>false</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -88,7 +93,8 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <td>varchar</td>
  *       <td>(0:64)</td>
  *       <td>false</td>
- *       <td> <primary>unique</primary></td>
+ *       <td> <code>unique</code>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -96,7 +102,8 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <td>varchar</td>
  *       <td>(6:256)</td>
  *       <td>false</td>
- *       <td> <primary>unique</primary></td>
+ *       <td> <code>unique</code>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -104,7 +111,8 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <td>varchar</td>
  *       <td>(8:32)</td>
  *       <td>false</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *     <tr>
@@ -112,7 +120,8 @@ import com.synapticloop.sample.h2zero.postgresql.finder.UserUserFinder;
  *       <td>timestamp</td>
  *       <td> -- </td>
  *       <td>true</td>
- *       <td></td>
+ *       <td>--</td>
+ *       <td>--</td>
  *       <td> -- </td>
  *     </tr>
  *   </tbody>
@@ -129,6 +138,9 @@ public class UserUser extends ModelBase {
 	@SuppressWarnings("unused")
 	private static final String BINDER = Constants.USER_USER_BINDER;
 
+
+	private static final String TABLE_JAVA_NAME = "$UserUser";
+	private static final String TABLE_NAME = "$user_user";
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_user";  // the primary key - a convenience field
 
@@ -197,6 +209,16 @@ public class UserUser extends ModelBase {
 	private static final int[] HIT_COUNTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	private boolean isHydrated = false; // whether this model is populated
 
+	public static final String PARAM_ID_USER_USER = "idUserUser"; // static String for the name of the id_user_user
+	public static final String PARAM_ID_USER_TYPE = "idUserType"; // static String for the name of the id_user_type
+	public static final String PARAM_FL_IS_ALIVE = "flIsAlive"; // static String for the name of the fl_is_alive
+	public static final String PARAM_NUM_AGE = "numAge"; // static String for the name of the num_age
+	public static final String PARAM_NM_USERNAME = "nmUsername"; // static String for the name of the nm_username
+	public static final String PARAM_TXT_ADDRESS_EMAIL = "txtAddressEmail"; // static String for the name of the txt_address_email
+	public static final String PARAM_TXT_PASSWORD = "txtPassword"; // static String for the name of the txt_password
+	public static final String PARAM_TS_SIGNUP = "tsSignup"; // static String for the name of the ts_signup
+
+
 
 	private Long idUserUser = null; // maps to the id_user_user field
 	private Long idUserType = null; // maps to the id_user_type field
@@ -212,9 +234,10 @@ public class UserUser extends ModelBase {
 	 * some of which can be null.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object.</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new UserUser:</p>
+	 * <p>Instantiating a new UserUser:</p>
 	 * 
 	 * <pre>new UserUser(
 	 *     Long idUserUser,  // id_user_user 
@@ -244,9 +267,10 @@ public class UserUser extends ModelBase {
 	 * fields that are non-nullable.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> this does not insert the object into the database
-	 * the <code>.insert()</code> method must be called to insert this object</p>
+	 * the <code>.insert()</code> or <code>.insertSilent()</code> method must be called
+	 * to insert this object.</p>
 	 * 
-	 * <p>Creating a new UserUser:</p>
+	 * <p>Instantiating a new UserUser:</p>
 	 * 
 	 * <pre>new UserUser(
 	 *     Long idUserUser,  // id_user_user
@@ -273,12 +297,12 @@ public class UserUser extends ModelBase {
 	 * <p>Get a new UserUser model, or set the fields on an existing
 	 * UserUser model.</p>
 	 * 
-	 * <p>If the passed in userUser is null, then a new UserUser
-	 * will be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * <p>If the passed in userUser is null, then a new UserUser will
+	 * be created.  If not null, the fields will be updated on the passed in model.</p>
 	 * 
 	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call - this will insert the model if it .
-	 * doesn't exist, or update the existing model.</p>
+	 * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will
+	 * insert the model if it doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param userUser the model to check
 	 * @param idUserType - maps to the <code>id_user_type</code> field.
@@ -309,21 +333,22 @@ public class UserUser extends ModelBase {
 	}
 
 	/**
-	 * Get a new UserUser model, or set the fields on an existing
-	 * UserUser model.
+	 * <p>Get a new UserUser model, or set the non-nullable fields on 
+	 * an existing UserUser model.</p>
 	 * <p>
-	 * If the passed in userUser is null, then a new UserUser
-	 * will be created.  If not null, the fields will be updated on the existing model.
-	 * <p>
-	 * <strong>NOTE:</strong> You will still need to persist this to the database
-	 * with an <code>upsert()</code> call.
+	 * <p>If the passed in userUser is null, then a new UserUser will
+	 * be created.  If not null, the fields will be updated on the passed in model.</p>
+	 * 
+	 * <p><strong>NOTE:</strong> You will still need to persist this to the database
+	 * with an <code>.upsert()</code> or <code>.upsertSilent()</code> call - this will
+	 * insert the model if it doesn't exist, or update the existing model.</p>
 	 * 
 	 * @param userUser the model to check
-	 * @param idUserType
-	 * @param numAge
-	 * @param nmUsername
-	 * @param txtAddressEmail
-	 * @param txtPassword
+	 * @param idUserType - maps to the <code>id_user_type</code> field.
+	 * @param numAge - maps to the <code>num_age</code> field.
+	 * @param nmUsername - maps to the <code>nm_username</code> field.
+	 * @param txtAddressEmail - maps to the <code>txt_address_email</code> field.
+	 * @param txtPassword - maps to the <code>txt_password</code> field.
 	 * 
 	 * @return Either the existing userUser with updated field values,
 	 *   or a new UserUser with the field values set.
@@ -342,12 +367,29 @@ public class UserUser extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Returns whether a primary key has been set on this document.  If the primary
+	 * is set, then this UserUser Object has been persisted to the database. 
+	 * </p>
+	 * 
+	 * @return Whether the primary key has been set on this object (i.e. this object has
+	 *         been persisted to the database.
+	 */
 	@Override
 	public boolean primaryKeySet() {
 		return(null != idUserUser);
 	}
 
 
+	/**
+	 * <p>Insert the UserUser object into the database, setting the 
+	 * primary key once the statement has completed successfully.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 		if(primaryKeySet()) {
@@ -367,7 +409,9 @@ public class UserUser extends ModelBase {
 			ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
 			ConnectionManager.setTimestamp(preparedStatement, 7, tsSignup);
 			preparedStatement.executeUpdate();
+
 			resultSet = preparedStatement.getGeneratedKeys();
+
 			if(resultSet.next()) {
 				this.idUserUser = resultSet.getLong(1);
 			} else {
@@ -378,6 +422,15 @@ public class UserUser extends ModelBase {
 		}
 	}
 
+	/**
+	 * <p>Ensure that the UserUser object with all fields exist 
+	 * in the database.</p>
+	 *
+	 * @param connection The connection to use for this insert
+	 *
+	 * @throws SQLException if there was an SQL Exception with the statement
+	 * @throws H2ZeroPrimaryKeyException if the primary key could not be determined
+	 */
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 
@@ -551,12 +604,12 @@ public class UserUser extends ModelBase {
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Boring ol' getters and setters 
+	 * <p>Boring ol' getters and setters</p>
 	 * 
-	 * Getters will update the hit count upon access.
+	 * <p>Getters will update the hit count upon access.</p>
 	 * 
-	 * Setters, if the passed in parameter's value differs will set the
-	 * 'isDirty' flag
+	 * <p>Setters, if the passed in parameter's value differs will set the
+	 * 'isDirty' flag</p>
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 	/**
@@ -787,16 +840,25 @@ public class UserUser extends ModelBase {
 	public String toString() {
 		return(
 			"{\"UserUser\": {" +
-			"\"idUserUser\":\"" + this.idUserUser + "\"" +
-			"\"idUserType\":\"" + this.idUserType + "\"" +
-			"\"flIsAlive\":\"" + this.flIsAlive + "\"" +
-			"\"numAge\":\"" + this.numAge + "\"" +
-			"\"nmUsername\":\"" + this.nmUsername + "\"" +
-			"\"txtAddressEmail\":\"" + this.txtAddressEmail + "\"" +
-			"\"txtPassword\": \"<**secure**>\"" +
+			"\"idUserUser\":\"" + this.idUserUser + "\", " +
+			"\"idUserType\":\"" + this.idUserType + "\", " +
+			"\"flIsAlive\":\"" + this.flIsAlive + "\", " +
+			"\"numAge\":\"" + this.numAge + "\", " +
+			"\"nmUsername\":\"" + this.nmUsername + "\", " +
+			"\"txtAddressEmail\":\"" + this.txtAddressEmail + "\", " +
+			"\"txtPassword\": \"<**secure**>\", " +
 			"\"tsSignup\":\"" + this.tsSignup + "\"" +
-			"}");
+			"}}");
 	}
+
+	/**
+  	 * <p>Get this model as a JSON representation - in effect this just calls the
+  	 * <code>toJson()</code> method.</p>
+  	 *
+  	 * @return A JSON Object representation of this object
+  	 * 
+  	 * <p>{@link #toJSON()}</p>
+  	 */
 	public JSONObject getToJSON() {
 		return(toJSON());
 	}
@@ -804,19 +866,19 @@ public class UserUser extends ModelBase {
 	public JSONObject toJSON() {
 		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("type", "table");
-		jsonObject.put("name", "UserUser");
+		jsonObject.put(JSON_KEY_TYPE, JSON_VALUE_TABLE);
+		jsonObject.put(JSON_KEY_NAME, TABLE_JAVA_NAME);
 		JSONObject fieldsObject = new JSONObject();
 
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserUser", this.getIdUserUser());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "idUserType", this.getIdUserType());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "flIsAlive", this.getFlIsAlive());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "numAge", this.getNumAge());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "nmUsername", this.getNmUsername());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "txtAddressEmail", this.getTxtAddressEmail());
-		ModelBaseHelper.addToJSONObject(fieldsObject, "tsSignup", this.getTsSignup());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_USER_USER, this.getIdUserUser());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_ID_USER_TYPE, this.getIdUserType());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_FL_IS_ALIVE, this.getFlIsAlive());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_NUM_AGE, this.getNumAge());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_NM_USERNAME, this.getNmUsername());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TXT_ADDRESS_EMAIL, this.getTxtAddressEmail());
+		ModelBaseHelper.addToJSONObject(fieldsObject, PARAM_TS_SIGNUP, this.getTsSignup());
 
-		jsonObject.put("fields", fieldsObject);
+		jsonObject.put(JSON_KEY_FIELDS, fieldsObject);
 
 		return(jsonObject);
 	}
@@ -860,16 +922,16 @@ public class UserUser extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("type", "UserUser");
-		jsonObject.put("total", HIT_COUNTS[0]);
-		jsonObject.put("idUserUser", HIT_COUNTS[1]);
-		jsonObject.put("idUserType", HIT_COUNTS[2]);
-		jsonObject.put("flIsAlive", HIT_COUNTS[3]);
-		jsonObject.put("numAge", HIT_COUNTS[4]);
-		jsonObject.put("nmUsername", HIT_COUNTS[5]);
-		jsonObject.put("txtAddressEmail", HIT_COUNTS[6]);
-		jsonObject.put("txtPassword", HIT_COUNTS[7]);
-		jsonObject.put("tsSignup", HIT_COUNTS[8]);
+		jsonObject.put(JSON_KEY_TYPE, "UserUser");
+		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
+		jsonObject.put(PARAM_ID_USER_USER, HIT_COUNTS[1]);
+		jsonObject.put(PARAM_ID_USER_TYPE, HIT_COUNTS[2]);
+		jsonObject.put(PARAM_FL_IS_ALIVE, HIT_COUNTS[3]);
+		jsonObject.put(PARAM_NUM_AGE, HIT_COUNTS[4]);
+		jsonObject.put(PARAM_NM_USERNAME, HIT_COUNTS[5]);
+		jsonObject.put(PARAM_TXT_ADDRESS_EMAIL, HIT_COUNTS[6]);
+		jsonObject.put(PARAM_TXT_PASSWORD, HIT_COUNTS[7]);
+		jsonObject.put(PARAM_TS_SIGNUP, HIT_COUNTS[8]);
 		return(jsonObject.toString());
 	}
 
