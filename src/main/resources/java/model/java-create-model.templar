@@ -144,7 +144,7 @@ import {database.package}.model.util.Constants;{\n}
  * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>{\n}
  */{\n}
 
-public class {table.javaClassName} {if !table.isConstant}extends ModelBase{endif} {{{\n}
+public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}extends ConstantModelBase{endif} {{{\n}
 {\t}// the binder is unused in code, but will generate compile problems if this {\n}
 {\t}// class is no longer referenced in the h2zero file. Just a nicety for{\n}
 {\t}// removing dead code{\n}

@@ -32,8 +32,17 @@ import java.sql.SQLException;
  * required functionality for a working model.  It contains methods to insert,
  * update and delete itself.</p>
  */
-public abstract class ModelBase extends ConstantModelBase {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ModelBase.class);
+public abstract class ConstantModelBase {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConstantModelBase.class);
+
+	protected static final String JSON_KEY_TYPE = "type";
+	protected static final String JSON_KEY_NAME = "name";
+	protected static final String JSON_KEY_FIELDS = "fields";
+	protected static final String JSON_KEY_TOTAL = "total";
+
+	protected static final String JSON_VALUE_TABLE = "table";
+	protected static final String JSON_VALUE_VIEW = "view";
+
 
 	protected boolean isDirty = false; // whether the model has changes to any of its fields or values
 
