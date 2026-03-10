@@ -36,6 +36,7 @@ package {database.package}.model;{\n}{\n}
 {else}
 	import java.util.HashMap;{\n}{\n}
 	import java.util.Map;{\n}{\n}
+	import com.synapticloop.h2zero.base.model.ConstantModelBase;{\n}{\n}
 
 {endif}
 
@@ -212,8 +213,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 {endif}
 {\n}
 
-{\t}private static final String TABLE_JAVA_NAME = "${table.javaClassName}";{\n}
-{\t}private static final String TABLE_NAME = "${table.name}";{\n}
+{\t}private static final String TABLE_JAVA_NAME = "{table.javaClassName}";{\n}
+{\t}private static final String TABLE_NAME = "{table.name}";{\n}
 {\n}
 
 	{loop table.fields as field}

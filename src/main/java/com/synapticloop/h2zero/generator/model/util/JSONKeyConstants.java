@@ -67,6 +67,8 @@ public class JSONKeyConstants {
 
 	public static final String TYPE = "type";
 
+	public static final String IS_HIDDEN = "isHidden";
+
 	public static final String ALIAS = "alias";
 
 	public static final String MULTIPLE = "multiple";

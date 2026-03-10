@@ -35,8 +35,12 @@ public abstract class BaseClauseValidator extends BaseValidator {
 		for (BaseField baseField : whereFields) {
 			String whereField = baseField.getName();
 			int indexOf = whereClause.indexOf(whereField);
-			if(indexOf == -1) {
+			if(indexOf == -1 && !baseField.getIsHidden()) {
 				addFatalMessage(baseQueryObject.getType() + " '" + baseQueryObject.getName() + "' has a whereClause '" + whereClause + "' which does not contain referenced whereField '" + whereField + "'.");
+			}
+
+			if(baseField.getIsHidden()) {
+				addInfoMessage(baseQueryObject.getType() + " '" + baseQueryObject.getName() + "' has a whereClause '" + whereClause + "' which contains a hidden whereField '" + whereField + "'.");
 			}
 		}
 

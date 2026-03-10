@@ -109,7 +109,10 @@ public abstract class BaseField {
 	protected boolean isLargeObject = false; // whether this field is a BLOB/CLOB or equivalent
 	protected String onUpdate = null; // the onUpdate action
 	protected String onDelete = null; // the onDelete action
-	public int fieldIndex = 0; // the index of the field on the table - 0 being the first 
+	public int fieldIndex = 0; // the index of the field on the table - 0 being the first
+
+	protected boolean isHidden = false; // Whether this field is hidden in the statement, but used (e.g. where month
+	// (CURRENT() = month(?) - the field isn't referenced in the where clause but is passed into the query
 
 	protected boolean requiresConfirm = false; // whether this fields requires a confirmation field for entry
 
@@ -463,5 +466,13 @@ public abstract class BaseField {
 	 */
 	public boolean getRequiresLength() {
 		return(requiresLength);
+	}
+
+	public void setIsHidden(boolean isHidden) {
+		this.isHidden = isHidden;
+	}
+
+	public boolean getIsHidden() {
+		return(isHidden);
 	}
 }

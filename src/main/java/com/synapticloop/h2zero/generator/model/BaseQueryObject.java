@@ -78,6 +78,7 @@ public abstract class BaseQueryObject {
 
 	protected boolean hasInFields = false;
 	private boolean hasWhereFieldAliases = false;
+	private boolean isHidden = false;
 
 
 	protected List<BaseField> valueFields = new ArrayList<>();
@@ -188,12 +189,16 @@ public abstract class BaseQueryObject {
 				String whereFieldName = null;
 				String whereFieldAlias = null;
 				String whereFieldType = null;
+				boolean isHiddenField = false;
 
 				if (null != whereFieldArray.optJSONObject(i)) {
 					JSONObject whereFieldObject = whereFieldArray.getJSONObject(i);
 					whereFieldName = whereFieldObject.getString(JSONKeyConstants.NAME);
 					whereFieldAlias = whereFieldObject.getString(JSONKeyConstants.ALIAS);
 					whereFieldType = whereFieldObject.optString(JSONKeyConstants.TYPE);
+					isHiddenField = whereFieldObject.optBoolean(JSONKeyConstants.IS_HIDDEN, false);
+
+					// TODO - what the hell is this???
 					hasWhereFieldAliases = true;
 				} else {
 					whereFieldName = whereFieldArray.getString(i);
@@ -207,6 +212,8 @@ public abstract class BaseQueryObject {
 				} else {
 					baseField = FieldLookupHelper.getBaseField(baseSchemaObject, whereFieldName);
 				}
+
+				baseField.setIsHidden(isHiddenField);
 
 				if (!this.hasInFields) {
 					this.hasInFields = FieldLookupHelper.hasInFieldDesignator(whereFieldName);

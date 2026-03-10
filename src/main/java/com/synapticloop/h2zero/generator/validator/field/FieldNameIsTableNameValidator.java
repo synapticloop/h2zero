@@ -25,29 +25,36 @@ import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @H2ZeroValidator
-public class FieldIgnoredKeysValidator extends BaseValidator {
+public class FieldNameIsTableNameValidator extends BaseValidator {
 
 	@Override
 	public void validate(Database database, Options options) {
 		List<Table> tables = database.getTables();
-		for (Table table : tables) {
-			List<String> foundIgnoredKeys = new ArrayList<String>();
-			String replacementKey = "There is no replacement for this key.";
 
+		// get all the table names so that we can match them to any fields
+		// that we have
+		Set<String> tableNames = new HashSet<>();
+		for (Table table : tables) {
+			tableNames.add(table.getName().toLowerCase());
+		}
+
+		for (Table table : tables) {
 			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
-				foundIgnoredKeys = baseField.getFoundIgnoredKeys();
-				for (String key : foundIgnoredKeys) {
-					replacementKey = "There is no replacement for this key.";
-					if(baseField.getReplacementForKey(key) != null) {
-						replacementKey = "This should be replaced by key '" + baseField.getReplacementForKey(key) + "'.";
-					}
-					addWarnMessage("Field '" + table.getName() + "." + baseField.getName() +  "' has a json key of '" + key +
-							"' which is no longer valid and consequently ignored. try using: " + replacementKey);
+				String fieldName = baseField.getName();
+
+				if(tableNames.contains(fieldName.toLowerCase())) {
+					addFatalMessage(
+							"Table '" +
+									table.getName() +
+									"' has a field named '" +
+									fieldName +
+									"', which is the name of a table - this is not allowed.");
 				}
 			}
 		}
