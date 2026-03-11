@@ -78,8 +78,6 @@ public abstract class BaseQueryObject {
 
 	protected boolean hasInFields = false;
 	private boolean hasWhereFieldAliases = false;
-	private boolean isHidden = false;
-
 
 	protected List<BaseField> valueFields = new ArrayList<>();
 	protected Map<String, BaseField> uniqueValueFields = new LinkedHashMap<>();
@@ -194,7 +192,18 @@ public abstract class BaseQueryObject {
 				if (null != whereFieldArray.optJSONObject(i)) {
 					JSONObject whereFieldObject = whereFieldArray.getJSONObject(i);
 					whereFieldName = whereFieldObject.getString(JSONKeyConstants.NAME);
-					whereFieldAlias = whereFieldObject.getString(JSONKeyConstants.ALIAS);
+					whereFieldAlias = whereFieldObject.optString(JSONKeyConstants.ALIAS, "");
+
+					if(whereFieldAlias.isEmpty()) {
+						throw new H2ZeroParseException(String.format(
+								"Where field '%s', for %s '%s.%s' does not have an alias, this is required.",
+								whereFieldName,
+								this.getType(),
+								baseSchemaObject.getName(),
+								name
+						));
+					}
+
 					whereFieldType = whereFieldObject.optString(JSONKeyConstants.TYPE);
 					isHiddenField = whereFieldObject.optBoolean(JSONKeyConstants.IS_HIDDEN, false);
 
@@ -243,7 +252,8 @@ public abstract class BaseQueryObject {
 				}
 			}
 		} catch (JSONException ex) {
-			// do nothing
+			// do nothing - if there are no where fields, then we can skip it
+			// TODO - programme control flow through exception is NOT a good thing....
 		}
 	}
 

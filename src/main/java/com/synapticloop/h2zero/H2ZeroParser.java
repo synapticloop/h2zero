@@ -55,131 +55,15 @@ public class H2ZeroParser {
 	private int numFatal = 0;
 
 	private static final String H2ZERO_KEY_INCLUDE = "include";
-
 	private static final List<BaseValidator> VALIDATORS = new ArrayList<>();
-	/*
-	static {
-		// options
-		VALIDATORS.add(new OptionsGeneratorsValidator());
-		VALIDATORS.add(new OptionsDatabaseDefaultValidator());
-		VALIDATORS.add(new OptionsDatabaseTypeValidator());
-
-		// overall validators
-		VALIDATORS.add(new UniqueTableViewNameValidator());
-		VALIDATORS.add(new ForeignKeyTableValidator());
-		VALIDATORS.add(new UniqeAndIndexValidator());
-
-		// table validators
-		VALIDATORS.add(new TableNameDuplicateValidator());
-		VALIDATORS.add(new TablePrimaryKeyExistsValidator());
-		VALIDATORS.add(new TablePrimaryKeyNameValidator());
-		VALIDATORS.add(new TablePrimaryKeyTypeValidator());
-		VALIDATORS.add(new TableIgnoredKeysValidator());
-
-		// view validators
-		VALIDATORS.add(new ViewAsClauseValidator());
-
-		// field validators
-		VALIDATORS.add(new FieldDefaultValueValidator());
-		VALIDATORS.add(new FieldPopulatePrimaryKeyValidator());
-		VALIDATORS.add(new FieldPopulateForeignKeyValidator());
-		VALIDATORS.add(new FieldNameDuplicateValidator());
-		VALIDATORS.add(new FieldIgnoredKeysValidator());
-		VALIDATORS.add(new FieldNotNullLengthValidator());
-		VALIDATORS.add(new FieldPrimaryKeyTypeValidator());
-		VALIDATORS.add(new FieldSerialNonPrimaryKeyValidator());
-
-		VALIDATORS.add(new SQLite3FieldBlobValidator());
-		VALIDATORS.add(new SQLite3FieldClobValidator());
-		VALIDATORS.add(new SQLite3FieldPrimaryKeyValidator());
-
-
-		// Finder validators
-		VALIDATORS.add(new FinderInQueryValidator());
-		VALIDATORS.add(new FinderNameValidator());
-		VALIDATORS.add(new FinderWhereClauseValidator());
-		VALIDATORS.add(new FinderWhereClauseIncludesLimitOrOffsetValidator());
-		VALIDATORS.add(new FinderOrderByClauseValidator());
-		VALIDATORS.add(new FinderSelectClauseValidator());
-		VALIDATORS.add(new FinderSelectFieldValidator());
-		VALIDATORS.add(new FinderSelectClauseFromValidator());
-		VALIDATORS.add(new FinderSelectClauseBeanNameValidator());
-		VALIDATORS.add(new FinderAutoIndexValidator());
-		VALIDATORS.add(new FinderQueryParameterNameValidator());
-		VALIDATORS.add(new FinderQueryParameterNumberValidator());
-
-
-		// inserter validators
-		VALIDATORS.add(new InserterQueryParameterNameValidator());
-		VALIDATORS.add(new InserterNameValidator());
-		VALIDATORS.add(new InserterKeyValidator());
-
-
-		// deleter validators
-		VALIDATORS.add(new DeleterNameValidator());
-		VALIDATORS.add(new DeleterWhereClauseValidator());
-
-
-		// updater validators
-		VALIDATORS.add(new UpdaterQueryParameterNameValidator());
-		VALIDATORS.add(new UpdaterNameValidator());
-		VALIDATORS.add(new UpdaterWhereClauseValidator());
-		VALIDATORS.add(new UpdaterSetClauseValidator());
-		VALIDATORS.add(new UpdaterKeyValidator());
-
-
-		// counter validators
-		VALIDATORS.add(new CounterQueryParameterNameValidator());
-		VALIDATORS.add(new CounterSelectClauseValidator());
-		VALIDATORS.add(new CounterSelectFieldsValidator());
-		VALIDATORS.add(new CounterJsonUniqueKeyExistsValidator());
-		VALIDATORS.add(new CounterKeyValidator());
-		VALIDATORS.add(new CounterNameValidator());
-		VALIDATORS.add(new CounterWhereClauseValidator());
-
-
-		// question validators
-		VALIDATORS.add(new QuestionQueryParameterNameValidator());
-		VALIDATORS.add(new QuestionSelectClauseValidator());
-		VALIDATORS.add(new QuestionSelectFieldsValidator());
-		VALIDATORS.add(new QuestionJsonUniqueKeyExistsValidator());
-		VALIDATORS.add(new QuestionInternalNameValidator());
-		VALIDATORS.add(new QuestionKeyValidator());
-		VALIDATORS.add(new QuestionNameValidator());
-
-
-		// constant validators
-		VALIDATORS.add(new ConstantTableValidator());
-		VALIDATORS.add(new ConstantDeleterValidator());
-		VALIDATORS.add(new ConstantInserterValidator());
-		VALIDATORS.add(new ConstantUpdaterValidator());
-		VALIDATORS.add(new ConstantCachesValidator());
-	}
-	*/
-
 	private static final Map<String, BaseValidator> VALIDATOR_MAP = new HashMap<>();
-	/*
-	static {
-		for (BaseValidator validator : VALIDATORS) {
-			VALIDATOR_MAP.put(validator.getClass().getSimpleName(), validator);
-		}
-	}
-	*/
+
 	/*
 	 * The following is used to determine the max width of the validators, for 
 	 * logging out the information through the SimpleLogger
 	 */
 	private static int maxValidatorClassNameLength = 0;
-	/*
-	static {
-		for (BaseValidator validator : VALIDATORS) {
-			int validatorSimpleNameLength = validator.getClass().getSimpleName().length();
-			if(validatorSimpleNameLength > maxValidatorClassNameLength) {
-				maxValidatorClassNameLength = validatorSimpleNameLength;
-			}
-		}
-	}*/
-	
+
 	private static final List<String> FATAL_MESSAGES = new ArrayList<>();
 
 	public H2ZeroParser() {

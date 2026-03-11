@@ -1,0 +1,47 @@
+{
+	"options": {
+		"database": "mysql",
+		"generators": [
+			"java",
+			"sql"
+		]
+	},
+	"database": {
+		"schema": "invoicer",
+		"package": "synapticloop.workitemiser.database.mysql.h2zero",
+		"tables": [
+			{
+				"name": "agency_agreement",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_agency_agreement", "type": "bigint", "primary": true, "nullable": false },
+
+					{ "name": "num_strata_plan", "type": "int", "nullable": false, "unique": false },
+					{ "name": "dt_agency_agreement_start", "type": "date", "nullable": false },
+					{ "name": "dt_agency_agreement_end", "type": "date", "nullable": false },
+					{ "name": "flt_percent_increase", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
+					{ "name": "fl_is_current", "type": "boolean", "nullable": false, "default": "'1'" }
+				],
+				"finders": [
+					{
+						"name": "findAllOrdered",
+						"whereClause": [
+							"where 1=1",
+							"order by num_strata_plan asc, dt_agency_agreement desc"
+						]
+					},
+					{
+						"name": "findRolloversByMonth",
+						"whereClause": [
+							"where month(current()) = month(?)",
+							"order by num_strata_plan asc"
+						],
+						"whereFields": [
+							{ "name":  "dt_agency_agreement_start", "isHidden": true, "alias": "dtAgencyAgreementStart" }
+						]
+					}
+				]
+			}
+		]
+	}
+}

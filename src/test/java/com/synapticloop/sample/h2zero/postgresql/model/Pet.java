@@ -120,8 +120,8 @@ public class Pet extends ModelBase {
 	private static final String BINDER = Constants.PET_BINDER;
 
 
-	private static final String TABLE_JAVA_NAME = "$Pet";
-	private static final String TABLE_NAME = "$pet";
+	private static final String TABLE_JAVA_NAME = "Pet";
+	private static final String TABLE_NAME = "pet";
 
 	public static final String PRIMARY_KEY_FIELD = "id_pet";  // the primary key - a convenience field
 
@@ -764,7 +764,7 @@ public class Pet extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put(JSON_KEY_TYPE, "Pet");
+		jsonObject.put(JSON_KEY_TYPE, TABLE_JAVA_NAME);
 		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
 		jsonObject.put(PARAM_ID_PET, HIT_COUNTS[1]);
 		jsonObject.put(PARAM_NM_PET, HIT_COUNTS[2]);

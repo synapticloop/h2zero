@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+import com.synapticloop.h2zero.base.model.ConstantModelBase;
+
 
 import org.json.JSONObject;
 import com.synapticloop.h2zero.base.util.XmlHelper;
@@ -108,7 +110,7 @@ import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
  * 
  * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
-public class UserTitle  {
+public class UserTitle extends ConstantModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -138,8 +140,8 @@ public class UserTitle  {
 	};
 
 
-	private static final String TABLE_JAVA_NAME = "$UserTitle";
-	private static final String TABLE_NAME = "$user_title";
+	private static final String TABLE_JAVA_NAME = "UserTitle";
+	private static final String TABLE_NAME = "user_title";
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_title";  // the primary key - a convenience field
 

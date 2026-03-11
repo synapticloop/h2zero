@@ -139,8 +139,8 @@ public class UserUser extends ModelBase {
 	private static final String BINDER = Constants.USER_USER_BINDER;
 
 
-	private static final String TABLE_JAVA_NAME = "$UserUser";
-	private static final String TABLE_NAME = "$user_user";
+	private static final String TABLE_JAVA_NAME = "UserUser";
+	private static final String TABLE_NAME = "user_user";
 
 	public static final String PRIMARY_KEY_FIELD = "id_user_user";  // the primary key - a convenience field
 
@@ -922,7 +922,7 @@ public class UserUser extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put(JSON_KEY_TYPE, "UserUser");
+		jsonObject.put(JSON_KEY_TYPE, TABLE_JAVA_NAME);
 		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
 		jsonObject.put(PARAM_ID_USER_USER, HIT_COUNTS[1]);
 		jsonObject.put(PARAM_ID_USER_TYPE, HIT_COUNTS[2]);

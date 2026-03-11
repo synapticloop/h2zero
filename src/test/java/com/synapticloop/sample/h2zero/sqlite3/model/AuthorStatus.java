@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+import com.synapticloop.h2zero.base.model.ConstantModelBase;
+
 
 import org.json.JSONObject;
 import com.synapticloop.h2zero.base.util.XmlHelper;
@@ -108,7 +110,7 @@ import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
  * 
  * <p>@see <a href="https://github.com/synapticloop/h2zero">Synapticloop h2zero GitHub repository</a></p>
  */
-public class AuthorStatus  {
+public class AuthorStatus extends ConstantModelBase {
 	// the binder is unused in code, but will generate compile problems if this 
 	// class is no longer referenced in the h2zero file. Just a nicety for
 	// removing dead code
@@ -138,8 +140,8 @@ public class AuthorStatus  {
 	};
 
 
-	private static final String TABLE_JAVA_NAME = "$AuthorStatus";
-	private static final String TABLE_NAME = "$author_status";
+	private static final String TABLE_JAVA_NAME = "AuthorStatus";
+	private static final String TABLE_NAME = "author_status";
 
 	public static final String PRIMARY_KEY_FIELD = "id_author_status";  // the primary key - a convenience field
 

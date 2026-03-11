@@ -184,8 +184,8 @@ public class Author extends ModelBase {
 	private static final String BINDER = Constants.AUTHOR_BINDER;
 
 
-	private static final String TABLE_JAVA_NAME = "$Author";
-	private static final String TABLE_NAME = "$author";
+	private static final String TABLE_JAVA_NAME = "Author";
+	private static final String TABLE_NAME = "author";
 
 	public static final String PRIMARY_KEY_FIELD = "id_author";  // the primary key - a convenience field
 
@@ -1158,7 +1158,7 @@ public class Author extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put(JSON_KEY_TYPE, "Author");
+		jsonObject.put(JSON_KEY_TYPE, TABLE_JAVA_NAME);
 		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
 		jsonObject.put(PARAM_ID_AUTHOR, HIT_COUNTS[1]);
 		jsonObject.put(PARAM_ID_AUTHOR_STATUS, HIT_COUNTS[2]);

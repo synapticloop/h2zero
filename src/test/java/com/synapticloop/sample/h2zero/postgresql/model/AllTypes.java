@@ -163,8 +163,8 @@ public class AllTypes extends ModelBase {
 	private static final String BINDER = Constants.ALL_TYPES_BINDER;
 
 
-	private static final String TABLE_JAVA_NAME = "$AllTypes";
-	private static final String TABLE_NAME = "$all_types";
+	private static final String TABLE_JAVA_NAME = "AllTypes";
+	private static final String TABLE_NAME = "all_types";
 
 	public static final String PRIMARY_KEY_FIELD = "id_all_types";  // the primary key - a convenience field
 
@@ -1025,7 +1025,7 @@ public class AllTypes extends ModelBase {
 	 */
 	public static String getHitCountJson() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put(JSON_KEY_TYPE, "AllTypes");
+		jsonObject.put(JSON_KEY_TYPE, TABLE_JAVA_NAME);
 		jsonObject.put(JSON_KEY_TOTAL, HIT_COUNTS[0]);
 		jsonObject.put(PARAM_ID_ALL_TYPES, HIT_COUNTS[1]);
 		jsonObject.put(PARAM_NUM_SMALLINT, HIT_COUNTS[2]);
