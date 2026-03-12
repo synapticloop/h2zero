@@ -33,7 +33,7 @@
 					{
 						"name": "findRolloversByMonth",
 						"whereClause": [
-							"where month(current()) = month(?)",
+							"month(current()) = month(?)",
 							"order by num_strata_plan asc"
 						],
 						"whereFields": [

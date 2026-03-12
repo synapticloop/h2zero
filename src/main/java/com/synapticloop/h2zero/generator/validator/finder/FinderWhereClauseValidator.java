@@ -38,8 +38,10 @@ public class FinderWhereClauseValidator extends BaseValidator {
 			for (Finder finder : finders) {
 				String whereClause = finder.getWhereClause();
 				if(null != whereClause && !whereClause.toLowerCase().contains("where")) {
+					// todo this should probably be a fatal and let the user update it rather than
+					//  the hanky logic
 					addWarnMessage("Finder '" + table.getName() + "." + finder.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
-					finder.setWhereClause(" where " + whereClause);
+					finder.addWhereClause();
 				}
 			}
 		}

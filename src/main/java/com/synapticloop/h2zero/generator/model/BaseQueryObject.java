@@ -207,7 +207,6 @@ public abstract class BaseQueryObject {
 					whereFieldType = whereFieldObject.optString(JSONKeyConstants.TYPE);
 					isHiddenField = whereFieldObject.optBoolean(JSONKeyConstants.IS_HIDDEN, false);
 
-					// TODO - what the hell is this???
 					hasWhereFieldAliases = true;
 				} else {
 					whereFieldName = whereFieldArray.getString(i);
@@ -365,8 +364,28 @@ public abstract class BaseQueryObject {
 		this.selectClause = selectClause;
 	}
 
+	public void addSelectClause() {
+		if(selectClauses.size() != 0) {
+			selectClauses.add(0, "select");
+		} else {
+			selectClause = "select " + selectClause;
+		}
+	}
+
 	public void setWhereClause(String whereClause) {
 		this.whereClause = whereClause;
+	}
+
+	/**
+	 * <p>This will add a 'where' statement to the where clause if it doesn't
+	 * exist</p>
+	 */
+	public void addWhereClause() {
+		if(whereClauses.size() != 0) {
+			whereClauses.add(0, "where");
+		} else {
+			whereClause = "where " + whereClause;
+		}
 	}
 
 	public String getStaticName() {
