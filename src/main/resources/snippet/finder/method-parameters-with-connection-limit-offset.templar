@@ -1,7 +1,7 @@
 {--
  This is used to iterate the parameters that are passed to the finder function.
- It checks whether the finder has an alias, and if so, goes through all of the
- where fields, not just the unique ones.
+ It checks whether the finder has an alias, and if so, goes through all where
+ fields, not just the unique ones.
 
  This method has the Connection object as the first paramter
  --}

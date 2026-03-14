@@ -3,7 +3,7 @@
 {\t}// IMPORT 'find-existing.templar' START{\n}{\n}
 
 {\t}/**{\n}
-{\t} * Confirm whether there is an existing table with all of the fields matching {\n}
+{\t} * Confirm whether there is an existing table with all fields matching {\n}
 {\t} * (apart from the primary key){\n}
 {\t} * {\n}
 {loop table.fields as field}
@@ -33,7 +33,7 @@
 
 {\t}{\t}ResultSet resultSetExact = null;{\n}
 
-{\t}{\t}// now set all of the parameters{\n}
+{\t}{\t}// now set all parameters{\n}
 {\t}{\t}try (Connection connection = ConnectionManager.getConnection();{\n}
 {\t}{\t}{\t}{\t} PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_EXACT.toString())) {{{\n}
 {\t}{\t}{\t}resultSetExact = preparedStatement.getResultSet();{\n}

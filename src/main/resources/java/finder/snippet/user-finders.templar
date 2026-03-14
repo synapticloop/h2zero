@@ -4,6 +4,7 @@
 
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
+{\n}
 {\t}/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *{\n}
 {\t} * {\n}
 {\t} * This is the start of the user defined finders which are generated{\n}
@@ -33,7 +34,7 @@
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 	{if fn:null[finder.selectClause]}
-
+		{\n}
 		{\t}/**{\n}
 		{\t} * <p>This is the <code>{finder.name}</code> finder for the <code>{tableOrView.upperName} table.</code></p>{\n}
 		{\t} * {\n}
@@ -102,7 +103,6 @@
 			{endif}
 		{\t} * {\n}
 		{\t} */{\n}
-{\n}
 {--
 
 	START OF DEFAULT FINDER - NOT SELECT CLAUSE

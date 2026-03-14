@@ -2,6 +2,9 @@
 				FIRST UP THE FIELDS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
+{\t}/**{\n}
+{\t} * <p>This is the start of all SQL select queries</p>{\n}
+{\t} */{\n}
 {\t}private static final String SQL_SELECT_START = {\n}
 {\t}{\t}"""{\n}
 {\t}{\t}{\t}select {\n}
@@ -35,9 +38,11 @@
 {loop tableOrView.finders as finder}
 	{\t}/**{\n}
 {if fn:true[finder.isAutoFinder]}
-		{\t} * <p>This SQL statement was generated from the <code>{finder.name}</code> definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>{\n}
+		{\t} * <p>This SQL statement was generated from the <code>{finder.name}</code>{\n}
+		{\t} * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>{\n}
 {else}
-		{\t} * <p>This SQL statement was generated from the <code>{finder.name}</code> definition for <code>finders</code> JSON key in the h2zero file.</p>{\n}
+		{\t} * <p>This SQL statement was generated from the <code>{finder.name}</code> definition for <code>finders</code>{\n}
+		{\t} * JSON key in the h2zero file.</p>{\n}
 {endif}
 	{\t} */{\n}
 	{if fn:null[finder.selectClause]}

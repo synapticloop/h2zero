@@ -4,25 +4,16 @@ package com.synapticloop.sample.h2zero.mysql.question;
 //          with the use of synapticloop templar templating language
 //                (/java/question/java-create-question.templar)
 
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.sql.nolimitoffset.Question;
+import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
-import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
-
-import com.synapticloop.h2zero.base.sql.nolimitoffset.Question;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 
 /**

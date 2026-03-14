@@ -25,7 +25,7 @@
 {\t} *     .withConnection(connection){\n}
 {\t} *     .executeSilent();</pre>{\n}
 {\t} * {\n}
-{\t} * <p>All of the above methods will either:</p>{\n}{\n}
+{\t} * <p>All the above methods will either:</p>{\n}{\n}
 {\t} * {\n}
 {\t} * <ul>{\n}
 {\t} *   <li>Return a <code>{tableOrView.javaClassName}</code> object, or</li>{\n}

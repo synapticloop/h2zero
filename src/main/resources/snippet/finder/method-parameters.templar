@@ -1,6 +1,6 @@
 {--
  This is used to iterate the parameters that are passed to the finder function.
- It checks whether the finder has an alias, and if so, goes through all of the
+ It checks whether the finder has an alias, and if so, goes through all the
  where fields, not just the unique ones.
  --}
 {if finder.hasWhereFieldAliases}

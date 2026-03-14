@@ -19,7 +19,7 @@ import java.util.List;{\n}
 {\n}
 {\n}
 /**{\n}
- * <p>This class contains all of the questions that are defined in the h2zero{\n}
+ * <p>This class contains all the questions that are defined in the h2zero{\n}
  * file.</p>{\n}
  * {\n}
  * <p>A question may only return a simple true/false response from a query.</p>{\n}

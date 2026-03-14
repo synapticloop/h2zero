@@ -3,7 +3,7 @@
 --                 (/sql/sql-create-database-sqlite3.templar){\n}{\n}
 
 {--
-	Loop through all of the tables to write out the creation definition
+	Loop through all tables to write out the creation definition
 }
 {loop database.tables as table}
 	{loop table.comments as comment}

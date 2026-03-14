@@ -2,7 +2,7 @@
  This is used to iterate the parameters that are passed to the baseQueryObject 
  function.
  
- It checks whether the baseQueryObject has an alias, and if so, goes through all of the
+ It checks whether the baseQueryObject has an alias, and if so, goes through all
  where fields, not just the unique ones.
  --}
 {set fn:length[baseQueryObject.uniqueWhereFields] as whereFieldsLength}

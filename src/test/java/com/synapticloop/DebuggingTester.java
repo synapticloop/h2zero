@@ -30,7 +30,7 @@ public class DebuggingTester {
 				"-in",
 				"src/test/resources/debugging-tester.json",
 				"-out",
-				"src/test/java/debugger",
+				"src/debugger/java/",
 				"-verbose"});
 	}
 }

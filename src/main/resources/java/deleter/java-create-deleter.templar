@@ -120,7 +120,7 @@ The statement caches
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
 {\t}/**{\n}
-{\t} * Delete all of the rows in the table '{table.name}'.{\n}
+{\t} * Delete all the rows in the table '{table.name}'.{\n}
 {if fn:or[table.hasForeignKey, fn:=[options.database, "sqlite3"]]}
 	{if fn:=[options.database, "sqlite3"]}
 		{\t} * {\n}

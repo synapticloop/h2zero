@@ -109,7 +109,7 @@ public class DatabaseCheckerHelper {{{\n}
 {\n}
 {\t}private boolean areTableFieldsCorrect() {{{\n}
 {\t}{\t}boolean isDatabaseCorrect = true;{\n}
-{\t}{\t}// now it is time to check all of the fields for all of the tables{\n}
+{\t}{\t}// now it is time to check all the fields for all of tables{\n}
 {\t}{\t}Connection connection = null;{\n}
 {\t}{\t}ResultSet columns = null;{\n}
 {\t}{\t}try {{{\n}

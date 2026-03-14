@@ -22,7 +22,7 @@ import {database.package}.model.util.Constants;{\n}
 import com.synapticloop.h2zero.base.sql.nolimitoffset.Counter;{\n}
 {\n}
 /**{\n}
- * <p>This class contains all of the counters that are defined in the h2zero{\n}
+ * <p>This class contains the counters that are defined in the h2zero{\n}
  * file.</p>{\n}
  * {\n}
  * <p>A counter may only return a simple integer (i.e. the count) response{\n}

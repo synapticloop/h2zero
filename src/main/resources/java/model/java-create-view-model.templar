@@ -32,7 +32,7 @@ import com.synapticloop.h2zero.base.model.ModelBaseHelper;{\n}
 /**{\n}
  * <p>This is the model for the <code>{view.javaClassName}</code> which maps to the <code>{view.name}</code> database view.</p>{\n}
  * {\n}
- * <p>This model maps all of the fields from the database as defined in the{\n}
+ * <p>This model maps all the fields from the database as defined in the{\n}
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>{\n}
  * {\n}
  * <p><strong>NOTE:</strong> This is a view which cannot be changed and no CRUD methods are available.</p>{\n}
@@ -84,7 +84,7 @@ public class {view.javaClassName} extends ViewBase {{{\n}
 {\t}private static final String BINDER = Constants.{view.upperName}_BINDER;{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-				LIST ALL OF THE JAVA FIELDS
+				LIST ALL THE JAVA FIELDS
 }
 
 {loop table.fields as field}

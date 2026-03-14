@@ -7,11 +7,46 @@ package {database.package}.finder;{\n}{\n}
 //          with the use of synapticloop templar templating language{\n}
 //                  (/java/finder/java-create-finder.templar){\n}{\n}
 
+{set table as tableOrView}
+
 {import classpath:/java/finder/snippet/finder-imports.templar}
 import com.synapticloop.h2zero.base.sql.{options.limitOffsetType}.MultiFinder;{\n}
 import com.synapticloop.h2zero.base.sql.{options.limitOffsetType}.UniqueFinder;{\n}
 {\n}
 
+/**{\n}
+ * <p>This is the finders for the <code>{tableOrView.name}</code> table or view.</p>{\n}
+ * {\n}
+ * <p>It contains all defined finders for this table.</p>{\n}
+ * {\n}
+ * <p>In-built finders:</p>{\n}
+ * {\n}
+ * <ul>{\n}
+ *   <li><code>findByPrimaryKey</code>: this will always return the{\n}
+ *     <code>{tableOrView.javaClassName}</code> object, or null if the object{\n}
+ *     cannot be found</li>{\n}
+ *   <li><code>findAll</code>: this will always return a {\n}
+ *     <code>List&lt;{tableOrView.javaClassName}&gt;</code> of objects, or an empty{\n}
+ *     list.  This finder can also use limits and offsets.</li>{\n}
+ * </ul>{\n}
+ * {\n}
+{if !fn:=[fn:length[tableOrView.finders], "0"]}
+ * <p>There are {fn:length[tableOrView.finders]} user defined finders:{\n}
+ *{\n}
+		{loop tableOrView.finders as finder}
+			{if finderStatus.first}
+ * <ul>{\n}
+		{endif}
+ *   <li><code>{finder.name}</code> - Generated from the {if finder.isAutoFinder}'fieldFinders'{else}'finders'{endif} JSON key</li>{\n}
+		{if finderStatus.last}
+ * <ul>{\n}
+		{endif}
+	{endloop}
+{endif}
+ * {\n}
+ * @author synapticloop h2zero generator{\n}
+ */{\n}
+{\n}
 
 public class {table.javaClassName}Finder {{{\n}
 
@@ -24,10 +59,7 @@ public class {table.javaClassName}Finder {{{\n}
 
 {import classpath:/java/snippet/global/java-logger-declaration.templar}
 
-
-{set table as tableOrView}
-
-{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 				STATIC SQL STATEMENTS
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --}
 
@@ -43,7 +75,10 @@ public class {table.javaClassName}Finder {{{\n}
 {set "find" as allName}
 {-- import classpath:/snippet/global/java-query-objects-statement-caches.templar}
 
-{\n}{\t}private {table.javaClassName}Finder() {{}{\n}{\n}
+{\t}/**{\n}
+{\t} * <p>Private constructor to 'deter' instantiation :)</p>{\n}
+{\t} */{\n}
+{\t}private {table.javaClassName}Finder() {{}{\n}{\n}
 
 {-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 				FIND BY PRIMARY KEY

@@ -9,7 +9,7 @@ create database {database.schema};{\n}
 {\n}
 use {database.schema};{\n}{\n}
 {--
-	Loop through all of the tables to write out the creation definition
+	Loop through all tables to write out the creation definition
 }
 {loop database.tables as table}
 	{loop table.comments as comment}
