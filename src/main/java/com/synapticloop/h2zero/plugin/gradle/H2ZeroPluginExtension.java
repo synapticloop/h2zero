@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.plugin.gradle;
 
 /*
- * Copyright (c) 2016-2025 synapticloop.
+ * Copyright (c) 2016-2026 synapticloop.
  * 
  * All rights reserved.
  * 

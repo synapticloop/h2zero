@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.generator;
 
 /*
- * Copyright (c) 2023 - 2025 synapticloop.
+ * Copyright (c) 2023 - 2026 synapticloop.
  * 
  * All rights reserved.
  *

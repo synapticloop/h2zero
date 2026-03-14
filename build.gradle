@@ -31,8 +31,11 @@ java {
 dependencies {
 	implementation "com.synapticloop:templar:2.0.3"
 	implementation "org.json:json:20240303"
-	implementation "com.mchange:c3p0:0.10.0"
-	implementation "commons-validator:commons-validator:1.8.0"
+
+	implementation 'com.mchange:c3p0:0.12.0'
+	implementation 'com.zaxxer:HikariCP:7.0.2'
+
+	implementation 'commons-validator:commons-validator:1.10.1'
 	implementation 'org.slf4j:slf4j-api:2.0.13'
 	implementation "javax.mail:javax.mail-api:1.6.2"
 	implementation "org.apache.ant:ant:1.10.14"
@@ -45,7 +48,11 @@ dependencies {
 	testImplementation "org.mockito:mockito-core:5.11.0"
 	testImplementation "com.github.stefanbirkner:system-rules:1.19.0"
 
-	testImplementation 'com.mchange:c3p0:0.10.0'
+	// connection pooling
+	testImplementation 'com.mchange:c3p0:0.12.0'
+	testImplementation 'com.zaxxer:HikariCP:7.0.2'
+
+	// database connections
 	testImplementation 'org.xerial:sqlite-jdbc:3.42.0.1'
 	testImplementation 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
 
@@ -112,8 +119,7 @@ copyrightr {
 	dryRun = false
 	copyrightHolder = "synapticloop"
 	includes = [
-			"src/**/*.java",
-			"src/**/*.groovy"
+			"src/main/java/**/*.java"
 	]
 
 	excludes = [

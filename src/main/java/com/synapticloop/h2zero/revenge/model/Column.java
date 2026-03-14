@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.revenge.model;
 
 /*
- * Copyright (c) 2013-2025 synapticloop.
+ * Copyright (c) 2013-2026 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and

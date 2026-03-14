@@ -1,7 +1,7 @@
 package com.synapticloop.h2zero.generator.model;
 
 /*
- * Copyright (c) 2012-2024 synapticloop.
+ * Copyright (c) 2012-2026 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
