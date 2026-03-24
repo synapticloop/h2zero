@@ -72,6 +72,8 @@ public abstract class ModelBase extends ConstantModelBase {
 	 */
 	public abstract void insert(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
 
+	protected abstract int executeInsertInternal(Connection connection)  throws SQLException, H2ZeroPrimaryKeyException;
+
 	/**
 	 * <p>Persist the model object to the database.</p>
 	 *
