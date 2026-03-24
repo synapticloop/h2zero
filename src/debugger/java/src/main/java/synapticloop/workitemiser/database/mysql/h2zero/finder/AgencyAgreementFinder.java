@@ -80,6 +80,7 @@ public class AgencyAgreementFinder {
 				dt_agency_agreement_start, 
 				dt_agency_agreement_end, 
 				flt_percent_increase, 
+				txt_notes, 
 				fl_is_current
 			from 
 				agency_agreement
@@ -507,7 +508,8 @@ public class AgencyAgreementFinder {
 					ConnectionManager.getNullableResultDate(resultSet, 3),
 					ConnectionManager.getNullableResultDate(resultSet, 4),
 					ConnectionManager.getNullableResultFloat(resultSet, 5),
-					ConnectionManager.getNullableResultBoolean(resultSet, 6)));
+					ConnectionManager.getNullableResultString(resultSet, 6),
+					ConnectionManager.getNullableResultBoolean(resultSet, 7)));
 		}
 		return(arrayList);
 	}

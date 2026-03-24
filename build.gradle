@@ -58,6 +58,13 @@ dependencies {
 
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/debugger/java/src/main/java']
+        }
+    }
+}
 configurations.all {
 	resolutionStrategy {
 		failOnVersionConflict()

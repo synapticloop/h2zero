@@ -16,10 +16,11 @@
 				"fields": [
 					{ "name": "id_agency_agreement", "type": "bigint", "primary": true, "nullable": false },
 
-					{ "name": "num_strata_plan", "type": "int", "nullable": false, "unique": false },
+					{ "name": "num_strata_plan", "type": "int", "nullable": false, "unique": true },
 					{ "name": "dt_agency_agreement_start", "type": "date", "nullable": false },
 					{ "name": "dt_agency_agreement_end", "type": "date", "nullable": false },
 					{ "name": "flt_percent_increase", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
+					{ "name": "txt_notes", "type": "varchar", "length": "256", "nullable": true },
 					{ "name": "fl_is_current", "type": "boolean", "nullable": false, "default": "'1'" }
 				],
 				"fieldFinders": [

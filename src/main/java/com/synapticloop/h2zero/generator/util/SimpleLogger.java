@@ -28,6 +28,7 @@ public class SimpleLogger {
 	public static boolean verbose;
 
 	public enum LoggerType {
+		BOOT,
 		MAIN,
 		OPTIONS,
 		OPTIONS_VALIDATOR,

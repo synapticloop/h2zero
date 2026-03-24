@@ -32,7 +32,7 @@ public class DatabaseCheckerHelper {
 	private final Map<String, Set<String>> allTableFields = new HashMap<String, Set<String>>();
 
 	private static final String[] ALL_TABLE_NAMES = { "agency_agreement" };
-	private static final String[] ALL_TABLE_FIELD_NAMES = { "agency_agreement.id_agency_agreement", "agency_agreement.num_strata_plan", "agency_agreement.dt_agency_agreement_start", "agency_agreement.dt_agency_agreement_end", "agency_agreement.flt_percent_increase", "agency_agreement.fl_is_current"
+	private static final String[] ALL_TABLE_FIELD_NAMES = { "agency_agreement.id_agency_agreement", "agency_agreement.num_strata_plan", "agency_agreement.dt_agency_agreement_start", "agency_agreement.dt_agency_agreement_end", "agency_agreement.flt_percent_increase", "agency_agreement.txt_notes", "agency_agreement.fl_is_current"
 			 };
 
 	private void initialiseDataStructures() {

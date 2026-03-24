@@ -24,6 +24,6 @@ public class Inserter extends BaseInserterExecuter<Integer> {
 	}
 
 	@Override protected Integer executeInternal() throws SQLException {
-		return null;
+		return(null);
 	}
 }

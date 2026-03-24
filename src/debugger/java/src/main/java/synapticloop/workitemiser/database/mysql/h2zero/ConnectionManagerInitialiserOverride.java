@@ -6,7 +6,8 @@ package synapticloop.workitemiser.database.mysql.h2zero;
 
 
 import synapticloop.workitemiser.database.mysql.h2zero.ConnectionManagerInitialiser;
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;

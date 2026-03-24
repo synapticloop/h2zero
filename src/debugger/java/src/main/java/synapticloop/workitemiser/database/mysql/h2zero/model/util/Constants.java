@@ -21,6 +21,7 @@ public class Constants {
 	public static final String AGENCY_AGREEMENT_DT_AGENCY_AGREEMENT_START = "dtAgencyAgreementStart";
 	public static final String AGENCY_AGREEMENT_DT_AGENCY_AGREEMENT_END = "dtAgencyAgreementEnd";
 	public static final String AGENCY_AGREEMENT_FLT_PERCENT_INCREASE = "fltPercentIncrease";
+	public static final String AGENCY_AGREEMENT_TXT_NOTES = "txtNotes";
 	public static final String AGENCY_AGREEMENT_FL_IS_CURRENT = "flIsCurrent";
 
 

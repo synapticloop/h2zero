@@ -18,8 +18,10 @@ create table agency_agreement (
 	dt_agency_agreement_start date not null,
 	dt_agency_agreement_end date not null,
 	flt_percent_increase float(6,1) null,
+	txt_notes varchar(256) null,
 	fl_is_current boolean not null default '1',
-	primary key(id_agency_agreement)
+	primary key(id_agency_agreement),
+	unique index (num_strata_plan)
 ) engine=innodb default charset=utf8mb4;
 
 -- show any warnings that are applicable

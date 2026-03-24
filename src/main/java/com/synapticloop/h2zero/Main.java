@@ -85,11 +85,13 @@ public class Main {
 	}
 
 	private static void parseAndExecute(String[] args) throws IOException {
-		System.out.println("                     __    _______");
-		System.out.println("                    |  |--|___    |.----.-----.----.-----.");
-		System.out.println("                    |     |/  ___/|-- __|  -__|   _|  _  |");
-		System.out.println("                    |__|__|  |   \\|_____|_____|__| |_____|");
-		System.out.println("                          `-------'      ... .-..\n");
+		SimpleLogger.logInfo(LoggerType.BOOT, "             _______");
+		SimpleLogger.logInfo(LoggerType.BOOT, "       __   |       |");
+		SimpleLogger.logInfo(LoggerType.BOOT, "      |  |--|___|   .-----.-----.----.-----.");
+		SimpleLogger.logInfo(LoggerType.BOOT, "      |     |/  ___/|-- __|  -__|   _|  _  |");
+		SimpleLogger.logInfo(LoggerType.BOOT, "      |__|__|   |  \\|_____|_____|__| |_____|");
+		SimpleLogger.logInfo(LoggerType.BOOT, "            |       |      ... .-..");
+		SimpleLogger.logInfo(LoggerType.BOOT, "            `-------'");
 
 		if(args.length == 0) {
 			usageAndExit(null);

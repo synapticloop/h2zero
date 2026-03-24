@@ -1,10 +1,12 @@
 package {database.package}.model;{\n}{\n}
 
-//                     __    _______{\n}
-//                    |  |--|___    |.----.-----.----.-----.{\n}
+//                           _______{\n}
+//                     __   |       |{\n}
+//                    |  |--|___|   .-----.-----.----.-----.{\n}
 //                    |     |/  ___/|-- __|  -__|   _|  _  |{\n}
-//                    |__|__|  |   \|_____|_____|__| |_____|{\n}
-//                          `-------'      ... .-..{\n}
+//                    |__|__|   |  \|_____|_____|__| |_____|{\n}
+//                          |       |      ... .-..{\n}
+//                          `-------'{\n}
 //{\n}
 //                                ~ ~ ~ * ~ ~ ~{\n}
 //{\n}
@@ -113,7 +115,8 @@ import {database.package}.model.util.Constants;{\n}
  *       <td>{field.nullable}</td>{\n}
  *       <td>{if field.primary}<code>primary</code>{endif}
 {if field.unique} <code>unique</code>{endif}
-{if fn:notNull[field.foreignKeyTable]} <code>foreign -> {field.foreignKeyTable}.{field.foreignKeyField}</code>{else}--{endif}</td>{\n}
+{if fn:notNull[field.foreignKeyTable]} <code>foreign -> {field.foreignKeyTable}.{field.foreignKeyField}</code>{endif}
+{if !field.unique}{if fn:null[field.foreignKeyTable]}<code>--</code>{endif}{endif}</td>{\n}
  *       <td>{if field.primary}<code>primary</code>{else}{if field.index}<code>indexed</code>{else}--{endif}{endif}</td>{\n}
  *       <td>{if fn:null[field.comment]} -- {else}{field.comment}{endif}</td>{\n}
  *     </tr>{\n}
@@ -287,17 +290,26 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 					INSERT IF NOT EXISTS SQL - ENSURE
 	}
-	{\t}private static final String SQL_ENSURE = "select " + PRIMARY_KEY_FIELD + " from {table.name} where 
+	{\t}private static final String SQL_ENSURE = {\n}
+	{\t}{\t}"""{\n}
+	{\t}{\t}{\t}select{\n}
+	{\t}{\t}"""{\n}
+	{\t}{\t}{\t}+ PRIMARY_KEY_FIELD + {\n}
+	{\t}{\t}"""{\n}
+	{\t}{\t}{\t}from{\n}
+	{\t}{\t}{\t}{\t}{table.name}{\n}
+	{\t}{\t}{\t}where{\n}
 	{loop table.fields as field}
 		{if !field.primary}
-			{field.name} = ?
-			{if !fieldStatus.last} and {endif}
+			{\t}{\t}{\t}{\t}{field.name} = ?
+			{if !fieldStatus.last} and {endif}{\n}
 		{endif}
-	{endloop}";{\n}
+	{endloop}
+	{\t}{\t}""";{\n}
 {\n}
 
 {if table.shouldHydrate}
-	{\t}private static final String SQL_SELECT_HYDRATE = "select 
+	{\t}private static final String SQL_SELECT_HYDRATE = "select
 	{loop table.nonPopulateFields as field}
 		{field.name}
 		{if !fieldStatus.last}, {endif}
@@ -495,7 +507,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t} */{\n}
 
 
-	{\t}public static {table.javaClassName} insertOrUpdate({table.javaClassName} {table.javaFieldName},
+	{\t}public static {table.javaClassName} getOrSet({table.javaClassName} {table.javaFieldName},
 		{loop table.nonPrimaryFields as field}
 			{field.javaType} {field.javaName}
 			{if fieldStatus.last}{else}, {endif}
@@ -607,11 +619,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t}{\t}try (PreparedStatement preparedStatement ={\n}
 	{\t}{\t}     connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {{{\n}
 	{\t}{\t}{\t}// create this bean {\n}
-
-	{loop table.nonPrimaryFields as field}
-		{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
-	{endloop}
-
+	{\t}{\t}{\t}setInternalParameters(preparedStatement);{\n}
+{\n}
 	{\t}{\t}{\t}preparedStatement.executeUpdate();{\n}{\n}
 
 	{\t}{\t}{\t}resultSet = preparedStatement.getGeneratedKeys();{\n}{\n}
@@ -653,9 +662,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 
 	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE)) {{{\n}
 
-	{loop table.nonPrimaryFields as field}
-		{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
-	{endloop}
+	{\t}{\t}{\t}setInternalParameters(preparedStatement);{\n}
+	{\n}
 
 	{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 
@@ -696,11 +704,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 
 	{set fn:length[table.fields] as preparedStatementSize}
 
-	{loop table.fields as field}
-		{if !field.primary}
-			{\t}{\t}{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.offset}, {field.javaName});{\n}
-		{endif}
-	{endloop}
+	{\t}{\t}{\t}setInternalParameters(preparedStatement);{\n}
+	{\n}
 
 	{\t}{\t}{\t}{\t}// now set the primary key{\n}
 	{loop table.fields as field}
@@ -820,6 +825,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{endif}
 
 	{\t}/**{\n}
+	{\t} * <p>Set the parameters on the internal SQL Prepared statement</p>{\n}
+	{\t} * {\n}
+	{\t} * @param preparedStatement The prepared statement to set the parameters on{\n}
+	{\t} */{\n}
+	{\t}private void setInternalParameters(PreparedStatement preparedStatement) throws SQLException {{{\n}
+	{loop table.nonPrimaryFields as field}
+		{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
+	{endloop}
+	{\t}}{\n}
+
+	{\t}/**{\n}
 	{\t} * <p>Return the names of the hit fields as an array.  The first entry of the array{\n}
 	{\t} * is the static name <code>TOTAL</code></p>{\n}
 	{\t} *{\n}
@@ -856,7 +872,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 					SETTERS AND GETTERS
 
 					The first getter is for any referenced foreign key tables that exist
-					which will get the actual object, rather than the primary key that 
+					which will get the actual object, rather than the primary key that
 					references it.
 	}
 
@@ -939,10 +955,10 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 		{\t}public {field.javaType} getPrimaryKey() {{
 
 			{if !table.isConstant}
-				updateHitCount({fn:+[field.fieldIndex, '1']}); 
+				updateHitCount({fn:+[field.fieldIndex, '1']});
 			{endif}
 
-			return(this.{field.javaName}); 
+			return(this.{field.javaName});
 		}{\n}
 		{\n}
 		{endif}
@@ -963,7 +979,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 				{\t} * @param {field.javaName} The primary key field to update{\n}
 				{\t} */{\n}
 				{\t}public void setPrimaryKey({field.javaType} {field.javaName}) {{
-					if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 
+					if(isDifferent(this.{field.javaName}, {field.javaName})) {{
 						this.{field.javaName} = {field.javaName}; this.isDirty = true;
 
 						{if fn:notNull[field.foreignKeyTable]}
@@ -988,17 +1004,17 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 		{\t}public {field.javaType} get{field.javaAccessorName}() {{
 
 			{if !table.isConstant}
-				updateHitCount({fn:+[field.fieldIndex, '1']}); 
+				updateHitCount({fn:+[field.fieldIndex, '1']});
 			{endif}
 
 			{--
 				We need to check for hydration
 			}
 			{if !field.populate}
-			if(!isHydrated) {{ hydrateSilent(); this.isHydrated = true; } 
+			if(!isHydrated) {{ hydrateSilent(); this.isHydrated = true; }
 			{endif}
 
-			return(this.{field.javaName}); 
+			return(this.{field.javaName});
 		}{\n}
 
 		{if !table.isConstant}
@@ -1018,7 +1034,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 			{\t} * @param {field.javaName} the {field.name} value to be set{\n}
 			{\t} */{\n}
 			{\t}public void set{field.javaAccessorName}({field.javaType} {field.javaName}) {{
-				if(isDifferent(this.{field.javaName}, {field.javaName})) {{ 
+				if(isDifferent(this.{field.javaName}, {field.javaName})) {{
 					this.{field.javaName} = {field.javaName}; this.isDirty = true;
 
 					{if fn:notNull[field.foreignKeyTable]}

@@ -99,3 +99,4 @@ src/test/resources/application.sqlserver.sample.properties
 sample.db
 /h2zero-test.db
 /src/test/java/debugger/
+/out/

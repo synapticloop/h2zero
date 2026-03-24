@@ -48,6 +48,7 @@ public class AgencyAgreementUpserter {
 				dt_agency_agreement_start, 
 				dt_agency_agreement_end, 
 				flt_percent_increase, 
+				txt_notes, 
 				fl_is_current
 			from 
 				agency_agreement
