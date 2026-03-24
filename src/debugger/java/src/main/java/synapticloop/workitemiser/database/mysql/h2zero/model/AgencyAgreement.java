@@ -214,6 +214,24 @@ public class AgencyAgreement extends ModelBase {
 	 *     Boolean flIsCurrent // fl_is_current 
 	 * );</pre>
 	 * 
+	 * <p>The SQL query that will be executed:</p>
+	 * 
+	 *<pre>
+	 * insert into
+	 *   agency_agreement (
+	 *   num_strata_plan,
+	 *   dt_agency_agreement_start,
+	 *   dt_agency_agreement_end,
+	 *   flt_percent_increase,
+	 *   fl_is_current
+	 * ) values (
+	 *   ?,
+	 *   ?,
+	 *   ?,
+	 *   ?,
+	 *   ?
+	 * )
+	 *</pre> 
 	 */
 	public AgencyAgreement(Long idAgencyAgreement, Integer numStrataPlan, Date dtAgencyAgreementStart, Date dtAgencyAgreementEnd, Float fltPercentIncrease, Boolean flIsCurrent) {
 		this.idAgencyAgreement = idAgencyAgreement;
@@ -349,12 +367,10 @@ public class AgencyAgreement extends ModelBase {
 			throw new H2ZeroPrimaryKeyException("Cannot insert agency_agreement model when primary key is not null.");
 		}
 
-		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try (PreparedStatement preparedStatement =
 		     connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 			// create this bean 
-			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 			ConnectionManager.setInt(preparedStatement, 1, numStrataPlan);
 			ConnectionManager.setDate(preparedStatement, 2, dtAgencyAgreementStart);
 			ConnectionManager.setDate(preparedStatement, 3, dtAgencyAgreementEnd);
@@ -388,7 +404,6 @@ public class AgencyAgreement extends ModelBase {
 
 		ResultSet resultSet = null;
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE)) {
-			preparedStatement = connection.prepareStatement(SQL_ENSURE);
 			ConnectionManager.setInt(preparedStatement, 1, numStrataPlan);
 			ConnectionManager.setDate(preparedStatement, 2, dtAgencyAgreementStart);
 			ConnectionManager.setDate(preparedStatement, 3, dtAgencyAgreementEnd);
