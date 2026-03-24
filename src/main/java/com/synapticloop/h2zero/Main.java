@@ -85,6 +85,12 @@ public class Main {
 	}
 
 	private static void parseAndExecute(String[] args) throws IOException {
+		System.out.println("                     __    _______");
+		System.out.println("                    |  |--|___    |.----.-----.----.-----.");
+		System.out.println("                    |     |/  ___/|-- __|  -__|   _|  _  |");
+		System.out.println("                    |__|__|  |   \\|_____|_____|__| |_____|");
+		System.out.println("                          `-------'      ... .-..\n");
+
 		if(args.length == 0) {
 			usageAndExit(null);
 		}

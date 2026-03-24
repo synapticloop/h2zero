@@ -1,63 +1,10 @@
-<a name="documentr_top"></a>
+# Synapticloop h2zero
 
-> See [http://synapticloop.github.io/h2zero/](http://synapticloop.github.io/h2zero/) for updated documentation
+> Rapidly generate you Object Relational Mapper, with you in total control of
+> the underlying SQL
 
-[![Build Status](https://travis-ci.org/synapticloop/h2zero.svg?branch=master)](https://travis-ci.org/synapticloop/h2zero) [![Download](https://api.bintray.com/packages/synapticloop/maven/h2zero/images/download.svg)](https://bintray.com/synapticloop/maven/h2zero/_latestVersion) [![GitHub Release](https://img.shields.io/github/release/synapticloop/h2zero.svg)](https://github.com/synapticloop/h2zero/releases) [![Gradle Plugin Release](https://img.shields.io/badge/gradle%20plugin-3.1.6-blue.svg)](https://plugins.gradle.org/plugin/synapticloop.h2zero) 
+---
 
-> **This project requires JVM version of at least 1.17**
-
-
-
-
-
-
-<a name="documentr_heading_0"></a>
-
-# Table of Contents <sup><sup>[top](#documentr_top)</sup></sup>
-
-
-
- - [Table of Contents](#documentr_heading_0)
- - [h2zero](#documentr_heading_1)
- - [VERSION 3](#documentr_heading_2)
- - [VERSION 2](#documentr_heading_3)
- - [Extensions](#documentr_heading_4)
- - [Background](#documentr_heading_5)
- - [Requirements](#documentr_heading_6)
- - [Creating a h2zero configuration file](#documentr_heading_7)
- - [The CRUD operations (and some more)](#documentr_heading_8)
-   - [Create](#documentr_heading_9)
-   - [Read](#documentr_heading_10)
-   - [Update](#documentr_heading_11)
-   - [Delete](#documentr_heading_12)
-   - [and some more](#documentr_heading_13)
- - [The Little Things](#documentr_heading_14)
- - [h2Zero generation](#documentr_heading_15)
-   - [gradle plugin](#documentr_heading_16)
-   - [ant](#documentr_heading_17)
-   - [Command line generation](#documentr_heading_18)
- - [Building the Package](#documentr_heading_19)
-   - [*NIX/Mac OS X](#documentr_heading_20)
-   - [Windows](#documentr_heading_21)
- - [Logging - slf4j](#documentr_heading_22)
-   - [Log4j](#documentr_heading_23)
- - [Artefact Publishing - Github](#documentr_heading_28)
- - [All-In-One](#documentr_heading_29)
- - [Artefact Publishing - Bintray](#documentr_heading_30)
-   - [maven setup](#documentr_heading_31)
-   - [gradle setup](#documentr_heading_32)
- - [Artefact Publishing - gradle plugin portal](#documentr_heading_33)
-   - [Dependencies - Gradle](#documentr_heading_34)
-   - [Dependencies - Maven](#documentr_heading_35)
-   - [Dependencies - Downloads](#documentr_heading_36)
- - [License](#documentr_heading_43)
-
-
-
-
-
-
-<a name="documentr_heading_1"></a>
 
 # h2zero <sup><sup>[top](#documentr_top)</sup></sup>
 
@@ -68,47 +15,14 @@
 
 
 
-<a name="documentr_heading_2"></a>
 
-# VERSION 3 <sup><sup>[top](#documentr_top)</sup></sup>
-
-    This release is a pared down version of h2zero, with un-finished 
-    generators being removed and some placed into extensions
-
-The following generators have been removed from h2zero
-
- - taglibs (see [https://github.com/synapticloop/h2zero-extension-taglibs](https://github.com/synapticloop/h2zero-extension-taglibs) for more details
- - forms
- - adminpages
- - servlets
-
-
-
-<a name="documentr_heading_3"></a>
-
-# VERSION 2 <sup><sup>[top](#documentr_top)</sup></sup>
-
-    This now only supports slf4j logging API and as such the 
-    "logging" key has been removed from the "options" JSON object
-
-
-This is a object relationship mapper for MySQL and Java.
-
-Whilst still a work in progress, database persistence is fully supported and running in production environments.
-
-
-
-<a name="documentr_heading_4"></a>
-
-# Extensions <sup><sup>[top](#documentr_top)</sup></sup>
+# Extensions
 
 Extensions for h2zero are now supported see [https://github.com/synapticloop/h2zero-extension-routemaster-restful](https://github.com/synapticloop/h2zero-extension-routemaster-restful)
 
 
 
-<a name="documentr_heading_5"></a>
-
-# Background <sup><sup>[top](#documentr_top)</sup></sup>
+# Background
 
 There are so many object relational mappers (ORMs) out there that do what h2zero does.  It isn't special, it just provides a link between your database and generates your Java code to be able to use it.
 
@@ -128,9 +42,7 @@ Your database, just the way that you designed it.
 
 
 
-<a name="documentr_heading_6"></a>
-
-# Requirements <sup><sup>[top](#documentr_top)</sup></sup>
+# Requirements
 
  - **Java**
  - **MySQL**
@@ -139,9 +51,7 @@ Your database, just the way that you designed it.
 
 
 
-<a name="documentr_heading_7"></a>
-
-# Creating a h2zero configuration file <sup><sup>[top](#documentr_top)</sup></sup>
+# Creating a h2zero configuration file
 
 By default the h2zero file would look like the following:
 
@@ -195,39 +105,22 @@ By default the h2zero file would look like the following:
 
 
 
-<a name="documentr_heading_8"></a>
-
-# The CRUD operations (and some more) <sup><sup>[top](#documentr_top)</sup></sup>
+# The CRUD operations
 
 
-
-<a name="documentr_heading_9"></a>
-
-## Create  <sup><sup>[top](#documentr_top)</sup></sup>
+## Create
 
 Normal plain old java objects (POJO).  Just instantiate and insert (or insert silent)
 
-
-
-<a name="documentr_heading_10"></a>
-
-## Read  <sup><sup>[top](#documentr_top)</sup></sup>
+## Read
 
 Finders, Finders and more Finders
 
-
-
-<a name="documentr_heading_11"></a>
-
-## Update <sup><sup>[top](#documentr_top)</sup></sup>
+## Update
 
 Updaters
 
-
-
-<a name="documentr_heading_12"></a>
-
-## Delete <sup><sup>[top](#documentr_top)</sup></sup>
+## Delete
 
 Deleters
 
@@ -786,41 +679,40 @@ You will also need to download the following dependencies:
 
 
 
-<a name="documentr_heading_43"></a>
 
-# License <sup><sup>[top](#documentr_top)</sup></sup>
-
-
+# End Plate
 
 ```
-The MIT License (MIT)
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#                                                                             #
+#                       __    _______                                         #
+#                      |  |--|___    |.----.-----.----.-----.                 #
+#                      |     |/  ___/|-- __|  -__|   _|  _  |                 #
+#                      |__|__|  |   \|_____|_____|__| |_____|                 #
+#                            `-------'      ... .-..                          #
+#                                                                             #
+#                                ~ ~ ~ * ~ ~ ~                                #
+#                                                                             #
+#                                                                             #
+#                                   h2zero                                    #
+#                                                                             #
+#                                  ---------                                  #
+#                                                                             #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-Copyright (c) 2018 synapticloop
+                         "Parting is such sweet sorrow"
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+                                                               Romeo And Juliet 
+                                                                         Act 2, 
+                                                                       Scene 2, 
+                                                                       176–185
 ```
 
+Text to ASCII art generation in the book from:
+
+  - [Text to ASCII Art Generator](https://patorjk.com/software/taag/#p=display&f=Cricket&t=h2zero+&x=none&v=4&h=4&w=80&we=false) 
+
+using a subtly modified `Cricket` font
 
 
 
---
-
-> `This README.md file was hand-crafted with care utilising synapticloop`[`templar`](https://github.com/synapticloop/templar/)`->`[`documentr`](https://github.com/synapticloop/documentr/)
-
---

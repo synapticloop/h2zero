@@ -57,6 +57,8 @@ public class Finder extends BaseQueryObject {
 		if(null != whereClause) {
 			populateWhereFields(finderObject);
 		}
+
+		setOrderBy(JsonHelper.getStringValue(finderObject, JSONKeyConstants.ORDER_BY, ""));
 	}
 
 	public void setOrderBy(String orderBy) { this.orderBy = orderBy; }

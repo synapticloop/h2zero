@@ -386,9 +386,8 @@ public class AgencyAgreement extends ModelBase {
 	@Override
 	public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {
 
-		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		try {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE)) {
 			preparedStatement = connection.prepareStatement(SQL_ENSURE);
 			ConnectionManager.setInt(preparedStatement, 1, numStrataPlan);
 			ConnectionManager.setDate(preparedStatement, 2, dtAgencyAgreementStart);
@@ -403,7 +402,7 @@ public class AgencyAgreement extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			ConnectionManager.closeAll(resultSet);
 		}
 	}
 
@@ -764,7 +763,7 @@ public class AgencyAgreement extends ModelBase {
 
 
 	/**
-	 * <p>Get the hit count statistics as a JSON encoded object as a <code>String</code></p>.
+	 * <p>Get the hit count statistics as a JSON encoded object as a <code>String</code></p>
 	 *
 	 * @return the JSON Object as a <code>String</code>.
 	 */

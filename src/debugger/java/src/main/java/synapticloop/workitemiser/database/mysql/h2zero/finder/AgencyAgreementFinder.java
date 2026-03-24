@@ -45,9 +45,12 @@ import com.synapticloop.h2zero.base.sql.limitoffset.UniqueFinder;
  *     list.  This finder can also use limits and offsets.</li>
  * </ul>
  * 
- * <p>There are 2 user defined finders:
+ * <p>There are 5 user defined finders:
  *
  * <ul>
+ *   <li><code>findByNumStrataPlan</code> - Generated from the 'fieldFinders' JSON key</li>
+ *   <li><code>findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc</code> - Generated from the 'fieldFinders' JSON key</li>
+ *   <li><code>findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc</code> - Generated from the 'fieldFinders' JSON key</li>
  *   <li><code>findAllOrdered</code> - Generated from the 'finders' JSON key</li>
  *   <li><code>findRolloversByMonth</code> - Generated from the 'finders' JSON key</li>
  * <ul>
@@ -83,6 +86,30 @@ public class AgencyAgreementFinder {
 		""";
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_agency_agreement = ?";
 
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumStrataPlan</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NUM_STRATA_PLAN = SQL_SELECT_START + 
+		"""
+			where num_strata_plan = ?
+		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC = SQL_SELECT_START + 
+		"""
+			where num_strata_plan = ? and fl_is_current = ?
+		""" + " order by num_strata_plan asc";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC_FL_IS_CURRENT_DESC = SQL_SELECT_START + 
+		"""
+			where num_strata_plan = ? and fl_is_current = ?
+		""" + " order by num_strata_plan asc, fl_is_current desc";
 	/**
 	 * <p>This SQL statement was generated from the <code>findAllOrdered</code> definition for <code>finders</code>
 	 * JSON key in the h2zero file.</p>
@@ -203,15 +230,167 @@ public class AgencyAgreementFinder {
 	 * through either the "finders" JSON key, or the "fieldFinders" JSON
 	 * key.
 	 * 
-	 * There are 2 defined finders on the agency_agreement table, of those finders
+	 * There are 5 defined finders on the agency_agreement table, of those finders
 	 * the following are the regular finders, either defined through the
 	 * 'finders' or 'fieldFinders' JSON key
 	 * 
+	 * - findByNumStrataPlan - Generated from the 'fieldFinders' JSON key
+	 * - findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc - Generated from the 'fieldFinders' JSON key
+	 * - findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc - Generated from the 'fieldFinders' JSON key
 	 * - findAllOrdered - Generated from the 'finders' JSON key
 	 * - findRolloversByMonth - Generated from the 'finders' JSON key
 	 * 
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
+	/**
+	 * <p>This is the <code>findByNumStrataPlan</code> finder for the <code>AGENCY_AGREEMENT table.</code></p>
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AgencyAgreement> Finder that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlan(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlan(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlan(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_NUM_STRATA_PLAN the SQL statement that is executed} (<code>SQL_FIND_BY_NUM_STRATA_PLAN</code>)</p>
+	 * 
+	 * @param numStrataPlan - maps to the <code>AGENCY_AGREEMENT.num_strata_plan</code> field
+	 * 
+	 * @return the parameterised MultiFinder()
+	 * 
+	 */
+	public static MultiFinder<AgencyAgreement> findByNumStrataPlan(Integer numStrataPlan) {
+		return(
+				new MultiFinder<AgencyAgreement>(
+				LOGGER,
+				SQL_FIND_BY_NUM_STRATA_PLAN,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {numStrataPlan}
+		));
+	}
+
+	/**
+	 * <p>This is the <code>findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc</code> finder for the <code>AGENCY_AGREEMENT table.</code></p>
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AgencyAgreement> Finder that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC the SQL statement that is executed} (<code>SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC</code>)</p>
+	 * 
+	 * @param numStrataPlan - maps to the <code>AGENCY_AGREEMENT.num_strata_plan</code> field
+	 * @param flIsCurrent - maps to the <code>AGENCY_AGREEMENT.fl_is_current</code> field
+	 * 
+	 * @return the parameterised MultiFinder()
+	 * 
+	 */
+	public static MultiFinder<AgencyAgreement> findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc(Integer numStrataPlan, Boolean flIsCurrent) {
+		return(
+				new MultiFinder<AgencyAgreement>(
+				LOGGER,
+				SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {numStrataPlan, flIsCurrent}
+		));
+	}
+
+	/**
+	 * <p>This is the <code>findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc</code> finder for the <code>AGENCY_AGREEMENT table.</code></p>
+	 * 
+	 * <p><em>(This finder was generated through the '<code>fieldFinders</code>' JSON key)</em></p>
+	 * 
+	 * <p>Create a MultiFinder<AgencyAgreement> Finder that can be invoked through:</p>
+	 * 
+	 * <ul>
+	 *   <li><code>finder.execute();</code> to execute the finder with exceptions thrown</li>
+	 *   <li><code>finder.executeSilent();</code> to execute the finder no exceptions (i.e. they are caught, swallowed and logged)</li>
+	 * </ul>
+	 * 
+	 * <p>You may also want to pass in a connection, in which case use the following:</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc(...)
+	 *     .withConnection(connection)
+	 *     .execute();</pre>
+	 * 
+	 * <p>You may also want to pass in a connection without exceptions being thrown,
+	 * in which case use the following:</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc(...)
+	 *     .withConnection(connection)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>Additionally, you can limit and offset this query (with or without a connection)</p>
+	 * 
+	 * <pre>AgencyAgreementFinder.findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc(...)
+	 *     .withLimit(limit)
+	 *     .withOffset(offset)
+	 *     .executeSilent();</pre>
+	 * 
+	 * <p>See {@link #SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC_FL_IS_CURRENT_DESC the SQL statement that is executed} (<code>SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC_FL_IS_CURRENT_DESC</code>)</p>
+	 * 
+	 * @param numStrataPlan - maps to the <code>AGENCY_AGREEMENT.num_strata_plan</code> field
+	 * @param flIsCurrent - maps to the <code>AGENCY_AGREEMENT.fl_is_current</code> field
+	 * 
+	 * @return the parameterised MultiFinder()
+	 * 
+	 */
+	public static MultiFinder<AgencyAgreement> findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc(Integer numStrataPlan, Boolean flIsCurrent) {
+		return(
+				new MultiFinder<AgencyAgreement>(
+				LOGGER,
+				SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC_FL_IS_CURRENT_DESC,
+				resultSet -> { try {return list(resultSet);} catch (SQLException e) { return(null); }},
+				new Object[] {numStrataPlan, flIsCurrent}
+		));
+	}
 
 	/**
 	 * <p>This is the <code>findAllOrdered</code> finder for the <code>AGENCY_AGREEMENT table.</code></p>
@@ -343,7 +522,7 @@ public class AgencyAgreementFinder {
 	 * database table (or tables if there is a join statement) as a generated
 	 * bean
 	 * 
-	 * There are 2 defined finders on the agency_agreement table, of those finders
+	 * There are 5 defined finders on the agency_agreement table, of those finders
 	 * the following are the select clause finders:
 	 * 
 	 * 

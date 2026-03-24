@@ -22,6 +22,11 @@
 					{ "name": "flt_percent_increase", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
 					{ "name": "fl_is_current", "type": "boolean", "nullable": false, "default": "'1'" }
 				],
+				"fieldFinders": [
+					{ "fields":  "num_strata_plan,fl_is_current", "orderBy":  "num_strata_plan asc", "unique": false },
+					{ "fields":  "num_strata_plan,fl_is_current", "orderBy":  "num_strata_plan asc,fl_is_current desc", "unique": false },
+					{ "num_strata_plan": "multiple" }
+				],
 				"finders": [
 					{
 						"name": "findAllOrdered",

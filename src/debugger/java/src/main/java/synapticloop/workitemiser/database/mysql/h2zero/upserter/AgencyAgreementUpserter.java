@@ -55,6 +55,30 @@ public class AgencyAgreementUpserter {
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_agency_agreement = ?";
 
 	/**
+	 * <p>This SQL statement was generated from the <code>findByNumStrataPlan</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NUM_STRATA_PLAN = SQL_SELECT_START + 
+		"""
+			where num_strata_plan = ?
+		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAsc</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC = SQL_SELECT_START + 
+		"""
+			where num_strata_plan = ? and fl_is_current = ?
+		""" + " order by num_strata_plan asc";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNumStrataPlanFlIsCurrentOrderedByNumStrataPlanAscFlIsCurrentDesc</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NUM_STRATA_PLAN_FL_IS_CURRENT_ORDERED_BY_NUM_STRATA_PLAN_ASC_FL_IS_CURRENT_DESC = SQL_SELECT_START + 
+		"""
+			where num_strata_plan = ? and fl_is_current = ?
+		""" + " order by num_strata_plan asc, fl_is_current desc";
+	/**
 	 * <p>This SQL statement was generated from the <code>findAllOrdered</code> definition for <code>finders</code>
 	 * JSON key in the h2zero file.</p>
 	 */
