@@ -63,6 +63,9 @@ public class Table extends BaseSchemaObject {
 		ALLOWABLE_KEYS.add(JSONKeyConstants.FINDERS);
 		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_FINDERS);
 		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_NULL_FINDERS);
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_NOT_NULL_FINDERS);
+
+		ALLOWABLE_KEYS.add(JSONKeyConstants.FIND_ALL_ORDERED);
 
 		ALLOWABLE_KEYS.add(JSONKeyConstants.QUESTIONS);
 
@@ -191,9 +194,13 @@ public class Table extends BaseSchemaObject {
 	 * @throws H2ZeroParseException if there was an error parsing the jsonObject
 	 */
 	public void populateActions() throws H2ZeroParseException {
+
 		populateFieldFinders(jsonObject);
 		populateFieldNullFinders(jsonObject);
 		populateFieldNotNullFinders(jsonObject);
+		populateFindAllOrdered(jsonObject);
+
+		// you really want to do this last..
 		populateFinders(jsonObject);
 
 		populateFieldUpdaters(jsonObject);
@@ -573,6 +580,7 @@ public class Table extends BaseSchemaObject {
 		jsonObject.remove(JSONKeyConstants.INSERTERS);
 	}
 
+	@Deprecated
 	private void populateUpserters(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray upserterJson = new JSONArray();
 		try {

@@ -56,6 +56,16 @@ public class AgencyAgreementUpserter {
 	private static final String SQL_BUILTIN_FIND_BY_PRIMARY_KEY = SQL_SELECT_START + " where id_agency_agreement = ?";
 
 	/**
+	 * <p>This SQL statement was generated from the <code>findAllOrderedByNumStrataPlanDescDtAgencyAgreementAsc</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_ALL_ORDERED_BY_NUM_STRATA_PLAN_DESC_DT_AGENCY_AGREEMENT_ASC = SQL_SELECT_START + " order by num_strata_plan desc, dt_agency_agreement asc";
+	/**
+	 * <p>This SQL statement was generated from the <code>findAllOrderedByDtAgencyAgreementAsc</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_ALL_ORDERED_BY_DT_AGENCY_AGREEMENT_ASC = SQL_SELECT_START + " order by dt_agency_agreement asc";
+	/**
 	 * <p>This SQL statement was generated from the <code>findByNumStrataPlan</code>
 	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
 	 */

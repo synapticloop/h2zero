@@ -19,14 +19,16 @@ package com.synapticloop.h2zero.generator.util;
  */
 
 /**
- * A super simple logger - so that the package can be as light-weight as 
- * possible - this was integrated explicitly for h2zero
+ * <p>A super simple logger - so that the package can be as light-weight as
+ * possible - this was integrated explicitly for h2zero</p>
  * 
  * @author synapticloop
  */
 public class SimpleLogger {
+	/** Whether to log verbose output. */
 	public static boolean verbose;
 
+	/** The different types of loggers available. */
 	public enum LoggerType {
 		ANALYSER,
 		BOOT,
@@ -58,8 +60,9 @@ public class SimpleLogger {
 		VALIDATOR_REGISTER
 	}
 
-	// determine the maximum length of the enum types for output
+	/** The maximum length of the LoggerType enum names, used for formatting the output. */
 	private static int maxLength = 0;
+
 	static {
 		LoggerType[] values = LoggerType.values();
 		for (LoggerType loggerType : values) {
@@ -70,16 +73,22 @@ public class SimpleLogger {
 		}
 	}
 
+	/** The label for debug messages */
 	public static final String DEBUG = "DEBUG";
+	/** The label for info messages */
 	public static final String INFO = " INFO";
+	/** The label for warn messages */
 	public static final String WARN = " WARN";
+	/** The label for error messages */
 	public static final String ERROR = "ERROR";
+	/** The label for fatal messages */
 	public static final String FATAL = "FATAL";
 
+	/** Private constructor to prevent instantiation. */
 	private SimpleLogger() {}
 
 	/**
-	 * Log a debug message to the console
+	 * <p>Log a debug message to the console</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param message The message to log
@@ -91,8 +100,8 @@ public class SimpleLogger {
 	}
 
 	/**
-	 * Log a debug message to the console with the calling class which is output 
-	 * in square braces '[]'
+	 * <p>Log a debug message to the console with the calling class which is output
+	 * in square braces '[]'</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param clazz the calling class
@@ -106,7 +115,7 @@ public class SimpleLogger {
 	}
 
 	/**
-	 * Log an info message to the console
+	 * <p>Log an info message to the console</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param message The message to log
@@ -116,8 +125,8 @@ public class SimpleLogger {
 	}
 
 	/**
-	 * Log an info message to the console with the calling class which is output 
-	 * in square braces '[]'
+	 * <p>Log an info message to the console with the calling class which is output
+	 * in square braces '[]'</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param clazz the calling class
@@ -129,7 +138,7 @@ public class SimpleLogger {
 	}
 
 	/**
-	 * Log a warning message to the console
+	 * <p>Log a warning message to the console</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param message The message to log
@@ -139,7 +148,8 @@ public class SimpleLogger {
 	}
 
 	/**
-	 * Log a warning message to the console
+	 * <p>Log a warning message to the console with the calling class which is output
+	 * in square braces '[]'</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param clazz the calling class
@@ -149,7 +159,7 @@ public class SimpleLogger {
 	public static void logWarn(LoggerType loggerType, Class clazz, String message) { log(WARN, loggerType, clazz, message); }
 
 	/**
-	 * Log an error message to the console
+	 * <p>Log an error message to the console</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param message The message to log
@@ -157,8 +167,8 @@ public class SimpleLogger {
 	public static void logError(LoggerType loggerType, String message) { log(ERROR, loggerType, message); }
 
 	/**
-	 * Log an error message to the console with the calling class which is output 
-	 * in square braces '[]'
+	 * <p>Log an error message to the console with the calling class which is output
+	 * in square braces '[]'</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param clazz the calling class
@@ -168,7 +178,7 @@ public class SimpleLogger {
 	public static void logError(LoggerType loggerType, Class clazz, String message) { log(ERROR, loggerType, clazz, message); }
 
 	/**
-	 * Log a fatal message to the console
+	 * <p>Log a fatal message to the console</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param message The message to log
@@ -176,8 +186,8 @@ public class SimpleLogger {
 	public static void logFatal(LoggerType loggerType, String message) { log(FATAL, loggerType, message); }
 
 	/**
-	 * Log a fatal message to the console with the calling class which is output 
-	 * in square braces '[]'
+	 * <p>Log a fatal message to the console with the calling class which is output
+	 * in square braces '[]'</p>
 	 * 
 	 * @param loggerType The type of the logger
 	 * @param clazz the calling class
@@ -186,10 +196,25 @@ public class SimpleLogger {
 	@SuppressWarnings("rawtypes")
 	public static void logFatal(LoggerType loggerType, Class clazz, String message) { log(FATAL, loggerType, clazz, message); }
 
+	/**
+	 * <p>Log a message to the console.</p>
+	 *
+	 * @param type The level of the message (DEBUG, INFO, etc.)
+	 * @param loggerType The type of the logger
+	 * @param message The message to log
+	 */
 	private static void log(String type, LoggerType loggerType, String message) {
 		System.out.printf("[ %" + maxLength + "s ] [ %s ] %s%n", loggerType.name(), type, message);
 	}
 
+	/**
+	 * <p>Log a message to the console with the calling class.</p>
+	 *
+	 * @param type The level of the message (DEBUG, INFO, etc.)
+	 * @param loggerType The type of the logger
+	 * @param clazz The calling class
+	 * @param message The message to log
+	 */
 	@SuppressWarnings("rawtypes")
 	private static void log(String type, LoggerType loggerType, Class clazz, String message) {
 		System.out.printf("[ %" + maxLength + "s ] [ %s ] [ %s ] %s%n", loggerType.name(), type, clazz.getSimpleName(), message);

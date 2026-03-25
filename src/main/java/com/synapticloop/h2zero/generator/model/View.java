@@ -81,6 +81,7 @@ public class View extends BaseSchemaObject {
 
 		populateFields(jsonObject);
 
+		populateFindAllOrdered(jsonObject);
 		populateFieldFinders(jsonObject);
 		populateFieldNullFinders(jsonObject);
 		populateFieldNotNullFinders(jsonObject);

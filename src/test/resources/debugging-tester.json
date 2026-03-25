@@ -7,8 +7,8 @@
 		]
 	},
 	"database": {
-		"schema": "invoicer",
-		"package": "synapticloop.workitemiser.database.mysql.h2zero",
+		"schema": "library",
+		"package": "synapticloop.library.database.mysql.library",
 		"tables": [
 			{
 				"name": "agency_agreement",
@@ -22,6 +22,10 @@
 					{ "name": "flt_percent_increase", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
 					{ "name": "txt_notes", "type": "varchar", "length": "256", "nullable": true },
 					{ "name": "fl_is_current", "type": "boolean", "nullable": false, "default": "'1'" }
+				],
+				"findAllOrdered": [
+					"num_strata_plan desc,dt_agency_agreement asc",
+					"dt_agency_agreement asc"
 				],
 				"fieldFinders": [
 					{ "fields":  "num_strata_plan,fl_is_current", "orderBy":  "num_strata_plan asc", "unique": false },

@@ -86,7 +86,6 @@ public class H2ZeroParser {
 		}
 		// now we are going to sort the validators
 		VALIDATORS.sort((o1, o2) -> o1.getClass().getSimpleName().compareTo(o2.getClass().getSimpleName()));
-
 	}
 
 	/**

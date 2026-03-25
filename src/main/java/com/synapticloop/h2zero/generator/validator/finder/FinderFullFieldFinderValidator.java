@@ -44,7 +44,8 @@ public class FinderFullFieldFinderValidator extends BaseValidator {
 							"." +
 							finder.getName() +
 							"' is not a full fieldFinder definition and _MAY_ be deprecated in " +
-							"the future.");
+							"the future.  Try { \"fields\":  \"<nullability>:<field_name>,...\", \"orderBy\":  " +
+							"\"<field_name> <asc or desc>,...\", \"unique\": <true or false> },");
 				}
 				numChecked++;
 			}

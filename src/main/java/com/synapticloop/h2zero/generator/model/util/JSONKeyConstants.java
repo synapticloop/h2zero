@@ -34,6 +34,9 @@ public class JSONKeyConstants {
 	public static final String FIND_BY_NULL = "findByNull";
 	public static final String FIND_BY_NOT_NULL = "findByNotNull";
 
+	public static final String FIND_ALL_ORDERED = "findAllOrdered";
+
+
 	public static final String QUESTIONS = "questions";
 	public static final String COUNTERS = "counters";
 	public static final String FIELD_COUNTERS = "fieldCounters";

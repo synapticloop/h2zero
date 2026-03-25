@@ -63,6 +63,7 @@ public class Finder extends BaseQueryObject {
 	}
 
 	public void setOrderBy(String orderBy) { this.orderBy = orderBy; }
+	public String getOrderBy() { return(this.orderBy); }
 	public boolean getUnique() { return(unique); }
 
 	@Override
