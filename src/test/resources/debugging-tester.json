@@ -26,7 +26,14 @@
 				"fieldFinders": [
 					{ "fields":  "num_strata_plan,fl_is_current", "orderBy":  "num_strata_plan asc", "unique": false },
 					{ "fields":  "num_strata_plan,fl_is_current", "orderBy":  "num_strata_plan asc,fl_is_current desc", "unique": false },
+					{ "fields":  "notNull:num_strata_plan,null:fl_is_current", "orderBy":  "num_strata_plan asc,fl_is_current desc", "unique": false },
 					{ "num_strata_plan": "multiple" }
+				],
+				"fieldNullFinders": [
+					{ "txt_notes":  "multiple" }
+				],
+				"fieldNotNullFinders": [
+					{ "txt_notes":  "multiple" }
 				],
 				"finders": [
 					{

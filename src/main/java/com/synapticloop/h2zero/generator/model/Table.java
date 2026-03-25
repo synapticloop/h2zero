@@ -27,7 +27,6 @@ import com.synapticloop.h2zero.generator.util.KeyHelper;
 import com.synapticloop.h2zero.generator.util.NamingHelper;
 import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
-import com.synapticloop.h2zero.generator.model.BaseSchemaObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -194,6 +193,7 @@ public class Table extends BaseSchemaObject {
 	public void populateActions() throws H2ZeroParseException {
 		populateFieldFinders(jsonObject);
 		populateFieldNullFinders(jsonObject);
+		populateFieldNotNullFinders(jsonObject);
 		populateFinders(jsonObject);
 
 		populateFieldUpdaters(jsonObject);

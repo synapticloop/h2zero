@@ -29,8 +29,10 @@ public class JSONKeyConstants {
 	public static final String FINDERS = "finders";
 	public static final String FIELD_FINDERS = "fieldFinders";
 	public static final String FIELD_NULL_FINDERS = "fieldNullFinders";
+	public static final String FIELD_NOT_NULL_FINDERS = "fieldNotNullFinders";
 	public static final String FIND_BY = "findBy";
 	public static final String FIND_BY_NULL = "findByNull";
+	public static final String FIND_BY_NOT_NULL = "findByNotNull";
 
 	public static final String QUESTIONS = "questions";
 	public static final String COUNTERS = "counters";

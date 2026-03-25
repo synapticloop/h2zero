@@ -27,6 +27,7 @@ import com.synapticloop.h2zero.generator.util.JsonHelper;
 public class Finder extends BaseQueryObject {
 	private boolean unique = false;
 	private boolean isAutoFinder = false;
+	private boolean isFullAutoFinder = false;
 	private int statementCacheSize = 1024; // by default we use a cache of 1024
 
 	/**
@@ -67,8 +68,13 @@ public class Finder extends BaseQueryObject {
 	@Override
 	public String getType() { return("Finder"); }
 
+	@Deprecated
 	public boolean getIsAutoFinder() { return isAutoFinder; }
+	@Deprecated
 	public void setIsAutoFinder(boolean isAutoFinder) { this.isAutoFinder = isAutoFinder; }
+
+	public boolean getIsFullAutoFinder() { return isFullAutoFinder; }
+	public void setIsFullAutoFinder(boolean isFullAutoFinder) { this.isFullAutoFinder = isFullAutoFinder; }
 
 	public int getStatementCacheSize() { return statementCacheSize; }
 

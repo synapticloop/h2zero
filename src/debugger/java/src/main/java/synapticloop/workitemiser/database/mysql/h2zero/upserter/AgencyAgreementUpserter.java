@@ -80,6 +80,30 @@ public class AgencyAgreementUpserter {
 			where num_strata_plan = ? and fl_is_current = ?
 		""" + " order by num_strata_plan asc, fl_is_current desc";
 	/**
+	 * <p>This SQL statement was generated from the <code>findByNumStrataPlanNotNullFlIsCurrentNullOrderedByNumStrataPlanAscFlIsCurrentDesc</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NUM_STRATA_PLAN_NOT_NULL_FL_IS_CURRENT_NULL_ORDERED_BY_NUM_STRATA_PLAN_ASC_FL_IS_CURRENT_DESC = SQL_SELECT_START + 
+		"""
+			where num_strata_plan is  not  null  and fl_is_current is  null 
+		""" + " order by num_strata_plan asc, fl_is_current desc";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNullTxtNotes</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NULL_TXT_NOTES = SQL_SELECT_START + 
+		"""
+			where txt_notes is null
+		""";
+	/**
+	 * <p>This SQL statement was generated from the <code>findByNotNullTxtNotes</code>
+	 * definition for <code>fieldFinders</code> JSON key in the h2zero file.</p>
+	 */
+	private static final String SQL_FIND_BY_NOT_NULL_TXT_NOTES = SQL_SELECT_START + 
+		"""
+			where txt_notes is not null
+		""";
+	/**
 	 * <p>This SQL statement was generated from the <code>findAllOrdered</code> definition for <code>finders</code>
 	 * JSON key in the h2zero file.</p>
 	 */

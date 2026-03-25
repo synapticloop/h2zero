@@ -80,8 +80,12 @@ public class View extends BaseSchemaObject {
 		jsonObject.remove(JSONKeyConstants.CACHE_FIND_ALL);
 
 		populateFields(jsonObject);
+
 		populateFieldFinders(jsonObject);
+		populateFieldNullFinders(jsonObject);
+		populateFieldNotNullFinders(jsonObject);
 		populateFinders(jsonObject);
+
 		populateQuestions(jsonObject);
 		populateCounters(jsonObject);
 
