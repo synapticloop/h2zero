@@ -25,7 +25,6 @@ import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @H2ZeroValidator
@@ -36,10 +35,8 @@ public class FinderFullFieldFinderValidator extends BaseValidator {
 		List<Table> tables = database.getTables();
 		for (Table table : tables) {
 			List<Finder> finders = table.getFinders();
-			List<String> finderNames = new ArrayList<String>();
 
 			for (Finder finder : finders) {
-				String name = finder.getName();
 				if(!finder.getIsFullAutoFinder()) {
 					addWarnMessage("The FieldFinder '" +
 							table.getName() +
@@ -48,8 +45,14 @@ public class FinderFullFieldFinderValidator extends BaseValidator {
 							"' is not a full fieldFinder definition and _MAY_ be deprecated in " +
 							"the future.");
 				}
+				numChecked++;
 			}
 		}
+	}
+
+//	@Override
+	public String getShortDescription() {
+		return "Validates whether a 'fieldFinder' has the full definition.";
 	}
 
 }

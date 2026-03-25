@@ -27,11 +27,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseValidator {
-	protected boolean isValid = true;
-	private List<Message> messages = new ArrayList<Message>();
 	private int numInfo = 0;
 	private int numWarn = 0;
 	private int numFatal = 0;
+	protected int numChecked = 0;
+
+	protected boolean isValid = true;
+
+	private List<Message> messages = new ArrayList<Message>();
+
 
 	/**
 	 * Return whether the validator is in a valid state
@@ -58,8 +62,11 @@ public abstract class BaseValidator {
 	public void parseAndValidateOptions(JSONObject optionsObject) {
 	}
 
+//	public abstract String getShortDescription();
+
 	/**
-	 * Count the number of occurrences of the needle parameter in the haystack parameter
+	 * <p>Count the number of occurrences of the needle parameter in the haystack
+	 * parameter.</p>
 	 * 
 	 * @param haystack The string to search in
 	 * @param needle The string to search for
@@ -134,9 +141,17 @@ public abstract class BaseValidator {
 	 */
 	public List<Message> getFormattedMessages() {
 		if(isValid) {
-			addSummaryMessage(String.format("  VALID:  [ info: %4d, warn: %4d, fatal: %4d ]", numInfo, numWarn, numFatal));
+			addSummaryMessage(String.format("  VALID:  [ info: %4d, warn: %4d, fatal: %4d, checked: %4d ]",
+					numInfo,
+					numWarn,
+					numFatal,
+					numChecked));
 		} else {
-			addSummaryMessage(String.format("INVALID:  [ info: %4d, warn: %4d, fatal: %4d ]", numInfo, numWarn, numFatal));
+			addSummaryMessage(String.format("INVALID:  [ info: %4d, warn: %4d, fatal: %4d, checked: %4d ]",
+					numInfo,
+					numWarn,
+					numFatal,
+					numChecked));
 		}
 		return(messages);
 	}
@@ -144,11 +159,13 @@ public abstract class BaseValidator {
 	public int getNumInfo() { return(numInfo); }
 	public int getNumWarn() {return(numWarn); }
 	public int getNumFatal() { return(numFatal); }
+	public int getNumChecked() { return(numChecked); }
 
 	public void reset() {
 		numWarn = 0;
 		numInfo = 0;
 		numFatal = 0;
+		numChecked = 0;
 
 		messages.clear();
 	}

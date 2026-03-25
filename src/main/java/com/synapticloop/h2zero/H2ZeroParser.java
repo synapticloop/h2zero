@@ -53,6 +53,7 @@ public class H2ZeroParser {
 	private int numInfo = 0;
 	private int numWarn = 0;
 	private int numFatal = 0;
+	private int numChecked = 0;
 
 	private static final String H2ZERO_KEY_INCLUDE = "include";
 	private static final List<BaseValidator> VALIDATORS = new ArrayList<>();
@@ -127,7 +128,11 @@ public class H2ZeroParser {
 
 	private boolean checkAndLogValidators() {
 		boolean isValid = true;
-
+//		for (BaseValidator validator : VALIDATORS) {
+//			if(SimpleLogger.verbose) {
+//				SimpleLogger.logInfo(LoggerType.VALIDATOR_REGISTER);
+//			}
+//		}
 		for (BaseValidator validator : VALIDATORS) {
 			validator.reset();
 			validator.validate(database, options);
@@ -139,10 +144,16 @@ public class H2ZeroParser {
 			numInfo += validator.getNumInfo();
 			numWarn += validator.getNumWarn();
 			numFatal += validator.getNumFatal();
+			numChecked += validator.getNumChecked();
 
 			List<Message> messages = validator.getFormattedMessages();
 			for (Message message: messages) {
 				switch (message.getType()) {
+					case SimpleLogger.INFO -> {
+							if(SimpleLogger.verbose) {
+								SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
+							}
+						}
 					case SimpleLogger.DEBUG ->
 							SimpleLogger.logDebug(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] %s", validator.getClass().getSimpleName(), message.getContent()));
 					case SimpleLogger.WARN ->
@@ -156,7 +167,14 @@ public class H2ZeroParser {
 			}
 		}
 
-		SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" + maxValidatorClassNameLength + "s ] +-----------> [ info: %4d, warn: %4d, fatal: %4d ]", "Validation statistics: ", numInfo, numWarn, numFatal));
+		SimpleLogger.logInfo(LoggerType.VALIDATOR, String.format("[ %-" +
+						maxValidatorClassNameLength +
+						"s ] +-----------> [ info: %4d, warn: %4d, fatal: %4d, checked: %4d ]", "Validation statistics: ",
+				numInfo,
+				numWarn,
+				numFatal,
+				numChecked));
+
 		return isValid;
 	}
 
