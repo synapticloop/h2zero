@@ -18,6 +18,7 @@ package com.synapticloop.h2zero.generator.validator.counter;
  */
 
 import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 import com.synapticloop.h2zero.generator.model.Counter;
 import com.synapticloop.h2zero.generator.model.Database;
@@ -36,11 +37,24 @@ public class CounterWhereClauseValidator extends BaseValidator {
 			for (Counter counter : table.getCounters()) {
 				String whereClause = counter.getWhereClause();
 				if (null != whereClause && !whereClause.toLowerCase().contains("where")) {
-					addWarnMessage("Finder '" + table.getName() + "." + counter.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
+					addWarnMessage("Counter '" +
+							table.getName() +
+							"." +
+							counter.getName() +
+							"' has a whereClause that does not start with 'where', so I am going to add one.");
 					counter.setWhereClause(" where " + whereClause);
 				}
 			}
 		}
 	}
 
+	@Override
+	public String getShortDescription() {
+		return "Check counters for where clauses that don't start with where.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
+	}
 }

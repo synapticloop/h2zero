@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -50,7 +51,19 @@ public class FieldSerialNonPrimaryKeyValidator extends BaseValidator {
 
 					addWarnMessage("The field '" + table.getName() + "." + baseField.getName() + "' is set as a '" + type + "' but it is not a primary key, there may be interesting results...");
 				}
+
+				numChecked++;
 			}
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check fields that are set to serial, but are not a primary key.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
 	}
 }

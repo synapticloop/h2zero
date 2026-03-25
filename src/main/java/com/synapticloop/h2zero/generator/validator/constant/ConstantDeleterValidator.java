@@ -22,6 +22,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -44,7 +45,19 @@ public class ConstantDeleterValidator extends BaseValidator {
 			if(table.getIsConstant() && !table.getDeleters().isEmpty()) {
 				addFatalMessage("Constant model '" + table.getName() + "' has '" + JSONKeyConstants.DELETERS + "' which are not allowed, as you may not change the underlying database tables dynamically.");
 			}
+
+			numChecked++;
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check for constant cached which define deleters.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
 	}
 
 }

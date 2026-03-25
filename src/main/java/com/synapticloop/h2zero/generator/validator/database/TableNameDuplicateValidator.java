@@ -21,6 +21,7 @@ import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.HashSet;
@@ -38,12 +39,23 @@ public class TableNameDuplicateValidator extends BaseValidator {
 		for (Table table : tables) {
 			names.clear();
 			String tableName = table.getName();
-				if(names.contains(tableName)) {
-					addFatalMessage("Database '" + database.getSchema() + "' has a duplicate table named '" + tableName + "'.");
-				} else {
-					names.add(tableName);
-				}
+			if (names.contains(tableName)) {
+				addFatalMessage("Database '" + database.getSchema() + "' has a duplicate table named '" + tableName + "'.");
+			} else {
+				names.add(tableName);
+			}
+			numChecked++;
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check tables for duplicate names.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
 	}
 
 }

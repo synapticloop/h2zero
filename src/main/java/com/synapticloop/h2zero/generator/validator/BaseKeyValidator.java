@@ -17,13 +17,12 @@ package com.synapticloop.h2zero.generator.validator;
  * under the Licence.
  */
 
-import java.util.Iterator;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import com.synapticloop.h2zero.generator.model.BaseQueryObject;
 import com.synapticloop.h2zero.generator.model.BaseQueryObject.UsageType;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public abstract class BaseKeyValidator extends BaseValidator {
 
@@ -50,6 +49,5 @@ public abstract class BaseKeyValidator extends BaseValidator {
 				}
 			}
 		}
-
 	}
 }

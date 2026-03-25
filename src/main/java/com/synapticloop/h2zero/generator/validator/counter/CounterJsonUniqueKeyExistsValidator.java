@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -45,8 +46,18 @@ public class CounterJsonUniqueKeyExistsValidator extends BaseValidator {
 				if(counter.getHasJsonUniqueKey()) {
 					addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has a key of '" + JSONKeyConstants.UNIQUE + "' which is ignored, invalid, and therefore un-neccessary.");
 				}
+				numChecked++;
 			}
 		}
 	}
 
+	@Override
+	public String getShortDescription() {
+		return "Check counters for a unique key, which is ignored.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
+	}
 }

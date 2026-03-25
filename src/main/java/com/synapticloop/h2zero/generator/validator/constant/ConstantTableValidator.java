@@ -22,6 +22,7 @@ import com.synapticloop.h2zero.generator.model.Constant;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.HashSet;
@@ -64,9 +65,20 @@ public class ConstantTableValidator extends BaseValidator {
 					} else {
 						names.add(name);
 					}
+
+					numChecked++;
 				}
 			}
 		}
 	}
 
+	@Override
+	public String getShortDescription() {
+		return "Check for constant duplicate primary keys.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
+	}
 }

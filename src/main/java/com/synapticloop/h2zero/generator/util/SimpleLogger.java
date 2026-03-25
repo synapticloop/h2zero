@@ -55,7 +55,7 @@ public class SimpleLogger {
 		TEMPLAR_PARSE,
 		TEMPLAR_RENDER,
 		VALIDATOR,
-		VALIDATOR_REGISTER,
+		VALIDATOR_REGISTER
 	}
 
 	// determine the maximum length of the enum types for output

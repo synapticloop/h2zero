@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -40,8 +41,19 @@ public class CounterSelectFieldsValidator extends BaseValidator {
 				if(!counter.getSelectFields().isEmpty()) {
 					addWarnMessage("Counter '" + table.getName() + "." + counter.getName() + "' has '" + JSONKeyConstants.SELECT_FIELDS + "' which are ignored, and therefore un-neccessary.");
 				}
+				numChecked++;
 			}
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check counters for select clauses that will be ignored.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
 	}
 
 }

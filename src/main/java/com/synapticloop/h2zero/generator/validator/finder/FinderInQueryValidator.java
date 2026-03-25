@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Finder;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -47,8 +48,19 @@ public class FinderInQueryValidator extends BaseValidator {
 					isValid = false;
 					addFatalMessage("Finder '" + finder.getName() + "' has '...' in the where clause '" + finder.getWhereClause() + "', but no 'in' fields.");
 				}
+
+				numChecked++;
 			}
 		}
 	}
 
+	@Override
+	public String getShortDescription() {
+		return "Validates whether a finder has in fields, but not the corresponding ... in the where clause.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
+	}
 }

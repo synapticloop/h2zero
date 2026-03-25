@@ -18,16 +18,17 @@ package com.synapticloop.h2zero.generator.validator.field;
  * under the Licence.
  */
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @H2ZeroValidator
 public class FieldNameDuplicateValidator extends BaseValidator {
@@ -46,7 +47,19 @@ public class FieldNameDuplicateValidator extends BaseValidator {
 				} else {
 					names.add(fieldName);
 				}
+
+				numChecked++;
 			}
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check fields for duplicate field names in a tables.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
 	}
 }

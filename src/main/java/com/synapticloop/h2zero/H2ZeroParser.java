@@ -39,6 +39,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This is the parser for the h2zero generator
@@ -126,13 +127,32 @@ public class H2ZeroParser {
 		}
 	}
 
+	private String getMessageTypesOutput(List<String> messageTypes) {
+		return "(Outputs " +
+				messageTypes.stream()
+						.filter(Objects::nonNull)
+						.map(String::trim)
+						.filter(s -> !s.isEmpty())
+						.map(s -> "'" + s + "'")
+						.collect(Collectors.joining(", "))
+				+ " messages) ";
+	}
+
 	private boolean checkAndLogValidators() {
 		boolean isValid = true;
-//		for (BaseValidator validator : VALIDATORS) {
-//			if(SimpleLogger.verbose) {
-//				SimpleLogger.logInfo(LoggerType.VALIDATOR_REGISTER);
-//			}
-//		}
+		for (BaseValidator validator : VALIDATORS) {
+			if(SimpleLogger.verbose) {
+				SimpleLogger.logInfo(
+						LoggerType.VALIDATOR_REGISTER,
+						validator.getClass().getSimpleName() +
+
+								" - " +
+								getMessageTypesOutput(validator.getMessageTypes()) +
+								" - " +
+								validator.getShortDescription());
+			}
+		}
+
 		for (BaseValidator validator : VALIDATORS) {
 			validator.reset();
 			validator.validate(database, options);

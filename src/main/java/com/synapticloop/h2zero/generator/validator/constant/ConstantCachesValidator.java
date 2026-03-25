@@ -18,11 +18,12 @@ package com.synapticloop.h2zero.generator.validator.constant;
  */
 
 import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
-import com.synapticloop.h2zero.generator.validator.BaseValidator;
 import com.synapticloop.h2zero.generator.model.ConstantCache;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
+import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
 
@@ -49,7 +50,19 @@ public class ConstantCachesValidator extends BaseValidator {
 					}
 				}
 			}
+
+			numChecked++;
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check for constant cached constants on the primary key.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
 	}
 
 }

@@ -17,14 +17,15 @@ package com.synapticloop.h2zero.generator.validator.counter;
  * under the Licence.
  */
 
-import java.util.List;
-
 import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.generator.model.Counter;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseClauseValidator;
+
+import java.util.List;
 
 @H2ZeroValidator
 public class CounterQueryParameterNameValidator extends BaseClauseValidator {
@@ -36,8 +37,18 @@ public class CounterQueryParameterNameValidator extends BaseClauseValidator {
 			List<Counter> counters = table.getCounters();
 			for (Counter counter : counters) {
 				validateClausesAndFields(counter);
+				numChecked++;
 			}
 		}
 	}
 
+	@Override
+	public String getShortDescription() {
+		return "Check counters for naming standards and duplicates.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL, SimpleLogger.INFO));
+	}
 }

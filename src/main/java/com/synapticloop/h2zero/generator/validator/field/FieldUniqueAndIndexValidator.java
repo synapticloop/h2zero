@@ -22,6 +22,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -38,8 +39,20 @@ public class FieldUniqueAndIndexValidator extends BaseValidator {
 					String name = baseField.getName();
 					addWarnMessage("Field '" + table.getName() + "." + name + "' is both 'unique' and has an 'index', which is redundant.");
 				}
+
+				numChecked++;
 			}
 		}
 	}
 
+
+	@Override
+	public String getShortDescription() {
+		return "Check fields that are unique and is marked as indexed, which is redundant.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
+	}
 }

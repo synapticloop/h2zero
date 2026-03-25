@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Finder;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -50,9 +51,13 @@ public class FinderFullFieldFinderValidator extends BaseValidator {
 		}
 	}
 
-//	@Override
+	@Override
 	public String getShortDescription() {
 		return "Validates whether a 'fieldFinder' has the full definition.";
 	}
 
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
+	}
 }

@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -40,7 +41,19 @@ public class FieldPopulateForeignKeyValidator extends BaseValidator {
 					isValid = false;
 					addFatalMessage("The foreign key field '" + table.getName() + "." + baseField.getName() + "' has an attribute: \"populate\" with a value of 'false' . It __MUST_ALWAYS__ be 'true'");
 				}
+
+				numChecked++;
 			}
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check foreign key fields that have a 'populate' key with a value of 'false'.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
 	}
 }

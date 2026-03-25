@@ -18,14 +18,15 @@ package com.synapticloop.h2zero.generator.validator.field;
  * under the Licence.
  */
 
-import java.util.List;
-
 import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
+
+import java.util.List;
 
 @H2ZeroValidator
 public class FieldDefaultValueValidator extends BaseValidator {
@@ -41,8 +42,20 @@ public class FieldDefaultValueValidator extends BaseValidator {
 					isValid = false;
 					addFatalMessage("Field '" + table.getName() + "." + baseField.getName() + "' has an invalid attribute: \"default\" . It __MUST__ start and end with the single quote (') character.");
 				}
+
+				numChecked++;
 			}
 		}
 	}
 
+
+	@Override
+	public String getShortDescription() {
+		return "Check fields with default values to be in the proper format.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
+	}
 }

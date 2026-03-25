@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Deleter;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -41,7 +42,18 @@ public class DeleterWhereClauseValidator extends BaseValidator {
 					addWarnMessage("Deleter '" + table.getName() + "." + deleter.getName() + "' has a whereClause that does not start with 'where', so I am going to add one.");
 					deleter.setWhereClause(" where " + whereClause);
 				}
+				numChecked++;
 			}
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check deleters for where clause that don't start with 'where'.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
 	}
 }

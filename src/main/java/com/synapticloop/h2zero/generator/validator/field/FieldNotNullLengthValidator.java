@@ -18,14 +18,15 @@ package com.synapticloop.h2zero.generator.validator.field;
  * under the Licence.
  */
 
-import java.util.List;
-
 import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
+
+import java.util.List;
 
 /**
  * This validator checks to see whether there are some fields which are marked 
@@ -46,8 +47,18 @@ public class FieldNotNullLengthValidator extends BaseValidator {
 				if(!baseField.getNullable() && baseField.getMinLength() == 0 && "String".equals(baseField.getJavaType())) {
 					addWarnMessage("Table field '" + table.getName() + "." + baseField.getName() + "' is not allowed to be null, but has a minimum length of 0, consider setting \"minLength\": 1");
 				}
+				numChecked++;
 			}
 		}
 	}
 
+	@Override
+	public String getShortDescription() {
+		return "Check not null fields that do not set a minimum length.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN));
+	}
 }

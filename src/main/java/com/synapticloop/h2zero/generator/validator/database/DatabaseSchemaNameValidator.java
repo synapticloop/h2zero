@@ -20,12 +20,10 @@ package com.synapticloop.h2zero.generator.validator.database;
 import com.synapticloop.h2zero.generator.annotation.H2ZeroValidator;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @H2ZeroValidator
 public class DatabaseSchemaNameValidator extends BaseValidator {
@@ -127,5 +125,17 @@ public class DatabaseSchemaNameValidator extends BaseValidator {
 				}
 			});
 		}
+		numChecked++;
 	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check database schema names and prefixes.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.WARN, SimpleLogger.FATAL));
+	}
+
 }

@@ -62,7 +62,13 @@ public abstract class BaseValidator {
 	public void parseAndValidateOptions(JSONObject optionsObject) {
 	}
 
-//	public abstract String getShortDescription();
+	public String getShortDescription() {
+		return("undefined");
+	}
+
+	public List<String> getMessageTypes() {
+		return(List.of("?"));
+	}
 
 	/**
 	 * <p>Count the number of occurrences of the needle parameter in the haystack

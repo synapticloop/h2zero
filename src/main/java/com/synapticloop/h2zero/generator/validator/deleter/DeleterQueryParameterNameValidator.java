@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Deleter;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseClauseValidator;
 
 import java.util.List;
@@ -37,7 +38,18 @@ public class DeleterQueryParameterNameValidator extends BaseClauseValidator {
 			List<Deleter> deleters = table.getDeleters();
 			for (Deleter deleter : deleters) {
 				validateClausesAndFields(deleter);
+				numChecked++;
 			}
 		}
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Check deleters for validity of where clauses and fields.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL, SimpleLogger.INFO));
 	}
 }

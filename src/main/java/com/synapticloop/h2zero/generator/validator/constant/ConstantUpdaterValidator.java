@@ -22,6 +22,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.List;
@@ -45,7 +46,18 @@ public class ConstantUpdaterValidator extends BaseValidator {
 			if(table.getIsConstant() && !table.getUpdaters().isEmpty()) {
 				addFatalMessage("Constant model '" + table.getName() + "' has '" + JSONKeyConstants.UPDATERS + "' which are not allowed, as you may not change the underlying database tables dynamically.");
 			}
+
+			numChecked++;
 		}
 	}
 
+	@Override
+	public String getShortDescription() {
+		return "Check for constant cached which define updaters.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
+	}
 }

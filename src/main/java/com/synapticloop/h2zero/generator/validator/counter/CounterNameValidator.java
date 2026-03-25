@@ -22,6 +22,7 @@ import com.synapticloop.h2zero.generator.model.Counter;
 import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseNameValidator;
 import org.json.JSONObject;
 
@@ -52,9 +53,19 @@ public class CounterNameValidator extends BaseNameValidator {
 				String name = counter.getName();
 				counterNames.add(name);
 				validateAllowablePrefixes(table, name);
+				numChecked++;
 			}
 			validateQueryName(table, counterNames);
 		}
 	}
 
+	@Override
+	public String getShortDescription() {
+		return "Check counters for naming standards and duplicates.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL, SimpleLogger.WARN));
+	}
 }

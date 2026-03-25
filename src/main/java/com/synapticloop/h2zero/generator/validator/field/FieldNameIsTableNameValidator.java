@@ -23,6 +23,7 @@ import com.synapticloop.h2zero.generator.model.Database;
 import com.synapticloop.h2zero.generator.model.Options;
 import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
+import com.synapticloop.h2zero.generator.util.SimpleLogger;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
 import java.util.HashSet;
@@ -56,9 +57,20 @@ public class FieldNameIsTableNameValidator extends BaseValidator {
 									fieldName +
 									"', which is the name of a table - this is not allowed.");
 				}
+
+				numChecked++;
 			}
 		}
-
 	}
 
+
+	@Override
+	public String getShortDescription() {
+		return "Check fields that have the same name as a foreign key table.";
+	}
+
+	@Override
+	public List<String> getMessageTypes() {
+		return(List.of(SimpleLogger.FATAL));
+	}
 }
