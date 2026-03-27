@@ -10,14 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelBuilder {
-	private static final String SQL_SELECT_TABLES = "select * from TABLES where TABLE_SCHEMA = ?";
-
 	private List<Table> tables = new ArrayList<Table>();
 	private List<View> views = new ArrayList<View>();
 
 	private final String jdbcString;
 	private final String username;
 	private final String password;
+	private final String schema;
 
 	private String databaseType = "unknown";
 	private String databaseName = "unknown";
@@ -30,13 +29,15 @@ public class ModelBuilder {
 			String databaseType,
 			String databaseName,
 			String username,
-			String password) throws ClassNotFoundException,	SQLException {
+			String password,
+			String schema) throws ClassNotFoundException,	SQLException {
 
 		this.jdbcString = jdbcString;
 		this.username = username;
 		this.password = password;
 		this.databaseType = databaseType;
 		this.databaseName = databaseName;
+		this.schema = schema;
 
 		optionsObject.put("database", databaseType);
 		JSONArray generatorsArray = new JSONArray();
@@ -52,21 +53,14 @@ public class ModelBuilder {
 	}
 
 	private void populateTables() throws SQLException {
-
 		Connection connection = DriverManager.getConnection(jdbcString, username, password);
 		DatabaseMetaData metaData = connection.getMetaData();
 
 		String[] types = {"TABLE"};
 
-		try (ResultSet resultSet = metaData.getTables(null, null, "%", types)) {
+		try (ResultSet resultSet = metaData.getTables(null, schema, "%", types)) {
 			System.out.println("List of Tables:");
 			while (resultSet.next()) {
-				// Common metadata columns:
-				// 1. TABLE_CAT (String) => table catalog
-				// 2. TABLE_SCHEM (String) => table schema
-				// 3. TABLE_NAME (String) => table name
-				// 4. TABLE_TYPE (String) => table type
-
 				String tableName = resultSet.getString("TABLE_NAME");
 				String tableSchema = resultSet.getString("TABLE_SCHEM");
 				String tableType = resultSet.getString("TABLE_TYPE");
@@ -74,8 +68,11 @@ public class ModelBuilder {
 				System.out.println(String.format("Schema: %s | Name: %s | Type: %s",
 						tableSchema, tableName, tableType));
 
-				tables.add(new Table(metaData, tableSchema, tableName));
-
+				try {
+					tables.add(new Table(metaData, tableSchema, tableName));
+				} catch (SQLException e) {
+					System.err.println("[ERROR] " + e.getMessage());
+				}
 			}
 		}
 	}
@@ -86,8 +83,6 @@ public class ModelBuilder {
 
 		stringBuilder.append(String.format("  \"database\": \"%s\",\n", databaseType));
 		stringBuilder.append("  \"package\": \"please.complete.me.h2zero\",\n");
-
-//		stringBuilder.append(options.toJsonString());
 
 		stringBuilder.append("  \"tables\": [\n");
 
@@ -116,5 +111,13 @@ public class ModelBuilder {
 		stringBuilder.append("\n  ]\n");
 		stringBuilder.append("}\n");
 		return (stringBuilder.toString());
+	}
+
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	public List<Table> getTables() {
+		return tables;
 	}
 }

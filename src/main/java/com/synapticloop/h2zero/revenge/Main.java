@@ -17,14 +17,19 @@ package com.synapticloop.h2zero.revenge;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.revenge.model.Table;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,14 +118,6 @@ public class Main {
 
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
-		//		File file = new File(outPath);
-		//		if(!file.exists()) {
-		//			System.out.println("the output ");
-		//		}
-
-		//		try {
-
-		// now we are going to ask for the jdbc string, the usernam, and the password
 		String jdbcString = askForInput(
 				"JDBC Connection string\n(e.g.: jdbc:<subprotocol>://host:port/?<parameters>)\n",
 				false, null);
@@ -133,16 +130,60 @@ public class Main {
 		String username = askForInput("Username", false, null);
 		String password = askForInput("Password", true, null);
 
-		// now test the parameters
-
-		try {
-			ModelBuilder modelBuilder = new ModelBuilder(jdbcString, databaseType, databaseName, username, password);
-
-			System.out.println(modelBuilder.generate());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		List<String> schemas = new ArrayList<>();
+		try (Connection connection = DriverManager.getConnection(jdbcString, username, password)) {
+			DatabaseMetaData metaData = connection.getMetaData();
+			try (ResultSet rs = metaData.getSchemas()) {
+				while (rs.next()) {
+					schemas.add(rs.getString("TABLE_SCHEM"));
+				}
+			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.err.println("Error fetching schemas: " + e.getMessage());
+		}
+
+		String schemaChoice = null;
+		if (!schemas.isEmpty()) {
+			System.out.println("Available schemas:");
+			for (int i = 0; i < schemas.size(); i++) {
+				System.out.println(String.format(" [%d] %s", i, schemas.get(i)));
+			}
+			String choiceStr = askForInput("Select schema index:\n", false, null);
+			try {
+				int index = Integer.parseInt(choiceStr);
+				if (index >= 0 && index < schemas.size()) {
+					schemaChoice = schemas.get(index);
+				}
+			} catch (NumberFormatException e) {
+				schemaChoice = schemas.get(0);
+			}
+		}
+
+		ModelBuilder modelBuilder = new ModelBuilder(jdbcString, enteredDatabaseType, enteredDatabaseName, username, password, schemaChoice);
+		
+		String continueChoice = askForInput("Do you want to continue and write the files? (Y/n)", false, null);
+		if (!"Y".equalsIgnoreCase(continueChoice)) {
+			System.out.println("Operation cancelled.");
+			return;
+		}
+
+		for (Table table : modelBuilder.getTables()) {
+			String fileName = String.format("%s_%s_h2zero.json", enteredDatabaseName, table.getName());
+			File file = new File(fileName);
+			if (file.exists()) {
+				String overwrite = askForInput("File '" + fileName + "' already exists. Overwrite? (y/N)\n  :> ", false, "N");
+				if (!"y".equalsIgnoreCase(overwrite)) {
+					System.out.println("Skipping " + fileName);
+					continue;
+				}
+			}
+
+			try (FileWriter writer = new FileWriter(file)) {
+				writer.write(modelBuilder.generate());
+				System.out.println("Wrote file: " + fileName);
+			} catch (IOException e) {
+				System.err.println("Error writing file " + fileName + ": " + e.getMessage());
+			}
 		}
 	}
 }

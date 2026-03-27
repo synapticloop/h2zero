@@ -23,9 +23,15 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Table {
+	public static final String COLUMN_NAME = "COLUMN_NAME";
+	public static final String FKCOLUMN_NAME = "FKCOLUMN_NAME";
+	public static final String PKTABLE_NAME = "PKTABLE_NAME";
+	public static final String PKCOLUMN_NAME = "PKCOLUMN_NAME";
 	private String name = null;
 	private List<Column> columns = new ArrayList<Column>();
 
@@ -41,20 +47,60 @@ public class Table {
 	}
 
 	public Table(DatabaseMetaData metaData, String tableSchema, String tableName) throws SQLException {
-		this.name = name;
-		try (ResultSet columns = metaData.getColumns(null, tableSchema, tableName, "%")) {
+		this.name = tableName;
 
-			System.out.printf("%-20s | %-15s | %-10s | %-10s%n", "COLUMN NAME", "DATA TYPE", "SIZE", "NULLABLE");
-			System.out.println("-------------------------------------------------------------------------");
+		// First, get primary keys
+		Set<String> primaryKeys = new HashSet<>();
+		try (ResultSet rs = metaData.getPrimaryKeys(null, tableSchema, tableName)) {
+			while (rs.next()) {
+				primaryKeys.add(rs.getString(COLUMN_NAME));
+			}
+		}
 
-			while (columns.next()) {
-				String columnName = columns.getString("COLUMN_NAME");
-				String typeName = columns.getString("TYPE_NAME");
-				int columnSize = columns.getInt("COLUMN_SIZE");
-				String isNullable = columns.getString("IS_NULLABLE");
+		if (primaryKeys.isEmpty()) {
+			throw new SQLException("Table '" + tableName + "' does not have a primary key.");
+		}
 
-				System.out.printf("%-20s | %-15s | %-10d | %-10s%n",
-						columnName, typeName, columnSize, isNullable);
+		// Second, get indices
+		Set<String> indexedColumns = new HashSet<>();
+		try (ResultSet rs = metaData.getIndexInfo(null, tableSchema, tableName, false, false)) {
+			while (rs.next()) {
+				String columnName = rs.getString(COLUMN_NAME);
+				if (columnName != null) {
+					indexedColumns.add(columnName);
+				}
+			}
+		}
+
+		// Third, get columns
+		try (ResultSet rs = metaData.getColumns(null, tableSchema, tableName, "%")) {
+			while (rs.next()) {
+				Column column = new Column(rs);
+				String columnName = column.getName();
+				if (primaryKeys.contains(columnName)) {
+					column.setIsPrimary(true);
+				}
+				if (indexedColumns.contains(columnName)) {
+					column.setIsIndexed(true);
+				}
+				columns.add(column);
+			}
+		}
+
+		// Fourth, get foreign keys
+		try (ResultSet rs = metaData.getImportedKeys(null, tableSchema, tableName)) {
+			while (rs.next()) {
+				String columnName = rs.getString(FKCOLUMN_NAME);
+				String pkTableName = rs.getString(PKTABLE_NAME);
+				String pkColumnName = rs.getString(PKCOLUMN_NAME);
+
+				for (Column column : columns) {
+					if (column.getName().equals(columnName)) {
+						column.setForeignKeyTable(pkTableName);
+						column.setForeignKeyColumn(pkColumnName);
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -86,4 +132,7 @@ public class Table {
 		return (stringBuilder.toString());
 	}
 
+	public String getName() {
+		return name;
+	}
 }

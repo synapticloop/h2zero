@@ -25,8 +25,12 @@ import java.util.Set;
 public class Column {
 	private static final Set<String> LENGTH_DATA_TYPES = new HashSet<String>();
 	static {
-		LENGTH_DATA_TYPES.add("varchar");
-		LENGTH_DATA_TYPES.add("tinyint");
+		LENGTH_DATA_TYPES.add("VARCHAR");
+		LENGTH_DATA_TYPES.add("NVARCHAR");
+		LENGTH_DATA_TYPES.add("TINYINT");
+		LENGTH_DATA_TYPES.add("CHAR");
+		LENGTH_DATA_TYPES.add("BINARY");
+		LENGTH_DATA_TYPES.add("VARBINARY");
 	}
 
 	private String name = null;
@@ -35,7 +39,7 @@ public class Column {
 	private boolean isPrimary = false;
 	private String defaultValue = null;
 
-	private Long length = null;
+	private Integer length = null;
 
 	private long numericPrecision = 0;
 	private long numericScale = 0;
@@ -51,19 +55,23 @@ public class Column {
 
 	public Column(ResultSet resultSet) throws SQLException {
 		this.name = resultSet.getString("COLUMN_NAME");
-		this.dataType = resultSet.getString("DATA_TYPE");
-		this.hasLength = LENGTH_DATA_TYPES.contains(dataType);
+		this.dataType = resultSet.getString("TYPE_NAME");
+		this.hasLength = LENGTH_DATA_TYPES.contains(dataType.toUpperCase());
 
 		if(this.hasLength) {
-			this.length = resultSet.getLong("CHARACTER_MAXIMUM_LENGTH");
+			this.length = resultSet.getInt("COLUMN_SIZE");
+			if ("NVARCHAR".equalsIgnoreCase(this.dataType) && (this.length == null || this.length == -1)) {
+				System.err.println("[WARNING] Found nvarchar column '" + name + "' with length -1, setting to 4000.");
+				this.length = 4000;
+			}
 		}
 
 
 		this.isNullable = "YES".equals(resultSet.getString("IS_NULLABLE"));
 		this.isPrimary = "PRI".equals(resultSet.getString("COLUMN_KEY"));
 
-		defaultValue = resultSet.getString("COLUMN_DEFAULT");
-		if(null != defaultValue && ("1".equals(defaultValue) || "0".equals(defaultValue))) {
+		defaultValue = resultSet.getString("COLUMN_DEF");
+		if(null != defaultValue) {
 			hasDefault = true;
 		}
 	}
@@ -74,9 +82,9 @@ public class Column {
 		stringBuilder.append("\"name\": \"" + name + "\"");
 		stringBuilder.append(", \"type\": \"" + dataType + "\"");
 
-		if("tinyint".equals(this.dataType)) {
-			stringBuilder.append("length: \"1, ");
-		} else if(null != length && length.longValue() != 0) {
+		if("tinyint".equalsIgnoreCase(this.dataType)) {
+			stringBuilder.append(", \"length\": \"1\"");
+		} else if(null != length && length.intValue() != 0) {
 			stringBuilder.append(", \"length\": " + length);
 		}
 
@@ -117,4 +125,5 @@ public class Column {
 	public void setIsIndexed(boolean isIndexed) { this.isIndexed = isIndexed; }
 	public void setIsUnique(boolean isUnique) { this.isUnique = isUnique; }
 	public boolean getIsUnique() { return(isUnique); }
+	public void setIsPrimary(boolean isPrimary) { this.isPrimary = isPrimary; }
 }
