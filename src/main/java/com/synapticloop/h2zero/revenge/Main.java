@@ -17,12 +17,14 @@ package com.synapticloop.h2zero.revenge;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.generator.model.Options;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,7 +121,51 @@ public class Main {
 		parseJdbcString(jdbcString);
 
 		String enteredDatabaseName = askForInput("Database name", false, databaseName);
-		String enteredDatabaseType = askForInput("Database type", false, databaseType);
+
+		// Now for the database type selection
+		List<String> allowableDatabases = new ArrayList<>();
+		try {
+			Field field = Options.class.getDeclaredField("ALLOWABLE_DATABASES");
+			field.setAccessible(true);
+			Set<String> dbSet = (Set<String>) field.get(null);
+			allowableDatabases.addAll(dbSet);
+			Collections.sort(allowableDatabases);
+		} catch (Exception e) {
+			System.err.println("Could not retrieve allowable databases: " + e.getMessage());
+		}
+
+		String enteredDatabaseType = null;
+		if (!allowableDatabases.isEmpty()) {
+			System.out.println("[ SELECT ] Select database type:");
+			int defaultIndex = -1;
+			for (int i = 0; i < allowableDatabases.size(); i++) {
+				String dbType = allowableDatabases.get(i);
+				String prefix = " ";
+				String suffix = "";
+				if (dbType.equalsIgnoreCase(databaseType)) {
+					prefix = "*";
+					suffix = " (default)";
+					defaultIndex = i;
+				}
+				System.out.println(String.format("    [%s%2d ] %s%s", prefix, i, dbType, suffix));
+			}
+
+			String choiceStr = askForInput("Select database type index", false, defaultIndex != -1 ? String.valueOf(defaultIndex) : null);
+			try {
+				int index = Integer.parseInt(choiceStr);
+				if (index >= 0 && index < allowableDatabases.size()) {
+					enteredDatabaseType = allowableDatabases.get(index);
+				}
+			} catch (NumberFormatException e) {
+				if (defaultIndex != -1) {
+					enteredDatabaseType = allowableDatabases.get(defaultIndex);
+				}
+			}
+		}
+
+		if (enteredDatabaseType == null) {
+			enteredDatabaseType = askForInput("Database type", false, databaseType);
+		}
 
 		String username = askForInput("Username\n", false, null);
 		String password = askForInput("Password\n", true, null);
