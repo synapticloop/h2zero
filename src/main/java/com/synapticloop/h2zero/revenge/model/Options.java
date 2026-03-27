@@ -18,13 +18,25 @@ package com.synapticloop.h2zero.revenge.model;
  */
 
 public class Options {
+	private final String databaseType;
+
+	public Options(String databaseType) {
+		this.databaseType = databaseType;
+	}
 
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("  \"options\": {\n");
-		stringBuilder.append("    \"generators\": [ \"java\", \"sql\" ]\n");
-		stringBuilder.append("  },\n");
-		return(stringBuilder.toString());
+		stringBuilder
+				.append("  \"options\": {\n")
+				.append("    \"database\": \"")
+				.append(this.databaseType)
+				.append("\",\n")
+				.append("    \"generators\": [\n")
+				.append("      \"java\",\n")
+				.append("       \"sql\"\n")
+				.append("    ]\n")
+				.append("  },\n");
+		return (stringBuilder.toString());
 	}
 
 }

@@ -22,6 +22,9 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * <p>Represents a database column and its associated metadata extracted from a database schema.</p>
+ */
 public class Column {
 	private static final Set<String> LENGTH_DATA_TYPES = new HashSet<String>();
 	static {
@@ -37,22 +40,25 @@ public class Column {
 	private String dataType = null;
 	private boolean isNullable = false;
 	private boolean isPrimary = false;
-	private String defaultValue = null;
 
 	private Integer length = null;
 
 	private long numericPrecision = 0;
 	private long numericScale = 0;
 
-	private boolean hasDefault = false;
 	private boolean hasLength = false;
 
 	private String foreignKeyTable = null;
 	private String foreignKeyColumn = null;
-	
+
 	private boolean isIndexed = false;
 	private boolean isUnique = false;
 
+	/**
+	 * <p>Instantiates a new Column object by parsing a row from a standard JDBC DatabaseMetaData getColumns ResultSet.</p>
+	 * * @param resultSet the JDBC result set containing the column metadata
+	 * * @throws SQLException if there is an issue extracting values from the ResultSet
+	 */
 	public Column(ResultSet resultSet) throws SQLException {
 		this.name = resultSet.getString("COLUMN_NAME");
 		this.dataType = resultSet.getString("TYPE_NAME");
@@ -62,68 +68,157 @@ public class Column {
 			this.length = resultSet.getInt("COLUMN_SIZE");
 			if ("NVARCHAR".equalsIgnoreCase(this.dataType) && (this.length == null || this.length == -1)) {
 				System.err.println("[WARNING] Found nvarchar column '" + name + "' with length -1, setting to 4000.");
+				System.err.println("[WARNING]     You may want to change this to a CLOB datatype");
 				this.length = 4000;
 			}
 		}
 
-
 		this.isNullable = "YES".equals(resultSet.getString("IS_NULLABLE"));
-		this.isPrimary = "PRI".equals(resultSet.getString("COLUMN_KEY"));
-
-		defaultValue = resultSet.getString("COLUMN_DEF");
-		if(null != defaultValue) {
-			hasDefault = true;
-		}
 	}
 
+	/**
+	 * <p>Converts the column properties into a JSON formatted string representation.</p>
+	 * * @return a JSON string representation of the column metadata
+	 */
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("        { ");
-		stringBuilder.append("\"name\": \"" + name + "\"");
-		stringBuilder.append(", \"type\": \"" + dataType + "\"");
+		stringBuilder
+				.append("        { ")
+				.append("\"name\": \"")
+				.append(name)
+				.append("\"")
+				.append(", \"type\": \"")
+				.append(dataType)
+				.append("\"");
 
 		if("tinyint".equalsIgnoreCase(this.dataType)) {
 			stringBuilder.append(", \"length\": \"1\"");
 		} else if(null != length && length.intValue() != 0) {
-			stringBuilder.append(", \"length\": " + length);
+			stringBuilder
+					.append(", \"length\": ")
+					.append(length);
 		}
 
-		stringBuilder.append(", \"nullable\": " + isNullable);
-
-		if(hasDefault) {
-			stringBuilder.append(", \"default\": \"" + defaultValue + "\"");
-		}
+		stringBuilder
+				.append(", \"nullable\": ")
+				.append(isNullable);
 
 		if(isPrimary) {
-			stringBuilder.append(", \"primary\": " + isPrimary);
+			stringBuilder
+					.append(", \"primary\": ")
+					.append(isPrimary);
 		}
 
 		if(getIsIndexed()) {
-			stringBuilder.append(", \"index\": " + getIsIndexed());
+			stringBuilder
+					.append(", \"index\": ")
+					.append(getIsIndexed());
 		}
 
 		if(getIsUnique() && !isPrimary) {
-			stringBuilder.append(", \"unique\": " + getIsUnique());
+			stringBuilder
+					.append(", \"unique\": ")
+					.append(getIsUnique());
 		}
 
 		if(hasForeignKey()) {
-			stringBuilder.append(", \"foreignKey\": \"" + foreignKeyTable + "." + foreignKeyColumn + "\"");
+			stringBuilder
+					.append(", \"foreignKey\": \"")
+					.append(foreignKeyTable)
+					.append(".")
+					.append(foreignKeyColumn)
+					.append("\"");
 		}
 
 		stringBuilder.append(" }");
 		return (stringBuilder.toString());
 	}
 
-	public String getName() { return name; }
+	/**
+	 * <p>Retrieves the name of the column.</p>
+	 * * @return the name of the column
+	 */
+	public String getName() {
+		return name;
+	}
 
-	public String getForeignKeyTable() { return this.foreignKeyTable; }
-	public void setForeignKeyTable(String foreignKeyTable) { this.foreignKeyTable = foreignKeyTable; }
-	public String getForeignKeyColumn() { return this.foreignKeyColumn; }
-	public void setForeignKeyColumn(String foreignKeyColumn) { this.foreignKeyColumn = foreignKeyColumn; }
-	public boolean hasForeignKey() { return(null != foreignKeyTable && null != foreignKeyColumn); }
-	public boolean getIsIndexed() { return(isPrimary || hasForeignKey() || isIndexed); }
-	public void setIsIndexed(boolean isIndexed) { this.isIndexed = isIndexed; }
-	public void setIsUnique(boolean isUnique) { this.isUnique = isUnique; }
-	public boolean getIsUnique() { return(isUnique); }
-	public void setIsPrimary(boolean isPrimary) { this.isPrimary = isPrimary; }
+	/**
+	 * <p>Retrieves the name of the table referenced by this foreign key column.</p>
+	 * * @return the foreign key table name, or null if not a foreign key
+	 */
+	public String getForeignKeyTable() {
+		return this.foreignKeyTable;
+	}
+
+	/**
+	 * <p>Sets the name of the table referenced by this foreign key column.</p>
+	 * * @param foreignKeyTable the name of the referenced table
+	 */
+	public void setForeignKeyTable(String foreignKeyTable) {
+		this.foreignKeyTable = foreignKeyTable;
+	}
+
+	/**
+	 * <p>Retrieves the name of the specific column referenced by this foreign key.</p>
+	 * * @return the referenced column name, or null if not a foreign key
+	 */
+	public String getForeignKeyColumn() {
+		return this.foreignKeyColumn;
+	}
+
+	/**
+	 * <p>Sets the name of the specific column referenced by this foreign key.</p>
+	 * * @param foreignKeyColumn the name of the referenced column
+	 */
+	public void setForeignKeyColumn(String foreignKeyColumn) {
+		this.foreignKeyColumn = foreignKeyColumn;
+	}
+
+	/**
+	 * <p>Determines if this column acts as a foreign key based on table and column populated values.</p>
+	 * * @return true if both the foreign key table and column are not null, false otherwise
+	 */
+	public boolean hasForeignKey() {
+		return(null != foreignKeyTable && null != foreignKeyColumn);
+	}
+
+	/**
+	 * <p>Determines if this column is indexed, either explicitly or implicitly (via primary or foreign key).</p>
+	 * * @return true if the column has an index, false otherwise
+	 */
+	public boolean getIsIndexed() {
+		return(isPrimary || hasForeignKey() || isIndexed);
+	}
+
+	/**
+	 * <p>Sets whether this column has a standard index.</p>
+	 * * @param isIndexed true to mark as indexed, false otherwise
+	 */
+	public void setIsIndexed(boolean isIndexed) {
+		this.isIndexed = isIndexed;
+	}
+
+	/**
+	 * <p>Sets whether the values in this column must be unique.</p>
+	 * * @param isUnique true to mark as unique, false otherwise
+	 */
+	public void setIsUnique(boolean isUnique) {
+		this.isUnique = isUnique;
+	}
+
+	/**
+	 * <p>Determines if the column requires unique values.</p>
+	 * * @return true if the column is unique, false otherwise
+	 */
+	public boolean getIsUnique() {
+		return(isUnique);
+	}
+
+	/**
+	 * <p>Sets whether this column is part of the table's primary key.</p>
+	 * * @param isPrimary true to mark as primary key, false otherwise
+	 */
+	public void setIsPrimary(boolean isPrimary) {
+		this.isPrimary = isPrimary;
+	}
 }

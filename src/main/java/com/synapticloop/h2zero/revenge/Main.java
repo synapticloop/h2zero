@@ -17,16 +17,14 @@ package com.synapticloop.h2zero.revenge;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.revenge.model.Table;
-import org.jline.terminal.TerminalBuilder;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +62,10 @@ public class Main {
 
 			// readLine handles both the prompt display and the masking logic
 			String line = reader.readLine(
-					prompt  +
-							(null != defaultValue ? " (h2zero thinks '" + defaultValue + "' enter to accept)\n" : "") +
-							"    >: ",
+					"[ PROMPT ] " +
+							prompt  +
+							(null != defaultValue ? "\n           (h2zero thinks '" + defaultValue + "' enter to accept)\n" : "") +
+							"[  REPLY ] ",
 					mask);
 			if ((line == null || line.isEmpty()) && defaultValue != null) {
 				return defaultValue;
@@ -119,7 +118,7 @@ public class Main {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		String jdbcString = askForInput(
-				"JDBC Connection string\n(e.g.: jdbc:<subprotocol>://host:port/?<parameters>)\n",
+				"JDBC Connection string\n           (e.g.: jdbc:<subprotocol>://host:port/?<parameters>)\n",
 				false, null);
 
 		parseJdbcString(jdbcString);
@@ -127,8 +126,8 @@ public class Main {
 		String enteredDatabaseName = askForInput("Database name", false, databaseName);
 		String enteredDatabaseType = askForInput("Database type", false, databaseType);
 
-		String username = askForInput("Username", false, null);
-		String password = askForInput("Password", true, null);
+		String username = askForInput("Username\n", false, null);
+		String password = askForInput("Password\n", true, null);
 
 		List<String> schemas = new ArrayList<>();
 		try (Connection connection = DriverManager.getConnection(jdbcString, username, password)) {
@@ -161,29 +160,27 @@ public class Main {
 
 		ModelBuilder modelBuilder = new ModelBuilder(jdbcString, enteredDatabaseType, enteredDatabaseName, username, password, schemaChoice);
 		
-		String continueChoice = askForInput("Do you want to continue and write the files? (Y/n)", false, null);
+		String continueChoice = askForInput("Do you want to continue and write the file? (Y/n)", false, "Y");
 		if (!"Y".equalsIgnoreCase(continueChoice)) {
 			System.out.println("Operation cancelled.");
 			return;
 		}
 
-		for (Table table : modelBuilder.getTables()) {
-			String fileName = String.format("%s_%s_h2zero.json", enteredDatabaseName, table.getName());
-			File file = new File(fileName);
-			if (file.exists()) {
-				String overwrite = askForInput("File '" + fileName + "' already exists. Overwrite? (y/N)\n  :> ", false, "N");
-				if (!"y".equalsIgnoreCase(overwrite)) {
-					System.out.println("Skipping " + fileName);
-					continue;
-				}
+		String fileName = String.format("%s_%s_h2zero.json", enteredDatabaseType, enteredDatabaseName);
+		File file = new File(fileName);
+		if (file.exists()) {
+			String overwrite = askForInput("File '" + fileName + "' already exists. Overwrite? (y/N)", false, "N");
+			if (!"y".equalsIgnoreCase(overwrite)) {
+				System.out.println("Skipping " + fileName);
+				return;
 			}
+		}
 
-			try (FileWriter writer = new FileWriter(file)) {
-				writer.write(modelBuilder.generate());
-				System.out.println("Wrote file: " + fileName);
-			} catch (IOException e) {
-				System.err.println("Error writing file " + fileName + ": " + e.getMessage());
-			}
+		try (FileWriter writer = new FileWriter(file)) {
+			writer.write(modelBuilder.generate());
+			System.out.println("Wrote file: " + fileName);
+		} catch (IOException e) {
+			System.err.println("Error writing file " + fileName + ": " + e.getMessage());
 		}
 	}
 }

@@ -1,8 +1,8 @@
 package com.synapticloop.h2zero.revenge;
 
+import com.synapticloop.h2zero.revenge.model.Options;
 import com.synapticloop.h2zero.revenge.model.Table;
 import com.synapticloop.h2zero.revenge.model.View;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.*;
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelBuilder {
+	private Options options;
 	private List<Table> tables = new ArrayList<Table>();
 	private List<View> views = new ArrayList<View>();
 
@@ -21,7 +22,6 @@ public class ModelBuilder {
 	private String databaseType = "unknown";
 	private String databaseName = "unknown";
 
-	private JSONObject optionsObject = new JSONObject();
 	private JSONObject databaseObject = new JSONObject();
 
 	public ModelBuilder(
@@ -39,15 +39,11 @@ public class ModelBuilder {
 		this.databaseName = databaseName;
 		this.schema = schema;
 
-		optionsObject.put("database", databaseType);
-		JSONArray generatorsArray = new JSONArray();
-		generatorsArray.put("java");
-		generatorsArray.put("sql");
-		optionsObject.put("generators", generatorsArray);
+		this.options = new Options(databaseType);
 
 		databaseObject = new JSONObject();
-		databaseObject.put("schema", databaseType);
-		databaseObject.put("package", "example.package.name.h2zero." + databaseType + "." + databaseName.toLowerCase());
+		databaseObject.put("schema", databaseName);
+		databaseObject.put("package", "change.me.package.name.h2zero." + databaseType + "." + databaseName.toLowerCase());
 
 		populateTables();
 	}
@@ -59,19 +55,15 @@ public class ModelBuilder {
 		String[] types = {"TABLE"};
 
 		try (ResultSet resultSet = metaData.getTables(null, schema, "%", types)) {
-			System.out.println("List of Tables:");
 			while (resultSet.next()) {
 				String tableName = resultSet.getString("TABLE_NAME");
 				String tableSchema = resultSet.getString("TABLE_SCHEM");
 				String tableType = resultSet.getString("TABLE_TYPE");
 
-				System.out.println(String.format("Schema: %s | Name: %s | Type: %s",
-						tableSchema, tableName, tableType));
-
 				try {
 					tables.add(new Table(metaData, tableSchema, tableName));
 				} catch (SQLException e) {
-					System.err.println("[ERROR] " + e.getMessage());
+					System.err.println("[  ERROR ] " + e.getMessage());
 				}
 			}
 		}
@@ -79,12 +71,18 @@ public class ModelBuilder {
 
 	public String generate() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("{\n");
+		stringBuilder
+				.append("{\n")
+				.append(options.toJsonString())
+				.append("  \"database\": {\n")
+				.append("    \"schema\": \"")
+				.append(databaseObject.getString("schema"))
+				.append("\",\n")
+				.append("    \"package\": \"")
+				.append(databaseObject.getString("package"))
+				.append("\",\n");
 
-		stringBuilder.append(String.format("  \"database\": \"%s\",\n", databaseType));
-		stringBuilder.append("  \"package\": \"please.complete.me.h2zero\",\n");
-
-		stringBuilder.append("  \"tables\": [\n");
+		stringBuilder.append("    \"tables\": [\n");
 
 		// add in all of the tables
 		int i = 0;
@@ -109,7 +107,8 @@ public class ModelBuilder {
 		}
 
 		stringBuilder.append("\n  ]\n");
-		stringBuilder.append("}\n");
+		stringBuilder.append("  }\n")
+				.append("}\n");
 		return (stringBuilder.toString());
 	}
 

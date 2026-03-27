@@ -58,7 +58,9 @@ public class Table {
 		}
 
 		if (primaryKeys.isEmpty()) {
-			throw new SQLException("Table '" + tableName + "' does not have a primary key.");
+			throw new SQLException("Table '" +
+					tableName +
+					"' does not have a primary key - This table will __NOT__ be generated.");
 		}
 
 		// Second, get indices
@@ -107,9 +109,11 @@ public class Table {
 
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("    {\n");
-		stringBuilder.append("      \"name\": \"" + name + "\",\n");
-		stringBuilder.append("      \"fields\": [");
+		stringBuilder.append("      {\n")
+				.append("        \"name\": \"")
+				.append(name)
+				.append("\",\n")
+				.append("        \"fields\": [");
 
 		int i = 0;
 		for (Column column : columns) {
@@ -117,18 +121,20 @@ public class Table {
 				stringBuilder.append(",");
 			}
 			i++;
-			stringBuilder.append("\n");
-			stringBuilder.append(column.toJsonString());
+			stringBuilder
+					.append("\n")
+					.append(column.toJsonString());
 		}
 		stringBuilder.append("\n      ]");
 		for (String sqlInteractionObject : SQL_INTERACTION_OBJECTS) {
-			stringBuilder.append(",\n      \"");
-			stringBuilder.append(sqlInteractionObject);
-			stringBuilder.append("\": [\n      ]");
+			stringBuilder
+					.append(",\n      \"")
+					.append(sqlInteractionObject)
+					.append("\": [\n      ]");
 		}
-		stringBuilder.append("\n");
-
-		stringBuilder.append("    }");
+		stringBuilder
+				.append("\n")
+				.append("      }");
 		return (stringBuilder.toString());
 	}
 
