@@ -43,7 +43,7 @@ public class Options {
 	public static final String OPTION_REPORTS = "reports";
 	public static final String OPTION_IMPEX = "impex";
 
-	private final static Set<String> ALLOWABLE_GENERATORS = new HashSet<>();
+	public final static Set<String> ALLOWABLE_GENERATORS = new HashSet<>();
 	static {
 		ALLOWABLE_GENERATORS.add(OPTION_SQL);
 		ALLOWABLE_GENERATORS.add(OPTION_JAVA);
@@ -59,7 +59,7 @@ public class Options {
 	public static final String DATABASE_SQLITE3 = "sqlite3";
 	public static final String DATABASE_SQLSERVER = "sqlserver";
 
-	private static final Set<String> ALLOWABLE_DATABASES = new LinkedHashSet<>();
+	public static final Set<String> ALLOWABLE_DATABASES = new LinkedHashSet<>();
 	static {
 		ALLOWABLE_DATABASES.add(DATABASE_COCKROACH);
 		ALLOWABLE_DATABASES.add(DATABASE_MARIADB);

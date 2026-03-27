@@ -43,6 +43,8 @@ dependencies {
 
 
 	implementation 'com.microsoft.sqlserver:mssql-jdbc:12.6.0.jre11'
+	implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
+	implementation 'com.mysql:mysql-connector-j:9.6.0'
 
 	// need this for revenge generation
 	implementation("org.jline:jline:3.25.1")

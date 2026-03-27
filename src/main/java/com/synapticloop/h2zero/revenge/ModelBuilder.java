@@ -48,14 +48,34 @@ public class ModelBuilder {
 
 		String[] types = {"TABLE"};
 
-		try (ResultSet resultSet = metaData.getTables(null, schema, "%", types)) {
+		// MySQL and MariaDB use Catalogs, others use Schemas.
+		String catalogName = null;
+		String schemaNamePattern = null;
+
+		String dbProduct = metaData.getDatabaseProductName().toLowerCase();
+		if (dbProduct.contains("mysql") || dbProduct.contains("mariadb")) {
+			catalogName = schema;
+		} else {
+			schemaNamePattern = schema;
+		}
+
+		try (ResultSet resultSet = metaData.getTables(catalogName, schemaNamePattern, "%", types)) {
 			while (resultSet.next()) {
 				String tableName = resultSet.getString("TABLE_NAME");
 				String tableSchema = resultSet.getString("TABLE_SCHEM");
-				String tableType = resultSet.getString("TABLE_TYPE");
+				String tableCatalog = resultSet.getString("TABLE_CAT");
+
+				// Double check that we only include tables for the selected schema/catalog.
+				// Some drivers might be lenient with the getTables filters.
+				if (catalogName != null && !catalogName.equalsIgnoreCase(tableCatalog)) {
+					continue;
+				}
+				if (schemaNamePattern != null && tableSchema != null && !schemaNamePattern.equalsIgnoreCase(tableSchema)) {
+					continue;
+				}
 
 				try {
-					tables.add(new Table(metaData, tableSchema, tableName));
+					tables.add(new Table(metaData, tableSchema != null ? tableSchema : tableCatalog, tableName));
 				} catch (SQLException e) {
 					System.err.println("[  ERROR ] " + e.getMessage());
 				}

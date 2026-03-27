@@ -5,6 +5,8 @@
 .gradle
 build/
 
+/*.jar
+/*_h2zero.json
 # Ignore Gradle GUI config
 gradle-app.setting
 
