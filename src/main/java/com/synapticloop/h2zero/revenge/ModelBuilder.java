@@ -30,13 +30,13 @@ public class ModelBuilder {
 		this.jdbcString = jdbcString;
 		this.username = username;
 		this.password = password;
-		this.databaseType = databaseType;
+		this.databaseType = "sqlite".equalsIgnoreCase(databaseType) ? "sqlite3" : databaseType;
 		this.databaseName = databaseName;
 		this.schema = schema;
 
-		this.options = new Options(databaseType);
+		this.options = new Options(this.databaseType);
 
-		packageName = "change.me.package.name.h2zero." + databaseType + "." + databaseName.toLowerCase();
+		packageName = "change.me.package.name.h2zero." + this.databaseType + "." + databaseName.toLowerCase();
 
 		populateTables();
 		orderTables();
