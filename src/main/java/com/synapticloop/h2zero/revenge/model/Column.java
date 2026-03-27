@@ -29,22 +29,61 @@ import java.util.Set;
 public class Column {
 	private static final Set<String> LENGTH_DATA_TYPES = new HashSet<>();
 	static {
+		// Length Data Types (Base list)
 		LENGTH_DATA_TYPES.add("VARCHAR");
 		LENGTH_DATA_TYPES.add("NVARCHAR");
-		LENGTH_DATA_TYPES.add("TINYINT");
+		LENGTH_DATA_TYPES.add("TINYINT"); // Historically requires display width in MySQL
 		LENGTH_DATA_TYPES.add("CHAR");
 		LENGTH_DATA_TYPES.add("BINARY");
 		LENGTH_DATA_TYPES.add("VARBINARY");
+
+		// PostgreSQL & CockroachDB specific types/aliases
+		LENGTH_DATA_TYPES.add("CHARACTER VARYING");
+		LENGTH_DATA_TYPES.add("CHARACTER");
+		LENGTH_DATA_TYPES.add("BIT");
+		LENGTH_DATA_TYPES.add("BIT VARYING");
+		LENGTH_DATA_TYPES.add("STRING"); // CockroachDB supports STRING(N)
+
+		// SQL Server & SQLite specific types/aliases
+		LENGTH_DATA_TYPES.add("NCHAR");
+		LENGTH_DATA_TYPES.add("VARYING CHARACTER"); // Common SQLite alias
+	}
+
+	private static final Set<String> FLOATING_POINT_DATA_TYPES = new HashSet<>();
+	static {
+		// Standard SQL Types (Base list)
+		FLOATING_POINT_DATA_TYPES.add("DECIMAL");
+		FLOATING_POINT_DATA_TYPES.add("NUMERIC");
+		FLOATING_POINT_DATA_TYPES.add("FLOAT");
+		FLOATING_POINT_DATA_TYPES.add("DOUBLE");
+		FLOATING_POINT_DATA_TYPES.add("REAL");
+
+		// PostgreSQL & CockroachDB specific types/aliases
+		FLOATING_POINT_DATA_TYPES.add("DOUBLE PRECISION");
+		FLOATING_POINT_DATA_TYPES.add("FLOAT4");
+		FLOATING_POINT_DATA_TYPES.add("FLOAT8");
+
+		// MySQL & MariaDB specific aliases
+		FLOATING_POINT_DATA_TYPES.add("DEC");
+		FLOATING_POINT_DATA_TYPES.add("FIXED");
+
+		// SQL Server specific exact numerics
+		FLOATING_POINT_DATA_TYPES.add("MONEY");
+		FLOATING_POINT_DATA_TYPES.add("SMALLMONEY");
+
+		// Note: SQLite uses REAL, FLOAT, and DOUBLE, which are already covered by the standard list.
 	}
 
 	private static final String RS_COLUMN_NAME = "COLUMN_NAME";
 	private static final String RS_TYPE_NAME = "TYPE_NAME";
 	private static final String RS_COLUMN_SIZE = "COLUMN_SIZE";
 	private static final String RS_IS_NULLABLE = "IS_NULLABLE";
+	private static final String RS_DECIMAL_DIGITS = "DECIMAL_DIGITS";
 
 	private static final String JSON_NAME = "\"name\": \"";
 	private static final String JSON_TYPE = "\", \"type\": \"";
-	private static final String JSON_LENGTH = "\", \"length\": ";
+	private static final String JSON_LENGTH = ", \"length\": ";
+	private static final String JSON_DECIMAL_LENGTH = ", \"decimalLength\": ";
 	private static final String JSON_NULLABLE = ", \"nullable\": ";
 	private static final String JSON_PRIMARY = ", \"primary\": ";
 	private static final String JSON_INDEX = ", \"index\": ";
@@ -57,8 +96,10 @@ public class Column {
 	private boolean isPrimary = false;
 
 	private Integer length = null;
+	private Integer decimalPlaces = null;
 
 	private boolean hasLength = false;
+	private boolean isFloatingPoint = false;
 
 	private String foreignKeyTable = null;
 	private String foreignKeyColumn = null;
@@ -77,15 +118,21 @@ public class Column {
 	public Column(ResultSet resultSet) throws SQLException {
 		this.name = resultSet.getString(RS_COLUMN_NAME);
 		this.dataType = resultSet.getString(RS_TYPE_NAME);
-		this.hasLength = LENGTH_DATA_TYPES.contains(dataType.toUpperCase());
+		String upperDataType = dataType.toUpperCase();
+		this.hasLength = LENGTH_DATA_TYPES.contains(upperDataType);
+		this.isFloatingPoint = FLOATING_POINT_DATA_TYPES.contains(upperDataType);
 
-		if(this.hasLength) {
+		if(this.hasLength || this.isFloatingPoint) {
 			this.length = resultSet.getInt(RS_COLUMN_SIZE);
 			if ("NVARCHAR".equalsIgnoreCase(this.dataType) && (this.length == null || this.length == -1)) {
 				System.err.println("[WARNING] Found nvarchar column '" + name + "' with length -1, setting to 4000.");
 				System.err.println("[WARNING]     You may want to change this to a CLOB datatype");
 				this.length = 4000;
 			}
+		}
+
+		if (this.isFloatingPoint) {
+			this.decimalPlaces = resultSet.getInt(RS_DECIMAL_DIGITS);
 		}
 
 		this.isNullable = "YES".equals(resultSet.getString(RS_IS_NULLABLE));
@@ -110,9 +157,17 @@ public class Column {
 		if("tinyint".equalsIgnoreCase(this.dataType)) {
 			stringBuilder.append(", \"length\": \"1\"");
 		} else if(null != length && length.intValue() != 0) {
-			stringBuilder
-					.append(JSON_LENGTH)
-					.append(length);
+			if (isFloatingPoint && decimalPlaces != null && decimalPlaces > 0) {
+				stringBuilder
+						.append(JSON_LENGTH)
+						.append(length)
+						.append(JSON_DECIMAL_LENGTH)
+						.append(decimalPlaces);
+			} else {
+				stringBuilder
+						.append(JSON_LENGTH)
+						.append(length);
+			}
 		}
 
 		stringBuilder

@@ -169,7 +169,6 @@ public class Main {
 				}
 			}
 
-			System.out.println(LOG_PARSE + jdbcString);
 			char[] dashArr = new char[jdbcString.length()];
 			char[] labelArr = new char[jdbcString.length()];
 			Arrays.fill(dashArr, ' ');
