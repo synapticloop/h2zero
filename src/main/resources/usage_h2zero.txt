@@ -21,13 +21,12 @@ Usage:
 Allowable command line options:
 
   +----------+------------+------------+----------------+--------------------+
-  |          |      h2zero command     | Argument       |                    |
+  |          |  command   |            | Argument       |                    |
   | Option   |   h2zero   |  generate  | Format         | Default            |
   +----------+------------+------------+----------------+--------------------+
   | -in      | MANDATORY  | N/A        | File Path      |                    |
-  | -out     | (optional) |            | Directory Path | src/main/java      |
-  |          |            | (optional) | Directory Path | src/main/resources |
-  | -verbose | (optional) | (optional) | boolean        | false              |
+  | -out     | (optional) | N/A        | Directory Path | src/main/java      |
+  | -verbose | (optional) | N/A        | boolean        | false              |
   +----------+------------+------------+----------------+--------------------+
 
 Where:
@@ -59,15 +58,7 @@ invoked.
 
   [REVENGE] Reverse engineer a database JDBC connection to an h2zero file.
 
-    java -jar h2zero-all.jar \
-       revenge \
-       [-out directory_path] \
-       [-verbose true_or_false]
-
-    [-out directory_path] (optional) the directory to output the generated
-        h2zero files, this will default to the directory 'src/main/resources'
-    [-verbose true_or_false] (optional) turn on verbose output, the default
-        is 'false'
+    java -jar h2zero-all.jar revenge
 
   IMPORTANT NOTE:
     You __MUST__  have the specific JDBC driver __AND__ the connection pooling

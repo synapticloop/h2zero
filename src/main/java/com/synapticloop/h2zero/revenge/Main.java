@@ -17,11 +17,6 @@ package com.synapticloop.h2zero.revenge;
  * under the Licence.
  */
 
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
-import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,46 +31,45 @@ public class Main {
 	public static String databaseType;
 
 	/**
-	 * <p>Prompts the user for input via a JLine terminal.</p>
+	 * <p>Asks the user for input via the standard console using a Scanner.</p>
 	 *
-	 * <p>When isMasked is true, JLine disables character echoing. This method
-	 * handles the lifecycle of the terminal resource internally.</p>
+	 * <p>Note: Masking is only supported if System.console() is available;
+	 * otherwise, it falls back to plain text input via Scanner.</p>
 	 *
-	 * @param prompt the message to display to the user
-	 * @param isMasked whether the input should be hidden/masked
-	 * @param defaultValue the default value to return if the user enters nothing
+	 * @param prompt the prompt message to display to the user
+	 * @param isMasked whether the input should be hidden (password style)
+	 * @param defaultValue the value to return if the user provides empty input
 	 *
-	 * @return the string entered by the user, or the defaultValue if nothing was entered
+	 * @return the string entered by the user, or the defaultValue if empty
 	 */
 	public static String askForInput(String prompt, boolean isMasked, String defaultValue) {
-		// Character used for masking. Setting this to null (or '\0')
-		// provides "silent" input (like sudo in Linux).
-		Character mask = isMasked ? '*' : null;
+		java.util.Scanner scanner = new java.util.Scanner(System.in);
+		String displayPrompt = "[ PROMPT ] " + prompt +
+				(null != defaultValue ? "\n           (h2zero thinks '" + defaultValue + "' enter to accept)\n" : "") +
+				"[  REPLY ] ";
 
-		try (Terminal terminal = TerminalBuilder.builder()
-				.dumb(true) // Allows fallback if a full TTY isn't detected
-				.build()) {
+		System.out.print(displayPrompt);
 
-			LineReader reader = LineReaderBuilder.builder()
-					.terminal(terminal)
-					.build();
+		String line = null;
 
-			// readLine handles both the prompt display and the masking logic
-			String line = reader.readLine(
-					"[ PROMPT ] " +
-							prompt  +
-							(null != defaultValue ? "\n           (h2zero thinks '" + defaultValue + "' enter to accept)\n" : "") +
-							"[  REPLY ] ",
-					mask);
-			if ((line == null || line.isEmpty()) && defaultValue != null) {
-				return defaultValue;
+		// Attempt to use System.console() for masking if requested
+		if (isMasked && System.console() != null) {
+			char[] passwordChars = System.console().readPassword();
+			if (passwordChars != null) {
+				line = new String(passwordChars);
 			}
-			return line;
-
-		} catch (IOException e) {
-			System.err.println("Error initializing JLine terminal: " + e.getMessage());
-			return null;
+		} else {
+			// Fallback to standard Scanner for non-masked or when Console is unavailable
+			if (scanner.hasNextLine()) {
+				line = scanner.nextLine();
+			}
 		}
+
+		if ((line == null || line.trim().isEmpty()) && defaultValue != null) {
+			return defaultValue;
+		}
+
+		return line;
 	}
 
 	private static void parseJdbcString(String jdbcString) {
@@ -95,6 +89,7 @@ public class Main {
 			String remainder = matcher.group(2);
 
 			if ("sqlite".equals(databaseType)) {
+				databaseType = "sqlite3";
 				databaseName = remainder;
 			} else if ("sqlserver".equals(databaseType)) {
 				// For SQL Server, database name is usually in the properties: ;databaseName=dbName
@@ -143,9 +138,9 @@ public class Main {
 
 		String schemaChoice = null;
 		if (!schemas.isEmpty()) {
-			System.out.println("Available schemas:");
+			System.out.println("[ SELECT ] Available schemas:");
 			for (int i = 0; i < schemas.size(); i++) {
-				System.out.println(String.format(" [%d] %s", i, schemas.get(i)));
+				System.out.println(String.format("    [ %2d ] %s", i, schemas.get(i)));
 			}
 			String choiceStr = askForInput("Select schema index:\n", false, null);
 			try {
@@ -171,16 +166,16 @@ public class Main {
 		if (file.exists()) {
 			String overwrite = askForInput("File '" + fileName + "' already exists. Overwrite? (y/N)", false, "N");
 			if (!"y".equalsIgnoreCase(overwrite)) {
-				System.out.println("Skipping " + fileName);
+				System.out.println("[ OUTPUT ] Skipping " + fileName);
 				return;
 			}
 		}
 
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(modelBuilder.generate());
-			System.out.println("Wrote file: " + fileName);
+			System.out.println("[ OUTPUT ] Wrote file: " + fileName);
 		} catch (IOException e) {
-			System.err.println("Error writing file " + fileName + ": " + e.getMessage());
+			System.err.println("[  ERROR ] Error writing file " + fileName + ": " + e.getMessage());
 		}
 	}
 }

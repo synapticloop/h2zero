@@ -2,17 +2,13 @@ package com.synapticloop.h2zero.revenge;
 
 import com.synapticloop.h2zero.revenge.model.Options;
 import com.synapticloop.h2zero.revenge.model.Table;
-import com.synapticloop.h2zero.revenge.model.View;
-import org.json.JSONObject;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ModelBuilder {
 	private Options options;
 	private List<Table> tables = new ArrayList<Table>();
-	private List<View> views = new ArrayList<View>();
 
 	private final String jdbcString;
 	private final String username;
@@ -21,8 +17,7 @@ public class ModelBuilder {
 
 	private String databaseType = "unknown";
 	private String databaseName = "unknown";
-
-	private JSONObject databaseObject = new JSONObject();
+	private String packageName = "unknown";
 
 	public ModelBuilder(
 			String jdbcString,
@@ -41,11 +36,10 @@ public class ModelBuilder {
 
 		this.options = new Options(databaseType);
 
-		databaseObject = new JSONObject();
-		databaseObject.put("schema", databaseName);
-		databaseObject.put("package", "change.me.package.name.h2zero." + databaseType + "." + databaseName.toLowerCase());
+		packageName = "change.me.package.name.h2zero." + databaseType + "." + databaseName.toLowerCase();
 
 		populateTables();
+		orderTables();
 	}
 
 	private void populateTables() throws SQLException {
@@ -69,6 +63,59 @@ public class ModelBuilder {
 		}
 	}
 
+	private void orderTables() {
+		List<Table> orderedTables = new ArrayList<>();
+		Set<String> addedTableNames = new HashSet<>();
+		List<Table> remainingTables = new ArrayList<>(tables);
+
+		boolean added;
+		do {
+			added = false;
+			Iterator<Table> iterator = remainingTables.iterator();
+			while (iterator.hasNext()) {
+				Table table = iterator.next();
+				Set<String> referencedTables = table.getReferencedTableNames();
+				
+				// A table can be added if all its referenced tables have already been added
+				boolean canAdd = true;
+				for (String referencedTable : referencedTables) {
+					// We only care if the referenced table exists in our list of tables to be processed
+					boolean existsInOriginalList = false;
+					for (Table t : tables) {
+						if (t.getName().equalsIgnoreCase(referencedTable)) {
+							existsInOriginalList = true;
+							break;
+						}
+					}
+
+					if (existsInOriginalList && !addedTableNames.contains(referencedTable.toLowerCase())) {
+						canAdd = false;
+						break;
+					}
+				}
+
+				if (canAdd) {
+					orderedTables.add(table);
+					addedTableNames.add(table.getName().toLowerCase());
+					iterator.remove();
+					added = true;
+				}
+			}
+		} while (added && !remainingTables.isEmpty());
+
+		if (!remainingTables.isEmpty()) {
+			System.err.println("[   WARN ] Circular dependency or missing tables detected. Adding remaining tables in original order.");
+			orderedTables.addAll(remainingTables);
+		}
+
+		this.tables = orderedTables;
+
+		System.out.println("[   INFO ] Ordered tables for generation:");
+		for (int i = 0; i < tables.size(); i++) {
+			System.out.printf("[   INFO ] %4d. %s%n", i + 1, tables.get(i).getName());
+		}
+	}
+
 	public String generate() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
@@ -76,10 +123,10 @@ public class ModelBuilder {
 				.append(options.toJsonString())
 				.append("  \"database\": {\n")
 				.append("    \"schema\": \"")
-				.append(databaseObject.getString("schema"))
+				.append(databaseName)
 				.append("\",\n")
 				.append("    \"package\": \"")
-				.append(databaseObject.getString("package"))
+				.append(packageName)
 				.append("\",\n");
 
 		stringBuilder.append("    \"tables\": [\n");
@@ -93,22 +140,10 @@ public class ModelBuilder {
 			i++;
 			stringBuilder.append(table.toJsonString());
 		}
-		stringBuilder.append("\n  ],\n");
-		stringBuilder.append("  \"views\": [\n");
-
-		// and the views
-		i = 0;
-		for (View view : views) {
-			if(i != 0) {
-				stringBuilder.append(",\n");
-			}
-			i++;
-			stringBuilder.append(view.toJsonString());
-		}
-
-		stringBuilder.append("\n  ]\n");
-		stringBuilder.append("  }\n")
+		stringBuilder.append("\n  ]\n")
+				.append("  }\n")
 				.append("}\n");
+
 		return (stringBuilder.toString());
 	}
 

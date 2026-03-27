@@ -33,16 +33,21 @@ public class Table {
 	public static final String PKTABLE_NAME = "PKTABLE_NAME";
 	public static final String PKCOLUMN_NAME = "PKCOLUMN_NAME";
 	private String name = null;
-	private List<Column> columns = new ArrayList<Column>();
+	private final List<Column> columns = new ArrayList<>();
 
-	private static List<String> SQL_INTERACTION_OBJECTS = new ArrayList<String>();
+	private static final List<String> SQL_INTERACTION_OBJECTS = new ArrayList<>();
 	static {
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIND_ALL_ORDERED);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIELD_FINDERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FINDERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.UPDATERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIELD_UPDATERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.INSERTERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.INSERTERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.DELETERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIELD_DELETERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.COUNTERS);
+		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIELD_COUNTERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.QUESTIONS);
 	}
 
@@ -140,5 +145,22 @@ public class Table {
 
 	public String getName() {
 		return name;
+	}
+
+	public List<Column> getColumns() {
+		return columns;
+	}
+
+	public Set<String> getReferencedTableNames() {
+		Set<String> referencedTables = new HashSet<>();
+		for (Column column : columns) {
+			if (column.hasForeignKey()) {
+				String fkTable = column.getForeignKeyTable();
+				if (!fkTable.equalsIgnoreCase(this.name)) {
+					referencedTables.add(fkTable);
+				}
+			}
+		}
+		return referencedTables;
 	}
 }

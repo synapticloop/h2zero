@@ -24,10 +24,11 @@
 	import com.synapticloop.h2zero.util.SimpleUsage;
 
 	import java.io.IOException;
+	import java.sql.SQLException;
 	import java.util.HashMap;
 	import java.util.Map;
 
-public class Main {
+	public class Main {
 	private static final String CLI_OPTION_GENERATE = "generate";
 	private static final String CLI_OPTION_REVENGE = "revenge";
 
@@ -90,6 +91,12 @@ public class Main {
 			parseAndExecuteGenerate(args);
 			break;
 		case CLI_REVENGE:
+			try {
+				com.synapticloop.h2zero.revenge.Main.main(new String[] {});
+			} catch (SQLException | ClassNotFoundException e) {
+				SimpleLogger.logFatal(LoggerType.REVENGE, e.getMessage());
+			}
+			break;
 		default:
 			// admittedly this should not happen as we have already done a lookup
 			SimpleUsage.h2zeroUsageAndExit("Unknown mode of '" + mode + "'.");
