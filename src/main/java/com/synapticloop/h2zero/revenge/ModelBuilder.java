@@ -1,12 +1,41 @@
 package com.synapticloop.h2zero.revenge;
 
+/*
+ * Copyright (c) 2013-2026 synapticloop.
+ * All rights reserved.
+ *
+ * This source code and any derived binaries are covered by the terms and
+ * conditions of the Licence agreement ("the Licence").  You may not use this
+ * source code or any derived binaries except in compliance with the Licence.
+ * A copy of the Licence is available in the file named LICENCE shipped with
+ * this source code or binaries.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * Licence for the specific language governing permissions and limitations
+ * under the Licence.
+ */
+
 import com.synapticloop.h2zero.revenge.model.Options;
 import com.synapticloop.h2zero.revenge.model.Table;
 
 import java.sql.*;
 import java.util.*;
 
+/**
+ * <p>The ModelBuilder class is responsible for orchestrating the extraction of
+ * database metadata and transforming it into a structured h2zero model.</p>
+ *
+ * <p>It handles the discovery of tables within a specific schema, orders them
+ * based on foreign key dependencies, and generates the final JSON
+ * representation.</p>
+ */
 public class ModelBuilder {
+	private static final String SQL_TABLE_NAME = "TABLE_NAME";
+	private static final String SQL_TABLE_SCHEMA = "TABLE_SCHEM";
+	private static final String SQL_TABLE_CATALOG = "TABLE_CAT";
+
 	private Options options;
 	private List<Table> tables = new ArrayList<Table>();
 
@@ -19,6 +48,20 @@ public class ModelBuilder {
 	private String databaseName = "unknown";
 	private String packageName = "unknown";
 
+	/**
+	 * <p>Constructs a new ModelBuilder and initializes the reverse-engineering
+	 * process.</p>
+	 *
+	 * @param jdbcString the JDBC connection string
+	 * @param databaseType the type of the database (e.g., mysql, postgresql)
+	 * @param databaseName the name of the database
+	 * @param username the database username
+	 * @param password the database password
+	 * @param schema the target schema or catalog to reverse-engineer
+	 *
+	 * @throws ClassNotFoundException if the JDBC driver cannot be loaded
+	 * @throws SQLException if a database access error occurs
+	 */
 	public ModelBuilder(
 			String jdbcString,
 			String databaseType,
@@ -42,6 +85,11 @@ public class ModelBuilder {
 		orderTables();
 	}
 
+	/**
+	 * <p>Connects to the database and populates the list of tables found within the target schema.</p>
+	 *
+	 * @throws SQLException if a database access error occurs
+	 */
 	private void populateTables() throws SQLException {
 		Connection connection = DriverManager.getConnection(jdbcString, username, password);
 		DatabaseMetaData metaData = connection.getMetaData();
@@ -61,9 +109,9 @@ public class ModelBuilder {
 
 		try (ResultSet resultSet = metaData.getTables(catalogName, schemaNamePattern, "%", types)) {
 			while (resultSet.next()) {
-				String tableName = resultSet.getString("TABLE_NAME");
-				String tableSchema = resultSet.getString("TABLE_SCHEM");
-				String tableCatalog = resultSet.getString("TABLE_CAT");
+				String tableName = resultSet.getString(SQL_TABLE_NAME);
+				String tableSchema = resultSet.getString(SQL_TABLE_SCHEMA);
+				String tableCatalog = resultSet.getString(SQL_TABLE_CATALOG);
 
 				// Double check that we only include tables for the selected schema/catalog.
 				// Some drivers might be lenient with the getTables filters.
@@ -83,6 +131,12 @@ public class ModelBuilder {
 		}
 	}
 
+	/**
+	 * <p>Orders the discovered tables based on their foreign key dependencies.</p>
+	 *
+	 * <p>This ensures that tables referenced by others are defined first in the
+	 * generated output, which is often required for SQL script execution order.</p>
+	 */
 	private void orderTables() {
 		List<Table> orderedTables = new ArrayList<>();
 		Set<String> addedTableNames = new HashSet<>();
@@ -136,6 +190,12 @@ public class ModelBuilder {
 		}
 	}
 
+	/**
+	 * <p>Generates the h2zero JSON configuration string for the entire database
+	 * model.</p>
+	 *
+	 * @return a formatted JSON string representing the database schema
+	 */
 	public String generate() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
@@ -167,10 +227,20 @@ public class ModelBuilder {
 		return (stringBuilder.toString());
 	}
 
+	/**
+	 * <p>Gets the database name.</p>
+	 *
+	 * @return the database name
+	 */
 	public String getDatabaseName() {
 		return databaseName;
 	}
 
+	/**
+	 * <p>Gets the list of discovered tables.</p>
+	 *
+	 * @return the list of tables
+	 */
 	public List<Table> getTables() {
 		return tables;
 	}

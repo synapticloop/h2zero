@@ -17,25 +17,49 @@ package com.synapticloop.h2zero.revenge.model;
  * under the Licence.
  */
 
+/**
+ * <p>Represents the 'options' section of the h2zero JSON configuration file.</p>
+ *
+ * <p>This class holds global configuration options such as the database type and
+ * the list of generators to be used.</p>
+ */
 public class Options {
+	private static final String JSON_OPTIONS = "  \"options\": {\n";
+	private static final String JSON_DATABASE = "    \"database\": \"";
+	private static final String JSON_GENERATORS = "    \"generators\": [\n";
+	private static final String JSON_JAVA = "      \"java\",\n";
+	private static final String JSON_SQL = "       \"sql\"\n";
+	private static final String JSON_END_GENERATORS = "    ]\n";
+	private static final String JSON_END_OPTIONS = "  },\n";
+
 	private final String databaseType;
 
+	/**
+	 * <p>Constructs a new Options object with the specified database type.</p>
+	 *
+	 * @param databaseType the type of the database (e.g., mysql, postgresql)
+	 */
 	public Options(String databaseType) {
 		this.databaseType = databaseType;
 	}
 
+	/**
+	 * <p>Generates a JSON formatted string representation of the options.</p>
+	 *
+	 * @return a JSON string representing the options configuration
+	 */
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-				.append("  \"options\": {\n")
-				.append("    \"database\": \"")
+				.append(JSON_OPTIONS)
+				.append(JSON_DATABASE)
 				.append(this.databaseType)
 				.append("\",\n")
-				.append("    \"generators\": [\n")
-				.append("      \"java\",\n")
-				.append("       \"sql\"\n")
-				.append("    ]\n")
-				.append("  },\n");
+				.append(JSON_GENERATORS)
+				.append(JSON_JAVA)
+				.append(JSON_SQL)
+				.append(JSON_END_GENERATORS)
+				.append(JSON_END_OPTIONS);
 		return (stringBuilder.toString());
 	}
 

@@ -30,7 +30,38 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>The main entry point for the h2zero revenge tool, which reverse-engineers
+ * a database schema into an h2zero JSON configuration file.</p>
+ *
+ * <p>This class handles user interaction, JDBC connection string parsing,
+ * schema discovery, and file generation.</p>
+ *
+ * @author synapticloop
+ */
 public class Main {
+	private static final Pattern PATTERN_JDBC_CONNECTION = Pattern.compile("jdbc:(postgresql|mysql|mariadb|sqlite|sqlserver):(?:(?://[^/;/]+(?:[:/])?)|(?:))(.*)");
+	private static final Pattern PATTERN_DB_NAME = Pattern.compile("databaseName=([^;]+)");
+	private static final String DB_SQLITE = "sqlite";
+	private static final String DB_SQLITE_3 = "sqlite3";
+	private static final String DB_SQLSERVER = "sqlserver";
+	private static final String DB_MYSQL = "mysql";
+	private static final String DB_MARIADB = "mariadb";
+	private static final String DB_POSTGRESQL = "postgresql";
+	private static final String DB_COCKROACH = "cockroach";
+	private static final String DB_MICROSOFT = "microsoft";
+
+	private static final String RS_TABLE_CATALOG = "TABLE_CAT";
+	private static final String RS_TABLE_SCHEMA = "TABLE_SCHEM";
+
+	private static final String LOG_INFO = "[   INFO ] ";
+	private static final String LOG_ERROR = "[  ERROR ] ";
+	private static final String LOG_SELECT = "[ SELECT ] ";
+	private static final String LOG_PROMPT = "[ PROMPT ] ";
+	private static final String LOG_REPLY = "[  REPLY ] ";
+	private static final String LOG_PARSE = "[  PARSE ] ";
+	private static final String LOG_OUTPUT = "[ OUTPUT ] ";
+
 	public static String databaseName;
 	public static String databaseType;
 
@@ -52,9 +83,9 @@ public class Main {
 			prompt = prompt.trim();
 		}
 
-		String displayPrompt = "[ PROMPT ] " + prompt +
+		String displayPrompt = LOG_PROMPT + prompt +
 				(null != defaultValue ? "\n           (h2zero thinks '" + defaultValue + "' enter to accept)\n" : "") +
-				"[  REPLY ] ";
+				LOG_REPLY;
 
 		System.out.print(displayPrompt);
 
@@ -80,6 +111,17 @@ public class Main {
 		return line;
 	}
 
+	/**
+	 * <p>Parses the provided JDBC connection string to extract the database type
+	 * and name.</p>
+	 *
+	 * <p>This method also provides a visual representation of the parsing results
+	 * in the console.</p>
+	 *
+	 * @param jdbcString the JDBC connection string to parse
+	 *
+	 * @return true if the string was successfully parsed, false otherwise
+	 */
 	private static boolean parseJdbcString(String jdbcString) {
 		if (jdbcString == null) return false;
 
@@ -89,8 +131,7 @@ public class Main {
 		// SQLite: jdbc:sqlite:path/to/database.db
 		// MSSQL: jdbc:sqlserver://[host[\instanceName][:port]][;property=value[;property=value]]
 
-		Pattern pattern = Pattern.compile("jdbc:(postgresql|mysql|mariadb|sqlite|sqlserver):(?:(?://[^/;/]+(?:[:/])?)|(?:))(.*)");
-		Matcher matcher = pattern.matcher(jdbcString);
+		Matcher matcher = PATTERN_JDBC_CONNECTION.matcher(jdbcString);
 
 		if (matcher.find()) {
 			databaseType = matcher.group(1);
@@ -101,15 +142,14 @@ public class Main {
 			int dbStart = -1;
 			int dbEnd = -1;
 
-			if ("sqlite".equals(databaseType)) {
-				databaseType = "sqlite3";
+			if (DB_SQLITE.equals(databaseType)) {
+				databaseType = DB_SQLITE_3;
 				databaseName = remainder;
 				dbStart = matcher.start(2);
 				dbEnd = matcher.end(2);
-			} else if ("sqlserver".equals(databaseType)) {
+			} else if (DB_SQLSERVER.equals(databaseType)) {
 				// For SQL Server, database name is usually in the properties: ;databaseName=dbName
-				Pattern dbNamePattern = Pattern.compile("databaseName=([^;]+)");
-				Matcher dbNameMatcher = dbNamePattern.matcher(jdbcString);
+				Matcher dbNameMatcher = PATTERN_DB_NAME.matcher(jdbcString);
 				if (dbNameMatcher.find()) {
 					databaseName = dbNameMatcher.group(1);
 					dbStart = dbNameMatcher.start(1);
@@ -129,6 +169,7 @@ public class Main {
 				}
 			}
 
+			System.out.println(LOG_PARSE + jdbcString);
 			char[] dashArr = new char[jdbcString.length()];
 			char[] labelArr = new char[jdbcString.length()];
 			Arrays.fill(dashArr, ' ');
@@ -142,8 +183,8 @@ public class Main {
 				System.arraycopy("DB".toCharArray(), 0, labelArr, dbStart, Math.min(2, dbEnd - dbStart));
 			}
 
-			System.out.println("[  PARSE ] " + new String(dashArr));
-			System.out.println("[  PARSE ] " + new String(labelArr));
+			System.out.println(LOG_PARSE + new String(dashArr));
+			System.out.println(LOG_PARSE + new String(labelArr));
 
 			return true;
 		}
@@ -151,10 +192,13 @@ public class Main {
 	}
 
 	/**
-	 * <p>Retrieves a list of all available schemas or catalogs based on the database type.</p>
+	 * <p>Retrieves a list of all available schemas or catalogs based on the
+	 * database type.</p>
 	 *
 	 * @param connection The active JDBC connection to the target database.
+	 *
 	 * @return A list of strings containing the names of the schemas or databases.
+	 *
 	 * @throws SQLException If a database access error occurs.
 	 */
 	public static List<String> getAvailableSchemas(Connection connection) throws SQLException {
@@ -163,10 +207,10 @@ public class Main {
 		String databaseProductName = metaData.getDatabaseProductName().toLowerCase();
 
 		// MySQL and MariaDB use Catalogs for their primary "database" containers.
-		if (databaseProductName.contains("mysql") || databaseProductName.contains("mariadb")) {
+		if (databaseProductName.contains(DB_MYSQL) || databaseProductName.contains(DB_MARIADB)) {
 			try (ResultSet rs = metaData.getCatalogs()) {
 				while (rs.next()) {
-					results.add(rs.getString("TABLE_CAT"));
+					results.add(rs.getString(RS_TABLE_CATALOG));
 				}
 			}
 		} else {
@@ -174,7 +218,7 @@ public class Main {
 			// SQLite technically has one 'main' schema, but getSchemas() handles it gracefully.
 			try (ResultSet rs = metaData.getSchemas()) {
 				while (rs.next()) {
-					results.add(rs.getString("TABLE_SCHEM"));
+					results.add(rs.getString(RS_TABLE_SCHEMA));
 				}
 			}
 		}
@@ -183,25 +227,27 @@ public class Main {
 	}
 
 	/**
-	 * <p>Determines if a schema is a restricted system-level schema based on the DB type.</p>
+	 * <p>Determines if a schema is a restricted system-level schema based on the
+	 * DB type.</p>
 	 *
 	 * @param dbName The lower-case product name of the database.
 	 * @param schema The name of the schema to check.
+	 *
 	 * @return true if it is a system schema, false otherwise.
 	 */
 	private static boolean isSystemSchema(String dbName, String schema) {
-		if (dbName.contains("postgresql") ||
-				dbName.contains("cockroach")) {
+		if (dbName.contains(DB_POSTGRESQL) ||
+				dbName.contains(DB_COCKROACH)) {
 			return schema.startsWith("pg_") || schema.equalsIgnoreCase("information_schema");
 		}
-		if (dbName.contains("mysql") ||
-				dbName.contains("mariadb")) {
+		if (dbName.contains(DB_MYSQL) ||
+				dbName.contains(DB_MARIADB)) {
 			return schema.equalsIgnoreCase("information_schema") ||
-					schema.equalsIgnoreCase("mysql") ||
+					schema.equalsIgnoreCase(DB_MYSQL) ||
 					schema.equalsIgnoreCase("performance_schema") ||
 					schema.equalsIgnoreCase("sys");
 		}
-		if (dbName.contains("microsoft")) {
+		if (dbName.contains(DB_MICROSOFT)) {
 			return schema.equals("sys") ||
 					schema.equalsIgnoreCase("information_schema") ||
 					schema.toLowerCase().startsWith("db_");
@@ -210,6 +256,14 @@ public class Main {
 	}
 
 
+	/**
+	 * <p>The main method that executes the reverse-engineering process.</p>
+	 *
+	 * @param args command-line arguments (not used)
+	 *
+	 * @throws SQLException if a database access error occurs
+	 * @throws ClassNotFoundException if the JDBC driver class cannot be found
+	 */
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		String jdbcString = null;
 		boolean isValidJdbc = false;
@@ -220,12 +274,12 @@ public class Main {
 
 			isValidJdbc = parseJdbcString(jdbcString);
 			if (!isValidJdbc) {
-				System.err.println("[  ERROR ] The JDBC connection string does not look like the correct format.");
+				System.err.println(LOG_ERROR + "The JDBC connection string does not look like the correct format.");
 				String continueAnyway = askForInput("Do you want to continue anyway? (y/N)", false, "N");
 				if ("y".equalsIgnoreCase(continueAnyway)) {
 					isValidJdbc = true;
 				} else {
-					System.err.println("[  ERROR ] Cannot continue... Exiting...");
+					System.err.println(LOG_ERROR + "Cannot continue... Exiting...");
 					return;
 				}
 			}
@@ -241,7 +295,7 @@ public class Main {
 		String enteredDatabaseType = null;
 		if (!allowableDatabases.isEmpty()) {
 			while (enteredDatabaseType == null) {
-				System.out.println("[ SELECT ] Select database type:");
+				System.out.println(LOG_SELECT + "Select database type:");
 				int defaultIndex = -1;
 				for (int i = 0; i < allowableDatabases.size(); i++) {
 					String dbType = allowableDatabases.get(i);
@@ -261,10 +315,10 @@ public class Main {
 					if (index >= 0 && index < allowableDatabases.size()) {
 						enteredDatabaseType = allowableDatabases.get(index);
 					} else {
-						System.err.println("[  ERROR ] Invalid index. Please select a number from the list.");
+						System.err.println(LOG_ERROR + "Invalid index. Please select a number from the list.");
 					}
 				} catch (NumberFormatException e) {
-					System.err.println("[  ERROR ] Invalid input. Please enter a valid index number.");
+					System.err.println(LOG_ERROR + "Invalid input. Please enter a valid index number.");
 				}
 			}
 		}
@@ -283,8 +337,8 @@ public class Main {
 			databaseProductName = metaData.getDatabaseProductName().toLowerCase();
 			schemas = getAvailableSchemas(connection);
 		} catch (SQLException e) {
-			System.err.println("[  ERROR ] Error fetching schemas: " + e.getMessage());
-			System.err.println("[  ERROR ] Cannot continue... Exiting...");
+			System.err.println(LOG_ERROR + "Error fetching schemas: " + e.getMessage());
+			System.err.println(LOG_ERROR + "Cannot continue... Exiting...");
 			return;
 		}
 
@@ -299,7 +353,7 @@ public class Main {
 			}
 
 			while (schemaChoice == null) {
-				System.out.println("[ SELECT ] Available schemas:");
+				System.out.println(LOG_SELECT + "Available schemas:");
 				for (int i = 0; i < schemas.size(); i++) {
 					String schemaName = schemas.get(i);
 					String prefix = (i == defaultSchemaIndex) ? "*" : " ";
@@ -319,20 +373,20 @@ public class Main {
 					if (index >= 0 && index < schemas.size()) {
 						schemaChoice = schemas.get(index);
 					} else {
-						System.err.println("[  ERROR ] Invalid index. Please select a number from the list.");
+						System.err.println(LOG_ERROR + "Invalid index. Please select a number from the list.");
 					}
 				} catch (NumberFormatException e) {
-					System.err.println("[  ERROR ] Invalid input. Please enter a valid index number.");
+					System.err.println(LOG_ERROR + "Invalid input. Please enter a valid index number.");
 				}
 			}
 		}
 
-		System.out.println("[   INFO ] Summary of inputs:");
-		System.out.println("[   INFO ]   JDBC String:   " + jdbcString);
-		System.out.println("[   INFO ]   Database Name: " + enteredDatabaseName);
-		System.out.println("[   INFO ]   Database Type: " + enteredDatabaseType);
-		System.out.println("[   INFO ]   Username:      " + username);
-		System.out.println("[   INFO ]   Schema:        " + (schemaChoice != null ? schemaChoice : "<default>"));
+		System.out.println(LOG_INFO + "Summary of inputs:");
+		System.out.println(LOG_INFO + "  JDBC String:   " + jdbcString);
+		System.out.println(LOG_INFO + "  Database Name: " + enteredDatabaseName);
+		System.out.println(LOG_INFO + "  Database Type: " + enteredDatabaseType);
+		System.out.println(LOG_INFO + "  Username:      " + username);
+		System.out.println(LOG_INFO + "  Schema:        " + (schemaChoice != null ? schemaChoice : "<default>"));
 
 		String continueChoice = askForInput("Do you want to continue and write the file? (Y/n)", false, "Y");
 		if (!"Y".equalsIgnoreCase(continueChoice)) {
@@ -347,16 +401,16 @@ public class Main {
 		if (file.exists()) {
 			String overwrite = askForInput("File '" + fileName + "' already exists. Overwrite? (y/N)", false, "N");
 			if (!"y".equalsIgnoreCase(overwrite)) {
-				System.out.println("[ OUTPUT ] Skipping " + fileName);
+				System.out.println(LOG_OUTPUT + "Skipping " + fileName);
 				return;
 			}
 		}
 
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(modelBuilder.generate());
-			System.out.println("[ OUTPUT ] Wrote file: " + fileName);
+			System.out.println(LOG_OUTPUT + "Wrote file: " + fileName);
 		} catch (IOException e) {
-			System.err.println("[  ERROR ] Error writing file " + fileName + ": " + e.getMessage());
+			System.err.println(LOG_ERROR + "Error writing file " + fileName + ": " + e.getMessage());
 		}
 	}
 }

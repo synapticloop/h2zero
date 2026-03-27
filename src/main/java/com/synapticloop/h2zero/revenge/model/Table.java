@@ -27,11 +27,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * <p>Represents a database table and its associated metadata extracted from a
+ * database schema.</p>
+ *
+ * <p>This class handles the discovery of primary keys, indices, columns, and
+ * foreign keys for a specific table using JDBC DatabaseMetaData.</p>
+ */
 public class Table {
 	public static final String COLUMN_NAME = "COLUMN_NAME";
 	public static final String FKCOLUMN_NAME = "FKCOLUMN_NAME";
 	public static final String PKTABLE_NAME = "PKTABLE_NAME";
 	public static final String PKCOLUMN_NAME = "PKCOLUMN_NAME";
+
 	private String name = null;
 	private final List<Column> columns = new ArrayList<>();
 
@@ -43,7 +51,6 @@ public class Table {
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.UPDATERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIELD_UPDATERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.INSERTERS);
-		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.INSERTERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.DELETERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.FIELD_DELETERS);
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.COUNTERS);
@@ -51,6 +58,16 @@ public class Table {
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.QUESTIONS);
 	}
 
+	/**
+	 * <p>Constructs a new Table object by extracting metadata from the database.</p>
+	 *
+	 * @param metaData the database metadata provider
+	 * @param tableSchema the schema containing the table
+	 * @param tableName the name of the table to process
+	 *
+	 * @throws SQLException if a database access error occurs or if no primary key
+	 *     is found
+	 */
 	public Table(DatabaseMetaData metaData, String tableSchema, String tableName) throws SQLException {
 		this.name = tableName;
 
@@ -112,6 +129,12 @@ public class Table {
 		}
 	}
 
+	/**
+	 * <p>Converts the table and its columns into a JSON formatted string
+	 * representation for h2zero.</p>
+	 *
+	 * @return a JSON string representation of the table
+	 */
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("      {\n")
@@ -143,14 +166,32 @@ public class Table {
 		return (stringBuilder.toString());
 	}
 
+	/**
+	 * <p>Gets the name of the table.</p>
+	 *
+	 * @return the table name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * <p>Gets the list of columns for this table.</p>
+	 *
+	 * @return the list of columns
+	 */
 	public List<Column> getColumns() {
 		return columns;
 	}
 
+	/**
+	 * <p>Retrieves a set of table names that this table references via foreign
+	 * keys.</p>
+	 *
+	 * <p>Self-references are excluded from this set.</p>
+	 *
+	 * @return a set of referenced table names
+	 */
 	public Set<String> getReferencedTableNames() {
 		Set<String> referencedTables = new HashSet<>();
 		for (Column column : columns) {
