@@ -1,0 +1,111 @@
+                        _______
+                  __   |       |
+                 |  |--|___|   .-----.-----.----.-----.
+                 |     |/  ___/|-- __|  -__|   _|  _  |
+                 |__|__|   |  \|_____|_____|__| |_____|
+                       |       |      ... .-..
+                       `-------'
+
+                                 ~ ~ ~ * ~ ~ ~
+
+# NOTE: h2zero may be invoked wither through the command line, or through the
+# gradle build tool.
+
+Usage:
+  java -jar h2zero-all.jar \
+     [command] \
+     [-in file/path/h2zero.json] \
+     [-out file/path] \
+     [-verbose true|false]
+
+Allowable command line options:
+
+  +----------+------------+------------+----------------+--------------------+
+  |          |      h2zero command     | Argument       |                    |
+  | Option   |   h2zero   |  generate  | Format         | Default            |
+  +----------+------------+------------+----------------+--------------------+
+  | -in      | MANDATORY  | N/A        | File Path      |                    |
+  | -out     | (optional) |            | Directory Path | src/main/java      |
+  |          |            | (optional) | Directory Path | src/main/resources |
+  | -verbose | (optional) | (optional) | boolean        | false              |
+  +----------+------------+------------+----------------+--------------------+
+
+Where:
+  [command] is one of:
+    generate - this will generate the source code from the provided h2zero
+               file
+     revenge - this will reverse engineer a database to an h2zero file
+
+Each of the commands have different arguments depending on the command
+invoked.
+
+                                 ~ ~ ~ * ~ ~ ~
+
+  [GENERATE] Generate the ORM code from the existing h2zero configuration
+             file.
+
+    java -jar h2zero-all.jar \
+       generate \
+       -in path_to_h2zero_file \
+       [-out directory_path ] \
+       [-verbose true_or_false]
+
+    -in path_to_h2zero_file (mandatory) the input file to parse
+    [-out directory_path] (optional) the directory to output the generated files, this
+        will default to src/main/java
+    [-verbose true_or_false] (optional) turn on verbose output, the default is 'false'
+
+                                 ~ ~ ~ * ~ ~ ~
+
+  [REVENGE] Reverse engineer a database JDBC connection to an h2zero file.
+
+    java -jar h2zero-all.jar \
+       revenge \
+       [-out directory_path] \
+       [-verbose true_or_false]
+
+    [-out directory_path] (optional) the directory to output the generated
+        h2zero files, this will default to the directory 'src/main/resources'
+    [-verbose true_or_false] (optional) turn on verbose output, the default
+        is 'false'
+
+  IMPORTANT NOTE:
+    You __MUST__  have the specific JDBC driver __AND__ the connection pooling
+    jars on the library path for the database that you are attempting to
+    reverse engineer from.
+
+    The command line option will prompt you for the JDBC connection string,
+    the username and a password (which will be masked)
+
+                                 ~ ~ ~ * ~ ~ ~
+
+
+Gradle build.gradle usage:
+==========================+
+
+If you are using gradle, you can add this to your build.gradle file
+
+  h2zero {
+    inFile = 'src/main/resources/your_file_name_here.h2zero'
+    outDir = '.'
+    verbose = 'false'
+  }
+
+
+Ant build.xml usage:
+====================
+
+If you are using ant, you can add this to your build.xml file
+
+  <path id="classpath-h2zero">
+    <fileset dir="lib/runtime">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="h2zero-generate" description="h2zero generate">
+    <taskdef resource="h2zero.properties" classpathref="classpath-h2zero" />
+    <h2zero inFile="src/main/java/your_file_name_here.h2zero" outDir="." verbose="false" />
+  </target>
+
+Exiting...

@@ -17,19 +17,15 @@ package com.synapticloop.h2zero.revenge.model;
  * under the Licence.
  */
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
+
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.synapticloop.h2zero.generator.model.util.JSONKeyConstants;
-
 public class Table {
-	private static final String SQL_SELECT_COLUMNS = "select * from COLUMNS where TABLE_SCHEMA = ? and TABLE_NAME = ? order by ORDINAL_POSITION asc";
-	private static final String SQL_FIND_FOREIGN_KEYS = "select * from KEY_COLUMN_USAGE where TABLE_SCHEMA = ? and TABLE_NAME = ? and COLUMN_NAME = ? order by ORDINAL_POSITION asc";
-	private static final String SQL_FIND_INDEXES = "select * from STATISTICS where TABLE_SCHEMA = ? and TABLE_NAME = ? and COLUMN_NAME = ? and INDEX_NAME != 'PRIMARY'";
 	private String name = null;
 	private List<Column> columns = new ArrayList<Column>();
 
@@ -44,56 +40,21 @@ public class Table {
 		SQL_INTERACTION_OBJECTS.add(JSONKeyConstants.QUESTIONS);
 	}
 
-	public Table(Connection connection, String database, String name) throws SQLException {
+	public Table(DatabaseMetaData metaData, String tableSchema, String tableName) throws SQLException {
 		this.name = name;
+		try (ResultSet columns = metaData.getColumns(null, tableSchema, tableName, "%")) {
 
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_COLUMNS);
-		preparedStatement.setString(1, database);
-		preparedStatement.setString(2, name);
-		ResultSet resultSet = preparedStatement.executeQuery();
+			System.out.printf("%-20s | %-15s | %-10s | %-10s%n", "COLUMN NAME", "DATA TYPE", "SIZE", "NULLABLE");
+			System.out.println("-------------------------------------------------------------------------");
 
-		while(resultSet.next()) {
-			columns.add(new Column(resultSet));
-		}
+			while (columns.next()) {
+				String columnName = columns.getString("COLUMN_NAME");
+				String typeName = columns.getString("TYPE_NAME");
+				int columnSize = columns.getInt("COLUMN_SIZE");
+				String isNullable = columns.getString("IS_NULLABLE");
 
-		resultSet.close();
-		preparedStatement.close();
-
-		for (Column column : columns) {
-			preparedStatement = connection.prepareStatement(SQL_FIND_FOREIGN_KEYS);
-			preparedStatement.setString(1, database);
-			preparedStatement.setString(2, name);
-			preparedStatement.setString(3, column.getName());
-
-			resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-
-				String referencedTableName = resultSet.getString("REFERENCED_TABLE_NAME");
-				String referenceColumnName = resultSet.getString("REFERENCED_COLUMN_NAME");
-
-				if(null != referencedTableName && null != referenceColumnName) {
-					column.setForeignKeyColumn(referenceColumnName);
-					column.setForeignKeyTable(referencedTableName);
-				}
-			}
-
-			resultSet.close();
-			preparedStatement.close();
-			
-			preparedStatement = connection.prepareStatement(SQL_FIND_INDEXES);
-			preparedStatement.setString(1, database);
-			preparedStatement.setString(2, name);
-			preparedStatement.setString(3, column.getName());
-
-			resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
-
-				boolean nonUnique = resultSet.getBoolean("NON_UNIQUE");
-				if(!nonUnique) {
-					column.setIsUnique(true);
-				} else {
-					column.setIsIndexed(false);
-				}
+				System.out.printf("%-20s | %-15s | %-10d | %-10s%n",
+						columnName, typeName, columnSize, isNullable);
 			}
 		}
 	}

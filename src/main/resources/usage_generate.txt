@@ -1,0 +1,34 @@
+Usage of the h2zero 'generate'
+==============================
+
+At the prompt, enter the following information:
+
+   jdbcConnection - The jdbc format for connection to the database
+         username - the username credentials for the database
+         password - the password for the database (this is masked on the console)
+
+jdbcConnection
+  Please enter the jdbc connection string including all options, for example:
+
+    jdbc:<subprotocol>:<subname>
+
+      - jdbc: The protocol (always constant)
+      - <subprotocol>: The name of the driver or database engine (e.g., mysql,
+                        postgresql, mariadb, sqlite, etc)
+      - <subname>: The specific connectivity details, usually including the host,
+                   port, and database name.
+
+Some connection string formats for common database types:
+
++==============+===========================================================+
+|   Database   |                 Connection String Format                  |
++==============+===========================================================+
+| MySQL        | jdbc:mysql://[host][:port]/[database][?properties]        |
+| PostgreSQL   | ┐                                                         |
+| ~ and ~      | ├ jdbc:postgresql://[host][:port]/[database][?properties] |
+| CockroachDB  | ┘                                                         |
+| SQL Server   | jdbc:sqlserver://[host][:port];databaseName=[database]    |
+| SQLite       | jdbc:sqlite:[path_to_db_file]                             |
++--------------+-----------------------------------------------------------+
+
+

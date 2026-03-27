@@ -17,18 +17,11 @@ package com.synapticloop.h2zero.plugin.ant;
  * under the Licence.
  */
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
-import com.synapticloop.h2zero.revenge.ModelBuilder;
-import com.synapticloop.h2zero.generator.util.SimpleLogger;
-import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
+import java.io.File;
 
 public class H2ZeroRevengeTask extends Task {
 	private String outFile = null;
@@ -50,25 +43,25 @@ public class H2ZeroRevengeTask extends Task {
 			return;
 		}
 
-		// else we are good to go
-		PrintWriter printWriter = null;
-		try {
-			ModelBuilder modelBuilder = new ModelBuilder(host, database, user, password);
-			printWriter = new PrintWriter(outFileWrite);
-			String generated = modelBuilder.generate();
-
-			printWriter.write(generated);
-		} catch (ClassNotFoundException cnfex) {
-			SimpleLogger.logFatal(LoggerType.REVENGE, cnfex.getMessage());
-		} catch (SQLException sqlex) {
-			SimpleLogger.logFatal(LoggerType.REVENGE, sqlex.getMessage());
-		} catch (FileNotFoundException fnfex) {
-			SimpleLogger.logFatal(LoggerType.REVENGE, fnfex.getMessage());
-		} finally {
-			if(null != printWriter) {
-				printWriter.close();
-			}
-		}
+//		// else we are good to go
+//		PrintWriter printWriter = null;
+//		try {
+//			ModelBuilder modelBuilder = new ModelBuilder(host, database, user, password);
+//			printWriter = new PrintWriter(outFileWrite);
+//			String generated = modelBuilder.generate();
+//
+//			printWriter.write(generated);
+//		} catch (ClassNotFoundException cnfex) {
+//			SimpleLogger.logFatal(LoggerType.REVENGE, cnfex.getMessage());
+//		} catch (SQLException sqlex) {
+//			SimpleLogger.logFatal(LoggerType.REVENGE, sqlex.getMessage());
+//		} catch (FileNotFoundException fnfex) {
+//			SimpleLogger.logFatal(LoggerType.REVENGE, fnfex.getMessage());
+//		} finally {
+//			if(null != printWriter) {
+//				printWriter.close();
+//			}
+//		}
 	}
 
 	public void setOutFile(String outFile) { this.outFile = outFile; }

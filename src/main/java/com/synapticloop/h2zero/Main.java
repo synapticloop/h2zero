@@ -18,34 +18,27 @@
  * under the Licence.
  */
 
-	import com.synapticloop.h2zero.plugin.ant.H2ZeroTask;
 	import com.synapticloop.h2zero.generator.util.SimpleLogger;
 	import com.synapticloop.h2zero.generator.util.SimpleLogger.LoggerType;
+	import com.synapticloop.h2zero.plugin.ant.H2ZeroTask;
+	import com.synapticloop.h2zero.util.SimpleUsage;
 
-	import java.io.BufferedReader;
 	import java.io.IOException;
-	import java.io.InputStream;
-	import java.io.InputStreamReader;
 	import java.util.HashMap;
 	import java.util.Map;
 
 public class Main {
-	private static final String USAGE_TXT = "/usage.txt";
-
 	private static final String CLI_OPTION_GENERATE = "generate";
 	private static final String CLI_OPTION_REVENGE = "revenge";
-	private static final String CLI_OPTION_QUICK = "quick";
 
 	private static final int CLI_GENERATE = 0;
 	private static final int CLI_REVENGE = 1;
-	private static final int CLI_QUICK = 2;
 
 	private static final Map<String, Integer> COMMAND_LINE_OPTIONS = new HashMap<>();
 
 	static {
 		COMMAND_LINE_OPTIONS.put(CLI_OPTION_GENERATE, CLI_GENERATE);
 		COMMAND_LINE_OPTIONS.put(CLI_OPTION_REVENGE, CLI_REVENGE);
-		COMMAND_LINE_OPTIONS.put(CLI_OPTION_QUICK, CLI_QUICK);
 	}
 
 	private static final int GENERATE_VERBOSE = 0;
@@ -70,19 +63,6 @@ public class Main {
 
 	private Main() {}
 
-	private static void usageAndExit(String message) throws IOException {
-		if(null != message) {
-			System.out.println(message);
-		}
-
-		InputStream inputStream = Main.class.getResourceAsStream(USAGE_TXT);
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-		String line = null;
-		while((line = bufferedReader.readLine()) != null) {
-			System.out.println(line);
-		}
-		System.exit(0);
-	}
 
 	private static void parseAndExecute(String[] args) throws IOException {
 		SimpleLogger.logInfo(LoggerType.BOOT, "             _______");
@@ -94,13 +74,13 @@ public class Main {
 		SimpleLogger.logInfo(LoggerType.BOOT, "            `-------'");
 
 		if(args.length == 0) {
-			usageAndExit(null);
+			SimpleUsage.h2zeroUsageAndExit(null);
 		}
 
 		// the first argument
 		String mode = args[0];
 		if(!COMMAND_LINE_OPTIONS.containsKey(mode)) {
-			usageAndExit("Unknown mode of '" + mode + "'.");
+			SimpleUsage.h2zeroUsageAndExit("Unknown mode of '" + mode + "'.");
 		}
 
 		// at this point - we know the mode and now we need to parse the options
@@ -110,12 +90,9 @@ public class Main {
 			parseAndExecuteGenerate(args);
 			break;
 		case CLI_REVENGE:
-		case CLI_QUICK:
-			usageAndExit("Mode '" + mode + "' not fully implemented through the command line");
-			break;
 		default:
 			// admittedly this should not happen as we have already done a lookup
-			usageAndExit("Unknown mode of '" + mode + "'.");
+			SimpleUsage.h2zeroUsageAndExit("Unknown mode of '" + mode + "'.");
 			break;
 		}
 	}
@@ -132,7 +109,7 @@ public class Main {
 
 			// the first option __MUST__ always start with a '-' (hyphen) character
 			if(!arg.startsWith("-") || !GENERATE_COMMAND_LINE_OPTIONS.containsKey(arg)) {
-				usageAndExit("Unknown argument '" + arg + "' for mode '" + mode + "'");
+				SimpleUsage.h2zeroUsageAndExit("Unknown argument '" + arg + "' for mode '" + mode + "'");
 			}
 
 			// all good to go 
@@ -145,7 +122,7 @@ public class Main {
 				try {
 					inFile = args[i];
 				} catch(ArrayIndexOutOfBoundsException aioobex) {
-					usageAndExit("Found an argument of '" + arg + "', but no value for the option");
+					SimpleUsage.h2zeroUsageAndExit("Found an argument of '" + arg + "', but no value for the option");
 				}
 				break;
 			case GENERATE_OUT:
@@ -153,7 +130,7 @@ public class Main {
 				try {
 					outDir = args[i];
 				} catch(ArrayIndexOutOfBoundsException aioobex) {
-					usageAndExit("Found an argument of '" + arg + "', but no value for the option");
+					SimpleUsage.h2zeroUsageAndExit("Found an argument of '" + arg + "', but no value for the option");
 				}
 				break;
 			default:
@@ -162,8 +139,8 @@ public class Main {
 		}
 
 		// check all of the parameters
-		if(null == inFile) { usageAndExit("Parameter '" + PARAMETER_IN + "' cannot be null"); }
-		if(null == outDir) { usageAndExit("Parameter '" + PARAMETER_OUT + "' cannot be null"); }
+		if(null == inFile) { SimpleUsage.h2zeroUsageAndExit("Parameter '" + PARAMETER_IN + "' cannot be null"); }
+		if(null == outDir) { SimpleUsage.h2zeroUsageAndExit("Parameter '" + PARAMETER_OUT + "' cannot be null"); }
 
 		// now it is time to kick things off 
 		H2ZeroTask h2ZeroTask = new H2ZeroTask();
@@ -177,11 +154,14 @@ public class Main {
 		try {
 			if(null == args) {
 				// unlikely but tested
-				usageAndExit(null);
+				SimpleUsage.h2zeroUsageAndExit(null);
+			} else {
+				parseAndExecute(args);
 			}
-			parseAndExecute(args);
 		} catch (IOException ex) {
-			SimpleLogger.logFatal(LoggerType.MAIN, "Could neither find, nor read the file '" + USAGE_TXT + "' within the jar.");
+			SimpleLogger.logFatal(LoggerType.MAIN, "Could neither find, nor read the file '" +
+					SimpleUsage.USAGE_H2ZERO_TXT +
+					"' within the jar.");
 		}
 	}
 }

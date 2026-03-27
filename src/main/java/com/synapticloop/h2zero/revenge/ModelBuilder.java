@@ -1,68 +1,81 @@
 package com.synapticloop.h2zero.revenge;
 
-/*
- * Copyright (c) 2013-2026 synapticloop.
- * All rights reserved.
- *
- * This source code and any derived binaries are covered by the terms and
- * conditions of the Licence agreement ("the Licence").  You may not use this
- * source code or any derived binaries except in compliance with the Licence.
- * A copy of the Licence is available in the file named LICENCE shipped with
- * this source code or binaries.
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the Licence is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * Licence for the specific language governing permissions and limitations
- * under the Licence.
- */
+import com.synapticloop.h2zero.revenge.model.Table;
+import com.synapticloop.h2zero.revenge.model.View;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.synapticloop.h2zero.revenge.model.Options;
-import com.synapticloop.h2zero.revenge.model.View;
-import com.synapticloop.h2zero.revenge.model.Table;
-
 public class ModelBuilder {
 	private static final String SQL_SELECT_TABLES = "select * from TABLES where TABLE_SCHEMA = ?";
+
 	private List<Table> tables = new ArrayList<Table>();
 	private List<View> views = new ArrayList<View>();
 
-	private String host;
-	private String database;
-	private String user;
-	private String password;
+	private final String jdbcString;
+	private final String username;
+	private final String password;
 
-	private Options options = new Options();
+	private String databaseType = "unknown";
+	private String databaseName = "unknown";
 
-	public ModelBuilder(String host, String database, String user, String password) throws ClassNotFoundException, SQLException {
-		this.host = host;
-		this.database = database;
-		this.user = user;
+	private JSONObject optionsObject = new JSONObject();
+	private JSONObject databaseObject = new JSONObject();
+
+	public ModelBuilder(
+			String jdbcString,
+			String databaseType,
+			String databaseName,
+			String username,
+			String password) throws ClassNotFoundException,	SQLException {
+
+		this.jdbcString = jdbcString;
+		this.username = username;
 		this.password = password;
+		this.databaseType = databaseType;
+		this.databaseName = databaseName;
 
+		optionsObject.put("database", databaseType);
+		JSONArray generatorsArray = new JSONArray();
+		generatorsArray.put("java");
+		generatorsArray.put("sql");
+		optionsObject.put("generators", generatorsArray);
 
-		Class.forName("com.mysql.jdbc.Driver");
+		databaseObject = new JSONObject();
+		databaseObject.put("schema", databaseType);
+		databaseObject.put("package", "example.package.name.h2zero." + databaseType + "." + databaseName.toLowerCase());
+
 		populateTables();
 	}
 
 	private void populateTables() throws SQLException {
-		Connection connection = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/information_schema", user, password);
-		PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_TABLES);
-		preparedStatement.setString(1, database);
-		ResultSet resultSet = preparedStatement.executeQuery();
 
-		while(resultSet.next()) {
-			if("VIEW".equals(resultSet.getString("TABLE_TYPE"))) {
-				views.add(new View(connection, database, resultSet.getString("TABLE_NAME")));
-			} else {
-				tables.add(new Table(connection, database, resultSet.getString("TABLE_NAME")));
+		Connection connection = DriverManager.getConnection(jdbcString, username, password);
+		DatabaseMetaData metaData = connection.getMetaData();
+
+		String[] types = {"TABLE"};
+
+		try (ResultSet resultSet = metaData.getTables(null, null, "%", types)) {
+			System.out.println("List of Tables:");
+			while (resultSet.next()) {
+				// Common metadata columns:
+				// 1. TABLE_CAT (String) => table catalog
+				// 2. TABLE_SCHEM (String) => table schema
+				// 3. TABLE_NAME (String) => table name
+				// 4. TABLE_TYPE (String) => table type
+
+				String tableName = resultSet.getString("TABLE_NAME");
+				String tableSchema = resultSet.getString("TABLE_SCHEM");
+				String tableType = resultSet.getString("TABLE_TYPE");
+
+				System.out.println(String.format("Schema: %s | Name: %s | Type: %s",
+						tableSchema, tableName, tableType));
+
+				tables.add(new Table(metaData, tableSchema, tableName));
+
 			}
 		}
 	}
@@ -71,10 +84,10 @@ public class ModelBuilder {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("{\n");
 
-		stringBuilder.append("  \"database\": \"" + database + "\",\n");
+		stringBuilder.append(String.format("  \"database\": \"%s\",\n", databaseType));
 		stringBuilder.append("  \"package\": \"please.complete.me.h2zero\",\n");
 
-		stringBuilder.append(options.toJsonString());
+//		stringBuilder.append(options.toJsonString());
 
 		stringBuilder.append("  \"tables\": [\n");
 

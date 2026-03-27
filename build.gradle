@@ -41,6 +41,12 @@ dependencies {
 	implementation "org.apache.ant:ant:1.10.14"
 	implementation 'org.reflections:reflections:0.10.2'
 
+
+	implementation 'com.microsoft.sqlserver:mssql-jdbc:12.6.0.jre11'
+
+	// need this for revenge generation
+	implementation("org.jline:jline:3.25.1")
+
 	compileOnly gradleApi()
 
 	// this is for the tests
