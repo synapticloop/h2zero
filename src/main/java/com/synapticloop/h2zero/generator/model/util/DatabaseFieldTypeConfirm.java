@@ -79,10 +79,6 @@ public class DatabaseFieldTypeConfirm {
 		mysqlSet.add("varchar");
 		mysqlSet.add("year");
 
-		// mysqlSet.add("bit");
-		// mysqlSet.add("enum");
-		// mysqlSet.add("set");
-		// add in spatial sets
 		FIELD_VALIDATION_LOOKUP.put("mysql", mysqlSet);
 		FIELD_VALIDATION_LOOKUP.put("mariadb", mysqlSet);
 
@@ -113,10 +109,42 @@ public class DatabaseFieldTypeConfirm {
 
 		FIELD_VALIDATION_LOOKUP.put("cockroach", cockroachSet);
 
-    Set<String> postgresqlSet = new HashSet<>(cockroachSet);
+		Set<String> postgresqlSet = new HashSet<>(cockroachSet);
 		postgresqlSet.add("money");
 
 		FIELD_VALIDATION_LOOKUP.put("postgresql", postgresqlSet);
+
+		Set<String> sqlserverSet = new HashSet<>();
+		sqlserverSet.add("bigint");
+		sqlserverSet.add("binary");
+		sqlserverSet.add("bit");
+		sqlserverSet.add("char");
+		sqlserverSet.add("date");
+		sqlserverSet.add("datetime");
+		sqlserverSet.add("datetime2");
+		sqlserverSet.add("datetimeoffset");
+		sqlserverSet.add("decimal");
+		sqlserverSet.add("float");
+		sqlserverSet.add("image");
+		sqlserverSet.add("int");
+		sqlserverSet.add("money");
+		sqlserverSet.add("nchar");
+		sqlserverSet.add("ntext");
+		sqlserverSet.add("numeric");
+		sqlserverSet.add("nvarchar");
+		sqlserverSet.add("real");
+		sqlserverSet.add("smalldatetime");
+		sqlserverSet.add("smallint");
+		sqlserverSet.add("smallmoney");
+		sqlserverSet.add("text");
+		sqlserverSet.add("time");
+		sqlserverSet.add("tinyint");
+		sqlserverSet.add("uniqueidentifier");
+		sqlserverSet.add("varbinary");
+		sqlserverSet.add("varchar");
+		sqlserverSet.add("xml");
+
+		FIELD_VALIDATION_LOOKUP.put("sqlserver", sqlserverSet);
 	}
 
 	public static boolean getIsValidFieldTypeForDatabase(String database, String fieldType) {
