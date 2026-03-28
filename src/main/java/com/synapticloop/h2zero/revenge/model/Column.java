@@ -117,7 +117,7 @@ public class Column {
 	 */
 	public Column(ResultSet resultSet) throws SQLException {
 		this.name = resultSet.getString(RS_COLUMN_NAME);
-		this.dataType = resultSet.getString(RS_TYPE_NAME);
+		this.dataType = cleanType(resultSet.getString(RS_TYPE_NAME));
 		String upperDataType = dataType.toUpperCase();
 		this.hasLength = LENGTH_DATA_TYPES.contains(upperDataType);
 		this.isFloatingPoint = FLOATING_POINT_DATA_TYPES.contains(upperDataType);
@@ -136,6 +136,33 @@ public class Column {
 		}
 
 		this.isNullable = "YES".equals(resultSet.getString(RS_IS_NULLABLE));
+	}
+
+	/**
+	 * <p>Removes the 'identity' keyword and all non-alphanumeric characters from a field type string.</p>
+	 *
+	 * <p>For example, an input of "int identity" will return "int", and "varchar(255)"
+	 * will return "varchar". This ensures that the resulting string is a
+	 * flattened alpha representation.</p>
+	 *
+	 * @param fieldType the raw string containing the database field type and properties
+	 *
+	 * @return a sanitised string with 'identity' removed and non-alphanumeric characters stripped
+	 */
+	private static String cleanType(String fieldType) {
+		if (fieldType == null) {
+			return null;
+		}
+
+		// Step 1: Remove the word 'identity' using a case-insensitive regex
+		// The (?i) flag makes the match case-insensitive
+		String result = fieldType.replaceAll("(?i)identity", "");
+
+		// Step 2: Remove any character that is not a letter or a digit
+		// [^a-zA-Z0-9] matches any character NOT in the alphanumeric range
+		result = result.replaceAll("[^a-zA-Z]", "");
+
+		return result;
 	}
 
 	/**

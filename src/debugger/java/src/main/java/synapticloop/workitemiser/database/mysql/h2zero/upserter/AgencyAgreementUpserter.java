@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.mysql.ager;
+import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import com.synapticloop.h2zero.base.util.LruCache;
 
 

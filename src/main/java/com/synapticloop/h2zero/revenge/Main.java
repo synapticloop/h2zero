@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 public class Main {
 	private static final Pattern PATTERN_JDBC_CONNECTION = Pattern.compile("jdbc:(postgresql|mysql|mariadb|sqlite|sqlserver):(?:(?://[^/;/]+(?:[:/])?)|(?:))(.*)");
 	private static final Pattern PATTERN_DB_NAME = Pattern.compile("databaseName=([^;]+)");
+
 	private static final String DB_SQLITE = "sqlite";
 	private static final String DB_SQLITE_3 = "sqlite3";
 	private static final String DB_SQLSERVER = "sqlserver";
@@ -287,8 +288,7 @@ public class Main {
 		String enteredDatabaseName = askForInput("Database name", false, databaseName);
 
 		// Now for the database type selection
-		List<String> allowableDatabases = new ArrayList<>();
-		allowableDatabases.addAll(Options.ALLOWABLE_DATABASES);
+		List<String> allowableDatabases = new ArrayList<>(Options.ALLOWABLE_DATABASES);
 		Collections.sort(allowableDatabases);
 
 		String enteredDatabaseType = null;
@@ -305,7 +305,7 @@ public class Main {
 						suffix = " (default)";
 						defaultIndex = i;
 					}
-					System.out.println(String.format("    [%s%2d ] %s%s", prefix, i, dbType, suffix));
+					System.out.printf("    [%s%2d ] %s%s%n", prefix, i, dbType, suffix);
 				}
 
 				String choiceStr = askForInput("Select database type index", false, defaultIndex != -1 ? String.valueOf(defaultIndex) : null);
@@ -363,7 +363,7 @@ public class Main {
 					if (isSystemSchema(databaseProductName, schemaName)) {
 						suffix.append(" (system ??)");
 					}
-					System.out.println(String.format("    [%s%2d ] %s%s", prefix, i, schemaName, suffix.toString()));
+					System.out.printf("    [%s%2d ] %s%s%n", prefix, i, schemaName, suffix.toString());
 				}
 				String choiceStr = askForInput("Select schema index\n", false, defaultSchemaIndex != -1 ?
 								String.valueOf(defaultSchemaIndex) : null);
