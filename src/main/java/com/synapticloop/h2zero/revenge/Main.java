@@ -326,8 +326,33 @@ public class Main {
 			enteredDatabaseType = askForInput("Database type", false, databaseType);
 		}
 
-		String username = askForInput("Username\n", false, null);
-		String password = askForInput("Password\n", true, null);
+		String username = null;
+		boolean confirmUsername = false;
+		while(!confirmUsername) {
+			username = askForInput("Username\n", false, null);
+			if (null == username || username.trim().isEmpty()) {
+				String confirm = askForInput("Username is empty, are you sure? (y/N)", false, "N");
+				if ("y".equalsIgnoreCase(confirm)) {
+					confirmUsername = true;
+				}
+			} else {
+				confirmUsername = true;
+			}
+		}
+
+		String password = null;
+		boolean confirmPassword = false;
+		while(!confirmPassword) {
+			password = askForInput("Password\n", true, null);
+			if (null == password || password.trim().isEmpty()) {
+				String confirm = askForInput("Password is empty, are you sure? (y/N)", false, "N");
+				if ("y".equalsIgnoreCase(confirm)) {
+					confirmPassword = true;
+				}
+			} else {
+				confirmPassword = true;
+			}
+		}
 
 		List<String> schemas = new ArrayList<>();
 		String databaseProductName = "unknown";

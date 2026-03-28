@@ -24,10 +24,20 @@ import com.synapticloop.h2zero.generator.model.Table;
 import com.synapticloop.h2zero.generator.model.field.BaseField;
 import com.synapticloop.h2zero.generator.validator.BaseValidator;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @H2ZeroValidator
 public class TablePrimaryKeyTypeValidator extends BaseValidator {
+	private static final Set<String> PRIMARY_KEY_TYPES = new HashSet<>();
+
+	static {
+		PRIMARY_KEY_TYPES.add("bigint");
+		PRIMARY_KEY_TYPES.add("bigserial");
+		PRIMARY_KEY_TYPES.add("int");
+		PRIMARY_KEY_TYPES.add("serial");
+	}
 
 	@Override
 	public void validate(Database database, Options options) {
@@ -35,10 +45,16 @@ public class TablePrimaryKeyTypeValidator extends BaseValidator {
 		for (Table table : tables) {
 			List<BaseField> fields = table.getFields();
 			for (BaseField baseField : fields) {
-				if(baseField.getPrimary() && 
-						baseField.getType().compareToIgnoreCase("bigint") != 0 &&
-						baseField.getType().compareToIgnoreCase("bigserial") != 0) {
-					addFatalMessage("Primary key '" + table.getName() + "." + baseField.getName() + "' __MUST__ be of SQL type 'bigint'.");
+				if (baseField.getPrimary() &&
+						!PRIMARY_KEY_TYPES.contains(baseField.getType().toLowerCase())) {
+					addFatalMessage(
+							"Primary key '" +
+									table.getName() +
+									"." +
+									baseField.getName() +
+									"' __MUST__ be of SQL type 'bigint'/'int', it is of type '" +
+									baseField.getType() +
+									"'.");
 				}
 			}
 		}

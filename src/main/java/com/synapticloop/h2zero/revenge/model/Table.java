@@ -153,12 +153,12 @@ public class Table {
 					.append("\n")
 					.append(column.toJsonString());
 		}
-		stringBuilder.append("\n      ]");
+		stringBuilder.append("\n        ]");
 		for (String sqlInteractionObject : SQL_INTERACTION_OBJECTS) {
 			stringBuilder
-					.append(",\n      \"")
+					.append(",\n        \"")
 					.append(sqlInteractionObject)
-					.append("\": [\n      ]");
+					.append("\": [\n        ]");
 		}
 		stringBuilder
 				.append("\n")

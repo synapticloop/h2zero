@@ -124,11 +124,19 @@ public class Column {
 
 		if(this.hasLength || this.isFloatingPoint) {
 			this.length = resultSet.getInt(RS_COLUMN_SIZE);
-			if ("NVARCHAR".equalsIgnoreCase(this.dataType) && (this.length == null || this.length == -1)) {
-				System.err.println("[WARNING] Found nvarchar column '" + name + "' with length -1, setting to 4000.");
-				System.err.println("[WARNING]     You may want to change this to a CLOB datatype");
+			if (("NVARCHAR".equalsIgnoreCase(this.dataType) ||
+							"NTEXT".equalsIgnoreCase(this.dataType))
+							&& (this.length == null || this.length == -1)) {
+				System.err.println("[   WARN ] Found nvarchar/ntext column '" + name + "' with length -1, setting to 4000.");
+				System.err.println("[   WARN ]     You may want to change this to a CLOB datatype");
 				this.length = 4000;
 			}
+		} else {
+			if(this.dataType.equalsIgnoreCase("ntext")) {
+					System.err.println("[   WARN ] Found ntext column '" + name + "' with length -1, setting to 4000.");
+					System.err.println("[   WARN ]     You may want to change this to a CLOB datatype");
+					this.length = 4000;
+				}
 		}
 
 		if (this.isFloatingPoint) {
