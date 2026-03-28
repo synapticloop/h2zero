@@ -174,7 +174,7 @@ public class Column {
 	public String toJsonString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder
-				.append("        { ")
+				.append("          { ")
 				.append(JSON_NAME)
 				.append(name)
 				.append(JSON_TYPE)

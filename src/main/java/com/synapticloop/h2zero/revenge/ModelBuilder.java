@@ -17,6 +17,7 @@ package com.synapticloop.h2zero.revenge;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.revenge.datastructure.TableGraph;
 import com.synapticloop.h2zero.revenge.model.Options;
 import com.synapticloop.h2zero.revenge.model.Table;
 
@@ -132,61 +133,19 @@ public class ModelBuilder {
 	}
 
 	/**
-	 * <p>Orders the discovered tables based on their foreign key dependencies.</p>
+	 * <p>Orders the discovered tables based on their foreign key dependencies using a TableGraph.</p>
 	 *
-	 * <p>This ensures that tables referenced by others are defined first in the
-	 * generated output, which is often required for SQL script execution order.</p>
+	 * <p>This implementation handles recursive traversal from parent to child.</p>
 	 */
 	private void orderTables() {
-		List<Table> orderedTables = new ArrayList<>();
-		Set<String> addedTableNames = new HashSet<>();
-		List<Table> remainingTables = new ArrayList<>(tables);
+		System.out.println("[   INFO ] Determining table generation order...");
+		TableGraph graph = new TableGraph();
+		graph.addTables(this.tables);
+		this.tables = graph.generateOrder();
 
-		boolean added;
-		do {
-			added = false;
-			Iterator<Table> iterator = remainingTables.iterator();
-			while (iterator.hasNext()) {
-				Table table = iterator.next();
-				Set<String> referencedTables = table.getReferencedTableNames();
-				
-				// A table can be added if all its referenced tables have already been added
-				boolean canAdd = true;
-				for (String referencedTable : referencedTables) {
-					// We only care if the referenced table exists in our list of tables to be processed
-					boolean existsInOriginalList = false;
-					for (Table t : tables) {
-						if (t.getName().equalsIgnoreCase(referencedTable)) {
-							existsInOriginalList = true;
-							break;
-						}
-					}
-
-					if (existsInOriginalList && !addedTableNames.contains(referencedTable.toLowerCase())) {
-						canAdd = false;
-						break;
-					}
-				}
-
-				if (canAdd) {
-					orderedTables.add(table);
-					addedTableNames.add(table.getName().toLowerCase());
-					iterator.remove();
-					added = true;
-				}
-			}
-		} while (added && !remainingTables.isEmpty());
-
-		if (!remainingTables.isEmpty()) {
-			System.err.println("[   WARN ] Circular dependency or missing tables detected. Adding remaining tables in original order.");
-			orderedTables.addAll(remainingTables);
-		}
-
-		this.tables = orderedTables;
-
-		System.out.println("[   INFO ] Ordered tables for generation:");
+		System.out.println("[   INFO ] Final table generation order:");
 		for (int i = 0; i < tables.size(); i++) {
-			System.out.printf("[   INFO ] %4d. %s%n", i + 1, tables.get(i).getName());
+			System.out.printf("[   INFO ]   %d. %s%n", i + 1, tables.get(i).getName());
 		}
 	}
 
