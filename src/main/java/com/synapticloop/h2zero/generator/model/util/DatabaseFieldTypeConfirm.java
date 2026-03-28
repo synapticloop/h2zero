@@ -139,6 +139,7 @@ public class DatabaseFieldTypeConfirm {
 		sqlserverSet.add("text");
 		sqlserverSet.add("time");
 		sqlserverSet.add("tinyint");
+		sqlserverSet.add("timestamp");
 		sqlserverSet.add("uniqueidentifier");
 		sqlserverSet.add("varbinary");
 		sqlserverSet.add("varchar");

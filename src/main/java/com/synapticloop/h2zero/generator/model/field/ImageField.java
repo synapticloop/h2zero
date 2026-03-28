@@ -18,17 +18,16 @@ package com.synapticloop.h2zero.generator.model.field;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
 import org.json.JSONObject;
 
-import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+public class ImageField extends BaseField {
 
-public class VarbinaryField extends BaseField {
-
-	public VarbinaryField(JSONObject jsonObject) throws H2ZeroParseException {
+	public ImageField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public VarbinaryField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public ImageField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
@@ -44,7 +43,7 @@ public class VarbinaryField extends BaseField {
 
 	@Override
 	public String getSqlNullType() {
-		return("VARBINARY");
+		return("BLOB");
 	}
 
 	@Override
@@ -58,7 +57,5 @@ public class VarbinaryField extends BaseField {
 	}
 
 	@Override public String getSqlTestValue() { return("new java.sql.Blob()"); }
-
-	@Override public boolean getRequiresLength() { return(true); }
 
 }

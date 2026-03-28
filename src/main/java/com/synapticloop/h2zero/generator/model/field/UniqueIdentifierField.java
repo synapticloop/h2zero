@@ -1,8 +1,7 @@
 package com.synapticloop.h2zero.generator.model.field;
 
 /*
- * Copyright (c) 2012-2026 synapticloop.
- * 
+ * Copyright (c) 2013-2026 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -18,47 +17,40 @@ package com.synapticloop.h2zero.generator.model.field;
  * under the Licence.
  */
 
-import org.json.JSONObject;
 
 import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
+import org.json.JSONObject;
 
-public class VarbinaryField extends BaseField {
+public class UniqueIdentifierField extends BaseField {
 
-	public VarbinaryField(JSONObject jsonObject) throws H2ZeroParseException {
+	public UniqueIdentifierField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public VarbinaryField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public UniqueIdentifierField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 
 	@Override
 	public String getJavaType() {
-		return "Blob";
+		return("String");
 	}
 
 	@Override
 	public String getSqlJavaType() {
-		return("Blob");
+		return("String");
 	}
 
 	@Override
 	public String getSqlNullType() {
-		return("VARBINARY");
+		return("CHAR");
 	}
 
 	@Override
 	public boolean getShouldEscape() {
-		return true;
+		return false;
 	}
 
-	@Override
-	public boolean getIsLargeObject() {
-		return(true);
-	}
-
-	@Override public String getSqlTestValue() { return("new java.sql.Blob()"); }
-
-	@Override public boolean getRequiresLength() { return(true); }
+	@Override public String getSqlTestValue() { return("\"X\""); }
 
 }
