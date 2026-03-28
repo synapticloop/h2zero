@@ -21,13 +21,13 @@ package com.synapticloop.h2zero.generator.model.field;
 import com.synapticloop.h2zero.generator.exception.H2ZeroParseException;
 import org.json.JSONObject;
 
-public class UniqueIdentifierField extends BaseField {
+public class UniqueidentifierField extends BaseField {
 
-	public UniqueIdentifierField(JSONObject jsonObject) throws H2ZeroParseException {
+	public UniqueidentifierField(JSONObject jsonObject) throws H2ZeroParseException {
 		super(jsonObject);
 	}
 
-	public UniqueIdentifierField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
+	public UniqueidentifierField(JSONObject jsonObject, boolean isInField) throws H2ZeroParseException {
 		super(jsonObject, isInField);
 	}
 

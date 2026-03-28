@@ -362,8 +362,12 @@ public class Table extends BaseSchemaObject {
 			if (null != foreignKeyField && null != foreignKeyTable) {
 				hasForeignKey = true;
 				// at this point - see whether the foreign key table and field actually exists
-				if (!FieldLookupHelper.hasTableField(foreignKeyTable, foreignKeyField)) {
-					throw new H2ZeroParseException(String.format("Field '%s' on table '%s' is trying to reference a foreign key of '%s.%s' which has not been defined yet.", baseField.getName(), name, foreignKeyTable, foreignKeyField));
+
+				// UNLESS we dangerously allow ignoring of circular dependencies
+				if(!options.getIgnoreCircularDependencies()) {
+					if (!FieldLookupHelper.hasTableField(foreignKeyTable, foreignKeyField)) {
+						throw new H2ZeroParseException(String.format("Field '%s' on table '%s' is trying to reference a foreign key of '%s.%s' which has not been defined yet.", baseField.getName(), name, foreignKeyTable, foreignKeyField));
+					}
 				}
 
 				foreignKeys.add(baseField);

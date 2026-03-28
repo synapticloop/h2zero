@@ -39,6 +39,7 @@ public class ModelBuilder {
 
 	private Options options;
 	private List<Table> tables = new ArrayList<Table>();
+	private boolean hasFoundCircularDependency = false;
 
 	private final String jdbcString;
 	private final String username;
@@ -142,6 +143,7 @@ public class ModelBuilder {
 		TableGraph graph = new TableGraph();
 		graph.addTables(this.tables);
 		this.tables = graph.generateOrder();
+		this.hasFoundCircularDependency = graph.hasFoundCircularDependency();
 
 		System.out.println("[   INFO ] Final table generation order:");
 		for (int i = 0; i < tables.size(); i++) {
@@ -202,5 +204,14 @@ public class ModelBuilder {
 	 */
 	public List<Table> getTables() {
 		return tables;
+	}
+
+	/**
+	 * <p>Returns whether any circular dependencies were found during the ordering process.</p>
+	 *
+	 * @return true if a circular dependency was found, false otherwise
+	 */
+	public boolean hasFoundCircularDependency() {
+		return hasFoundCircularDependency;
 	}
 }

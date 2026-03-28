@@ -125,6 +125,7 @@ public class Options {
 	 */
 	private String database = DATABASE_MYSQL;
 	private boolean isDefault = true;
+	private boolean ignoreCircularDependencies = false;
 
 	private String outputCode = "/src/main/java/";
 	private String outputTestCode = "/src/test/java/";
@@ -150,6 +151,8 @@ public class Options {
 		if(null == optionsJson.optString(JSONKeyConstants.DATABASE, null)) {
 			isDefault = true;
 		}
+
+		this.ignoreCircularDependencies = optionsJson.optBoolean(JSONKeyConstants.IGNORE_CIRCULAR_DEPENDENCIES, false);
 
 		this.database = optionsJson.optString(JSONKeyConstants.DATABASE, null);
 		if(null == this.database || !ALLOWABLE_DATABASES.contains(this.database)) {
@@ -210,6 +213,16 @@ public class Options {
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "\t     Output resources to: " + outputResource);
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "\tOutput test resources to: " + outputTestResource);
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "\t         Output build to: " + outputBuild);
+
+		if(ignoreCircularDependencies) {
+			SimpleLogger.logWarn(LoggerType.OPTIONS,
+					"\t         ------------------------------------------------------------------------------");
+			SimpleLogger.logWarn(LoggerType.OPTIONS,
+					"\t         Ignoring circular dependencies - h2zero assumes you know what you are doing...");
+			SimpleLogger.logWarn(LoggerType.OPTIONS,
+					"\t         ------------------------------------------------------------------------------");
+		}
+
 		jsonObject.remove(JSONKeyConstants.OPTIONS);
 	}
 
@@ -382,5 +395,9 @@ public class Options {
 
 	public String getDriverClassName() {
 		return(DATABASE_TYPE_PROPERTIES.get(database).driverClassName());
+	}
+
+	public boolean getIgnoreCircularDependencies() {
+		return ignoreCircularDependencies;
 	}
 }

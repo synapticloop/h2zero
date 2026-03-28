@@ -29,6 +29,7 @@ import java.util.*;
  */
 public class TableGraph {
 	private final Map<String, TableNode> nodes = new LinkedHashMap<>();
+	private boolean foundCircularDependency = false;
 
 	/**
 	 * <p>Adds a list of tables to the graph and establishes their relationships.</p>
@@ -46,7 +47,8 @@ public class TableGraph {
 			Set<String> referencedTableNames = node.getTable().getReferencedTableNames();
 			for (String referencedName : referencedTableNames) {
 				TableNode parent = nodes.get(referencedName.toLowerCase());
-				// Ignore self-references and non-existent tables
+				// A parent is a table that this node references.
+				// This node is a child of the parent.
 				if (parent != null && parent != node) {
 					node.addParent(parent);
 					parent.addChild(node);
@@ -58,26 +60,24 @@ public class TableGraph {
 	/**
 	 * <p>Generates the ordered list of tables based on the graph's relationships.</p>
 	 *
-	 * <p>The logic ensures that referenced tables are generated before the tables
-	 * that reference them (Parent to Child).</p>
+	 * <p>The logic ensures that referenced tables (dependencies) are ALWAYS defined
+	 * before the tables that reference them.</p>
 	 *
 	 * @return the ordered list of tables
 	 */
 	public List<Table> generateOrder() {
 		List<Table> orderedTables = new ArrayList<>();
-
-		// 1. Process tables with no parents first (root nodes in the dependency tree)
-		// These are tables that don't reference any other tables.
+		
+		// Reset ordered status for all nodes to be safe
 		for (TableNode node : nodes.values()) {
-			if (!node.isOrdered() && node.getParents().isEmpty()) {
-				processNode(node, orderedTables, new HashSet<>());
-			}
+			node.setOrdered(false);
 		}
 
-		// 2. Process any remaining tables (handles cycles or disjoint subgraphs)
+		// Iterate through all nodes. The processNode method recursively ensures
+		// that all dependencies are handled before adding the node itself.
 		for (TableNode node : nodes.values()) {
 			if (!node.isOrdered()) {
-				processNode(node, orderedTables, new HashSet<>());
+				processNode(node, orderedTables, new LinkedHashSet<>());
 			}
 		}
 
@@ -85,8 +85,8 @@ public class TableGraph {
 	}
 
 	/**
-	 * <p>Recursively ensures that all parents of a node are added to the list
-	 * before the node itself, and then recursively adds its children.</p>
+	 * <p>Recursively ensures that all parents (referenced tables) of a node are added
+	 * to the list before the node itself.</p>
 	 *
 	 * @param node the node to process
 	 * @param orderedTables the list to add tables to
@@ -99,25 +99,25 @@ public class TableGraph {
 
 		// Cycle detection: if we are already visiting this node, we have a circular dependency
 		if (visiting.contains(node)) {
-			// We break the cycle by adding the node here and stopping parent traversal
-			addNodeToOrderedList(node, orderedTables);
+			// Circular dependency found. We break it by just returning, allowing the 
+			// caller to move on to the next dependency.
+			System.err.printf("[   WARN ] Circular dependency detected involving table: %s. Skipping this path to break the cycle.%n", node.getName());
+			foundCircularDependency = true;
 			return;
 		}
 
 		visiting.add(node);
 
-		// Recursively ensure all parents (dependencies) are ordered first
-		for (TableNode parent : node.getParents()) {
-			processNode(parent, orderedTables, visiting);
+		// EVERY parent (table referenced by this one) MUST be defined first.
+		List<TableNode> parents = new ArrayList<>(node.getParents());
+		for (TableNode parent : parents) {
+			if (!parent.isOrdered()) {
+				processNode(parent, orderedTables, visiting);
+			}
 		}
 
-		// Once parents are handled, add this node
+		// NOW, and ONLY NOW, can we add this node to the list.
 		addNodeToOrderedList(node, orderedTables);
-
-		// Then recursively add all children (tables that reference this one)
-		for (TableNode child : node.getChildren()) {
-			processNode(child, orderedTables, visiting);
-		}
 
 		visiting.remove(node);
 	}
@@ -134,5 +134,14 @@ public class TableGraph {
 			orderedTables.add(node.getTable());
 			System.out.printf("[   INFO ] Ordered table: %s%n", node.getName());
 		}
+	}
+
+	/**
+	 * <p>Returns whether any circular dependencies were found during the ordering process.</p>
+	 *
+	 * @return true if a circular dependency was found, false otherwise
+	 */
+	public boolean hasFoundCircularDependency() {
+		return foundCircularDependency;
 	}
 }

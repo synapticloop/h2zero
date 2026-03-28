@@ -82,6 +82,8 @@ public class JSONKeyConstants {
 
 	public static final String DATABASE = "database";
 
+	public static final String IGNORE_CIRCULAR_DEPENDENCIES = "ignoreCircularDependencies";
+
 	public static final String SCHEMA = "schema";
 
 	public static final String PACKAGE = "package";
