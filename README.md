@@ -1,5 +1,9 @@
 # Synapticloop h2zero
 
+> 
+> NOT READY FOR PRIMETIME YET - BUT WE ARE GETTING THERE
+> 
+
 > Rapidly generate you Object Relational Mapper, with you in total control of
 > the underlying SQL
 
