@@ -5,8 +5,8 @@
 .gradle
 build/
 
-*.jar
-*_h2zero.json
+./*.jar
+./*_h2zero.json
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -81,7 +81,7 @@ cobertura.ser
 .DS_Store
 src/test/java/insityou.h2zero
 build-sonar.xml
-dist/
+./dist/
 src/test/java/*Test.java
 target/
 /bin/

@@ -1,0 +1,165 @@
+{
+	"options": {
+		"database": "mysql",
+		"generators": [
+			"java",
+			"sql"
+		]
+	},
+	"database": {
+		"schema": "bookstore",
+		"package": "synapticloop.library.database.h2zero.mysql.library",
+		"tables": [
+			{
+				"name": "state",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_state", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "nm_state", "type": "varchar", "length": 32, "nullable": false }
+				],
+				"constants": [
+					{ "name": "ACT", "values": [ 1, "Australian Capital Territory" ] },
+					{ "name": "NSW", "values": [ 2, "New South Wales" ] },
+					{ "name": "NT", "values": [ 3, "Northern Territory" ] },
+					{ "name": "QLD", "values": [ 4, "Queensland" ] },
+					{ "name": "SA", "values": [ 5, "South Australia" ] },
+					{ "name": "TAS", "values": [ 6, "Tasmania" ] },
+					{ "name": "VIC", "values": [ 7, "Victoria" ] },
+					{ "name": "WA", "values": [ 8, "Western Australia" ] }
+				]
+			},
+
+			{
+				"name": "day",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_day", "type": "bigint", "primary": true, "nullable": false },
+
+					{ "name": "nm_day", "type": "varchar", "length": 16, "nullable": false },
+					{ "name": "nm_day_short", "type": "varchar", "length": 4, "nullable": false },
+					{ "name": "num_order_by", "type": "int", "nullable": false }
+				],
+				"constants": [
+					{ "name": "SUN", "values": [ 1, "Sunday", "Sun.", 7 ] },
+					{ "name": "MON", "values": [ 2, "Monday", "Mon.", 1 ] },
+					{ "name": "TUE", "values": [ 3, "Tuesday", "Tue.", 2 ] },
+					{ "name": "WED", "values": [ 4, "Wednesday", "Wed.", 3 ] },
+					{ "name": "THU", "values": [ 5, "Thursday", "Thu.", 4 ] },
+					{ "name": "FRI", "values": [ 6, "Friday", "Fri.", 5 ] },
+					{ "name": "SAT", "values": [ 7, "Saturday", "Sat.", 6 ] },
+					{ "name": "PUB", "values": [ 8, "Public Holiday", "Pub.", 8 ] }
+				]
+			},
+
+			{
+				"name": "opening_hour",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_opening_hour", "type": "bigint", "primary": true, "nullable": false },
+
+					{ "name": "id_day", "type": "bigint", "nullable": false, "foreignKey": "day.id_day" },
+
+					{ "name": "num_military_hour_open", "type": "int", "nullable": false },
+					{ "name": "num_military_hour_close", "type": "int", "nullable": false }
+				]
+			},
+
+			{
+				"name": "bookstore",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_bookstore", "type": "bigint", "primary": true, "nullable": false },
+
+					{ "name": "nm_bookstore", "type": "varchar", "length": 256, "nullable": false, "unique": true },
+					{ "name": "dt_agency_agreement_start", "type": "date", "nullable": false },
+					{ "name": "dt_agency_agreement_end", "type": "date", "nullable": false },
+					{ "name": "flt_percent_increase", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
+					{ "name": "txt_notes", "type": "varchar", "length": "256", "nullable": true },
+					{ "name": "fl_is_current", "type": "boolean", "nullable": false, "default": "'1'" }
+				]
+			},
+
+			{
+				"name": "bookstore_opening_hour",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_bookstore_opening_hour", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_bookstore", "type": "bigint", "nullable": false, "foreignKey": "bookstore.id_bookstore" },
+					{ "name": "id_opening_hour", "type": "bigint", "nullable": false, "foreignKey": "opening_hour.id_opening_hour" }
+				]
+			},
+
+
+
+
+			{
+				"name": "user",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_user", "type": "bigint", "primary": true, "nullable": false },
+
+					{ "name": "nm_user", "type": "varchar", "length": 128, "nullable": false },
+					{ "name": "txt_address_user", "type": "varchar", "length": 128, "nullable": true },
+					{ "name": "txt_num_phone_mobile", "type": "varchar", "length": 16, "nullable": true },
+					{ "name": "dt_dob", "type": "date", "nullable": true },
+					{ "name": "num_loyalty_points", "type": "int", "nullable": true, "default": "'0'" }
+				],
+				"findAllOrdered": [
+					"num_loyalty_points desc"
+				]
+			},
+
+
+			{
+				"name": "author",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_author", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "nm_author", "type": "varchar", "length": 64, "nullable": false }
+				],
+				"findAllOrdered": [
+					"nm_author asc"
+				]
+			},
+
+			{
+				"name": "genre",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_genre", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "nm_genre", "type": "varchar", "length": 64, "nullable": false }
+				],
+				"findAllOrdered": [
+					"nm_genre asc"
+				]
+			},
+
+			{
+				"name": "publisher",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_publisher", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "nm_publisher", "type": "varchar", "length": 64, "nullable": false }
+				]
+			},
+
+
+
+			{
+				"name": "book",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_book", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_publisher", "type": "bigint", "nullable": false, "foreignKey": "publisher.id_publisher" },
+
+					{ "name": "txt_title", "type": "varchar", "length": 128, "nullable": false },
+					{ "name": "txt_isbn", "type": "varchar", "length": 16, "nullable": false },
+					{ "name": "txt_desc_overview", "type": "varchar", "length": 1024, "nullable": false },
+					{ "name": "dt_published", "type": "date", "nullable": false },
+					{ "name": "num_pages", "type": "int", "nullable": false },
+					{ "name": "dbl_price", "type": "double", "length": 8, "decimalLength": 2, "nullable": false }
+				]
+			}
+		]
+	}
+}

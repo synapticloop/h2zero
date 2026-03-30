@@ -72,8 +72,6 @@ public class Table extends BaseSchemaObject {
 		ALLOWABLE_KEYS.add(JSONKeyConstants.UPDATERS);
 		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_UPDATERS);
 
-		ALLOWABLE_KEYS.add(JSONKeyConstants.UPSERTERS);
-
 		ALLOWABLE_KEYS.add(JSONKeyConstants.COUNTERS);
 		ALLOWABLE_KEYS.add(JSONKeyConstants.FIELD_COUNTERS);
 
@@ -115,7 +113,6 @@ public class Table extends BaseSchemaObject {
 
 	private final List<Updater> updaters = new ArrayList<>(); // a list of all of the updaters
 	private final List<Inserter> inserters = new ArrayList<>(); // a list of all of the inserters
-	private final List<Upserter> upserters = new ArrayList<>(); // a list of all of the upserters
 	private final List<Deleter> deleters = new ArrayList<>(); // a list of all of the deleters
 	private final List<Constant> constants = new ArrayList<>(); // a list of all of the constants
 	private final List<ConstantCache> constantCaches = new ArrayList<>(); // a list of all of the constant caches
@@ -210,8 +207,6 @@ public class Table extends BaseSchemaObject {
 		populateDeleters(jsonObject);
 
 		populateInserters(jsonObject);
-
-		populateUpserters(jsonObject);
 
 		populateConstants(jsonObject);
 		populateConstantsCache(jsonObject);
@@ -584,27 +579,6 @@ public class Table extends BaseSchemaObject {
 		jsonObject.remove(JSONKeyConstants.INSERTERS);
 	}
 
-	@Deprecated
-	private void populateUpserters(JSONObject jsonObject) throws H2ZeroParseException {
-		JSONArray upserterJson = new JSONArray();
-		try {
-			upserterJson = jsonObject.getJSONArray(JSONKeyConstants.UPSERTERS);
-		} catch (JSONException ex) {
-			// do nothing - no finders is ok
-		}
-
-		for (int i = 0; i < upserterJson.length(); i++) {
-			try {
-				JSONObject upserterObject = upserterJson.getJSONObject(i);
-				upserters.add(new Upserter(this, upserterObject));
-			} catch (JSONException jsonex) {
-				throw new H2ZeroParseException("Could not parse upserters.", jsonex);
-			}
-		}
-
-		jsonObject.remove(JSONKeyConstants.UPSERTERS);
-	}
-
 	private void populateConstants(JSONObject jsonObject) throws H2ZeroParseException {
 		JSONArray constantJson = new JSONArray();
 		try {
@@ -668,10 +642,6 @@ public class Table extends BaseSchemaObject {
 
 	public List<Inserter> getInserters() {
 		return (inserters);
-	}
-
-	public List<Upserter> getUpserters() {
-		return (upserters);
 	}
 
 	public List<Deleter> getDeleters() {

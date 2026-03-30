@@ -81,22 +81,3 @@ If you are using gradle, you can add this to your build.gradle file
     outDir = '.'
     verbose = 'false'
   }
-
-
-Ant build.xml usage:
-====================
-
-If you are using ant, you can add this to your build.xml file
-
-  <path id="classpath-h2zero">
-    <fileset dir="lib/runtime">
-      <include name="*.jar"/>
-    </fileset>
-  </path>
-
-  <target name="h2zero-generate" description="h2zero generate">
-    <taskdef resource="h2zero.properties" classpathref="classpath-h2zero" />
-    <h2zero inFile="src/main/java/your_file_name_here.h2zero" outDir="." verbose="false" />
-  </target>
-
-Exiting...

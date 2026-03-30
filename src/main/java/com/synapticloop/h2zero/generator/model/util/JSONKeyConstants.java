@@ -45,7 +45,6 @@ public class JSONKeyConstants {
 	public static final String FIELD_DELETERS = "fieldDeleters";
 
 	public static final String INSERTERS = "inserters";
-	public static final String UPSERTERS = "upserters";
 
 	public static final String UPDATERS = "updaters";
 	public static final String FIELD_UPDATERS = "fieldUpdaters";
