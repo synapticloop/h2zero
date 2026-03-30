@@ -1,3 +1,5 @@
+<img src="/src/docs/synapticloop-logo.png" />
+
 # Synapticloop h2zero
 
 > 
