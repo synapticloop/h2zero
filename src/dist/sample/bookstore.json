@@ -90,6 +90,16 @@
 			},
 
 
+			{
+				"name": "bookstore_distance",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_bookstore_distance", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_bookstore_from", "type": "bigint", "nullable": false, "foreignKey": "bookstore.id_bookstore" },
+					{ "name": "id_opening_to", "type": "bigint", "nullable": false, "foreignKey": "bookstore.id_bookstore" }
+				]
+			},
+
 
 
 			{
@@ -159,7 +169,54 @@
 					{ "name": "num_pages", "type": "int", "nullable": false },
 					{ "name": "dbl_price", "type": "double", "length": 8, "decimalLength": 2, "nullable": false }
 				]
+			},
+
+			{
+				"name": "book_author",
+				"charset": "utf8mb4",
+				"linked": true,
+				"fields": [
+					{ "name": "id_book_author", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_book", "type": "bigint", "nullable": false, "foreignKey": "book.id_book" },
+					{ "name": "id_author", "type": "bigint", "nullable": false, "foreignKey": "author.id_author" }
+				]
+			},
+
+
+			{
+				"name": "cart",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_cart", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_user", "type": "bigint", "nullable": false, "foreignKey": "user.id_user" },
+					{ "name": "id_book", "type": "bigint", "nullable": false, "foreignKey": "book.id_book" }
+				]
+			},
+
+
+
+			{
+				"name": "order",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_order", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_user", "type": "bigint", "nullable": false, "foreignKey": "user.id_user" }
+				]
+			},
+
+			{
+				"name": "order_line_item",
+				"charset": "utf8mb4",
+				"fields": [
+					{ "name": "id_order_line_item", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_order", "type": "bigint", "nullable": false, "foreignKey": "order.id_order" },
+					{ "name": "id_book", "type": "bigint", "nullable": false, "foreignKey": "book.id_book" },
+
+					{ "name": "num_in_cart", "type": "int", "nullable": false },
+					{ "name": "dbl_price", "type": "double", "length": 8, "decimalLength": 2, "nullable": false }
+				]
 			}
+
 		]
 	}
 }

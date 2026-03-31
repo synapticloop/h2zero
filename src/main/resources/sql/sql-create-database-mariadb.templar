@@ -63,6 +63,15 @@ use {database.schema};{\n}{\n}
 	{endloop}
 
 	{--
+		Now for any composite unique keys
+
+		CREATE UNIQUE INDEX uniq_idx_field_name_field_name (UserID, PermissionID)
+
+		CREATE INDEX idx_fieldnames
+    ON Transactions (sFSDocumentID, dTranDate);
+	}
+
+	{--
 		index definitions
 	}
 	{loop table.fields as field}
