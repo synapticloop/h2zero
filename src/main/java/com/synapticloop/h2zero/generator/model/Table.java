@@ -257,6 +257,14 @@ public class Table extends BaseSchemaObject {
 				// now check to ensure that you can use this field type for the database
 				String database = options.getDatabase();
 
+				if(!DatabaseFieldTypeConfirm.FIELD_VALIDATION_LOOKUP.containsKey(database)) {
+					String databaseTypes = DatabaseFieldTypeConfirm.FIELD_VALIDATION_LOOKUP.keySet().stream()
+							.map(key -> "'" + key + "'")
+							.collect(java.util.stream.Collectors.joining(", "));
+					throw new H2ZeroParseException(String.format("Cannot recognise database type of '%s', available database " +
+									"types are %s.",
+							database, databaseTypes));
+				}
 				if (!DatabaseFieldTypeConfirm.getIsValidFieldTypeForDatabase(database, type)) {
 					String separator = "";
 					StringBuilder stringBuilder = new StringBuilder();

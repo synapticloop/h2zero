@@ -10,24 +10,6 @@
 		"schema": "bookstore",
 		"package": "synapticloop.library.database.h2zero.mysql.library",
 		"tables": [
-			{
-				"name": "state",
-				"charset": "utf8mb4",
-				"fields": [
-					{ "name": "id_state", "type": "bigint", "primary": true, "nullable": false },
-					{ "name": "nm_state", "type": "varchar", "length": 32, "nullable": false }
-				],
-				"constants": [
-					{ "name": "ACT", "values": [ 1, "Australian Capital Territory" ] },
-					{ "name": "NSW", "values": [ 2, "New South Wales" ] },
-					{ "name": "NT", "values": [ 3, "Northern Territory" ] },
-					{ "name": "QLD", "values": [ 4, "Queensland" ] },
-					{ "name": "SA", "values": [ 5, "South Australia" ] },
-					{ "name": "TAS", "values": [ 6, "Tasmania" ] },
-					{ "name": "VIC", "values": [ 7, "Victoria" ] },
-					{ "name": "WA", "values": [ 8, "Western Australia" ] }
-				]
-			},
 
 			{
 				"name": "day",
@@ -71,11 +53,8 @@
 					{ "name": "id_bookstore", "type": "bigint", "primary": true, "nullable": false },
 
 					{ "name": "nm_bookstore", "type": "varchar", "length": 256, "nullable": false, "unique": true },
-					{ "name": "dt_agency_agreement_start", "type": "date", "nullable": false },
-					{ "name": "dt_agency_agreement_end", "type": "date", "nullable": false },
-					{ "name": "flt_percent_increase", "type": "float", "length": "6", "decimalLength": 1, "nullable": true },
-					{ "name": "txt_notes", "type": "varchar", "length": "256", "nullable": true },
-					{ "name": "fl_is_current", "type": "boolean", "nullable": false, "default": "'1'" }
+					{ "name": "txt_address_bookstore", "type": "varchar", "length": "256", "nullable": false },
+					{ "name": "cd_postcode", "type": "int", "length": "4", "nullable": false }
 				]
 			},
 
@@ -103,13 +82,13 @@
 
 
 			{
-				"name": "user",
+				"name": "customer",
 				"charset": "utf8mb4",
 				"fields": [
-					{ "name": "id_user", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_customer", "type": "bigint", "primary": true, "nullable": false },
 
-					{ "name": "nm_user", "type": "varchar", "length": 128, "nullable": false },
-					{ "name": "txt_address_user", "type": "varchar", "length": 128, "nullable": true },
+					{ "name": "nm_customer", "type": "varchar", "length": 128, "nullable": false },
+					{ "name": "txt_address_email", "type": "varchar", "length": 128, "nullable": true },
 					{ "name": "txt_num_phone_mobile", "type": "varchar", "length": 16, "nullable": true },
 					{ "name": "dt_dob", "type": "date", "nullable": true },
 					{ "name": "num_loyalty_points", "type": "int", "nullable": true, "default": "'0'" }
@@ -182,13 +161,24 @@
 				]
 			},
 
+			{
+				"name": "book_genre",
+				"charset": "utf8mb4",
+				"linked": true,
+				"fields": [
+					{ "name": "id_book_genre", "type": "bigint", "primary": true, "nullable": false },
+					{ "name": "id_book", "type": "bigint", "nullable": false, "foreignKey": "book.id_book" },
+					{ "name": "id_genre", "type": "bigint", "nullable": false, "foreignKey": "genre.id_genre" }
+				]
+			},
+
 
 			{
 				"name": "cart",
 				"charset": "utf8mb4",
 				"fields": [
 					{ "name": "id_cart", "type": "bigint", "primary": true, "nullable": false },
-					{ "name": "id_user", "type": "bigint", "nullable": false, "foreignKey": "user.id_user" },
+					{ "name": "id_customer", "type": "bigint", "nullable": false, "foreignKey": "customer.id_customer" },
 					{ "name": "id_book", "type": "bigint", "nullable": false, "foreignKey": "book.id_book" }
 				]
 			},
@@ -200,7 +190,7 @@
 				"charset": "utf8mb4",
 				"fields": [
 					{ "name": "id_order", "type": "bigint", "primary": true, "nullable": false },
-					{ "name": "id_user", "type": "bigint", "nullable": false, "foreignKey": "user.id_user" }
+					{ "name": "id_customer", "type": "bigint", "nullable": false, "foreignKey": "customer.id_customer" }
 				]
 			},
 
