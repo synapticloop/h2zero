@@ -4,8 +4,11 @@ package {database.package};{\n}{\n}
 //   (/java/util/java-create-connection-manager-initialise-override.templar){\n}
 {\n}
 {\n}
+import org.slf4j.Logger;{\n}
+import org.slf4j.LoggerFactory;{\n}
+{\n}
 import {database.package}.ConnectionManagerInitialiser;{\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 import com.mchange.v2.c3p0.ComboPooledDataSource;{\n}
 {\n}
 import java.beans.PropertyVetoException;{\n}
@@ -13,6 +16,7 @@ import java.io.BufferedReader;{\n}
 import java.io.IOException;{\n}
 import java.io.InputStreamReader;{\n}
 import java.sql.Connection;{\n}
+import java.sql.Statement;{\n}
 import java.sql.DriverManager;{\n}
 import java.sql.PreparedStatement;{\n}
 import java.sql.SQLException;{\n}
@@ -58,6 +62,20 @@ import java.util.Properties;{\n}
  * </pre>{\n}
  */{\n}
 public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {{{\n}
+{\t}public static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManagerInitialiserOverride.class);{\n}
+{\n}
+{\t}public static final String C3P0_JDBC_URL = "c3p0.jdbcUrl";{\n}
+{\t}public static final String C3P0_USER = "c3p0.user";{\n}
+{\t}public static final String C3P0_PASSWORD = "c3p0.password";{\n}
+{\t}public static final String C3P0_MAX_POOL_SIZE = "c3p0.maxPoolSize";{\n}
+{\t}public static final String C3P0_MAX_STATEMENTS = "c3p0.maxStatements";{\n}
+{\t}public static final String C3P0_MAX_STATEMENTS_PER_CONNECTION = "c3p0.maxStatementsPerConnection";{\n}
+{\t}public static final String C3P0_MIN_POOL_SIZE = "c3p0.minPoolSize";{\n}
+{\t}public static final String C3P0_ACQUIRE_INCREMENT = "c3p0.acquireIncrement";{\n}
+{\t}public static final String C3P0_INITIAL_POOL_SIZE = "c3p0.initialPoolSize";{\n}
+{\t}public static final String C3P0_ACQUIRE_RETRY_ATTEMPTS = "c3p0.acquireRetryAttempts";{\n}
+{\t}public static final String C3P0_DEBUG_UNRETURNED_CONNECTION_STACK_TRACES = "c3p0.debugUnreturnedConnectionStackTraces";{\n}
+{\n}
 {\t}private static boolean hasCreatedDatabase = false;{\n}
 {\t}private static Properties properties;{\n}
 {\n}
@@ -66,7 +84,9 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}try {{{\n}
 {\t}{\t}{\t}// !!! NOTE !!!{\n}
 {\t}{\t}{\t}// If you are loading the properties file from the file system - you will need{\n}
-{\t}{\t}{\t}// to ensure that this file exists{\n}
+{\t}{\t}{\t}// to ensure that this file exists.  By default an example file is created:{\n}
+{\t}{\t}{\t}// src/main/resources/application.{options.database}.{database.schema}.example.properties{\n}
+{\t}{\t}{\t}// You will need to remove the '.example' above{\n}
 {\t}{\t}{\t}properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.{options.database}.{database.schema}.properties"));{\n}
 {\t}{\t}} catch (IOException e) {{{\n}
 {\t}{\t}{\t}throw new RuntimeException("Could not load the properties file '/application.{options.database}.{database.schema}.properties' there shall be no SQL for you.", e);{\n}
@@ -86,30 +106,40 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}{\t}throw new RuntimeException(e);{\n}
 {\t}{\t}}{\n}
 {\n}
-{\t}{\t}myComboPooledDataSource.setJdbcUrl(properties.getProperty("c3p0.jdbcUrl"));{\n}
-{\t}{\t}myComboPooledDataSource.setUser(properties.getProperty("c3p0.user"));{\n}
-{\t}{\t}myComboPooledDataSource.setPassword(properties.getProperty("c3p0.password"));{\n}
+{\t}{\t}myComboPooledDataSource.setJdbcUrl(properties.getProperty(C3P0_JDBC_URL));{\n}
+{\t}{\t}myComboPooledDataSource.setUser(properties.getProperty(C3P0_USER));{\n}
+{\t}{\t}myComboPooledDataSource.setPassword(properties.getProperty(C3P0_PASSWORD));{\n}
 {\n}
-{\t}{\t}myComboPooledDataSource.setMaxPoolSize(Integer.parseInt(properties.getProperty("c3p0.maxPoolSize")));{\n}
-{\t}{\t}myComboPooledDataSource.setMaxStatements(Integer.parseInt(properties.getProperty("c3p0.maxStatements")));{\n}
-{\t}{\t}myComboPooledDataSource.setMaxStatementsPerConnection(Integer.parseInt(properties.getProperty("c3p0.maxStatementsPerConnection")));{\n}
+{\t}{\t}myComboPooledDataSource.setMaxPoolSize(Integer.parseInt(properties.getProperty(C3P0_MAX_POOL_SIZE)));{\n}
+{\t}{\t}myComboPooledDataSource.setMaxStatements(Integer.parseInt(properties.getProperty(C3P0_MAX_STATEMENTS)));{\n}
+{\t}{\t}myComboPooledDataSource.setMaxStatementsPerConnection(Integer.parseInt(properties.getProperty(C3P0_MAX_STATEMENTS_PER_CONNECTION)));{\n}
 {\n}
-{\t}{\t}myComboPooledDataSource.setMaxPoolSize(Integer.parseInt(properties.getProperty("c3p0.minPoolSize")));{\n}
+{\t}{\t}myComboPooledDataSource.setMaxPoolSize(Integer.parseInt(properties.getProperty(C3P0_MIN_POOL_SIZE)));{\n}
 {\n}
-{\t}{\t}myComboPooledDataSource.setAcquireIncrement(Integer.parseInt(properties.getProperty("c3p0.acquireIncrement")));{\n}
-{\t}{\t}myComboPooledDataSource.setInitialPoolSize(Integer.parseInt(properties.getProperty("c3p0.initialPoolSize")));{\n}
-{\t}{\t}myComboPooledDataSource.setAcquireRetryAttempts(Integer.parseInt(properties.getProperty("c3p0.acquireRetryAttempts")));{\n}
-{\t}{\t}myComboPooledDataSource.setDebugUnreturnedConnectionStackTraces(Boolean.parseBoolean(properties.getProperty("c3p0.debugUnreturnedConnectionStackTraces")));{\n}
+{\t}{\t}myComboPooledDataSource.setAcquireIncrement(Integer.parseInt(properties.getProperty(C3P0_ACQUIRE_INCREMENT)));{\n}
+{\t}{\t}myComboPooledDataSource.setInitialPoolSize(Integer.parseInt(properties.getProperty(C3P0_INITIAL_POOL_SIZE)));{\n}
+{\t}{\t}myComboPooledDataSource.setAcquireRetryAttempts(Integer.parseInt(properties.getProperty(C3P0_ACQUIRE_RETRY_ATTEMPTS)));{\n}
+{\t}{\t}myComboPooledDataSource.setDebugUnreturnedConnectionStackTraces(Boolean.parseBoolean(properties.getProperty(C3P0_DEBUG_UNRETURNED_CONNECTION_STACK_TRACES)));{\n}
 {\n}
 {\t}{\t}addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);{\n}
 {\t}}{\n}
 {\n}
+{\t}/**{\n}
+{\t} * <p>Initialise the database connection pool</p>{\n}
+{\t} * {\n}
+{\t} * @throws SQLException{\n}
+{\t} */{\n}
 {\t}public static void initialise() throws SQLException {{{\n}
+//{\t}{\t}// at this point - you can initialise from the properties file, or some{\n}
+//{\t}{\t}// other method of your choice{\n}
+//{\t}{\t}initialiseFromProperties();{\n}
+//{\n}
+//{\t}{\t}// or maybe you want to create it by hand...{\n}
 //{\t}{\t}// create a new combo pool{\n}
 //{\t}{\t}ComboPooledDataSource myComboPooledDataSource = new ComboPooledDataSource();{\n}
 //{\t}{\t}// configure the combopool{\n}
 //{\t}{\t}try {{{\n}
-//{\t}{\t}{\t}myComboPooledDataSource.setDriverClass("{options.driverClassName}");{\n}
+//{\t}{\t}{\t}myComboPooledDataSource.setDriverClass("org.sqlite.JDBC");{\n}
 //{\t}{\t}} catch (PropertyVetoException e) {{ // runtime exception{\n}
 //{\t}{\t}{\t}throw new RuntimeException(e);{\n}
 //{\t}{\t}}{\n}
@@ -120,16 +150,44 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 //{\t}{\t}{\t}throw new RuntimeException(e);{\n}
 //{\t}{\t}}{\n}
 //{\n}
-//{\t}{\t}myComboPooledDataSource.setAcquireIncrement(1);{\n}
-//{\n}
-//{\t}{\t}myComboPooledDataSource.setJdbcUrl("jdbc://");{\n}
-//{\t}{\t}myComboPooledDataSource.setUser("username");{\n}
-//{\t}{\t}myComboPooledDataSource.setPassword("password");{\n}
-//{\n}
+//{\t}{\t}// don't forget to add it to the combopool{\n}
 //{\t}{\t}addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);{\n}
+{if fn:=[options.database, "sqlite3"]}
+	//{\n}
+	//{\t}{\t}// if you are running SQLite3 - then you should do the following:{\n}
+	//{\t}{\t}try (Connection connection = getConnection(CONNECTION_POOL_NAME);{\n}
+	//{\t}{\t}     Statement stmt = connection.createStatement()) {{{\n}
+	//{\t}{\t}{\t}stmt.executeUpdate("PRAGMA journal_mode=WAL;");{\n}
+	//{\t}{\t}{\t}stmt.executeUpdate("PRAGMA synchronous=NORMAL;");{\n}
+	//{\t}{\t}}{\n}
+{endif}
 {\t}}{\n}
-{\n}
 
+{\t}/**{\n}
+{\t} * <p>Verify whether the <code>{database.schema}</code> database exists, {\n}
+{\t} * returning a boolean answer</p>{\n}
+{\t} *{\n}
+{\t} * @param url The database URL{\n}
+{\t} * @param username The username for the database that allows creation of tables{\n}
+{\t} * @param password the password for the database that allows creation of tables{\n}
+{\t} *{\n}
+{\t} * @return Whether the database exists{\n}
+{\t} */{\n}
+{\t}public boolean verifyDatabaseExists(String url, String username, String password) {{{\n}
+{\t}{\t}try (Connection conn = DriverManager.getConnection(url, username, password)) {{{\n}
+{\t}{\t}{\t}return !conn.isClosed();{\n}
+{\t}{\t}} catch (SQLException e) {{{\n}
+{\t}{\t}{\t}String sqlState = e.getSQLState();{\n}
+{\n}
+{\t}{\t}{\t}// Common 'Database Not Found' SQLStates:{\n}
+{\t}{\t}{\t}// 42P04 - PostgreSQL/CockroachDB (maybe){\n}
+{\t}{\t}{\t}// 08004 - Generic Connection Rejected (Database missing or blocked){\n}
+{\t}{\t}{\t}// 42000 - MySQL/MariaDB (Access denied/Bad DB){\n}
+{\n}
+{\t}{\t}{\t}LOGGER.error("Database check failed. SQLState: {{}", sqlState, e);{\n}
+{\t}{\t}{\t}return false;{\n}
+{\t}{\t}}{\n}
+{\t}}{\n}
 {\n}
 {\t}/**{\n}
 {\t} * Creating the database requires a separate JDBC URL if the database has{\n}

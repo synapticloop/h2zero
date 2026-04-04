@@ -17,16 +17,48 @@ package com.synapticloop.h2zero.base.model.sqlite3;
  * under the Licence.
  */
 
+import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-
 public abstract class ModelBase extends com.synapticloop.h2zero.base.model.ModelBase {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ModelBase.class);
 
 	@Override
 	protected Connection getConnection() throws SQLException {
+		LOGGER.warn("Getting a default connection from SQLite3 - you should use really " +
+				"getReadConnection() or getWriteConnection()");
 		return(ConnectionManager.getConnection());
 	}
-	
+
+	/**
+	 * <p>Get a read connection to the database from the combo pooled datasource
+	 * - i.e. this will be used for read only operations.  This is only really
+	 * used for sqlite3 type databases and the default implementation is just a
+	 * chained method call to the getConnection() method.</p>
+	 *
+	 * @return the connection from the underlying database
+	 *
+	 * @throws SQLException If there was an error getting the connection
+	 */
+	protected Connection getReadConnection() throws SQLException {
+		return(ConnectionManager.getReadConnection());
+	}
+
+	/**
+	 * <p>Get a write connection to the database from the combo pooled datasource
+	 * - i.e. this will be used for write operations.  This is only really used
+	 * for sqlite3 type databases and the default implementation is just a chained
+	 * method call to the getConnection() method</p>
+	 *
+	 * @return the connection from the underlying database
+	 *
+	 * @throws SQLException If there was an error getting the connection
+	 */
+	protected Connection getWriteConnection() throws SQLException {
+		return(ConnectionManager.getWriteConnection());
+	}
 }

@@ -1,6 +1,6 @@
 {
 	"options": {
-		"database": "mysql",
+		"database": "sqlite3",
 		"generators": [
 			"java",
 			"sql"

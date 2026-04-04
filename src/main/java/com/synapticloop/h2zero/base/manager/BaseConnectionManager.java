@@ -78,6 +78,7 @@ public abstract class BaseConnectionManager {
 	 * 
 	 * @throws SQLException If there was an error getting the connection
 	 */
+	@Deprecated
 	public static Connection getConnection() throws SQLException {
 		return(comboPooledDataSource.getConnection());
 	}

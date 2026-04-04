@@ -106,8 +106,12 @@ public class Options {
 		DATABASE_TYPE_PROPERTIES.put(DATABASE_SQLITE3,
 				new DatabaseTypeProperty(
 						DATABASE_SQLITE3,
-						"jdbc:sqlite:./h2zero-test.db",
-						"jdbc:sqlite:./h2zero-test.db",
+						"jdbc:sqlite:./h2zero-test.db?journal_mode=WAL&synchronous=NORMAL",
+						"jdbc:sqlite:./h2zero-test.db?journal_mode=WAL&synchronous=NORMAL",
+						1,
+						1,
+						1,
+						1,
 						"org.sqlite.JDBC",
 						true));
 
@@ -383,6 +387,22 @@ public class Options {
 		} else {
 			return("offsetfetch");
 		}
+	}
+
+	public int getMaxPoolSize() {
+		return(DATABASE_TYPE_PROPERTIES.get(database).maxPoolSize());
+	}
+
+	public int getMinPoolSize() {
+		return(DATABASE_TYPE_PROPERTIES.get(database).minPoolSize());
+	}
+
+	public int getInitialPoolSize() {
+		return(DATABASE_TYPE_PROPERTIES.get(database).initialPoolSize());
+	}
+
+	public int getAcquireIncrement() {
+		return(DATABASE_TYPE_PROPERTIES.get(database).acquireIncrement());
 	}
 
 	public String getJdbcUrl() {

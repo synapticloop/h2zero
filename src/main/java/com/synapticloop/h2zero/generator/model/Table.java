@@ -124,11 +124,12 @@ public class Table extends BaseSchemaObject {
 	private final Map<String, Object> additionalKeys = new HashMap<>();
 
 	/**
-	 * Create a new Table object from the passed in jsonObject.
+	 * <p>Create a new Table object from the passed in jsonObject.</p>
 	 *
-	 * @param options                   The options for the h2zero generation
-	 * @param jsonObject                the json object to create the table from.
+	 * @param options  The options for the h2zero generation
+	 * @param jsonObject the JSON object to create the table from.
 	 * @param defaultStatementCacheSize the default statement cache size
+	 *
 	 * @throws H2ZeroParseException if there was an error parsing the jsonObject
 	 */
 	public Table(Options options, JSONObject jsonObject, int defaultStatementCacheSize) throws H2ZeroParseException {

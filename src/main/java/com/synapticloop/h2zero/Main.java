@@ -122,7 +122,12 @@
 			// all good to go 
 			switch (GENERATE_COMMAND_LINE_OPTIONS.get(arg)) {
 			case GENERATE_VERBOSE:
-				isVerbose = true;
+				i++;
+				try {
+				isVerbose = args[i].equalsIgnoreCase("true");
+				} catch(ArrayIndexOutOfBoundsException aioobex) {
+					SimpleUsage.h2zeroUsageAndExit("Found an argument of '" + arg + "', but no value for the option");
+				}
 				break;
 			case GENERATE_IN:
 				i++;

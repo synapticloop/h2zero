@@ -19,12 +19,44 @@ package com.synapticloop.h2zero.base.manager.sqlite3;
 
 import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
 
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ConnectionManager extends BaseConnectionManager {
+	private static final ExecutorService writerExecutor = Executors.newSingleThreadExecutor();
+
+	/**
+	 * <p>Get a read connection to the database from the combo pooled datasource
+	 * - i.e. this will be used for read only operations.  This is only really
+	 * used for sqlite3 type databases and the default implementation is just a
+	 * chained method call to the getConnection() method.</p>
+	 *
+	 * @return the connection from the underlying database
+	 *
+	 * @throws SQLException If there was an error getting the connection
+	 */
+	public static Connection getReadConnection() throws SQLException {
+		Connection connection = comboPooledDataSource.getConnection();
+		connection.setReadOnly(true);
+		return connection;
+	}
+
+	/**
+	 * <p>Get a write connection to the database from the combo pooled datasource
+	 * - i.e. this will be used for write operations.  This is only really used
+	 * for sqlite3 type databases and the default implementation is just a chained
+	 * method call to the getConnection() method</p>
+	 *
+	 * @return the connection from the underlying database
+	 *
+	 * @throws SQLException If there was an error getting the connection
+	 */
+	public static Connection getWriteConnection() throws SQLException {
+		Connection connection = comboPooledDataSource.getConnection();
+		connection.setReadOnly(false);
+		return connection;
+	}
 
 	public static Clob getNullableResultClob(ResultSet resultSet, int index) throws SQLException {
 		throw new SQLException("Unsupported operation by this JDBC driver - sorry.");

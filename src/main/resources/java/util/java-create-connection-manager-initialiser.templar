@@ -6,5 +6,5 @@ package {database.package};{\n}{\n}
 import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
 {\n}
 public class ConnectionManagerInitialiser extends ConnectionManager {{{\n}
-{\t}protected static final String CONNECTION_POOL_NAME = "{database.package}.{database.schema}";{\n}
+{\t}public static final String CONNECTION_POOL_NAME = "{database.package}.{database.schema}";{\n}
 }{\n}
