@@ -5,23 +5,15 @@ package com.synapticloop.sample.h2zero.mariadb.test.finder;
 //                    (/java/test/java-finder-test.templar)
 
 
-import static org.junit.Assert.*;
-
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
 
 
 import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.mariadb.finder.AllTypesFinder;
@@ -52,7 +44,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
@@ -61,7 +53,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertNull(AllTypesFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
@@ -104,7 +96,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AllTypesFinder.findAll()
 				.withConnection(connection)
 				.execute()
@@ -115,7 +107,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AllTypesFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
@@ -125,7 +117,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindAllWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findAll().withConnection(connection)
 				.withLimit(1)
 				.withOffset(0)
@@ -136,7 +128,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindAllWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AllTypesFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -148,7 +140,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindAllWithConnectionOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -160,7 +152,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindAllWithConnectionOffsetSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -171,7 +163,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesFindAllWithConnectionLimitOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -219,7 +211,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByIdAllTypesWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByIdAllTypes(1L)
 				.withConnection(connection)
 				.execute();
@@ -228,7 +220,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByIdAllTypesWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByIdAllTypes(1L)
 				.withConnection(connection)
 				.executeSilent();
@@ -314,7 +306,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestBigintWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestBigint(1L)
 				.withConnection(connection)
 				.execute();
@@ -323,7 +315,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestBigintWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestBigint(1L)
 				.withConnection(connection)
 				.executeSilent();
@@ -409,7 +401,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestBoolWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestBool(true)
 				.withConnection(connection)
 				.execute();
@@ -418,7 +410,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestBoolWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestBool(true)
 				.withConnection(connection)
 				.executeSilent();
@@ -504,7 +496,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestCharWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestChar("X")
 				.withConnection(connection)
 				.execute();
@@ -513,7 +505,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestCharWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestChar("X")
 				.withConnection(connection)
 				.executeSilent();
@@ -599,7 +591,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestBooleanWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestBoolean(true)
 				.withConnection(connection)
 				.execute();
@@ -608,7 +600,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestBooleanWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestBoolean(true)
 				.withConnection(connection)
 				.executeSilent();
@@ -694,7 +686,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDateWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
 				.withConnection(connection)
 				.execute();
@@ -703,7 +695,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDateWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDate(new java.sql.Date(System.currentTimeMillis()))
 				.withConnection(connection)
 				.executeSilent();
@@ -789,7 +781,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDatetimeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.execute();
@@ -798,7 +790,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDatetimeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.executeSilent();
@@ -884,7 +876,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDecWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
 				.withConnection(connection)
 				.execute();
@@ -893,7 +885,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDecWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDec(BigDecimal.valueOf(0.0))
 				.withConnection(connection)
 				.executeSilent();
@@ -979,7 +971,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDecimalWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
 				.withConnection(connection)
 				.execute();
@@ -988,7 +980,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDecimalWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDecimal(BigDecimal.valueOf(0.0))
 				.withConnection(connection)
 				.executeSilent();
@@ -1074,7 +1066,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDoubleWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDouble(0.0)
 				.withConnection(connection)
 				.execute();
@@ -1083,7 +1075,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestDoubleWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestDouble(0.0)
 				.withConnection(connection)
 				.executeSilent();
@@ -1169,7 +1161,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestFloatWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestFloat(0.0f)
 				.withConnection(connection)
 				.execute();
@@ -1178,7 +1170,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestFloatWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestFloat(0.0f)
 				.withConnection(connection)
 				.executeSilent();
@@ -1264,7 +1256,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestIntWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestInt(1)
 				.withConnection(connection)
 				.execute();
@@ -1273,7 +1265,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestIntWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestInt(1)
 				.withConnection(connection)
 				.executeSilent();
@@ -1359,7 +1351,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestIntegerWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestInteger(1)
 				.withConnection(connection)
 				.execute();
@@ -1368,7 +1360,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestIntegerWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestInteger(1)
 				.withConnection(connection)
 				.executeSilent();
@@ -1454,7 +1446,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestLongtextWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestLongtext("longtext")
 				.withConnection(connection)
 				.execute();
@@ -1463,7 +1455,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestLongtextWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestLongtext("longtext")
 				.withConnection(connection)
 				.executeSilent();
@@ -1549,7 +1541,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestMediumintWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestMediumint(1)
 				.withConnection(connection)
 				.execute();
@@ -1558,7 +1550,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestMediumintWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestMediumint(1)
 				.withConnection(connection)
 				.executeSilent();
@@ -1644,7 +1636,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestMediumtextWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestMediumtext("mediumtext")
 				.withConnection(connection)
 				.execute();
@@ -1653,7 +1645,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestMediumtextWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestMediumtext("mediumtext")
 				.withConnection(connection)
 				.executeSilent();
@@ -1739,7 +1731,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestNumericWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
 				.withConnection(connection)
 				.execute();
@@ -1748,7 +1740,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestNumericWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestNumeric(new java.math.BigDecimal("0.0"))
 				.withConnection(connection)
 				.executeSilent();
@@ -1834,7 +1826,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestSmallintWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestSmallint((short) 0)
 				.withConnection(connection)
 				.execute();
@@ -1843,7 +1835,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestSmallintWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestSmallint((short) 0)
 				.withConnection(connection)
 				.executeSilent();
@@ -1929,7 +1921,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTimeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
 				.withConnection(connection)
 				.execute();
@@ -1938,7 +1930,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTimeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestTime(new java.sql.Time(System.currentTimeMillis()))
 				.withConnection(connection)
 				.executeSilent();
@@ -2024,7 +2016,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTextWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestText("text")
 				.withConnection(connection)
 				.execute();
@@ -2033,7 +2025,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTextWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestText("text")
 				.withConnection(connection)
 				.executeSilent();
@@ -2119,7 +2111,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTimestampWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.execute();
@@ -2128,7 +2120,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTimestampWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.executeSilent();
@@ -2214,7 +2206,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTinyintWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestTinyint(true)
 				.withConnection(connection)
 				.execute();
@@ -2223,7 +2215,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTinyintWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestTinyint(true)
 				.withConnection(connection)
 				.executeSilent();
@@ -2309,7 +2301,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTinytextWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestTinytext("tinytext")
 				.withConnection(connection)
 				.execute();
@@ -2318,7 +2310,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestTinytextWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestTinytext("tinytext")
 				.withConnection(connection)
 				.executeSilent();
@@ -2404,7 +2396,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestVarcharWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestVarchar("varchar")
 				.withConnection(connection)
 				.execute();
@@ -2413,7 +2405,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestVarcharWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestVarchar("varchar")
 				.withConnection(connection)
 				.executeSilent();
@@ -2499,7 +2491,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestYearWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestYear(0)
 				.withConnection(connection)
 				.execute();
@@ -2508,7 +2500,7 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesfindByTestYearWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AllTypesFinder.findByTestYear(0)
 				.withConnection(connection)
 				.executeSilent();

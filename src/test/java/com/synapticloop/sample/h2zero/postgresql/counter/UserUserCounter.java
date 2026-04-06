@@ -4,16 +4,9 @@ package com.synapticloop.sample.h2zero.postgresql.counter;
 //          with the use of synapticloop templar templating language
 //                 (/java/counter/java-create-counter.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import java.sql.*;
-
-import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 
 
 import org.slf4j.Logger;

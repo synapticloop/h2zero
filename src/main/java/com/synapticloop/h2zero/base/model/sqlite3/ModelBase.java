@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.model.sqlite3;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public abstract class ModelBase extends com.synapticloop.h2zero.base.model.Model
 	protected Connection getConnection() throws SQLException {
 		LOGGER.warn("Getting a default connection from SQLite3 - you should use really " +
 				"getReadConnection() or getWriteConnection()");
-		return(ConnectionManager.getConnection());
+		return(C3P0ConnectionManager.getConnection());
 	}
 
 	/**
@@ -45,7 +45,7 @@ public abstract class ModelBase extends com.synapticloop.h2zero.base.model.Model
 	 * @throws SQLException If there was an error getting the connection
 	 */
 	protected Connection getReadConnection() throws SQLException {
-		return(ConnectionManager.getReadConnection());
+		return(C3P0ConnectionManager.getReadConnection());
 	}
 
 	/**
@@ -59,6 +59,6 @@ public abstract class ModelBase extends com.synapticloop.h2zero.base.model.Model
 	 * @throws SQLException If there was an error getting the connection
 	 */
 	protected Connection getWriteConnection() throws SQLException {
-		return(ConnectionManager.getWriteConnection());
+		return(C3P0ConnectionManager.getWriteConnection());
 	}
 }

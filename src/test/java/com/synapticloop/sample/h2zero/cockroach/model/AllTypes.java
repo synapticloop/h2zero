@@ -4,13 +4,13 @@ package com.synapticloop.sample.h2zero.cockroach.model;
 //          with the use of synapticloop templar templating language
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.cockroach.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.cockroach.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -19,7 +19,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import com.synapticloop.h2zero.base.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
@@ -450,16 +449,16 @@ public class AllTypes extends ModelBase {
 		try {
 			// create this bean 
 			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-			ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
-			ConnectionManager.setInteger(preparedStatement, 2, numInteger);
-			ConnectionManager.setBigint(preparedStatement, 3, numBigint);
-			ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
-			ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
-			ConnectionManager.setReal(preparedStatement, 6, fltReal);
-			ConnectionManager.setDouble(preparedStatement, 7, dblReal);
-			ConnectionManager.setSerial(preparedStatement, 8, numSerial);
-			ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
-			ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
+			C3P0ConnectionManager.setInteger(preparedStatement, 2, numInteger);
+			C3P0ConnectionManager.setBigint(preparedStatement, 3, numBigint);
+			C3P0ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
+			C3P0ConnectionManager.setReal(preparedStatement, 6, fltReal);
+			C3P0ConnectionManager.setDouble(preparedStatement, 7, dblReal);
+			C3P0ConnectionManager.setSerial(preparedStatement, 8, numSerial);
+			C3P0ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
+			C3P0ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
 			preparedStatement.executeUpdate();
 
 			resultSet = preparedStatement.getGeneratedKeys();
@@ -470,7 +469,7 @@ public class AllTypes extends ModelBase {
 				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -490,16 +489,16 @@ public class AllTypes extends ModelBase {
 		ResultSet resultSet = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_ENSURE);
-			ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
-			ConnectionManager.setInteger(preparedStatement, 2, numInteger);
-			ConnectionManager.setBigint(preparedStatement, 3, numBigint);
-			ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
-			ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
-			ConnectionManager.setReal(preparedStatement, 6, fltReal);
-			ConnectionManager.setDouble(preparedStatement, 7, dblReal);
-			ConnectionManager.setSerial(preparedStatement, 8, numSerial);
-			ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
-			ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
+			C3P0ConnectionManager.setInteger(preparedStatement, 2, numInteger);
+			C3P0ConnectionManager.setBigint(preparedStatement, 3, numBigint);
+			C3P0ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
+			C3P0ConnectionManager.setReal(preparedStatement, 6, fltReal);
+			C3P0ConnectionManager.setDouble(preparedStatement, 7, dblReal);
+			C3P0ConnectionManager.setSerial(preparedStatement, 8, numSerial);
+			C3P0ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
+			C3P0ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				this.idAllTypes = resultSet.getLong(1);
@@ -508,7 +507,7 @@ public class AllTypes extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -521,16 +520,16 @@ public class AllTypes extends ModelBase {
 		if(isDirty) {
 			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 				// update this bean, but only if dirty
-				ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
-				ConnectionManager.setInteger(preparedStatement, 2, numInteger);
-				ConnectionManager.setBigint(preparedStatement, 3, numBigint);
-				ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
-				ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
-				ConnectionManager.setReal(preparedStatement, 6, fltReal);
-				ConnectionManager.setDouble(preparedStatement, 7, dblReal);
-				ConnectionManager.setSerial(preparedStatement, 8, numSerial);
-				ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
-				ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
+				C3P0ConnectionManager.setSmallint(preparedStatement, 1, numSmallint);
+				C3P0ConnectionManager.setInteger(preparedStatement, 2, numInteger);
+				C3P0ConnectionManager.setBigint(preparedStatement, 3, numBigint);
+				C3P0ConnectionManager.setDecimal(preparedStatement, 4, numDecimal);
+				C3P0ConnectionManager.setNumeric(preparedStatement, 5, numNumeric);
+				C3P0ConnectionManager.setReal(preparedStatement, 6, fltReal);
+				C3P0ConnectionManager.setDouble(preparedStatement, 7, dblReal);
+				C3P0ConnectionManager.setSerial(preparedStatement, 8, numSerial);
+				C3P0ConnectionManager.setSmallserial(preparedStatement, 9, numSmallserial);
+				C3P0ConnectionManager.setBigserial(preparedStatement, 10, numBigserial);
 				// now set the primary key
 				preparedStatement.setLong(11, idAllTypes);
 				preparedStatement.executeUpdate();

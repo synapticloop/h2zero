@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.limitoffset;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.sql.base.finder.LimitOffsetMultiFinder;
 import org.slf4j.Logger;
 
@@ -50,6 +50,6 @@ public class MultiFinder<T> extends LimitOffsetMultiFinder<T> {
 	}
 
 	protected Connection getConnection() throws SQLException {
-		return(ConnectionManager.getConnection());
+		return(C3P0ConnectionManager.getConnection());
 	}
 }

@@ -5,23 +5,14 @@ package com.synapticloop.sample.h2zero.sqlite3.test.finder;
 //                    (/java/test/java-finder-test.templar)
 
 
-import static org.junit.Assert.*;
-
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.finder.AuthorStatusFinder;
@@ -52,7 +43,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorStatusFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
@@ -61,7 +52,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertNull(AuthorStatusFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
@@ -104,7 +95,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(4, AuthorStatusFinder.findAll()
 				.withConnection(connection)
 				.execute()
@@ -115,7 +106,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(4, AuthorStatusFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
@@ -125,7 +116,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindAllWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(1, AuthorStatusFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -138,7 +129,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindAllWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(1, AuthorStatusFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -150,7 +141,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindAllWithConnectionOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(4, AuthorStatusFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -163,7 +154,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindAllWithConnectionOffsetSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorStatusFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -174,7 +165,7 @@ public class AuthorStatusTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorStatusFindAllWithConnectionLimitOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(1, AuthorStatusFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)

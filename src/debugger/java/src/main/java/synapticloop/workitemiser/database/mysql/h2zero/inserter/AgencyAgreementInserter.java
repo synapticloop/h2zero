@@ -7,14 +7,13 @@ package synapticloop.workitemiser.database.mysql.h2zero.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 import java.sql.Date;
 
 
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import synapticloop.workitemiser.database.mysql.h2zero.model.util.Constants;
 
 /**
@@ -73,13 +72,13 @@ public class AgencyAgreementInserter {
 	 */
 	public static int insert(Connection connection, Long idAgencyAgreement, Integer numStrataPlan, Date dtAgencyAgreementStart, Date dtAgencyAgreementEnd, Float fltPercentIncrease, String txtNotes, Boolean flIsCurrent) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idAgencyAgreement);
-			ConnectionManager.setInt(preparedStatement, 2, numStrataPlan);
-			ConnectionManager.setDate(preparedStatement, 3, dtAgencyAgreementStart);
-			ConnectionManager.setDate(preparedStatement, 4, dtAgencyAgreementEnd);
-			ConnectionManager.setFloat(preparedStatement, 5, fltPercentIncrease);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtNotes);
-			ConnectionManager.setBoolean(preparedStatement, 7, flIsCurrent);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAgencyAgreement);
+			C3P0ConnectionManager.setInt(preparedStatement, 2, numStrataPlan);
+			C3P0ConnectionManager.setDate(preparedStatement, 3, dtAgencyAgreementStart);
+			C3P0ConnectionManager.setDate(preparedStatement, 4, dtAgencyAgreementEnd);
+			C3P0ConnectionManager.setFloat(preparedStatement, 5, fltPercentIncrease);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtNotes);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 7, flIsCurrent);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -102,13 +101,13 @@ public class AgencyAgreementInserter {
 	 */
 	public static int insert(Connection connection, Long idAgencyAgreement, Integer numStrataPlan, Date dtAgencyAgreementStart, Date dtAgencyAgreementEnd, Boolean flIsCurrent) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idAgencyAgreement);
-			ConnectionManager.setInt(preparedStatement, 2, numStrataPlan);
-			ConnectionManager.setDate(preparedStatement, 3, dtAgencyAgreementStart);
-			ConnectionManager.setDate(preparedStatement, 4, dtAgencyAgreementEnd);
-			ConnectionManager.setFloat(preparedStatement, 5, null);
-			ConnectionManager.setVarchar(preparedStatement, 6, null);
-			ConnectionManager.setBoolean(preparedStatement, 7, flIsCurrent);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAgencyAgreement);
+			C3P0ConnectionManager.setInt(preparedStatement, 2, numStrataPlan);
+			C3P0ConnectionManager.setDate(preparedStatement, 3, dtAgencyAgreementStart);
+			C3P0ConnectionManager.setDate(preparedStatement, 4, dtAgencyAgreementEnd);
+			C3P0ConnectionManager.setFloat(preparedStatement, 5, null);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, null);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 7, flIsCurrent);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -130,7 +129,7 @@ public class AgencyAgreementInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAgencyAgreement, Integer numStrataPlan, Date dtAgencyAgreementStart, Date dtAgencyAgreementEnd, Float fltPercentIncrease, String txtNotes, Boolean flIsCurrent) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAgencyAgreement, numStrataPlan, dtAgencyAgreementStart, dtAgencyAgreementEnd, fltPercentIncrease, txtNotes, flIsCurrent));
 		}
 	}
@@ -150,7 +149,7 @@ public class AgencyAgreementInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAgencyAgreement, Integer numStrataPlan, Date dtAgencyAgreementStart, Date dtAgencyAgreementEnd, Boolean flIsCurrent) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAgencyAgreement, numStrataPlan, dtAgencyAgreementStart, dtAgencyAgreementEnd, flIsCurrent));
 		}
 	}
@@ -232,7 +231,7 @@ public class AgencyAgreementInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAgencyAgreement, Integer numStrataPlan, Date dtAgencyAgreementStart, Date dtAgencyAgreementEnd, Float fltPercentIncrease, String txtNotes, Boolean flIsCurrent) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idAgencyAgreement, numStrataPlan, dtAgencyAgreementStart, dtAgencyAgreementEnd, fltPercentIncrease, txtNotes, flIsCurrent));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -260,7 +259,7 @@ public class AgencyAgreementInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAgencyAgreement, Integer numStrataPlan, Date dtAgencyAgreementStart, Date dtAgencyAgreementEnd, Boolean flIsCurrent) {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAgencyAgreement, numStrataPlan, dtAgencyAgreementStart, dtAgencyAgreementEnd, flIsCurrent));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());

@@ -4,7 +4,7 @@ package com.synapticloop.sample.h2zero.cockroach.model;
 //          with the use of synapticloop templar templating language
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.cockroach.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 import com.synapticloop.sample.h2zero.cockroach.question.UserTypeQuestion;
@@ -12,9 +12,8 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.cockroach.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -401,13 +400,13 @@ public class UserUser extends ModelBase {
 		try {
 			// create this bean 
 			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-			ConnectionManager.setBigint(preparedStatement, 1, idUserType);
-			ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
-			ConnectionManager.setInt(preparedStatement, 3, numAge);
-			ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-			ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
-			ConnectionManager.setTimestamp(preparedStatement, 7, tsSignup);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserType);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
+			C3P0ConnectionManager.setInt(preparedStatement, 3, numAge);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
+			C3P0ConnectionManager.setTimestamp(preparedStatement, 7, tsSignup);
 			preparedStatement.executeUpdate();
 
 			resultSet = preparedStatement.getGeneratedKeys();
@@ -418,7 +417,7 @@ public class UserUser extends ModelBase {
 				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -438,13 +437,13 @@ public class UserUser extends ModelBase {
 		ResultSet resultSet = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_ENSURE);
-			ConnectionManager.setBigint(preparedStatement, 1, idUserType);
-			ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
-			ConnectionManager.setInt(preparedStatement, 3, numAge);
-			ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-			ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
-			ConnectionManager.setTimestamp(preparedStatement, 7, tsSignup);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserType);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
+			C3P0ConnectionManager.setInt(preparedStatement, 3, numAge);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
+			C3P0ConnectionManager.setTimestamp(preparedStatement, 7, tsSignup);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				this.idUserUser = resultSet.getLong(1);
@@ -453,7 +452,7 @@ public class UserUser extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -466,13 +465,13 @@ public class UserUser extends ModelBase {
 		if(isDirty) {
 			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 				// update this bean, but only if dirty
-				ConnectionManager.setBigint(preparedStatement, 1, idUserType);
-				ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
-				ConnectionManager.setInt(preparedStatement, 3, numAge);
-				ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-				ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
-				ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
-				ConnectionManager.setTimestamp(preparedStatement, 7, tsSignup);
+				C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserType);
+				C3P0ConnectionManager.setBoolean(preparedStatement, 2, flIsAlive);
+				C3P0ConnectionManager.setInt(preparedStatement, 3, numAge);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 5, txtAddressEmail);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtPassword);
+				C3P0ConnectionManager.setTimestamp(preparedStatement, 7, tsSignup);
 				// now set the primary key
 				preparedStatement.setLong(8, idUserUser);
 				preparedStatement.executeUpdate();
@@ -530,13 +529,13 @@ public class UserUser extends ModelBase {
 			if(!resultSet.next()) {
 				throw new H2ZeroPrimaryKeyException("Could not find result with primary key of: " + getPrimaryKey());
 			}
-			this.numAge = ConnectionManager.getNullableResultInt(resultSet, 1);
-			this.tsSignup = ConnectionManager.getNullableResultTimestamp(resultSet, 2);
+			this.numAge = C3P0ConnectionManager.getNullableResultInt(resultSet, 1);
+			this.tsSignup = C3P0ConnectionManager.getNullableResultTimestamp(resultSet, 2);
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
 		this.isHydrated = true;
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 

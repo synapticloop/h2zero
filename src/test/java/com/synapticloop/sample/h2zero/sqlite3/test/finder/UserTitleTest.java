@@ -5,23 +5,14 @@ package com.synapticloop.sample.h2zero.sqlite3.test.finder;
 //                    (/java/test/java-finder-test.templar)
 
 
-import static org.junit.Assert.*;
-
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.finder.UserTitleFinder;
@@ -52,7 +43,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserTitleFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
@@ -61,7 +52,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertNull(UserTitleFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
@@ -104,7 +95,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(4, UserTitleFinder.findAll()
 				.withConnection(connection)
 				.execute()
@@ -115,7 +106,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(4, UserTitleFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
@@ -125,7 +116,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindAllWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(1, UserTitleFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -138,7 +129,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindAllWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(1, UserTitleFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -150,7 +141,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindAllWithConnectionOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(4, UserTitleFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -163,7 +154,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindAllWithConnectionOffsetSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserTitleFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -174,7 +165,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitleFindAllWithConnectionLimitOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(1, UserTitleFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -224,7 +215,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitlefindIdUserTitleNmUserTitleOrderedWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserTitleFinder.findIdUserTitleNmUserTitleOrdered()
 				.withConnection(connection)
 				.execute();
@@ -233,7 +224,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitlefindIdUserTitleNmUserTitleOrderedWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserTitleFinder.findIdUserTitleNmUserTitleOrdered()
 				.withConnection(connection)
 				.executeSilent();
@@ -319,7 +310,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitlefindAllOrderedWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserTitleFinder.findAllOrdered()
 				.withConnection(connection)
 				.execute();
@@ -328,7 +319,7 @@ public class UserTitleTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserTitlefindAllOrderedWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserTitleFinder.findAllOrdered()
 				.withConnection(connection)
 				.executeSilent();

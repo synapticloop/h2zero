@@ -12,7 +12,7 @@ import org.junit.BeforeClass;{\n}
 import org.junit.Test;{\n}
 import {database.package}.ConnectionManagerInitialiserOverride;{\n}
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
 import {database.package}.test.DatabaseSetupTest;{\n}{\n}
 {\n}
 import java.math.*;{\n}
@@ -50,7 +50,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}DeleteByPrimaryKeyWithConnection() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Deleter.deleteByPrimaryKey(1L).withConnection(connection).execute());{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
@@ -58,7 +58,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}DeleteByPrimaryKeyWithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Deleter.deleteByPrimaryKey(1L).withConnection(connection).executeSilent());{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
@@ -85,7 +85,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}DeleteAllWithConnection() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Deleter.deleteAll().withConnection(connection).execute());{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
@@ -93,7 +93,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}DeleteAllWithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Deleter.deleteAll().withConnection(connection).executeSilent());{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
@@ -132,7 +132,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{deleter.name}WithConnection() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)){{{\n}
 {\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Deleter.{deleter.name}({import classpath:/java/test/snippet/deleter-field-params.templar}).withConnection(connection).execute());{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
@@ -140,7 +140,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{deleter.name}WithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)){{{\n}
 {\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Deleter.{deleter.name}({import classpath:/java/test/snippet/deleter-field-params.templar}).withConnection(connection).executeSilent());{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
@@ -149,7 +149,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 {if fn:notEqual[options.database, "sqlite3"]}
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{deleter.name}WithConnectionLimit() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)){{{\n}
 {\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Deleter.{deleter.name}({import classpath:/java/test/snippet/deleter-field-params.templar}).withConnection(connection).withLimit(0).execute());{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}
@@ -157,7 +157,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{deleter.name}WithConnectionLimitSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()){{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)){{{\n}
 {\t}{\t}{\t}Assert.assertEquals(0, {table.javaClassName}Deleter.{deleter.name}({import classpath:/java/test/snippet/deleter-field-params.templar}).withConnection(connection).withLimit(0).execute());{\n}
 {\t}{\t}}{\n}
 {\t}}{\n}

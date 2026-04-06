@@ -20,12 +20,12 @@ package com.synapticloop.h2zero.base.model.mysql;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 
 public abstract class ModelBase extends com.synapticloop.h2zero.base.model.ModelBase {
 
 	@Override
 	protected Connection getConnection() throws SQLException {
-		return(ConnectionManager.getConnection());
+		return(C3P0ConnectionManager.getConnection());
 	}
 }

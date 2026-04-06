@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.limitoffset;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.sql.base.updater.LimitOffsetUpdater;
 import org.slf4j.Logger;
 
@@ -30,6 +30,6 @@ public class Updater extends LimitOffsetUpdater {
 	}
 
 	@Override protected Connection getConnection() throws SQLException {
-		return(ConnectionManager.getConnection());
+		return(C3P0ConnectionManager.getConnection());
 	}
 }

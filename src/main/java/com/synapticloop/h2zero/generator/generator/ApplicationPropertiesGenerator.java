@@ -41,7 +41,9 @@ public class ApplicationPropertiesGenerator extends Generator {
 			return;
 		}
 
-		Parser javaApplicationProperties = getParser("/java/util/properties-create-application-properties-example.templar");
+		Parser javaApplicationProperties = getParser("/java/util/properties-create-application-properties-" +
+				options.getConnectionPooling() +
+				"-example.templar");
 
 		TemplarContext templarContext = null;
 		try {
@@ -50,7 +52,16 @@ public class ApplicationPropertiesGenerator extends Generator {
 			throw new RenderException("Could not instantiate the function.", fex);
 		}
 
-		String pathname = outFile.getAbsolutePath() + options.getOutputResources() + "/application." + options.getDatabase() + "." + database.getSchema() + ".example.properties";
+		String pathname = outFile.getAbsolutePath() +
+				options.getOutputResources() +
+				"/application." +
+				options.getDatabase() +
+				"." +
+				database.getSchema() +
+				"." +
+				options.getConnectionPooling() +
+				".example.properties";
+
 		SimpleLogger.logInfo(LoggerType.GENERATE_JAVA_PROPERTIES, "Generating for 'Application properties'.");
 		renderToFile(templarContext, javaApplicationProperties, pathname);
 	}

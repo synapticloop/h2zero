@@ -34,7 +34,7 @@
 {\t}{\t}ResultSet resultSetExact = null;{\n}
 
 {\t}{\t}// now set all parameters{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME);{\n}
 {\t}{\t}{\t}{\t} PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_EXACT.toString())) {{{\n}
 {\t}{\t}{\t}resultSetExact = preparedStatement.getResultSet();{\n}
 {\t}{\t}{\t}if(resultSetExact.next()) {{{\n}

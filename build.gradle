@@ -29,19 +29,24 @@ java {
 }
 
 dependencies {
+	// need templar and json
 	implementation "com.synapticloop:templar:2.0.3"
 	implementation "org.json:json:20240303"
 
+	// connection pooling
 	implementation 'com.mchange:c3p0:0.12.0'
 	implementation 'com.zaxxer:HikariCP:7.0.2'
 
-	implementation 'commons-validator:commons-validator:1.10.1'
+	// logging
 	implementation 'org.slf4j:slf4j-api:2.0.13'
+
+	implementation 'commons-validator:commons-validator:1.10.1'
 	implementation "javax.mail:javax.mail-api:1.6.2"
 	implementation "org.apache.ant:ant:1.10.14"
 	implementation 'org.reflections:reflections:0.10.2'
 
 
+	// database connections
 	implementation 'com.microsoft.sqlserver:mssql-jdbc:12.6.0.jre11'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
 	implementation 'com.mysql:mysql-connector-j:9.6.0'

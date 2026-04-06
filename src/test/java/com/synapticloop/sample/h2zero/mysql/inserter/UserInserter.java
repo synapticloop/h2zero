@@ -7,14 +7,13 @@ package com.synapticloop.sample.h2zero.mysql.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 /**
@@ -72,14 +71,14 @@ public class UserInserter {
 	 */
 	public static int insert(Connection connection, Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idUser);
-			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
-			ConnectionManager.setBoolean(preparedStatement, 3, flIsAlive);
-			ConnectionManager.setInt(preparedStatement, 4, numAge);
-			ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtAddressEmail);
-			ConnectionManager.setVarchar(preparedStatement, 7, txtPassword);
-			ConnectionManager.setDatetime(preparedStatement, 8, dtmSignup);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, idUserType);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 3, flIsAlive);
+			C3P0ConnectionManager.setInt(preparedStatement, 4, numAge);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtAddressEmail);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 7, txtPassword);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 8, dtmSignup);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -103,14 +102,14 @@ public class UserInserter {
 	 */
 	public static int insert(Connection connection, Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idUser);
-			ConnectionManager.setBigint(preparedStatement, 2, idUserType);
-			ConnectionManager.setBoolean(preparedStatement, 3, null);
-			ConnectionManager.setInt(preparedStatement, 4, numAge);
-			ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtAddressEmail);
-			ConnectionManager.setVarchar(preparedStatement, 7, txtPassword);
-			ConnectionManager.setDatetime(preparedStatement, 8, null);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, idUserType);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 3, null);
+			C3P0ConnectionManager.setInt(preparedStatement, 4, numAge);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtAddressEmail);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 7, txtPassword);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 8, null);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -133,7 +132,7 @@ public class UserInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
 		}
 	}
@@ -154,7 +153,7 @@ public class UserInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
 		}
 	}
@@ -239,7 +238,7 @@ public class UserInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idUser, Long idUserType, Boolean flIsAlive, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword, Timestamp dtmSignup) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idUser, idUserType, flIsAlive, numAge, nmUsername, txtAddressEmail, txtPassword, dtmSignup));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -268,7 +267,7 @@ public class UserInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idUser, Long idUserType, Integer numAge, String nmUsername, String txtAddressEmail, String txtPassword) {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idUser, idUserType, numAge, nmUsername, txtAddressEmail, txtPassword));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());

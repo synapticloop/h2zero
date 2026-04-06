@@ -9,8 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -18,9 +17,6 @@ import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
-
-import com.synapticloop.h2zero.base.sql.nolimitoffset.Question;
-import java.util.List;
 
 /**
  * <p>This class contains all of the questions that are defined in the h2zero
@@ -96,9 +92,9 @@ public class UserTypeQuestion {
 		boolean answer = false;
 
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = C3P0ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
-			ConnectionManager.setBigint(preparedStatement, 1, idUserType);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserType);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
@@ -112,7 +108,7 @@ public class UserTypeQuestion {
 				}
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet);
+			C3P0ConnectionManager.closeAll(resultSet);
 		}
 		return(answer);
 	}

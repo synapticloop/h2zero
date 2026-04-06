@@ -8,10 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.cockroach.C3P0ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -21,8 +19,7 @@ import org.slf4j.LoggerFactory;
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
 
 import com.synapticloop.h2zero.base.sql.nolimitoffset.Question;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.List;
 
 /**
@@ -110,9 +107,9 @@ public class UserUserQuestion {
 		boolean answer = false;
 
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = C3P0ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
-			ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
@@ -126,7 +123,7 @@ public class UserUserQuestion {
 				}
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet);
+			C3P0ConnectionManager.closeAll(resultSet);
 		}
 		return(answer);
 	}

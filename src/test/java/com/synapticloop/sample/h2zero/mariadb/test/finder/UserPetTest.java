@@ -5,23 +5,14 @@ package com.synapticloop.sample.h2zero.mariadb.test.finder;
 //                    (/java/test/java-finder-test.templar)
 
 
-import static org.junit.Assert.*;
-
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.mariadb.finder.UserPetFinder;
@@ -52,7 +43,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserPetFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
@@ -61,7 +52,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertNull(UserPetFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
@@ -104,7 +95,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserPetFinder.findAll()
 				.withConnection(connection)
 				.execute()
@@ -115,7 +106,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserPetFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
@@ -125,7 +116,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindAllWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserPetFinder.findAll().withConnection(connection)
 				.withLimit(1)
 				.withOffset(0)
@@ -136,7 +127,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindAllWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserPetFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -148,7 +139,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindAllWithConnectionOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserPetFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -160,7 +151,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindAllWithConnectionOffsetSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserPetFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -171,7 +162,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetFindAllWithConnectionLimitOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserPetFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)

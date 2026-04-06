@@ -4,14 +4,6 @@ package com.synapticloop.sample.h2zero.postgresql.updater;
 //          with the use of synapticloop templar templating language
 //                 (/java/updater/java-create-updater.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.sql.Timestamp;
-
-import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.limitoffset.Updater;
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 
 

@@ -4,8 +4,8 @@ package com.synapticloop.sample.h2zero.cockroach;
 //          with the use of synapticloop templar templating language
 //        (/java/util/java-create-connection-manager-initialise.templar)
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.cockroach.C3P0ConnectionManager;
 
-public class ConnectionManagerInitialiser extends ConnectionManager {
+public class C3P0ConnectionManagerInitialiser extends C3P0ConnectionManager {
 	protected static final String CONNECTION_POOL_NAME = "com.synapticloop.sample.h2zero.cockroach.sample";
 }

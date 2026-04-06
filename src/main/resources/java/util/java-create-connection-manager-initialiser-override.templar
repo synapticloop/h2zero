@@ -8,8 +8,13 @@ import org.slf4j.Logger;{\n}
 import org.slf4j.LoggerFactory;{\n}
 {\n}
 import {database.package}.ConnectionManagerInitialiser;{\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
+{if fn:=[options.connectionPooling, "c3p0"]}
 import com.mchange.v2.c3p0.ComboPooledDataSource;{\n}
+{else}
+import com.zaxxer.hikari.HikariConfig;{\n}
+import com.zaxxer.hikari.HikariDataSource;{\n}
+{endif}
 {\n}
 import java.beans.PropertyVetoException;{\n}
 import java.io.BufferedReader;{\n}
@@ -121,7 +126,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}myComboPooledDataSource.setAcquireRetryAttempts(Integer.parseInt(properties.getProperty(C3P0_ACQUIRE_RETRY_ATTEMPTS)));{\n}
 {\t}{\t}myComboPooledDataSource.setDebugUnreturnedConnectionStackTraces(Boolean.parseBoolean(properties.getProperty(C3P0_DEBUG_UNRETURNED_CONNECTION_STACK_TRACES)));{\n}
 {\n}
-{\t}{\t}addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);{\n}
+{\t}{\t}addConnectionPool(CONNECTION_POOL_NAME, myComboPooledDataSource);{\n}
 {\t}}{\n}
 {\n}
 {\t}/**{\n}
@@ -151,7 +156,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 //{\t}{\t}}{\n}
 //{\n}
 //{\t}{\t}// don't forget to add it to the combopool{\n}
-//{\t}{\t}addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);{\n}
+//{\t}{\t}addConnectionPool(CONNECTION_POOL_NAME, myComboPooledDataSource);{\n}
 {if fn:=[options.database, "sqlite3"]}
 	//{\n}
 	//{\t}{\t}// if you are running SQLite3 - then you should do the following:{\n}
@@ -240,7 +245,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 {\t}{\t}} catch (SQLException e) {{{\n}
 {\t}{\t}{\t}throw(e);{\n}
 {\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(preparedStatement);{\n}
+{\t}{\t}{\t}{options.ConnectionManagerClass}.closeAll(preparedStatement);{\n}
 {\t}{\t}}{\n}
 {\t}{\t}hasCreatedDatabase = true;{\n}
 {\t}}{\n}

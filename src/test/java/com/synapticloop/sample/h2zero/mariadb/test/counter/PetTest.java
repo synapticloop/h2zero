@@ -5,23 +5,13 @@ package com.synapticloop.sample.h2zero.mariadb.test.counter;
 //                     (java/test/java-counter-test.templar)
 
 
-import static org.junit.Assert.*;
-
-import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.mariadb.counter.PetCounter;
@@ -47,7 +37,7 @@ public class PetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testPetcountAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			PetCounter.countAll()
 					.withConnection(connection)
 					.execute();
@@ -56,7 +46,7 @@ public class PetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testPetcountAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			PetCounter.countAll()
 					.withConnection(connection)
 					.executeSilent();

@@ -5,23 +5,13 @@ package com.synapticloop.sample.h2zero.sqlite3.test.counter;
 //                     (java/test/java-counter-test.templar)
 
 
-import static org.junit.Assert.*;
-
-import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.counter.AuthorCounter;
@@ -47,7 +37,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorcountAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorCounter.countAll()
 					.withConnection(connection)
 					.execute();
@@ -56,7 +46,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorcountAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorCounter.countAll()
 					.withConnection(connection)
 					.executeSilent();
@@ -91,7 +81,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorcountAllByFlIsUpdatingNumFollowersWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorCounter.countAllByFlIsUpdatingNumFollowers(true, 1L)
 					.withConnection(connection)
 					.execute();
@@ -100,7 +90,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorcountAllByFlIsUpdatingNumFollowersWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorCounter.countAllByFlIsUpdatingNumFollowers(true, 1L)
 					.withConnection(connection)
 					.executeSilent();
@@ -135,7 +125,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorcountAllToBeEvaluatedWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorCounter.countAllToBeEvaluated(new java.sql.Timestamp(System.currentTimeMillis()))
 					.withConnection(connection)
 					.execute();
@@ -144,7 +134,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorcountAllToBeEvaluatedWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorCounter.countAllToBeEvaluated(new java.sql.Timestamp(System.currentTimeMillis()))
 					.withConnection(connection)
 					.executeSilent();
@@ -179,7 +169,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorcountByStatusWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorCounter.countByStatus(1L)
 					.withConnection(connection)
 					.execute();
@@ -188,7 +178,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorcountByStatusWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorCounter.countByStatus(1L)
 					.withConnection(connection)
 					.executeSilent();

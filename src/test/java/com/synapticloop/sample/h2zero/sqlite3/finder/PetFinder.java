@@ -4,19 +4,13 @@ package com.synapticloop.sample.h2zero.sqlite3.finder;
 //          with the use of synapticloop templar templating language
 //                  (/java/finder/java-create-finder.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
-import java.sql.Blob;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import com.synapticloop.h2zero.base.util.LruCache;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -402,12 +396,12 @@ public class PetFinder {
 		List<Pet> arrayList = new ArrayList<Pet>();
 		while(resultSet.next()) {
 			arrayList.add(new Pet(
-					ConnectionManager.getNullableResultLong(resultSet, 1),
-					ConnectionManager.getNullableResultString(resultSet, 2),
-					ConnectionManager.getNullableResultInt(resultSet, 3),
-					ConnectionManager.getNullableResultFloat(resultSet, 4),
-					ConnectionManager.getNullableResultDate(resultSet, 5),
-					ConnectionManager.getNullableResultBlob(resultSet, 6)));
+					C3P0ConnectionManager.getNullableResultLong(resultSet, 1),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 2),
+					C3P0ConnectionManager.getNullableResultInt(resultSet, 3),
+					C3P0ConnectionManager.getNullableResultFloat(resultSet, 4),
+					C3P0ConnectionManager.getNullableResultDate(resultSet, 5),
+					C3P0ConnectionManager.getNullableResultBlob(resultSet, 6)));
 		}
 		return(arrayList);
 	}

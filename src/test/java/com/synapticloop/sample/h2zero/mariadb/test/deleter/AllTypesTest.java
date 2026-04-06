@@ -5,24 +5,15 @@ package com.synapticloop.sample.h2zero.mariadb.test.deleter;
 //                    (/java/test/java-deleter-test.templar)
 
 
-import static org.junit.Assert.*;
-
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
 
 
 import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.mariadb.deleter.AllTypesDeleter;
@@ -46,14 +37,14 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesDeleteByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AllTypesDeleter.deleteByPrimaryKey(1L).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesDeleteByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AllTypesDeleter.deleteByPrimaryKey(1L).withConnection(connection).executeSilent());
 		}
 	}
@@ -70,14 +61,14 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesDeleteAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AllTypesDeleter.deleteAll().withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesDeleteAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AllTypesDeleter.deleteAll().withConnection(connection).executeSilent());
 		}
 	}
@@ -104,28 +95,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByIdAllTypesWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByIdAllTypes(1L).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByIdAllTypesWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByIdAllTypes(1L).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByIdAllTypesWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByIdAllTypes(1L).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByIdAllTypesWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByIdAllTypes(1L).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -152,28 +143,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestBigintWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBigint(1L).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBigintWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBigint(1L).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBigintWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBigint(1L).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBigintWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBigint(1L).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -200,28 +191,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestBoolWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBool(true).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBoolWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBool(true).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBoolWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBool(true).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBoolWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBool(true).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -248,28 +239,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestCharWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestChar("X").withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestCharWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestChar("X").withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestCharWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestChar("X").withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestCharWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestChar("X").withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -296,28 +287,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestBooleanWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBoolean(true).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBooleanWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBoolean(true).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBooleanWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBoolean(true).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestBooleanWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestBoolean(true).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -344,28 +335,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestDateWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDate(new java.sql.Date(System.currentTimeMillis())).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDateWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDate(new java.sql.Date(System.currentTimeMillis())).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDateWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDate(new java.sql.Date(System.currentTimeMillis())).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDateWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDate(new java.sql.Date(System.currentTimeMillis())).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -392,28 +383,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestDatetimeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis())).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDatetimeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis())).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDatetimeWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis())).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDatetimeWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDatetime(new java.sql.Timestamp(System.currentTimeMillis())).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -440,28 +431,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestDecWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDec(BigDecimal.valueOf(0.0)).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDecWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDec(BigDecimal.valueOf(0.0)).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDecWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDec(BigDecimal.valueOf(0.0)).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDecWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDec(BigDecimal.valueOf(0.0)).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -488,28 +479,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestDecimalWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDecimal(BigDecimal.valueOf(0.0)).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDecimalWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDecimal(BigDecimal.valueOf(0.0)).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDecimalWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDecimal(BigDecimal.valueOf(0.0)).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDecimalWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDecimal(BigDecimal.valueOf(0.0)).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -536,28 +527,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestDoubleWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDouble(0.0).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDoubleWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDouble(0.0).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDoubleWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDouble(0.0).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestDoubleWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestDouble(0.0).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -584,28 +575,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestFloatWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestFloat(0.0f).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestFloatWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestFloat(0.0f).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestFloatWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestFloat(0.0f).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestFloatWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestFloat(0.0f).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -632,28 +623,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestIntWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestInt(1).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestIntWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestInt(1).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestIntWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestInt(1).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestIntWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestInt(1).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -680,28 +671,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestIntegerWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestInteger(1).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestIntegerWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestInteger(1).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestIntegerWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestInteger(1).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestIntegerWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestInteger(1).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -728,28 +719,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestLongtextWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestLongtext("longtext").withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestLongtextWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestLongtext("longtext").withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestLongtextWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestLongtext("longtext").withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestLongtextWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestLongtext("longtext").withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -776,28 +767,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestMediumintWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestMediumint(1).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestMediumintWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestMediumint(1).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestMediumintWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestMediumint(1).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestMediumintWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestMediumint(1).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -824,28 +815,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestMediumtextWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestMediumtext("mediumtext").withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestMediumtextWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestMediumtext("mediumtext").withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestMediumtextWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestMediumtext("mediumtext").withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestMediumtextWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestMediumtext("mediumtext").withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -872,28 +863,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestNumericWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestNumeric(new java.math.BigDecimal("0.0")).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestNumericWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestNumeric(new java.math.BigDecimal("0.0")).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestNumericWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestNumeric(new java.math.BigDecimal("0.0")).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestNumericWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestNumeric(new java.math.BigDecimal("0.0")).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -920,28 +911,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestSmallintWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestSmallint((short) 0).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestSmallintWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestSmallint((short) 0).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestSmallintWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestSmallint((short) 0).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestSmallintWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestSmallint((short) 0).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -968,28 +959,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestTimeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTime(new java.sql.Time(System.currentTimeMillis())).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTimeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTime(new java.sql.Time(System.currentTimeMillis())).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTimeWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTime(new java.sql.Time(System.currentTimeMillis())).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTimeWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTime(new java.sql.Time(System.currentTimeMillis())).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -1016,28 +1007,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestTextWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestText("text").withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTextWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestText("text").withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTextWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestText("text").withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTextWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestText("text").withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -1064,28 +1055,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestTimestampWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis())).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTimestampWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis())).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTimestampWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis())).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTimestampWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTimestamp(new java.sql.Timestamp(System.currentTimeMillis())).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -1112,28 +1103,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestTinyintWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTinyint(true).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTinyintWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTinyint(true).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTinyintWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTinyint(true).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTinyintWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTinyint(true).withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -1160,28 +1151,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestTinytextWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTinytext("tinytext").withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTinytextWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTinytext("tinytext").withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTinytextWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTinytext("tinytext").withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestTinytextWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestTinytext("tinytext").withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -1208,28 +1199,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestVarcharWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestVarchar("varchar").withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestVarcharWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestVarchar("varchar").withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestVarcharWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestVarchar("varchar").withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestVarcharWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestVarchar("varchar").withConnection(connection).withLimit(0).execute());
 		}
 	}
@@ -1256,28 +1247,28 @@ public class AllTypesTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAllTypesdeleteByTestYearWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestYear(0).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestYearWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestYear(0).withConnection(connection).executeSilent());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestYearWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestYear(0).withConnection(connection).withLimit(0).execute());
 		}
 	}
 
 	@Test
 	public void testAllTypesdeleteByTestYearWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AllTypesDeleter.deleteByTestYear(0).withConnection(connection).withLimit(0).execute());
 		}
 	}

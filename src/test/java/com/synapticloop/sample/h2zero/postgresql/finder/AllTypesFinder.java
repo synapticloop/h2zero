@@ -4,17 +4,12 @@ package com.synapticloop.sample.h2zero.postgresql.finder;
 //          with the use of synapticloop templar templating language
 //                  (/java/finder/java-create-finder.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
-import com.synapticloop.h2zero.base.util.LruCache;
+import com.synapticloop.h2zero.base.manager.postgresql.C3P0ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -174,17 +169,17 @@ public class AllTypesFinder {
 		List<AllTypes> arrayList = new ArrayList<AllTypes>();
 		while(resultSet.next()) {
 			arrayList.add(new AllTypes(
-					ConnectionManager.getNullableResultLong(resultSet, 1),
-					ConnectionManager.getNullableResultShort(resultSet, 2),
-					ConnectionManager.getNullableResultInt(resultSet, 3),
-					ConnectionManager.getNullableResultLong(resultSet, 4),
-					ConnectionManager.getNullableResultBigDecimal(resultSet, 5),
-					ConnectionManager.getNullableResultBigDecimal(resultSet, 6),
-					ConnectionManager.getNullableResultDouble(resultSet, 7),
-					ConnectionManager.getNullableResultDouble(resultSet, 8),
-					ConnectionManager.getNullableResultInt(resultSet, 9),
-					ConnectionManager.getNullableResultShort(resultSet, 10),
-					ConnectionManager.getNullableResultLong(resultSet, 11)));
+					C3P0ConnectionManager.getNullableResultLong(resultSet, 1),
+					C3P0ConnectionManager.getNullableResultShort(resultSet, 2),
+					C3P0ConnectionManager.getNullableResultInt(resultSet, 3),
+					C3P0ConnectionManager.getNullableResultLong(resultSet, 4),
+					C3P0ConnectionManager.getNullableResultBigDecimal(resultSet, 5),
+					C3P0ConnectionManager.getNullableResultBigDecimal(resultSet, 6),
+					C3P0ConnectionManager.getNullableResultDouble(resultSet, 7),
+					C3P0ConnectionManager.getNullableResultDouble(resultSet, 8),
+					C3P0ConnectionManager.getNullableResultInt(resultSet, 9),
+					C3P0ConnectionManager.getNullableResultShort(resultSet, 10),
+					C3P0ConnectionManager.getNullableResultLong(resultSet, 11)));
 		}
 		return(arrayList);
 	}

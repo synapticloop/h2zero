@@ -11,7 +11,7 @@ import org.junit.AfterClass;{\n}
 import org.junit.BeforeClass;{\n}
 import org.junit.Test;{\n}
 import {database.package}.ConnectionManagerInitialiserOverride;{\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
 import {database.package}.test.DatabaseSetupTest;{\n}{\n}
 {\n}
 import java.math.*;{\n}
@@ -50,7 +50,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{question.name}WithConnection() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}{table.javaClassName}Question.{question.name}({import classpath:/java/test/snippet/question-field-params.templar}){\n}
 {\t}{\t}{\t}{\t}{\t}.withConnection(connection){\n}
 {\t}{\t}{\t}{\t}{\t}.execute();{\n}
@@ -60,7 +60,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{question.name}WithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}{table.javaClassName}Question.{question.name}({import classpath:/java/test/snippet/question-field-params.templar}){\n}
 {\t}{\t}{\t}{\t}{\t}.withConnection(connection){\n}
 {\t}{\t}{\t}{\t}{\t}.executeSilent();{\n}

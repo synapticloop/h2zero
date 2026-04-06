@@ -17,13 +17,11 @@ package com.synapticloop.h2zero.base.manager.sqlite3;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
-
 import java.sql.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ConnectionManager extends BaseConnectionManager {
+public class HikariConnectionManager extends C3P0ConnectionManager {
 	private static final ExecutorService writerExecutor = Executors.newSingleThreadExecutor();
 
 	/**

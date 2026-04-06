@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.math.BigDecimal;
 
 
+import com.synapticloop.h2zero.base.manager.cockroach.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
 
 /**
@@ -77,17 +77,17 @@ public class AllTypesInserter {
 	 */
 	public static int insert(Connection connection, Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigserial(preparedStatement, 1, idAllTypes);
-			ConnectionManager.setSmallint(preparedStatement, 2, numSmallint);
-			ConnectionManager.setInteger(preparedStatement, 3, numInteger);
-			ConnectionManager.setBigint(preparedStatement, 4, numBigint);
-			ConnectionManager.setDecimal(preparedStatement, 5, numDecimal);
-			ConnectionManager.setNumeric(preparedStatement, 6, numNumeric);
-			ConnectionManager.setReal(preparedStatement, 7, fltReal);
-			ConnectionManager.setDouble(preparedStatement, 8, dblReal);
-			ConnectionManager.setSerial(preparedStatement, 9, numSerial);
-			ConnectionManager.setSmallserial(preparedStatement, 10, numSmallserial);
-			ConnectionManager.setBigserial(preparedStatement, 11, numBigserial);
+			C3P0ConnectionManager.setBigserial(preparedStatement, 1, idAllTypes);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 2, numSmallint);
+			C3P0ConnectionManager.setInteger(preparedStatement, 3, numInteger);
+			C3P0ConnectionManager.setBigint(preparedStatement, 4, numBigint);
+			C3P0ConnectionManager.setDecimal(preparedStatement, 5, numDecimal);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 6, numNumeric);
+			C3P0ConnectionManager.setReal(preparedStatement, 7, fltReal);
+			C3P0ConnectionManager.setDouble(preparedStatement, 8, dblReal);
+			C3P0ConnectionManager.setSerial(preparedStatement, 9, numSerial);
+			C3P0ConnectionManager.setSmallserial(preparedStatement, 10, numSmallserial);
+			C3P0ConnectionManager.setBigserial(preparedStatement, 11, numBigserial);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -109,17 +109,17 @@ public class AllTypesInserter {
 	 */
 	public static int insert(Connection connection, Long idAllTypes, Integer numSerial, Short numSmallserial, Long numBigserial) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigserial(preparedStatement, 1, idAllTypes);
-			ConnectionManager.setSmallint(preparedStatement, 2, null);
-			ConnectionManager.setInteger(preparedStatement, 3, null);
-			ConnectionManager.setBigint(preparedStatement, 4, null);
-			ConnectionManager.setDecimal(preparedStatement, 5, null);
-			ConnectionManager.setNumeric(preparedStatement, 6, null);
-			ConnectionManager.setReal(preparedStatement, 7, null);
-			ConnectionManager.setDouble(preparedStatement, 8, null);
-			ConnectionManager.setSerial(preparedStatement, 9, numSerial);
-			ConnectionManager.setSmallserial(preparedStatement, 10, numSmallserial);
-			ConnectionManager.setBigserial(preparedStatement, 11, numBigserial);
+			C3P0ConnectionManager.setBigserial(preparedStatement, 1, idAllTypes);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 2, null);
+			C3P0ConnectionManager.setInteger(preparedStatement, 3, null);
+			C3P0ConnectionManager.setBigint(preparedStatement, 4, null);
+			C3P0ConnectionManager.setDecimal(preparedStatement, 5, null);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 6, null);
+			C3P0ConnectionManager.setReal(preparedStatement, 7, null);
+			C3P0ConnectionManager.setDouble(preparedStatement, 8, null);
+			C3P0ConnectionManager.setSerial(preparedStatement, 9, numSerial);
+			C3P0ConnectionManager.setSmallserial(preparedStatement, 10, numSmallserial);
+			C3P0ConnectionManager.setBigserial(preparedStatement, 11, numBigserial);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -145,7 +145,7 @@ public class AllTypesInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAllTypes, numSmallint, numInteger, numBigint, numDecimal, numNumeric, fltReal, dblReal, numSerial, numSmallserial, numBigserial));
 		}
 	}
@@ -164,7 +164,7 @@ public class AllTypesInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAllTypes, Integer numSerial, Short numSmallserial, Long numBigserial) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAllTypes, numSerial, numSmallserial, numBigserial));
 		}
 	}
@@ -253,7 +253,7 @@ public class AllTypesInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAllTypes, Short numSmallint, Integer numInteger, Long numBigint, BigDecimal numDecimal, BigDecimal numNumeric, Double fltReal, Double dblReal, Integer numSerial, Short numSmallserial, Long numBigserial) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idAllTypes, numSmallint, numInteger, numBigint, numDecimal, numNumeric, fltReal, dblReal, numSerial, numSmallserial, numBigserial));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -280,7 +280,7 @@ public class AllTypesInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAllTypes, Integer numSerial, Short numSmallserial, Long numBigserial) {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAllTypes, numSerial, numSmallserial, numBigserial));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());

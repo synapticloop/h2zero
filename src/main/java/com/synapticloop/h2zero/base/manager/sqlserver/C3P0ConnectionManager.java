@@ -17,8 +17,8 @@ package com.synapticloop.h2zero.base.manager.sqlserver;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
+import com.synapticloop.h2zero.base.manager.BaseC3P0ConnectionManager;
 
-public class ConnectionManager extends BaseConnectionManager {
+public class C3P0ConnectionManager extends BaseC3P0ConnectionManager {
 
 }

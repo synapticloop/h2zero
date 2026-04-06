@@ -4,7 +4,7 @@ package com.synapticloop.sample.h2zero.sqlite3.model;
 //          with the use of synapticloop templar templating language
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 import com.synapticloop.sample.h2zero.sqlite3.question.AuthorStatusQuestion;
@@ -12,9 +12,8 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -499,18 +498,18 @@ public class Author extends ModelBase {
 		try {
 			// create this bean 
 			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-			ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
-			ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
-			ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
-			ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-			ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
-			ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
-			ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
-			ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
-			ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
-			ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
-			ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
+			C3P0ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
+			C3P0ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
 			preparedStatement.executeUpdate();
 
 			resultSet = preparedStatement.getGeneratedKeys();
@@ -521,7 +520,7 @@ public class Author extends ModelBase {
 				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -541,18 +540,18 @@ public class Author extends ModelBase {
 		ResultSet resultSet = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_ENSURE);
-			ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
-			ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
-			ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
-			ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-			ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
-			ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
-			ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
-			ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
-			ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
-			ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
-			ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
+			C3P0ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
+			C3P0ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				this.idAuthor = resultSet.getLong(1);
@@ -561,7 +560,7 @@ public class Author extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -574,18 +573,18 @@ public class Author extends ModelBase {
 		if(isDirty) {
 			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 				// update this bean, but only if dirty
-				ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
-				ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
-				ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
-				ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
-				ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
-				ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
-				ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
-				ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
-				ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
-				ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
-				ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
-				ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
+				C3P0ConnectionManager.setBigint(preparedStatement, 1, idAuthorStatus);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 2, txtIdAuthor);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 3, nmAuthor);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 4, nmUsername);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 5, txtBio);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtUrlCacheImage);
+				C3P0ConnectionManager.setBigint(preparedStatement, 7, numFollowing);
+				C3P0ConnectionManager.setBigint(preparedStatement, 8, numFollowers);
+				C3P0ConnectionManager.setDatetime(preparedStatement, 9, dtmStartedFollowing);
+				C3P0ConnectionManager.setBoolean(preparedStatement, 10, flIsUpdating);
+				C3P0ConnectionManager.setBoolean(preparedStatement, 11, flAuthorIsFollowingUser);
+				C3P0ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowedByUser);
 				// now set the primary key
 				preparedStatement.setLong(13, idAuthor);
 				preparedStatement.executeUpdate();

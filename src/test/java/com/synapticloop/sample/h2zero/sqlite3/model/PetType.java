@@ -4,15 +4,14 @@ package com.synapticloop.sample.h2zero.sqlite3.model;
 //          with the use of synapticloop templar templating language
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -236,8 +235,8 @@ public class PetType extends ModelBase {
 		try {
 			// create this bean 
 			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-			ConnectionManager.setVarchar(preparedStatement, 1, nmPetType);
-			ConnectionManager.setVarchar(preparedStatement, 2, txtDescPetType);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 1, nmPetType);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 2, txtDescPetType);
 			preparedStatement.executeUpdate();
 
 			resultSet = preparedStatement.getGeneratedKeys();
@@ -248,7 +247,7 @@ public class PetType extends ModelBase {
 				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -268,8 +267,8 @@ public class PetType extends ModelBase {
 		ResultSet resultSet = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_ENSURE);
-			ConnectionManager.setVarchar(preparedStatement, 1, nmPetType);
-			ConnectionManager.setVarchar(preparedStatement, 2, txtDescPetType);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 1, nmPetType);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 2, txtDescPetType);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				this.idPetType = resultSet.getLong(1);
@@ -278,7 +277,7 @@ public class PetType extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -291,8 +290,8 @@ public class PetType extends ModelBase {
 		if(isDirty) {
 			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 				// update this bean, but only if dirty
-				ConnectionManager.setVarchar(preparedStatement, 1, nmPetType);
-				ConnectionManager.setVarchar(preparedStatement, 2, txtDescPetType);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 1, nmPetType);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 2, txtDescPetType);
 				// now set the primary key
 				preparedStatement.setLong(3, idPetType);
 				preparedStatement.executeUpdate();

@@ -20,7 +20,7 @@ import java.util.ArrayList;{\n}
 import com.synapticloop.h2zero.base.util.LruCache;{\n}
 
 {\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
 import com.synapticloop.h2zero.base.sql.{options.limitOffsetType}.Deleter;{\n}
 
 {\n}

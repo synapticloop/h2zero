@@ -5,23 +5,14 @@ package com.synapticloop.sample.h2zero.sqlite3.test.deleter;
 //                    (/java/test/java-deleter-test.templar)
 
 
-import static org.junit.Assert.*;
-
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,14 +37,14 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorDeleteByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AuthorDeleter.deleteByPrimaryKey(1L).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAuthorDeleteByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AuthorDeleter.deleteByPrimaryKey(1L).withConnection(connection).executeSilent());
 		}
 	}
@@ -70,14 +61,14 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorDeleteAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AuthorDeleter.deleteAll().withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAuthorDeleteAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AuthorDeleter.deleteAll().withConnection(connection).executeSilent());
 		}
 	}
@@ -94,14 +85,14 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthordeleteInNumberWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AuthorDeleter.deleteInNumber(true, List.of(true), List.of(new java.sql.Timestamp(System.currentTimeMillis())), true, true).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAuthordeleteInNumberWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AuthorDeleter.deleteInNumber(true, List.of(true), List.of(new java.sql.Timestamp(System.currentTimeMillis())), true, true).withConnection(connection).executeSilent());
 		}
 	}
@@ -118,14 +109,14 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthordeleteAllToBeEvaluatedWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AuthorDeleter.deleteAllToBeEvaluated().withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testAuthordeleteAllToBeEvaluatedWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			Assert.assertEquals(0, AuthorDeleter.deleteAllToBeEvaluated().withConnection(connection).executeSilent());
 		}
 	}

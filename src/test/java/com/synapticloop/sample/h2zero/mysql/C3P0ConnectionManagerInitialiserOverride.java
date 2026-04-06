@@ -5,8 +5,8 @@ package com.synapticloop.sample.h2zero.mysql;
 //   (/java/util/java-create-connection-manager-initialise-override.templar)
 
 
-import com.synapticloop.sample.h2zero.mysql.ConnectionManagerInitialiser;
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
@@ -43,7 +43,7 @@ import java.util.Properties;
  * </p>
  *
  * <p>
- * {@link  com.synapticloop.sample.h2zero.mysql.ConnectionManagerInitialiser#CONNECTION_POOL_NAME  com.synapticloop.sample.h2zero.mysql.ConnectionManagerInitialiser#CONNECTION_POOL_NAME}
+ * {@link  C3P0ConnectionManagerInitialiser#CONNECTION_POOL_NAME  com.synapticloop.sample.h2zero.mysql.ConnectionManagerInitialiser#CONNECTION_POOL_NAME}
  * </p>
  *
  * <pre>
@@ -57,7 +57,7 @@ import java.util.Properties;
  *       JUST SAYING...
  * </pre>
  */
-public class ConnectionManagerInitialiserOverride extends ConnectionManagerInitialiser {
+public class C3P0ConnectionManagerInitialiserOverride extends C3P0ConnectionManagerInitialiser {
 	private static boolean hasCreatedDatabase = false;
 	private static Properties properties;
 
@@ -67,7 +67,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 			// !!! NOTE !!!
 			// If you are loading the properties file from the file system - you will need
 			// to ensure that this file exists
-			properties.load(ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.mysql.sample.properties"));
+			properties.load(C3P0ConnectionManagerInitialiserOverride.class.getResourceAsStream("/application.mysql.sample.properties"));
 		} catch (IOException e) {
 			throw new RuntimeException("Could not load the properties file '/application.mysql.sample.properties' there shall be no SQL for you.", e);
 		}
@@ -101,7 +101,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		myComboPooledDataSource.setAcquireRetryAttempts(Integer.parseInt(properties.getProperty("c3p0.acquireRetryAttempts")));
 		myComboPooledDataSource.setDebugUnreturnedConnectionStackTraces(Boolean.parseBoolean(properties.getProperty("c3p0.debugUnreturnedConnectionStackTraces")));
 
-		addComboPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
+		addConnectionPool(CONNECTION_POOL_NAME, myComboPooledDataSource);
 	}
 
 	public static void initialise() throws SQLException {
@@ -154,7 +154,8 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 						properties.getProperty("db.initial.user"),
 						properties.getProperty("db.initial.password"));
 
-				InputStreamReader inputStreamReader = new InputStreamReader(ConnectionManagerInitialiser.class.getResourceAsStream("/create-database-mysql-sample.sql"));
+				InputStreamReader inputStreamReader = new InputStreamReader(
+						C3P0ConnectionManagerInitialiser.class.getResourceAsStream("/create-database-mysql-sample.sql"));
 				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 		) {
 			String line = null;
@@ -181,7 +182,7 @@ public class ConnectionManagerInitialiserOverride extends ConnectionManagerIniti
 		} catch (SQLException e) {
 			throw(e);
 		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			C3P0ConnectionManager.closeAll(preparedStatement);
 		}
 		hasCreatedDatabase = true;
 	}

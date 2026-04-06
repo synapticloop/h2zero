@@ -7,14 +7,13 @@ package com.synapticloop.sample.h2zero.sqlite3.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.model.util.Constants;
 
 /**
@@ -82,19 +81,19 @@ public class AuthorInserter {
 	 */
 	public static int insert(Connection connection, Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idAuthor);
-			ConnectionManager.setBigint(preparedStatement, 2, idAuthorStatus);
-			ConnectionManager.setVarchar(preparedStatement, 3, txtIdAuthor);
-			ConnectionManager.setVarchar(preparedStatement, 4, nmAuthor);
-			ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtBio);
-			ConnectionManager.setVarchar(preparedStatement, 7, txtUrlCacheImage);
-			ConnectionManager.setBigint(preparedStatement, 8, numFollowing);
-			ConnectionManager.setBigint(preparedStatement, 9, numFollowers);
-			ConnectionManager.setDatetime(preparedStatement, 10, dtmStartedFollowing);
-			ConnectionManager.setBoolean(preparedStatement, 11, flIsUpdating);
-			ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowingUser);
-			ConnectionManager.setBoolean(preparedStatement, 13, flAuthorIsFollowedByUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAuthor);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, idAuthorStatus);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 3, txtIdAuthor);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 4, nmAuthor);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtBio);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 7, txtUrlCacheImage);
+			C3P0ConnectionManager.setBigint(preparedStatement, 8, numFollowing);
+			C3P0ConnectionManager.setBigint(preparedStatement, 9, numFollowers);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 10, dtmStartedFollowing);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 11, flIsUpdating);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 12, flAuthorIsFollowingUser);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 13, flAuthorIsFollowedByUser);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -118,19 +117,19 @@ public class AuthorInserter {
 	 */
 	public static int insert(Connection connection, Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idAuthor);
-			ConnectionManager.setBigint(preparedStatement, 2, null);
-			ConnectionManager.setVarchar(preparedStatement, 3, txtIdAuthor);
-			ConnectionManager.setVarchar(preparedStatement, 4, nmAuthor);
-			ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
-			ConnectionManager.setVarchar(preparedStatement, 6, txtBio);
-			ConnectionManager.setVarchar(preparedStatement, 7, txtUrlCacheImage);
-			ConnectionManager.setBigint(preparedStatement, 8, null);
-			ConnectionManager.setBigint(preparedStatement, 9, null);
-			ConnectionManager.setDatetime(preparedStatement, 10, null);
-			ConnectionManager.setBoolean(preparedStatement, 11, null);
-			ConnectionManager.setBoolean(preparedStatement, 12, null);
-			ConnectionManager.setBoolean(preparedStatement, 13, null);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAuthor);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, null);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 3, txtIdAuthor);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 4, nmAuthor);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 5, nmUsername);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 6, txtBio);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 7, txtUrlCacheImage);
+			C3P0ConnectionManager.setBigint(preparedStatement, 8, null);
+			C3P0ConnectionManager.setBigint(preparedStatement, 9, null);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 10, null);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 11, null);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 12, null);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 13, null);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -158,7 +157,7 @@ public class AuthorInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser));
 		}
 	}
@@ -179,7 +178,7 @@ public class AuthorInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage));
 		}
 	}
@@ -274,7 +273,7 @@ public class AuthorInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAuthor, Long idAuthorStatus, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage, Long numFollowing, Long numFollowers, Timestamp dtmStartedFollowing, Boolean flIsUpdating, Boolean flAuthorIsFollowingUser, Boolean flAuthorIsFollowedByUser) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idAuthor, idAuthorStatus, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage, numFollowing, numFollowers, dtmStartedFollowing, flIsUpdating, flAuthorIsFollowingUser, flAuthorIsFollowedByUser));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -303,7 +302,7 @@ public class AuthorInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAuthor, String txtIdAuthor, String nmAuthor, String nmUsername, String txtBio, String txtUrlCacheImage) {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAuthor, txtIdAuthor, nmAuthor, nmUsername, txtBio, txtUrlCacheImage));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());

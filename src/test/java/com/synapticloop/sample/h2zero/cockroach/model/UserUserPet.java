@@ -4,7 +4,7 @@ package com.synapticloop.sample.h2zero.cockroach.model;
 //          with the use of synapticloop templar templating language
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.cockroach.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.bean.ValidationFieldBean;
 import com.synapticloop.sample.h2zero.cockroach.question.UserUserQuestion;
@@ -13,16 +13,14 @@ import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.cockroach.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
-import com.synapticloop.h2zero.base.util.XmlHelper;
 
 import com.synapticloop.h2zero.base.model.ModelBaseHelper;
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
@@ -243,8 +241,8 @@ public class UserUserPet extends ModelBase {
 		try {
 			// create this bean 
 			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-			ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
-			ConnectionManager.setBigint(preparedStatement, 2, idPet);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, idPet);
 			preparedStatement.executeUpdate();
 
 			resultSet = preparedStatement.getGeneratedKeys();
@@ -255,7 +253,7 @@ public class UserUserPet extends ModelBase {
 				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -275,8 +273,8 @@ public class UserUserPet extends ModelBase {
 		ResultSet resultSet = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_ENSURE);
-			ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
-			ConnectionManager.setBigint(preparedStatement, 2, idPet);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, idPet);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				this.idUserUserPet = resultSet.getLong(1);
@@ -285,7 +283,7 @@ public class UserUserPet extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -298,8 +296,8 @@ public class UserUserPet extends ModelBase {
 		if(isDirty) {
 			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 				// update this bean, but only if dirty
-				ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
-				ConnectionManager.setBigint(preparedStatement, 2, idPet);
+				C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserUser);
+				C3P0ConnectionManager.setBigint(preparedStatement, 2, idPet);
 				// now set the primary key
 				preparedStatement.setLong(3, idUserUserPet);
 				preparedStatement.executeUpdate();

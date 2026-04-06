@@ -4,14 +4,6 @@ package synapticloop.workitemiser.database.mysql.h2zero.updater;
 //          with the use of synapticloop templar templating language
 //                 (/java/updater/java-create-updater.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.sql.Timestamp;
-
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import com.synapticloop.h2zero.base.sql.limitoffset.Updater;
 import synapticloop.workitemiser.database.mysql.h2zero.model.util.Constants;
 
 

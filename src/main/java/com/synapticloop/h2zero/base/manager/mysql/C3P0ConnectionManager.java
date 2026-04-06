@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.manager.postgresql;
+package com.synapticloop.h2zero.base.manager.mysql;
 
 /*
  * Copyright (c) 2012-2026 synapticloop.
@@ -17,8 +17,8 @@ package com.synapticloop.h2zero.base.manager.postgresql;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
+import com.synapticloop.h2zero.base.manager.BaseC3P0ConnectionManager;
 
-public class ConnectionManager extends BaseConnectionManager {
+public class C3P0ConnectionManager extends BaseC3P0ConnectionManager {
 
 }

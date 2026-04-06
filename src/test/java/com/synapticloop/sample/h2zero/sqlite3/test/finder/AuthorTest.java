@@ -5,22 +5,14 @@ package com.synapticloop.sample.h2zero.sqlite3.test.finder;
 //                    (/java/test/java-finder-test.templar)
 
 
-import static org.junit.Assert.*;
-
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
 import java.util.List;
 
 
@@ -52,7 +44,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
@@ -61,7 +53,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertNull(AuthorFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
@@ -104,7 +96,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AuthorFinder.findAll()
 				.withConnection(connection)
 				.execute()
@@ -115,7 +107,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AuthorFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
@@ -125,7 +117,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindAllWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findAll().withConnection(connection)
 				.withLimit(1)
 				.withOffset(0)
@@ -136,7 +128,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindAllWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, AuthorFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -148,7 +140,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindAllWithConnectionOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -160,7 +152,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindAllWithConnectionOffsetSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -171,7 +163,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorFindAllWithConnectionLimitOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -219,7 +211,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindByIdAuthorStatusWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByIdAuthorStatus(1L)
 				.withConnection(connection)
 				.execute();
@@ -228,7 +220,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindByIdAuthorStatusWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByIdAuthorStatus(1L)
 				.withConnection(connection)
 				.executeSilent();
@@ -314,7 +306,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindByFlIsUpdatingWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByFlIsUpdating(true)
 				.withConnection(connection)
 				.execute();
@@ -323,7 +315,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindByFlIsUpdatingWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByFlIsUpdating(true)
 				.withConnection(connection)
 				.executeSilent();
@@ -409,7 +401,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindByTxtIdAuthorIdAuthorStatusWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByTxtIdAuthorIdAuthorStatus("varchar", 1L)
 				.withConnection(connection)
 				.execute();
@@ -418,7 +410,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindByTxtIdAuthorIdAuthorStatusWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByTxtIdAuthorIdAuthorStatus("varchar", 1L)
 				.withConnection(connection)
 				.executeSilent();
@@ -487,7 +479,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindByTxtIdAuthorWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByTxtIdAuthor("varchar")
 				.withConnection(connection)
 				.execute();
@@ -496,7 +488,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindByTxtIdAuthorWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findByTxtIdAuthor("varchar")
 				.withConnection(connection)
 				.executeSilent();
@@ -546,7 +538,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindInStatusWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findInStatus(List.of(1L))
 				.withConnection(connection)
 				.execute();
@@ -555,7 +547,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindInStatusWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findInStatus(List.of(1L))
 				.withConnection(connection)
 				.executeSilent();
@@ -641,7 +633,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindAllToBeEvaluatedWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findAllToBeEvaluated(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.execute();
@@ -650,7 +642,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindAllToBeEvaluatedWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findAllToBeEvaluated(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.executeSilent();
@@ -719,7 +711,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindFirstToBeEvaluatedWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findFirstToBeEvaluated(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.execute();
@@ -728,7 +720,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindFirstToBeEvaluatedWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findFirstToBeEvaluated(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.executeSilent();
@@ -778,7 +770,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindLimitedToBeEvaluatedWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findLimitedToBeEvaluated(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.execute();
@@ -787,7 +779,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindLimitedToBeEvaluatedWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findLimitedToBeEvaluated(new java.sql.Timestamp(System.currentTimeMillis()))
 				.withConnection(connection)
 				.executeSilent();
@@ -873,7 +865,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindInNumberWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findInNumber(true, List.of(true), List.of(new java.sql.Timestamp(System.currentTimeMillis())), true, true)
 				.withConnection(connection)
 				.execute();
@@ -882,7 +874,7 @@ public class AuthorTest extends DatabaseSetupTest {
 
 	@Test
 	public void testAuthorfindInNumberWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			AuthorFinder.findInNumber(true, List.of(true), List.of(new java.sql.Timestamp(System.currentTimeMillis())), true, true)
 				.withConnection(connection)
 				.executeSilent();

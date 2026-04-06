@@ -4,21 +4,16 @@ package com.synapticloop.sample.h2zero.mariadb.finder;
 //          with the use of synapticloop templar templating language
 //                  (/java/finder/java-create-finder.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
-import java.sql.Blob;
 import java.sql.Timestamp;
 import java.sql.Time;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
-import com.synapticloop.h2zero.base.util.LruCache;
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -1621,35 +1616,35 @@ public class AllTypesFinder {
 		List<AllTypes> arrayList = new ArrayList<AllTypes>();
 		while(resultSet.next()) {
 			arrayList.add(new AllTypes(
-					ConnectionManager.getNullableResultLong(resultSet, 1),
-					ConnectionManager.getNullableResultLong(resultSet, 2),
-					ConnectionManager.getNullableResultBlob(resultSet, 3),
-					ConnectionManager.getNullableResultBoolean(resultSet, 4),
-					ConnectionManager.getNullableResultString(resultSet, 5),
-					ConnectionManager.getNullableResultBoolean(resultSet, 6),
-					ConnectionManager.getNullableResultString(resultSet, 7),
-					ConnectionManager.getNullableResultString(resultSet, 8),
-					ConnectionManager.getNullableResultDate(resultSet, 9),
-					ConnectionManager.getNullableResultTimestamp(resultSet, 10),
-					ConnectionManager.getNullableResultBigDecimal(resultSet, 11),
-					ConnectionManager.getNullableResultBigDecimal(resultSet, 12),
-					ConnectionManager.getNullableResultDouble(resultSet, 13),
-					ConnectionManager.getNullableResultFloat(resultSet, 14),
-					ConnectionManager.getNullableResultInt(resultSet, 15),
-					ConnectionManager.getNullableResultInt(resultSet, 16),
-					ConnectionManager.getNullableResultString(resultSet, 17),
-					ConnectionManager.getNullableResultBlob(resultSet, 18),
-					ConnectionManager.getNullableResultInt(resultSet, 19),
-					ConnectionManager.getNullableResultString(resultSet, 20),
-					ConnectionManager.getNullableResultBigDecimal(resultSet, 21),
-					ConnectionManager.getNullableResultShort(resultSet, 22),
-					ConnectionManager.getNullableResultTime(resultSet, 23),
-					ConnectionManager.getNullableResultString(resultSet, 24),
-					ConnectionManager.getNullableResultTimestamp(resultSet, 25),
-					ConnectionManager.getNullableResultBoolean(resultSet, 26),
-					ConnectionManager.getNullableResultString(resultSet, 27),
-					ConnectionManager.getNullableResultString(resultSet, 28),
-					ConnectionManager.getNullableResultInt(resultSet, 29)));
+					C3P0ConnectionManager.getNullableResultLong(resultSet, 1),
+					C3P0ConnectionManager.getNullableResultLong(resultSet, 2),
+					C3P0ConnectionManager.getNullableResultBlob(resultSet, 3),
+					C3P0ConnectionManager.getNullableResultBoolean(resultSet, 4),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 5),
+					C3P0ConnectionManager.getNullableResultBoolean(resultSet, 6),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 7),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 8),
+					C3P0ConnectionManager.getNullableResultDate(resultSet, 9),
+					C3P0ConnectionManager.getNullableResultTimestamp(resultSet, 10),
+					C3P0ConnectionManager.getNullableResultBigDecimal(resultSet, 11),
+					C3P0ConnectionManager.getNullableResultBigDecimal(resultSet, 12),
+					C3P0ConnectionManager.getNullableResultDouble(resultSet, 13),
+					C3P0ConnectionManager.getNullableResultFloat(resultSet, 14),
+					C3P0ConnectionManager.getNullableResultInt(resultSet, 15),
+					C3P0ConnectionManager.getNullableResultInt(resultSet, 16),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 17),
+					C3P0ConnectionManager.getNullableResultBlob(resultSet, 18),
+					C3P0ConnectionManager.getNullableResultInt(resultSet, 19),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 20),
+					C3P0ConnectionManager.getNullableResultBigDecimal(resultSet, 21),
+					C3P0ConnectionManager.getNullableResultShort(resultSet, 22),
+					C3P0ConnectionManager.getNullableResultTime(resultSet, 23),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 24),
+					C3P0ConnectionManager.getNullableResultTimestamp(resultSet, 25),
+					C3P0ConnectionManager.getNullableResultBoolean(resultSet, 26),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 27),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 28),
+					C3P0ConnectionManager.getNullableResultInt(resultSet, 29)));
 		}
 		return(arrayList);
 	}

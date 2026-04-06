@@ -5,24 +5,14 @@ package com.synapticloop.sample.h2zero.sqlite3.test.deleter;
 //                    (/java/test/java-deleter-test.templar)
 
 
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.deleter.UserPetDeleter;
@@ -46,14 +36,14 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetDeleteByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserPetDeleter.deleteByPrimaryKey(1L).withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testUserPetDeleteByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserPetDeleter.deleteByPrimaryKey(1L).withConnection(connection).executeSilent());
 		}
 	}
@@ -70,14 +60,14 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetDeleteAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserPetDeleter.deleteAll().withConnection(connection).execute());
 		}
 	}
 
 	@Test
 	public void testUserPetDeleteAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserPetDeleter.deleteAll().withConnection(connection).executeSilent());
 		}
 	}

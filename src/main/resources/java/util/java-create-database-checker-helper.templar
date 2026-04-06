@@ -22,8 +22,8 @@ import java.util.Collections;{\n}
 {import classpath:/java/snippet/global/java-logger-import.templar}
 
 {\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
-
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
+{\n}
 public class DatabaseCheckerHelper {{{\n}
 {\t}{set "DatabaseCheckerHelper" as loggerClass}{import classpath:/java/snippet/global/java-logger-declaration.templar}{\n}{\n}
 {\t}private final Set<String> allTables = new HashSet<String>();{\n}
@@ -72,7 +72,7 @@ public class DatabaseCheckerHelper {{{\n}
 {\t}{\t}ResultSet tablesResultSet = null;{\n}
 {\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}connection = {options.ConnectionManagerClass}.getConnection();{\n}
 {\t}{\t}{\t}DatabaseMetaData databaseMetaData = connection.getMetaData();{\n}
 {\t}{\t}{\t}tablesResultSet = databaseMetaData.getTables("{database.schema}", null, "%", new String[] {{ "TABLE" });{\n}
 {\t}{\t}{\t}while(tablesResultSet.next()) {{{\n}
@@ -101,7 +101,7 @@ public class DatabaseCheckerHelper {{{\n}
 {\t}{\t}} catch (SQLException sqlex) {{{\n}
 {\t}{\t}{\t}// do nothing{\n}
 {\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(tablesResultSet, null, connection);{\n}
+{\t}{\t}{\t}{options.ConnectionManagerClass}.closeAll(tablesResultSet, null, connection);{\n}
 {\t}{\t}}{\n}
 {\n}
 {\t}{\t}return(isDatabaseCorrect);{\n}
@@ -113,7 +113,7 @@ public class DatabaseCheckerHelper {{{\n}
 {\t}{\t}Connection connection = null;{\n}
 {\t}{\t}ResultSet columns = null;{\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}connection = {options.ConnectionManagerClass}.getConnection();{\n}
 {\t}{\t}{\t}DatabaseMetaData databaseMetaData = connection.getMetaData();{\n}
 {\t}{\t}{\t}columns = databaseMetaData.getColumns("macdaddy", null, "%", "%");{\n}
 {\t}{\t}{\t}while(columns.next()) {{{\n}
@@ -151,7 +151,7 @@ public class DatabaseCheckerHelper {{{\n}
 {\t}{\t}} catch (SQLException sqlex) {{{\n}
 {\t}{\t}{\t}// do nothing{\n}
 {\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(columns, null, connection);{\n}
+{\t}{\t}{\t}{options.ConnectionManagerClass}.closeAll(columns, null, connection);{\n}
 {\t}{\t}}{\n}
 {\n}
 {\t}{\t}return(isDatabaseCorrect);{\n}

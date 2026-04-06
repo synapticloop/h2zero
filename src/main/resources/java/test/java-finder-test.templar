@@ -11,7 +11,7 @@ import org.junit.AfterClass;{\n}
 import org.junit.BeforeClass;{\n}
 import org.junit.Test;{\n}
 import {database.package}.ConnectionManagerInitialiserOverride;{\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
 import {database.package}.test.DatabaseSetupTest;{\n}{\n}
 {\n}
 import java.math.*;{\n}
@@ -56,7 +56,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindByPrimaryKeyWithConnection() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}{table.javaClassName}Finder.findByPrimaryKey(1L){\n}
 {\t}{\t}{\t}{\t}.withConnection(connection){\n}
 {\t}{\t}{\t}{\t}.execute();{\n}
@@ -66,7 +66,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindByPrimaryKeyWithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}Assert.assertNull({table.javaClassName}Finder.findByPrimaryKey(-831486134981L){\n}
 {\t}{\t}{\t}{\t}.withConnection(connection){\n}
 {\t}{\t}{\t}{\t}.executeSilent());{\n}
@@ -159,7 +159,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnection() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 
 {if table.isConstant}
 {\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(){\n}
@@ -181,7 +181,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 
 {if table.isConstant}
 {\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(){\n}
@@ -204,7 +204,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionLimit() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 
 {if table.isConstant}
 {\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(){\n}
@@ -227,7 +227,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionLimitSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 
 {if table.isConstant}
 {\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(){\n}
@@ -255,7 +255,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionOffset() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 
 {if table.isConstant}
 {\t}{\t}{\t}Assert.assertEquals({table.constants.size}, {table.javaClassName}Finder.findAll(){\n}
@@ -280,7 +280,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionOffsetSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}{table.javaClassName}Finder.findAll(){\n}
 {\t}{\t}{\t}{\t}.withConnection(connection){\n}
 {\t}{\t}{\t}{\t}.withLimit(null){\n}
@@ -293,7 +293,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}FindAllWithConnectionLimitOffset() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 
 {if table.isConstant}
 {\t}{\t}{\t}Assert.assertEquals(1, {table.javaClassName}Finder.findAll(){\n}
@@ -386,7 +386,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithConnection() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/java/test/snippet/finder-field-params.templar}){\n}
 {\t}{\t}{\t}{\t}.withConnection(connection){\n}
 {\t}{\t}{\t}{\t}.execute();{\n}
@@ -396,7 +396,7 @@ public class {table.javaClassName}Test extends DatabaseSetupTest {{{\n}
 
 {\t}@Test{\n}
 {\t}public void test{table.javaClassName}{finder.name}WithConnectionSilent() throws SQLException {{{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection()) {{{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME)) {{{\n}
 {\t}{\t}{\t}{table.javaClassName}Finder.{finder.name}({import classpath:/java/test/snippet/finder-field-params.templar}){\n}
 {\t}{\t}{\t}{\t}.withConnection(connection){\n}
 {\t}{\t}{\t}{\t}.executeSilent();{\n}

@@ -7,13 +7,12 @@ package com.synapticloop.sample.h2zero.mysql.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 /**
@@ -61,9 +60,9 @@ public class UserPetInserter {
 	 */
 	public static int insert(Connection connection, Long idUserPet, Long idUser, Long idPet) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idUserPet);
-			ConnectionManager.setBigint(preparedStatement, 2, idUser);
-			ConnectionManager.setBigint(preparedStatement, 3, idPet);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserPet);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, idUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 3, idPet);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -81,7 +80,7 @@ public class UserPetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idUserPet, Long idUser, Long idPet) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idUserPet, idUser, idPet));
 		}
 	}
@@ -125,7 +124,7 @@ public class UserPetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idUserPet, Long idUser, Long idPet) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idUserPet, idUser, idPet));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());

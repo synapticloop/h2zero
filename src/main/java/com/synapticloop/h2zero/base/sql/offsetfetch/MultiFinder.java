@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.offsetfetch;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.sqlserver.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlserver.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.sql.base.finder.OffsetFetchMultiFinder;
 import org.slf4j.Logger;
 
@@ -50,6 +50,6 @@ public class MultiFinder<T> extends OffsetFetchMultiFinder<T> {
 	}
 
 	protected Connection getConnection() throws SQLException {
-		return(ConnectionManager.getConnection());
+		return(C3P0ConnectionManager.getConnection());
 	}
 }

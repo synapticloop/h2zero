@@ -17,7 +17,7 @@ package {database.package}.model;{\n}{\n}
 //{\n}
 //              (/java/model/java-create-base-model.templar){\n}
 {\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
 import {database.package}.ConnectionManagerInitialiser;{\n}
 {\n}
 import java.sql.Connection;{\n}
@@ -27,7 +27,7 @@ public abstract class BaseModel extends com.synapticloop.h2zero.base.model.{opti
 {\n}
 {\t}@Override{\n}
 {\t}protected Connection getConnection() throws SQLException {{{\n}
-{\t}{\t}return(ConnectionManager.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME));{\n}
+{\t}{\t}return({options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME));{\n}
 {\t}}{\n}
 {\n}
 }

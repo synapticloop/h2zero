@@ -5,22 +5,13 @@ package com.synapticloop.sample.h2zero.sqlite3.test.question;
 //                    (/java/test/java-question-test.templar)
 
 
-import static org.junit.Assert.*;
-
-import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
 import java.util.List;
 
 
@@ -47,7 +38,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserdoWeHaveMoreThanTwentyUsersWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserQuestion.doWeHaveMoreThanTwentyUsers()
 					.withConnection(connection)
 					.execute();
@@ -56,7 +47,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserdoWeHaveMoreThanTwentyUsersWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserQuestion.doWeHaveMoreThanTwentyUsers()
 					.withConnection(connection)
 					.executeSilent();
@@ -91,7 +82,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserdoesUserNameExistWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserQuestion.doesUserNameExist()
 					.withConnection(connection)
 					.execute();
@@ -100,7 +91,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserdoesUserNameExistWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserQuestion.doesUserNameExist()
 					.withConnection(connection)
 					.executeSilent();
@@ -135,7 +126,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserdoWeHaveUsersBetweenAgeExclusiveWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserQuestion.doWeHaveUsersBetweenAgeExclusive(1, 1)
 					.withConnection(connection)
 					.execute();
@@ -144,7 +135,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserdoWeHaveUsersBetweenAgeExclusiveWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserQuestion.doWeHaveUsersBetweenAgeExclusive(1, 1)
 					.withConnection(connection)
 					.executeSilent();
@@ -179,7 +170,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserdoWeHaveUsersInAgesWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserQuestion.doWeHaveUsersInAges(List.of(1))
 					.withConnection(connection)
 					.execute();
@@ -188,7 +179,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserdoWeHaveUsersInAgesWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserQuestion.doWeHaveUsersInAges(List.of(1))
 					.withConnection(connection)
 					.executeSilent();

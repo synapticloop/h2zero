@@ -5,21 +5,18 @@ package com.synapticloop.sample.h2zero.mariadb.test;
 //                 (java/test/java-database-test-base.templar)
 
 
-import static org.junit.Assert.*;
-
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.synapticloop.h2zero.base.manager.BaseC3P0ConnectionManager;
+import com.synapticloop.sample.h2zero.mariadb.C3P0ConnectionManagerInitialiserOverride;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import java.sql.SQLException;
 
-public class DatabaseSetupTest extends BaseConnectionManager {
+public class DatabaseSetupTest extends BaseC3P0ConnectionManager {
 
 	@BeforeClass
 	public static void beforeClass() throws SQLException {
-		ConnectionManagerInitialiserOverride.initialiseFromProperties();
-		ConnectionManagerInitialiserOverride.createDatabase();
+		C3P0ConnectionManagerInitialiserOverride.initialiseFromProperties();
+		C3P0ConnectionManagerInitialiserOverride.createDatabase();
 	}
 
 	@AfterClass

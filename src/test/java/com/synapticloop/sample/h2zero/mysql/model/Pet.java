@@ -4,16 +4,15 @@ package com.synapticloop.sample.h2zero.mysql.model;
 //          with the use of synapticloop templar templating language
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.mysql.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
 import java.sql.Date;
-import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -349,11 +348,11 @@ public class Pet extends ModelBase {
 		try {
 			// create this bean 
 			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-			ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
-			ConnectionManager.setInt(preparedStatement, 2, numAge);
-			ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
-			ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
-			ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
+			C3P0ConnectionManager.setInt(preparedStatement, 2, numAge);
+			C3P0ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
+			C3P0ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+			C3P0ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 			preparedStatement.executeUpdate();
 
 			resultSet = preparedStatement.getGeneratedKeys();
@@ -364,7 +363,7 @@ public class Pet extends ModelBase {
 				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -384,11 +383,11 @@ public class Pet extends ModelBase {
 		ResultSet resultSet = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_ENSURE);
-			ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
-			ConnectionManager.setInt(preparedStatement, 2, numAge);
-			ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
-			ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
-			ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
+			C3P0ConnectionManager.setInt(preparedStatement, 2, numAge);
+			C3P0ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
+			C3P0ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+			C3P0ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				this.idPet = resultSet.getLong(1);
@@ -397,7 +396,7 @@ public class Pet extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -410,11 +409,11 @@ public class Pet extends ModelBase {
 		if(isDirty) {
 			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 				// update this bean, but only if dirty
-				ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
-				ConnectionManager.setInt(preparedStatement, 2, numAge);
-				ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
-				ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
-				ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 1, nmPet);
+				C3P0ConnectionManager.setInt(preparedStatement, 2, numAge);
+				C3P0ConnectionManager.setFloat(preparedStatement, 3, fltWeight);
+				C3P0ConnectionManager.setDate(preparedStatement, 4, dtBirthday);
+				C3P0ConnectionManager.setBlob(preparedStatement, 5, imgPhoto);
 				// now set the primary key
 				preparedStatement.setLong(6, idPet);
 				preparedStatement.executeUpdate();

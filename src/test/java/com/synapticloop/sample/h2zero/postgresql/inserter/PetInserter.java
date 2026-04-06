@@ -13,10 +13,10 @@ import java.sql.Date;
 import java.sql.Blob;
 
 
+import com.synapticloop.h2zero.base.manager.postgresql.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
 
 /**
@@ -72,12 +72,12 @@ public class PetInserter {
 	 */
 	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, Blob imgPhoto) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idPet);
-			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
-			ConnectionManager.setInt(preparedStatement, 3, numAge);
-			ConnectionManager.setNumeric(preparedStatement, 4, fltWeight);
-			ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
-			ConnectionManager.setBlob(preparedStatement, 6, imgPhoto);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idPet);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
+			C3P0ConnectionManager.setInt(preparedStatement, 3, numAge);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 4, fltWeight);
+			C3P0ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
+			C3P0ConnectionManager.setBlob(preparedStatement, 6, imgPhoto);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -98,13 +98,13 @@ public class PetInserter {
 	 */
 	public static int insert(Connection connection, Long idPet, String nmPet, Integer numAge) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idPet);
-			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
-			ConnectionManager.setInt(preparedStatement, 3, numAge);
-			ConnectionManager.setNumeric(preparedStatement, 4, null);
-			ConnectionManager.setDate(preparedStatement, 5, null);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idPet);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
+			C3P0ConnectionManager.setInt(preparedStatement, 3, numAge);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 4, null);
+			C3P0ConnectionManager.setDate(preparedStatement, 5, null);
 			Blob imgPhotoBlob = null;
-			ConnectionManager.setBlob(preparedStatement, 6, imgPhotoBlob);
+			C3P0ConnectionManager.setBlob(preparedStatement, 6, imgPhotoBlob);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -125,7 +125,7 @@ public class PetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, Blob imgPhoto) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
 		}
 	}
@@ -143,7 +143,7 @@ public class PetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idPet, String nmPet, Integer numAge) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idPet, nmPet, numAge));
 		}
 	}
@@ -221,7 +221,7 @@ public class PetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idPet, String nmPet, Integer numAge, BigDecimal fltWeight, Date dtBirthday, Blob imgPhoto) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -247,7 +247,7 @@ public class PetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idPet, String nmPet, Integer numAge) {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idPet, nmPet, numAge));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -263,17 +263,17 @@ public class PetInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigint(preparedStatement, 1, idPet);
-			ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
-			ConnectionManager.setInt(preparedStatement, 3, numAge);
-			ConnectionManager.setNumeric(preparedStatement, 4, fltWeight);
-			ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
-			ConnectionManager.setBlobInputStream(preparedStatement, 6, imgPhoto);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idPet);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 2, nmPet);
+			C3P0ConnectionManager.setInt(preparedStatement, 3, numAge);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 4, fltWeight);
+			C3P0ConnectionManager.setDate(preparedStatement, 5, dtBirthday);
+			C3P0ConnectionManager.setBlobInputStream(preparedStatement, 6, imgPhoto);
 			numResults = preparedStatement.executeUpdate();
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			C3P0ConnectionManager.closeAll(preparedStatement);
 		}
 		return(numResults);
 	}
@@ -282,12 +282,12 @@ public class PetInserter {
 		int numResults = -1;
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = C3P0ConnectionManager.getConnection();
 			numResults = insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(connection);
+			C3P0ConnectionManager.closeAll(connection);
 		}
 		return(numResults);
 	}
@@ -309,7 +309,7 @@ public class PetInserter {
 		int numResults = 0;
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = C3P0ConnectionManager.getConnection();
 			numResults = insert(connection, idPet, nmPet, numAge, fltWeight, dtBirthday, imgPhoto);
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -317,7 +317,7 @@ public class PetInserter {
 				sqlex.printStackTrace();
 			}
 		} finally {
-			ConnectionManager.closeAll(connection);
+			C3P0ConnectionManager.closeAll(connection);
 		}
 		return(numResults);
 	}

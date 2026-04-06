@@ -7,13 +7,12 @@ package com.synapticloop.sample.h2zero.mysql.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 
 
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 /**
@@ -63,9 +62,9 @@ public class PetTypeInserter {
 	 */
 	public static int insert(Connection connection, Long idPetType, String nmPetType, String txtDescPetType) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idPetType);
-			ConnectionManager.setVarchar(preparedStatement, 2, nmPetType);
-			ConnectionManager.setVarchar(preparedStatement, 3, txtDescPetType);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idPetType);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 2, nmPetType);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 3, txtDescPetType);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -83,7 +82,7 @@ public class PetTypeInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idPetType, String nmPetType, String txtDescPetType) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idPetType, nmPetType, txtDescPetType));
 		}
 	}
@@ -127,7 +126,7 @@ public class PetTypeInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idPetType, String nmPetType, String txtDescPetType) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idPetType, nmPetType, txtDescPetType));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());

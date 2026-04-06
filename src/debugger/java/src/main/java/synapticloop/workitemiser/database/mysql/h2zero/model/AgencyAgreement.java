@@ -17,16 +17,15 @@ package synapticloop.workitemiser.database.mysql.h2zero.model;
 //
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.mysql.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
 import java.sql.Date;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -459,7 +458,7 @@ public class AgencyAgreement extends ModelBase {
 				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet);
+			C3P0ConnectionManager.closeAll(resultSet);
 		}
 	}
 
@@ -487,7 +486,7 @@ public class AgencyAgreement extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet);
+			C3P0ConnectionManager.closeAll(resultSet);
 		}
 	}
 
@@ -550,12 +549,12 @@ public class AgencyAgreement extends ModelBase {
 	 * @param preparedStatement The prepared statement to set the parameters on
 	 */
 	private void setInternalParameters(PreparedStatement preparedStatement) throws SQLException {
-		ConnectionManager.setInt(preparedStatement, 1, numStrataPlan);
-		ConnectionManager.setDate(preparedStatement, 2, dtAgencyAgreementStart);
-		ConnectionManager.setDate(preparedStatement, 3, dtAgencyAgreementEnd);
-		ConnectionManager.setFloat(preparedStatement, 4, fltPercentIncrease);
-		ConnectionManager.setVarchar(preparedStatement, 5, txtNotes);
-		ConnectionManager.setBoolean(preparedStatement, 6, flIsCurrent);
+		C3P0ConnectionManager.setInt(preparedStatement, 1, numStrataPlan);
+		C3P0ConnectionManager.setDate(preparedStatement, 2, dtAgencyAgreementStart);
+		C3P0ConnectionManager.setDate(preparedStatement, 3, dtAgencyAgreementEnd);
+		C3P0ConnectionManager.setFloat(preparedStatement, 4, fltPercentIncrease);
+		C3P0ConnectionManager.setVarchar(preparedStatement, 5, txtNotes);
+		C3P0ConnectionManager.setBoolean(preparedStatement, 6, flIsCurrent);
 	}
 	/**
 	 * <p>Return the names of the hit fields as an array.  The first entry of the array

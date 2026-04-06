@@ -1,7 +1,7 @@
-package com.synapticloop.h2zero.base.manager.mariadb;
+package com.synapticloop.h2zero.base.manager.mysql;
 
 /*
- * Copyright (c) 2024 - 2026 synapticloop.
+ * Copyright (c) 2012-2026 synapticloop.
  * All rights reserved.
  *
  * This source code and any derived binaries are covered by the terms and
@@ -17,8 +17,8 @@ package com.synapticloop.h2zero.base.manager.mariadb;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
+import com.synapticloop.h2zero.base.manager.BaseHikariConnectionManager;
 
-public class ConnectionManager extends BaseConnectionManager {
+public class HikariConnectionManager extends BaseHikariConnectionManager {
 
 }

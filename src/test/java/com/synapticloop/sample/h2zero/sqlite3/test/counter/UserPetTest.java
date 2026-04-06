@@ -5,23 +5,13 @@ package com.synapticloop.sample.h2zero.sqlite3.test.counter;
 //                     (java/test/java-counter-test.templar)
 
 
-import static org.junit.Assert.*;
-
-import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
-import java.util.List;
 
 
 import com.synapticloop.sample.h2zero.sqlite3.counter.UserPetCounter;
@@ -47,7 +37,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetcountAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserPetCounter.countAll()
 					.withConnection(connection)
 					.execute();
@@ -56,7 +46,7 @@ public class UserPetTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserPetcountAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserPetCounter.countAll()
 					.withConnection(connection)
 					.executeSilent();

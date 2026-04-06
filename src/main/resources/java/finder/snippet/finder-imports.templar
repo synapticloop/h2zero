@@ -15,7 +15,7 @@ import java.util.List;{\n}
 import java.util.ArrayList;{\n}
 {\n}
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;{\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
 import com.synapticloop.h2zero.base.util.LruCache;{\n}
 
 {\n}

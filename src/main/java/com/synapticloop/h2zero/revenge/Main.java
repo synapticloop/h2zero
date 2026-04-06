@@ -40,9 +40,12 @@ import java.util.regex.Pattern;
  * @author synapticloop
  */
 public class Main {
+	// Regex pattern for parsing JDBC connection strings.
 	private static final Pattern PATTERN_JDBC_CONNECTION = Pattern.compile("jdbc:(postgresql|mysql|mariadb|sqlite|sqlserver):(?:(?://[^/;/]+(?:[:/])?)|(?:))(.*)");
+	// Regex pattern for extracting databaseName from SQL Server JDBC strings.
 	private static final Pattern PATTERN_DB_NAME = Pattern.compile("databaseName=([^;]+)");
 
+	// Constants for various database types.
 	private static final String DB_SQLITE = "sqlite";
 	private static final String DB_SQLITE_3 = "sqlite3";
 	private static final String DB_SQLSERVER = "sqlserver";
@@ -52,18 +55,29 @@ public class Main {
 	private static final String DB_COCKROACH = "cockroach";
 	private static final String DB_MICROSOFT = "microsoft";
 
+	// Constants for ResultSet column names when retrieving schema/catalog information.
 	private static final String RS_TABLE_CATALOG = "TABLE_CAT";
 	private static final String RS_TABLE_SCHEMA = "TABLE_SCHEM";
 
+	// Logging prefixes for console output.
 	private static final String LOG_INFO = "[   INFO ] ";
 	private static final String LOG_ERROR = "[  ERROR ] ";
+	private static final String LOG_WARN = "[   WARN ] ";
 	private static final String LOG_SELECT = "[ SELECT ] ";
 	private static final String LOG_PROMPT = "[ PROMPT ] ";
 	private static final String LOG_REPLY = "[  REPLY ] ";
 	private static final String LOG_PARSE = "[  PARSE ] ";
 	private static final String LOG_OUTPUT = "[ OUTPUT ] ";
 
+	/**
+	 * Stores the extracted database name from the JDBC connection string.
+	 * This is a static field to be accessible across the class.
+	 */
 	public static String databaseName;
+	/**
+	 * Stores the extracted database type from the JDBC connection string.
+	 * This is a static field to be accessible across the class.
+	 */
 	public static String databaseType;
 
 	/**
@@ -117,7 +131,7 @@ public class Main {
 	 * and name.</p>
 	 *
 	 * <p>This method also provides a visual representation of the parsing results
-	 * in the console.</p>
+	 * in the console, highlighting the extracted type and database name.</p>
 	 *
 	 * @param jdbcString the JDBC connection string to parse
 	 *
@@ -267,6 +281,7 @@ public class Main {
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		String jdbcString = null;
 		boolean isValidJdbc = false;
+		// Loop until a valid JDBC string is provided or the user chooses to continue with an invalid one.
 		while (!isValidJdbc) {
 			jdbcString = askForInput(
 					"JDBC Connection string\n           (e.g.: jdbc:<subprotocol>://host:port/?<parameters>)\n",
@@ -285,13 +300,15 @@ public class Main {
 			}
 		}
 
+		// Ask for database name, pre-filling with the parsed value if available.
 		String enteredDatabaseName = askForInput("Database name", false, databaseName);
 
-		// Now for the database type selection
+		// Retrieve and sort allowable database types from the Options class.
 		List<String> allowableDatabases = new ArrayList<>(Options.ALLOWABLE_DATABASES);
 		Collections.sort(allowableDatabases);
 
 		String enteredDatabaseType = null;
+		// Prompt user to select a database type from the list.
 		if (!allowableDatabases.isEmpty()) {
 			while (enteredDatabaseType == null) {
 				System.out.println(LOG_SELECT + "Select database type:");
@@ -322,12 +339,14 @@ public class Main {
 			}
 		}
 
+		// Fallback if no selection was made or list was empty.
 		if (enteredDatabaseType == null) {
 			enteredDatabaseType = askForInput("Database type", false, databaseType);
 		}
 
 		String username = null;
 		boolean confirmUsername = false;
+		// Loop to confirm empty username or re-ask for input.
 		while(!confirmUsername) {
 			username = askForInput("Username\n", false, null);
 			if (null == username || username.trim().isEmpty()) {
@@ -342,6 +361,7 @@ public class Main {
 
 		String password = null;
 		boolean confirmPassword = false;
+		// Loop to confirm empty password or re-ask for input.
 		while(!confirmPassword) {
 			password = askForInput("Password\n", true, null);
 			if (null == password || password.trim().isEmpty()) {
@@ -356,6 +376,7 @@ public class Main {
 
 		List<String> schemas = new ArrayList<>();
 		String databaseProductName = "unknown";
+		// Establish connection and fetch available schemas.
 		try (Connection connection = DriverManager.getConnection(jdbcString, username, password)) {
 			DatabaseMetaData metaData = connection.getMetaData();
 			databaseProductName = metaData.getDatabaseProductName().toLowerCase();
@@ -367,8 +388,10 @@ public class Main {
 		}
 
 		String schemaChoice = null;
+		// Prompt user to select a schema.
 		if (!schemas.isEmpty()) {
 			int defaultSchemaIndex = -1;
+			// Determine if the parsed database name matches an available schema.
 			for (int i = 0; i < schemas.size(); i++) {
 				if (schemas.get(i).equalsIgnoreCase(enteredDatabaseName)) {
 					defaultSchemaIndex = i;
@@ -405,6 +428,7 @@ public class Main {
 			}
 		}
 
+		// Display a summary of all collected inputs.
 		System.out.println(LOG_INFO + "Summary of inputs:");
 		System.out.println(LOG_INFO + "  JDBC String:   " + jdbcString);
 		System.out.println(LOG_INFO + "  Database Name: " + enteredDatabaseName);
@@ -412,16 +436,20 @@ public class Main {
 		System.out.println(LOG_INFO + "  Username:      " + username);
 		System.out.println(LOG_INFO + "  Schema:        " + (schemaChoice != null ? schemaChoice : "<default>"));
 
+		// Ask for final confirmation before proceeding with file generation.
 		String continueChoice = askForInput("Do you want to continue and write the file? (Y/n)", false, "Y");
 		if (!"Y".equalsIgnoreCase(continueChoice)) {
 			System.out.println("Operation cancelled.");
 			return;
 		}
 
+		// Initialize ModelBuilder and generate the JSON output.
 		ModelBuilder modelBuilder = new ModelBuilder(jdbcString, enteredDatabaseType, enteredDatabaseName, username, password, schemaChoice);
 
+		// Construct the output filename.
 		String fileName = String.format("%s_%s_h2zero.json", enteredDatabaseType, enteredDatabaseName);
 		File file = new File(fileName);
+		// Check if file exists and ask for overwrite confirmation.
 		if (file.exists()) {
 			String overwrite = askForInput("File '" + fileName + "' already exists. Overwrite? (y/N)", false, "N");
 			if (!"y".equalsIgnoreCase(overwrite)) {
@@ -430,11 +458,18 @@ public class Main {
 			}
 		}
 
+		// Write the generated JSON to the file.
 		try (FileWriter writer = new FileWriter(file)) {
 			writer.write(modelBuilder.generate());
 			System.out.println(LOG_OUTPUT + "Wrote file: " + fileName);
 		} catch (IOException e) {
 			System.err.println(LOG_ERROR + "Error writing file " + fileName + ": " + e.getMessage());
+		}
+
+		// Check and report if circular dependencies were found.
+		if (modelBuilder.hasFoundCircularDependency()) {
+			System.out.println(LOG_WARN + "Circular dependencies were found during the generation process.");
+			System.out.println(LOG_WARN + "You should set the \"ignoreCircularDependencies\": true key in the options JSON array.");
 		}
 	}
 }

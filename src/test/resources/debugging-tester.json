@@ -1,6 +1,7 @@
 {
 	"options": {
 		"database": "sqlite3",
+		"connectionPooling": "c3p0",
 		"generators": [
 			"java",
 			"sql"

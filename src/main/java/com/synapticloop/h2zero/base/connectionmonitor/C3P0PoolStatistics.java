@@ -1,4 +1,4 @@
-package com.synapticloop.h2zero.base.monitor;
+package com.synapticloop.h2zero.base.connectionmonitor;
 
 /*
  * Copyright (c) 2012-2026 synapticloop.
@@ -19,7 +19,7 @@ package com.synapticloop.h2zero.base.monitor;
 
 import java.sql.SQLException;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -31,7 +31,7 @@ public class C3P0PoolStatistics {
 	private int numUnclosedOrphanedConnectionsDefaultUser;
 
 	public C3P0PoolStatistics() throws SQLException {
-		ComboPooledDataSource comboPooledDataSource = ConnectionManager.getComboPooledDataSource();
+		ComboPooledDataSource comboPooledDataSource = C3P0ConnectionManager.getComboPooledDataSource();
 		numBusyConnectionsDefaultUser = comboPooledDataSource.getNumBusyConnectionsDefaultUser();
 		numFailedCheckinsDefaultUser = comboPooledDataSource.getNumFailedCheckinsDefaultUser();
 		numFailedCheckoutsDefaultUser = comboPooledDataSource.getNumFailedCheckoutsDefaultUser();
@@ -60,7 +60,7 @@ public class C3P0PoolStatistics {
 	}
 
 	public static String getMuninStats() throws SQLException {
-		ComboPooledDataSource comboPooledDataSource = ConnectionManager.getComboPooledDataSource();
+		ComboPooledDataSource comboPooledDataSource = C3P0ConnectionManager.getComboPooledDataSource();
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("busyConnections.value " + comboPooledDataSource.getNumBusyConnectionsDefaultUser() + "\n");
 		stringBuilder.append("idleConnections.value " + comboPooledDataSource.getNumIdleConnectionsDefaultUser() + "\n");

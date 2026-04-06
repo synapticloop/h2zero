@@ -19,7 +19,7 @@ package {database.package}.model;{\n}{\n}
 {\n}
 
 {if !table.isConstant}
-	import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+	import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
 	import com.synapticloop.h2zero.base.validator.bean.ValidationBean;{\n}
 
 	{if table.hasForeignKey}
@@ -638,7 +638,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t}{\t}{\t}}{\n}
 
 	{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}ConnectionManager.closeAll(resultSet);{\n}
+	{\t}{\t}{\t}{options.ConnectionManagerClass}.closeAll(resultSet);{\n}
 	{\t}{\t}}{\n}
 	{\t}}{\n}
 	{\n}
@@ -683,7 +683,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t}{\t}} finally {{{\n}
 
 
-	{\t}{\t}{\t}ConnectionManager.closeAll(resultSet);{\n}
+	{\t}{\t}{\t}{options.ConnectionManagerClass}.closeAll(resultSet);{\n}
 
 	{\t}{\t}}{\n}
 	{\t}}{\n}
@@ -831,7 +831,7 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t} */{\n}
 	{\t}private void setInternalParameters(PreparedStatement preparedStatement) throws SQLException {{{\n}
 	{loop table.nonPrimaryFields as field}
-		{\t}{\t}ConnectionManager.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
+		{\t}{\t}{options.ConnectionManagerClass}.set{field.upperType}(preparedStatement, {fieldStatus.index}, {field.javaName});{\n}
 	{endloop}
 	{\t}}{\n}
 

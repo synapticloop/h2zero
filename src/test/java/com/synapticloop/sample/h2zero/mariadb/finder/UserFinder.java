@@ -4,18 +4,13 @@ package com.synapticloop.sample.h2zero.mariadb.finder;
 //          with the use of synapticloop templar templating language
 //                  (/java/finder/java-create-finder.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
-import com.synapticloop.h2zero.base.util.LruCache;
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -587,12 +582,12 @@ public class UserFinder {
 	private static List<User> list(ResultSet resultSet) throws SQLException {
 		List<User> arrayList = new ArrayList<User>();
 		while(resultSet.next()) {
-			Long idUser = ConnectionManager.getNullableResultLong(resultSet, 1);
-			Long idUserType = ConnectionManager.getNullableResultLong(resultSet, 2);
-			Boolean flIsAlive = ConnectionManager.getNullableResultBoolean(resultSet, 3);
-			String nmUsername = ConnectionManager.getNullableResultString(resultSet, 4);
-			String txtAddressEmail = ConnectionManager.getNullableResultString(resultSet, 5);
-			String txtPassword = ConnectionManager.getNullableResultString(resultSet, 6);
+			Long idUser = C3P0ConnectionManager.getNullableResultLong(resultSet, 1);
+			Long idUserType = C3P0ConnectionManager.getNullableResultLong(resultSet, 2);
+			Boolean flIsAlive = C3P0ConnectionManager.getNullableResultBoolean(resultSet, 3);
+			String nmUsername = C3P0ConnectionManager.getNullableResultString(resultSet, 4);
+			String txtAddressEmail = C3P0ConnectionManager.getNullableResultString(resultSet, 5);
+			String txtPassword = C3P0ConnectionManager.getNullableResultString(resultSet, 6);
 			Integer numAge = null;
 			Timestamp dtmSignup = null;
 					arrayList.add(new User(

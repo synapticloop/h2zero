@@ -12,7 +12,7 @@ import java.util.Map;{\n}
 import java.util.List;{\n}
 import java.sql.*;{\n}
 {\n}
-import com.synapticloop.h2zero.base.manager.{options.database}.ConnectionManager;{\n}
+import com.synapticloop.h2zero.base.manager.{options.database}.{options.ConnectionManagerClass};{\n}
 {\n}
 {import classpath:/java/snippet/global/java-logger-import.templar}
 {\n}

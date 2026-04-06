@@ -9,6 +9,7 @@ package {database.package}.question;{\n}{\n}
 
 {import classpath:/java/snippet/global/java-model-imports.templar}
 import com.synapticloop.h2zero.base.sql.nolimitoffset.Question;{\n}
+import synapticloop.library.database.mysql.library.ConnectionManagerInitialiser;
 
 {if table.hasQuestionInFields}
 	import java.util.HashMap;{\n}
@@ -110,9 +111,9 @@ public class {table.javaClassName}Question {{{\n}
 {\t}{\t}boolean answer = false;{\n}
 {\n}
 {\t}{\t}try {{{\n}
-{\t}{\t}{\t}Connection connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}{\t}Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME);{\n}
 {\t}{\t}{\t}PreparedStatement preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);{\n}
-{\t}{\t}{\t}ConnectionManager.set{baseSchemaObject.primaryKey.getUpperType}(preparedStatement, 1, {baseSchemaObject.primaryKey.javaName});{\n}
+{\t}{\t}{\t}{options.ConnectionManagerClass}.set{baseSchemaObject.primaryKey.getUpperType}(preparedStatement, 1, {baseSchemaObject.primaryKey.javaName});{\n}
 {\n}
 {\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
 {\t}{\t}{\t}if(resultSet.next()) {{{\n}
@@ -126,7 +127,7 @@ public class {table.javaClassName}Question {{{\n}
 {\t}{\t}{\t}{\t}}{\n}
 {\t}{\t}{\t}}{\n}
 {\t}{\t}} finally {{{\n}
-{\t}{\t}{\t}ConnectionManager.closeAll(resultSet);{\n}
+{\t}{\t}{\t}{options.ConnectionManagerClass}.closeAll(resultSet);{\n}
 {\t}{\t}}{\n}
 {\t}{\t}return(answer);{\n}
 {\t}}{\n}

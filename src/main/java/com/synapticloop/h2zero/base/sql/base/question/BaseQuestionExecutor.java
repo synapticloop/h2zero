@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.base.question;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
+import com.synapticloop.h2zero.base.manager.BaseC3P0ConnectionManager;
 import com.synapticloop.h2zero.base.sql.BaseSQLExecutor;
 import org.slf4j.Logger;
 
@@ -76,9 +76,9 @@ public abstract class BaseQuestionExecutor<T> extends BaseSQLExecutor<Boolean> {
 		} finally {
 			if (hasProvidedConnection) {
 				// the caller has provided a connection - so they must close it themselves
-				BaseConnectionManager.closeAll(resultSet, preparedStatement, null);
+				BaseC3P0ConnectionManager.closeAll(resultSet, preparedStatement, null);
 			} else {
-				BaseConnectionManager.closeAll(resultSet, preparedStatement, connection);
+				BaseC3P0ConnectionManager.closeAll(resultSet, preparedStatement, connection);
 			}
 		}
 	}

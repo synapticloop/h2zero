@@ -5,22 +5,14 @@ package com.synapticloop.sample.h2zero.mariadb.test.finder;
 //                    (/java/test/java-finder-test.templar)
 
 
-import static org.junit.Assert.*;
-
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.mariadb.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 import com.synapticloop.sample.h2zero.mariadb.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
 import java.util.List;
 
 
@@ -52,7 +44,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindByPrimaryKeyWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByPrimaryKey(1L)
 				.withConnection(connection)
 				.execute();
@@ -61,7 +53,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindByPrimaryKeyWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertNull(UserFinder.findByPrimaryKey(-831486134981L)
 				.withConnection(connection)
 				.executeSilent());
@@ -104,7 +96,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserFinder.findAll()
 				.withConnection(connection)
 				.execute()
@@ -115,7 +107,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserFinder.findAll()
 				.withConnection(connection)
 				.executeSilent()
@@ -125,7 +117,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindAllWithConnectionLimit() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findAll().withConnection(connection)
 				.withLimit(1)
 				.withOffset(0)
@@ -136,7 +128,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindAllWithConnectionLimitSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			Assert.assertEquals(0, UserFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -148,7 +140,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindAllWithConnectionOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -160,7 +152,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindAllWithConnectionOffsetSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findAll()
 				.withConnection(connection)
 				.withLimit(null)
@@ -171,7 +163,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserFindAllWithConnectionLimitOffset() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findAll()
 				.withConnection(connection)
 				.withLimit(1)
@@ -219,7 +211,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByNumAgeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByNumAge(1)
 				.withConnection(connection)
 				.execute();
@@ -228,7 +220,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByNumAgeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByNumAge(1)
 				.withConnection(connection)
 				.executeSilent();
@@ -314,7 +306,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withConnection(connection)
 				.execute();
@@ -323,7 +315,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByFlIsAliveNumAgeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByFlIsAliveNumAge(true, 1)
 				.withConnection(connection)
 				.executeSilent();
@@ -392,7 +384,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByNmUsernameWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByNmUsername("varchar")
 				.withConnection(connection)
 				.execute();
@@ -401,7 +393,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByNmUsernameWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByNmUsername("varchar")
 				.withConnection(connection)
 				.executeSilent();
@@ -434,7 +426,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByTxtAddressEmailWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByTxtAddressEmail("varchar")
 				.withConnection(connection)
 				.execute();
@@ -443,7 +435,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByTxtAddressEmailWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByTxtAddressEmail("varchar")
 				.withConnection(connection)
 				.executeSilent();
@@ -476,7 +468,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByTxtAddressEmailTxtPasswordWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByTxtAddressEmailTxtPassword("varchar", "varchar")
 				.withConnection(connection)
 				.execute();
@@ -485,7 +477,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByTxtAddressEmailTxtPasswordWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByTxtAddressEmailTxtPassword("varchar", "varchar")
 				.withConnection(connection)
 				.executeSilent();
@@ -535,7 +527,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindNmUserDtmSignupWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findNmUserDtmSignup()
 				.withConnection(connection)
 				.execute();
@@ -544,7 +536,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindNmUserDtmSignupWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findNmUserDtmSignup()
 				.withConnection(connection)
 				.executeSilent();
@@ -630,7 +622,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindGroupNumAgeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findGroupNumAge()
 				.withConnection(connection)
 				.execute();
@@ -639,7 +631,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindGroupNumAgeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findGroupNumAge()
 				.withConnection(connection)
 				.executeSilent();
@@ -725,7 +717,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByNumAgeInWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByNumAgeIn(List.of(1))
 				.withConnection(connection)
 				.execute();
@@ -734,7 +726,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByNumAgeInWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByNumAgeIn(List.of(1))
 				.withConnection(connection)
 				.executeSilent();
@@ -820,7 +812,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByNumAgeBetween(1, 1)
 				.withConnection(connection)
 				.execute();
@@ -829,7 +821,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUserfindByNumAgeBetweenWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserFinder.findByNumAgeBetween(1, 1)
 				.withConnection(connection)
 				.executeSilent();

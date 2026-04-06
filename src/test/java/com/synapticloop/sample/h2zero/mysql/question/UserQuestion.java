@@ -4,7 +4,7 @@ package com.synapticloop.sample.h2zero.mysql.question;
 //          with the use of synapticloop templar templating language
 //                (/java/question/java-create-question.templar)
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.sql.nolimitoffset.Question;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 import org.slf4j.Logger;
@@ -101,9 +101,9 @@ public class UserQuestion {
 		boolean answer = false;
 
 		try {
-			Connection connection = ConnectionManager.getConnection();
+			Connection connection = C3P0ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(SQL_INTERNAL_DOES_PRIMARY_KEY_EXIST);
-			ConnectionManager.setBigint(preparedStatement, 1, idUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUser);
 
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
@@ -117,7 +117,7 @@ public class UserQuestion {
 				}
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet);
+			C3P0ConnectionManager.closeAll(resultSet);
 		}
 		return(answer);
 	}

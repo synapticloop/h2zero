@@ -59,6 +59,12 @@ public class Options {
 	public static final String DATABASE_SQLITE3 = "sqlite3";
 	public static final String DATABASE_SQLSERVER = "sqlserver";
 
+	public static final Map<String, String> ALLOWABLE_CONNECTION_POOLING_MAP = new LinkedHashMap<>();
+	static {
+		ALLOWABLE_CONNECTION_POOLING_MAP.put("c3p0", "C3P0ConnectionManager");
+		ALLOWABLE_CONNECTION_POOLING_MAP.put("hikari", "HikariConnectionManager");
+	}
+
 	public static final Set<String> ALLOWABLE_DATABASES = new LinkedHashSet<>();
 	static {
 		ALLOWABLE_DATABASES.add(DATABASE_COCKROACH);
@@ -130,6 +136,8 @@ public class Options {
 	private String database = DATABASE_MYSQL;
 	private boolean isDefault = true;
 	private boolean ignoreCircularDependencies = false;
+	private String connectionPooling = "c3p0";
+	private String connectionManagerClass = "C3P0ConnectionManager";
 
 	private String outputCode = "/src/main/java/";
 	private String outputTestCode = "/src/test/java/";
@@ -160,13 +168,30 @@ public class Options {
 
 		this.database = optionsJson.optString(JSONKeyConstants.DATABASE, null);
 		if(null == this.database || !ALLOWABLE_DATABASES.contains(this.database)) {
-			SimpleLogger.logFatal(LoggerType.OPTIONS, "Invalid database type of '" + this.database + "'.");
+			SimpleLogger.logFatal(LoggerType.OPTIONS, "Missing/Invalid database type of '" + this.database + "'.");
 			Iterator<String> iterator = ALLOWABLE_DATABASES.iterator();
-			SimpleLogger.logFatal(LoggerType.OPTIONS, "Available database types are:");
+			SimpleLogger.logFatal(LoggerType.OPTIONS, "Available/Allowable database types are:");
 			while(iterator.hasNext()) {
 				SimpleLogger.logFatal(LoggerType.OPTIONS, "    " + iterator.next());
 			}
-			throw new H2ZeroParseException("Invalid database type of '" + this.database + "'.");
+			throw new H2ZeroParseException("Invalid/Missing database type of '" + this.database + "'.");
+		}
+
+		this.connectionPooling = optionsJson.optString(JSONKeyConstants.CONNECTION_POOLING, null);
+		if(null == this.connectionPooling || !ALLOWABLE_CONNECTION_POOLING_MAP.containsKey(this.connectionPooling)) {
+			SimpleLogger.logFatal(LoggerType.OPTIONS, "Missing/Invalid connection pooling type of '" + this.connectionPooling + "'.");
+			Iterator<String> iterator = ALLOWABLE_CONNECTION_POOLING_MAP.keySet().iterator();
+			SimpleLogger.logFatal(LoggerType.OPTIONS, "Available/Allowable connection pooling types are:");
+			while(iterator.hasNext()) {
+				SimpleLogger.logFatal(LoggerType.OPTIONS, "    " + iterator.next());
+			}
+			SimpleLogger.logFatal(LoggerType.OPTIONS, "Add a json key to the 'options' object of " +
+					"\"" +
+					JSONKeyConstants.CONNECTION_POOLING +
+					"\": \"...\"");
+			throw new H2ZeroParseException("Invalid/Missing connection pooling type of '" + this.connectionPooling + "'.");
+		} else {
+			this.connectionManagerClass = ALLOWABLE_CONNECTION_POOLING_MAP.get(this.connectionPooling);
 		}
 
 		SimpleLogger.logInfo(LoggerType.OPTIONS, "Generating for database type '" + database + "'.");
@@ -419,5 +444,13 @@ public class Options {
 
 	public boolean getIgnoreCircularDependencies() {
 		return ignoreCircularDependencies;
+	}
+
+	public String getConnectionPooling() {
+		return(this.connectionPooling);
+	}
+
+	public String getConnectionManagerClass() {
+		return(this.connectionManagerClass);
 	}
 }

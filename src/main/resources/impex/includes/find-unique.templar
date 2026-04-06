@@ -10,9 +10,9 @@
 {\t}{\t} // unique field {field.javaName}{\n}
 {\t}{\t}{table.javaClassName} {table.javaFieldName};{\n}
 {\t}{\t}ResultSet resultSet;{\n}
-{\t}{\t}try (Connection connection = ConnectionManager.getConnection();{\n}
+{\t}{\t}try (Connection connection = {options.ConnectionManagerClass}.getConnection(ConnectionManagerInitialiser.CONNECTION_POOL_NAME);{\n}
 {\t}{\t}{\t}{\t} PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_START_{uniqueField.javaName})) {{{\n}
-{\t}{\t}{\t}ConnectionManager.set{uniqueField.upperType}(preparedStatement, 1, {uniqueField.javaName});{\n}
+{\t}{\t}{\t}{options.ConnectionManagerClass}.set{uniqueField.upperType}(preparedStatement, 1, {uniqueField.javaName});{\n}
 
 {\t}{\t}{\t}resultSet = preparedStatement.getResultSet();{\n}
 {\t}{\t}{\t}if(resultSet.next()) {{{\n}
@@ -21,7 +21,7 @@
 
 {\t}{\t}{\t}{\t}{table.javaFieldName} = new {table.javaClassName}({\n}
 {loop table.fields as field}
-{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index}){if !fieldStatus.last}, {endif}{\n}
+{\t}{\t}{\t}{\t}{\t}{options.ConnectionManagerClass}.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index}){if !fieldStatus.last}, {endif}{\n}
 {endloop}{\t}{\t}{\t}{\t});{\n}
 {\t}{\t}{\t}{\t}// now set all fields that we have{\n}
 {loop table.fields as field}

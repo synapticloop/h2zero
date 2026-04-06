@@ -7,13 +7,12 @@ package com.synapticloop.sample.h2zero.cockroach.inserter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 
 
+import com.synapticloop.h2zero.base.manager.cockroach.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.cockroach.ConnectionManager;
 import com.synapticloop.sample.h2zero.cockroach.model.util.Constants;
 
 /**
@@ -61,9 +60,9 @@ public class UserUserPetInserter {
 	 */
 	public static int insert(Connection connection, Long idUserUserPet, Long idUserUser, Long idPet) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idUserUserPet);
-			ConnectionManager.setBigint(preparedStatement, 2, idUserUser);
-			ConnectionManager.setBigint(preparedStatement, 3, idPet);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idUserUserPet);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, idUserUser);
+			C3P0ConnectionManager.setBigint(preparedStatement, 3, idPet);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -81,7 +80,7 @@ public class UserUserPetInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idUserUserPet, Long idUserUser, Long idPet) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idUserUserPet, idUserUser, idPet));
 		}
 	}
@@ -125,7 +124,7 @@ public class UserUserPetInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idUserUserPet, Long idUserUser, Long idPet) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idUserUserPet, idUserUser, idPet));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());

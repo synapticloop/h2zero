@@ -4,17 +4,12 @@ package com.synapticloop.sample.h2zero.sqlite3.finder;
 //          with the use of synapticloop templar templating language
 //                (/java/finder/java-create-view-finder.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
-import com.synapticloop.h2zero.base.util.LruCache;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -224,9 +219,9 @@ public class UserUserTypeViewFinder {
 		List<UserUserType> arrayList = new ArrayList<UserUserType>();
 		while(resultSet.next()) {
 			arrayList.add(new UserUserType(
-					ConnectionManager.getNullableResultLong(resultSet, 1),
-					ConnectionManager.getNullableResultString(resultSet, 2),
-					ConnectionManager.getNullableResultString(resultSet, 3)));
+					C3P0ConnectionManager.getNullableResultLong(resultSet, 1),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 2),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 3)));
 		}
 		return(arrayList);
 	}

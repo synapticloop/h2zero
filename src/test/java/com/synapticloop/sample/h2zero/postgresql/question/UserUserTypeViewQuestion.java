@@ -4,23 +4,12 @@ package com.synapticloop.sample.h2zero.postgresql.question;
 //          with the use of synapticloop templar templating language
 //              (/java/question/java-create-view-question.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.postgresql.ConnectionManager;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 import com.synapticloop.sample.h2zero.postgresql.model.util.Constants;
-
-import com.synapticloop.h2zero.base.sql.nolimitoffset.Question;
-import java.util.List;
 
 
 /**

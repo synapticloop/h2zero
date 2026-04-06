@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.db.mariadb;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.sql.base.counter.BaseCounterExecutor;
 import org.slf4j.Logger;
 
@@ -30,7 +30,7 @@ public class Counter extends BaseCounterExecutor<Integer> {
 	}
 
 	@Override protected Connection getConnection() throws SQLException {
-		return(ConnectionManager.getConnection());
+		return(C3P0ConnectionManager.getConnection());
 	}
 
 	public Counter withConnection(Connection connection) {

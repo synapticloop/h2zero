@@ -157,7 +157,7 @@
 	{\t}{\t}{\t}arrayList.add(new {tableOrView.javaClassName}({\n}
 
 	{loop tableOrView.fields as field}
-			{\t}{\t}{\t}{\t}{\t}ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
+			{\t}{\t}{\t}{\t}{\t}{options.ConnectionManagerClass}.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index})
 		{if !fieldStatus.last},{\n}{endif}
 	{endloop}
 	));{\n}
@@ -168,7 +168,7 @@
 	}
 
 	{loop tableOrView.populateFields as field}
-			{\t}{\t}{\t}{field.javaType} {field.javaName} = ConnectionManager.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index});{\n}
+			{\t}{\t}{\t}{field.javaType} {field.javaName} = {options.ConnectionManagerClass}.getNullableResult{field.sqlJavaType}(resultSet, {fieldStatus.index});{\n}
 	{endloop}
 	{loop tableOrView.nonPopulateFields as field}
 			{\t}{\t}{\t}{field.javaType} {field.javaName} = null;{\n}

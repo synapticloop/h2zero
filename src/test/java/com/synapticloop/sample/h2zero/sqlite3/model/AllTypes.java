@@ -4,13 +4,13 @@ package com.synapticloop.sample.h2zero.sqlite3.model;
 //          with the use of synapticloop templar templating language
 //                  (/java/model/java-create-model.templar)
 
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import com.synapticloop.h2zero.base.validator.bean.ValidationBean;
 import com.synapticloop.h2zero.base.validator.*;
 import com.synapticloop.h2zero.base.model.sqlite3.ModelBase;
 import com.synapticloop.h2zero.base.exception.H2ZeroPrimaryKeyException;
 import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import java.lang.StringBuilder;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.math.BigDecimal;
@@ -523,20 +523,20 @@ public class AllTypes extends ModelBase {
 		try {
 			// create this bean 
 			preparedStatement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-			ConnectionManager.setBigint(preparedStatement, 1, testBigint);
-			ConnectionManager.setBoolean(preparedStatement, 2, testBoolean);
-			ConnectionManager.setDate(preparedStatement, 3, testDate);
-			ConnectionManager.setDatetime(preparedStatement, 4, testDatetime);
-			ConnectionManager.setDouble(preparedStatement, 5, testDouble);
-			ConnectionManager.setFloat(preparedStatement, 6, testFloat);
-			ConnectionManager.setInt(preparedStatement, 7, testInt);
-			ConnectionManager.setInteger(preparedStatement, 8, testInteger);
-			ConnectionManager.setMediumint(preparedStatement, 9, testMediumint);
-			ConnectionManager.setNumeric(preparedStatement, 10, testNumeric);
-			ConnectionManager.setSmallint(preparedStatement, 11, testSmallint);
-			ConnectionManager.setText(preparedStatement, 12, testText);
-			ConnectionManager.setTinyint(preparedStatement, 13, testTinyint);
-			ConnectionManager.setVarchar(preparedStatement, 14, testVarchar);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, testBigint);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 2, testBoolean);
+			C3P0ConnectionManager.setDate(preparedStatement, 3, testDate);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 4, testDatetime);
+			C3P0ConnectionManager.setDouble(preparedStatement, 5, testDouble);
+			C3P0ConnectionManager.setFloat(preparedStatement, 6, testFloat);
+			C3P0ConnectionManager.setInt(preparedStatement, 7, testInt);
+			C3P0ConnectionManager.setInteger(preparedStatement, 8, testInteger);
+			C3P0ConnectionManager.setMediumint(preparedStatement, 9, testMediumint);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 10, testNumeric);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 11, testSmallint);
+			C3P0ConnectionManager.setText(preparedStatement, 12, testText);
+			C3P0ConnectionManager.setTinyint(preparedStatement, 13, testTinyint);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 14, testVarchar);
 			preparedStatement.executeUpdate();
 
 			resultSet = preparedStatement.getGeneratedKeys();
@@ -547,7 +547,7 @@ public class AllTypes extends ModelBase {
 				throw new H2ZeroPrimaryKeyException("Could not get return value for primary key!");
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -567,20 +567,20 @@ public class AllTypes extends ModelBase {
 		ResultSet resultSet = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_ENSURE);
-			ConnectionManager.setBigint(preparedStatement, 1, testBigint);
-			ConnectionManager.setBoolean(preparedStatement, 2, testBoolean);
-			ConnectionManager.setDate(preparedStatement, 3, testDate);
-			ConnectionManager.setDatetime(preparedStatement, 4, testDatetime);
-			ConnectionManager.setDouble(preparedStatement, 5, testDouble);
-			ConnectionManager.setFloat(preparedStatement, 6, testFloat);
-			ConnectionManager.setInt(preparedStatement, 7, testInt);
-			ConnectionManager.setInteger(preparedStatement, 8, testInteger);
-			ConnectionManager.setMediumint(preparedStatement, 9, testMediumint);
-			ConnectionManager.setNumeric(preparedStatement, 10, testNumeric);
-			ConnectionManager.setSmallint(preparedStatement, 11, testSmallint);
-			ConnectionManager.setText(preparedStatement, 12, testText);
-			ConnectionManager.setTinyint(preparedStatement, 13, testTinyint);
-			ConnectionManager.setVarchar(preparedStatement, 14, testVarchar);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, testBigint);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 2, testBoolean);
+			C3P0ConnectionManager.setDate(preparedStatement, 3, testDate);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 4, testDatetime);
+			C3P0ConnectionManager.setDouble(preparedStatement, 5, testDouble);
+			C3P0ConnectionManager.setFloat(preparedStatement, 6, testFloat);
+			C3P0ConnectionManager.setInt(preparedStatement, 7, testInt);
+			C3P0ConnectionManager.setInteger(preparedStatement, 8, testInteger);
+			C3P0ConnectionManager.setMediumint(preparedStatement, 9, testMediumint);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 10, testNumeric);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 11, testSmallint);
+			C3P0ConnectionManager.setText(preparedStatement, 12, testText);
+			C3P0ConnectionManager.setTinyint(preparedStatement, 13, testTinyint);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 14, testVarchar);
 			resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				this.idAllTypes = resultSet.getLong(1);
@@ -589,7 +589,7 @@ public class AllTypes extends ModelBase {
 				insert(connection);
 			}
 		} finally {
-			ConnectionManager.closeAll(resultSet, preparedStatement);
+			C3P0ConnectionManager.closeAll(resultSet, preparedStatement);
 		}
 	}
 
@@ -602,20 +602,20 @@ public class AllTypes extends ModelBase {
 		if(isDirty) {
 			try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 				// update this bean, but only if dirty
-				ConnectionManager.setBigint(preparedStatement, 1, testBigint);
-				ConnectionManager.setBoolean(preparedStatement, 2, testBoolean);
-				ConnectionManager.setDate(preparedStatement, 3, testDate);
-				ConnectionManager.setDatetime(preparedStatement, 4, testDatetime);
-				ConnectionManager.setDouble(preparedStatement, 5, testDouble);
-				ConnectionManager.setFloat(preparedStatement, 6, testFloat);
-				ConnectionManager.setInt(preparedStatement, 7, testInt);
-				ConnectionManager.setInteger(preparedStatement, 8, testInteger);
-				ConnectionManager.setMediumint(preparedStatement, 9, testMediumint);
-				ConnectionManager.setNumeric(preparedStatement, 10, testNumeric);
-				ConnectionManager.setSmallint(preparedStatement, 11, testSmallint);
-				ConnectionManager.setText(preparedStatement, 12, testText);
-				ConnectionManager.setTinyint(preparedStatement, 13, testTinyint);
-				ConnectionManager.setVarchar(preparedStatement, 14, testVarchar);
+				C3P0ConnectionManager.setBigint(preparedStatement, 1, testBigint);
+				C3P0ConnectionManager.setBoolean(preparedStatement, 2, testBoolean);
+				C3P0ConnectionManager.setDate(preparedStatement, 3, testDate);
+				C3P0ConnectionManager.setDatetime(preparedStatement, 4, testDatetime);
+				C3P0ConnectionManager.setDouble(preparedStatement, 5, testDouble);
+				C3P0ConnectionManager.setFloat(preparedStatement, 6, testFloat);
+				C3P0ConnectionManager.setInt(preparedStatement, 7, testInt);
+				C3P0ConnectionManager.setInteger(preparedStatement, 8, testInteger);
+				C3P0ConnectionManager.setMediumint(preparedStatement, 9, testMediumint);
+				C3P0ConnectionManager.setNumeric(preparedStatement, 10, testNumeric);
+				C3P0ConnectionManager.setSmallint(preparedStatement, 11, testSmallint);
+				C3P0ConnectionManager.setText(preparedStatement, 12, testText);
+				C3P0ConnectionManager.setTinyint(preparedStatement, 13, testTinyint);
+				C3P0ConnectionManager.setVarchar(preparedStatement, 14, testVarchar);
 				// now set the primary key
 				preparedStatement.setLong(15, idAllTypes);
 				preparedStatement.executeUpdate();

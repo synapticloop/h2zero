@@ -5,22 +5,13 @@ package com.synapticloop.sample.h2zero.sqlite3.test.counter;
 //                     (java/test/java-counter-test.templar)
 
 
-import static org.junit.Assert.*;
-
-import org.junit.Assert;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import com.synapticloop.sample.h2zero.sqlite3.ConnectionManagerInitialiserOverride;
-import com.synapticloop.h2zero.base.manager.sqlite3.ConnectionManager;
+import com.synapticloop.h2zero.base.manager.sqlite3.C3P0ConnectionManager;
 import com.synapticloop.sample.h2zero.sqlite3.test.DatabaseSetupTest;
 
 
-import java.math.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.*;
 import java.util.List;
 
 
@@ -47,7 +38,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountAllWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countAll()
 					.withConnection(connection)
 					.execute();
@@ -56,7 +47,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountAllWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countAll()
 					.withConnection(connection)
 					.executeSilent();
@@ -91,7 +82,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountNumberOfUsersWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countNumberOfUsers()
 					.withConnection(connection)
 					.execute();
@@ -100,7 +91,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountNumberOfUsersWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countNumberOfUsers()
 					.withConnection(connection)
 					.executeSilent();
@@ -135,7 +126,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountNumberOfUsersOverAgeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countNumberOfUsersOverAge(1)
 					.withConnection(connection)
 					.execute();
@@ -144,7 +135,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountNumberOfUsersOverAgeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countNumberOfUsersOverAge(1)
 					.withConnection(connection)
 					.executeSilent();
@@ -179,7 +170,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountNumberOfUsersBetweenAgeWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countNumberOfUsersBetweenAge(1, 1)
 					.withConnection(connection)
 					.execute();
@@ -188,7 +179,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountNumberOfUsersBetweenAgeWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countNumberOfUsersBetweenAge(1, 1)
 					.withConnection(connection)
 					.executeSilent();
@@ -223,7 +214,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountUsersInAgesWithConnection() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countUsersInAges(List.of(1))
 					.withConnection(connection)
 					.execute();
@@ -232,7 +223,7 @@ public class UserTest extends DatabaseSetupTest {
 
 	@Test
 	public void testUsercountUsersInAgesWithConnectionSilent() throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			UserCounter.countUsersInAges(List.of(1))
 					.withConnection(connection)
 					.executeSilent();

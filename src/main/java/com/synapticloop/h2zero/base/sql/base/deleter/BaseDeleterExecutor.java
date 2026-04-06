@@ -17,7 +17,7 @@ package com.synapticloop.h2zero.base.sql.base.deleter;
  * under the Licence.
  */
 
-import com.synapticloop.h2zero.base.manager.BaseConnectionManager;
+import com.synapticloop.h2zero.base.manager.BaseC3P0ConnectionManager;
 import com.synapticloop.h2zero.base.sql.BaseSQLLimitedExecutor;
 import org.slf4j.Logger;
 
@@ -78,9 +78,9 @@ public abstract class BaseDeleterExecutor<T> extends BaseSQLLimitedExecutor<Inte
 		} finally {
 			if (hasProvidedConnection) {
 				// the caller has provided a connection - so they must close it themselves
-				BaseConnectionManager.closeAll(preparedStatement, null);
+				BaseC3P0ConnectionManager.closeAll(preparedStatement, null);
 			} else {
-				BaseConnectionManager.closeAll(preparedStatement, connection);
+				BaseC3P0ConnectionManager.closeAll(preparedStatement, connection);
 			}
 		}
 	}

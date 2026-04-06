@@ -16,11 +16,10 @@ import java.util.Iterator;
 import java.util.Collections;
 
 
+import com.synapticloop.h2zero.base.manager.mariadb.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import com.synapticloop.h2zero.base.manager.mariadb.ConnectionManager;
 public class DatabaseCheckerHelper {
 		private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseCheckerHelper.class);
 
@@ -62,7 +61,7 @@ public class DatabaseCheckerHelper {
 		ResultSet tablesResultSet = null;
 
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = C3P0ConnectionManager.getConnection();
 			DatabaseMetaData databaseMetaData = connection.getMetaData();
 			tablesResultSet = databaseMetaData.getTables("sample", null, "%", new String[] { "TABLE" });
 			while(tablesResultSet.next()) {
@@ -91,7 +90,7 @@ public class DatabaseCheckerHelper {
 		} catch (SQLException sqlex) {
 			// do nothing
 		} finally {
-			ConnectionManager.closeAll(tablesResultSet, null, connection);
+			C3P0ConnectionManager.closeAll(tablesResultSet, null, connection);
 		}
 
 		return(isDatabaseCorrect);
@@ -103,7 +102,7 @@ public class DatabaseCheckerHelper {
 		Connection connection = null;
 		ResultSet columns = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = C3P0ConnectionManager.getConnection();
 			DatabaseMetaData databaseMetaData = connection.getMetaData();
 			columns = databaseMetaData.getColumns("macdaddy", null, "%", "%");
 			while(columns.next()) {
@@ -141,7 +140,7 @@ public class DatabaseCheckerHelper {
 		} catch (SQLException sqlex) {
 			// do nothing
 		} finally {
-			ConnectionManager.closeAll(columns, null, connection);
+			C3P0ConnectionManager.closeAll(columns, null, connection);
 		}
 
 		return(isDatabaseCorrect);

@@ -39,17 +39,17 @@
 	{loop baseQueryObject.whereFields as whereField}
 		{if whereField.isInField}
 			{\t}{\t}{\t}for ({whereField.javaType} {whereField.javaName}In : {whereField.javaName}List) {{{\n}
-			{\t}{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName}In);{\n}
+			{\t}{\t}{\t}{\t}{options.ConnectionManagerClass}.set{whereField.upperType}(preparedStatement, i, {whereField.javaName}In);{\n}
 			{\t}{\t}{\t}{\t}i++;{\n}
 			{\t}{\t}{\t}}{\n}
 
 		{else}
-			{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, i, {whereField.javaName});{\n}
+			{\t}{\t}{\t}{options.ConnectionManagerClass}.set{whereField.upperType}(preparedStatement, i, {whereField.javaName});{\n}
 			{\t}{\t}{\t}i++;{\n}
 		{endif}
 	{endloop}
 {else}
 	{loop baseQueryObject.whereFields as whereField}
-		{\t}{\t}{\t}ConnectionManager.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
+		{\t}{\t}{\t}{options.ConnectionManagerClass}.set{whereField.upperType}(preparedStatement, {whereFieldStatus.index}, {whereField.javaName});{\n}
 	{endloop}
 {endif}

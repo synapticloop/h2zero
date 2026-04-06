@@ -17,18 +17,13 @@ package synapticloop.workitemiser.database.mysql.h2zero.finder;
 //
 //                  (/java/finder/java-create-finder.templar)
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.synapticloop.h2zero.base.exception.H2ZeroFinderException;
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
-import com.synapticloop.h2zero.base.util.LruCache;
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 
 
 import org.slf4j.Logger;
@@ -800,13 +795,13 @@ public class AgencyAgreementFinder {
 		List<AgencyAgreement> arrayList = new ArrayList<AgencyAgreement>();
 		while(resultSet.next()) {
 			arrayList.add(new AgencyAgreement(
-					ConnectionManager.getNullableResultLong(resultSet, 1),
-					ConnectionManager.getNullableResultInt(resultSet, 2),
-					ConnectionManager.getNullableResultDate(resultSet, 3),
-					ConnectionManager.getNullableResultDate(resultSet, 4),
-					ConnectionManager.getNullableResultFloat(resultSet, 5),
-					ConnectionManager.getNullableResultString(resultSet, 6),
-					ConnectionManager.getNullableResultBoolean(resultSet, 7)));
+					C3P0ConnectionManager.getNullableResultLong(resultSet, 1),
+					C3P0ConnectionManager.getNullableResultInt(resultSet, 2),
+					C3P0ConnectionManager.getNullableResultDate(resultSet, 3),
+					C3P0ConnectionManager.getNullableResultDate(resultSet, 4),
+					C3P0ConnectionManager.getNullableResultFloat(resultSet, 5),
+					C3P0ConnectionManager.getNullableResultString(resultSet, 6),
+					C3P0ConnectionManager.getNullableResultBoolean(resultSet, 7)));
 		}
 		return(arrayList);
 	}

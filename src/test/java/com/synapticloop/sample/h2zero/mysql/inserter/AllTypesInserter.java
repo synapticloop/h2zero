@@ -15,10 +15,10 @@ import java.sql.Timestamp;
 import java.sql.Time;
 
 
+import com.synapticloop.h2zero.base.manager.mysql.C3P0ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.synapticloop.h2zero.base.manager.mysql.ConnectionManager;
 import com.synapticloop.sample.h2zero.mysql.model.util.Constants;
 
 /**
@@ -118,35 +118,35 @@ public class AllTypesInserter {
 	 */
 	public static int insert(Connection connection, Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
-			ConnectionManager.setBigint(preparedStatement, 2, testBigint);
-			ConnectionManager.setBlob(preparedStatement, 3, testBlob);
-			ConnectionManager.setBool(preparedStatement, 4, testBool);
-			ConnectionManager.setChar(preparedStatement, 5, testChar);
-			ConnectionManager.setBoolean(preparedStatement, 6, testBoolean);
-			ConnectionManager.setBinary(preparedStatement, 7, testBinary);
-			ConnectionManager.setVarbinary(preparedStatement, 8, testVarbinary);
-			ConnectionManager.setDate(preparedStatement, 9, testDate);
-			ConnectionManager.setDatetime(preparedStatement, 10, testDatetime);
-			ConnectionManager.setDec(preparedStatement, 11, testDec);
-			ConnectionManager.setDecimal(preparedStatement, 12, testDecimal);
-			ConnectionManager.setDouble(preparedStatement, 13, testDouble);
-			ConnectionManager.setFloat(preparedStatement, 14, testFloat);
-			ConnectionManager.setInt(preparedStatement, 15, testInt);
-			ConnectionManager.setInteger(preparedStatement, 16, testInteger);
-			ConnectionManager.setLongtext(preparedStatement, 17, testLongtext);
-			ConnectionManager.setMediumblob(preparedStatement, 18, testMediumblob);
-			ConnectionManager.setMediumint(preparedStatement, 19, testMediumint);
-			ConnectionManager.setMediumtext(preparedStatement, 20, testMediumtext);
-			ConnectionManager.setNumeric(preparedStatement, 21, testNumeric);
-			ConnectionManager.setSmallint(preparedStatement, 22, testSmallint);
-			ConnectionManager.setTime(preparedStatement, 23, testTime);
-			ConnectionManager.setText(preparedStatement, 24, testText);
-			ConnectionManager.setTimestamp(preparedStatement, 25, testTimestamp);
-			ConnectionManager.setTinyint(preparedStatement, 26, testTinyint);
-			ConnectionManager.setTinytext(preparedStatement, 27, testTinytext);
-			ConnectionManager.setVarchar(preparedStatement, 28, testVarchar);
-			ConnectionManager.setYear(preparedStatement, 29, testYear);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, testBigint);
+			C3P0ConnectionManager.setBlob(preparedStatement, 3, testBlob);
+			C3P0ConnectionManager.setBool(preparedStatement, 4, testBool);
+			C3P0ConnectionManager.setChar(preparedStatement, 5, testChar);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 6, testBoolean);
+			C3P0ConnectionManager.setBinary(preparedStatement, 7, testBinary);
+			C3P0ConnectionManager.setVarbinary(preparedStatement, 8, testVarbinary);
+			C3P0ConnectionManager.setDate(preparedStatement, 9, testDate);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 10, testDatetime);
+			C3P0ConnectionManager.setDec(preparedStatement, 11, testDec);
+			C3P0ConnectionManager.setDecimal(preparedStatement, 12, testDecimal);
+			C3P0ConnectionManager.setDouble(preparedStatement, 13, testDouble);
+			C3P0ConnectionManager.setFloat(preparedStatement, 14, testFloat);
+			C3P0ConnectionManager.setInt(preparedStatement, 15, testInt);
+			C3P0ConnectionManager.setInteger(preparedStatement, 16, testInteger);
+			C3P0ConnectionManager.setLongtext(preparedStatement, 17, testLongtext);
+			C3P0ConnectionManager.setMediumblob(preparedStatement, 18, testMediumblob);
+			C3P0ConnectionManager.setMediumint(preparedStatement, 19, testMediumint);
+			C3P0ConnectionManager.setMediumtext(preparedStatement, 20, testMediumtext);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 21, testNumeric);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 22, testSmallint);
+			C3P0ConnectionManager.setTime(preparedStatement, 23, testTime);
+			C3P0ConnectionManager.setText(preparedStatement, 24, testText);
+			C3P0ConnectionManager.setTimestamp(preparedStatement, 25, testTimestamp);
+			C3P0ConnectionManager.setTinyint(preparedStatement, 26, testTinyint);
+			C3P0ConnectionManager.setTinytext(preparedStatement, 27, testTinytext);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 28, testVarchar);
+			C3P0ConnectionManager.setYear(preparedStatement, 29, testYear);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -165,43 +165,43 @@ public class AllTypesInserter {
 	 */
 	public static int insert(Connection connection, Long idAllTypes) throws SQLException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES)) {
-			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
-			ConnectionManager.setBigint(preparedStatement, 2, null);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, null);
 			Blob testBlobBlob = null;
-			ConnectionManager.setBlob(preparedStatement, 3, testBlobBlob);
-			ConnectionManager.setBool(preparedStatement, 4, null);
-			ConnectionManager.setChar(preparedStatement, 5, null);
-			ConnectionManager.setBoolean(preparedStatement, 6, null);
+			C3P0ConnectionManager.setBlob(preparedStatement, 3, testBlobBlob);
+			C3P0ConnectionManager.setBool(preparedStatement, 4, null);
+			C3P0ConnectionManager.setChar(preparedStatement, 5, null);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 6, null);
 			String testBinaryString = null;
-			ConnectionManager.setBinary(preparedStatement, 7, testBinaryString);
+			C3P0ConnectionManager.setBinary(preparedStatement, 7, testBinaryString);
 			String testVarbinaryString = null;
-			ConnectionManager.setVarbinary(preparedStatement, 8, testVarbinaryString);
-			ConnectionManager.setDate(preparedStatement, 9, null);
-			ConnectionManager.setDatetime(preparedStatement, 10, null);
-			ConnectionManager.setDec(preparedStatement, 11, null);
-			ConnectionManager.setDecimal(preparedStatement, 12, null);
-			ConnectionManager.setDouble(preparedStatement, 13, null);
-			ConnectionManager.setFloat(preparedStatement, 14, null);
-			ConnectionManager.setInt(preparedStatement, 15, null);
-			ConnectionManager.setInteger(preparedStatement, 16, null);
+			C3P0ConnectionManager.setVarbinary(preparedStatement, 8, testVarbinaryString);
+			C3P0ConnectionManager.setDate(preparedStatement, 9, null);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 10, null);
+			C3P0ConnectionManager.setDec(preparedStatement, 11, null);
+			C3P0ConnectionManager.setDecimal(preparedStatement, 12, null);
+			C3P0ConnectionManager.setDouble(preparedStatement, 13, null);
+			C3P0ConnectionManager.setFloat(preparedStatement, 14, null);
+			C3P0ConnectionManager.setInt(preparedStatement, 15, null);
+			C3P0ConnectionManager.setInteger(preparedStatement, 16, null);
 			String testLongtextString = null;
-			ConnectionManager.setLongtext(preparedStatement, 17, testLongtextString);
+			C3P0ConnectionManager.setLongtext(preparedStatement, 17, testLongtextString);
 			Blob testMediumblobBlob = null;
-			ConnectionManager.setMediumblob(preparedStatement, 18, testMediumblobBlob);
-			ConnectionManager.setMediumint(preparedStatement, 19, null);
+			C3P0ConnectionManager.setMediumblob(preparedStatement, 18, testMediumblobBlob);
+			C3P0ConnectionManager.setMediumint(preparedStatement, 19, null);
 			String testMediumtextString = null;
-			ConnectionManager.setMediumtext(preparedStatement, 20, testMediumtextString);
-			ConnectionManager.setNumeric(preparedStatement, 21, null);
-			ConnectionManager.setSmallint(preparedStatement, 22, null);
-			ConnectionManager.setTime(preparedStatement, 23, null);
+			C3P0ConnectionManager.setMediumtext(preparedStatement, 20, testMediumtextString);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 21, null);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 22, null);
+			C3P0ConnectionManager.setTime(preparedStatement, 23, null);
 			String testTextString = null;
-			ConnectionManager.setText(preparedStatement, 24, testTextString);
-			ConnectionManager.setTimestamp(preparedStatement, 25, null);
-			ConnectionManager.setTinyint(preparedStatement, 26, null);
+			C3P0ConnectionManager.setText(preparedStatement, 24, testTextString);
+			C3P0ConnectionManager.setTimestamp(preparedStatement, 25, null);
+			C3P0ConnectionManager.setTinyint(preparedStatement, 26, null);
 			String testTinytextString = null;
-			ConnectionManager.setTinytext(preparedStatement, 27, testTinytextString);
-			ConnectionManager.setVarchar(preparedStatement, 28, null);
-			ConnectionManager.setYear(preparedStatement, 29, null);
+			C3P0ConnectionManager.setTinytext(preparedStatement, 27, testTinytextString);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 28, null);
+			C3P0ConnectionManager.setYear(preparedStatement, 29, null);
 			return(preparedStatement.executeUpdate());
 		}
 	}
@@ -245,7 +245,7 @@ public class AllTypesInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear));
 		}
 	}
@@ -261,7 +261,7 @@ public class AllTypesInserter {
 	 * @throws SQLException if there was an error in the SQL insert statement
 	 */
 	public static int insert(Long idAllTypes) throws SQLException {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAllTypes));
 		}
 	}
@@ -383,7 +383,7 @@ public class AllTypesInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAllTypes, Long testBigint, Blob testBlob, Boolean testBool, String testChar, Boolean testBoolean, String testBinary, String testVarbinary, Date testDate, Timestamp testDatetime, BigDecimal testDec, BigDecimal testDecimal, Double testDouble, Float testFloat, Integer testInt, Integer testInteger, String testLongtext, Blob testMediumblob, Integer testMediumint, String testMediumtext, BigDecimal testNumeric, Short testSmallint, Time testTime, String testText, Timestamp testTimestamp, Boolean testTinyint, String testTinytext, String testVarchar, Integer testYear) {
-		try (Connection connection = ConnectionManager.getConnection()){
+		try (Connection connection = C3P0ConnectionManager.getConnection()){
 			return(insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -407,7 +407,7 @@ public class AllTypesInserter {
 	 * @return the number of rows that were inserted, or -1 if an error occurred
 	 */
 	public static int insertSilent(Long idAllTypes) {
-		try (Connection connection = ConnectionManager.getConnection()) {
+		try (Connection connection = C3P0ConnectionManager.getConnection()) {
 			return(insert(connection, idAllTypes));
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -423,40 +423,40 @@ public class AllTypesInserter {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(SQL_BUILTIN_INSERT_VALUES);
-			ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
-			ConnectionManager.setBigint(preparedStatement, 2, testBigint);
-			ConnectionManager.setBlobInputStream(preparedStatement, 3, testBlob);
-			ConnectionManager.setBool(preparedStatement, 4, testBool);
-			ConnectionManager.setChar(preparedStatement, 5, testChar);
-			ConnectionManager.setBoolean(preparedStatement, 6, testBoolean);
-			ConnectionManager.setBinaryInputStream(preparedStatement, 7, testBinary);
-			ConnectionManager.setVarbinaryInputStream(preparedStatement, 8, testVarbinary);
-			ConnectionManager.setDate(preparedStatement, 9, testDate);
-			ConnectionManager.setDatetime(preparedStatement, 10, testDatetime);
-			ConnectionManager.setDec(preparedStatement, 11, testDec);
-			ConnectionManager.setDecimal(preparedStatement, 12, testDecimal);
-			ConnectionManager.setDouble(preparedStatement, 13, testDouble);
-			ConnectionManager.setFloat(preparedStatement, 14, testFloat);
-			ConnectionManager.setInt(preparedStatement, 15, testInt);
-			ConnectionManager.setInteger(preparedStatement, 16, testInteger);
-			ConnectionManager.setLongtextInputStream(preparedStatement, 17, testLongtext);
-			ConnectionManager.setMediumblobInputStream(preparedStatement, 18, testMediumblob);
-			ConnectionManager.setMediumint(preparedStatement, 19, testMediumint);
-			ConnectionManager.setMediumtextInputStream(preparedStatement, 20, testMediumtext);
-			ConnectionManager.setNumeric(preparedStatement, 21, testNumeric);
-			ConnectionManager.setSmallint(preparedStatement, 22, testSmallint);
-			ConnectionManager.setTime(preparedStatement, 23, testTime);
-			ConnectionManager.setTextInputStream(preparedStatement, 24, testText);
-			ConnectionManager.setTimestamp(preparedStatement, 25, testTimestamp);
-			ConnectionManager.setTinyint(preparedStatement, 26, testTinyint);
-			ConnectionManager.setTinytextInputStream(preparedStatement, 27, testTinytext);
-			ConnectionManager.setVarchar(preparedStatement, 28, testVarchar);
-			ConnectionManager.setYear(preparedStatement, 29, testYear);
+			C3P0ConnectionManager.setBigint(preparedStatement, 1, idAllTypes);
+			C3P0ConnectionManager.setBigint(preparedStatement, 2, testBigint);
+			C3P0ConnectionManager.setBlobInputStream(preparedStatement, 3, testBlob);
+			C3P0ConnectionManager.setBool(preparedStatement, 4, testBool);
+			C3P0ConnectionManager.setChar(preparedStatement, 5, testChar);
+			C3P0ConnectionManager.setBoolean(preparedStatement, 6, testBoolean);
+			C3P0ConnectionManager.setBinaryInputStream(preparedStatement, 7, testBinary);
+			C3P0ConnectionManager.setVarbinaryInputStream(preparedStatement, 8, testVarbinary);
+			C3P0ConnectionManager.setDate(preparedStatement, 9, testDate);
+			C3P0ConnectionManager.setDatetime(preparedStatement, 10, testDatetime);
+			C3P0ConnectionManager.setDec(preparedStatement, 11, testDec);
+			C3P0ConnectionManager.setDecimal(preparedStatement, 12, testDecimal);
+			C3P0ConnectionManager.setDouble(preparedStatement, 13, testDouble);
+			C3P0ConnectionManager.setFloat(preparedStatement, 14, testFloat);
+			C3P0ConnectionManager.setInt(preparedStatement, 15, testInt);
+			C3P0ConnectionManager.setInteger(preparedStatement, 16, testInteger);
+			C3P0ConnectionManager.setLongtextInputStream(preparedStatement, 17, testLongtext);
+			C3P0ConnectionManager.setMediumblobInputStream(preparedStatement, 18, testMediumblob);
+			C3P0ConnectionManager.setMediumint(preparedStatement, 19, testMediumint);
+			C3P0ConnectionManager.setMediumtextInputStream(preparedStatement, 20, testMediumtext);
+			C3P0ConnectionManager.setNumeric(preparedStatement, 21, testNumeric);
+			C3P0ConnectionManager.setSmallint(preparedStatement, 22, testSmallint);
+			C3P0ConnectionManager.setTime(preparedStatement, 23, testTime);
+			C3P0ConnectionManager.setTextInputStream(preparedStatement, 24, testText);
+			C3P0ConnectionManager.setTimestamp(preparedStatement, 25, testTimestamp);
+			C3P0ConnectionManager.setTinyint(preparedStatement, 26, testTinyint);
+			C3P0ConnectionManager.setTinytextInputStream(preparedStatement, 27, testTinytext);
+			C3P0ConnectionManager.setVarchar(preparedStatement, 28, testVarchar);
+			C3P0ConnectionManager.setYear(preparedStatement, 29, testYear);
 			numResults = preparedStatement.executeUpdate();
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(preparedStatement);
+			C3P0ConnectionManager.closeAll(preparedStatement);
 		}
 		return(numResults);
 	}
@@ -465,12 +465,12 @@ public class AllTypesInserter {
 		int numResults = -1;
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = C3P0ConnectionManager.getConnection();
 			numResults = insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear);
 		} catch (SQLException sqlex) {
 			throw sqlex;
 		} finally {
-			ConnectionManager.closeAll(connection);
+			C3P0ConnectionManager.closeAll(connection);
 		}
 		return(numResults);
 	}
@@ -492,7 +492,7 @@ public class AllTypesInserter {
 		int numResults = 0;
 		Connection connection = null;
 		try {
-			connection = ConnectionManager.getConnection();
+			connection = C3P0ConnectionManager.getConnection();
 			numResults = insert(connection, idAllTypes, testBigint, testBlob, testBool, testChar, testBoolean, testBinary, testVarbinary, testDate, testDatetime, testDec, testDecimal, testDouble, testFloat, testInt, testInteger, testLongtext, testMediumblob, testMediumint, testMediumtext, testNumeric, testSmallint, testTime, testText, testTimestamp, testTinyint, testTinytext, testVarchar, testYear);
 		} catch (SQLException sqlex) {
 			LOGGER.error("SQLException caught, message was: {}", sqlex.getMessage());
@@ -500,7 +500,7 @@ public class AllTypesInserter {
 				sqlex.printStackTrace();
 			}
 		} finally {
-			ConnectionManager.closeAll(connection);
+			C3P0ConnectionManager.closeAll(connection);
 		}
 		return(numResults);
 	}
