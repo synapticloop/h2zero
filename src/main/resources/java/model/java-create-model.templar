@@ -81,17 +81,19 @@ import {database.package}.model.util.Constants;{\n}
 
 {\n}{\n}
 /**{\n}
- * <p>This is the model for the <code>{table.javaClassName}</code> which maps to the <code>{table.name}</code> database table.</p>{\n}
+ * <p>This is the model for the <code>{table.javaClassName}</code> which maps{\n}
+ * to the <code>{table.name}</code> database table.</p>{\n}
  * {\n}
  * <p>This model maps fields from the database as defined in the{\n}
  * <code>.h2zero</code> file.  The parsed definition of the table and fields are:</p>{\n}
  * {\n}
- {if table.isConstant}
- * <p><strong>NOTE:</strong> This is a constant table which cannot be changed and no CRUD methods are available.</p>{\n}
- {else}
+{if table.isConstant}
+ * <p><strong>NOTE:</strong> This is a constant table which cannot be changed and{\n}
+ * no CRUD methods are available.</p>{\n}
+{else}
  * <p>This class contains all the base CRUD (Create, Read, Update, and Delete){\n}
  * methods for a model.</p>{\n}
- {endif}
+{endif}
  * {\n}
  * <table>{\n}
  *   <thead>{\n}
@@ -225,8 +227,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t}};{\n}
 		{endif}
 	{endloop}
-{endif}
 {\n}
+{endif}
 
 {\t}private static final String TABLE_JAVA_NAME = "{table.javaClassName}";{\n}
 {\t}private static final String TABLE_NAME = "{table.name}";{\n}
@@ -286,27 +288,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t}{\t}""";{\n}
 
 	{\t}private static final String SQL_DELETE = "delete from {table.name} where " + PRIMARY_KEY_FIELD + " = ?";{\n}
-
-	{-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-					INSERT IF NOT EXISTS SQL - ENSURE
-	}
-	{\t}private static final String SQL_ENSURE = {\n}
-	{\t}{\t}"""{\n}
-	{\t}{\t}{\t}select{\n}
-	{\t}{\t}"""{\n}
-	{\t}{\t}{\t}+ PRIMARY_KEY_FIELD + {\n}
-	{\t}{\t}"""{\n}
-	{\t}{\t}{\t}from{\n}
-	{\t}{\t}{\t}{\t}{table.name}{\n}
-	{\t}{\t}{\t}where{\n}
-	{loop table.fields as field}
-		{if !field.primary}
-			{\t}{\t}{\t}{\t}{field.name} = ?
-			{if !fieldStatus.last} and {endif}{\n}
-		{endif}
-	{endloop}
-	{\t}{\t}""";{\n}
-{\n}
 
 {if table.shouldHydrate}
 	{\t}private static final String SQL_SELECT_HYDRATE = "select
@@ -643,86 +624,6 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t}}{\n}
 	{\n}
 
-	{--
-	    ENSURE
-	}
-	{\t}/**{\n}
-	{\t} * <p>Ensure that the {table.javaClassName} object with all fields exist {\n}
-	{\t} * in the database.</p>{\n}
-	{\t} *{\n}
-	{\t} * @param connection The connection to use for this insert{\n}
-	{\t} *{\n}
-	{\t} * @throws SQLException if there was an SQL Exception with the statement{\n}
-	{\t} * @throws H2ZeroPrimaryKeyException if the primary key could not be determined{\n}
-	{\t} */{\n}
-	{\t}@Override{\n}
-	{\t}public void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
-	{\n}
-	{\t}{\t}ResultSet resultSet = null;{\n}
-
-	{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_ENSURE)) {{{\n}
-
-	{\t}{\t}{\t}setInternalParameters(preparedStatement);{\n}
-	{\n}
-
-	{\t}{\t}{\t}resultSet = preparedStatement.executeQuery();{\n}
-
-	{\t}{\t}{\t}if(resultSet.next()) {{{\n}
-
-	{loop table.fields as field}
-		{if field.primary}
-			{\t}{\t}{\t}{\t}this.{field.javaName} = resultSet.getLong(1);{\n}
-		{endif}
-	{endloop}
-
-	{\t}{\t}{\t}} else {{{\n}
-	{\t}{\t}{\t}{\t}// could not find the value - need to insert it - null is the primary key{\n}
-	{\t}{\t}{\t}{\t}insert(connection);{\n}
-	{\t}{\t}{\t}}{\n}
-
-	{\t}{\t}} finally {{{\n}
-
-
-	{\t}{\t}{\t}{options.ConnectionManagerClass}.closeAll(resultSet);{\n}
-
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-	{\t}@Override{\n}
-	{\t}public void update(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
-
-	{\t}{\t}if(!primaryKeySet()) {{{\n}
-	{\t}{\t}{\t}throw new H2ZeroPrimaryKeyException("Cannot update bean when primary key is null.");{\n}
-	{\t}{\t}}{\n}
-
-	{\n}
-
-	{\t}{\t}if(isDirty) {{{\n}
-	{\t}{\t}{\t}try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {{{\n}
-	{\t}{\t}{\t}{\t}// update this bean, but only if dirty{\n}
-
-	{set fn:length[table.fields] as preparedStatementSize}
-
-	{\t}{\t}{\t}setInternalParameters(preparedStatement);{\n}
-	{\n}
-
-	{\t}{\t}{\t}{\t}// now set the primary key{\n}
-	{loop table.fields as field}
-		{if field.primary}
-			{\t}{\t}{\t}{\t}preparedStatement.setLong({preparedStatementSize}, {field.javaName});{\n}
-		{endif}
-	{endloop}
-
-	{\t}{\t}{\t}{\t}preparedStatement.executeUpdate();{\n}
-	{\t}{\t}{\t}} finally {{{\n}
-	{\t}{\t}{\t}{\t}isDirty = false;{\n}
-	{\t}{\t}{\t}}{\n}
-	{\t}{\t}}{\n}
-	{\t}}{\n}
-	{\n}
-
-
 	{\t}@Override{\n}
 	{\t}public void delete(Connection connection) throws SQLException, H2ZeroPrimaryKeyException {{{\n}
 
@@ -849,7 +750,8 @@ public class {table.javaClassName} {if !table.isConstant}extends ModelBase{else}
 	{\t} * {\n}
 	{\t} * @return The field hit counts as an array, the first entry in the array is the {\n}
 	{\t} *         total number of hits for all fields{\n}
-	{\t} */	{\t}public static int[] getHitCounts() {{ return(HIT_COUNTS); }{\n}{\n}
+	{\t} */{\n}
+	{\t}public static int[] getHitCounts() {{ return(HIT_COUNTS); }{\n}{\n}
 
 {\t}/**{\n}
 {\t} * Get the hit count for a specific field - look at the <code>public static HIT_*</code>{\n}

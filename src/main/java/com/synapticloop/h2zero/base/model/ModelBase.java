@@ -346,69 +346,6 @@ public abstract class ModelBase extends ConstantModelBase {
 		}
 	}
 
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *
-	 * All the ensure methods
-	 *
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-	/**
-	 * <p>Abstract method to ensure the existence of this model instance in the database.</p>
-	 *
-	 * <p>The exact behavior (insert if not exists, update if exists) is defined by subclasses.</p>
-	 *
-	 * @param connection The connection to use.
-	 * @throws SQLException If there was an error in the SQL statement.
-	 * @throws H2ZeroPrimaryKeyException If there is an issue with the primary key.
-	 */
-	public abstract void ensure(Connection connection) throws SQLException, H2ZeroPrimaryKeyException;
-
-	/**
-	 * <p>Ensure the existence of this model instance in the database silently using a provided connection,
-	 * swallowing any exceptions that occur.</p>
-	 *
-	 * <p>The caller is responsible for managing the provided connection. Exceptions are logged as errors.</p>
-	 *
-	 * @param connection The connection to use.
-	 */
-	public void ensureSilent(Connection connection) {
-		try {
-			ensure(connection);
-		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
-			LOGGER.error(ex.getMessage(), ex);
-		}
-	}
-
-	/**
-	 * <p>Ensure the existence of this model instance in the database by automatically managing a connection.</p>
-	 *
-	 * <p>This method obtains a connection, performs the ensure operation, and then
-	 * closes the connection automatically.</p>
-	 *
-	 * @throws SQLException If there was an error in the SQL statement.
-	 * @throws H2ZeroPrimaryKeyException If there is an issue with the primary key.
-	 */
-	public void ensure() throws SQLException, H2ZeroPrimaryKeyException {
-		try (Connection connection = getConnection()) {
-			ensure(connection);
-		}
-	}
-
-	/**
-	 * <p>Ensure the existence of this model instance in the database silently, swallowing any
-	 * exceptions that occur.</p>
-	 *
-	 * <p>Exceptions are logged as errors.</p>
-	 */
-	public void ensureSilent() {
-		try (Connection connection = getConnection()) {
-			ensure(connection);
-		} catch(H2ZeroPrimaryKeyException | SQLException ex) {
-			LOGGER.error(ex.getMessage(), ex);
-		}
-	}
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *
 	 * All the hydrate methods

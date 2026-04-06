@@ -101,7 +101,6 @@ public class {table.javaClassName}Metrics {{{\n}
 	{\t}public static final Counter {table.javaFieldName}Insert = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "insert"));{\n}
 	{\t}public static final Counter {table.javaFieldName}InsertOrUpdate = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "insertOrUpdate"));{\n}
 	{\t}public static final Counter {table.javaFieldName}Delete = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "delete"));{\n}
-	{\t}public static final Counter {table.javaFieldName}Ensure = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "ensure"));{\n}
 	{\t}public static final Counter {table.javaFieldName}Refresh = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "refresh"));{\n}
 	{\t}public static final Counter {table.javaFieldName}Update = MetricsManager.getMetricsRegistry().counter(MetricRegistry.name({table.javaClassName}.class, "update"));{\n}
 	{\n}
